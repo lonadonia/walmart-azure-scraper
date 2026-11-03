@@ -1,0 +1,28 @@
+{
+ "label": "S5b_serial_vs_parallel",
+ "run_a": "01M69YPZTFCP7AWJ5B78AXEA2N",
+ "run_b": "01M69YS2X0YG5JSEMCGKK8BHE5",
+ "restricted_to_b_subcategories": false,
+ "restricted_to_page_1_of": [
+  "1085666_3147628_5752434",
+  "1115193_1071967"
+ ],
+ "fresh_a": 80,
+ "fresh_b": 80,
+ "in_both": 80,
+ "only_in_a": 0,
+ "only_in_b": 0,
+ "products_in_both_with_any_difference": 0,
+ "differences_by_field": {},
+ "by_subcategory": {
+  "Laundry": {
+   "a": 40,
+   "b": 40
+  },
+  "Shampoo": {
+   "a": 40,
+   "b": 40
+  }
+ },
+ "output": "C:\\w7\\evidence\\live150\\compare\\S5b_serial_vs_parallel_products.csv"
+}

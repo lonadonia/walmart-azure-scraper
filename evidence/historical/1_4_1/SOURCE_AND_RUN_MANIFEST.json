@@ -1,0 +1,1795 @@
+{
+ "title": "Walmart collector release 1.4.1, dual-provider delivery: sources and runs",
+ "generated_by": "C:/w6/c140/tools/build_run_manifest_141.py",
+ "tool_sha256": "2492d3970e910b135068c68f3f1267ee1754cbc1503f15cf09382919651f472d",
+ "facts_as_of": "2026-10-28T10:16:06Z",
+ "source": {
+  "release": "1.4.1",
+  "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+  "branch": "walmart-1.4 (local; not pushed)",
+  "committed_at": "2026-10-28T07:25:56+00:00",
+  "editions": {
+   "oxylabs": {
+    "zip": "oxylabs/WALMART_OXYLABS_SOURCE_1.4.1.zip",
+    "sha256": "6b3d9ba79e2de920b903a05ba3fb2b254fa30d12e0d4402cd1049f1cdc2a9a6c",
+    "files": 205,
+    "top_folder": "walmart-oxylabs-1.4.1",
+    "edition": "oxylabs",
+    "provider": "Oxylabs Web API (Bearer key; not the Classic product)",
+    "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+    "built_at": "2026-10-28T07:25:56+00:00"
+   },
+   "scrapedo": {
+    "zip": "scrapedo/WALMART_SCRAPEDO_SOURCE_1.4.1.zip",
+    "sha256": "ce23591d21550d31cc48f56c2331f78e990f5af08f301ba592e265216cc48c74",
+    "files": 205,
+    "top_folder": "walmart-scrapedo-1.4.1",
+    "edition": "scrapedo",
+    "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+    "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+    "built_at": "2026-10-28T07:25:56+00:00"
+   }
+  },
+  "files_that_differ_between_the_editions": [
+   ".env.example",
+   "BUILD_INFO.json",
+   "EDITION.json",
+   "config/collector.yaml"
+  ],
+  "reproducible_build": "each ZIP was built twice from the commit (folders a and b): identical bytes",
+  "build_and_test_records": [
+   "shared/WALMART_SHARED_EVIDENCE_1.4.1.zip: tools/build_1_4_1",
+   "shared/WALMART_SHARED_EVIDENCE_1.4.1.zip: 9_build_and_test_logs/release_1_4_1"
+  ]
+ },
+ "earlier_release_used_by_runs": {
+  "1.4.0": {
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "runs": [
+    "scrapedo A 01M60BY58FYSVA2EPYWY2RY6TA",
+    "oxylabs A 01M60C3EGX839C5B2R3TXV5MAZ",
+    "scrapedo B1 01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "scrapedo B2 01M60ESB2201KQ56K9GRTMY0V7",
+    "oxylabs B1 01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "oxylabs B2 01M60GKSSDDC2FPGSE9F0NNGWH",
+    "scrapedo C-v1 01M60GYYBTSV6ED3Y0F9J3DGKS",
+    "scrapedo C-v2 01M60J1ATS2PP2T4ZS52AMH4RY",
+    "scrapedo C-pilot 01M60J3WCJHFRTACK1M8HW37FT",
+    "oxylabs C-v1 01M60JAPKBR4FNK22QMYTHNBSX"
+   ],
+   "label": "kept as release 1.4.0 data; never relabelled as collected by release 1.4.1",
+   "records": "shared/WALMART_SHARED_EVIDENCE_1.4.1.zip: 9_build_and_test_logs/release_1_4_0"
+  }
+ },
+ "previous_delivery": {
+  "path": "deliverables/20261027_walmart_1.3.1",
+  "SHA256SUMS.txt_sha256": "72a481e8da12e03a16b83852eb8bc153da481d0ff6011bc4d2e1b7e002e3e5a6",
+  "expected": "72a481e8da12e03a16b83852eb8bc153da481d0ff6011bc4d2e1b7e002e3e5a6",
+  "matches": true,
+  "state": "preserved unchanged (rechecked by PACKAGE_VERIFICATION.txt); its errata are in ERRATA.md"
+ },
+ "runs": [
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "A",
+   "what": "Phase A: canary run (--max-pages-per-listing 2 --pdp-sample 5 --follow-up-pages 1)",
+   "run": "01M60BY58FYSVA2EPYWY2RY6TA",
+   "database": "walmart_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T04:22:49.477Z",
+    "last_page_request_at": "2026-10-28T04:24:08.952Z",
+    "page_fetches": 14,
+    "by_purpose": {
+     "listing": 5,
+     "product_detail": 5,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 14
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 35,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 35,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 35,
+     "valid": 130
+    },
+    "valid_fresh": 130,
+    "exported_rows_retained": 130,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 14,
+    "units": 77.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 592.3,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_scrapedo/01M60BY58FYSVA2EPYWY2RY6TA",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "A",
+   "what": "Phase A: canary run (--max-pages-per-listing 2 --pdp-sample 5 --follow-up-pages 1)",
+   "run": "01M60C3EGX839C5B2R3TXV5MAZ",
+   "database": "walmart_oxylabs",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T04:25:42.303Z",
+    "last_page_request_at": "2026-10-28T04:27:18.829Z",
+    "page_fetches": 14,
+    "by_purpose": {
+     "listing": 5,
+     "product_detail": 5,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 14
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 35,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 35,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 30,
+     "valid": 132
+    },
+    "valid_fresh": 132,
+    "exported_rows_retained": 132,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 14,
+    "units": 14.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 106.1,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_oxylabs/01M60C3EGX839C5B2R3TXV5MAZ",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "B1",
+   "what": "Phase B, first logical run (--max-pages-per-listing 2 --pdp-sample 400 --follow-up-pages 2; 1, 2 and 4 workers; SIGTERM, a duplicate start, SIGKILL and recovery)",
+   "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+   "database": "walmart_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T04:32:40.023Z",
+    "last_page_request_at": "2026-10-28T04:52:11.838Z",
+    "page_fetches": 446,
+    "by_purpose": {
+     "listing": 18,
+     "product_detail": 403,
+     "product_page": 3,
+     "robots": 11,
+     "store_page": 11
+    },
+    "http_status": {
+     "200": 437,
+     "404": 9
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 35,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 35,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 170,
+     "valid": 478
+    },
+    "valid_fresh": 478,
+    "exported_rows_retained": 478,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 452,
+    "units": 641.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 1341.0,
+    "completed_branches": 2
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "B2",
+   "what": "Phase B, second logical run (19 result pages, --max-pages-per-listing 3 --pdp-sample 0 --follow-up-pages 0 --workers 2; UPCs reused)",
+   "run": "01M60ESB2201KQ56K9GRTMY0V7",
+   "database": "walmart_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T05:12:37.292Z",
+    "last_page_request_at": "2026-10-28T05:15:47.800Z",
+    "page_fetches": 23,
+    "by_purpose": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    },
+    "http_status": {
+     "200": 23
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+     "valid": 31,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 31,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 160,
+     "historical": 89,
+     "valid": 561
+    },
+    "valid_fresh": 561,
+    "exported_rows_retained": 650,
+    "carried_forward_not_counted": 89
+   },
+   "usage": {
+    "requests": 24,
+    "units": 194.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 345.8,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7",
+    "role": "labelled release 1.4.0 export (the store's unfiltered grid): scrapedo/products_fresh_1.4.0_B2.json|csv and products_retained_1.4.0_B2.json|csv"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "B1",
+   "what": "Phase B, first logical run (--max-pages-per-listing 2 --pdp-sample 400 --follow-up-pages 2; 1, 2 and 4 workers; SIGTERM, a duplicate start, SIGKILL and recovery)",
+   "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+   "database": "walmart_oxylabs",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T05:19:48.405Z",
+    "last_page_request_at": "2026-10-28T05:42:19.387Z",
+    "page_fetches": 447,
+    "by_purpose": {
+     "listing": 18,
+     "product_detail": 403,
+     "product_page": 4,
+     "robots": 11,
+     "store_page": 11
+    },
+    "http_status": {
+     "200": 447
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 35,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 35,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 34,
+     "historical": 6,
+     "valid": 607
+    },
+    "valid_fresh": 607,
+    "exported_rows_retained": 613,
+    "carried_forward_not_counted": 6
+   },
+   "usage": {
+    "requests": 453,
+    "units": 453.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 746.3,
+    "completed_branches": 2
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "B2",
+   "what": "Phase B, second logical run (19 result pages, --max-pages-per-listing 3 --pdp-sample 0 --follow-up-pages 0 --workers 2; UPCs reused)",
+   "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+   "database": "walmart_oxylabs",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T05:44:32.465Z",
+    "last_page_request_at": "2026-10-28T05:45:29.534Z",
+    "page_fetches": 23,
+    "by_purpose": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    },
+    "http_status": {
+     "200": 23
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 35,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 35,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 40,
+     "historical": 159,
+     "valid": 675
+    },
+    "valid_fresh": 675,
+    "exported_rows_retained": 834,
+    "carried_forward_not_counted": 159
+   },
+   "usage": {
+    "requests": 23,
+    "units": 23.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 34.1,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "C-v1",
+   "what": "Phase C, disposable publication target (Pears and Strawberries): complete run v1",
+   "run": "01M60GYYBTSV6ED3Y0F9J3DGKS",
+   "database": "walmart_pubtest_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T05:50:38.111Z",
+    "last_page_request_at": "2026-10-28T05:52:30.809Z",
+    "page_fetches": 9,
+    "by_purpose": {
+     "listing": 2,
+     "product_detail": 5,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 9
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "complete",
+    "final": "published",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "published as version 1 of the Scrape.do disposable target",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 8,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 8,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 10,
+    "units": 27.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 5400.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "C-v2",
+   "what": "Phase C, disposable publication target: complete run v2",
+   "run": "01M60J1ATS2PP2T4ZS52AMH4RY",
+   "database": "walmart_pubtest_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T06:09:24.931Z",
+    "last_page_request_at": "2026-10-28T06:09:42.988Z",
+    "page_fetches": 4,
+    "by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 4
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "complete",
+    "final": "published",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "published as version 2 of the Scrape.do disposable target",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 8,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 8,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 4,
+    "units": 22.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 4400.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "C-pilot",
+   "what": "Phase C, disposable publication target: live pilot (Strawberries result page 1)",
+   "run": "01M60J3WCJHFRTACK1M8HW37FT",
+   "database": "walmart_pubtest_scrapedo",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "the store's unfiltered grid (the Scrape.do store endpoint sent no Pickup filter: the release 1.4.0 defect corrected in 1.4.1)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T06:10:48.461Z",
+    "last_page_request_at": "2026-10-28T06:10:55.034Z",
+    "page_fetches": 3,
+    "by_purpose": {
+     "listing": 1,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 3
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "pilot",
+    "final": "validated",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: publish --run refused, exit 6 (a pilot dataset)",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/strawberries/976759_976793_9756351_3521037",
+     "valid": 2,
+     "records": 5,
+     "status": "passed",
+     "source_check": {
+      "checked": 2,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 3,
+     "historical": 3,
+     "valid": 2
+    },
+    "valid_fresh": 2,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 3
+   },
+   "usage": {
+    "requests": 3,
+    "units": 12.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 6000.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C-v1",
+   "what": "Phase C, disposable publication target (Pears and Strawberries): complete run v1",
+   "run": "01M60JAPKBR4FNK22QMYTHNBSX",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.0",
+   "commit": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+   "built_at": "2026-10-28T04:17:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T06:14:31.412Z",
+    "last_page_request_at": "2026-10-28T06:16:07.477Z",
+    "page_fetches": 9,
+    "by_purpose": {
+     "listing": 2,
+     "product_detail": 5,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 8,
+     "500": 1
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "partial",
+    "final": "rejected",
+    "failed_gates": {
+     "G13": "integrity of the stored pages (the release 1.4.0 defect corrected in 1.4.1)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 6,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 3,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 12,
+    "units": 8.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 1600.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C141-v1",
+   "what": "Phase C under release 1.4.1, disposable publication target: complete run v1",
+   "run": "01M60PQ9JTV9BQCVF45EMEWMZM",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T07:31:18.369Z",
+    "last_page_request_at": "2026-10-28T07:31:51.844Z",
+    "page_fetches": 5,
+    "by_purpose": {
+     "listing": 2,
+     "product_detail": 1,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 5
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "complete",
+    "final": "published",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "published as version 1 of the Oxylabs disposable target (07:34:27Z)",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 6,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 3,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 6,
+    "units": 6.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 1200.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C141-v2",
+   "what": "Phase C under release 1.4.1, disposable publication target: complete run v2",
+   "run": "01M60QZ09NV9ZY6WD2RGG89N13",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T07:52:59.586Z",
+    "last_page_request_at": "2026-10-28T07:55:46.441Z",
+    "page_fetches": 4,
+    "by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 4
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "complete",
+    "final": "published",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "published as version 2 of the Oxylabs disposable target (07:55:57Z)",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 7,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 4,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 5,
+    "units": 5.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 1000.0,
+    "completed_branches": 2
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C141-pilot",
+   "what": "Phase C under release 1.4.1, disposable publication target: live pilot (Strawberries page 1)",
+   "run": "01M60R5FTS5M97K3M53PPQQ7PW",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T07:56:32.102Z",
+    "last_page_request_at": "2026-10-28T07:56:37.564Z",
+    "page_fetches": 3,
+    "by_purpose": {
+     "listing": 1,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 3
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "pilot",
+    "final": "validated",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: publish --run refused, exit 6 (a pilot dataset)",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/strawberries/976759_976793_9756351_3521037",
+     "valid": 2,
+     "records": 2,
+     "status": "passed",
+     "source_check": {
+      "checked": 2,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "historical": 3,
+     "valid": 2
+    },
+    "valid_fresh": 2,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 3
+   },
+   "usage": {
+    "requests": 4,
+    "units": 4.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 2000.0,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C141-offers",
+   "what": "Phase C under release 1.4.1: the 4 BUY_MORE_SAVINGS seed items of release 1.3.1 and their listings (1 result page each)",
+   "run": "01M60RBVDW1BRS366AAS3JVKER",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T08:00:00.587Z",
+    "last_page_request_at": "2026-10-28T08:04:43.105Z",
+    "page_fetches": 11,
+    "by_purpose": {
+     "category_page": 2,
+     "listing": 3,
+     "product_page": 4,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 11
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+     "valid": 39,
+     "records": 39,
+     "status": "passed",
+     "source_check": {
+      "checked": 39,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 1,
+     "historical": 5,
+     "valid": 96
+    },
+    "valid_fresh": 96,
+    "exported_rows_retained": 101,
+    "carried_forward_not_counted": 5
+   },
+   "usage": {
+    "requests": 13,
+    "units": 12.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 125.0,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "C-retest",
+   "what": "Phase C under release 1.4.1: retest of 15353921746 and 655257631 (Diapering and Cold, Cough & Flu, 2 result pages each, every product page)",
+   "run": "01M60RPW1ABES1RWTXXHZBTAXS",
+   "database": "walmart_pubtest_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T08:06:01.923Z",
+    "last_page_request_at": "2026-10-28T08:41:54.682Z",
+    "page_fetches": 167,
+    "by_purpose": {
+     "listing": 4,
+     "product_detail": 159,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 166,
+     "500": 1
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+     "valid": 40,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 40,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "historical": 101,
+     "valid": 159
+    },
+    "valid_fresh": 159,
+    "exported_rows_retained": 260,
+    "carried_forward_not_counted": 101
+   },
+   "usage": {
+    "requests": 177,
+    "units": 172.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 1081.8,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  },
+  {
+   "edition": "scrapedo",
+   "provider": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+   "key_fingerprint": "…0021db",
+   "phase": "C141-v3",
+   "what": "Scrape.do disposable publication target under release 1.4.1: complete run v3 (Pears and Strawberries, Walmart's Pickup facet)",
+   "run": "01M60S8E829WP3RKTEGMMHHHMC",
+   "database": "walmart_pubtest_scrapedo",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "2. new live collection, Scrape.do",
+   "grid": "Walmart's Pickup grid (facet=fulfillment_method:Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T08:15:37.847Z",
+    "last_page_request_at": "2026-10-28T08:16:13.925Z",
+    "page_fetches": 4,
+    "by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "http_status": {
+     "200": 4
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "validated",
+    "dataset": "complete",
+    "final": "published",
+    "failed_gates": {
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "published as version 3 of the Scrape.do disposable target",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/pears/976759_976793_9756351_6537775",
+     "valid": 3,
+     "records": 7,
+     "status": "passed",
+     "source_check": {
+      "checked": 3,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 4,
+     "valid": 5
+    },
+    "valid_fresh": 5,
+    "exported_rows_retained": 5,
+    "carried_forward_not_counted": 0
+   },
+   "usage": {
+    "requests": 4,
+    "units": 22.0,
+    "unit": "Scrape.do credits",
+    "units_per_1000_valid_fresh": 4400.0,
+    "completed_branches": 2
+   },
+   "in_this_delivery": {
+    "folder": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 2_new_live_scrapedo/runs/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC",
+    "role": "authoritative export of the Scrape.do edition on the final release: scrapedo/products_fresh.json|csv and scrapedo/products_retained.json|csv"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "B3",
+   "what": "Phase B by the final release (the B2 command unchanged)",
+   "run": "01M60V2DCCWR72BGVVG3EM9R74",
+   "database": "walmart_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T08:47:17.067Z",
+    "last_page_request_at": "2026-10-28T08:48:41.725Z",
+    "page_fetches": 23,
+    "by_purpose": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    },
+    "http_status": {
+     "200": 23
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+     "valid": 32,
+     "records": 40,
+     "status": "passed",
+     "source_check": {
+      "checked": 32,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 40,
+     "historical": 200,
+     "valid": 662
+    },
+    "valid_fresh": 662,
+    "exported_rows_retained": 862,
+    "carried_forward_not_counted": 200
+   },
+   "usage": {
+    "requests": 23,
+    "units": 23.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 34.7,
+    "completed_branches": 1
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_oxylabs/01M60V2DCCWR72BGVVG3EM9R74",
+    "role": "authoritative export of the Oxylabs edition: oxylabs/products_fresh.json|csv (fresh) and oxylabs/products_retained.json|csv (retained)"
+   }
+  },
+  {
+   "edition": "oxylabs",
+   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "key_fingerprint": "…77255c",
+   "phase": "D",
+   "what": "Phase D: the queued variant identities of 5 listings (1 result page each, up to 440 variant pages, 4 segments)",
+   "run": "01M60VA50N50W10GJZE9C6P95K",
+   "database": "walmart_oxylabs",
+   "release": "1.4.1",
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "built_at": "2026-10-28T07:25:56+00:00",
+   "lineage": "network (live provider answers)",
+   "evidence_class": "1. new live collection, Oxylabs Web API",
+   "grid": "Walmart's Pickup grid (the store-scoped Web API answer, meta.fulfillmentIntent Pickup)",
+   "collection": {
+    "first_page_request_at": "2026-10-28T08:51:30.659Z",
+    "last_page_request_at": "2026-10-28T09:34:34.442Z",
+    "page_fetches": 456,
+    "by_purpose": {
+     "listing": 5,
+     "product_page": 441,
+     "robots": 5,
+     "store_page": 5
+    },
+    "http_status": {
+     "200": 455,
+     "500": 1
+    },
+    "challenges": 0
+   },
+   "status": {
+    "validation": "rejected",
+    "dataset": "pilot",
+    "final": "rejected",
+    "failed_gates": {
+     "G3": "listings capped (a pilot: rejected as designed)",
+     "G4": "yield (RETAINED_MASKS_YIELD in D)",
+     "G14": "readiness marker (500 valid products in the required categories); never blocks"
+    },
+    "publication": "not published: the run was rejected",
+    "canary": {
+     "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+     "valid": 39,
+     "records": 39,
+     "status": "passed",
+     "source_check": {
+      "checked": 39,
+      "mismatch": 0,
+      "unverified": 0
+     }
+    }
+   },
+   "records": {
+    "by_status": {
+     "excluded": 113,
+     "historical": 677,
+     "valid": 358
+    },
+    "valid_fresh": 358,
+    "exported_rows_retained": 1035,
+    "carried_forward_not_counted": 677
+   },
+   "usage": {
+    "requests": 460,
+    "units": 455.0,
+    "unit": "Oxylabs results (counted)",
+    "units_per_1000_valid_fresh": 1270.9,
+    "completed_branches": 0
+   },
+   "in_this_delivery": {
+    "folder": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 1_new_live_oxylabs/runs/walmart_oxylabs/01M60VA50N50W10GJZE9C6P95K",
+    "role": "evidence (pages, rows, exports, coverage) in the edition's evidence ZIP"
+   }
+  }
+ ],
+ "injected_fault_checks": [
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "empty",
+   "run": "01M60H434W6TMC4C2HNKNQR0ES",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/116_scrapedo_injected_empty.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "thin",
+   "run": "01M60H4TDEKHMPGCG5JEX4KJVA",
+   "run_exit_code": 4,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/118_scrapedo_injected_thin.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "thin",
+   "run": "01M60HEQ6KW3GA0WF0ESPKXSPA",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/121_scrapedo_injected_thin.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "blocked",
+   "run": "01M60HG4M198AP2FMPZM9ZVEAM",
+   "run_exit_code": 5,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/123_scrapedo_injected_blocked.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "empty",
+   "run": null,
+   "run_exit_code": 8,
+   "publish_exit_code": null,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/125_scrapedo_injected_empty_while_held.txt",
+   "note": "a run started while the store was held after the blocked fault: refused, no run created"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "wrong_store",
+   "run": "01M60HHTZ02WVE56877JPK12GP",
+   "run_exit_code": 7,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/128_scrapedo_injected_wrong_store.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "partial",
+   "run": "01M60HJGAMT6VA0GNGV1QP3NWP",
+   "run_exit_code": 75,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/131_scrapedo_injected_partial.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "network_resume",
+   "run": "01M60HJGAMT6VA0GNGV1QP3NWP",
+   "run_exit_code": null,
+   "publish_exit_code": 6,
+   "transport": "network",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/132_scrapedo_injected_network_resume.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.0",
+   "fault": "control",
+   "run": "01M60HZNCSV6F1QV40N92ERSKH",
+   "run_exit_code": 0,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/134_scrapedo_injected_control.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "empty",
+   "run": "01M60PYYGJ4F34B6V4RWMX5MFM",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/173_oxylabs_injected_empty_141.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "thin",
+   "run": "01M60PZ6R0J97F5DV48KFYVH9S",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/175_oxylabs_injected_thin_141.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "blocked",
+   "run": "01M60PZPFQMWQHMJXPEK9SRVV2",
+   "run_exit_code": 5,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/177_oxylabs_injected_blocked_141.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "empty",
+   "run": null,
+   "run_exit_code": 8,
+   "publish_exit_code": null,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/179_oxylabs_injected_empty_while_held_141.txt",
+   "note": "a run started while the store was held after the blocked fault: refused, no run created"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "wrong_store",
+   "run": "01M60Q0FMNDW8KFDA7PK4YHV5G",
+   "run_exit_code": 7,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/182_oxylabs_injected_wrong_store_141.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "partial",
+   "run": "01M60Q149X08F7513VWC1JF75Q",
+   "run_exit_code": 5,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/186_oxylabs_injected_partial_141.txt",
+   "note": "the test tool injected_faults_140.py served the HTTP 502 as Walmart's own page, so the edition stopped the run as a site refusal; the corrected tool's run is 01M60Q6NF469NY4VTPKT3PJQGM (TEST_PLAN.md section 9)"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "partial",
+   "run": "01M60Q6NF469NY4VTPKT3PJQGM",
+   "run_exit_code": 75,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/191_oxylabs_injected_partial_141tool.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "network_resume",
+   "run": "01M60Q6NF469NY4VTPKT3PJQGM",
+   "run_exit_code": null,
+   "publish_exit_code": 6,
+   "transport": "network",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/193_oxylabs_injected_network_resume_141.txt"
+  },
+  {
+   "edition": "oxylabs",
+   "release": "1.4.1",
+   "fault": "control",
+   "run": "01M60QKG62805Q8QCCHB85YQKH",
+   "run_exit_code": 0,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/195_oxylabs_injected_control_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "empty",
+   "run": "01M60RR7JT300ZTFJ0NVW81QPW",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/218_scrapedo_injected_empty_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "thin",
+   "run": "01M60RRFQ6FEHQF1ETE7QN33DB",
+   "run_exit_code": 6,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/220_scrapedo_injected_thin_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "blocked",
+   "run": "01M60RRWDS672RAR57TBE028PM",
+   "run_exit_code": 5,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/222_scrapedo_injected_blocked_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "empty",
+   "run": null,
+   "run_exit_code": 8,
+   "publish_exit_code": null,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/224_scrapedo_injected_empty_while_held_141.txt",
+   "note": "a run started while the store was held after the blocked fault: refused, no run created"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "wrong_store",
+   "run": "01M60RSKHM1CG0KXE9ASENBNGA",
+   "run_exit_code": 7,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/227_scrapedo_injected_wrong_store_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "partial",
+   "run": "01M60RT3KJ2Y7JSVFP312CPRS6",
+   "run_exit_code": 75,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/230_scrapedo_injected_partial_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "network_resume",
+   "run": "01M60RT3KJ2Y7JSVFP312CPRS6",
+   "run_exit_code": null,
+   "publish_exit_code": 6,
+   "transport": "network",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/232_scrapedo_injected_network_resume_141.txt"
+  },
+  {
+   "edition": "scrapedo",
+   "release": "1.4.1",
+   "fault": "control",
+   "run": "01M60S70JPHWBSA7Y76DJSVC0W",
+   "run_exit_code": 0,
+   "publish_exit_code": 6,
+   "transport": "substituted",
+   "record": "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: 5_synthetic_and_injected/commands/234_scrapedo_injected_control_141.txt"
+  }
+ ],
+ "authoritative_exports": {
+  "oxylabs": {
+   "run": "01M60V2DCCWR72BGVVG3EM9R74",
+   "phase": "B3",
+   "release": "1.4.1",
+   "fresh": "oxylabs/products_fresh.json|csv",
+   "retained": "oxylabs/products_retained.json|csv"
+  },
+  "scrapedo": {
+   "run": "01M60S8E829WP3RKTEGMMHHHMC",
+   "phase": "C141-v3",
+   "release": "1.4.1",
+   "fresh": "scrapedo/products_fresh.json|csv",
+   "retained": "scrapedo/products_retained.json|csv",
+   "also_delivered_with_its_release_label": {
+    "run": "01M60ESB2201KQ56K9GRTMY0V7",
+    "phase": "B2",
+    "release": "1.4.0",
+    "fresh": "scrapedo/products_fresh_1.4.0_B2.json|csv",
+    "retained": "scrapedo/products_retained_1.4.0_B2.json|csv"
+   }
+  },
+  "merged_dataset": "none: the two editions are separate test runs and are not merged"
+ },
+ "provider_usage_2026_10_28": {
+  "source": "provider_usage of the four databases since 2026-10-28 00:00Z (command 343)",
+  "scrapedo": {
+   "requests": 511,
+   "ledger_credits": 995,
+   "campaign_database": 912,
+   "disposable_target": 83,
+   "charged_per_info": 990,
+   "remaining_per_info": 10,
+   "note": "unchanged since Phase C: no Scrape.do request after 08:18:34Z"
+  },
+  "oxylabs": {
+   "submissions": 1190,
+   "results_counted": 1175,
+   "campaign_database": 973,
+   "campaign_database_counted": 968,
+   "disposable_target_submissions": 217,
+   "disposable_target_counted": 207,
+   "usd_reserved": 1.7625,
+   "usd_at_published_rate_counted": 1.175,
+   "usd_at_published_rate_answered_only": 1.159,
+   "within_total_allocation": "1,190 of 1,300 submissions; USD 1.7625 of 1.95 at the reserve rate"
+  }
+ },
+ "end_state": {
+  "at": "2026-10-28T10:15:41Z",
+  "ceilings_and_budgets": "0 in walmart_scrapedo, walmart_oxylabs, walmart_pubtest_scrapedo, walmart_pubtest_oxylabs (10:09:31Z to 10:10:21Z)",
+  "runs": "all final; no run lock; no task of an unfinished run",
+  "units": "13 failed transient units reset; 0 loaded",
+  "schedules": "none (no Walmart timer or cron entry)",
+  "processes": "0 collector processes (command 366)",
+  "vm": {
+   "state": "running (SSH and instance metadata at 10:10:42Z)",
+   "name": "scraper-test-vm",
+   "resource_group": "scraper-test-rg",
+   "size": "Standard_D2nls_v6",
+   "region": "eastus",
+   "usd_per_hour_running": 0.113,
+   "usd_per_month_disk_and_ip_when_deallocated": 6.05,
+   "action_remaining": "Hamza deallocates the VM in the Azure portal (no deallocation permission in this task)"
+  }
+ },
+ "evidence_packages": {
+  "oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip": "classes 1 (new live, Oxylabs Web API), 5 (its injected faults) and 6 (its commands, logs and resumes on the Azure VM)",
+  "scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip": "classes 2 (new live, Scrape.do), 5 and 6, likewise",
+  "shared/WALMART_SHARED_EVIDENCE_1.4.1.zip": "classes 3 (historical live: references and hashes), 4 (offline reprocessing), 6 (the VM's installation, backups, end state); the test plan, budget, price reads, build and test logs, tools"
+ },
+ "inputs_sha256": {
+  "C:/w6/c140/audit/final/runs_all.json": "29b41495f7d7b544715ded8d4dd984e2e8a20ad61e09338544be72ea12dbb0aa",
+  "C:/w6/c140/audit/final/cost_model/COST_MODEL_1_4_1.json": "3aa91632cd84b496b1d47d33435ef1430dabf8ab9ac778f7755f79fbd8fdbf49",
+  "C:/w6/c140/plan/campaign_budget.json": "cbeb633d5012e4cf28e0edb4f0c0cb9fa25d8033830c4843ef2b38f7e964b90a",
+  "C:/w6/c141/dist/37ffca808f21/a/WALMART_OXYLABS_SOURCE_1.4.1.zip": "6b3d9ba79e2de920b903a05ba3fb2b254fa30d12e0d4402cd1049f1cdc2a9a6c",
+  "C:/w6/c141/dist/37ffca808f21/b/WALMART_OXYLABS_SOURCE_1.4.1.zip": "6b3d9ba79e2de920b903a05ba3fb2b254fa30d12e0d4402cd1049f1cdc2a9a6c",
+  "C:/w6/c141/dist/37ffca808f21/a/WALMART_SCRAPEDO_SOURCE_1.4.1.zip": "ce23591d21550d31cc48f56c2331f78e990f5af08f301ba592e265216cc48c74",
+  "C:/w6/c141/dist/37ffca808f21/b/WALMART_SCRAPEDO_SOURCE_1.4.1.zip": "ce23591d21550d31cc48f56c2331f78e990f5af08f301ba592e265216cc48c74",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60BY58FYSVA2EPYWY2RY6TA/manifest.json": "7ee839e926be090730d7789d3f94a9d79943ce814e43a02f540bdace9e86a890",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60BY58FYSVA2EPYWY2RY6TA/validation_report.json": "e468370f61a3e6fe9152ee2a615ff8ba0a3a555086aba5ff7dc6d73fb23ea18d",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60BY58FYSVA2EPYWY2RY6TA/db/page_fetches.csv": "99cdcca0840c1d820a0538ba24707bc09d65c6d2610c903def7d79ddc28532df",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60BY58FYSVA2EPYWY2RY6TA/db/records.csv": "393e18ebd816671719ac04af879f258f9e385a2afa41d44c22e2fd19f6840f3c",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60C3EGX839C5B2R3TXV5MAZ/manifest.json": "76947f0486c63ff7a6562fa4d0a1c508dea7ec0af2a67da7b692b117ed672962",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60C3EGX839C5B2R3TXV5MAZ/validation_report.json": "c5ba3545790e17d678be0e420590df2373879709bf82622bf01bc93cb502040d",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60C3EGX839C5B2R3TXV5MAZ/db/page_fetches.csv": "eff24c4545d5a36b7ddf56127a7c1d69a7c26b93442721bdfcd35d5b07cba306",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60C3EGX839C5B2R3TXV5MAZ/db/records.csv": "3eade343d0fae7c169b49c0bf23c18a6c835d3cbe0fac7980f72fddb636120ff",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/manifest.json": "166d4767250320016919300cfc1f0e890a88230f99749a84e4458bcce34035dd",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/validation_report.json": "aaf5d1bbd0a63c92b0289f99f86a229aef27a753b7062649751040973654040e",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/db/page_fetches.csv": "6ef087a96a10787e2806f57392fff67e869015546d204752dd038598ea3d045d",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/db/records.csv": "f314f111780bf82064b06105cc99730738a2da39abf078b52f1d013e16bbd825",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60ESB2201KQ56K9GRTMY0V7/manifest.json": "386e9f393aa7178e9de20b6e4698ac8eb63515df1cc8bcd244e7ff357147c484",
+  "C:/w6/c140/evidence/exports/scrapedo/01M60ESB2201KQ56K9GRTMY0V7/validation_report.json": "fc5bcfb771aaba85fe5c809e4b646795812922d9babfd15fa0f8c23960a1b7b2",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7/db/page_fetches.csv": "fa7e748063516c74c88f58a4fcd3406a8c1bd93321d7208f0c3c9d9601ee97b8",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7/db/records.csv": "f2cbab9298681d8a692b459f7fe9521cf0995c7209a55fa325a44d49719903b6",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/manifest.json": "8b613bb494627d4b2068f37353be539daeedccc471ec94a0725520d49a632d8b",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/validation_report.json": "bb2501fbdb891c5753d714814dbb688404a434f6fe28c072c9ad447ee44ec6dc",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/db/page_fetches.csv": "97b01add663341f6d413a98adba6e15c5e402ab0a1184af2a6b70e0a0bd259fb",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/db/records.csv": "4899a82af6ac14adbf3e2e0de18a59e1b96e7637cd7765eec9cbbe0f910bb182",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/manifest.json": "397b85b3a9eb4305f661c2f74953b14cd459dbb31b071e4d36d3f6dda4c7be7a",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/validation_report.json": "e6f66f088827f55f3f19eb015455f8c50b60ddaece193fcc2909ad91ad68e0d5",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/db/page_fetches.csv": "3e6423c6a22fef45f66b3a8d4246e63860444fa25114802435c5f9407d505c2f",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/db/records.csv": "b29b41bcd858721c0b294f48ae9a629a4ab6ecb2c0504e6a457d4b2a551f9adc",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS/exports/manifest.json": "7f6263e1001cded25d2873e4460558f5b554efcc81269242abb440a88a2b2217",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS/exports/validation_report.json": "ae11c13b199f2cb7189d7fa715885baa78e1a70dda4213f7caa941d08bf50495",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS/db/page_fetches.csv": "9d428cf7f3ba062d03f020a1dd91c5bb988826a59897b568b92b72053ac8826b",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS/db/records.csv": "a21daa3843a6f00b5939c41c87e7f9733da158c5c88c3aea551fdef6d2d96915",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY/exports/manifest.json": "8a4e4a9b4bb0a0585494ac5ac0f8c29e7da47f5fb21cef266183215d9a751872",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY/exports/validation_report.json": "00fb135bb44fa803608ec68dc347c459b5c01b364f20ac67f6ae0b7417d99922",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY/db/page_fetches.csv": "40c843adb52de819fde6b2fffeef97cac83776b06e88a2d45d6b2f846cd6f81f",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY/db/records.csv": "bf1f39189ade0e2ea2c568fbc0989d2248da4b3c42048822c5b151186c7f6b53",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT/exports/manifest.json": "45f53bb8d2a8e2970b374a5d300354f9db9a51e2c55c6604b8ec99e5e6f1b648",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT/exports/validation_report.json": "e967862398d4a62d7118ce2eb0d048b66cfca8ca728c349822aa5526db8b8039",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT/db/page_fetches.csv": "05fc1cf719b2436de8ba623a8449bb6bcc40d0782dd8655b726499ad749f0b38",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT/db/records.csv": "822353fd491de4e185221c24bec3e889ae11e6ba3947878adf1e6b6328b9be0a",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX/exports/manifest.json": "8a6f3e0f3311db0ff731d2a4f75afd7085f5b68b69dfcbbdf7a0954cf2b597cd",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX/exports/validation_report.json": "cca3df3cd042d10f7c376e8fe76cb7cefc6d2b3adeb9e5aa7082aaa5eeca4753",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX/db/page_fetches.csv": "69469bb3e9e364641abd12eea425cd4b9559ecb44052dd9ebb08bf10b0e61fe4",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX/db/records.csv": "cffd193ffc91eccc44697cdc1aa9249a3f5a26a03fbbd2638b2a42992c4ca7d3",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM/exports/manifest.json": "9ab3518000214cd3995a4a3b02f4f3e775f36c7349f2882b9b47bc427a3df538",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM/exports/validation_report.json": "fbb98533a8927a8e7537d962bca5c44a769f65bd7e383cbe80d175ae1b1218e3",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM/db/page_fetches.csv": "8f819d2d925c474cbb5373ae5c948263ebbe58c894bd4847de7ddc4ed0d173e2",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM/db/records.csv": "75c8c7023862f79d3d537261d7a6ca362b97a0b33480a057faff3b7668b2b1c1",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13/exports/manifest.json": "1bd53f8b83d8c67a10cdf2a73eec83142e092477fa0dfc071f6399e891114f2b",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13/exports/validation_report.json": "2d0f803780c8e5be3100cec8cb796ab515e6c4fa7dcf492460d1d0f709286900",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13/db/page_fetches.csv": "0ff842e31e7830d938474e53e25f25997572c7f02a8696cd5011c6a38a3f542a",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13/db/records.csv": "5373fa9c69f765ab323d3ac8f1833b0dfb4a8ca85d7ce168254c196ad4f004ef",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW/exports/manifest.json": "05523020587eda9d92e3f4d53b37ab60cb4b748a4c9b52ac53d36bd0bd70c1b4",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW/exports/validation_report.json": "af6de4b5cbe3ce3de2ac1e9fcbe39bfb074c29a53928746889f6f3e9d9fbf721",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW/db/page_fetches.csv": "9aa35914746a8c1b8a4879d571a147254d173f5491c6d42198c0771256e0d8dd",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW/db/records.csv": "96d9c5dd468cf7f604eff5b4411ac408ce118d8f9bc5ae327886b755ae9e0180",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER/exports/manifest.json": "b3616a8c67e52539628032952c0772b83771631dae13a5ea96d49ca1d381c264",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER/exports/validation_report.json": "b49bc1d6b2e5230ee903ad0df539e03d130772f21766eaea609d88b27fe3f048",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER/db/page_fetches.csv": "57b7bcc58922557012e36dc8ed1b3262dd294b82e4bbb3f3d012188d158c6a8e",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER/db/records.csv": "96ef7e44c73b16bec749061099fe8e7e1d57586dd73409fbfa4d7d4b2b3777d8",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS/exports/manifest.json": "7ca4a6b286215aac4d4bf8941d0869a356a5b618d903e4cc47608f9813d95bc6",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS/exports/validation_report.json": "da48721da074f583b7b8f96e9330f16879d4ff079de0e93e5a7fdc10e0225a01",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS/db/page_fetches.csv": "7e31c9371f86355a316ea57ed0d4a1c14881cdbcc484de365fa6a2ca4a7b1cc0",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS/db/records.csv": "1f51a07b3cba02b83d92f93d9964740fdaa631d22c3738ba6eaf4f2af3a57f60",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC/exports/manifest.json": "3a6394c1e8166262c77bf0b4aa411857c1da741e171396f3f67d0b1cae457246",
+  "C:/w6/c140/evidence/exports_all/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC/exports/validation_report.json": "8fabf5dd58a89cdb64e1269e88886feae2c6a0c637bd76b02c5bef720ac286a5",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC/db/page_fetches.csv": "cabf8cee5ea71f93932c2fdf32f518afdbf1d101c8e2ee6e87feea0e8e5d4fb7",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC/db/records.csv": "25cb016a1b9f49cae00c56ec9def391708b183744f4bc9404355083a4278d692",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60V2DCCWR72BGVVG3EM9R74/manifest.json": "4e1d81cf10fef176317753b51cae95212ce3b92c4aee7cd9900d3a90d82d6389",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60V2DCCWR72BGVVG3EM9R74/validation_report.json": "57f615ac8744f9ff50aa318c6edcce00a4b0b980cbc3bccda6cbdd37f4ba548b",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60V2DCCWR72BGVVG3EM9R74/db/page_fetches.csv": "a3783b90374d1e8e82b02ff03e18ba6a9a327b40b336cf4b99545caba02bdd28",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60V2DCCWR72BGVVG3EM9R74/db/records.csv": "aea080bab95de5a9d2bbdf339a40fc647c318dce7d6e95a888432f94700b9861",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60VA50N50W10GJZE9C6P95K/manifest.json": "b931acfed6b46425b9f44e8bac557256b3c782d1b60151005f88b1299cf3956f",
+  "C:/w6/c140/evidence/exports/oxylabs/01M60VA50N50W10GJZE9C6P95K/validation_report.json": "1c18226952073cc986c5d4e032780ed2f7ed9e5e4acd73c838b73131e7621301",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60VA50N50W10GJZE9C6P95K/db/page_fetches.csv": "6587c6215d4f9709ff8f62197047d41c0b61c75d6f07da726ee644dd6c187796",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60VA50N50W10GJZE9C6P95K/db/records.csv": "badf2f5dcac7526f8eebb849de63d3cb1a06d4d81886d9805451886378e3af54",
+  "C:/w6/c140/evidence/commands/116_scrapedo_injected_empty.txt": "cad52cfb2a3120aaae6808ec157cb91dd056a43cf27df9b7566cffdcab4fad97",
+  "C:/w6/c140/evidence/commands/118_scrapedo_injected_thin.txt": "c1e1f2345feaffc50e92c2f673c1d19729ece0964b096bc15c2ede4347f028c7",
+  "C:/w6/c140/evidence/commands/121_scrapedo_injected_thin.txt": "0680045002d7e3f8264092e76cf342042b3ba4efcb76abf725bd086fcdcd3a7d",
+  "C:/w6/c140/evidence/commands/123_scrapedo_injected_blocked.txt": "20d90395e484426624864019ebbfb2909e661b8672f62ef2ddc2f55b8be56fdd",
+  "C:/w6/c140/evidence/commands/125_scrapedo_injected_empty_while_held.txt": "34983b9306378a7bf59940ae83518c6481ac1fc36621ce1c0ff3145b7ecd3864",
+  "C:/w6/c140/evidence/commands/128_scrapedo_injected_wrong_store.txt": "996d2b907a41f990f80a4840a9c41b5b591805cb9a4c739f8b518f822f7b2638",
+  "C:/w6/c140/evidence/commands/131_scrapedo_injected_partial.txt": "6ca48708fb7e95153e2f0915aeb9e3bd421fca0bf5d2de62101648505bd91259",
+  "C:/w6/c140/evidence/commands/132_scrapedo_injected_network_resume.txt": "e0e69ba7ebb210ec8b19bd808a607cbdaee3063750e543c295a9df921bff184b",
+  "C:/w6/c140/evidence/commands/134_scrapedo_injected_control.txt": "d5a215591d8c4aab3770366b58486502f724152bc3d02c5d90d515f0c90cd8dc",
+  "C:/w6/c140/evidence/commands/173_oxylabs_injected_empty_141.txt": "6a4a63df23f8d2af4c8916237c70c7050a356d7622645f57677ab5147781f292",
+  "C:/w6/c140/evidence/commands/175_oxylabs_injected_thin_141.txt": "5be1fc6ce5cb07af0ea3492ecc4f5e3381018628bdad1f4c49710861fcfd6391",
+  "C:/w6/c140/evidence/commands/177_oxylabs_injected_blocked_141.txt": "1f145abbc201d68c9735beb71dd4b40d8dfe3e82996869f880348aaab3bb8c84",
+  "C:/w6/c140/evidence/commands/179_oxylabs_injected_empty_while_held_141.txt": "bc5daa6e0102838c325a1e328dc4139eddf2be4e4c695c8a1ce9ea9e10a50089",
+  "C:/w6/c140/evidence/commands/182_oxylabs_injected_wrong_store_141.txt": "8c872964b5d576143c6fec08167625e689ba3cf7dabea5333a24142ab7b6652d",
+  "C:/w6/c140/evidence/commands/186_oxylabs_injected_partial_141.txt": "dcb017fcb31853dbaa3269bea557c07ad3dfaac73d503dd6a8123fa672ee6700",
+  "C:/w6/c140/evidence/commands/191_oxylabs_injected_partial_141tool.txt": "e99ae313bcb491875d89c3229b7114235bdcff3bf9e6f67dd33e164afa7595eb",
+  "C:/w6/c140/evidence/commands/193_oxylabs_injected_network_resume_141.txt": "da71ad79826f5b15cf0070c1f7af8739bff7c93cc5efe1cb6b48681f793a9eac",
+  "C:/w6/c140/evidence/commands/195_oxylabs_injected_control_141.txt": "fd740f2db5e8c867e5e8fcb101b19d73f60b5dd0d8fa10dd84dd8097b4e49ac8",
+  "C:/w6/c140/evidence/commands/218_scrapedo_injected_empty_141.txt": "f15799e948a0a46f2077051ca35b2b859f13a8d12a7b48f8fd1c467d784ef075",
+  "C:/w6/c140/evidence/commands/220_scrapedo_injected_thin_141.txt": "208c5ab0fabb04d0e503340127d8cb835deb629716b88a7b54196686e529e52e",
+  "C:/w6/c140/evidence/commands/222_scrapedo_injected_blocked_141.txt": "045a8c3e733eedf40a62bbac88f20a2666ede4085a4f26476bae62fd71c10c8c",
+  "C:/w6/c140/evidence/commands/224_scrapedo_injected_empty_while_held_141.txt": "9fb9333ea277f719158bb3269930996b8c28827eac2e9aa527a8fb4b1b383b26",
+  "C:/w6/c140/evidence/commands/227_scrapedo_injected_wrong_store_141.txt": "e75838fa9f6880ae737c6139286f2293299497253c2932a34361fde52c3bbddd",
+  "C:/w6/c140/evidence/commands/230_scrapedo_injected_partial_141.txt": "2f018e8578029395b4697428cf1b7307cd0ba2685b704b3440885f9c9bd376d6",
+  "C:/w6/c140/evidence/commands/232_scrapedo_injected_network_resume_141.txt": "d4cea2ef42d27fc8da8b119f415c450f377e5d8434d582087dc0fa6f5a05b69f",
+  "C:/w6/c140/evidence/commands/234_scrapedo_injected_control_141.txt": "e712751fb658ac6f89057794d0968b5ef906a55d89f76a5cc53657b9bd2833fb",
+  "<projects>/marianos-scraper/deliverables/20261027_walmart_1.3.1/SHA256SUMS.txt": "72a481e8da12e03a16b83852eb8bc153da481d0ff6011bc4d2e1b7e002e3e5a6"
+ }
+}

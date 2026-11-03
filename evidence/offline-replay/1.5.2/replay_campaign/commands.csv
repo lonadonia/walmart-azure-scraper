@@ -1,0 +1,61 @@
+step,label,utc_start,utc_end,seconds,command,exit_code,expected,log
+1,validate_config_before_upgrade,2026-11-01T19:58:35+00:00,2026-11-01T19:58:38+00:00,3.0,walmart-collector validate-config --check-db,0,-1,001_validate_config_before_upgrade.jsonl
+2,db_upgrade,2026-11-01T19:58:38+00:00,2026-11-01T19:58:41+00:00,2.9,walmart-collector db-upgrade,0,0,002_db_upgrade.jsonl
+3,validate_config_after_upgrade,2026-11-01T19:58:41+00:00,2026-11-01T19:58:44+00:00,2.9,walmart-collector validate-config --check-db,0,0,003_validate_config_after_upgrade.jsonl
+4,status_before,2026-11-01T19:58:44+00:00,2026-11-01T19:58:47+00:00,2.9,walmart-collector status --limit 20,0,0,004_status_before.jsonl
+5,replay_S1,2026-11-01T19:58:47+00:00,2026-11-01T19:58:54+00:00,7.3,walmart-collector replay --run 01M69X9XHZR83KZ2FNWBJYJKA7,0,-1,005_replay_S1.jsonl
+6,status_S1,2026-11-01T19:58:54+00:00,2026-11-01T19:58:57+00:00,3.2,walmart-collector status --run 01M6CB2YEYXKA9TFR625F9VD2W,0,0,006_status_S1.jsonl
+7,validate_export_S1,2026-11-01T19:58:57+00:00,2026-11-01T19:59:01+00:00,3.4,walmart-collector validate-export --run 01M6CB2YEYXKA9TFR625F9VD2W,0,-1,007_validate_export_S1.jsonl
+8,export_S1,2026-11-01T19:59:01+00:00,2026-11-01T19:59:04+00:00,3.6,walmart-collector export --run 01M6CB2YEYXKA9TFR625F9VD2W --out C:\w7\ev152\final_a1\runs\S1\exports,0,0,008_export_S1.jsonl
+9,field_dispositions_S1,2026-11-01T19:59:04+00:00,2026-11-01T19:59:07+00:00,2.9,walmart-collector field-dispositions --run 01M6CB2YEYXKA9TFR625F9VD2W --csv C:\w7\ev152\final_a1\runs\S1\field_dispositions_01M6CB2YEYXKA9TFR625F9VD2W.csv,0,0,009_field_dispositions_S1.jsonl
+10,coverage_S1,2026-11-01T19:59:07+00:00,2026-11-01T19:59:10+00:00,2.8,walmart-collector coverage-report --run 01M6CB2YEYXKA9TFR625F9VD2W --out C:\w7\ev152\final_a1\runs\S1\coverage,0,0,010_coverage_S1.jsonl
+11,replay_S2,2026-11-01T19:59:10+00:00,2026-11-01T19:59:32+00:00,21.8,walmart-collector replay --run 01M69XM9RZN3C8D0K7W2NSXR3D,0,-1,011_replay_S2.jsonl
+12,status_S2,2026-11-01T19:59:32+00:00,2026-11-01T19:59:36+00:00,4.2,walmart-collector status --run 01M6CB3MHNMJK74SR3691XVSHS,0,0,012_status_S2.jsonl
+13,validate_export_S2,2026-11-01T19:59:36+00:00,2026-11-01T19:59:41+00:00,5.0,walmart-collector validate-export --run 01M6CB3MHNMJK74SR3691XVSHS,0,-1,013_validate_export_S2.jsonl
+14,export_S2,2026-11-01T19:59:41+00:00,2026-11-01T19:59:44+00:00,2.7,walmart-collector export --run 01M6CB3MHNMJK74SR3691XVSHS --out C:\w7\ev152\final_a1\runs\S2\exports,0,0,014_export_S2.jsonl
+15,field_dispositions_S2,2026-11-01T19:59:44+00:00,2026-11-01T19:59:46+00:00,2.5,walmart-collector field-dispositions --run 01M6CB3MHNMJK74SR3691XVSHS --csv C:\w7\ev152\final_a1\runs\S2\field_dispositions_01M6CB3MHNMJK74SR3691XVSHS.csv,0,0,015_field_dispositions_S2.jsonl
+16,coverage_S2,2026-11-01T19:59:46+00:00,2026-11-01T19:59:49+00:00,2.6,walmart-collector coverage-report --run 01M6CB3MHNMJK74SR3691XVSHS --out C:\w7\ev152\final_a1\runs\S2\coverage,0,0,016_coverage_S2.jsonl
+17,replay_S3,2026-11-01T19:59:49+00:00,2026-11-01T20:00:09+00:00,20.6,walmart-collector replay --run 01M69Y1J6YWFEZ1DJHAC2MT17M,0,-1,017_replay_S3.jsonl
+18,status_S3,2026-11-01T20:00:09+00:00,2026-11-01T20:00:12+00:00,2.6,walmart-collector status --run 01M6CB4TFKJA8VZR477ZZG0WM1,0,0,018_status_S3.jsonl
+19,validate_export_S3,2026-11-01T20:00:12+00:00,2026-11-01T20:00:16+00:00,3.5,walmart-collector validate-export --run 01M6CB4TFKJA8VZR477ZZG0WM1,0,-1,019_validate_export_S3.jsonl
+20,export_S3,2026-11-01T20:00:16+00:00,2026-11-01T20:00:18+00:00,2.7,walmart-collector export --run 01M6CB4TFKJA8VZR477ZZG0WM1 --out C:\w7\ev152\final_a1\runs\S3\exports,0,0,020_export_S3.jsonl
+21,field_dispositions_S3,2026-11-01T20:00:18+00:00,2026-11-01T20:00:22+00:00,3.4,walmart-collector field-dispositions --run 01M6CB4TFKJA8VZR477ZZG0WM1 --csv C:\w7\ev152\final_a1\runs\S3\field_dispositions_01M6CB4TFKJA8VZR477ZZG0WM1.csv,0,0,021_field_dispositions_S3.jsonl
+22,coverage_S3,2026-11-01T20:00:22+00:00,2026-11-01T20:00:24+00:00,2.8,walmart-collector coverage-report --run 01M6CB4TFKJA8VZR477ZZG0WM1 --out C:\w7\ev152\final_a1\runs\S3\coverage,0,0,022_coverage_S3.jsonl
+23,replay_S4,2026-11-01T20:00:24+00:00,2026-11-01T20:01:11+00:00,46.7,walmart-collector replay --run 01M69Y882GTVYRJZM0CXQ44MXN,0,-1,023_replay_S4.jsonl
+24,status_S4,2026-11-01T20:01:11+00:00,2026-11-01T20:01:14+00:00,2.7,walmart-collector status --run 01M6CB5X64C1NCDN9PMKBTD1MV,0,0,024_status_S4.jsonl
+25,validate_export_S4,2026-11-01T20:01:14+00:00,2026-11-01T20:01:20+00:00,6.1,walmart-collector validate-export --run 01M6CB5X64C1NCDN9PMKBTD1MV,0,-1,025_validate_export_S4.jsonl
+26,export_S4,2026-11-01T20:01:20+00:00,2026-11-01T20:01:26+00:00,5.6,walmart-collector export --run 01M6CB5X64C1NCDN9PMKBTD1MV --out C:\w7\ev152\final_a1\runs\S4\exports,0,0,026_export_S4.jsonl
+27,field_dispositions_S4,2026-11-01T20:01:26+00:00,2026-11-01T20:01:29+00:00,3.2,walmart-collector field-dispositions --run 01M6CB5X64C1NCDN9PMKBTD1MV --csv C:\w7\ev152\final_a1\runs\S4\field_dispositions_01M6CB5X64C1NCDN9PMKBTD1MV.csv,0,0,027_field_dispositions_S4.jsonl
+28,coverage_S4,2026-11-01T20:01:29+00:00,2026-11-01T20:01:32+00:00,3.4,walmart-collector coverage-report --run 01M6CB5X64C1NCDN9PMKBTD1MV --out C:\w7\ev152\final_a1\runs\S4\coverage,0,0,028_coverage_S4.jsonl
+29,replay_S5b_serial,2026-11-01T20:01:32+00:00,2026-11-01T20:01:54+00:00,21.4,walmart-collector replay --run 01M69YPZTFCP7AWJ5B78AXEA2N,6,-1,029_replay_S5b_serial.jsonl
+30,status_S5b_serial,2026-11-01T20:01:54+00:00,2026-11-01T20:01:56+00:00,2.6,walmart-collector status --run 01M6CB7ZF0QQ4CMXFXJ8YKRRZC,0,0,030_status_S5b_serial.jsonl
+31,validate_export_S5b_serial,2026-11-01T20:01:56+00:00,2026-11-01T20:02:01+00:00,4.8,walmart-collector validate-export --run 01M6CB7ZF0QQ4CMXFXJ8YKRRZC,0,-1,031_validate_export_S5b_serial.jsonl
+32,export_S5b_serial,2026-11-01T20:02:01+00:00,2026-11-01T20:02:04+00:00,2.5,walmart-collector export --run 01M6CB7ZF0QQ4CMXFXJ8YKRRZC --out C:\w7\ev152\final_a1\runs\S5b_serial\exports,0,0,032_export_S5b_serial.jsonl
+33,field_dispositions_S5b_serial,2026-11-01T20:02:04+00:00,2026-11-01T20:02:08+00:00,4.4,walmart-collector field-dispositions --run 01M6CB7ZF0QQ4CMXFXJ8YKRRZC --csv C:\w7\ev152\final_a1\runs\S5b_serial\field_dispositions_01M6CB7ZF0QQ4CMXFXJ8YKRRZC.csv,0,0,033_field_dispositions_S5b_serial.jsonl
+34,coverage_S5b_serial,2026-11-01T20:02:08+00:00,2026-11-01T20:02:11+00:00,2.8,walmart-collector coverage-report --run 01M6CB7ZF0QQ4CMXFXJ8YKRRZC --out C:\w7\ev152\final_a1\runs\S5b_serial\coverage,0,0,034_coverage_S5b_serial.jsonl
+35,replay_S5b_parallel,2026-11-01T20:02:11+00:00,2026-11-01T20:02:31+00:00,20.4,walmart-collector replay --run 01M69YS2X0YG5JSEMCGKK8BHE5,6,-1,035_replay_S5b_parallel.jsonl
+36,status_S5b_parallel,2026-11-01T20:02:31+00:00,2026-11-01T20:02:34+00:00,2.7,walmart-collector status --run 01M6CB9501B3R09JZW0F8EJE3B,0,0,036_status_S5b_parallel.jsonl
+37,validate_export_S5b_parallel,2026-11-01T20:02:34+00:00,2026-11-01T20:02:39+00:00,5.1,walmart-collector validate-export --run 01M6CB9501B3R09JZW0F8EJE3B,0,-1,037_validate_export_S5b_parallel.jsonl
+38,export_S5b_parallel,2026-11-01T20:02:39+00:00,2026-11-01T20:02:41+00:00,2.5,walmart-collector export --run 01M6CB9501B3R09JZW0F8EJE3B --out C:\w7\ev152\final_a1\runs\S5b_parallel\exports,0,0,038_export_S5b_parallel.jsonl
+39,field_dispositions_S5b_parallel,2026-11-01T20:02:41+00:00,2026-11-01T20:02:47+00:00,5.6,walmart-collector field-dispositions --run 01M6CB9501B3R09JZW0F8EJE3B --csv C:\w7\ev152\final_a1\runs\S5b_parallel\field_dispositions_01M6CB9501B3R09JZW0F8EJE3B.csv,0,0,039_field_dispositions_S5b_parallel.jsonl
+40,coverage_S5b_parallel,2026-11-01T20:02:47+00:00,2026-11-01T20:02:51+00:00,3.9,walmart-collector coverage-report --run 01M6CB9501B3R09JZW0F8EJE3B --out C:\w7\ev152\final_a1\runs\S5b_parallel\coverage,0,0,040_coverage_S5b_parallel.jsonl
+41,replay_S5a,2026-11-01T20:02:51+00:00,2026-11-01T20:03:13+00:00,22.5,walmart-collector replay --run 01M6A0JWYHTVK7XFH34P235F9Q,6,-1,041_replay_S5a.jsonl
+42,status_S5a,2026-11-01T20:03:13+00:00,2026-11-01T20:03:16+00:00,2.5,walmart-collector status --run 01M6CBACH0WSTZ26XZY0VHZKZZ,0,0,042_status_S5a.jsonl
+43,validate_export_S5a,2026-11-01T20:03:16+00:00,2026-11-01T20:03:21+00:00,5.3,walmart-collector validate-export --run 01M6CBACH0WSTZ26XZY0VHZKZZ,0,-1,043_validate_export_S5a.jsonl
+44,export_S5a,2026-11-01T20:03:21+00:00,2026-11-01T20:03:24+00:00,2.7,walmart-collector export --run 01M6CBACH0WSTZ26XZY0VHZKZZ --out C:\w7\ev152\final_a1\runs\S5a\exports,0,0,044_export_S5a.jsonl
+45,field_dispositions_S5a,2026-11-01T20:03:24+00:00,2026-11-01T20:03:28+00:00,4.7,walmart-collector field-dispositions --run 01M6CBACH0WSTZ26XZY0VHZKZZ --csv C:\w7\ev152\final_a1\runs\S5a\field_dispositions_01M6CBACH0WSTZ26XZY0VHZKZZ.csv,0,0,045_field_dispositions_S5a.jsonl
+46,coverage_S5a,2026-11-01T20:03:28+00:00,2026-11-01T20:03:31+00:00,2.6,walmart-collector coverage-report --run 01M6CBACH0WSTZ26XZY0VHZKZZ --out C:\w7\ev152\final_a1\runs\S5a\coverage,0,0,046_coverage_S5a.jsonl
+47,replay_S6,2026-11-01T20:03:31+00:00,2026-11-01T20:04:11+00:00,39.9,walmart-collector replay --run 01M6A2VQAA5VXJHJHMZPCTZTD4,0,-1,047_replay_S6.jsonl
+48,status_S6,2026-11-01T20:04:11+00:00,2026-11-01T20:04:14+00:00,2.8,walmart-collector status --run 01M6CBBKK60YBBVN6G7KVH2C9A,0,0,048_status_S6.jsonl
+49,validate_export_S6,2026-11-01T20:04:14+00:00,2026-11-01T20:04:20+00:00,5.8,walmart-collector validate-export --run 01M6CBBKK60YBBVN6G7KVH2C9A,0,-1,049_validate_export_S6.jsonl
+50,export_S6,2026-11-01T20:04:20+00:00,2026-11-01T20:04:22+00:00,2.6,walmart-collector export --run 01M6CBBKK60YBBVN6G7KVH2C9A --out C:\w7\ev152\final_a1\runs\S6\exports,0,0,050_export_S6.jsonl
+51,field_dispositions_S6,2026-11-01T20:04:22+00:00,2026-11-01T20:04:25+00:00,3.2,walmart-collector field-dispositions --run 01M6CBBKK60YBBVN6G7KVH2C9A --csv C:\w7\ev152\final_a1\runs\S6\field_dispositions_01M6CBBKK60YBBVN6G7KVH2C9A.csv,0,0,051_field_dispositions_S6.jsonl
+52,coverage_S6,2026-11-01T20:04:25+00:00,2026-11-01T20:04:28+00:00,3.1,walmart-collector coverage-report --run 01M6CBBKK60YBBVN6G7KVH2C9A --out C:\w7\ev152\final_a1\runs\S6\coverage,0,0,052_coverage_S6.jsonl
+53,replay_S7,2026-11-01T20:04:28+00:00,2026-11-01T20:04:48+00:00,19.9,walmart-collector replay --run 01M6A52HA6XYCEDS6DBE5N5RQ7,6,-1,053_replay_S7.jsonl
+54,status_S7,2026-11-01T20:04:48+00:00,2026-11-01T20:04:51+00:00,2.6,walmart-collector status --run 01M6CBDBPPQQJZY92NVNH51N47,0,0,054_status_S7.jsonl
+55,validate_export_S7,2026-11-01T20:04:51+00:00,2026-11-01T20:04:57+00:00,5.6,walmart-collector validate-export --run 01M6CBDBPPQQJZY92NVNH51N47,0,-1,055_validate_export_S7.jsonl
+56,export_S7,2026-11-01T20:04:57+00:00,2026-11-01T20:04:59+00:00,2.5,walmart-collector export --run 01M6CBDBPPQQJZY92NVNH51N47 --out C:\w7\ev152\final_a1\runs\S7\exports,0,0,056_export_S7.jsonl
+57,field_dispositions_S7,2026-11-01T20:04:59+00:00,2026-11-01T20:05:04+00:00,4.6,walmart-collector field-dispositions --run 01M6CBDBPPQQJZY92NVNH51N47 --csv C:\w7\ev152\final_a1\runs\S7\field_dispositions_01M6CBDBPPQQJZY92NVNH51N47.csv,0,0,057_field_dispositions_S7.jsonl
+58,coverage_S7,2026-11-01T20:05:04+00:00,2026-11-01T20:05:06+00:00,2.7,walmart-collector coverage-report --run 01M6CBDBPPQQJZY92NVNH51N47 --out C:\w7\ev152\final_a1\runs\S7\coverage,0,0,058_coverage_S7.jsonl
+59,status_after,2026-11-01T20:05:06+00:00,2026-11-01T20:05:09+00:00,2.4,walmart-collector status --limit 30,0,0,059_status_after.jsonl
+60,follow_ups_all,2026-11-01T20:05:09+00:00,2026-11-01T20:05:11+00:00,2.8,walmart-collector follow-ups --store walmart-3891-pickup --state all,0,0,060_follow_ups_all.jsonl

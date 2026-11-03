@@ -1,0 +1,36 @@
+# Walmart private-label brands for store_brand ("yes" when a product's brand, or its title's leading brand,
+# is one of these; otherwise the default "no"). Seed list, 2026-10-20: the Walmart brands named on
+# https://en.wikipedia.org/wiki/List_of_Walmart_brands that sell in the client's Walmart categories
+# (food, household, personal care, beauty, baby, health, pets, party, art and office supplies).
+# Not client-confirmed. A brand joins this list on the record of its mark at the USPTO, never on a third-party
+# list; what stays uncertain stays "no". Evidence and its limits: docs/PRIVATE_LABEL.md.
+brands:
+  - Great Value
+  - Marketside
+  - "Sam's Choice"
+  - bettergoods
+  - Freshness Guaranteed
+  - Equate
+  - Equate Beauty
+  - Spring Valley
+  - "Parent's Choice"
+  - "Ol' Roy"
+  - "Ol'Roy"  # the brand as Walmart's own page data writes it
+  - Way to Celebrate
+  - Way To Celebrate!
+  - Pen+Gear
+  - Pen + Gear
+  - Hello Hobby
+  - Mainstays
+  # Release 1.5.2: the USPTO's records name Walmart Apollo, LLC as current owner (read 2026-11-01).
+  - Prima Della
+  - Clear American
+  - ReliOn
+  - Special Kitty
+  - Vibrant Life
+  - Pure Balance
+  - Pure Balance Pro+
+  # A title that opens with a descriptive word before the brand (authentic titles, release 1.5.1).
+  - Organic Marketside
+  - "Children's Equate"
+upc_prefix_signals: []   # none known for Walmart's brands

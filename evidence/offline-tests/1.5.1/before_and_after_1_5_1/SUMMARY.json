@@ -1,0 +1,35 @@
+{
+ "class": "OFFLINE (unit and PostgreSQL integration tests; no provider request, proxies pointed at a closed port)",
+ "before": "7b6f3258e0f4ab755732605eb88717c592d07073",
+ "after": "488a033fc22d09db9f6270feae274d8c77963d6f",
+ "test_files": [
+  "tests/unit/test_pack_size.py",
+  "tests/unit/test_private_label.py",
+  "tests/unit/test_walmart.py",
+  "tests/integration/test_detail_path.py"
+ ],
+ "tests": 182,
+ "new_in_1_5_1": 42,
+ "new_failing_on_1_5_0": 28,
+ "new_passing_on_1_5_0": [
+  "tests.unit.test_private_label::test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(2 pack) Pure Balance Pro+ Large Breed Chicken & Brown Rice Recipe Dry Dog Food, 16 lbs-no]",
+  "tests.unit.test_private_label::test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag-no]",
+  "tests.unit.test_private_label::test_a_title_that_only_mentions_a_listed_brand_further_along_is_no_signal",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[(2-Pack) Example Soda, 2 Pack, 12 oz-2 Pack, 12 oz-trailing_segments-candidates2]",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[Example 1-Pack Soap, 12 oz-12 oz-trailing_segments-candidates4]",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[Example Family Pack Soap, 12 oz-12 oz-trailing_segments-candidates8]",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[Example Model#2-Pack Soap, 12 oz-12 oz-trailing_segments-candidates7]",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[Example Paste, 4 oz (Pack of 4)-4 oz (Pack of 4)-trailing_segments-candidates0]",
+  "tests.unit.test_walmart::test_the_limits_of_keeping_a_multipack_beside_the_size[Example Soda, 12 fl oz, 12 Pack Cans-12 fl oz, 12 Pack Cans-trailing_segments-candidates1]",
+  "tests.unit.test_walmart::test_the_limits_of_what_is_not_the_size_of_a_package[Example Aluminum Foil, 75 sq ft-75 sq ft-trailing_segments]",
+  "tests.unit.test_walmart::test_the_limits_of_what_is_not_the_size_of_a_package[Example Detergent 50 fl oz, 32 oz, 20 Loads-32 oz, 20 Loads-trailing_segments]",
+  "tests.unit.test_walmart::test_the_limits_of_what_is_not_the_size_of_a_package[Example Ibuprofen 200 mg, 24 Count-24 Count-trailing_segments]",
+  "tests.unit.test_walmart::test_the_limits_of_what_is_not_the_size_of_a_package[Example Ibuprofen Tablets, 200 mg-200 mg-trailing_segments]",
+  "tests.unit.test_walmart::test_the_limits_of_what_is_not_the_size_of_a_package[Example Potty Seat Refill 50 Pounds-50 Pounds-in_title]"
+ ],
+ "existing_changed_outcome": [
+  "tests.unit.test_walmart::test_a_size_segment_ends_where_the_products_description_begins[(6 pack) StarKist Chicken Creations, Chicken Salad, Gluten Free, 10g Protein, 2.6 oz Pouch-10g Protein, 2.6 oz Pouch-6 pack, 2.6 oz Pouch]"
+ ],
+ "all_passing_on_1_5_1": true,
+ "not_passing_on_1_5_1": []
+}

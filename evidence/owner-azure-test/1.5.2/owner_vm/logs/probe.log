@@ -1,0 +1,66 @@
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: .venv
+   Building oxylabs-classic-probe @ file:///home/azureuser/v152/probe/oxylabs-classic-offline-probe-1.5.2/oxylabs-classic-probe
+      Built oxylabs-classic-probe @ file:///home/azureuser/v152/probe/oxylabs-classic-offline-probe-1.5.2/oxylabs-classic-probe
+Prepared 1 package in 597ms
+Installed 14 packages in 17ms
+ + ast-serialize==0.13.1
+ + iniconfig==2.3.1
+ + librt==0.16.0
+ + mypy==2.4.0
+ + mypy-extensions==1.1.0
+ + oxylabs-classic-probe==1.5.2 (from file:///home/azureuser/v152/probe/oxylabs-classic-offline-probe-1.5.2/oxylabs-classic-probe)
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.7.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + ruff==0.17.1
+ + selectolax==1.0.1
+ + typing-extensions==4.16.0
+.......................................................................s [100%]
+	Command being timed: "uv run --frozen pytest -q --no-header"
+	User time (seconds): 4.97
+	System time (seconds): 0.40
+	Percent of CPU this job got: 37%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:14.48
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 80640
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 109151
+	Voluntary context switches: 4967
+	Involuntary context switches: 425
+	Swaps: 0
+	File system inputs: 6904
+	File system outputs: 41352
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+   "step": "walmart-search-p1"
+	Maximum resident set size (kbytes): 28220
+  ]
+ }
+}
+ "manifest": "/home/azureuser/v152/probe/campaign.json",
+ "offline": true
+}
+ "live": "refused",
+ "missing": [
+  "live mode is disabled in this build (a later, separately approved version may enable it)",
+  "credentials: not checked while live mode is disabled",
+  "this ledger is an offline test ledger: it never authorizes a provider request",
+  "no explicit approval",
+  "the account's target entitlement is not verified",
+  "the account's maximum billing rates are not confirmed",
+  "credentials are not present"
+ ],
+ "nothing was sent": true
+}
+live exit 3 (3 expected: refused)
+100M	/home/azureuser/v152/probe/oxylabs-classic-offline-probe-1.5.2/oxylabs-classic-probe

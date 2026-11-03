@@ -1,0 +1,268 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M69Y1J6YWFEZ1DJHAC2MT17M",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-10-31T21:34:05.902692Z",
+  "record_count": 319,
+  "fresh_record_count": 116,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/products.json",
+      "sha256": "ed12e3f541c8bd5760ff46a6e7a20856fefdb9bc6e35fdc78bb27be27f779ad5",
+      "size": 381367
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/products.csv",
+      "sha256": "de0390aa2ae3145831f1f08ef4129f1ea0f138085b1046f24f428cdc0adba43e",
+      "size": 226235
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/memberships.json",
+      "sha256": "56692fda0413aa3c228d544208941b822cec3fadd8398057a40a48db5dc72853",
+      "size": 31961
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/provenance.json",
+      "sha256": "90f7e6e23bf98ba9abc7f503c1a8a178708b8ae9f0d3c4b1986fd56238c275bb",
+      "size": 1539331
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/validation_report.json",
+      "sha256": "cc5e6b13a9b1855db799a93ef99adf2627e14afbfac3ffa5af57ea356267692b",
+      "size": 3140
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/products_fresh.json",
+      "sha256": "0014474915dcc0626968c0e6bcaf3064a13148a03fe6911e7532ecfd53dd4a4c",
+      "size": 150619
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/products_fresh.csv",
+      "sha256": "fc79b9d9770460a19611a3af8ae6e6a5b646174eed6ca73a152f0054e5e6085f",
+      "size": 94380
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/record_map.json",
+      "sha256": "498f960c7b2db6bf4d06d26e1e722322b910c28a1e865017b7e26ee92d21493c",
+      "size": 2878272
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/field_dispositions.json",
+      "sha256": "f4de97e70d4193be891c04826bf2419492d71819c60a1827adf4e99b6b807a8f",
+      "size": 315518
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y1J6YWFEZ1DJHAC2MT17M/exports/field_dispositions.csv",
+      "sha256": "6af3b1ee172faa30f3fefcafec53e810049ece5fd151ad6ee0de7e26c0ba2e87",
+      "size": 177896
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+      "source": "build_info",
+      "version": "1.5.0",
+      "built_at": "2026-10-31T20:51:17+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies",
+          "kind": "landing",
+          "only": [
+            "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+          ],
+          "category": "Pets",
+          "excluded": [
+            "Farm Animals"
+          ],
+          "row_index": 7,
+          "taxonomy_id": "5440",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRH"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w7\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        7
+      ],
+      "subcategories": {
+        "7": [
+          "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+        ]
+      },
+      "follow_up_pages": 0,
+      "max_run_minutes": 15,
+      "pilot_detail_pages": 3,
+      "max_credits_per_run": 12,
+      "max_pages_per_listing": 8
+    },
+    "collection": {
+      "detail": {
+        "enabled": true,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": 3,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 15,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 12,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 8,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [],
+        "variants": true,
+        "max_pages": 0,
+        "sponsored": true
+      },
+      "categories": [
+        7
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "7": [
+          "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.max_per_run": 3,
+      "follow_up.max_pages": 0,
+      "limits.max_pages_per_listing": 8
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.5.0"
+  },
+  "site_version": "walmart-next"
+}

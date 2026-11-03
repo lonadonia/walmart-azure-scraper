@@ -1,0 +1,14 @@
+# Walmart stores. location_id is the Walmart store number; expected.* are labels checked against
+# Walmart's own store page and page data at run time (the records take the name and address from Walmart,
+# never from this file). The same store collected for two fulfillment modes is two entries.
+stores:
+  - key: walmart-3891-pickup
+    retailer: walmart
+    enabled: true
+    location_id: "3891"
+    store_number: "3891"
+    expected: { display_name: "Walmart #3891 Waukegan", postal_code: "60085", address_line1: "3900 Fountain Square Pl" }
+    modality: PICKUP
+    timezone: America/Chicago
+    store_page_url: https://www.walmart.com/store/3891-waukegan-il
+    notes: Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.

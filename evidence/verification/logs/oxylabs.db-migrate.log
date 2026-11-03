@@ -1,0 +1,40 @@
+[
+ {
+  "args": [
+   "db-upgrade"
+  ],
+  "exit": 0,
+  "tail": "{\"ts\": \"2026-11-02T00:50:36.382Z\", \"level\": \"INFO\", \"event\": \"RESULT\", \"collector\": \"walmart-azure-headless\", \"command\": \"db-upgrade\", \"exit_code\": 0, \"result\": {\"before\": null, \"after\": \"0006\"}}\n"
+ },
+ {
+  "args": [
+   "db-upgrade"
+  ],
+  "exit": 0,
+  "tail": "{\"ts\": \"2026-11-02T00:50:39.067Z\", \"level\": \"INFO\", \"event\": \"RESULT\", \"collector\": \"walmart-azure-headless\", \"command\": \"db-upgrade\", \"exit_code\": 0, \"result\": {\"before\": \"0006\", \"after\": \"0006\"}}\n"
+ },
+ {
+  "args": [
+   "validate-config",
+   "--check-db"
+  ],
+  "exit": 0,
+  "tail": " \"source\": null, \"api\": \"Oxylabs Web API (Bearer key); the Classic Web Scraper API is another product\"}}, \"database\": {\"revision\": \"0006\", \"head\": \"0006\", \"current\": true}, \"code\": {\"version\": \"1.5.2\", \"derived_from\": \"mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)\", \"commit\": \"627c804d66aa33fc423fd2296c8896c5d5c2c3d4\", \"source\": \"build_info\", \"built_at\": \"2026-11-01T19:52:28+00:00\"}}}\n"
+ },
+ {
+  "args": [
+   "sync-config"
+  ],
+  "exit": 0,
+  "tail": "{\"ts\": \"2026-11-02T00:50:44.498Z\", \"level\": \"INFO\", \"event\": \"RESULT\", \"collector\": \"walmart-azure-headless\", \"command\": \"sync-config\", \"exit_code\": 0, \"result\": {\"stores\": {\"inserted\": 1, \"updated\": 0, \"disabled\": 0}, \"categories\": {\"inserted\": 11, \"updated\": 0, \"disabled\": 0, \"csv_sha256\": \"65127cf3cd48f967ea3db0c4dd2be67de3f2ac1f6b60aef406c0778c999f3640\"}}}\n"
+ },
+ {
+  "args": [
+   "status",
+   "--store",
+   "walmart-3891-pickup"
+  ],
+  "exit": 0,
+  "tail": "{\"ts\": \"2026-11-02T00:50:47.244Z\", \"level\": \"INFO\", \"event\": \"RESULT\", \"collector\": \"walmart-azure-headless\", \"command\": \"status\", \"exit_code\": 0, \"result\": {\"stores\": [{\"store\": \"walmart-3891-pickup\", \"in_database\": true, \"hold\": null, \"runs\": [], \"published\": null}], \"provider\": {\"key_configured\": false, \"keys\": [], \"charged_total\": 0.0, \"charged_uncertain\": 0.0}}}\n"
+ }
+]

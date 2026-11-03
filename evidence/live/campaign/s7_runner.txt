@@ -1,0 +1,4 @@
+started 2026-10-31T23:35:10.848+00:00
+step 79 s7_ceiling: exit 0 (expected 0) in 2.7 s
+step 80 s7_run: exit 4 (expected -1) in 85.8 s
+S7 run 01M6A52HA6XYCEDS6DBE5N5RQ7

@@ -1,0 +1,68 @@
+{
+ "export": "C:\\w7\\ev152\\final_a1\\runs\\S2\\exports",
+ "rows": 203,
+ "problems": {},
+ "examples": {},
+ "combinations": [
+  [
+   "upc | imported page hash: of the page, index: of the file",
+   133
+  ],
+  [
+   "upc | read_again: the fetch is the replay's read of the source run's page",
+   14
+  ],
+  [
+   "upc | replayed | not_attempted | None | ?",
+   55
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | fetched | LIVE",
+   1
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | imported | ?",
+   133
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | read_again | LIVE",
+   14
+  ],
+  [
+   "weight | imported page hash: of the page, index: of the file",
+   24
+  ],
+  [
+   "weight | read_again: the fetch is the replay's read of the source run's page",
+   1
+  ],
+  [
+   "weight | replayed | absent_in_source | imported | ?",
+   6
+  ],
+  [
+   "weight | replayed | absent_in_source | read_again | LIVE",
+   1
+  ],
+  [
+   "weight | replayed | not_attempted | None | ?",
+   8
+  ],
+  [
+   "weight | replayed | present_in_listing | None | LIVE",
+   169
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | imported | ?",
+   15
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | read_again | LIVE",
+   1
+  ],
+  [
+   "weight | replayed | unresolved_conflict | imported | ?",
+   3
+  ]
+ ]
+}

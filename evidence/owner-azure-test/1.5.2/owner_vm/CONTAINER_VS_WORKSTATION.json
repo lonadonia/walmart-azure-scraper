@@ -1,0 +1,647 @@
+{
+ "S1": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 10,
+   "lines_a": 284,
+   "lines_b": 284,
+   "first": [
+    [
+     "      \"sha256\": \"74de312eb7552d4f2efe131651d7c293e0980f6222c869d716f36fb3b0e98d8d\",",
+     "      \"sha256\": \"450e23435b74c3c87cdc44f0d4234230d5bedb41c5c49975efc0808ffe296867\","
+    ],
+    [
+     "      \"size\": 488009",
+     "      \"size\": 488010"
+    ],
+    [
+     "      \"sha256\": \"70fa04ba299a1a6ad85aa6208bd3aee81db14e0f3f2c5fd31e71ff1d68548f5d\",",
+     "      \"sha256\": \"17d4cf8f1e105838fa4b4aad5ed66a5417c282ff949f326cb6980d9c4f251b70\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 2,
+   "lines_a": 11936,
+   "lines_b": 11936,
+   "first": [
+    [
+     "      \"active_s\": 1.3,",
+     "      \"active_s\": 0.5,"
+    ],
+    [
+     "        \"active_s\": 1.2810000000026776,",
+     "        \"active_s\": 0.47032840497558936,"
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 36,
+   "lines_a": 8870,
+   "lines_b": 8870,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S2": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 10,
+   "lines_a": 617,
+   "lines_b": 617,
+   "first": [
+    [
+     "      \"sha256\": \"e2f0b74ebe45e125581ade7b604b91b894ac63da6c5c4cd963fde8a4b390263d\",",
+     "      \"sha256\": \"b3893e8d8e25f282e8d614c724708a460cc6421fa7ef8577bdc2a3a7480d23d3\","
+    ],
+    [
+     "      \"size\": 2944371",
+     "      \"size\": 2944372"
+    ],
+    [
+     "      \"sha256\": \"b30cc7f963cba411b9d91f883470bb71f8e9fc05f2e27e113ba09bae0b9d5a71\",",
+     "      \"sha256\": \"348a4e8f21740f37d64fc36646ac871094859a1e2c06da94febde059aa12d467\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 2,
+   "lines_a": 71201,
+   "lines_b": 71201,
+   "first": [
+    [
+     "      \"active_s\": 9.6,",
+     "      \"active_s\": 4.6,"
+    ],
+    [
+     "        \"active_s\": 9.64100000000326,",
+     "        \"active_s\": 4.625080218014773,"
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 204,
+   "lines_a": 49019,
+   "lines_b": 49019,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S3": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 9,
+   "lines_a": 285,
+   "lines_b": 285,
+   "first": [
+    [
+     "      \"sha256\": \"2a09f400d85ee15fe3d930be65dbbc618c2ce1ed2285246adc3eb82c016ba7bf\",",
+     "      \"sha256\": \"901e393d5b30830d206def7ac5a976ddfe3c0396f57ac621e12ec365f14025eb\","
+    ],
+    [
+     "      \"sha256\": \"e52d6b6f389b9bb5afeada0fa13bcdf4f6e25099820e56f066fc009a1947fce7\",",
+     "      \"sha256\": \"ba01698923d62deeb417514fa3c9ce8d6b42061308bc9f28932839f5b2457c3a\","
+    ],
+    [
+     "      \"sha256\": \"1e1788db77dc60f0f008b3f8621696dbc03f3bcb78036e406f2c4aaead5e333c\",",
+     "      \"sha256\": \"be330998546fe8f12d8b1096641229d780d057621b45913ddbc2f363cf00fda9\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 2,
+   "lines_a": 67548,
+   "lines_b": 67548,
+   "first": [
+    [
+     "      \"active_s\": 8.2,",
+     "      \"active_s\": 3.8,"
+    ],
+    [
+     "        \"active_s\": 8.171000000002095,",
+     "        \"active_s\": 3.845675697957631,"
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 320,
+   "lines_a": 74940,
+   "lines_b": 74940,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S4": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 10,
+   "lines_a": 378,
+   "lines_b": 378,
+   "first": [
+    [
+     "      \"sha256\": \"6abb625cd012bb3eeda9725a312737b6ffce2cadb550959512a00c4224b92a46\",",
+     "      \"sha256\": \"b04b3c52ccbbe36969ce6bcca97f3ad3378e73baf93088f377d43bce39fdd4d1\","
+    ],
+    [
+     "      \"size\": 8741603",
+     "      \"size\": 8742460"
+    ],
+    [
+     "      \"sha256\": \"4d229cc2c3cf784932e4ce14db7bdd6aaaea8abb8c7ebe698ca8bcae6db82505\",",
+     "      \"sha256\": \"5a32f46abb29722d38ea700c027dd10da712f42a65518754007be8b7c7b0af00\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 211139,
+   "lines_a": 211189,
+   "lines_b": 211221,
+   "first": [
+    [
+     "      \"state\": \"open\",",
+     "      \"state\": \"closed\","
+    ],
+    [
+     "      \"ended_at\": null,",
+     "      \"ended_at\": \"T\","
+    ],
+    [
+     "      \"end_observed\": false,",
+     "      \"end_observed\": true,"
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 2853,
+   "lines_a": 166807,
+   "lines_b": 166807,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S5a": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 9,
+   "lines_a": 287,
+   "lines_b": 287,
+   "first": [
+    [
+     "      \"sha256\": \"ee3137375baf03fa4262042ac0be32cb722228b235f346d0d72ab4a9fdd311ac\",",
+     "      \"sha256\": \"defa1747f34622a074dfb5c4ab9115644e739bf33a3c609eabf696e089733671\","
+    ],
+    [
+     "      \"sha256\": \"c4479ba1e724f53174b3b65ed0f6af2003cb048857b569e08cee7931c16ac709\",",
+     "      \"sha256\": \"a4b9550413dfc632e3a2490683fb1aca42e6ee010d13faca2c381b668aab8a0f\","
+    ],
+    [
+     "      \"sha256\": \"68c596d5cef7f7ba29779f717455e781a44bc58a8d3fe2a5bed36dd54f2f2a6c\",",
+     "      \"sha256\": \"a50302c5436315607b89708eeaacb67bb30f095a55a62882cb5956723560c3db\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 1146,
+   "lines_a": 127559,
+   "lines_b": 127559,
+   "first": [
+    [
+     "      \"active_s\": 3.5,",
+     "      \"active_s\": 1.2,"
+    ],
+    [
+     "        \"active_s\": 3.452999999994063,",
+     "        \"active_s\": 1.199342105013784,"
+    ],
+    [
+     "          \"fetch_id\": \"ID6\",",
+     "          \"fetch_id\": \"ID55\","
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 2495,
+   "lines_a": 163975,
+   "lines_b": 163975,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S5b_parallel": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 9,
+   "lines_a": 301,
+   "lines_b": 301,
+   "first": [
+    [
+     "      \"sha256\": \"46e0ff681877600249f6ef3bb615b86debb7979c27eacc38c089b22cf1ef469f\",",
+     "      \"sha256\": \"e54f64c5ebf35440ded26d1386d509385cda304703bb61c3459f869762c1dfd0\","
+    ],
+    [
+     "      \"sha256\": \"900c92a2c99bdbe05bf8dc7ef52f64ed80626784c7892cb0b89f03cc6fb24076\",",
+     "      \"sha256\": \"b330887c0b89be9e7a6e23aed7ed4de4ac6552521174ec95b9ea5ce469894e3d\","
+    ],
+    [
+     "      \"sha256\": \"70414310fdb6dc78f2e3bec7f74f628be345ac0b154acef5aba0d2f0cc70dcdf\",",
+     "      \"sha256\": \"a56153216b1daf9e544c4c57783255b4a50ea590c06a2fffdba978e6ebaab43c\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 1134,
+   "lines_a": 122391,
+   "lines_b": 122391,
+   "first": [
+    [
+     "      \"active_s\": 2.0,",
+     "      \"active_s\": 1.0,"
+    ],
+    [
+     "        \"active_s\": 1.9689999999973224,",
+     "        \"active_s\": 1.0103394959587604,"
+    ],
+    [
+     "          \"fetch_id\": \"ID6\",",
+     "          \"fetch_id\": \"ID52\","
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 2635,
+   "lines_a": 163923,
+   "lines_b": 163923,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S5b_serial": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 9,
+   "lines_a": 301,
+   "lines_b": 301,
+   "first": [
+    [
+     "      \"sha256\": \"38efe77f79670e904a0bd9bb7e2288f8370ca5cc7d17e277bf16584aaae35554\",",
+     "      \"sha256\": \"a25ea627ec2c446541c9ba480f323996a08d3030ad55b816534579c82b62b1a3\","
+    ],
+    [
+     "      \"sha256\": \"046409f95a681b3ce4d721a2fd7ce9f56e6b2ab8effe819a18378e5cdee67785\",",
+     "      \"sha256\": \"7467155fe75fdbcf1bb65879734a3d460ba82dd92d6cd05e7179bff16bf9b42b\","
+    ],
+    [
+     "      \"sha256\": \"c2de77fc371284809ae61d93e84945830c3d782f7bee48a7c82a44dcdb4db136\",",
+     "      \"sha256\": \"6e134947070b3ba1577a39dbb65e6780060678f2775dcfd7d6a0f193d0cbf5db\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 1134,
+   "lines_a": 122402,
+   "lines_b": 122402,
+   "first": [
+    [
+     "      \"active_s\": 2.2,",
+     "      \"active_s\": 1.0,"
+    ],
+    [
+     "        \"active_s\": 2.1719999999913853,",
+     "        \"active_s\": 0.9716338889556937,"
+    ],
+    [
+     "          \"fetch_id\": \"ID6\",",
+     "          \"fetch_id\": \"ID52\","
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 2635,
+   "lines_a": 163923,
+   "lines_b": 163923,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S6": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 10,
+   "lines_a": 373,
+   "lines_b": 373,
+   "first": [
+    [
+     "      \"sha256\": \"bd524da43049b50a3a4dc9da3894469a6839c861e2c45717ee599bb0ccbf0e6b\",",
+     "      \"sha256\": \"b2935c13102eee630afaa5dfbd414e05572ce1edd6030079e5b4f1fec6f21fce\","
+    ],
+    [
+     "      \"size\": 8234369",
+     "      \"size\": 8236596"
+    ],
+    [
+     "      \"sha256\": \"fad858c83b9818c8442a002c9e217b8ee7c4275ac169dec87296b3283522e29c\",",
+     "      \"sha256\": \"6b297c8013e0c3c302cf7f9f4c611f71846e838d27ee61bef9d7edac15d8f149\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 195351,
+   "lines_a": 195465,
+   "lines_b": 195545,
+   "first": [
+    [
+     "      \"state\": \"open\",",
+     "      \"state\": \"abandoned\","
+    ],
+    [
+     "      \"ended_between\": null,",
+     "      \"ended_between\": ["
+    ],
+    [
+     "      \"active_s\": 20.8,",
+     "        \"T\","
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 6690,
+   "lines_a": 170474,
+   "lines_b": 170474,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ },
+ "S7": {
+  "field_dispositions.csv": "identical once run and fetch ids are numbered",
+  "field_dispositions.json": "identical once run and fetch ids are numbered",
+  "manifest.json": {
+   "DIFFERS": 10,
+   "lines_a": 284,
+   "lines_b": 284,
+   "first": [
+    [
+     "      \"sha256\": \"792139ebb7b019b5861160e0ea034410f853a1d40df29ca241947ffb5fc938bf\",",
+     "      \"sha256\": \"771d0da068088140514e321120556bb8bb8f975f2fe5af64a3b4e30c2252909e\","
+    ],
+    [
+     "      \"size\": 6022689",
+     "      \"size\": 6022690"
+    ],
+    [
+     "      \"sha256\": \"642b5759478c4dca1c5a30dc8cc132b1bb3b7cfc22d169d062346f198d8012bd\",",
+     "      \"sha256\": \"fc362bb8350b1ad3ddde94303faaa6497ef3f70a8c5ac3367406806671b51011\","
+    ]
+   ]
+  },
+  "memberships.json": "identical",
+  "offers.json": "identical",
+  "products.csv": "identical",
+  "products.json": "identical",
+  "products_fresh.csv": "identical",
+  "products_fresh.json": "identical",
+  "provenance.json": {
+   "DIFFERS": 3963,
+   "lines_a": 125237,
+   "lines_b": 125237,
+   "first": [
+    [
+     "      \"active_s\": 1.0,",
+     "      \"active_s\": 0.5,"
+    ],
+    [
+     "        \"active_s\": 1.0310000000026776,",
+     "        \"active_s\": 0.49574071797542274,"
+    ],
+    [
+     "          \"fetch_id\": \"ID6\",",
+     "          \"fetch_id\": \"ID31\","
+    ]
+   ]
+  },
+  "record_map.json": {
+   "DIFFERS": 6243,
+   "lines_a": 172666,
+   "lines_b": 172666,
+   "first": [
+    [
+     "    \"uncommitted_changes\": false,",
+     "    \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ],
+    [
+     "        \"uncommitted_changes\": false,",
+     "        \"uncommitted_changes\": null,"
+    ]
+   ]
+  },
+  "validation_report.json": {
+   "same once ids are numbered and these lines' times set aside": 1,
+   "lines": [
+    "\"at\""
+   ]
+  }
+ }
+}

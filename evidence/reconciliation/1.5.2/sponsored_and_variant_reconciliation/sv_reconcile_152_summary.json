@@ -1,0 +1,14 @@
+{
+ "rows": 651,
+ "by_outcome_and_kind": {
+  "category_not_established|variant": 96,
+  "identity_and_category_established_no_pickup_line|variant": 24,
+  "identity_category_and_pickup_established|variant": 41,
+  "not_open|HISTORICAL (carried)": 199,
+  "not_open|LIVE VERIFIED": 16,
+  "open_needs_own_page_read|tile_only_variant_sibling": 25,
+  "open_needs_own_page_read|variant": 249,
+  "unusable_page|variant": 1
+ },
+ "distinct_items_needing_a_read": 275
+}

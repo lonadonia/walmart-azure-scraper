@@ -1,0 +1,601 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M69XM9RZN3C8D0K7W2NSXR3D",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-10-31T21:31:19.087851Z",
+  "record_count": 203,
+  "fresh_record_count": 203,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/products.json",
+      "sha256": "e07ed23b8d366744dfc8a959d728fcddbd9eb8247d805a8ddfe1072183a95ce8",
+      "size": 230751
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/products.csv",
+      "sha256": "b23bb666550a3afb26b669bfff9e3cbe9dc1c1c5582814cefba4036e5178b755",
+      "size": 132123
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/memberships.json",
+      "sha256": "ac9f7f6ff06298ca599a657eaf9ec829d0082b2ea1f648ac1542918322269b69",
+      "size": 52146
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/provenance.json",
+      "sha256": "be05e224a64cd97bb95369fc0ee349283fd7ffffa733a73c61b2974b2045373f",
+      "size": 2523757
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/validation_report.json",
+      "sha256": "f832aa96025ed63855bd4147a97016e9661e64f5559e0318a1a8a6d1a949f17f",
+      "size": 3210
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/products_fresh.json",
+      "sha256": "e07ed23b8d366744dfc8a959d728fcddbd9eb8247d805a8ddfe1072183a95ce8",
+      "size": 230751
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/products_fresh.csv",
+      "sha256": "b23bb666550a3afb26b669bfff9e3cbe9dc1c1c5582814cefba4036e5178b755",
+      "size": 132123
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/record_map.json",
+      "sha256": "a484d75d89169137d3d350e1bad6deb7cac3d7c6c6b16e602879e465773ab743",
+      "size": 1812328
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/field_dispositions.json",
+      "sha256": "265a9ff794943fcfd0858289c424a2044e2544ab0e30756104a810554611947f",
+      "size": 196446
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M69XM9RZN3C8D0K7W2NSXR3D/exports/field_dispositions.csv",
+      "sha256": "ee14b3f2afacc98743c5bcb2d4a9e150b6751ce1398ba08b4157bec036698139",
+      "size": 104575
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+      "source": "build_info",
+      "version": "1.5.0",
+      "built_at": "2026-10-31T20:51:17+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/food/976759?povid=GlobalNav_rWeb_Grocery_GroceryShopAll",
+          "kind": "landing",
+          "only": [
+            "/browse/food/fresh-vegetables/976759_976793_8910423",
+            "/browse/food/fresh-fruits/976759_976793_9756351"
+          ],
+          "category": "Food",
+          "excluded": [
+            "Shop All Foods",
+            "Recipes"
+          ],
+          "row_index": 0,
+          "taxonomy_id": "976759",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90T"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w7\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        0
+      ],
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-vegetables/976759_976793_8910423",
+          "/browse/food/fresh-fruits/976759_976793_9756351"
+        ]
+      },
+      "follow_up_pages": 5,
+      "max_run_minutes": 20,
+      "pilot_detail_pages": 10,
+      "max_credits_per_run": 30,
+      "max_pages_per_listing": 3
+    },
+    "collection": {
+      "detail": {
+        "enabled": true,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": 10,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 20,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 30,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 3,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [
+          {
+            "url": "https://www.walmart.com/ip/Fresh-Peeled-Ginger-7oz/15268670678",
+            "kind": "sponsored",
+            "source": "S01 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "15268670678",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Pitted-Dates-5-Pound-Bulk-Bag-by-Sunbest-Natural-Chewy-Caramel-Natural-Fruit/259513938",
+            "kind": "sponsored",
+            "source": "S03 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "259513938",
+            "named_by": "",
+            "listing_id": "976759_976793_9756351"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Garlic-Stir-in-Paste-4-oz-Tube/44391186",
+            "kind": "sponsored",
+            "source": "S05 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "44391186",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Minced-Garlic-Stir-in-Paste-4-oz-Tube/51259335",
+            "kind": "sponsored",
+            "source": "S06 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "51259335",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Roasted-Garlic-Stir-in-Paste-4-oz-Tube/646842793",
+            "kind": "sponsored",
+            "source": "S08 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "646842793",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/NatureSweet-Cherubs-Grape-Tomatoes-9-oz-Fresh/1918496773",
+            "kind": "sponsored",
+            "source": "S02 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "1918496773",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/SugarBee-Apple-Bulk/43923746",
+            "kind": "sponsored",
+            "source": "S04 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "43923746",
+            "named_by": "",
+            "listing_id": "976759_976793_9756351"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Sunset-Angel-Sweet-Tomatoes-1-Pint-Package-Fresh/542955132",
+            "kind": "sponsored",
+            "source": "S07 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "542955132",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Crunch-Pak-Snack-Dipperz-with-Fresh-Tart-Sliced-Apples-and-Caramel-in-a-5pk/810359707",
+            "kind": "sponsored",
+            "source": "S09 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "810359707",
+            "named_by": "",
+            "listing_id": "976759_976793_9756351"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Fresh-Envy-Apples-3-lb-Bag/978115165",
+            "kind": "sponsored",
+            "source": "S10 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "978115165",
+            "named_by": "",
+            "listing_id": "976759_976793_9756351"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Fresh-Mangoes-Each-Sweet/994998279",
+            "kind": "sponsored",
+            "source": "S11 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "994998279",
+            "named_by": "",
+            "listing_id": "976759_976793_9756351"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pomi-Chopped-Tomatoes-26-46-oz-1-4-cup-per-serving-12-servings-per-container/5271563250",
+            "kind": "variant",
+            "source": "V21 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5271563250",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Del-Monte-Fresh-Cut-Golden-Sweet-Whole-Kernel-Corn-Canned-Vegetables-8-75-oz-Can/14861467228",
+            "kind": "variant",
+            "source": "V01 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "14861467228",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Amore-Garlic-Paste-3-2-oz-90g/19616966962",
+            "kind": "variant",
+            "source": "V05 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19616966962",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/StarKist-Chicken-Creations-Chicken-Salad-12-Ct-x-2-6-Oz/256202951",
+            "kind": "variant",
+            "source": "V13 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "256202951",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Kibble-by-Its-Delish-4-Oz-Bag-Dark-Chilean-Dehydrated-and-Chopped-Boletus-Luteus-Mushrooms-for-Cooking-and-Flavoring/521691483",
+            "kind": "variant",
+            "source": "V20 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "521691483",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Mediterranean-Tuna-Salad-5-3-oz-by-Goya/15377270898",
+            "kind": "variant",
+            "source": "V04 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "15377270898",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/FLAMING-PUMPKIN-LGHT/19700114741",
+            "kind": "variant",
+            "source": "V09 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19700114741",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pomi-Chopped-Tomatoes-26-46-oz-1-4-Cup-per-serving-12-servings-per-Container/20905765213",
+            "kind": "variant",
+            "source": "V12 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "20905765213",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Louisiana-Pepper-Exchange-Green-Jalapeno-Puree-Sauce-Salsa-Hot-Spicy-Flavor-Seasoning-Plant-Based-Gluten-Free-Replaces-Diced-Jalapenos-12-Pack/5048630760",
+            "kind": "variant",
+            "source": "V14 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5048630760",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Colavita-Cherry-Tomatoes-14-1-Ounce/5215334957",
+            "kind": "variant",
+            "source": "V19 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5215334957",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Jalapeno-Pepper-Louisiana-Pepper-Exchange-Fresh-Pepper-Replacement-Save-Time-and-Money-in-the-Kitchen-No-More-Food-Waste-64-Ounces/638297949",
+            "kind": "variant",
+            "source": "V24 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "638297949",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Slices-Boletus-Luteus-by-It-s-Delish-8-Oz-Half-Pound-Bag-Chilean-Sundried-Dehydrated-and-Sliced-Mushrooms-for-Cooking-and-Flavoring/657518023",
+            "kind": "variant",
+            "source": "V25 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "657518023",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Del-Monte-Fresh-Cut-Golden-Sweet-Whole-Kernel-Corn-Canned-Vegetables-8-75-oz-Can/15163163334",
+            "kind": "variant",
+            "source": "V02 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "15163163334",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Del-Monte-Fresh-Cut-Golden-Sweet-Whole-Kernel-Corn-Canned-Vegetables-8-75-oz-Can/15166812801",
+            "kind": "variant",
+            "source": "V03 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "15166812801",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Amore-Garlic-Paste-3-2-oz-90g/19616966999",
+            "kind": "variant",
+            "source": "V06 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19616966999",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Amore-Garlic-Paste-3-2-oz-90g/19631623304",
+            "kind": "variant",
+            "source": "V07 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19631623304",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Amore-Garlic-Paste-3-2-oz-90g/19694057903",
+            "kind": "variant",
+            "source": "V08 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19694057903",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Amore-Garlic-Paste-3-2-oz-90g/19700918971",
+            "kind": "variant",
+            "source": "V10 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "19700918971",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Del-Monte-Golden-Super-Sweet-Whole-Kernel-Corn-8-75-oz-Case-of-12/198195619",
+            "kind": "variant",
+            "source": "V11 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "198195619",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Louisiana-Pepper-Exchange-Green-Jalapeno-Puree-Sauce-Salsa-Hot-Spicy-Flavor-Seasoning-Plant-Based-Gluten-Free-Replaces-Diced-Jalapenos-2-Pack/5073256810",
+            "kind": "variant",
+            "source": "V15 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5073256810",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Louisiana-Pepper-Exchange-Green-Jalapeno-Puree-Sauce-Salsa-Hot-Spicy-Flavor-Seasoning-Plant-Based-Gluten-Free-Replaces-Diced-Jalapenos-4-Pack/5073660283",
+            "kind": "variant",
+            "source": "V16 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5073660283",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Louisiana-Pepper-Exchange-Green-Jalapeno-Puree-Sauce-Salsa-Hot-Spicy-Flavor-Seasoning-Plant-Based-Gluten-Free-Replaces-Diced-Jalapenos-6-Pack/5074224232",
+            "kind": "variant",
+            "source": "V17 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5074224232",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pomi-Chopped-Tomatoes-26-46-Oz/515864306",
+            "kind": "variant",
+            "source": "V18 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "515864306",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Kibble-by-Its-Delish-2-Oz-Bag-Dark-Chilean-Dehydrated-and-Chopped-Boletus-Luteus-Mushrooms-for-Cooking-and-Flavoring/530797989",
+            "kind": "variant",
+            "source": "V22 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "530797989",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/StarKist-Chicken-Creations-Chicken-Salad-2-6-oz-Pouch/5562840606",
+            "kind": "variant",
+            "source": "V23 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "5562840606",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Kibble-by-Its-Delish-8-Oz-Large-Jar-Dark-Chilean-Dehydrated-and-Chopped-Boletus-Luteus-Mushrooms-for-Cooking-and-Flavoring/705848836",
+            "kind": "variant",
+            "source": "V26 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "705848836",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Slices-Boletus-Luteus-by-It-s-Delish-2-Oz-Bag-Chilean-Sundried-Dehydrated-and-Sliced-Mushrooms-for-Cooking-and-Flavoring/911990718",
+            "kind": "variant",
+            "source": "V27 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "911990718",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Slices-Boletus-Luteus-by-It-s-Delish-1-lb-16-Oz-Bulk-Bag-Chilean-Sundried-Dehydrated-and-Sliced-Mushrooms-for-Cooking-and-Flavoring/963791292",
+            "kind": "variant",
+            "source": "V28 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "963791292",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Kibble-by-Its-Delish-8-Oz-Bag-Dark-Chilean-Dehydrated-and-Chopped-Boletus-Luteus-Mushrooms-for-Cooking-and-Flavoring/965084592",
+            "kind": "variant",
+            "source": "V29 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "965084592",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dried-Mushroom-Slices-Boletus-Luteus-by-It-s-Delish-5-lbs-Bulk-Chilean-Sundried-Dehydrated-and-Sliced-Mushrooms-for-Cooking-and-Flavoring/971988607",
+            "kind": "variant",
+            "source": "V30 of the 1.4.1 reconciliation (SPONSORED_AND_VARIANT_RECONCILIATION.csv), first named by run 01M5P24CKAN7BWHAR926DA6XXE",
+            "item_id": "971988607",
+            "named_by": "",
+            "listing_id": "976759_976793_8910423"
+          }
+        ],
+        "variants": true,
+        "max_pages": 5,
+        "sponsored": true
+      },
+      "categories": [
+        0
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-vegetables/976759_976793_8910423",
+          "/browse/food/fresh-fruits/976759_976793_9756351"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.max_per_run": 10,
+      "follow_up.max_pages": 5,
+      "limits.max_pages_per_listing": 3
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.5.0"
+  },
+  "site_version": "walmart-next"
+}

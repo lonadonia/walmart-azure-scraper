@@ -1,0 +1,23 @@
+{
+ "read_at_campaign": "2026-11-01T00:17:36Z",
+ "read_at_vm": "2026-10-31T21:52:14Z",
+ "rows": 651,
+ "tally": {
+  "closed_live_product_page": 10,
+  "case:LIVE VERIFIED": 16,
+  "closed_live_own_tile": 6,
+  "open_named_not_read": 125,
+  "case:PENDING": 25,
+  "open_not_observed": 143,
+  "identity:PENDING": 244,
+  "carried_decided_1_4_1": 199,
+  "identity:HISTORICAL (carried)": 199,
+  "open_named_not_read_decided_1_4_1": 167,
+  "identity:PENDING (1.4.1 decision carried)": 167,
+  "open_via_sponsored_not_read": 1
+ },
+ "outputs": [
+  "C:\\w7\\evidence\\reconciliation_151\\SPONSORED_AND_VARIANT_RECONCILIATION_1_5_1.csv",
+  "C:\\w7\\evidence\\reconciliation_151\\FOLLOW_UP_QUEUE_RECONCILIATION_1_5_1.csv"
+ ]
+}

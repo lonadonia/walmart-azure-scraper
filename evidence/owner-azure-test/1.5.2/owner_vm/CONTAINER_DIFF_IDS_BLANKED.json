@@ -1,0 +1,369 @@
+{
+ "S1/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 36
+  },
+  "container_lines": {
+   "uncommitted_changes": 36
+  }
+ },
+ "S1/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S1/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S2/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 204
+  },
+  "container_lines": {
+   "uncommitted_changes": 204
+  }
+ },
+ "S2/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S2/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S3/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 320
+  },
+  "container_lines": {
+   "uncommitted_changes": 320
+  }
+ },
+ "S3/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S3/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S4/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 690
+  },
+  "container_lines": {
+   "uncommitted_changes": 690
+  }
+ },
+ "S4/provenance.json": {
+  "workstation_lines": {
+   "earlier_segment": 80,
+   "active_s": 2,
+   "products_verified": 2,
+   "products_observed": 1,
+   "steps": 1
+  },
+  "container_lines": {
+   "earlier_segment": 80,
+   "active_s": 4,
+   "products_verified": 4,
+   "ended_at": 2,
+   "products_observed": 2,
+   "steps": 2,
+   "stop_code": 2,
+   "},": 2,
+   "state": 1,
+   "started_at": 1,
+   "end_observed": 1,
+   "ended_between": 1,
+   "active_s_is_lower_bound": 1,
+   "requests": 1,
+   "credits": 1,
+   "usd": 1,
+   "requests_by_outcome": 1,
+   "pages": 1,
+   "recorded": 1,
+   "credits_estimated": 1,
+   "browser_sessions": 1,
+   "browsers_closed": 1,
+   "workers": 1,
+   "heartbeat_at": 1,
+   "abandonment": 1,
+   "{": 1,
+   "id": 1,
+   "trigger": 1
+  }
+ },
+ "S4/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S5a/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 690
+  },
+  "container_lines": {
+   "uncommitted_changes": 690
+  }
+ },
+ "S5a/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S5a/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S5b_parallel/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 690
+  },
+  "container_lines": {
+   "uncommitted_changes": 690
+  }
+ },
+ "S5b_parallel/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S5b_parallel/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S5b_serial/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 690
+  },
+  "container_lines": {
+   "uncommitted_changes": 690
+  }
+ },
+ "S5b_serial/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S5b_serial/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 1,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S6/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 707
+  },
+  "container_lines": {
+   "uncommitted_changes": 707
+  }
+ },
+ "S6/provenance.json": {
+  "workstation_lines": {
+   "earlier_segment": 120,
+   "active_s": 2,
+   "products_verified": 2,
+   "products_observed": 1,
+   "steps": 1
+  },
+  "container_lines": {
+   "earlier_segment": 120,
+   "},": 8,
+   "active_s": 5,
+   "products_verified": 5,
+   "ended_at": 4,
+   "pages": 3,
+   "steps": 3,
+   "stop_code": 3,
+   "last_at": 3,
+   "ended_between": 2,
+   "\"T\",": 2,
+   "\"T\"": 2,
+   "],": 2,
+   "requests": 2,
+   "credits": 2,
+   "usd": 2,
+   "products_observed": 2,
+   "recorded": 2,
+   "credits_estimated": 2,
+   "browser_sessions": 2,
+   "browsers_closed": 2,
+   "workers": 2,
+   "heartbeat_at": 2,
+   "observations": 2,
+   "last_observed_at": 2,
+   "state": 1,
+   "started_at": 1,
+   "end_observed": 1,
+   "active_s_is_lower_bound": 1,
+   "requests_by_outcome": 1,
+   "abandonment": 1,
+   "durable": 1,
+   "attributed_by": 1,
+   "ledger": 1,
+   "by_outcome": 1,
+   "by_purpose": 1,
+   "in_flight_when_last_seen": 1,
+   "products": 1,
+   "verified": 1,
+   "detected_at": 1,
+   "detected_by": 1,
+   "last_heartbeat_at": 1,
+   "{": 1,
+   "id": 1,
+   "trigger": 1
+  }
+ },
+ "S6/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ },
+ "S7/record_map.json": {
+  "workstation_lines": {
+   "uncommitted_changes": 707
+  },
+  "container_lines": {
+   "uncommitted_changes": 707
+  }
+ },
+ "S7/provenance.json": {
+  "workstation_lines": {
+   "active_s": 2
+  },
+  "container_lines": {
+   "active_s": 2
+  }
+ },
+ "S7/manifest.json": {
+  "workstation_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "uncommitted_changes": 1,
+   "local_root": 1
+  },
+  "container_lines": {
+   "sha256": 5,
+   "size": 2,
+   "source": 1,
+   "built_at": 1,
+   "local_root": 1
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "synthetic": true,
+ "delay_s": 0.05,
+ "workers": 4,
+ "max_in_flight": 4,
+ "products": 360,
+ "requests": 383,
+ "ledger_outcomes": {
+  "ok": 383
+ },
+ "requests_by_worker": {
+  "w0": 247,
+  "w1": 136,
+  "w2": 0,
+  "w3": 0
+ },
+ "peak_requests_in_flight": 2,
+ "elapsed_s": 51.8,
+ "requests_per_s": 7.4,
+ "peak_process_rss_mb": 158.9,
+ "note": "peak_process_rss_mb is the test process's peak so far, including earlier tests"
+}

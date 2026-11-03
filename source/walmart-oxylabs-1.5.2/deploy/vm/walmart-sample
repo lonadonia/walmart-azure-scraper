@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# CPU and memory of the unit walmart-NAME every 5 s while it runs (started by walmart-run):
+# /var/lib/walmart-collector/logs/NAME.resources.csv with the unit's cgroup memory (current and peak), its
+# main process's RSS, its cumulative CPU time, the system's available memory and load.
+set -euo pipefail
+name=${1:?usage: walmart-sample NAME}
+unit="walmart-$name.service"
+cg="/sys/fs/cgroup/system.slice/$unit"
+out="/var/lib/walmart-collector/logs/$name.resources.csv"
+[ -f "$out" ] || echo "ts_utc,cgroup_memory_bytes,cgroup_memory_peak_bytes,main_rss_kib,cpu_usage_usec,mem_available_kib,load1" >"$out"
+for _ in $(seq 1 60); do
+  systemctl is-active --quiet "$unit" && break
+  sleep 1
+done
+while systemctl is-active --quiet "$unit"; do
+  pid=$(systemctl show -p MainPID --value "$unit")
+  rss=$(awk '/^VmRSS/ {print $2}' "/proc/$pid/status" 2>/dev/null || echo "")
+  mem=$(cat "$cg/memory.current" 2>/dev/null || echo "")
+  peak=$(cat "$cg/memory.peak" 2>/dev/null || echo "")
+  cpu=$(awk '/^usage_usec/ {print $2}' "$cg/cpu.stat" 2>/dev/null || echo "")
+  avail=$(awk '/^MemAvailable/ {print $2}' /proc/meminfo)
+  load=$(cut -d' ' -f1 /proc/loadavg)
+  echo "$(date -u +%Y-%m-%dT%H:%M:%SZ),$mem,$peak,$rss,$cpu,$avail,$load" >>"$out"
+  sleep 5
+done

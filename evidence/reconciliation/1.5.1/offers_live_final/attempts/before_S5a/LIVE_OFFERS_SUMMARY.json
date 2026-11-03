@@ -1,0 +1,115 @@
+{
+ "evidence_class": "OFFLINE REPROCESSING of LIVE pages (the campaign's own stored pages; no request)",
+ "pages_checked": {
+  "listing": 34,
+  "product_detail": 24,
+  "product_page": 10
+ },
+ "tiles": {
+  "tiles": 1550
+ },
+ "classified_offer_kinds": {},
+ "badge_and_promo_texts": {
+  "badge | Pickup as soon as 1 hour": 1436,
+  "badge | SNAP EBT eligible": 557,
+  "badge | Best seller": 250,
+  "badge | Rollback": 198,
+  "badge | Pickup available": 96,
+  "badge | 10K+ bought since yesterday": 80,
+  "badge | 2K+ bought since yesterday": 48,
+  "badge | In 500+ people's carts": 40,
+  "badge | In 1K+ people's carts": 32,
+  "badge | 1K+ bought since yesterday": 32,
+  "badge | In 2K+ people's carts": 30,
+  "badge | Overall pick": 22,
+  "badge | 100+ bought since yesterday": 22,
+  "badge | 500+ bought since yesterday": 10,
+  "badge | Save with": 7,
+  "badge | In 5K+ people's carts": 4,
+  "badge | 5K+ bought since yesterday": 4,
+  "badge | New": 4
+ },
+ "tile_promotion_like_keys": {
+  "badges.groupsV2[].members": {
+   "count": 2629,
+   "examples": [
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\""
+   ]
+  },
+  "badges.groupsV2[].members[]": {
+   "count": 2629,
+   "examples": [
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\",",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\",",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\","
+   ]
+  },
+  "groupsV2[].members": {
+   "count": 2629,
+   "examples": [
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\""
+   ]
+  },
+  "groupsV2[].members[]": {
+   "count": 2629,
+   "examples": [
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\",",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\",",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup available\","
+   ]
+  },
+  "additionalOfferCount": {
+   "count": 706,
+   "examples": [
+    "8",
+    "2",
+    "1"
+   ]
+  },
+  "snapEligible": {
+   "count": 84,
+   "examples": [
+    "true",
+    "true",
+    "true"
+   ]
+  },
+  "promoDiscount": {
+   "count": 1,
+   "examples": [
+    "{\"discount\": 1, \"discountEligible\": true, \"discountEligibleVariantPresent\": true, \"promotionId\": \"fb2dbf42-34ca-45f4-b7b7-c89001ed83fe\", \"promoOffer\": \"10005731"
+   ]
+  },
+  "promoDiscount.promotionId": {
+   "count": 1,
+   "examples": [
+    "\"fb2dbf42-34ca-45f4-b7b7-c89001ed83fe\""
+   ]
+  },
+  "promoDiscount.promoOffer": {
+   "count": 1,
+   "examples": [
+    "\"1000573136\""
+   ]
+  }
+ },
+ "items_with_promoDiscount": [],
+ "product_pages_with_product_offer": [],
+ "fresh_product_dispositions": {
+  "S1 | absent_on_result_tile | no_product_offer_on_campaign_product_page": 1,
+  "S1 | absent_on_result_tile | product_page_not_read_in_campaign": 34,
+  "S2 | absent_on_result_tile | no_product_offer_on_campaign_product_page": 24,
+  "S2 | absent_on_result_tile | product_page_not_read_in_campaign": 178,
+  "S2 | tile_not_found_in_campaign_pages | no_product_offer_on_campaign_product_page": 1,
+  "S3 | absent_on_result_tile | no_product_offer_on_campaign_product_page": 3,
+  "S3 | absent_on_result_tile | product_page_not_read_in_campaign": 113,
+  "S4 | absent_on_result_tile | no_product_offer_on_campaign_product_page": 24,
+  "S4 | absent_on_result_tile | product_page_not_read_in_campaign": 653,
+  "S5b_parallel | absent_on_result_tile | product_page_not_read_in_campaign": 80,
+  "S5b_serial | absent_on_result_tile | product_page_not_read_in_campaign": 80
+ }
+}

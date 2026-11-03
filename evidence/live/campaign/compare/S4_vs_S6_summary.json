@@ -1,0 +1,40 @@
+{
+ "label": "S4_vs_S6",
+ "run_a": "01M69Y882GTVYRJZM0CXQ44MXN",
+ "run_b": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+ "restricted_to_b_subcategories": true,
+ "restricted_to_page_1_of": [],
+ "fresh_a": 579,
+ "fresh_b": 580,
+ "in_both": 563,
+ "only_in_a": 16,
+ "only_in_b": 17,
+ "products_in_both_with_any_difference": 355,
+ "differences_by_field": {
+  "upc": 350,
+  "weight": 21
+ },
+ "by_subcategory": {
+  "Dry Dog Food": {
+   "a": 118,
+   "b": 118
+  },
+  "Fresh Vegetables": {
+   "a": 101,
+   "b": 102
+  },
+  "Laundry": {
+   "a": 120,
+   "b": 120
+  },
+  "Shampoo": {
+   "a": 120,
+   "b": 120
+  },
+  "Shop all Cold Cough & Flu Medicine": {
+   "a": 120,
+   "b": 120
+  }
+ },
+ "output": "C:\\w7\\evidence\\live150\\compare\\S4_vs_S6_products.csv"
+}

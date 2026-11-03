@@ -1,0 +1,46 @@
+id sha256:029e49e5ee76ed7a1e363411ead3b49f6fb3119cee148afdf30898019bf676b4 size 74022191 user collector entrypoint [walmart-collector] created 2026-11-01T19:55:58.282224327Z
+id sha256:eaf4432872d5a79af6a9f33601c19b1950372733f7120509f36e500183dcd44f size 74022185 user collector entrypoint [walmart-collector] created 2026-11-01T19:56:19.827388087Z
+0B /bin/sh -c #(nop)  CMD ["validate-config"]
+0B /bin/sh -c #(nop)  ENTRYPOINT ["walmart-coll…
+0B /bin/sh -c #(nop)  USER collector
+16.4kB |2 BUILT_AT=2026-11-01T19:55:31Z SOURCE_COMM…
+36.9kB /bin/sh -c #(nop) COPY dir:52fd4a449300f0a33…
+1.28MB /bin/sh -c #(nop) COPY dir:878b5d9126c43c243…
+108MB /bin/sh -c #(nop) COPY dir:e914363e69b069e15…
+8.19kB /bin/sh -c #(nop) WORKDIR /app
+41kB |2 BUILT_AT=2026-11-01T19:55:31Z SOURCE_COMM…
+0B /bin/sh -c #(nop)  ENV PATH=/app/.venv/bin:/…
+0B /bin/sh -c #(nop)  ARG BUILT_AT=unknown
+0B /bin/sh -c #(nop)  ARG SOURCE_COMMIT=unknown
+0B CMD ["python3"]
+16.4kB RUN /bin/sh -c set -eux;  for src in idle3 p…
+45MB RUN /bin/sh -c set -eux;   savedAptMark="$(a…
+0B ENV PYTHON_SHA256=b5796915dc45ff745cfb4e990a…
+0B ENV PYTHON_VERSION=3.12.16
+9.67MB RUN /bin/sh -c set -eux;  apt-get update;  a…
+0B ENV LANG=C.UTF-8
+0B ENV PATH=/usr/local/bin:/usr/local/sbin:/usr…
+85.3MB # debian.sh --arch 'amd64' out/ 'bookworm' '…
+--- no key or data file in the image:
+none
+/app:
+total 28
+drwxr-xr-x 1 root      root      4096 Nov  1 19:55 .
+drwxr-xr-x 1 root      root      4096 Nov  1 19:56 ..
+drwxr-xr-x 4 root      root      4096 Nov  1 19:55 .venv
+-rw-r--r-- 1 root      root        91 Nov  1 19:55 BUILD_INFO.json
+drwxr-xr-x 2 root      root      4096 Nov  1 19:55 config
+drwxr-xr-x 2 collector collector 4096 Nov  1 19:55 data
+drwxr-xr-x 3 root      root      4096 Nov  1 19:55 src
+
+/app/config:
+total 32
+drwxr-xr-x 2 root root 4096 Nov  1 19:55 .
+drwxr-xr-x 1 root root 4096 Nov  1 19:55 ..
+-rw-rw-r-- 1 root root 1764 Nov  1 19:55 Walmart_Category_URLs.csv
+-rw-rw-r-- 1 root root 6199 Nov  1 19:55 collector.yaml
+-rw-rw-r-- 1 root root 3040 Nov  1 19:55 settings.yaml
+-rw-rw-r-- 1 root root  754 Nov  1 19:55 stores.yaml
+-rw-rw-r-- 1 root root 1374 Nov  1 19:55 walmart_private_label_brands.yaml
+{"commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4", "built_at": "2026-11-01T19:55:31Z"}
+uid=10001(collector) gid=10001(collector) groups=10001(collector)

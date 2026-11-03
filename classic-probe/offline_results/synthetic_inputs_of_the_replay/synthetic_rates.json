@@ -1,0 +1,23 @@
+{
+ "synthetic": true,
+ "confirmed_by": "SYNTHETIC test rate card",
+ "confirmed_at": "2026-10-31",
+ "basis": "SYNTHETIC: invented for the offline tests; not this or any account's rates",
+ "rates": {
+  "walmart_search": {
+   "unit": "usd_per_result",
+   "plain": "0.0015",
+   "rendered": "0.0020"
+  },
+  "walmart_product": {
+   "unit": "usd_per_result",
+   "plain": "0.0015",
+   "rendered": "0.0020"
+  },
+  "url_only": {
+   "unit": "usd_per_result",
+   "plain": "0.0010",
+   "rendered": "0.0015"
+  }
+ }
+}

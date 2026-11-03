@@ -1,0 +1,21 @@
+queue,read_at,kind,state,last_outcome,rows,of_which_1_4_1_reconciliation_rows
+VM walmart_oxylabs,2026-10-31T21:52:14Z,sponsored,pending,not_attempted,64,3
+VM walmart_oxylabs,2026-10-31T21:52:14Z,sponsored,resolved,duplicate,53,5
+VM walmart_oxylabs,2026-10-31T21:52:14Z,variant,pending,inaccessible,2,1
+VM walmart_oxylabs,2026-10-31T21:52:14Z,variant,pending,not_attempted,432,158
+VM walmart_oxylabs,2026-10-31T21:52:14Z,variant,resolved,excluded,279,240
+VM walmart_oxylabs,2026-10-31T21:52:14Z,variant,resolved,included,160,118
+VM walmart_scrapedo,2026-10-31T21:52:14Z,sponsored,pending,(none recorded),22,0
+VM walmart_scrapedo,2026-10-31T21:52:14Z,sponsored,pending,not_attempted,46,5
+VM walmart_scrapedo,2026-10-31T21:52:14Z,sponsored,resolved,duplicate,21,4
+VM walmart_scrapedo,2026-10-31T21:52:14Z,variant,pending,not_attempted,736,371
+VM walmart_scrapedo,2026-10-31T21:52:14Z,variant,resolved,duplicate,3,3
+campaign walmart_live150,2026-10-31T21:54:35Z,detail,pending,not_attempted,609,0
+campaign walmart_live150,2026-10-31T21:54:35Z,detail,resolved,included,76,0
+campaign walmart_live150,2026-10-31T21:54:35Z,sponsored,pending,not_attempted,21,3
+campaign walmart_live150,2026-10-31T21:54:35Z,sponsored,resolved,duplicate,34,6
+campaign walmart_live150,2026-10-31T21:54:35Z,sponsored,resolved,excluded,1,1
+campaign walmart_live150,2026-10-31T21:54:35Z,sponsored,resolved,included,1,1
+campaign walmart_live150,2026-10-31T21:54:35Z,variant,pending,not_attempted,599,292
+campaign walmart_live150,2026-10-31T21:54:35Z,variant,resolved,duplicate,4,1
+campaign walmart_live150,2026-10-31T21:54:35Z,variant,resolved,excluded,5,5

@@ -1,0 +1,26 @@
+{
+ "evidence_class_of_rows": {
+  "LIVE VERIFIED": 37,
+  "OFFLINE REPROCESSING": 6,
+  "PENDING": 5
+ },
+ "by_group": {
+  "PPM": 11,
+  "genuine pack": 16,
+  "not an offer": 1,
+  "missing value": 13,
+  "product without an offer": 5,
+  "offer": 2
+ },
+ "checks_failed": [],
+ "stages": {
+  "S6": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+  "S7": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+  "S4": "01M69Y882GTVYRJZM0CXQ44MXN",
+  "S3": "01M69Y1J6YWFEZ1DJHAC2MT17M",
+  "S2": "01M69XM9RZN3C8D0K7W2NSXR3D",
+  "S1": "01M69X9XHZR83KZ2FNWBJYJKA7",
+  "S5b_serial": "01M69YPZTFCP7AWJ5B78AXEA2N"
+ },
+ "offers_source": "C:\\w7\\evidence\\offers_live_final"
+}

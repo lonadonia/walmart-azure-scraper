@@ -1,0 +1,55 @@
+{
+ "fault": "interrupted_run",
+ "synthetic": true,
+ "first_run": "01M6A866CNGJ34T1X2Q23Z6KGH",
+ "second_run": "01M6A86CHMHH67TGVT1ZRDFKZE",
+ "interrupted_exit_code": 75,
+ "manual_publish_exit_code": 6,
+ "resume_exit_code": 0,
+ "before": {
+  "pointer": {
+   "publication_id": "01M6A86C7THTTGBM3YBBE20STP",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6A866CNGJ34T1X2Q23Z6KGH",
+  "latest_json_sha256": "dad2e0a5f192c2085393b625f72938d08af7d36821ab82772c7b1fb69e4d2093",
+  "manifest_sha256": "1df1252e324218802ee796114c45c77d185549c55255d87014d31b61b16b1f49",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "0c27b6cd8d1d9cea8003ad0af77dda3232dea3c90cf234ddb863e05faa6c3a52",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "after_interruption": {
+  "pointer": {
+   "publication_id": "01M6A86C7THTTGBM3YBBE20STP",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6A866CNGJ34T1X2Q23Z6KGH",
+  "latest_json_sha256": "dad2e0a5f192c2085393b625f72938d08af7d36821ab82772c7b1fb69e4d2093",
+  "manifest_sha256": "1df1252e324218802ee796114c45c77d185549c55255d87014d31b61b16b1f49",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "0c27b6cd8d1d9cea8003ad0af77dda3232dea3c90cf234ddb863e05faa6c3a52",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "after_resume": {
+  "pointer": {
+   "publication_id": "01M6A86J486R83G6BNN1YGWYA2",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6A86CHMHH67TGVT1ZRDFKZE",
+  "latest_json_sha256": "d977040c0abf2f715a26bbe424d7c4c507c095619c347c2a4418120af8d5085f",
+  "manifest_sha256": "d5876f6c851e542a3188ff6497fa747d5acaa707c198fa4cc76761c09fe67bb5",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "0c27b6cd8d1d9cea8003ad0af77dda3232dea3c90cf234ddb863e05faa6c3a52",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "unchanged_until_resume": true
+}

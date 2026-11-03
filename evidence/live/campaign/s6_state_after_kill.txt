@@ -1,0 +1,100 @@
+2026-10-31T22:58:51.711Z
+--- run
+id|status|started_at|finished_at|stop_code
+01M6A2VQAA5VXJHJHMZPCTZTD4|running|2026-10-31 22:56:36.332520+00:00|None|None
+--- tasks
+Traceback (most recent call last):
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column "status" does not exist
+LINE 1: select kind,status,count(*),max(lease_until) from tasks wher...
+                    ^
+HINT:  Perhaps you meant to reference the column "tasks.state".
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\w7\tools\live150_sql.py", line 19, in <module>
+    res = c.execute(text(sys.argv[1]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.1\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedColumn) column "status" does not exist
+LINE 1: select kind,status,count(*),max(lease_until) from tasks wher...
+                    ^
+HINT:  Perhaps you meant to reference the column "tasks.state".
+[SQL: select kind,status,count(*),max(lease_until) from tasks where run_id='01M6A2VQAA5VXJHJHMZPCTZTD4' group by 1,2 order by 1,2]
+(Background on this error at: https://sqlalche.me/e/21/f405)
+--- ledger of the run
+outcome|count|sum|min|max
+ok|10|10.0|2026-10-31 22:56:37.348962+00:00|2026-10-31 22:58:25.418865+00:00
+reserved|1|1.0|2026-10-31 22:58:37.530247+00:00|2026-10-31 22:58:37.530247+00:00
+--- ledger of the campaign
+outcome|count|sum
+reserved|1|1.0
+abandoned|2|2.0
+ok|102|102.0
+--- pages
+purpose|count|count
+listing|8|8
+robots|1|1
+store_page|1|1
+--- segments
+id|started_at|ended_at
+01M6A2VQGDSDT73NQ2D04DG1SM|2026-10-31 22:56:36.363247+00:00|None
+2026-10-31T22:59:18.677Z
+--- run after the second refusal
+id|status|stop_code
+01M6A2VQAA5VXJHJHMZPCTZTD4|interrupted|SERVICE_RESTART
+--- task columns
+column_name
+id
+run_id
+kind
+idem_key
+category_source_id
+taxonomy_id
+state
+priority
+attempts
+lease_owner
+lease_expires_at
+not_before
+cursor
+last_error
+created_at
+updated_at
+--- tasks
+kind|state|count|max
+assemble|pending|1|None
+export|pending|1|None
+follow_up|pending|2|None
+listing_node|pending|2|None
+listing_node|running|1|2026-10-31 23:00:37.525156+00:00
+listing_node|succeeded|2|None
+preflight|succeeded|1|None
+validate|pending|1|None

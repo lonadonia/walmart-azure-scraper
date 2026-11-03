@@ -1,0 +1,15 @@
+{
+ "campaign_id": "classic-proposal-walmart-marianos",
+ "documented_payloads": "ok",
+ "rates": "refused: the rate card has no confirmed_by: its rates are not confirmed",
+ "targets": "ok",
+ "targets_detail": {
+  "marianos": [
+   "marianos: this probe has no adapter for it (its share of the limits stays reserved)",
+   "marianos: the retailer's store ID is not verified from the source"
+  ],
+  "walmart": [
+   "ready to plan"
+  ]
+ }
+}

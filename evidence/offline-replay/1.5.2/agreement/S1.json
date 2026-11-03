@@ -1,0 +1,44 @@
+{
+ "export": "C:\\w7\\ev152\\final_a1\\runs\\S1\\exports",
+ "rows": 35,
+ "problems": {},
+ "examples": {},
+ "combinations": [
+  [
+   "upc | imported page hash: of the page, index: of the file",
+   34
+  ],
+  [
+   "upc | read_again: the fetch is the replay's read of the source run's page",
+   1
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | imported | ?",
+   34
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | read_again | LIVE",
+   1
+  ],
+  [
+   "weight | imported page hash: of the page, index: of the file",
+   11
+  ],
+  [
+   "weight | replayed | absent_in_source | imported | ?",
+   4
+  ],
+  [
+   "weight | replayed | present_in_listing | None | LIVE",
+   24
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | imported | ?",
+   5
+  ],
+  [
+   "weight | replayed | unresolved_conflict | imported | ?",
+   2
+  ]
+ ]
+}

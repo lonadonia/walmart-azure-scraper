@@ -1,0 +1,25 @@
+{
+  "campaign_id": "classic-proposal-walmart-marianos",
+  "note": "The two retailers of the proposed Classic campaign. Limits are shared (config is read by plan, validate and replay; nothing here is sent anywhere).",
+  "retailers": {
+    "walmart": {
+      "store_id": "3891",
+      "store_address": "Walmart #3891 Waukegan, 3900 Fountain Square Pl, Waukegan, IL 60085",
+      "fulfillment": "PICKUP",
+      "store_id_verified_from_source": true,
+      "store_id_evidence": "Walmart's own store page (https://www.walmart.com/store/3891-waukegan-il) and page data (pageMetadata.location storeId and intent), as the Walmart collector's store check reads them (its config/stores.yaml, key walmart-3891-pickup)",
+      "adapter": "walmart",
+      "search_query": "milk",
+      "category_probe_url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351"
+    },
+    "marianos": {
+      "store_id": null,
+      "store_address": "Mariano's, 1720 N Milwaukee Ave, Vernon Hills, IL 60061",
+      "fulfillment": "PICKUP",
+      "store_id_verified_from_source": false,
+      "store_id_evidence": "",
+      "adapter": "none",
+      "note": "No Mariano's adapter is part of this Walmart probe. Its 10 requests and its share of the money limit stay reserved for it; nothing is planned for it until its store ID is verified from Mariano's own source and an adapter exists."
+    }
+  }
+}

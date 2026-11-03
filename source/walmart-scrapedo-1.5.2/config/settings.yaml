@@ -1,0 +1,43 @@
+# Collection rules and validation thresholds. Every value is recorded with each run.
+retries: { max_attempts_per_task: 3, backoff_base_s: 10, backoff_max_s: 300, pause_on_429_s: 600, max_retry_after_s: 1800 }
+circuit_breaker: { consecutive_failures_to_fail_category: 5, challenge_pages_to_abort_run: 1 }
+# A listing is complete only at the last page the site serves, with a stable reported total that the
+# identities its results placed balance exactly (no ratio or tolerance threshold: node_min_coverage_ratio is
+# fixed at 1.0); a listing larger than the site's result window is read through the child categories its own
+# "Departments" facet names, as deep as those facets go (partition_max_depth null: no depth limit; a number
+# is an explicit cap for a bounded run, and a listing it leaves unpartitioned says so and stays incomplete).
+# There is no acceptance ratio: release 1.3.1 no longer ships the unused row_fail_below_ratio (0.90).
+coverage: { node_min_coverage_ratio: 1.0, allow_paid_only_membership: false,
+            partition_large_listings: true, partition_max_depth: null }
+# Abnormal yield (G4): each category's fresh valid products against the last successful complete run, and
+# the share of its published products that are retained (carried forward from earlier runs, never yield).
+yield: { warn_drop_vs_last_good: 0.30, fail_drop_vs_last_good: 0.50,
+         warn_retained_share: 0.30, fail_retained_share: 0.50 }
+records:
+  # Sold or charged by weight, or a "/lb" PPM, keeps no product out (release 1.4.0; true up to 1.3.1): only
+  # approximate or estimated-weight wording excludes one ("each (est.)" next to its price, "approx 1.5 lb").
+  exclude_relative_price_items: false
+  exclude_ship_only: true                     # shipping-only offers never give a store price
+  approx_weight_pattern: '(?i)\b(approx\.?|approximately|about|avg\.?|average|est\.?|estimated)\b|~'
+  store_brand_positive_value: "yes"
+  include_cashback_in_digital: false
+  include_points_offers_in_deals: false
+  other_promo_target: NONE
+  deal_description_format: TAG_TEXT_EXPIRY
+  ppm_source_policy: DOM_ONLY                 # PPM exactly as displayed, never calculated
+  primary_category_policy: CSV_ORDER_COUPONS_LAST
+  sub_category_format: LEAF
+  crawl_date: STORE_LOCAL_DATE
+  fail_on_price_mismatch: true
+gates:
+  price_completeness_warn_below: 0.98
+  reconciliation_warn_above: 0.005
+  reconciliation_fail_above: 0.02
+  canary_missing_is_fail: false
+contest: { enabled: true, min_valid_records: 500, min_categories: 3 }   # a readiness marker, never blocking
+# local: a folder (WALMART_COLLECTOR_DATA_DIR overrides local_root). In Azure the job sets
+# WALMART_COLLECTOR_STORAGE=azure_blob with the account URL and container (managed identity, no key).
+storage: { backend: local, local_root: ./data }
+# test_target: true only where tests or the fault-injection harness publish runs whose provider transport
+# was substituted; the client's publication target keeps false (such a run is then refused).
+publication: { test_target: false }

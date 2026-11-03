@@ -1,0 +1,5 @@
+restoring walmart_oxylabs-20261031T202648Z.dump 61c6e346e7ed9fbf53f99ad259af1340b2729043934701441cb1c1e7d0013c64
+pg_restore exit 0
+alembic_version: ['0005']
+row counts equal to the VM's: True
+DATABASE_URL postgresql+psycopg://postgres:@127.0.0.1:54623/walmart_reproc151_a3

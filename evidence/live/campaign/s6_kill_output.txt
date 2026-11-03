@@ -1,0 +1,46 @@
+{
+ "killed_at": "2026-10-31T22:58:38.667+00:00",
+ "pages_collected_before_kill": 8,
+ "log": "C:\\w7\\evidence\\live150\\logs\\64_s6_run.jsonl",
+ "method": "taskkill /F /T (forced: no handler, no exit checkpoint)",
+ "processes": [
+  {
+   "ProcessId": 16180,
+   "ParentProcessId": 14992,
+   "Name": "walmart-collector.exe",
+   "command": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\.venv\\Scripts\\walmart-collector.exe run --store walmart-3891-pickup --provider oxylabs --categories 0,1,3,6,7 --subcategory 0:/browse/food/fresh-vegetables/976759_976793_8910423 --subcategory 1:/browse/laundry/1115193_1071967 --subcategory 3:/browse/hair-care/shampoo/1085666_3147628_5752434 --subcategory 6:/browse/health-medicine/shop-all-cold-cough-flu-medicine"
+  },
+  {
+   "ProcessId": 17320,
+   "ParentProcessId": 16180,
+   "Name": "python.exe",
+   "command": "\"C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\.venv\\Scripts\\python.exe\" \"C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\.venv\\Scripts\\walmart-collector.exe\" run --store walmart-3891-pickup --provider oxylabs --categories 0,1,3,6,7 --subcategory 0:/browse/food/fresh-vegetables/976759_976793_8910423 --subcategory 1:/browse/laundry/1115193_1071967 --subcategory 3:/browse/hair-care/shampoo/1085666_3147628_5752434 --subca"
+  },
+  {
+   "ProcessId": 13832,
+   "ParentProcessId": 17320,
+   "Name": "python.exe",
+   "command": "\"C:\\w6\\py312\\pkg\\tools\\python.exe\" \"C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\.venv\\Scripts\\walmart-collector.exe\" run --store walmart-3891-pickup --provider oxylabs --categories 0,1,3,6,7 --subcategory 0:/browse/food/fresh-vegetables/976759_976793_8910423 --subcategory 1:/browse/laundry/1115193_1071967 --subcategory 3:/browse/hair-care/shampoo/1085666_3147628_5752434 --subcategory 6:/browse/health-medi"
+  }
+ ],
+ "taskkill": [
+  {
+   "pid": 16180,
+   "name": "walmart-collector.exe",
+   "rc": 0,
+   "out": "SUCCESS: The process with PID 13832 (child process of PID 17320) has been terminated.\nSUCCESS: The process with PID 17320 (child process of PID 16180) has been terminated.\nSUCCESS: The process with PID 16180 (child process of PID 14992) has been terminated."
+  },
+  {
+   "pid": 17320,
+   "name": "python.exe",
+   "rc": 128,
+   "out": "ERROR: The process \"17320\" not found."
+  },
+  {
+   "pid": 13832,
+   "name": "python.exe",
+   "rc": 128,
+   "out": "ERROR: The process \"13832\" not found."
+  }
+ ]
+}

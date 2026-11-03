@@ -1,0 +1,24 @@
+2026-11-01T19:58:17Z start the replay of S6 (01M6A2VQAA5VXJHJHMZPCTZTD4), detached
+2cb7d9359b385476ae583eacc9e94f8a949abb834f4dfb04c5a32cff494309fa
+2026-11-01T19:58:22Z replay run 01M6CB20DBXW1RRP8X2PW69N7B has 6 pages read: KILL
+running: true
+v152replay
+exit code 137 oom false
+{"ts": "2026-11-01T19:58:22.368Z", "level": "WARN", "event": "PRODUCT_DETAIL_READ", "collector": "walmart-azure-headless", "run_id": "01M6CB20DBXW1RRP8X2PW69N7B", "message": "189452883: not_attempted (replay: the source run 01M6A2VQAA5VXJHJHMZPCTZTD4 did not r
+{"ts": "2026-11-01T19:58:22.390Z", "level": "WARN", "event": "PRODUCT_DETAIL_READ", "collector": "walmart-azure-headless", "run_id": "01M6CB20DBXW1RRP8X2PW69N7B", "message": "13893733: not_attempted (replay: the source run 01M6A2VQAA5VXJHJHMZPCTZTD4 did not re
+{"ts": "2026-11-01T19:58:22.410Z", "level": "WARN", "event": "PRODUCT_DETAIL_READ", "collector": "walmart-azure-headless", "run_id": "01M6CB20DBXW1RRP8X2PW69N7B", "message": "998269547: not_attempted (replay: the source run 01M6A2VQAA5VXJHJHMZPCTZTD4 did not r
+v152replay
+--- the state after the signal
+running|
+pending|9
+running|1
+succeeded|1
+pages read 6 records 120
+--- resume: repeated only while it is refused because the dead worker's lease holds (exit 9)
+2026-11-01T19:58:46Z resume attempt 1: exit 0
+{"ts": "2026-11-01T19:58:45.621Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "resume", "exit_code": 0, "result": {}}
+--- the state after the resume
+rejected|
+succeeded|11
+pages read 20 records 724
+pages read twice: 2

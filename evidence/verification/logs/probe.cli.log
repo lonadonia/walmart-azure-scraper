@@ -1,0 +1,132 @@
+$ classic-probe --version
+exit 0 (expected 0)
+classic-probe 1.5.2
+
+$ classic-probe --help
+exit 0 (expected 0)
+usage: classic-probe [-h] [--version]
+                     {plan,validate,campaign-init,status,confirm-charge,export,replay,live}
+                     ...
+
+Offline probe of the Oxylabs Classic Web Scraper API (Realtime). No command
+sends a request.
+
+positional arguments:
+  {plan,validate,campaign-init,status,confirm-charge,export,replay,live}
+    plan                the request plan and payload matrix (writes nothing)
+    validate            check the targets, the payloads and a rate card
+    campaign-init       create the campaign's one ledger and its manifest
+    status              the ledger's counters, reservations and stops
+    confirm-charge      record a charge read from the account, with its basis
+    export              write the ledger's history
+    replay              the Walmart steps against saved responses (OFFLINE)
+    live                list what a live campaign lacks; refused in this build
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+
+$ classic-probe plan --targets config/targets.json
+exit 0 (expected 0)
+e=raw,parsed",
+   "max_billable_results": 2,
+   "payload": {
+    "fulfillment_type": "pickup",
+    "parse": true,
+    "query": "milk",
+    "source": "walmart_search",
+    "start_page": 2,
+    "store_id": "3891"
+   },
+   "purpose": "result page 2 of the store's Pickup search: store, fulfillment, seller, parsing; does the page advance",
+   "retailer": "walmart",
+   "step": "walmart-search-p2"
+  },
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries?type=raw,parsed",
+   "max_billable_results": 2,
+   "payload": {
+    "fulfillment_type": "pickup",
+    "parse": true,
+    "product_id": "<from page 1>",
+    "source": "walmart_product",
+    "store_id": "3891"
+   },
+   "purpose": "the product's own page for the store's Pickup: identity, UPC, store, seller",
+   "retailer": "walmart",
+   "step": "walmart-product"
+  },
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries",
+   "max_billable_results": 1,
+   "payload": {
+    "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351"
+   },
+   "purpose": "a required category page by its URL alone: is it served for the store at all (undocumented)",
+   "retailer": "walmart",
+   "step": "walmart-category-url"
+  }
+ ]
+}
+
+$ classic-probe validate --targets config/targets.json --rates config/rates.example.json
+exit 0 (expected 0)
+{
+ "campaign_id": "classic-proposal-walmart-marianos",
+ "documented_payloads": "ok",
+ "rates": "refused: the rate card has no confirmed_by: its rates are not confirmed",
+ "targets": "ok",
+ "targets_detail": {
+  "marianos": [
+   "marianos: this probe has no adapter for it (its share of the limits stays reserved)",
+   "marianos: the retailer's store ID is not verified from the source"
+  ],
+  "walmart": [
+   "ready to plan"
+  ]
+ }
+}
+
+$ classic-probe campaign-init --manifest C:\w7\v2\probe_cli_out\m.json --ledger C:\w7\v2\probe_cli_out\l.sqlite3 --campaign-id verify --offline
+exit 0 (expected 0)
+{
+ "campaign_id": "verify",
+ "ledger_genesis_id": "70750a6e97074336a659ed5e1f4c4c1d",
+ "manifest": "C:\\w7\\v2\\probe_cli_out\\m.json",
+ "offline": true
+}
+
+$ classic-probe status --manifest C:\w7\v2\probe_cli_out\m.json
+exit 0 (expected 0)
+{
+ "campaign_id": "verify",
+ "dispatches": [],
+ "stopped": null,
+ "totals": {
+  "committed_usd": "0",
+  "confirmed_usd": "0",
+  "dispatched_by_retailer": {},
+  "dispatched_total": 0,
+  "estimated_usd": "0",
+  "other_units": {},
+  "reserved_unconfirmed_usd": "0",
+  "unknown_billing": 0
+ }
+}
+
+$ classic-probe live --manifest C:\w7\v2\probe_cli_out\m.json
+exit 3 (expected 3)
+{
+ "live": "refused",
+ "missing": [
+  "live mode is disabled in this build (a later, separately approved version may enable it)",
+  "credentials: not checked while live mode is disabled",
+  "this ledger is an offline test ledger: it never authorizes a provider request",
+  "no explicit approval",
+  "the account's target entitlement is not verified",
+  "the account's maximum billing rates are not confirmed",
+  "credentials are not present"
+ ],
+ "nothing was sent": true
+}
+

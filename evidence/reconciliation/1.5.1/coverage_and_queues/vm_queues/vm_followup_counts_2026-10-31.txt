@@ -1,0 +1,32 @@
+2026-10-31T21:11:08Z
+== walmart_oxylabs
+SET
+kind|state|last_status|count|max
+sponsored|pending|not_attempted|64|2026-10-28 08:48:46.349191+00
+sponsored|resolved|duplicate|53|2026-10-28 08:48:46.349191+00
+variant|pending|inaccessible|2|2026-10-28 08:51:57.898052+00
+variant|pending|not_attempted|432|2026-10-28 08:51:57.898052+00
+variant|resolved|excluded|279|2026-10-28 08:51:57.898052+00
+variant|resolved|included|160|2026-10-28 08:51:57.898052+00
+(6 rows)
+SET
+id|mode|status|started_at|finished_at
+01M60VA50N50W10GJZE9C6P95K|LIVE|rejected|2026-10-28 08:51:30.490316+00|2026-10-28 09:34:44.831723+00
+01M60V2DCCWR72BGVVG3EM9R74|LIVE|rejected|2026-10-28 08:47:16.914249+00|2026-10-28 08:48:55.03854+00
+01M60GKSSDDC2FPGSE9F0NNGWH|LIVE|rejected|2026-10-28 05:44:32.339027+00|2026-10-28 05:45:41.888325+00
+(3 rows)
+== walmart_scrapedo
+SET
+kind|state|last_status|count|max
+sponsored|pending|not_attempted|46|2026-10-28 05:16:01.513329+00
+sponsored|pending||22|2026-10-28 04:52:07.724228+00
+sponsored|resolved|duplicate|21|2026-10-28 05:16:01.513329+00
+variant|pending|not_attempted|736|2026-10-28 05:16:02.243756+00
+variant|resolved|duplicate|3|2026-10-28 05:16:02.243756+00
+(5 rows)
+SET
+id|mode|status|started_at|finished_at
+01M60ESB2201KQ56K9GRTMY0V7|LIVE|rejected|2026-10-28 05:12:36.712985+00|2026-10-28 05:16:08.492567+00
+01M60CG5Y3KY64JP0ZV5F6MBDP|LIVE|rejected|2026-10-28 04:32:39.404104+00|2026-10-28 04:58:00.699362+00
+01M60BY58FYSVA2EPYWY2RY6TA|LIVE|rejected|2026-10-28 04:22:48.881414+00|2026-10-28 04:24:13.265952+00
+(3 rows)

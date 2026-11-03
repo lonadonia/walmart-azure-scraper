@@ -1,0 +1,8 @@
+Pages read more than once by the two resumed replays in the container on the owner VM, read from its database (walmart_live150 in container v152pg) at 2026-11-01T20:47:08Z:
+select run_id, url, purpose, count(*), string_agg(id::text, ' ') from page_fetches where run_id in ('01M6CB03EQ9G8D0GQBY5MEMD2Z','01M6CB20DBXW1RRP8X2PW69N7B') group by 1,2,3 having count(*)>1
+01M6CB20DBXW1RRP8X2PW69N7B|https://www.walmart.com/store/3891-waukegan-il|store_page|2|01M6CB20HWM80HFD7SQN50NT8S 01M6CB2600173FKBY6J6CQ2M1B
+01M6CB03EQ9G8D0GQBY5MEMD2Z|https://www.walmart.com/store/3891-waukegan-il|store_page|2|01M6CB03K9XSCVXZFD1568QQ00 01M6CB08HFTACZRF7XSGTFFWNS
+01M6CB03EQ9G8D0GQBY5MEMD2Z|https://www.walmart.com/robots.txt|robots|2|01M6CB03JENN686NF7PMSE43D6 01M6CB08GW3GAMSKY19J70WQHG
+01M6CB20DBXW1RRP8X2PW69N7B|https://www.walmart.com/robots.txt|robots|2|01M6CB20H15JANCEHZ3V2BEBCK 01M6CB25ZCKGGSDEB5BQY14YRY
+Pages by purpose: S4 replay (TERM) listing 19, product_detail 10, robots 2, store_page 2; S6 replay (KILL) listing 15, product_detail 1, robots 2, store_page 2.
+A replay fetches nothing from the network: these are reads of the stored pages. The second robots.txt and store page reads are the session setup of the resumed worker, as in a live resume.

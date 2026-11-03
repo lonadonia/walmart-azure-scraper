@@ -1,0 +1,5201 @@
+{
+ "model": "cost_model_151 (cost_model_141 version 4, revision 2, with follow-up pages shared among workers)",
+ "generated_by": "C:/w7/tools/cost_model_151.py",
+ "tool_sha256": "99949cb3a1fd76ccfa0093360c4dcd9ca21423e0bddf14b8ad5a292829de7d89",
+ "requests_made": 0,
+ "inputs": {
+  "runs_per_month": {
+   "value": 8.6667,
+   "kind": "requirement",
+   "source": "twice weekly (the client's requirement; the shipped schedule: Tuesday and Friday, off)"
+  },
+  "schedule_interval_hours": {
+   "value": {
+    "tuesday_to_friday": 72,
+    "friday_to_tuesday": 96
+   },
+   "kind": "requirement",
+   "source": "twice weekly at 06:00 store time; a run longer than 72 h makes the next occurrence start nothing (on_overlap: continue), so the cadence drops, never the scope"
+  },
+  "oxylabs_usd_per_1000_results": {
+   "value": {
+    "low": 0.5,
+    "central": 1.0,
+    "worst": 1.5
+   },
+   "kind": "published",
+   "source": "oxylabs_web_api_pricing_read_20261028.md: no Walmart row; 'Scrape (from)' 0.50, 'Other targets' and 'Custom domain non-JS' 1.00 (first two bands), 'Custom domain JS' 1.50 (the collector's reserve of USD 0.0015 a result)"
+  },
+  "oxylabs_plans": {
+   "value": {
+    "low": [
+     [
+      "Starter",
+      30,
+      60000
+     ],
+     [
+      "Basic",
+      100,
+      222000
+     ],
+     [
+      "Flexible",
+      500,
+      1430000
+     ],
+     [
+      "Enterprise",
+      2500,
+      10000000
+     ]
+    ],
+    "central": [
+     [
+      "Starter",
+      30,
+      30000
+     ],
+     [
+      "Basic",
+      100,
+      111000
+     ],
+     [
+      "Flexible",
+      500,
+      625000
+     ],
+     [
+      "Enterprise",
+      2500,
+      3330000
+     ]
+    ],
+    "worst": [
+     [
+      "Starter",
+      30,
+      20000
+     ],
+     [
+      "Basic",
+      100,
+      71000
+     ],
+     [
+      "Flexible",
+      500,
+      384000
+     ],
+     [
+      "Enterprise",
+      2500,
+      2050000
+     ]
+    ]
+   },
+   "kind": "published",
+   "source": "the band limits of the 'Scrape (from)', 'Other targets' and 'Custom domain JS' rows; the page says nothing about overage or pay-as-you-go: a volume above a band is priced at the next plan; above Enterprise's band, a quote"
+  },
+  "scrapedo_plans": {
+   "value": [
+    [
+     "Hobby",
+     29,
+     250000,
+     10
+    ],
+    [
+     "Pro",
+     99,
+     1250000,
+     50
+    ],
+    [
+     "Business",
+     249,
+     3500000,
+     100
+    ],
+    [
+     "Advanced",
+     699,
+     10000000,
+     200
+    ]
+   ],
+   "kind": "published",
+   "source": "scrapedo_pricing_read_20261028.md (monthly price, credits, concurrent requests); requests stop at the monthly limit; annual billing: pay 10 months for 12"
+  },
+  "scrapedo_credits_per_page": {
+   "value": {
+    "store_endpoint": 10,
+    "general_api": 1
+   },
+   "kind": "measured",
+   "source": "the campaign's ledger (Scrape.do-Request-Cost answer header): result pages and follow-up product pages through /plugin/walmart/store 10; UPC product pages, robots.txt and the store page through the general API 1; a Walmart 404 is charged; failed store-endpoint requests are free"
+  },
+  "shipped_configuration": {
+   "value": {
+    "parallel.workers": 1,
+    "parallel.max_in_flight": 2,
+    "parallel.workers_and_in_flight_maximum": 8,
+    "limits.max_segment_minutes": 300,
+    "detail.reuse_days": 30,
+    "follow_up.sponsored": true,
+    "follow_up.variants": true,
+    "follow_up.max_pages": null
+   },
+   "kind": "configuration",
+   "source": "config/collector.yaml of 37ffca8 (ParallelConfig: workers and max_in_flight 1 to 8)"
+  },
+  "distinct_pickup_products_N": {
+   "value": {
+    "20k": 20000,
+    "40k": 40000,
+    "80k": 80000,
+    "120k_historical_reference": 120000
+   },
+   "kind": "assumption",
+   "source": "not measured: no run read the full scope. 20k to 80k brackets a supercenter's Pickup assortment in the 11 required CSV rows; 120k is the 1.2.1 figure, kept only for comparison (it described Walmart's unfiltered online catalogue, scope_audit_141.py). A census (one result page per root listing, about 615 pages) would read each root's Pickup total: their sum bounds N from above (a product under several roots counts once per root) and fixes the result pages of a full run"
+  },
+  "cases": {
+   "value": {
+    "lean": {
+     "overlap": 1.2,
+     "variant_candidates_per_product": 0.5,
+     "sponsored_only_per_product": 0.03,
+     "new_products_per_run": 0.02,
+     "charged_retry_share": null,
+     "offer_pages_per_product": 0.0,
+     "interruptions_per_run": 1
+    },
+    "heavy": {
+     "overlap": 2.0,
+     "variant_candidates_per_product": 1.0,
+     "sponsored_only_per_product": 0.18,
+     "new_products_per_run": 0.1,
+     "charged_retry_share": 0.1,
+     "offer_pages_per_product": 0.02,
+     "interruptions_per_run": 2
+    }
+   },
+   "kind": "assumption",
+   "source": "overlap: result pages read per (N / valid products per page), for products listed in several root listings, partitions of listings Walmart does not serve to the end, and partial last pages (measured on small runs only, see measured.overlap_in_runs); variant candidates (siblings a tile names and no tile of the run shows) per product: measured 0.78 to 1.54 on bounded runs, expected lower at full scope where more siblings have their own tile, so 0.5 to 1.0; sponsored-only products per product: measured 0.03 to 0.18 on bounded runs (an upper reference: at full scope most sponsored products also appear organically); new products per run: 1.2.1 assumed 10 %, 2 % is the lean case; charged retries: lean = the campaign's measured share, heavy = the 1.3.1 allowance of 10 %; offer pages: none as shipped (offers are read from the pages already read; 0 deal candidates in 5,470 tiles), heavy = a product page re-read every run for 2 % of products; interruptions: each re-sends the requests in flight (one per worker)"
+  },
+  "follow_up_reuse_of_exclusions": {
+   "value": {
+    "as_shipped": false,
+    "design_option": true
+   },
+   "kind": "design assumption",
+   "source": "as shipped (walmart.py follow_up of 37ffca8) every candidate a run names is read in that run, whatever an earlier run decided; the design option, not implemented, reuses an exclusion (out of scope, no local offer) for the 30-day reuse period, while included candidates are read in every run (their price must be fresh)"
+  },
+  "retention_policy": {
+   "value": {
+    "stored_pages_runs": 2,
+    "observations_days": 90,
+    "dumps_kept": 2
+   },
+   "kind": "design assumption",
+   "source": "no retention policy is configured or approved: the stored pages of the last 2 runs, 90 days of observations in the database (records kept indefinitely), and the last 2 database dumps"
+  },
+  "collector_seconds_per_request_besides_the_answer": {
+   "value": 0.31,
+   "kind": "measured",
+   "source": "run D's one-worker segments: span per request minus the mean answer time (0.33, 0.30, 0.31 s)"
+  },
+  "throughput_requests_per_min_per_worker": {
+   "value": {
+    "oxylabs": {
+     "result": [
+      8.1,
+      12.1
+     ],
+     "upc": [
+      4.9,
+      13.6
+     ],
+     "follow": [
+      9.8,
+      13.9
+     ]
+    },
+    "scrapedo": {
+     "result": [
+      3.8,
+      8.9
+     ],
+     "upc": [
+      14.0,
+      15.0
+     ],
+     "follow": [
+      8.1,
+      15.6
+     ]
+    }
+   },
+   "kind": "measured (Scrape.do follow-ups and the fast end of its result pages: estimated from answer times)",
+   "source": "THROUGHPUT_1_4_1.csv: segments of 2026-10-28 with at least 20 requests, by stage; workers 1, 2 and 4 measured (4 is the most measured; the configuration allows 8, not measured: the hours with 8 workers assume the per-worker rates hold); the follow-up stage runs one task per kind, so one worker per kind. Scrape.do: follow-up pages 60 / (answer time + collector time) from its 5 follow-up pages (mean and median); result pages: B2's segment (slow end) and the median answer time of its 49 result pages (fast end)"
+  },
+  "charged_retry_share_measured": {
+   "value": {
+    "scrapedo": 0.0304,
+    "oxylabs": 0.0138
+   },
+   "kind": "measured",
+   "source": "requests with a charge (or a reservation kept: possibly charged) and no usable answer, per answered request, all live runs of 2026-10-28: Oxylabs 16 of 1159, Scrape.do 15 of 494 (Walmart 404s, 1 credit each); free failures (time only): Oxylabs 15, Scrape.do 2"
+  },
+  "valid_products_per_result_page": {
+   "value": 35.2,
+   "kind": "measured",
+   "source": "Oxylabs runs B2 (1.4.0) and B3 (1.4.1), Pickup grid, no follow-up and no UPC page: valid fresh products per result page read, pooled over the two runs: B2 675/19; B3 662/19; together 1337/38"
+  },
+  "follow_up_outcomes_phase_D": {
+   "value": {
+    "read": 441,
+    "included": 160,
+    "excluded": 279,
+    "inaccessible": 2,
+    "not_attempted": 319,
+    "shares_of_read": {
+     "included": 0.363,
+     "excluded": 0.633,
+     "inaccessible": 0.005
+    }
+   },
+   "kind": "measured",
+   "source": "run D (01M60VA5, 1.4.1, variant follow-ups of 5 listings): coverage follow_up_outcomes"
+  },
+  "stored_bytes_per_page": {
+   "value": {
+    "result_page_dom_plus_raw": 289081,
+    "product_page_dom_plus_raw": 243213,
+    "by_edition_kind_purpose": {
+     "oxylabs/dom/listing": {
+      "n": 61,
+      "mean": 134672
+     },
+     "oxylabs/dom/product_detail": {
+      "n": 403,
+      "mean": 123371
+     },
+     "oxylabs/dom/product_page": {
+      "n": 444,
+      "mean": 115634
+     },
+     "oxylabs/dom/store_page": {
+      "n": 20,
+      "mean": 68821
+     },
+     "oxylabs/raw/listing": {
+      "n": 61,
+      "mean": 147344
+     },
+     "oxylabs/raw/product_detail": {
+      "n": 403,
+      "mean": 138157
+     },
+     "oxylabs/raw/product_page": {
+      "n": 445,
+      "mean": 129700
+     },
+     "oxylabs/raw/robots": {
+      "n": 20,
+      "mean": 764
+     },
+     "oxylabs/raw/store_page": {
+      "n": 20,
+      "mean": 78588
+     },
+     "scrapedo/dom/listing": {
+      "n": 37,
+      "mean": 144067
+     },
+     "scrapedo/dom/product_detail": {
+      "n": 403,
+      "mean": 104392
+     },
+     "scrapedo/dom/store_page": {
+      "n": 13,
+      "mean": 68752
+     },
+     "scrapedo/raw/listing": {
+      "n": 37,
+      "mean": 156663
+     },
+     "scrapedo/raw/product_detail": {
+      "n": 403,
+      "mean": 118276
+     },
+     "scrapedo/raw/robots": {
+      "n": 13,
+      "mean": 764
+     },
+     "scrapedo/raw/store_page": {
+      "n": 13,
+      "mean": 78522
+     }
+    }
+   },
+   "kind": "measured",
+   "source": "live.tar of runs B1, B2, B3 and D (gzip-compressed files, as stored on the VM)"
+  },
+  "database_bytes_per_observation": {
+   "value": 16649,
+   "kind": "measured",
+   "source": "walmart_oxylabs on 2026-10-28T10:22Z (command 367): 53,410,839 bytes for 3,208 product observations, 3,733 records and 963 page fetches (with their events and ledger); an order of magnitude only, never measured at production scale"
+  },
+  "export_bytes_per_exported_row": {
+   "value": 19059,
+   "kind": "measured",
+   "source": "the B3 and D export folders (products, provenance, record map, memberships, offers, coverage) per row"
+  }
+ },
+ "inputs_sha256": {
+  "C:/w6/c140/audit/final/usage/USAGE_1_4_1.json": "f051916089a57f849bfa4fd348b0af5dd91c89e891dc8185d564dc8450f5e317",
+  "C:/w6/c140/audit/final/profiles/RUN_PROFILES_1_4_1.jsonl": "fd29d3080d6bccbf008439256aae2cdc89386628d2f3f672090429beba890c91",
+  "C:/w6/c140/audit/final/runs_all.json": "29b41495f7d7b544715ded8d4dd984e2e8a20ad61e09338544be72ea12dbb0aa",
+  "C:/w6/c140/audit/final/scope/SCOPE_AUDIT_1_4_1.json": "e88018f7432a6a3c5d02aac23754ff5ef1cec5e1df766d53fef4f42e767a4860",
+  "C:/w6/c140/evidence/pricing_20261028/azure_retail_prices_20261028/AZURE_PRICES.json": "a85e0f01671a6596494242392bc4d19c0006db52f9f5ddf9553bff59b60ab2a9",
+  "C:/w6/c140/evidence/pricing_20261028/azure_storage_egress_prices_20261028/AZURE_STORAGE_EGRESS_PRICES.json": "35acb06331dc4312b661dd45d3095a21fb284f292496429c57f893af57734bb5",
+  "C:/w6/evidence131/costs/cost_model_131.json": "da7315c5417f0643f086584ce723c4bc7ec6f6a8b8b49169bd00a4facb8e18ea",
+  "C:/w6/c140/audit/final/coverage/COVERAGE_RECONCILIATION.csv": "d7ec45a103f194808a530b5a530d8512016efcba7451332e8c67804b9139b3e3",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60BY58FYSVA2EPYWY2RY6TA/db/provider_usage.csv": "f64c412db168524db61ab8baecc7ec26daa45d39d574fc158034fab9d52dabee",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60C3EGX839C5B2R3TXV5MAZ/db/provider_usage.csv": "a21f182a192814bb022af9bd23267268794759dc8d6d047dbdc8e70f563a400f",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/db/provider_usage.csv": "410ce1c709cbf578af76a2a1d7cea3bed6d71949d5291f2e982a3597e671f1b1",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7/db/provider_usage.csv": "48985f08af50bf1f267a08df4b21b565bdcee4cd571fa1658e90d54364804cb0",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/db/provider_usage.csv": "ad346ac7b3264283e9d3cf8f0f37fc06f9142fa39f4ae25d5034332c08ad4a96",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/db/provider_usage.csv": "95c3654d2d12efbca2e4e868f669dd9ee9aac0a054382487535897816a158035",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60GYYBTSV6ED3Y0F9J3DGKS/db/provider_usage.csv": "7c12795fb19d5ca1be77de15060530cca7afc36d94fe50071171c180285329aa",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J1ATS2PP2T4ZS52AMH4RY/db/provider_usage.csv": "6e5a8e941420e11bcad9c27336d22eadc0842fe5e445233ad28dd3b56de87ff8",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60J3WCJHFRTACK1M8HW37FT/db/provider_usage.csv": "8b114606caefe4f08e080cf5985dc02ba9392c4b4a461cc235740606ef9cb946",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60JAPKBR4FNK22QMYTHNBSX/db/provider_usage.csv": "4300d208cc1cf56392de8264adcfb302c33d5d0a5aba4549c65a8a57a20ad13b",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60PQ9JTV9BQCVF45EMEWMZM/db/provider_usage.csv": "7e5b83344e3ae7b4f0a183a78e4feea3c20aa6cd35e8fbd6045ac16247e848b3",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60QZ09NV9ZY6WD2RGG89N13/db/provider_usage.csv": "907fe153caf7a6e35856707c505b6b09cebe42bde4c0c0bc119481020f56b51e",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60R5FTS5M97K3M53PPQQ7PW/db/provider_usage.csv": "5a6e9370de6a8484bf7ce11b59381f3f35392ee41e5874f786891a12fc100639",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RBVDW1BRS366AAS3JVKER/db/provider_usage.csv": "a5a974da5d5f1cfd4234c33b8bbe68482e8e6b849593860a44d5506c13c0a86c",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_oxylabs/01M60RPW1ABES1RWTXXHZBTAXS/db/provider_usage.csv": "7f17bb9c817577ddca57cf88e90f44bfa49df5b154afd4eb102b304994cec218",
+  "C:/w6/c140/evidence/runs/walmart_pubtest_scrapedo/01M60S8E829WP3RKTEGMMHHHMC/db/provider_usage.csv": "dd000e151a39a992ec025f868ecbb46547b04fbc4cb9f013136a72d88d283c22",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60V2DCCWR72BGVVG3EM9R74/db/provider_usage.csv": "130d4cc57dd7dcb71d3f6c268aaafedd17720b2c6e12091b160940f48a48c8d7",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60VA50N50W10GJZE9C6P95K/db/provider_usage.csv": "6b27b90d888c60f474df9121d447b95938e13219de4dfac0c8e3f3e6cadbcff7",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60CG5Y3KY64JP0ZV5F6MBDP/db/page_fetches.csv": "6ef087a96a10787e2806f57392fff67e869015546d204752dd038598ea3d045d",
+  "C:/w6/c140/evidence/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7/db/page_fetches.csv": "fa7e748063516c74c88f58a4fcd3406a8c1bd93321d7208f0c3c9d9601ee97b8",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60F6GHNXCTZPJ6G1PRM7KW7/db/page_fetches.csv": "97b01add663341f6d413a98adba6e15c5e402ab0a1184af2a6b70e0a0bd259fb",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/db/page_fetches.csv": "3e6423c6a22fef45f66b3a8d4246e63860444fa25114802435c5f9407d505c2f",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60V2DCCWR72BGVVG3EM9R74/db/page_fetches.csv": "a3783b90374d1e8e82b02ff03e18ba6a9a327b40b336cf4b99545caba02bdd28",
+  "C:/w6/c140/evidence/runs/walmart_oxylabs/01M60VA50N50W10GJZE9C6P95K/db/page_fetches.csv": "6587c6215d4f9709ff8f62197047d41c0b61c75d6f07da726ee644dd6c187796",
+  "C:/w6/c140/evidence/commands/367_db_sizes_141.txt": "3ab7c658b045947e7627f6edd2de72a97a5963b5e6d17e0691ea1357cbd24957"
+ },
+ "measured": {
+  "runs": [
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "A",
+    "run": "01M60BY58FYSVA2EPYWY2RY6TA",
+    "database": "walmart_scrapedo",
+    "requests": 14,
+    "units": 77.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 5,
+     "product_detail": 5,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 130,
+    "exported_rows": 130,
+    "units_per_1000_valid_fresh": 592.3,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 77.0,
+    "result_page_units_of_completed_branches": 10,
+    "completed_branch_names": "Strawberries",
+    "usd_at_plan_rates_low_high": [
+     0.0054,
+     0.0089
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.0414,
+     0.0687
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "A",
+    "run": "01M60C3EGX839C5B2R3TXV5MAZ",
+    "database": "walmart_oxylabs",
+    "requests": 14,
+    "units": 14.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 5,
+     "product_detail": 5,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 132,
+    "exported_rows": 132,
+    "units_per_1000_valid_fresh": 106.1,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 14.0,
+    "result_page_units_of_completed_branches": 1,
+    "completed_branch_names": "Strawberries",
+    "usd_at_low_rate": 0.007,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.053,
+    "usd_at_central_rate": 0.014,
+    "usd_per_1000_valid_fresh_at_central_rate": 0.1061,
+    "usd_at_worst_rate": 0.021,
+    "usd_per_1000_valid_fresh_at_worst_rate": 0.1591,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "database": "walmart_scrapedo",
+    "requests": 452,
+    "units": 641.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 18,
+     "product_detail": 409,
+     "product_page": 3,
+     "robots": 11,
+     "store_page": 11
+    },
+    "valid_fresh": 478,
+    "exported_rows": 478,
+    "units_per_1000_valid_fresh": 1341.0,
+    "completed_branches": 2,
+    "units_per_completed_branch_whole_run": 320.5,
+    "result_page_units_of_completed_branches": 20,
+    "completed_branch_names": "Pears; Strawberries",
+    "usd_at_plan_rates_low_high": [
+     0.0448,
+     0.0744
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.0937,
+     0.1556
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B2",
+    "run": "01M60ESB2201KQ56K9GRTMY0V7",
+    "database": "walmart_scrapedo",
+    "requests": 24,
+    "units": 194.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 20,
+     "robots": 2,
+     "store_page": 2
+    },
+    "valid_fresh": 561,
+    "exported_rows": 650,
+    "units_per_1000_valid_fresh": 345.8,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 194.0,
+    "result_page_units_of_completed_branches": 10,
+    "completed_branch_names": "Strawberries",
+    "usd_at_plan_rates_low_high": [
+     0.0136,
+     0.0225
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.0242,
+     0.0401
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "database": "walmart_oxylabs",
+    "requests": 453,
+    "units": 453.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 18,
+     "product_detail": 409,
+     "product_page": 4,
+     "robots": 11,
+     "store_page": 11
+    },
+    "valid_fresh": 607,
+    "exported_rows": 613,
+    "units_per_1000_valid_fresh": 746.3,
+    "completed_branches": 2,
+    "units_per_completed_branch_whole_run": 226.5,
+    "result_page_units_of_completed_branches": 2,
+    "completed_branch_names": "Pears; Strawberries",
+    "usd_at_low_rate": 0.2265,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.3731,
+    "usd_at_central_rate": 0.453,
+    "usd_per_1000_valid_fresh_at_central_rate": 0.7463,
+    "usd_at_worst_rate": 0.6795,
+    "usd_per_1000_valid_fresh_at_worst_rate": 1.1194,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B2",
+    "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+    "database": "walmart_oxylabs",
+    "requests": 23,
+    "units": 23.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    },
+    "valid_fresh": 675,
+    "exported_rows": 834,
+    "units_per_1000_valid_fresh": 34.1,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 23.0,
+    "result_page_units_of_completed_branches": 1,
+    "completed_branch_names": "Strawberries",
+    "usd_at_low_rate": 0.0115,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.017,
+    "usd_at_central_rate": 0.023,
+    "usd_per_1000_valid_fresh_at_central_rate": 0.0341,
+    "usd_at_worst_rate": 0.0345,
+    "usd_per_1000_valid_fresh_at_worst_rate": 0.0511,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "C-v1",
+    "run": "01M60GYYBTSV6ED3Y0F9J3DGKS",
+    "database": "walmart_pubtest_scrapedo",
+    "requests": 10,
+    "units": 27.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 3,
+     "product_detail": 5,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 5400.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_plan_rates_low_high": [
+     0.0019,
+     0.0031
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.3775,
+     0.6264
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "C-v2",
+    "run": "01M60J1ATS2PP2T4ZS52AMH4RY",
+    "database": "walmart_pubtest_scrapedo",
+    "requests": 4,
+    "units": 22.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 4400.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_plan_rates_low_high": [
+     0.0015,
+     0.0026
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.3076,
+     0.5104
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "C-pilot",
+    "run": "01M60J3WCJHFRTACK1M8HW37FT",
+    "database": "walmart_pubtest_scrapedo",
+    "requests": 3,
+    "units": 12.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 1,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 2,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 6000.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_plan_rates_low_high": [
+     0.0008,
+     0.0014
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.4194,
+     0.696
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "C-v1",
+    "run": "01M60JAPKBR4FNK22QMYTHNBSX",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 12,
+    "units": 8.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 2,
+     "product_detail": 8,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 1600.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_low_rate": 0.004,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.8,
+    "usd_at_central_rate": 0.008,
+    "usd_per_1000_valid_fresh_at_central_rate": 1.6,
+    "usd_at_worst_rate": 0.012,
+    "usd_per_1000_valid_fresh_at_worst_rate": 2.4,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C141-v1",
+    "run": "01M60PQ9JTV9BQCVF45EMEWMZM",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 6,
+    "units": 6.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 3,
+     "product_detail": 1,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 1200.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_low_rate": 0.003,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.6,
+    "usd_at_central_rate": 0.006,
+    "usd_per_1000_valid_fresh_at_central_rate": 1.2,
+    "usd_at_worst_rate": 0.009,
+    "usd_per_1000_valid_fresh_at_worst_rate": 1.8,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C141-v2",
+    "run": "01M60QZ09NV9ZY6WD2RGG89N13",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 5,
+    "units": 5.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 2
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 1000.0,
+    "completed_branches": 2,
+    "units_per_completed_branch_whole_run": 2.5,
+    "result_page_units_of_completed_branches": 2,
+    "completed_branch_names": "Pears; Strawberries",
+    "usd_at_low_rate": 0.0025,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.5,
+    "usd_at_central_rate": 0.005,
+    "usd_per_1000_valid_fresh_at_central_rate": 1.0,
+    "usd_at_worst_rate": 0.0075,
+    "usd_per_1000_valid_fresh_at_worst_rate": 1.5,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C141-pilot",
+    "run": "01M60R5FTS5M97K3M53PPQQ7PW",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 4,
+    "units": 4.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 2,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 2000.0,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_low_rate": 0.002,
+    "usd_per_1000_valid_fresh_at_low_rate": 1.0,
+    "usd_at_central_rate": 0.004,
+    "usd_per_1000_valid_fresh_at_central_rate": 2.0,
+    "usd_at_worst_rate": 0.006,
+    "usd_per_1000_valid_fresh_at_worst_rate": 3.0,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C141-offers",
+    "run": "01M60RBVDW1BRS366AAS3JVKER",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 13,
+    "units": 12.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "category_page": 2,
+     "listing": 3,
+     "product_page": 5,
+     "robots": 1,
+     "store_page": 2
+    },
+    "valid_fresh": 96,
+    "exported_rows": 101,
+    "units_per_1000_valid_fresh": 125.0,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 12.0,
+    "result_page_units_of_completed_branches": 1,
+    "completed_branch_names": "Premium Hair Care",
+    "usd_at_low_rate": 0.006,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.0625,
+    "usd_at_central_rate": 0.012,
+    "usd_per_1000_valid_fresh_at_central_rate": 0.125,
+    "usd_at_worst_rate": 0.018,
+    "usd_per_1000_valid_fresh_at_worst_rate": 0.1875,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C-retest",
+    "run": "01M60RPW1ABES1RWTXXHZBTAXS",
+    "database": "walmart_pubtest_oxylabs",
+    "requests": 177,
+    "units": 172.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 4,
+     "product_detail": 169,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 159,
+    "exported_rows": 260,
+    "units_per_1000_valid_fresh": 1081.8,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_low_rate": 0.086,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.5409,
+    "usd_at_central_rate": 0.172,
+    "usd_per_1000_valid_fresh_at_central_rate": 1.0818,
+    "usd_at_worst_rate": 0.258,
+    "usd_per_1000_valid_fresh_at_worst_rate": 1.6226,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.1",
+    "phase": "C141-v3",
+    "run": "01M60S8E829WP3RKTEGMMHHHMC",
+    "database": "walmart_pubtest_scrapedo",
+    "requests": 4,
+    "units": 22.0,
+    "unit": "Scrape.do credits",
+    "requests_by_purpose": {
+     "listing": 2,
+     "robots": 1,
+     "store_page": 1
+    },
+    "valid_fresh": 5,
+    "exported_rows": 5,
+    "units_per_1000_valid_fresh": 4400.0,
+    "completed_branches": 2,
+    "units_per_completed_branch_whole_run": 11.0,
+    "result_page_units_of_completed_branches": 20,
+    "completed_branch_names": "Pears; Strawberries",
+    "usd_at_plan_rates_low_high": [
+     0.0015,
+     0.0026
+    ],
+    "usd_per_1000_valid_fresh_at_plan_rates": [
+     0.3076,
+     0.5104
+    ],
+    "money_basis": "free plan (1,000 credits a month): no cash; the dollar figures value the credits at the Advanced and Hobby plans' price per credit"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "B3",
+    "run": "01M60V2DCCWR72BGVVG3EM9R74",
+    "database": "walmart_oxylabs",
+    "requests": 23,
+    "units": 23.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    },
+    "valid_fresh": 662,
+    "exported_rows": 862,
+    "units_per_1000_valid_fresh": 34.7,
+    "completed_branches": 1,
+    "units_per_completed_branch_whole_run": 23.0,
+    "result_page_units_of_completed_branches": 1,
+    "completed_branch_names": "Strawberries",
+    "usd_at_low_rate": 0.0115,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.0174,
+    "usd_at_central_rate": 0.023,
+    "usd_per_1000_valid_fresh_at_central_rate": 0.0347,
+    "usd_at_worst_rate": 0.0345,
+    "usd_per_1000_valid_fresh_at_worst_rate": 0.0521,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "D",
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "database": "walmart_oxylabs",
+    "requests": 460,
+    "units": 455.0,
+    "unit": "Oxylabs results (counted)",
+    "requests_by_purpose": {
+     "listing": 5,
+     "product_page": 445,
+     "robots": 5,
+     "store_page": 5
+    },
+    "valid_fresh": 358,
+    "exported_rows": 1035,
+    "units_per_1000_valid_fresh": 1270.9,
+    "completed_branches": 0,
+    "units_per_completed_branch_whole_run": null,
+    "result_page_units_of_completed_branches": null,
+    "completed_branch_names": "",
+    "usd_at_low_rate": 0.2275,
+    "usd_per_1000_valid_fresh_at_low_rate": 0.6355,
+    "usd_at_central_rate": 0.455,
+    "usd_per_1000_valid_fresh_at_central_rate": 1.2709,
+    "usd_at_worst_rate": 0.6825,
+    "usd_per_1000_valid_fresh_at_worst_rate": 1.9064,
+    "money_basis": "an estimate at published rates, drawn from the account's USD 5 welcome credit (presumed; Oxylabs offers no balance endpoint): no cash, no invoice"
+   }
+  ],
+  "throughput_segments": [
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "segment": "01M60CG6FW4N25E47MFRSY5WB8",
+    "workers_with_requests": 1,
+    "requests": 149,
+    "span_s": 597.9,
+    "requests_per_min": 15.0,
+    "requests_per_min_per_worker": 15.0,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 7,
+     "product_detail": 140,
+     "robots": 1,
+     "store_page": 1
+    }
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "segment": "01M60D3THQAZQ3NN58MPNPE02A",
+    "workers_with_requests": 2,
+    "requests": 127,
+    "span_s": 271.9,
+    "requests_per_min": 28.0,
+    "requests_per_min_per_worker": 14.0,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 5,
+     "product_detail": 118,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "segment": "01M60DDA8NRT3RJKG1347R47YZ",
+    "workers_with_requests": 4,
+    "requests": 88,
+    "span_s": 90.7,
+    "requests_per_min": 58.2,
+    "requests_per_min_per_worker": 14.6,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 4,
+     "product_detail": 76,
+     "robots": 4,
+     "store_page": 4
+    }
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60CG5Y3KY64JP0ZV5F6MBDP",
+    "segment": "01M60DH2ENN4BYAYSBA7TXD20H",
+    "workers_with_requests": 4,
+    "requests": 88,
+    "span_s": 94.6,
+    "requests_per_min": 55.8,
+    "requests_per_min_per_worker": 14.0,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 2,
+     "product_detail": 75,
+     "product_page": 3,
+     "robots": 4,
+     "store_page": 4
+    }
+   },
+   {
+    "edition": "scrapedo",
+    "release": "1.4.0",
+    "phase": "B2",
+    "run": "01M60ESB2201KQ56K9GRTMY0V7",
+    "segment": "01M60ESBJDHDC2SP7RA2XFH8WT",
+    "workers_with_requests": 2,
+    "requests": 24,
+    "span_s": 190.5,
+    "requests_per_min": 7.6,
+    "requests_per_min_per_worker": 3.8,
+    "stage": "result pages",
+    "purposes": {
+     "listing": 20,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "segment": "01M60F6GKA60X6T0BKC8A6EQK8",
+    "workers_with_requests": 1,
+    "requests": 105,
+    "span_s": 598.8,
+    "requests_per_min": 10.5,
+    "requests_per_min_per_worker": 10.5,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 4,
+     "product_detail": 99,
+     "robots": 1,
+     "store_page": 1
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "segment": "01M60FSKVDY5X5NTBWA1RQBXDE",
+    "workers_with_requests": 2,
+    "requests": 127,
+    "span_s": 352.3,
+    "requests_per_min": 21.6,
+    "requests_per_min_per_worker": 10.8,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 6,
+     "product_detail": 117,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "segment": "01M60G5DAF8SHGCHDGX9SPPP84",
+    "workers_with_requests": 4,
+    "requests": 98,
+    "span_s": 108.1,
+    "requests_per_min": 54.4,
+    "requests_per_min_per_worker": 13.6,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 4,
+     "product_detail": 86,
+     "robots": 4,
+     "store_page": 4
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B1",
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "segment": "01M60G9KDXM0ZM3EEH65B6XGNA",
+    "workers_with_requests": 4,
+    "requests": 123,
+    "span_s": 201.2,
+    "requests_per_min": 36.7,
+    "requests_per_min_per_worker": 9.2,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 4,
+     "product_detail": 107,
+     "product_page": 4,
+     "robots": 4,
+     "store_page": 4
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.0",
+    "phase": "B2",
+    "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+    "segment": "01M60GKSV65FVHS4HSX7JEMZ85",
+    "workers_with_requests": 2,
+    "requests": 23,
+    "span_s": 57.1,
+    "requests_per_min": 24.2,
+    "requests_per_min_per_worker": 12.1,
+    "stage": "result pages",
+    "purposes": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "C-retest",
+    "run": "01M60RPW1ABES1RWTXXHZBTAXS",
+    "segment": "01M60RPWA6E2T5EMZREHBGY4AV",
+    "workers_with_requests": 1,
+    "requests": 177,
+    "span_s": 2152.8,
+    "requests_per_min": 4.9,
+    "requests_per_min_per_worker": 4.9,
+    "stage": "UPC product pages (mixed with some result pages)",
+    "purposes": {
+     "listing": 4,
+     "product_detail": 169,
+     "product_page": 2,
+     "robots": 1,
+     "store_page": 1
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "B3",
+    "run": "01M60V2DCCWR72BGVVG3EM9R74",
+    "segment": "01M60V2DE7H9HTDEJ85N3YJ0WK",
+    "workers_with_requests": 2,
+    "requests": 23,
+    "span_s": 84.7,
+    "requests_per_min": 16.3,
+    "requests_per_min_per_worker": 8.1,
+    "stage": "result pages",
+    "purposes": {
+     "listing": 19,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "D",
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "segment": "01M60VA52FE21D8BDSZKQK1NWK",
+    "workers_with_requests": 2,
+    "requests": 98,
+    "span_s": 599.0,
+    "requests_per_min": 9.8,
+    "requests_per_min_per_worker": 9.8,
+    "stage": "follow-up pages (one task per kind)",
+    "purposes": {
+     "listing": 5,
+     "product_page": 89,
+     "robots": 2,
+     "store_page": 2
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "D",
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "segment": "01M60W5A7KE7KA1ZK6ZFK65Y6W",
+    "workers_with_requests": 1,
+    "requests": 118,
+    "span_s": 599.2,
+    "requests_per_min": 11.8,
+    "requests_per_min_per_worker": 11.8,
+    "stage": "follow-up pages (one task per kind)",
+    "purposes": {
+     "product_page": 116,
+     "robots": 1,
+     "store_page": 1
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "D",
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "segment": "01M60WR0ZJM0S1T1JZR1FK9TP9",
+    "workers_with_requests": 1,
+    "requests": 139,
+    "span_s": 598.2,
+    "requests_per_min": 13.9,
+    "requests_per_min_per_worker": 13.9,
+    "stage": "follow-up pages (one task per kind)",
+    "purposes": {
+     "product_page": 137,
+     "robots": 1,
+     "store_page": 1
+    }
+   },
+   {
+    "edition": "oxylabs",
+    "release": "1.4.1",
+    "phase": "D",
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "segment": "01M60XAQFXGFRRJCFFXCTR4ZZB",
+    "workers_with_requests": 1,
+    "requests": 105,
+    "span_s": 467.6,
+    "requests_per_min": 13.5,
+    "requests_per_min_per_worker": 13.5,
+    "stage": "follow-up pages (one task per kind)",
+    "purposes": {
+     "product_page": 103,
+     "robots": 1,
+     "store_page": 1
+    }
+   }
+  ],
+  "latency_s_ok_by_purpose": {
+   "oxylabs/listing": {
+    "n": 80,
+    "p50": 4.37,
+    "mean": 6.35
+   },
+   "oxylabs/product_detail": {
+    "n": 571,
+    "p50": 3.91,
+    "mean": 5.44
+   },
+   "oxylabs/product_page": {
+    "n": 452,
+    "p50": 3.31,
+    "mean": 4.34
+   },
+   "oxylabs/robots": {
+    "n": 27,
+    "p50": 2.77,
+    "mean": 3.16
+   },
+   "oxylabs/store_page": {
+    "n": 27,
+    "p50": 3.73,
+    "mean": 6.83
+   },
+   "scrapedo/listing": {
+    "n": 49,
+    "p50": 6.44,
+    "mean": 10.6
+   },
+   "scrapedo/product_detail": {
+    "n": 404,
+    "p50": 3.49,
+    "mean": 3.91
+   },
+   "scrapedo/product_page": {
+    "n": 5,
+    "p50": 3.54,
+    "mean": 7.07
+   },
+   "scrapedo/robots": {
+    "n": 18,
+    "p50": 1.57,
+    "mean": 1.59
+   },
+   "scrapedo/store_page": {
+    "n": 18,
+    "p50": 3.55,
+    "mean": 4.09
+   }
+  },
+  "yield_per_result_page": [
+   {
+    "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+    "phase": "B2",
+    "valid_fresh": 675,
+    "result_pages": 19,
+    "valid_per_page": 35.5
+   },
+   {
+    "run": "01M60V2DCCWR72BGVVG3EM9R74",
+    "phase": "B3",
+    "valid_fresh": 662,
+    "result_pages": 19,
+    "valid_per_page": 34.8
+   }
+  ],
+  "follow_up_and_sponsored_ratios": [
+   {
+    "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+    "phase": "B1",
+    "result_pages": 18,
+    "organic_identities_per_listing_sum": 644,
+    "valid_fresh_run": 607,
+    "variant_candidates_per_organic_identity": 1.05,
+    "sponsored_only_per_organic_identity": 0.075,
+    "sponsored_only_per_result_page": 2.67
+   },
+   {
+    "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+    "phase": "B2",
+    "result_pages": 19,
+    "organic_identities_per_listing_sum": 717,
+    "valid_fresh_run": 675,
+    "variant_candidates_per_organic_identity": 0.78,
+    "sponsored_only_per_organic_identity": 0.033,
+    "sponsored_only_per_result_page": 1.26
+   },
+   {
+    "run": "01M60V2DCCWR72BGVVG3EM9R74",
+    "phase": "B3",
+    "result_pages": 19,
+    "organic_identities_per_listing_sum": 704,
+    "valid_fresh_run": 662,
+    "variant_candidates_per_organic_identity": 0.78,
+    "sponsored_only_per_organic_identity": 0.03,
+    "sponsored_only_per_result_page": 1.11
+   },
+   {
+    "run": "01M60VA50N50W10GJZE9C6P95K",
+    "phase": "D",
+    "result_pages": 5,
+    "organic_identities_per_listing_sum": 198,
+    "valid_fresh_run": 358,
+    "variant_candidates_per_organic_identity": 1.54,
+    "sponsored_only_per_organic_identity": 0.167,
+    "sponsored_only_per_result_page": 6.6
+   }
+  ],
+  "follow_up_outcomes_D": {
+   "read": 441,
+   "included": 160,
+   "excluded": 279,
+   "inaccessible": 2,
+   "not_attempted": 319,
+   "shares_of_read": {
+    "included": 0.363,
+    "excluded": 0.633,
+    "inaccessible": 0.005
+   }
+  },
+  "database_2026_10_28": {
+   "walmart_scrapedo": {
+    "bytes": 33831959,
+    "records": 1623,
+    "page_fetches": 483,
+    "usage_rows": 490,
+    "observations": 1822
+   },
+   "walmart_oxylabs": {
+    "bytes": 53410839,
+    "records": 3733,
+    "page_fetches": 963,
+    "usage_rows": 973,
+    "observations": 3208
+   },
+   "walmart_pubtest_scrapedo": {
+    "bytes": 11918359,
+    "records": 131,
+    "page_fetches": 108,
+    "usage_rows": 133,
+    "observations": 77
+   },
+   "walmart_pubtest_oxylabs": {
+    "bytes": 18512919,
+    "records": 412,
+    "page_fetches": 247,
+    "usage_rows": 277,
+    "observations": 360
+   }
+  },
+  "campaign_totals": {
+   "oxylabs": {
+    "requests": 1190,
+    "units": 1175.0
+   },
+   "scrapedo": {
+    "requests": 511,
+    "units": 995.0
+   }
+  }
+ },
+ "scenarios": {
+  "N20k/lean/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 682,
+    "upc": 20000,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 682,
+    "upc": 2740,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 31769,
+   "units_later_run": 14240,
+   "units_first_month": 122754,
+   "units_later_month": 123410,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.556,
+      "usd_at_rate": 61.7
+     },
+     "first_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.553,
+      "usd_at_rate": 61.38
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.197,
+      "usd_at_rate": 123.41
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.196,
+      "usd_at_rate": 122.75
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.321,
+      "usd_at_rate": 185.11
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.32,
+      "usd_at_rate": 184.13
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.2,
+     0.4
+    ],
+    "upc": [
+     6.1,
+     17.0
+    ],
+    "follow_up": [
+     3.2,
+     4.5
+    ],
+    "total": [
+     9.5,
+     21.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.0,
+     1.4
+    ],
+    "upc": [
+     3.4,
+     9.3
+    ],
+    "follow_up": [
+     12.7,
+     18.0
+    ],
+    "total": [
+     17.0,
+     28.8
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 18.0,
+   "segments_later_run": 6,
+   "azure_later_month": {
+    "vm_collection_hours": 249.4,
+    "vm_usd_collection_only": 28.18,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 42.6,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.21,
+    "egress_gb_exports": 3.94,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    39.03,
+    93.55
+   ]
+  },
+  "N20k/lean/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 682,
+    "upc": 20000,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 682,
+    "upc": 2740,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 133505,
+   "units_later_run": 115678,
+   "units_first_month": 1001887,
+   "units_later_month": 1002543,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.802,
+     "usd_month_annual_billing": 82.5
+    },
+    "first_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.802,
+     "usd_month_annual_billing": 82.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.3,
+     0.8
+    ],
+    "upc": [
+     5.6,
+     6.0
+    ],
+    "follow_up": [
+     2.8,
+     5.4
+    ],
+    "total": [
+     8.7,
+     12.1
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.3,
+     3.0
+    ],
+    "upc": [
+     3.0,
+     3.3
+    ],
+    "follow_up": [
+     11.3,
+     21.7
+    ],
+    "total": [
+     15.7,
+     28.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 21.7,
+   "segments_later_run": 6,
+   "azure_later_month": {
+    "vm_collection_hours": 243.0,
+    "vm_usd_collection_only": 27.46,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 42.6,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.21,
+    "egress_gb_exports": 3.94,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    38.31,
+    93.55
+   ],
+   "plan_allows_workers": true
+  },
+  "N20k/lean/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 682,
+    "upc": 20000,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 682,
+    "upc": 2740,
+    "follow_variant": 4503,
+    "follow_sponsored": 270,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 31769,
+   "units_later_run": 8328,
+   "units_first_month": 77431,
+   "units_later_month": 72175,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.325,
+      "usd_at_rate": 36.09
+     },
+     "first_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.349,
+      "usd_at_rate": 38.72
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 111000,
+      "used_share": 0.65,
+      "usd_at_rate": 72.18
+     },
+     "first_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 111000,
+      "used_share": 0.698,
+      "usd_at_rate": 77.43
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.188,
+      "usd_at_rate": 108.26
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.202,
+      "usd_at_rate": 116.15
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.2,
+     0.4
+    ],
+    "upc": [
+     6.1,
+     17.0
+    ],
+    "follow_up": [
+     3.2,
+     4.5
+    ],
+    "total": [
+     9.5,
+     21.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.0,
+     1.4
+    ],
+    "upc": [
+     3.4,
+     9.3
+    ],
+    "follow_up": [
+     5.7,
+     8.1
+    ],
+    "total": [
+     10.0,
+     18.9
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 8.1,
+   "segments_later_run": 4,
+   "azure_later_month": {
+    "vm_collection_hours": 163.5,
+    "vm_usd_collection_only": 18.47,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 41.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.21,
+    "egress_gb_exports": 3.94,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    29.32,
+    93.55
+   ]
+  },
+  "N20k/lean/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 682,
+    "upc": 20000,
+    "follow_variant": 10000,
+    "follow_sponsored": 600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 682,
+    "upc": 2740,
+    "follow_variant": 4503,
+    "follow_sponsored": 270,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 133505,
+   "units_later_run": 57401,
+   "units_first_month": 555099,
+   "units_later_month": 497479,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.398,
+     "usd_month_annual_billing": 82.5
+    },
+    "first_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.444,
+     "usd_month_annual_billing": 82.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.3,
+     0.8
+    ],
+    "upc": [
+     5.6,
+     6.0
+    ],
+    "follow_up": [
+     2.8,
+     5.4
+    ],
+    "total": [
+     8.7,
+     12.1
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.3,
+     3.0
+    ],
+    "upc": [
+     3.0,
+     3.3
+    ],
+    "follow_up": [
+     5.1,
+     9.8
+    ],
+    "total": [
+     9.5,
+     16.1
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 9.8,
+   "segments_later_run": 4,
+   "azure_later_month": {
+    "vm_collection_hours": 139.4,
+    "vm_usd_collection_only": 15.76,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 41.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.21,
+    "egress_gb_exports": 3.94,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    26.61,
+    93.55
+   ],
+   "plan_allows_workers": true
+  },
+  "N20k/heavy/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 1137,
+    "upc": 20000,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1137,
+    "upc": 4340,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "units_first_run": 49719,
+   "units_later_run": 32463,
+   "units_first_month": 278868,
+   "units_later_month": 281343,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.197,
+      "usd_at_rate": 140.67
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.195,
+      "usd_at_rate": 139.43
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.45,
+      "usd_at_rate": 281.34
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.446,
+      "usd_at_rate": 278.87
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.733,
+      "usd_at_rate": 422.02
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.726,
+      "usd_at_rate": 418.3
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.4,
+     0.6
+    ],
+    "upc": [
+     6.2,
+     17.3
+    ],
+    "follow_up": [
+     7.1,
+     10.0
+    ],
+    "total": [
+     13.7,
+     28.0
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.4
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     28.3,
+     40.1
+    ],
+    "total": [
+     35.7,
+     58.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 40.1,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 508.0,
+    "vm_usd_collection_only": 57.41,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 56.0,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.25,
+    "egress_gb_exports": 4.72,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    73.06,
+    98.39
+   ]
+  },
+  "N20k/heavy/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 1137,
+    "upc": 20000,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1137,
+    "upc": 4340,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "units_first_run": 273493,
+   "units_later_run": 256199,
+   "units_first_month": 2217958,
+   "units_later_month": 2220396,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.634,
+     "usd_month_annual_billing": 207.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.634,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.5,
+     1.3
+    ],
+    "upc": [
+     5.7,
+     6.1
+    ],
+    "follow_up": [
+     6.3,
+     12.1
+    ],
+    "total": [
+     12.5,
+     19.4
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.2,
+     5.0
+    ],
+    "upc": [
+     5.3,
+     5.6
+    ],
+    "follow_up": [
+     25.3,
+     48.4
+    ],
+    "total": [
+     32.7,
+     59.1
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 48.4,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 512.0,
+    "vm_usd_collection_only": 57.85,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 56.0,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.25,
+    "egress_gb_exports": 4.72,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    73.5,
+    98.39
+   ],
+   "plan_allows_workers": true
+  },
+  "N20k/heavy/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 1137,
+    "upc": 20000,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1137,
+    "upc": 4340,
+    "follow_variant": 10024,
+    "follow_sponsored": 1804,
+    "offer": 400,
+    "category": 11
+   },
+   "units_first_run": 49719,
+   "units_later_run": 19506,
+   "units_first_month": 179536,
+   "units_later_month": 169055,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.762,
+      "usd_at_rate": 84.53
+     },
+     "first_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.809,
+      "usd_at_rate": 89.77
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.27,
+      "usd_at_rate": 169.05
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.287,
+      "usd_at_rate": 179.54
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.44,
+      "usd_at_rate": 253.58
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.468,
+      "usd_at_rate": 269.3
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.4,
+     0.6
+    ],
+    "upc": [
+     6.2,
+     17.3
+    ],
+    "follow_up": [
+     7.1,
+     10.0
+    ],
+    "total": [
+     13.7,
+     28.0
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.4
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     14.2,
+     20.1
+    ],
+    "total": [
+     21.6,
+     38.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 20.1,
+   "segments_later_run": 8,
+   "azure_later_month": {
+    "vm_collection_hours": 334.5,
+    "vm_usd_collection_only": 37.8,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 53.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.25,
+    "egress_gb_exports": 4.72,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    48.65,
+    93.59
+   ]
+  },
+  "N20k/heavy/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 1137,
+    "upc": 20000,
+    "follow_variant": 20000,
+    "follow_sponsored": 3600,
+    "offer": 400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1137,
+    "upc": 4340,
+    "follow_variant": 10024,
+    "follow_sponsored": 1804,
+    "offer": 400,
+    "category": 11
+   },
+   "units_first_run": 273493,
+   "units_later_run": 138477,
+   "units_first_month": 1315419,
+   "units_later_month": 1200135,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.96,
+     "usd_month_annual_billing": 82.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.376,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.5,
+     1.3
+    ],
+    "upc": [
+     5.7,
+     6.1
+    ],
+    "follow_up": [
+     6.3,
+     12.1
+    ],
+    "total": [
+     12.5,
+     19.4
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.2,
+     5.0
+    ],
+    "upc": [
+     5.3,
+     5.6
+    ],
+    "follow_up": [
+     12.7,
+     24.3
+    ],
+    "total": [
+     20.1,
+     34.9
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 24.3,
+   "segments_later_run": 7,
+   "azure_later_month": {
+    "vm_collection_hours": 302.8,
+    "vm_usd_collection_only": 34.21,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E6 64 GiB",
+    "data_disk_usd": 4.8,
+    "retained_gb": 53.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.25,
+    "egress_gb_exports": 4.72,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    45.06,
+    93.59
+   ],
+   "plan_allows_workers": true
+  },
+  "N40k/lean/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 1364,
+    "upc": 40000,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1364,
+    "upc": 5479,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 63515,
+   "units_later_run": 28467,
+   "units_first_month": 245391,
+   "units_later_month": 246714,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.173,
+      "usd_at_rate": 123.36
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.172,
+      "usd_at_rate": 122.7
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.395,
+      "usd_at_rate": 246.71
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.393,
+      "usd_at_rate": 245.39
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.642,
+      "usd_at_rate": 370.07
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.639,
+      "usd_at_rate": 368.09
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.5,
+     0.7
+    ],
+    "upc": [
+     12.3,
+     34.0
+    ],
+    "follow_up": [
+     6.4,
+     9.0
+    ],
+    "total": [
+     19.1,
+     43.7
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.9,
+     2.8
+    ],
+    "upc": [
+     6.7,
+     18.6
+    ],
+    "follow_up": [
+     25.4,
+     36.1
+    ],
+    "total": [
+     34.0,
+     57.5
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 36.1,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 498.5,
+    "vm_usd_collection_only": 56.33,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 85.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.42,
+    "egress_gb_exports": 7.88,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    71.98,
+    98.56
+   ]
+  },
+  "N40k/lean/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 1364,
+    "upc": 40000,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1364,
+    "upc": 5479,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 266950,
+   "units_later_run": 231334,
+   "units_first_month": 2003550,
+   "units_later_month": 2004901,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.573,
+     "usd_month_annual_billing": 207.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.572,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.6,
+     1.5
+    ],
+    "upc": [
+     11.1,
+     11.9
+    ],
+    "follow_up": [
+     5.7,
+     10.9
+    ],
+    "total": [
+     17.4,
+     24.3
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.6,
+     6.0
+    ],
+    "upc": [
+     6.1,
+     6.5
+    ],
+    "follow_up": [
+     22.7,
+     43.5
+    ],
+    "total": [
+     31.4,
+     56.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 43.5,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 485.6,
+    "vm_usd_collection_only": 54.87,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 85.1,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.42,
+    "egress_gb_exports": 7.88,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    70.52,
+    98.56
+   ],
+   "plan_allows_workers": true
+  },
+  "N40k/lean/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 1364,
+    "upc": 40000,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1364,
+    "upc": 5479,
+    "follow_variant": 9005,
+    "follow_sponsored": 540,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 63515,
+   "units_later_run": 16644,
+   "units_first_month": 154745,
+   "units_later_month": 144245,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.65,
+      "usd_at_rate": 72.12
+     },
+     "first_month": {
+      "plan": "Basic",
+      "usd_month": 100,
+      "band_results": 222000,
+      "used_share": 0.697,
+      "usd_at_rate": 77.37
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.231,
+      "usd_at_rate": 144.24
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.248,
+      "usd_at_rate": 154.74
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.376,
+      "usd_at_rate": 216.37
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.403,
+      "usd_at_rate": 232.12
+     }
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.5,
+     0.7
+    ],
+    "upc": [
+     12.3,
+     34.0
+    ],
+    "follow_up": [
+     6.4,
+     9.0
+    ],
+    "total": [
+     19.1,
+     43.7
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.9,
+     2.8
+    ],
+    "upc": [
+     6.7,
+     18.6
+    ],
+    "follow_up": [
+     11.4,
+     16.2
+    ],
+    "total": [
+     20.1,
+     37.7
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 16.2,
+   "segments_later_run": 8,
+   "azure_later_month": {
+    "vm_collection_hours": 326.7,
+    "vm_usd_collection_only": 36.92,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 82.3,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.42,
+    "egress_gb_exports": 7.88,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    52.57,
+    98.56
+   ]
+  },
+  "N40k/lean/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 1364,
+    "upc": 40000,
+    "follow_variant": 20000,
+    "follow_sponsored": 1200,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 1364,
+    "upc": 5479,
+    "follow_variant": 9005,
+    "follow_sponsored": 540,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 266950,
+   "units_later_run": 114779,
+   "units_first_month": 1109960,
+   "units_later_month": 994756,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.796,
+     "usd_month_annual_billing": 82.5
+    },
+    "first_month": {
+     "plan": "Pro",
+     "usd_month": 99,
+     "credits": 1250000,
+     "concurrent": 50,
+     "used_share": 0.888,
+     "usd_month_annual_billing": 82.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.6,
+     1.5
+    ],
+    "upc": [
+     11.1,
+     11.9
+    ],
+    "follow_up": [
+     5.7,
+     10.9
+    ],
+    "total": [
+     17.4,
+     24.3
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.6,
+     6.0
+    ],
+    "upc": [
+     6.1,
+     6.5
+    ],
+    "follow_up": [
+     10.2,
+     19.6
+    ],
+    "total": [
+     18.9,
+     32.1
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 19.6,
+   "segments_later_run": 7,
+   "azure_later_month": {
+    "vm_collection_hours": 278.5,
+    "vm_usd_collection_only": 31.47,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 82.3,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.42,
+    "egress_gb_exports": 7.88,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    47.12,
+    98.56
+   ],
+   "plan_allows_workers": true
+  },
+  "N40k/heavy/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 2274,
+    "upc": 40000,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2274,
+    "upc": 8679,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "units_first_run": 99418,
+   "units_later_run": 64913,
+   "units_first_month": 557623,
+   "units_later_month": 562582,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.393,
+      "usd_at_rate": 281.29
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.39,
+      "usd_at_rate": 278.81
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.9,
+      "usd_at_rate": 562.58
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.892,
+      "usd_at_rate": 557.62
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.274,
+      "usd_at_rate": 843.87
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.272,
+      "usd_at_rate": 836.43
+     }
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.8,
+     1.2
+    ],
+    "upc": [
+     12.5,
+     34.7
+    ],
+    "follow_up": [
+     14.1,
+     20.1
+    ],
+    "total": [
+     27.4,
+     55.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.4
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     28.3,
+     40.1
+    ],
+    "total": [
+     35.7,
+     58.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 40.1,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 507.9,
+    "vm_usd_collection_only": 57.4,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 111.9,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.51,
+    "egress_gb_exports": 9.44,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    82.65,
+    108.25
+   ]
+  },
+  "N40k/heavy/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 2274,
+    "upc": 40000,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2274,
+    "upc": 8679,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "units_first_run": 546894,
+   "units_later_run": 512385,
+   "units_first_month": 4435732,
+   "units_later_month": 4440687,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.444,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.444,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.1,
+     2.5
+    ],
+    "upc": [
+     11.3,
+     12.1
+    ],
+    "follow_up": [
+     12.6,
+     24.2
+    ],
+    "total": [
+     25.0,
+     38.8
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.1,
+     5.0
+    ],
+    "upc": [
+     5.3,
+     5.6
+    ],
+    "follow_up": [
+     25.3,
+     48.4
+    ],
+    "total": [
+     32.7,
+     59.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 48.4,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 511.8,
+    "vm_usd_collection_only": 57.83,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 111.9,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.51,
+    "egress_gb_exports": 9.44,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    83.08,
+    108.25
+   ],
+   "plan_allows_workers": true
+  },
+  "N40k/heavy/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 2274,
+    "upc": 40000,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2274,
+    "upc": 8679,
+    "follow_variant": 20049,
+    "follow_sponsored": 3609,
+    "offer": 800,
+    "category": 11
+   },
+   "units_first_run": 99418,
+   "units_later_run": 39000,
+   "units_first_month": 358959,
+   "units_later_month": 338005,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.236,
+      "usd_at_rate": 169.0
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.251,
+      "usd_at_rate": 179.48
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.541,
+      "usd_at_rate": 338.0
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.574,
+      "usd_at_rate": 358.96
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.88,
+      "usd_at_rate": 507.01
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.935,
+      "usd_at_rate": 538.44
+     }
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.8,
+     1.2
+    ],
+    "upc": [
+     12.5,
+     34.7
+    ],
+    "follow_up": [
+     14.1,
+     20.1
+    ],
+    "total": [
+     27.4,
+     55.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.4
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     14.2,
+     20.1
+    ],
+    "total": [
+     21.6,
+     38.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 20.1,
+   "segments_later_run": 8,
+   "azure_later_month": {
+    "vm_collection_hours": 334.4,
+    "vm_usd_collection_only": 37.79,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 106.2,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.51,
+    "egress_gb_exports": 9.44,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    53.44,
+    98.65
+   ]
+  },
+  "N40k/heavy/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 2274,
+    "upc": 40000,
+    "follow_variant": 40000,
+    "follow_sponsored": 7200,
+    "offer": 800,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2274,
+    "upc": 8679,
+    "follow_variant": 20049,
+    "follow_sponsored": 3609,
+    "offer": 800,
+    "category": 11
+   },
+   "units_first_run": 546894,
+   "units_later_run": 276921,
+   "units_first_month": 2630501,
+   "units_later_month": 2399992,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.686,
+     "usd_month_annual_billing": 207.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.752,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.1,
+     2.5
+    ],
+    "upc": [
+     11.3,
+     12.1
+    ],
+    "follow_up": [
+     12.6,
+     24.2
+    ],
+    "total": [
+     25.0,
+     38.8
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     4.3,
+     10.0
+    ],
+    "upc": [
+     10.5,
+     11.3
+    ],
+    "follow_up": [
+     25.3,
+     48.5
+    ],
+    "total": [
+     40.1,
+     69.8
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 48.5,
+   "segments_later_run": 14,
+   "azure_later_month": {
+    "vm_collection_hours": 605.1,
+    "vm_usd_collection_only": 68.38,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E10 128 GiB",
+    "data_disk_usd": 9.6,
+    "retained_gb": 106.2,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.51,
+    "egress_gb_exports": 9.44,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    84.03,
+    98.65
+   ],
+   "plan_allows_workers": true
+  },
+  "N80k/lean/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 2728,
+    "upc": 80000,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2728,
+    "upc": 10959,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 127014,
+   "units_later_run": 56923,
+   "units_first_month": 490681,
+   "units_later_month": 493331,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.345,
+      "usd_at_rate": 246.67
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.343,
+      "usd_at_rate": 245.34
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.789,
+      "usd_at_rate": 493.33
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.785,
+      "usd_at_rate": 490.68
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.241,
+      "usd_at_rate": 740.0
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.239,
+      "usd_at_rate": 736.02
+     }
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.9,
+     1.4
+    ],
+    "upc": [
+     24.5,
+     68.0
+    ],
+    "follow_up": [
+     12.7,
+     18.0
+    ],
+    "total": [
+     38.2,
+     87.5
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.9,
+     2.8
+    ],
+    "upc": [
+     6.7,
+     18.6
+    ],
+    "follow_up": [
+     25.4,
+     36.1
+    ],
+    "total": [
+     34.0,
+     57.5
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 36.1,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 498.4,
+    "vm_usd_collection_only": 56.32,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 170.2,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.85,
+    "egress_gb_exports": 15.76,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    81.57,
+    108.59
+   ]
+  },
+  "N80k/lean/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 2728,
+    "upc": 80000,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2728,
+    "upc": 10959,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 533848,
+   "units_later_run": 462656,
+   "units_first_month": 4006963,
+   "units_later_month": 4009704,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.401,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.401,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.3,
+     3.0
+    ],
+    "upc": [
+     22.2,
+     23.8
+    ],
+    "follow_up": [
+     11.3,
+     21.7
+    ],
+    "total": [
+     34.9,
+     48.6
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.6,
+     6.0
+    ],
+    "upc": [
+     6.1,
+     6.5
+    ],
+    "follow_up": [
+     22.7,
+     43.5
+    ],
+    "total": [
+     31.3,
+     56.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 43.5,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 485.4,
+    "vm_usd_collection_only": 54.85,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 170.2,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.85,
+    "egress_gb_exports": 15.76,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    80.1,
+    108.59
+   ],
+   "plan_allows_workers": true
+  },
+  "N80k/lean/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 2728,
+    "upc": 80000,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2728,
+    "upc": 10959,
+    "follow_variant": 18010,
+    "follow_sponsored": 1081,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 127014,
+   "units_later_run": 33276,
+   "units_first_month": 309389,
+   "units_later_month": 288393,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.202,
+      "usd_at_rate": 144.2
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.216,
+      "usd_at_rate": 154.69
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.461,
+      "usd_at_rate": 288.39
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.495,
+      "usd_at_rate": 309.39
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.751,
+      "usd_at_rate": 432.59
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 384000,
+      "used_share": 0.806,
+      "usd_at_rate": 464.08
+     }
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     0.9,
+     1.4
+    ],
+    "upc": [
+     24.5,
+     68.0
+    ],
+    "follow_up": [
+     12.7,
+     18.0
+    ],
+    "total": [
+     38.2,
+     87.5
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.9,
+     2.8
+    ],
+    "upc": [
+     6.7,
+     18.6
+    ],
+    "follow_up": [
+     11.4,
+     16.2
+    ],
+    "total": [
+     20.0,
+     37.7
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 16.2,
+   "segments_later_run": 8,
+   "azure_later_month": {
+    "vm_collection_hours": 326.6,
+    "vm_usd_collection_only": 36.91,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 164.5,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.85,
+    "egress_gb_exports": 15.76,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    62.16,
+    108.59
+   ]
+  },
+  "N80k/lean/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 2728,
+    "upc": 80000,
+    "follow_variant": 40000,
+    "follow_sponsored": 2400,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 2728,
+    "upc": 10959,
+    "follow_variant": 18010,
+    "follow_sponsored": 1081,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 533848,
+   "units_later_run": 229535,
+   "units_first_month": 2219690,
+   "units_later_month": 1989310,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.568,
+     "usd_month_annual_billing": 207.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.634,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 1,
+   "workers_used": 1,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.3,
+     3.0
+    ],
+    "upc": [
+     22.2,
+     23.8
+    ],
+    "follow_up": [
+     11.3,
+     21.7
+    ],
+    "total": [
+     34.9,
+     48.6
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     5.1,
+     12.0
+    ],
+    "upc": [
+     12.2,
+     13.0
+    ],
+    "follow_up": [
+     20.4,
+     39.2
+    ],
+    "total": [
+     37.7,
+     64.2
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 39.2,
+   "segments_later_run": 13,
+   "azure_later_month": {
+    "vm_collection_hours": 556.5,
+    "vm_usd_collection_only": 62.88,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 164.5,
+    "off_vm_dump_copy_blob_hot_usd_option": 0.85,
+    "egress_gb_exports": 15.76,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    88.13,
+    108.59
+   ],
+   "plan_allows_workers": true
+  },
+  "N80k/heavy/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 4547,
+    "upc": 80000,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4547,
+    "upc": 17359,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "units_first_run": 198807,
+   "units_later_run": 129814,
+   "units_first_month": 1115125,
+   "units_later_month": 1125059,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.787,
+      "usd_at_rate": 562.53
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.78,
+      "usd_at_rate": 557.56
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.338,
+      "usd_at_rate": 1125.06
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.335,
+      "usd_at_rate": 1115.12
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.549,
+      "usd_at_rate": 1687.59
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.544,
+      "usd_at_rate": 1672.69
+     }
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.6,
+     2.3
+    ],
+    "upc": [
+     25.0,
+     69.4
+    ],
+    "follow_up": [
+     28.3,
+     40.1
+    ],
+    "total": [
+     54.9,
+     111.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.3
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     28.3,
+     40.1
+    ],
+    "total": [
+     35.7,
+     58.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 40.1,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 507.9,
+    "vm_usd_collection_only": 57.39,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 223.8,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.02,
+    "egress_gb_exports": 18.87,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    101.84,
+    127.96
+   ]
+  },
+  "N80k/heavy/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 4547,
+    "upc": 80000,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4547,
+    "upc": 17359,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "units_first_run": 1093695,
+   "units_later_run": 1024758,
+   "units_first_month": 8871279,
+   "units_later_month": 8881269,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.888,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.887,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     2.1,
+     5.0
+    ],
+    "upc": [
+     22.7,
+     24.3
+    ],
+    "follow_up": [
+     25.3,
+     48.4
+    ],
+    "total": [
+     50.1,
+     77.7
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.1,
+     5.0
+    ],
+    "upc": [
+     5.3,
+     5.6
+    ],
+    "follow_up": [
+     25.3,
+     48.4
+    ],
+    "total": [
+     32.7,
+     59.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 48.4,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 511.7,
+    "vm_usd_collection_only": 57.82,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 223.8,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.02,
+    "egress_gb_exports": 18.87,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    102.27,
+    127.96
+   ],
+   "plan_allows_workers": true
+  },
+  "N80k/heavy/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 4547,
+    "upc": 80000,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4547,
+    "upc": 17359,
+    "follow_variant": 40098,
+    "follow_sponsored": 7218,
+    "offer": 1600,
+    "category": 11
+   },
+   "units_first_run": 198807,
+   "units_later_run": 77989,
+   "units_first_month": 717796,
+   "units_later_month": 675905,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.473,
+      "usd_at_rate": 337.95
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.502,
+      "usd_at_rate": 358.9
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.203,
+      "usd_at_rate": 675.9
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.216,
+      "usd_at_rate": 717.8
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.33,
+      "usd_at_rate": 1013.86
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.35,
+      "usd_at_rate": 1076.69
+     }
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.6,
+     2.3
+    ],
+    "upc": [
+     25.0,
+     69.4
+    ],
+    "follow_up": [
+     28.3,
+     40.1
+    ],
+    "total": [
+     54.9,
+     111.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     2.3
+    ],
+    "upc": [
+     5.8,
+     16.1
+    ],
+    "follow_up": [
+     14.2,
+     20.1
+    ],
+    "total": [
+     21.6,
+     38.6
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 20.1,
+   "segments_later_run": 8,
+   "azure_later_month": {
+    "vm_collection_hours": 334.4,
+    "vm_usd_collection_only": 37.79,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 212.4,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.02,
+    "egress_gb_exports": 18.87,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    63.04,
+    108.76
+   ]
+  },
+  "N80k/heavy/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 4547,
+    "upc": 80000,
+    "follow_variant": 80000,
+    "follow_sponsored": 14400,
+    "offer": 1600,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4547,
+    "upc": 17359,
+    "follow_variant": 40098,
+    "follow_sponsored": 7218,
+    "offer": 1600,
+    "category": 11
+   },
+   "units_first_run": 1093695,
+   "units_later_run": 553830,
+   "units_first_month": 5260817,
+   "units_later_month": 4799879,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.48,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.526,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     2.1,
+     5.0
+    ],
+    "upc": [
+     22.7,
+     24.3
+    ],
+    "follow_up": [
+     25.3,
+     48.4
+    ],
+    "total": [
+     50.1,
+     77.7
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     4.3,
+     10.0
+    ],
+    "upc": [
+     10.5,
+     11.3
+    ],
+    "follow_up": [
+     25.3,
+     48.5
+    ],
+    "total": [
+     40.1,
+     69.8
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 48.5,
+   "segments_later_run": 14,
+   "azure_later_month": {
+    "vm_collection_hours": 604.9,
+    "vm_usd_collection_only": 68.35,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E15 256 GiB",
+    "data_disk_usd": 19.2,
+    "retained_gb": 212.4,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.02,
+    "egress_gb_exports": 18.87,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    93.6,
+    108.76
+   ],
+   "plan_allows_workers": true
+  },
+  "N120k_historical_reference/lean/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 4093,
+    "upc": 120000,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4093,
+    "upc": 16438,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 190514,
+   "units_later_run": 85379,
+   "units_first_month": 735979,
+   "units_later_month": 739957,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.517,
+      "usd_at_rate": 369.98
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.515,
+      "usd_at_rate": 367.99
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.222,
+      "usd_at_rate": 739.96
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.221,
+      "usd_at_rate": 735.98
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.361,
+      "usd_at_rate": 1109.94
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.359,
+      "usd_at_rate": 1103.97
+     }
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.4,
+     2.1
+    ],
+    "upc": [
+     36.8,
+     102.0
+    ],
+    "follow_up": [
+     19.1,
+     27.0
+    ],
+    "total": [
+     57.2,
+     131.2
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.4,
+     2.1
+    ],
+    "upc": [
+     5.0,
+     14.0
+    ],
+    "follow_up": [
+     19.1,
+     27.0
+    ],
+    "total": [
+     25.5,
+     43.1
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 27.0,
+   "segments_later_run": 9,
+   "azure_later_month": {
+    "vm_collection_hours": 373.8,
+    "vm_usd_collection_only": 42.24,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 255.3,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.27,
+    "egress_gb_exports": 23.64,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    86.69,
+    128.21
+   ]
+  },
+  "N120k_historical_reference/lean/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 4093,
+    "upc": 120000,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4093,
+    "upc": 16438,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 800747,
+   "units_later_run": 693989,
+   "units_first_month": 6010451,
+   "units_later_month": 6014594,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.601,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.601,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.9,
+     4.5
+    ],
+    "upc": [
+     33.3,
+     35.7
+    ],
+    "follow_up": [
+     17.0,
+     32.6
+    ],
+    "total": [
+     52.3,
+     72.8
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.9,
+     4.5
+    ],
+    "upc": [
+     4.6,
+     4.9
+    ],
+    "follow_up": [
+     17.0,
+     32.6
+    ],
+    "total": [
+     23.5,
+     42.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 32.6,
+   "segments_later_run": 9,
+   "azure_later_month": {
+    "vm_collection_hours": 364.0,
+    "vm_usd_collection_only": 41.13,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 255.3,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.27,
+    "egress_gb_exports": 23.64,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    85.58,
+    128.21
+   ],
+   "plan_allows_workers": true
+  },
+  "N120k_historical_reference/lean/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 4093,
+    "upc": 120000,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4093,
+    "upc": 16438,
+    "follow_variant": 27016,
+    "follow_sponsored": 1621,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 190514,
+   "units_later_run": 49907,
+   "units_first_month": 464026,
+   "units_later_month": 432533,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.302,
+      "usd_at_rate": 216.27
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.324,
+      "usd_at_rate": 232.01
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.692,
+      "usd_at_rate": 432.53
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 625000,
+      "used_share": 0.742,
+      "usd_at_rate": 464.03
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.211,
+      "usd_at_rate": 648.8
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.226,
+      "usd_at_rate": 696.04
+     }
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.4,
+     2.1
+    ],
+    "upc": [
+     36.8,
+     102.0
+    ],
+    "follow_up": [
+     19.1,
+     27.0
+    ],
+    "total": [
+     57.2,
+     131.2
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.8,
+     4.2
+    ],
+    "upc": [
+     10.1,
+     28.0
+    ],
+    "follow_up": [
+     17.2,
+     24.4
+    ],
+    "total": [
+     30.1,
+     56.5
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 24.4,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 489.9,
+    "vm_usd_collection_only": 55.36,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 246.8,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.27,
+    "egress_gb_exports": 23.64,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    99.81,
+    128.21
+   ]
+  },
+  "N120k_historical_reference/lean/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 4093,
+    "upc": 120000,
+    "follow_variant": 60000,
+    "follow_sponsored": 3600,
+    "offer": 0,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 4093,
+    "upc": 16438,
+    "follow_variant": 27016,
+    "follow_sponsored": 1621,
+    "offer": 0,
+    "category": 11
+   },
+   "units_first_run": 800747,
+   "units_later_run": 344303,
+   "units_first_month": 3329512,
+   "units_later_month": 2983968,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.853,
+     "usd_month_annual_billing": 207.5
+    },
+    "first_month": {
+     "plan": "Business",
+     "usd_month": 249,
+     "credits": 3500000,
+     "concurrent": 100,
+     "used_share": 0.951,
+     "usd_month_annual_billing": 207.5
+    }
+   },
+   "workers_needed_for_72h": 2,
+   "workers_used": 2,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     1.9,
+     4.5
+    ],
+    "upc": [
+     33.3,
+     35.7
+    ],
+    "follow_up": [
+     17.0,
+     32.6
+    ],
+    "total": [
+     52.3,
+     72.8
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     3.8,
+     9.0
+    ],
+    "upc": [
+     9.1,
+     9.8
+    ],
+    "follow_up": [
+     15.3,
+     29.4
+    ],
+    "total": [
+     28.3,
+     48.1
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 29.4,
+   "segments_later_run": 10,
+   "azure_later_month": {
+    "vm_collection_hours": 417.3,
+    "vm_usd_collection_only": 47.15,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 246.8,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.27,
+    "egress_gb_exports": 23.64,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    91.6,
+    128.21
+   ],
+   "plan_allows_workers": true
+  },
+  "N120k_historical_reference/heavy/shipped/oxylabs": {
+   "pages_first_run": {
+    "result": 6821,
+    "upc": 120000,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 6821,
+    "upc": 26038,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "units_first_run": 298205,
+   "units_later_run": 194719,
+   "units_first_month": 1672669,
+   "units_later_month": 1687574,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 10000000,
+      "used_share": 0.169,
+      "usd_at_rate": 843.79
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 10000000,
+      "used_share": 0.167,
+      "usd_at_rate": 836.33
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.507,
+      "usd_at_rate": 1687.57
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.502,
+      "usd_at_rate": 1672.67
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.823,
+      "usd_at_rate": 2531.36
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.816,
+      "usd_at_rate": 2509.0
+     }
+    }
+   },
+   "workers_needed_for_72h": 8,
+   "workers_used": 8,
+   "workers_first_run": 8,
+   "hours_first_run": {
+    "listing": [
+     1.2,
+     1.8
+    ],
+    "upc": [
+     18.8,
+     52.0
+    ],
+    "follow_up": [
+     21.2,
+     30.1
+    ],
+    "total": [
+     41.1,
+     83.9
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.2,
+     1.8
+    ],
+    "upc": [
+     4.4,
+     12.1
+    ],
+    "follow_up": [
+     21.2,
+     30.1
+    ],
+    "total": [
+     26.8,
+     44.0
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 30.1,
+   "segments_later_run": 9,
+   "azure_later_month": {
+    "vm_collection_hours": 380.9,
+    "vm_usd_collection_only": 43.04,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 335.7,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.52,
+    "egress_gb_exports": 28.31,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    87.49,
+    128.46
+   ]
+  },
+  "N120k_historical_reference/heavy/shipped/scrapedo": {
+   "pages_first_run": {
+    "result": 6821,
+    "upc": 120000,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 6821,
+    "upc": 26038,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "units_first_run": 1640577,
+   "units_later_run": 1537171,
+   "units_first_month": 13307213,
+   "units_later_month": 13322198,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "custom quote (above Advanced's 10M credits)",
+     "usd_month": null,
+     "credits": null,
+     "concurrent": null,
+     "used_share": null,
+     "usd_month_annual_billing": null
+    },
+    "first_month": {
+     "plan": "custom quote (above Advanced's 10M credits)",
+     "usd_month": null,
+     "credits": null,
+     "concurrent": null,
+     "used_share": null,
+     "usd_month_annual_billing": null
+    }
+   },
+   "workers_needed_for_72h": 8,
+   "workers_used": 8,
+   "workers_first_run": 8,
+   "hours_first_run": {
+    "listing": [
+     1.6,
+     3.7
+    ],
+    "upc": [
+     17.0,
+     18.2
+    ],
+    "follow_up": [
+     18.9,
+     36.3
+    ],
+    "total": [
+     37.5,
+     58.3
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     1.6,
+     3.7
+    ],
+    "upc": [
+     3.9,
+     4.2
+    ],
+    "follow_up": [
+     18.9,
+     36.3
+    ],
+    "total": [
+     24.5,
+     44.3
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 36.3,
+   "segments_later_run": 9,
+   "azure_later_month": {
+    "vm_collection_hours": 383.7,
+    "vm_usd_collection_only": 43.36,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 335.7,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.52,
+    "egress_gb_exports": 28.31,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    87.81,
+    128.46
+   ],
+   "plan_allows_workers": true
+  },
+  "N120k_historical_reference/heavy/reuse/oxylabs": {
+   "pages_first_run": {
+    "result": 6821,
+    "upc": 120000,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 6821,
+    "upc": 26038,
+    "follow_variant": 60146,
+    "follow_sponsored": 10826,
+    "offer": 2400,
+    "category": 11
+   },
+   "units_first_run": 298196,
+   "units_later_run": 116973,
+   "units_first_month": 1076599,
+   "units_later_month": 1013767,
+   "unit": "results",
+   "money": {
+    "low": {
+     "later_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.709,
+      "usd_at_rate": 506.88
+     },
+     "first_month": {
+      "plan": "Flexible",
+      "usd_month": 500,
+      "band_results": 1430000,
+      "used_share": 0.753,
+      "usd_at_rate": 538.3
+     }
+    },
+    "central": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.304,
+      "usd_at_rate": 1013.77
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 3330000,
+      "used_share": 0.323,
+      "usd_at_rate": 1076.6
+     }
+    },
+    "worst": {
+     "later_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.495,
+      "usd_at_rate": 1520.65
+     },
+     "first_month": {
+      "plan": "Enterprise",
+      "usd_month": 2500,
+      "band_results": 2050000,
+      "used_share": 0.525,
+      "usd_at_rate": 1614.9
+     }
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     2.4,
+     3.5
+    ],
+    "upc": [
+     37.5,
+     104.1
+    ],
+    "follow_up": [
+     42.4,
+     60.2
+    ],
+    "total": [
+     82.3,
+     167.8
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     2.4,
+     3.5
+    ],
+    "upc": [
+     8.7,
+     24.2
+    ],
+    "follow_up": [
+     21.3,
+     30.2
+    ],
+    "total": [
+     32.3,
+     57.9
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 30.2,
+   "segments_later_run": 12,
+   "azure_later_month": {
+    "vm_collection_hours": 501.6,
+    "vm_usd_collection_only": 56.68,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 318.5,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.52,
+    "egress_gb_exports": 28.31,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    101.13,
+    128.46
+   ]
+  },
+  "N120k_historical_reference/heavy/reuse/scrapedo": {
+   "pages_first_run": {
+    "result": 6821,
+    "upc": 120000,
+    "follow_variant": 120000,
+    "follow_sponsored": 21600,
+    "offer": 2400,
+    "category": 11
+   },
+   "pages_later_run": {
+    "result": 6821,
+    "upc": 26038,
+    "follow_variant": 60146,
+    "follow_sponsored": 10826,
+    "offer": 2400,
+    "category": 11
+   },
+   "units_first_run": 1640497,
+   "units_later_run": 830763,
+   "units_first_month": 7891317,
+   "units_later_month": 7199974,
+   "unit": "credits",
+   "money": {
+    "later_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.72,
+     "usd_month_annual_billing": 582.5
+    },
+    "first_month": {
+     "plan": "Advanced",
+     "usd_month": 699,
+     "credits": 10000000,
+     "concurrent": 200,
+     "used_share": 0.789,
+     "usd_month_annual_billing": 582.5
+    }
+   },
+   "workers_needed_for_72h": 4,
+   "workers_used": 4,
+   "workers_first_run": 4,
+   "hours_first_run": {
+    "listing": [
+     3.2,
+     7.5
+    ],
+    "upc": [
+     34.0,
+     36.4
+    ],
+    "follow_up": [
+     37.9,
+     72.6
+    ],
+    "total": [
+     75.1,
+     116.5
+    ]
+   },
+   "hours_later_run": {
+    "listing": [
+     3.2,
+     7.5
+    ],
+    "upc": [
+     7.9,
+     8.5
+    ],
+    "follow_up": [
+     19.0,
+     36.4
+    ],
+    "total": [
+     30.1,
+     52.3
+    ]
+   },
+   "later_run_fits_72h_slow_end": true,
+   "follow_up_stage_alone_hours_slow_end": 36.4,
+   "segments_later_run": 11,
+   "azure_later_month": {
+    "vm_collection_hours": 453.6,
+    "vm_usd_collection_only": 51.26,
+    "vm_usd_always_on": 82.49,
+    "os_disk_usd": 2.4,
+    "public_ip_usd": 3.65,
+    "data_disk": "E20 512 GiB",
+    "data_disk_usd": 38.4,
+    "retained_gb": 318.5,
+    "off_vm_dump_copy_blob_hot_usd_option": 1.52,
+    "egress_gb_exports": 28.31,
+    "egress_usd": 0.0
+   },
+   "azure_later_month_usd": [
+    95.71,
+    128.46
+   ],
+   "plan_allows_workers": true
+  }
+ },
+ "azure_prices": {
+  "vm_usd_per_hour": 0.113,
+  "public_ip_usd_month": 3.65,
+  "os_disk_e4_usd_month": 2.4,
+  "standard_ssd_tiers": [
+   [
+    "E6",
+    64,
+    4.8
+   ],
+   [
+    "E10",
+    128,
+    9.6
+   ],
+   [
+    "E15",
+    256,
+    19.2
+   ],
+   [
+    "E20",
+    512,
+    38.4
+   ],
+   [
+    "E30",
+    1024,
+    76.8
+   ]
+  ],
+  "blob_hot_lrs_usd_per_gb_month": 0.0208,
+  "egress_free_gb_month": 100.0,
+  "egress_usd_per_gb_after": 0.087
+ },
+ "errata_1_3_1_monthly_figure": {
+  "said": "1.3.1 <client-message draft>: 'Full catalogue coverage needs a provider plan: about USD 590 to 610 a month with Oxylabs Flexible and Azure (an estimate, not a quote)'; report section 12.2: 'about USD 587 to 608' (central scope, no follow-ups, a later month)",
+  "what_it_was": {
+   "model": "cost_model_131 (version 3), scenario central/F0, a later month",
+   "oxylabs_results_later_month": 593862,
+   "oxylabs_plan": "Flexible ($500/month, 625,000)",
+   "azure": "VM USD 62 to 67 (collection hours) + data disk E15 19.20 + OS disk 2.40 + IP 3.65",
+   "first_month_results": 578839,
+   "with_follow_ups_F1": {
+    "oxylabs_plan": "Enterprise ($2,500/month, 3,330,000)",
+    "fits_72h": false
+   }
+  },
+  "why_withdrawn": [
+   "scope: its 36,000 result pages a run and 120,000 products described Walmart's unfiltered online assortment (the Scrape.do store endpoint without the Pickup filter, 947 links counted as independent listings although 315 of the 945 named are nested in another listed listing); the configured scope is store #3891's Pickup assortment, whose measured totals are 1.7 % to 6.9 % of the unfiltered totals in the 5 non-produce listings measured both ways (Bath & Body, Shampoo, Laundry, Diapering, Dry Dog Food; for example Bath & Body 2,881 to 2,897 against 108,395 to 110,434, Diapering 512 to 515 against 30,534 to 30,749)",
+   "it left out the follow-ups (sponsored-only products and variant siblings) the requirements include; with them, the same model put a later run above the 72-hour interval and the volume in Enterprise",
+   "the reply gave a monthly figure only; the report's one-time first run (about 6 to 6.5 days with two workers, during which the twice-weekly occurrences start nothing) was not in the reply",
+   "the Oxylabs rate is not published for Walmart: USD 1.00 per 1,000 is one reading of the price page (USD 0.50 to 1.50 per 1,000 are possible), and the plan steps (USD 100, 500, 2,500) dominate the bill",
+   "its run time assumed at most two requests at once; four workers were measured on 2026-10-28, and the follow-up stage (one task per kind) was found to be the limit of a full run",
+   "an estimate, never an invoice or a quote"
+  ],
+  "replacement": "this model's scenarios by N (COST_SCENARIOS_1_4_1.csv), with a census of the scope as the first step"
+ }
+}

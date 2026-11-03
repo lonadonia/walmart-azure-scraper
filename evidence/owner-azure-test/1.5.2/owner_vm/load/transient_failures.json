@@ -1,0 +1,12 @@
+{
+ "synthetic": true,
+ "delay_s": 0.05,
+ "products": 360,
+ "failures_injected": 15,
+ "requests": 398,
+ "ledger_outcomes": {
+  "ok": 383,
+  "provider_failure": 15
+ },
+ "products_without_upc_after_the_run": 0
+}

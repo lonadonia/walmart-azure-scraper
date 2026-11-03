@@ -1,0 +1,15 @@
+{
+ "campaign_id": "offline-check",
+ "dispatches": [],
+ "stopped": null,
+ "totals": {
+  "committed_usd": "0",
+  "confirmed_usd": "0",
+  "dispatched_by_retailer": {},
+  "dispatched_total": 0,
+  "estimated_usd": "0",
+  "other_units": {},
+  "reserved_unconfirmed_usd": "0",
+  "unknown_billing": 0
+ }
+}

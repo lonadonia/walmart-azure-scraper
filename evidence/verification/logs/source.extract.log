@@ -1,0 +1,14 @@
+PASS  SHA-256 1100aa16ce7d459afd020c057eff3fb42cd54bcc172a4c22f04ba3f1859af941 = SOURCE_AND_RUN_MANIFEST.json
+PASS  one top folder ['walmart-source-1.5.2']
+PASS  its two edition folders ['walmart-oxylabs-1.5.2', 'walmart-scrapedo-1.5.2']
+PASS  no unsafe name
+PASS  oxylabs: BUILD_INFO.json and EDITION.json name release 1.5.2, 627c804, this edition
+PASS  oxylabs: every file against EDITION.json
+PASS  oxylabs: nothing forbidden (.venv, data, caches, dist, .env) []
+PASS  oxylabs: integration test files = the 20 this verifier runs
+PASS  oxylabs: Dockerfile, azure/main.bicep, uv.lock, migrations and docs/OPERATIONS.md present
+PASS  scrapedo: BUILD_INFO.json and EDITION.json name release 1.5.2, 627c804, this edition
+PASS  scrapedo: every file against EDITION.json
+PASS  scrapedo: nothing forbidden (.venv, data, caches, dist, .env) []
+PASS  scrapedo: integration test files = the 20 this verifier runs
+PASS  scrapedo: Dockerfile, azure/main.bicep, uv.lock, migrations and docs/OPERATIONS.md present

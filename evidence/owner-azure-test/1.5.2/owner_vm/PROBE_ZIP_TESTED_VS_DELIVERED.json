@@ -1,0 +1,20 @@
+{
+ "tested_on_the_vm": {
+  "zip": "OXYLABS_CLASSIC_OFFLINE_PROBE_1.5.2.zip",
+  "sha256": "20de284c329cf3c582bc8d8b871937a4dfc9787cfbca2e8daf1498e67a1d357b",
+  "members": 132
+ },
+ "delivered": {
+  "zip": "OXYLABS_CLASSIC_OFFLINE_PROBE_1.5.2.zip",
+  "sha256": "d4785ccbb8b23a4d2bb6cfb6b16ba1242cab5cab0b292e3222581f7844282193",
+  "members": 132
+ },
+ "members_identical": 131,
+ "members_differing": {
+  "oxylabs-classic-offline-probe-1.5.2/offline_results/junit_standalone.xml": {
+   "tested_sha256": "0aee9d1ed95b9ebf02887e7aeb560c05870b96efefcce0d03861450c52c8693d",
+   "delivered_sha256": "a43cdfccd48584d2967ca4ea41b5283b1e1b89eb011e452cf87e73ebb505e420",
+   "difference": "the same once the hostname attribute is set aside"
+  }
+ }
+}

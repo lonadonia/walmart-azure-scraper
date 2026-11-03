@@ -1,0 +1,14 @@
+{
+ "started_at_utc": "2026-10-31T17:36:08Z",
+ "method": "GET",
+ "url": "https://api.scrape.do/info?token=<key removed>",
+ "status": 200,
+ "headers_date": "Sat, 31 Oct 2026 17:36:08 GMT",
+ "body": {
+  "IsActive": true,
+  "ConcurrentRequest": 5,
+  "MaxMonthlyRequest": 1000,
+  "RemainingConcurrentRequest": 5,
+  "RemainingMonthlyRequest": 10
+ }
+}

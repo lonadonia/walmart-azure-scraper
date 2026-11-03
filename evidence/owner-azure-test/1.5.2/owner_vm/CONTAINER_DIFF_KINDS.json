@@ -1,0 +1,208 @@
+{
+ "S1/record_map.json": {
+  "uncommitted_changes": 36
+ },
+ "S1/provenance.json": {
+  "active_s": 2
+ },
+ "S1/manifest.json": {
+  "sha256": 5,
+  "size": 2,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S2/record_map.json": {
+  "uncommitted_changes": 204
+ },
+ "S2/provenance.json": {
+  "active_s": 2
+ },
+ "S2/manifest.json": {
+  "sha256": 5,
+  "size": 2,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S3/record_map.json": {
+  "uncommitted_changes": 320
+ },
+ "S3/provenance.json": {
+  "active_s": 2
+ },
+ "S3/manifest.json": {
+  "sha256": 5,
+  "size": 1,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S4/record_map.json": {
+  "fetch_id": 1110,
+  "page_fetch_id": 912,
+  "uncommitted_changes": 690,
+  "stored_page": 47,
+  "source_run": 31,
+  "replay_of": 16,
+  "reason": 16,
+  "read_again_by_run": 12,
+  "reused_from_run": 11,
+  "observed_by_run": 8
+ },
+ "S4/provenance.json": {
+  "lines": [
+   211189,
+   211221
+  ]
+ },
+ "S4/manifest.json": {
+  "sha256": 5,
+  "size": 2,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S5a/record_map.json": {
+  "fetch_id": 898,
+  "page_fetch_id": 766,
+  "uncommitted_changes": 690,
+  "stored_page": 47,
+  "source_run": 31,
+  "replay_of": 16,
+  "reason": 16,
+  "read_again_by_run": 12,
+  "reused_from_run": 11,
+  "observed_by_run": 8
+ },
+ "S5a/provenance.json": {
+  "fetch_id": 982,
+  "page_fetch_id": 109,
+  "run_id": 18,
+  "source_run": 11,
+  "replay_of": 8,
+  "lineage_basis": 8,
+  "upc": 8,
+  "active_s": 2
+ },
+ "S5a/manifest.json": {
+  "sha256": 5,
+  "size": 1,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S5b_parallel/record_map.json": {
+  "fetch_id": 1038,
+  "page_fetch_id": 766,
+  "uncommitted_changes": 690,
+  "stored_page": 47,
+  "source_run": 31,
+  "replay_of": 16,
+  "reason": 16,
+  "read_again_by_run": 12,
+  "reused_from_run": 11,
+  "observed_by_run": 8
+ },
+ "S5b_parallel/provenance.json": {
+  "fetch_id": 1038,
+  "page_fetch_id": 47,
+  "run_id": 12,
+  "source_run": 11,
+  "replay_of": 8,
+  "lineage_basis": 8,
+  "upc": 8,
+  "active_s": 2
+ },
+ "S5b_parallel/manifest.json": {
+  "sha256": 5,
+  "size": 1,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S5b_serial/record_map.json": {
+  "fetch_id": 1038,
+  "page_fetch_id": 766,
+  "uncommitted_changes": 690,
+  "stored_page": 47,
+  "source_run": 31,
+  "replay_of": 16,
+  "reason": 16,
+  "read_again_by_run": 12,
+  "reused_from_run": 11,
+  "observed_by_run": 8
+ },
+ "S5b_serial/provenance.json": {
+  "fetch_id": 1038,
+  "page_fetch_id": 47,
+  "run_id": 12,
+  "source_run": 11,
+  "replay_of": 8,
+  "lineage_basis": 8,
+  "upc": 8,
+  "active_s": 2
+ },
+ "S5b_serial/manifest.json": {
+  "sha256": 5,
+  "size": 1,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S6/record_map.json": {
+  "fetch_id": 3546,
+  "page_fetch_id": 1177,
+  "uncommitted_changes": 707,
+  "source_run": 314,
+  "stored_page": 276,
+  "replay_of": 252,
+  "observed_by_run": 126,
+  "read_again_by_run": 126,
+  "reused_from_run": 84,
+  "reason": 82
+ },
+ "S6/provenance.json": {
+  "lines": [
+   195465,
+   195545
+  ]
+ },
+ "S6/manifest.json": {
+  "sha256": 5,
+  "size": 2,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ },
+ "S7/record_map.json": {
+  "fetch_id": 3165,
+  "page_fetch_id": 1143,
+  "uncommitted_changes": 707,
+  "source_run": 314,
+  "replay_of": 252,
+  "stored_page": 244,
+  "observed_by_run": 126,
+  "read_again_by_run": 126,
+  "reused_from_run": 84,
+  "reason": 82
+ },
+ "S7/provenance.json": {
+  "fetch_id": 3165,
+  "page_fetch_id": 275,
+  "run_id": 128,
+  "replay_of": 126,
+  "lineage_basis": 126,
+  "source_run": 99,
+  "upc": 40,
+  "active_s": 2,
+  "weight": 2
+ },
+ "S7/manifest.json": {
+  "sha256": 5,
+  "size": 2,
+  "source": 1,
+  "uncommitted_changes": 1,
+  "local_root": 1
+ }
+}

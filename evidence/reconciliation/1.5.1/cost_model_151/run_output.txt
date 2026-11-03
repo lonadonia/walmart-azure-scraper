@@ -1,0 +1,221 @@
+{
+ "inputs": {
+  "runs_per_month": 8.6667,
+  "schedule_interval_hours": {
+   "tuesday_to_friday": 72,
+   "friday_to_tuesday": 96
+  },
+  "oxylabs_usd_per_1000_results": {
+   "low": 0.5,
+   "central": 1.0,
+   "worst": 1.5
+  },
+  "scrapedo_credits_per_page": {
+   "store_endpoint": 10,
+   "general_api": 1
+  },
+  "shipped_configuration": {
+   "parallel.workers": 1,
+   "parallel.max_in_flight": 2,
+   "parallel.workers_and_in_flight_maximum": 8,
+   "limits.max_segment_minutes": 300,
+   "detail.reuse_days": 30,
+   "follow_up.sponsored": true,
+   "follow_up.variants": true,
+   "follow_up.max_pages": null
+  },
+  "distinct_pickup_products_N": {
+   "20k": 20000,
+   "40k": 40000,
+   "80k": 80000,
+   "120k_historical_reference": 120000
+  },
+  "follow_up_reuse_of_exclusions": {
+   "as_shipped": false,
+   "design_option": true
+  },
+  "retention_policy": {
+   "stored_pages_runs": 2,
+   "observations_days": 90,
+   "dumps_kept": 2
+  },
+  "collector_seconds_per_request_besides_the_answer": 0.31,
+  "throughput_requests_per_min_per_worker": {
+   "oxylabs": {
+    "result": [
+     8.1,
+     12.1
+    ],
+    "upc": [
+     4.9,
+     13.6
+    ],
+    "follow": [
+     9.8,
+     13.9
+    ]
+   },
+   "scrapedo": {
+    "result": [
+     3.8,
+     8.9
+    ],
+    "upc": [
+     14.0,
+     15.0
+    ],
+    "follow": [
+     8.1,
+     15.6
+    ]
+   }
+  },
+  "charged_retry_share_measured": {
+   "scrapedo": 0.0304,
+   "oxylabs": 0.0138
+  },
+  "valid_products_per_result_page": 35.2,
+  "follow_up_outcomes_phase_D": {
+   "read": 441,
+   "included": 160,
+   "excluded": 279,
+   "inaccessible": 2,
+   "not_attempted": 319,
+   "shares_of_read": {
+    "included": 0.363,
+    "excluded": 0.633,
+    "inaccessible": 0.005
+   }
+  },
+  "stored_bytes_per_page": {
+   "result_page_dom_plus_raw": 289081,
+   "product_page_dom_plus_raw": 243213,
+   "by_edition_kind_purpose": {
+    "oxylabs/dom/listing": {
+     "n": 61,
+     "mean": 134672
+    },
+    "oxylabs/dom/product_detail": {
+     "n": 403,
+     "mean": 123371
+    },
+    "oxylabs/dom/product_page": {
+     "n": 444,
+     "mean": 115634
+    },
+    "oxylabs/dom/store_page": {
+     "n": 20,
+     "mean": 68821
+    },
+    "oxylabs/raw/listing": {
+     "n": 61,
+     "mean": 147344
+    },
+    "oxylabs/raw/product_detail": {
+     "n": 403,
+     "mean": 138157
+    },
+    "oxylabs/raw/product_page": {
+     "n": 445,
+     "mean": 129700
+    },
+    "oxylabs/raw/robots": {
+     "n": 20,
+     "mean": 764
+    },
+    "oxylabs/raw/store_page": {
+     "n": 20,
+     "mean": 78588
+    },
+    "scrapedo/dom/listing": {
+     "n": 37,
+     "mean": 144067
+    },
+    "scrapedo/dom/product_detail": {
+     "n": 403,
+     "mean": 104392
+    },
+    "scrapedo/dom/store_page": {
+     "n": 13,
+     "mean": 68752
+    },
+    "scrapedo/raw/listing": {
+     "n": 37,
+     "mean": 156663
+    },
+    "scrapedo/raw/product_detail": {
+     "n": 403,
+     "mean": 118276
+    },
+    "scrapedo/raw/robots": {
+     "n": 13,
+     "mean": 764
+    },
+    "scrapedo/raw/store_page": {
+     "n": 13,
+     "mean": 78522
+    }
+   }
+  },
+  "database_bytes_per_observation": 16649,
+  "export_bytes_per_exported_row": 19059
+ },
+ "yield": [
+  {
+   "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+   "phase": "B2",
+   "valid_fresh": 675,
+   "result_pages": 19,
+   "valid_per_page": 35.5
+  },
+  {
+   "run": "01M60V2DCCWR72BGVVG3EM9R74",
+   "phase": "B3",
+   "valid_fresh": 662,
+   "result_pages": 19,
+   "valid_per_page": 34.8
+  }
+ ],
+ "ratios": [
+  {
+   "run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+   "phase": "B1",
+   "result_pages": 18,
+   "organic_identities_per_listing_sum": 644,
+   "valid_fresh_run": 607,
+   "variant_candidates_per_organic_identity": 1.05,
+   "sponsored_only_per_organic_identity": 0.075,
+   "sponsored_only_per_result_page": 2.67
+  },
+  {
+   "run": "01M60GKSSDDC2FPGSE9F0NNGWH",
+   "phase": "B2",
+   "result_pages": 19,
+   "organic_identities_per_listing_sum": 717,
+   "valid_fresh_run": 675,
+   "variant_candidates_per_organic_identity": 0.78,
+   "sponsored_only_per_organic_identity": 0.033,
+   "sponsored_only_per_result_page": 1.26
+  },
+  {
+   "run": "01M60V2DCCWR72BGVVG3EM9R74",
+   "phase": "B3",
+   "result_pages": 19,
+   "organic_identities_per_listing_sum": 704,
+   "valid_fresh_run": 662,
+   "variant_candidates_per_organic_identity": 0.78,
+   "sponsored_only_per_organic_identity": 0.03,
+   "sponsored_only_per_result_page": 1.11
+  },
+  {
+   "run": "01M60VA50N50W10GJZE9C6P95K",
+   "phase": "D",
+   "result_pages": 5,
+   "organic_identities_per_listing_sum": 198,
+   "valid_fresh_run": 358,
+   "variant_candidates_per_organic_identity": 1.54,
+   "sponsored_only_per_organic_identity": 0.167,
+   "sponsored_only_per_result_page": 6.6
+  }
+ ]
+}

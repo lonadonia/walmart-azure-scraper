@@ -1,0 +1,66 @@
+[
+ {
+  "file": "store_5402_challenge.html.gz",
+  "source": "deploy_validation/20261020T2231Z_walmart_pilot/store_evidence/01M5DQ2WMVKVNVHN4Z0Q0JZMB5.html",
+  "source_sha256": "3390536e020d3e67a754487b599b5d06ef1b474023443dfb5baae8370e6a5e3d",
+  "content_sha256": "a8dfade55fc2938fe4aecf1793412d12274123498e9ebf2f38f04ab92e83102f",
+  "sanitizer_changed_bytes": true,
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "4b22a86a49ee921ad8eb6d94eab52e52d6edf9c31c48f0c94cd0285168bbf522",
+   "values_redacted": 5,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "store_3891_page.html.gz",
+  "source": "deploy_validation/20261021T0315Z_walmart_pilot_3891/store_evidence/store_page.html",
+  "source_sha256": "fc7d59117c356a762abddd33c43c0163bfc3ffb15c337a1028041046d68f4ba7",
+  "content_sha256": "62d18cdb9550ab2a4e0db6111be24ad773e96a173727129148ef3080521af814",
+  "sanitizer_changed_bytes": false,
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "fc7d59117c356a762abddd33c43c0163bfc3ffb15c337a1028041046d68f4ba7",
+   "values_redacted": 5,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "store_3891_challenge.html.gz",
+  "source": "deploy_validation/20261021T0315Z_walmart_pilot_3891/store_evidence/after_click.html",
+  "source_sha256": "979923ab813e1c11367593f4c165ad33cd1cbef5b49062a42e73d6c0f3a55568",
+  "content_sha256": "2dc75a0d8bcf3d0518550512369d6f7072979293aa04eb61607de09b01fff53c",
+  "sanitizer_changed_bytes": false,
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "979923ab813e1c11367593f4c165ad33cd1cbef5b49062a42e73d6c0f3a55568",
+   "values_redacted": 5,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "product_15353921746.html.gz",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X4S1M9SV0AXNB9ZD29G8TT.html.gz",
+  "source_sha256": "01cb14c470ae4f5c81cfc0dbbe16acb21280e575d9fb5f2d8a577000a48fa523",
+  "content_sha256": "9c75e38afb80865bc1cc357129a9f109b9c38ee5c96468fbcc5edc6a220b16a1",
+  "sanitizer_changed_bytes": false,
+  "raw_original_body_sha256": "4933552d440cd76c34d47f514ae695dd6cae52657f1ddc2158fd44414c057290",
+  "raw_original_gz_sha256": "01d72bcfcd286ada96f4fc9ebf4123352f2a71658d71767bb995ab039db21708",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "5bc02a34355b0ed20a6f2c9c7fc97605c315e5ec60544137df4db0d558bee76b",
+   "values_redacted": 7,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "setpickup_412_block_5402.json",
+  "source": "deploy_validation/20261020T2231Z_walmart_pilot/store_evidence/01M5DQ2WMVKVNVHN4Z0Q0JZMB5.0001.walmart_location.json",
+  "source_sha256": "ca774f78b5dd6caa9d5d93852ed06548bf901a6ef1a7da3460c80d4980ca3a01",
+  "content_sha256": "1a93da611bbabdf936f99a3e5aa5da63421ca75db48b5cecdc89ba78e7ee48d1",
+  "identifiers_redacted_here": 2
+ },
+ {
+  "file": "setpickup_412_block_3891.json",
+  "source": "deploy_validation/20261021T0315Z_walmart_pilot_3891/store_evidence/setPickup_412_answer.json",
+  "source_sha256": "d5c8861a2dd42c45ea2e059fb51cd1c691cfa5836b8e121419ccbe8b4fdb2256",
+  "content_sha256": "d5c8861a2dd42c45ea2e059fb51cd1c691cfa5836b8e121419ccbe8b4fdb2256",
+  "identifiers_redacted_here": 0
+ }
+]

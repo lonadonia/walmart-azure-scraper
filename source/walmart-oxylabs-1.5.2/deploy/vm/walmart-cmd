@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# One walmart-collector command as the service user, with the service's environment and sandbox, waiting for
+# it and returning its exit code (docs/AZURE_VM.md):  sudo walmart-cmd status --store walmart-3891-pickup
+# WC_ENV names another environment file (a disposable publication target); WC_RELEASE another release folder
+# with its own configuration (install.sh migrates with the new release before switching to it); WC_CONFIG
+# another configuration file (a test campaign's copy of the release's configuration folder, with its own seeds
+# or limits). A run records the collection settings it ran with, not the file: keep the copy's hashes.
+set -euo pipefail
+env_file=${WC_ENV:-/etc/walmart-collector/env}
+release=${WC_RELEASE:-/opt/walmart-collector/current}
+config=()
+if [ -n "${WC_CONFIG:-}" ]; then
+  config=(--config "$WC_CONFIG")
+elif [ -n "${WC_RELEASE:-}" ]; then
+  config=(--config "$release/config/collector.yaml")
+fi
+exec systemd-run --quiet --wait --pipe --collect \
+  --uid=walmart --gid=walmart \
+  -p EnvironmentFile="$env_file" \
+  -p WorkingDirectory="$release" \
+  -p NoNewPrivileges=yes -p ProtectSystem=strict -p ProtectHome=yes -p PrivateTmp=yes \
+  -p ReadWritePaths=/var/lib/walmart-collector \
+  "$release/.venv/bin/walmart-collector" "${config[@]}" "$@"

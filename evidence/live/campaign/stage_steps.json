@@ -1,0 +1,694 @@
+{
+ "set_budget": {
+  "args": [
+   "set-budget",
+   "--usd",
+   "0.18",
+   "--basis",
+   "Owner-funded campaign walmart-1.5.0 (C:/w7/plan/CAMPAIGN_BUDGET.json, written 2026-10-31T17:55Z before any billable request): USD 0.18 = 120 Oxylabs Web API submissions at the reserve rate USD 0.0015; separate from the client's proposed Classic campaign"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s1_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "6",
+   "--usd",
+   "0.009",
+   "--minutes",
+   "10",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S1 canary: cumulative ceiling 6 submissions (USD 0.009 at the reserve rate 0.0015), 10 minutes from the first submission (CAMPAIGN_BUDGET.json stages_oxylabs S1)"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s1_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0",
+   "--subcategory",
+   "0:/browse/food/fresh-fruits/976759_976793_9756351",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "6",
+   "--max-minutes",
+   "10"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S1"
+ },
+ "s2_validate_config": {
+  "args": [
+   "validate-config",
+   "--check-db",
+   "--require-credentials"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\config_s2\\collector.yaml",
+  "run_stage": null
+ },
+ "s2_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "30",
+   "--usd",
+   "0.045",
+   "--minutes",
+   "20",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S2 targeted product pages: 30 submissions (USD 0.045 at the reserve rate 0.0015), 20 minutes from the first submission, counted from this setting (CAMPAIGN_BUDGET.json stages_oxylabs S2); the campaign budget of USD 0.18 set at S1 stays in force"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s2_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "0:/browse/food/fresh-fruits/976759_976793_9756351",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "10",
+   "--follow-up-pages",
+   "5",
+   "--workers",
+   "1",
+   "--max-credits",
+   "30",
+   "--max-minutes",
+   "20"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\config_s2\\collector.yaml",
+  "run_stage": "S2"
+ },
+ "s3_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "12",
+   "--usd",
+   "0.018",
+   "--minutes",
+   "15",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S3 one category with several real pages: 12 submissions (USD 0.018 at the reserve rate 0.0015), 15 minutes from the first submission, counted from this setting (CAMPAIGN_BUDGET.json stages_oxylabs S3); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s3_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "7",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "8",
+   "--pilot-detail-pages",
+   "3",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "12",
+   "--max-minutes",
+   "15"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S3"
+ },
+ "s4_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "42",
+   "--usd",
+   "0.063",
+   "--minutes",
+   "45",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S4 >=500 fresh products with the detail path on, a forced kill and a resume: 42 submissions (USD 0.063 at the reserve rate 0.0015), 45 minutes from the first submission, counted from this setting, the kill and the resume included (CAMPAIGN_BUDGET.json stages_oxylabs S4); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s4_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0,1,3,6,7",
+   "--subcategory",
+   "0:/browse/food/fresh-fruits/976759_976793_9756351",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "0:/browse/food/strawberries/976759_976793_9756351_3521037",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--subcategory",
+   "6:/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "10",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "2",
+   "--max-credits",
+   "42",
+   "--max-minutes",
+   "45"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S4"
+ },
+ "s4_status_after_kill": {
+  "args": [
+   "status",
+   "--run",
+   "01M69Y882GTVYRJZM0CXQ44MXN"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s4_resume": {
+  "args": [
+   "resume",
+   "--run",
+   "01M69Y882GTVYRJZM0CXQ44MXN",
+   "--workers",
+   "2"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": null
+ },
+ "s4_status_after_resume": {
+  "args": [
+   "status",
+   "--run",
+   "01M69Y882GTVYRJZM0CXQ44MXN"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s5a_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "6",
+   "--usd",
+   "0.009",
+   "--minutes",
+   "10",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S5a time-separated repeat of a small slice, at least 30 minutes after S4: 6 submissions (USD 0.009 at the reserve rate 0.0015), 10 minutes, counted from this setting (CAMPAIGN_BUDGET.json stages_oxylabs S5a); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s5a_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0",
+   "--subcategory",
+   "0:/browse/food/fresh-fruits/976759_976793_9756351",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "6",
+   "--max-minutes",
+   "10"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S5a"
+ },
+ "s5b_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "12",
+   "--usd",
+   "0.018",
+   "--minutes",
+   "15",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, stage S5b serial against parallel on one slice (two runs): 12 submissions (USD 0.018 at the reserve rate 0.0015), 15 minutes, counted from this setting (CAMPAIGN_BUDGET.json stages_oxylabs S5b); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": null,
+  "run_stage": null
+ },
+ "s5b_serial_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "1,3",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-no-detail",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "5",
+   "--max-minutes",
+   "10"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S5b_serial"
+ },
+ "s5b_parallel_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "1,3",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-no-detail",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "2",
+   "--max-credits",
+   "7",
+   "--max-minutes",
+   "10"
+  ],
+  "expected": -1,
+  "config": null,
+  "run_stage": "S5b_parallel"
+ },
+ "s6_validate_config": {
+  "args": [
+   "validate-config",
+   "--check-db",
+   "--require-credentials"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_status_before": {
+  "args": [
+   "status",
+   "--limit",
+   "3"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "22",
+   "--usd",
+   "0.033",
+   "--minutes",
+   "30",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, amendments A1 and A2, stage S6 on release 1.5.1: the >=500 demonstration again, multipack weights and store_brand on live pages, reuse behind a page budget, a forced kill and a resume: 22 submissions (USD 0.033 at the reserve rate 0.0015), 30 minutes, counted from this setting (CAMPAIGN_BUDGET.json amendments); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0,1,3,6,7",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--subcategory",
+   "6:/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "23",
+   "--max-minutes",
+   "30"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": "S6"
+ },
+ "s7_ceiling": {
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "4",
+   "--usd",
+   "0.006",
+   "--minutes",
+   "10",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign walmart-1.5.0, amendment A2, stage S7 on release 1.5.1: time-separated repeat of a small slice, at least 30 minutes after S6: 4 submissions (USD 0.006 at the reserve rate 0.0015), 10 minutes, counted from this setting (CAMPAIGN_BUDGET.json amendments); the campaign budget of USD 0.18 stays in force"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s7_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "5",
+   "--max-minutes",
+   "10"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": "S7"
+ },
+ "s6_overlap_during_run": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0,1,3,6,7",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--subcategory",
+   "6:/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "2",
+   "--max-minutes",
+   "1"
+  ],
+  "expected": 9,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_overlap_unfinished": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0,1,3,6,7",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--subcategory",
+   "6:/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "5",
+   "--max-minutes",
+   "1"
+  ],
+  "expected": 9,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_overlap_during_run_b": {
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "0,1,3,6,7",
+   "--subcategory",
+   "0:/browse/food/fresh-vegetables/976759_976793_8910423",
+   "--subcategory",
+   "1:/browse/laundry/1115193_1071967",
+   "--subcategory",
+   "3:/browse/hair-care/shampoo/1085666_3147628_5752434",
+   "--subcategory",
+   "6:/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+   "--subcategory",
+   "7:/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+   "--max-pages-per-listing",
+   "3",
+   "--pilot-detail-pages",
+   "1",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "5",
+   "--max-minutes",
+   "1"
+  ],
+  "expected": 9,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_status_after_kill": {
+  "args": [
+   "status",
+   "--limit",
+   "3"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_resume": {
+  "args": [
+   "resume",
+   "--run",
+   "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "--workers",
+   "1"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_status_after_resume": {
+  "args": [
+   "status",
+   "--limit",
+   "3"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_status_at_ceiling": {
+  "args": [
+   "status",
+   "--limit",
+   "2"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s6_finalize": {
+  "args": [
+   "finalize",
+   "--run",
+   "01M6A2VQAA5VXJHJHMZPCTZTD4"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s7_status_at_ceiling": {
+  "args": [
+   "status",
+   "--limit",
+   "2"
+  ],
+  "expected": 0,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ },
+ "s7_finalize": {
+  "args": [
+   "finalize",
+   "--run",
+   "01M6A52HA6XYCEDS6DBE5N5RQ7"
+  ],
+  "expected": -1,
+  "config": "C:\\w7\\live\\ed\\walmart-oxylabs-1.5.1\\config\\collector.yaml",
+  "run_stage": null
+ }
+}

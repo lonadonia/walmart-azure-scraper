@@ -1,0 +1,13 @@
+2026-10-31T21:39:06Z
+kind|state|count|max_lease|max_attempts
+assemble|pending|1|None|0
+export|pending|1|None|0
+follow_up|pending|4|None|0
+listing_node|pending|2|None|0
+listing_node|running|2|2026-10-31 21:39:27.448723+00:00|1
+listing_node|succeeded|1|None|1
+preflight|succeeded|1|None|1
+validate|pending|1|None|0
+outcome|count|sum
+ok|12|12.0
+reserved|2|2.0

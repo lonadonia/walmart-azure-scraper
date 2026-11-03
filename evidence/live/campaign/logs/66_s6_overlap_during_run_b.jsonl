@@ -1,0 +1,1 @@
+{"ts": "2026-10-31T22:57:57.183Z", "level": "ERROR", "event": "COMMAND_REFUSED", "collector": "walmart-azure-headless", "command": "run", "exit_code": 9, "message": "walmart-3891-pickup has an unfinished run 01M6A2VQAA5VXJHJHMZPCTZTD4 (running): resume or finalize it", "run_id": "01M6A2VQAA5VXJHJHMZPCTZTD4"}

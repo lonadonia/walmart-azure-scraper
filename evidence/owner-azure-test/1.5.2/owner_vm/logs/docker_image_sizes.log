@@ -1,0 +1,7 @@
+IMAGE                              ID             DISK USAGE   CONTENT SIZE   EXTRA
+alpine:3.20                        d9e853e87e55       12.2MB         3.71MB        
+ghcr.io/astral-sh/uv:0.13.1        4a1f3666816d       65.9MB         22.4MB        
+postgres:16                        5db6dac2ef5d        642MB          166MB   U    
+python:3.12-slim-bookworm          e697c8189730        188MB         47.9MB        
+walmart-collector:1.5.2-oxylabs    029e49e5ee76        323MB           74MB        
+walmart-collector:1.5.2-scrapedo   eaf4432872d5        323MB           74MB        

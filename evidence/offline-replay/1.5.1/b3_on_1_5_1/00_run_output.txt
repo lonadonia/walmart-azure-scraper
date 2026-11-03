@@ -1,0 +1,9 @@
+step 1 validate_config_before_upgrade: exit 2 (expected -1) in 2.5 s
+step 2 db_upgrade: exit 0 (expected 0) in 2.2 s
+step 3 validate_config_after_upgrade: exit 0 (expected 0) in 2.4 s
+step 4 status_before: exit 0 (expected 0) in 2.3 s
+step 5 field_dispositions_source_before: exit 0 (expected -1) in 2.6 s
+step 6 import_detail_captures: exit 0 (expected 0) in 107.1 s
+step 7 replay_b3: exit 0 (expected -1) in 43.1 s
+replay run 01M6A3GWJ33TJ3VJZYKE4XYZMZ
+step 8 needs the replay run id (C:\w7\evidence\reprocessing_b3_1_5_1\replay_run_id.txt not written yet)

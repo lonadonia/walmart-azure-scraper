@@ -1,0 +1,28 @@
+2026-10-31T21:11:24Z
+== walmart_oxylabs
+SET
+kind|item_id|state|coalesce|last_run|last_seen_at|runs_seen|origin|left
+sponsored|43923746|resolved|duplicate|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|4|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|44391186|pending|not_attempted|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 05:45:33.9472+00|3|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|51259335|pending|not_attempted|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|4|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|542955132|resolved|duplicate|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|1|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|646842793|pending|not_attempted|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|4|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|810359707|resolved|duplicate|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|4|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|978115165|resolved|duplicate|01M60GKSSDDC2FPGSE9F0NNGWH|2026-10-28 05:45:33.9472+00|3|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|994998279|resolved|duplicate|01M60V2DCCWR72BGVVG3EM9R74|2026-10-28 08:48:46.349191+00|4|seed: S11 of the 1.3.1 reconciliation: sponsored only on Fresh Fruits, run 01M5P24C of 2026-10-24|this run saw it as its own result tile (an organic placement): recorded from that placement
+variant|5271563250|pending|not_attempted|01M60VA50N50W10GJZE9C6P95K|2026-10-28 08:51:57.898052+00|5|seed: V21 of the 1.3.1 reconciliation: a tile-only variant sibling on Fresh Vegetables, run 01M5P24C of 2026-10-24|the listing 976759_976793_8910423 is not among the listings this run read
+(9 rows)
+== walmart_scrapedo
+SET
+kind|item_id|state|coalesce|last_run|last_seen_at|runs_seen|origin|left
+sponsored|1918496773|resolved|duplicate|01M60BY58FYSVA2EPYWY2RY6TA|2026-10-28 04:24:03.922949+00|1|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|259513938|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|43923746|resolved|duplicate|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|44391186|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|51259335|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|646842793|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+sponsored|810359707|resolved|duplicate|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|978115165|resolved|duplicate|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|observed|this run saw it as its own result tile (an organic placement): recorded from that placement
+sponsored|994998279|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:01.513329+00|3|seed: S11 of the 1.3.1 reconciliation: sponsored only on Fresh Fruits, run 01M5P24C of 2026-10-24|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+variant|5271563250|pending|not_attempted|01M60ESB2201KQ56K9GRTMY0V7|2026-10-28 05:16:02.243756+00|3|seed: V21 of the 1.3.1 reconciliation: a tile-only variant sibling on Fresh Vegetables, run 01M5P24C of 2026-10-24|the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run
+(10 rows)

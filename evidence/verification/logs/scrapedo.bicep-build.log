@@ -1,0 +1,435 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.48.1.52935",
+      "templateHash": "17038500834747964220"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location of the new resources."
+      }
+    },
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "walmart-collector",
+      "maxLength": 24,
+      "metadata": {
+        "description": "Prefix of the resource names (identity, jobs)."
+      }
+    },
+    "image": {
+      "type": "string",
+      "metadata": {
+        "description": "Image, e.g. myregistry.azurecr.io/walmart-collector:1.5.2"
+      }
+    },
+    "acrName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing Azure Container Registry holding the image (same resource group)."
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing Key Vault (same resource group) holding the secrets below."
+      }
+    },
+    "scrapedoKeySecretName": {
+      "type": "string",
+      "defaultValue": "walmart-collector-scrapedo-api-key",
+      "metadata": {
+        "description": "Key Vault secret holding the Scrape.do API key."
+      }
+    },
+    "databaseUrlSecretName": {
+      "type": "string",
+      "defaultValue": "walmart-collector-database-url",
+      "metadata": {
+        "description": "Key Vault secret holding the PostgreSQL URL (postgresql://user:password@host:5432/db?sslmode=require). With databaseAuth = entra, the URL without a password."
+      }
+    },
+    "databaseAuth": {
+      "type": "string",
+      "defaultValue": "password",
+      "allowedValues": [
+        "password",
+        "entra"
+      ],
+      "metadata": {
+        "description": "password: the password is in the URL secret. entra: Microsoft Entra authentication with this job identity (no password)."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing storage account (same resource group)."
+      }
+    },
+    "blobContainerName": {
+      "type": "string",
+      "defaultValue": "walmart-collector",
+      "metadata": {
+        "description": "Blob container of this collector (runs, exports, the published dataset). Created when missing."
+      }
+    },
+    "schedules": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "storeKey": "walmart-3891-pickup",
+          "cronUtc": "*/30 * * * *",
+          "jobName": "walmart-3891-pickup"
+        }
+      ],
+      "metadata": {
+        "description": "One scheduled job per store: storeKey (config/stores.yaml), cronUtc (walmart-collector schedule-info: cron_utc_with_continuation, every 30 minutes, so an unfinished run is continued; each firing exits in seconds when there is nothing to start or continue) and jobName (2-32 lowercase letters, digits and hyphens, unique in the resource group)."
+      }
+    },
+    "replicaTimeoutSeconds": {
+      "type": "int",
+      "defaultValue": 21600,
+      "metadata": {
+        "description": "Maximum duration of one execution, in seconds. Keep it above the collection max_segment_minutes (one execution); the whole run spans several executions."
+      }
+    },
+    "replicaRetryLimit": {
+      "type": "int",
+      "defaultValue": 1,
+      "minValue": 0,
+      "maxValue": 3,
+      "metadata": {
+        "description": "Platform retries of a failed execution. The collector retries pages and transient stops itself."
+      }
+    },
+    "cpu": {
+      "type": "string",
+      "defaultValue": "0.5"
+    },
+    "memory": {
+      "type": "string",
+      "defaultValue": "1Gi"
+    },
+    "createEnvironment": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Create a Container Apps environment and a Log Analytics workspace (false: use environmentId)."
+      }
+    },
+    "environmentId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Existing Container Apps environment resource id (when createEnvironment is false)."
+      }
+    },
+    "logRetentionDays": {
+      "type": "int",
+      "defaultValue": 30,
+      "metadata": {
+        "description": "Log retention of a new Log Analytics workspace, in days."
+      }
+    }
+  },
+  "variables": {
+    "roleAcrPull": "7f951dda-4ed3-4680-a7ca-43fe172d538d",
+    "roleKeyVaultSecretsUser": "4633458b-17de-408a-b874-0445c86b69e6",
+    "roleBlobDataContributor": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+    "envId": "[if(parameters('createEnvironment'), resourceId('Microsoft.App/managedEnvironments', format('{0}-env', parameters('namePrefix'))), parameters('environmentId'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', parameters('blobContainerName'))]",
+      "properties": {
+        "publicAccess": "None"
+      }
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2023-01-31",
+      "name": "[format('{0}-identity', parameters('namePrefix'))]",
+      "location": "[parameters('location')]"
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName'))]",
+      "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleAcrPull'))]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleAcrPull'))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
+      "name": "[guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleKeyVaultSecretsUser'))]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleKeyVaultSecretsUser'))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName'))]",
+      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleBlobDataContributor'))]",
+      "properties": {
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').principalId]",
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleBlobDataContributor'))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName'))]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('createEnvironment')]",
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}-logs', parameters('namePrefix'))]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "sku": {
+          "name": "PerGB2018"
+        },
+        "retentionInDays": "[parameters('logRetentionDays')]"
+      }
+    },
+    {
+      "condition": "[parameters('createEnvironment')]",
+      "type": "Microsoft.App/managedEnvironments",
+      "apiVersion": "2024-03-01",
+      "name": "[format('{0}-env', parameters('namePrefix'))]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "appLogsConfiguration": {
+          "destination": "log-analytics",
+          "logAnalyticsConfiguration": {
+            "customerId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-logs', parameters('namePrefix'))), '2023-09-01').customerId]",
+            "sharedKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-logs', parameters('namePrefix'))), '2023-09-01').primarySharedKey]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-logs', parameters('namePrefix')))]"
+      ]
+    },
+    {
+      "copy": {
+        "name": "scheduled",
+        "count": "[length(parameters('schedules'))]"
+      },
+      "type": "Microsoft.App/jobs",
+      "apiVersion": "2024-03-01",
+      "name": "[parameters('schedules')[copyIndex()].jobName]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))))]": {}
+        }
+      },
+      "properties": {
+        "environmentId": "[variables('envId')]",
+        "configuration": {
+          "triggerType": "Schedule",
+          "replicaTimeout": "[parameters('replicaTimeoutSeconds')]",
+          "replicaRetryLimit": "[parameters('replicaRetryLimit')]",
+          "scheduleTriggerConfig": {
+            "cronExpression": "[parameters('schedules')[copyIndex()].cronUtc]",
+            "parallelism": 1,
+            "replicaCompletionCount": 1
+          },
+          "secrets": [
+            {
+              "name": "scrapedo-api-key",
+              "keyVaultUrl": "[format('{0}secrets/{1}', reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2023-07-01').vaultUri, parameters('scrapedoKeySecretName'))]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            },
+            {
+              "name": "database-url",
+              "keyVaultUrl": "[format('{0}secrets/{1}', reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2023-07-01').vaultUri, parameters('databaseUrlSecretName'))]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            }
+          ],
+          "registries": [
+            {
+              "server": "[reference(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), '2023-07-01').loginServer]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "collector",
+              "image": "[parameters('image')]",
+              "args": [
+                "run",
+                "--store",
+                "[parameters('schedules')[copyIndex()].storeKey]",
+                "--scheduled"
+              ],
+              "env": [
+                {
+                  "name": "SCRAPEDO_API_KEY",
+                  "secretRef": "scrapedo-api-key"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_DATABASE_URL",
+                  "secretRef": "database-url"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_DATABASE_AUTH",
+                  "value": "[parameters('databaseAuth')]"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_STORAGE",
+                  "value": "azure_blob"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_BLOB_ACCOUNT_URL",
+                  "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').primaryEndpoints.blob]"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_BLOB_CONTAINER",
+                  "value": "[parameters('blobContainerName')]"
+                },
+                {
+                  "name": "AZURE_CLIENT_ID",
+                  "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').clientId]"
+                },
+                {
+                  "name": "WALMART_COLLECTOR_ACTOR",
+                  "value": "azure-job"
+                }
+              ],
+              "resources": {
+                "cpu": "[json(parameters('cpu'))]",
+                "memory": "[parameters('memory')]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleAcrPull')))]",
+        "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleBlobDataContributor')))]",
+        "[resourceId('Microsoft.App/managedEnvironments', format('{0}-env', parameters('namePrefix')))]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]",
+        "[extensionResourceId(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleKeyVaultSecretsUser')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.App/jobs",
+      "apiVersion": "2024-03-01",
+      "name": "[take(format('{0}-ops', parameters('namePrefix')), 32)]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[format('{0}', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))))]": {}
+        }
+      },
+      "properties": {
+        "environmentId": "[variables('envId')]",
+        "configuration": {
+          "triggerType": "Manual",
+          "replicaTimeout": "[parameters('replicaTimeoutSeconds')]",
+          "replicaRetryLimit": 0,
+          "manualTriggerConfig": {
+            "parallelism": 1,
+            "replicaCompletionCount": 1
+          },
+          "secrets": [
+            {
+              "name": "scrapedo-api-key",
+              "keyVaultUrl": "[format('{0}secrets/{1}', reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2023-07-01').vaultUri, parameters('scrapedoKeySecretName'))]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            },
+            {
+              "name": "database-url",
+              "keyVaultUrl": "[format('{0}secrets/{1}', reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2023-07-01').vaultUri, parameters('databaseUrlSecretName'))]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            }
+          ],
+          "registries": [
+            {
+              "server": "[reference(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), '2023-07-01').loginServer]",
+              "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "collector",
+              "image": "[parameters('image')]",
+              "args": [
+                "ops"
+              ],
+              "env": "[concat(createArray(createObject('name', 'SCRAPEDO_API_KEY', 'secretRef', 'scrapedo-api-key'), createObject('name', 'WALMART_COLLECTOR_DATABASE_URL', 'secretRef', 'database-url'), createObject('name', 'WALMART_COLLECTOR_DATABASE_AUTH', 'value', parameters('databaseAuth')), createObject('name', 'WALMART_COLLECTOR_STORAGE', 'value', 'azure_blob'), createObject('name', 'WALMART_COLLECTOR_BLOB_ACCOUNT_URL', 'value', reference(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').primaryEndpoints.blob), createObject('name', 'WALMART_COLLECTOR_BLOB_CONTAINER', 'value', parameters('blobContainerName')), createObject('name', 'AZURE_CLIENT_ID', 'value', reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').clientId), createObject('name', 'WALMART_COLLECTOR_ACTOR', 'value', 'azure-job')), createArray(createObject('name', 'WALMART_COLLECTOR_COMMAND', 'value', 'status')))]",
+              "resources": {
+                "cpu": "[json(parameters('cpu'))]",
+                "memory": "[parameters('memory')]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleAcrPull')))]",
+        "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('blobContainerName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleBlobDataContributor')))]",
+        "[resourceId('Microsoft.App/managedEnvironments', format('{0}-env', parameters('namePrefix')))]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix')))]",
+        "[extensionResourceId(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), 'Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), variables('roleKeyVaultSecretsUser')))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "identityClientId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').clientId]"
+    },
+    "identityPrincipalId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('{0}-identity', parameters('namePrefix'))), '2023-01-31').principalId]"
+    },
+    "identityName": {
+      "type": "string",
+      "value": "[format('{0}-identity', parameters('namePrefix'))]"
+    },
+    "scheduledJobs": {
+      "type": "array",
+      "copy": {
+        "count": "[length(parameters('schedules'))]",
+        "input": "[parameters('schedules')[copyIndex()].jobName]"
+      }
+    },
+    "opsJob": {
+      "type": "string",
+      "value": "[take(format('{0}-ops', parameters('namePrefix')), 32)]"
+    }
+  }
+}

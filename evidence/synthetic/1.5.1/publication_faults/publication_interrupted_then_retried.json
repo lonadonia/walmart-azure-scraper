@@ -1,0 +1,51 @@
+{
+ "synthetic": true,
+ "first_run": "01M6A84NM0F94A8CV894AQTMCW",
+ "second_run": "01M6A84VV1VER4HHVBM5NHVYRV",
+ "before": {
+  "pointer": {
+   "publication_id": "01M6A84VFSXQVAWN6F40F5DDCC",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6A84NM0F94A8CV894AQTMCW",
+  "latest_json_sha256": "f405deb789df975e06f0fb427fe0b121e06cb0eb24e09875b32112eefd5935ea",
+  "manifest_sha256": "a77579a22af4619968348efb8cd50cd105f27eb321a92913eb8081084dd5f577",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "f4ebd2de9a328d86f87d3c9f20c7da244456a455ece37efd5d53157d0cde9cc9",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "after_interruption": {
+  "pointer": {
+   "publication_id": "01M6A84VFSXQVAWN6F40F5DDCC",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6A84NM0F94A8CV894AQTMCW",
+  "latest_json_sha256": "f405deb789df975e06f0fb427fe0b121e06cb0eb24e09875b32112eefd5935ea",
+  "manifest_sha256": "a77579a22af4619968348efb8cd50cd105f27eb321a92913eb8081084dd5f577",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "f4ebd2de9a328d86f87d3c9f20c7da244456a455ece37efd5d53157d0cde9cc9",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "after_retry": {
+  "pointer": {
+   "publication_id": "01M6A85073FNAM0P6PTB8QVE7J",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6A84VV1VER4HHVBM5NHVYRV",
+  "latest_json_sha256": "cd269b381a3afd8f674302ea6c8f3f5c58d9d2141e2a7b2c9c5f43749f37b46d",
+  "manifest_sha256": "ada9da7119170acbf6e02b3a35b424df98df50522e3bbbf587ec7e4faab15581",
+  "products_sha256": "22bca1fdac9bc02bc7b13eabcf736d8c1d4305caf8ef8b4635e86e3e99335c91",
+  "published_products": 4,
+  "first_run_observations_sha256": "f4ebd2de9a328d86f87d3c9f20c7da244456a455ece37efd5d53157d0cde9cc9",
+  "first_run_records_sha256": "faf81a0aa708b73f38905e9ae04b784d29e4a9402867362284a775f35ce24096",
+  "first_run_observations": 5
+ },
+ "retry_exit_code": 0
+}

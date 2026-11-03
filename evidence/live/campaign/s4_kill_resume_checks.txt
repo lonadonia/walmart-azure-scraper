@@ -1,0 +1,119 @@
+== page fetches of S4 by purpose and segment
+Traceback (most recent call last):
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedTable: relation "run_segments" does not exist
+LINE 1: ...l) as distinct_urls from page_fetches p left join run_segmen...
+                                                             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\w7\tools\live150_sql.py", line 19, in <module>
+    res = c.execute(text(sys.argv[1]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedTable) relation "run_segments" does not exist
+LINE 1: ...l) as distinct_urls from page_fetches p left join run_segmen...
+                                                             ^
+[SQL: select p.purpose, s.id as segment, count(*) as fetches, count(distinct p.url) as distinct_urls from page_fetches p left join run_segments s on s.run_id=p.run_id and p.requested_at>=s.started_at and (s.ended_at is null or p.requested_at<=s.ended_at) where p.run_id='01M69Y882GTVYRJZM0CXQ44MXN' group by 1,2 order by 2,1]
+(Background on this error at: https://sqlalche.me/e/21/f405)
+== listing URLs fetched more than once in S4
+Traceback (most recent call last):
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column "requested_at" does not exist
+LINE 1: select url, count(*), min(requested_at), max(requested_at) f...
+                                  ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\w7\tools\live150_sql.py", line 19, in <module>
+    res = c.execute(text(sys.argv[1]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1463, in execute
+    return meth(
+           ^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 533, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1683, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1837, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1977, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2347, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1958, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 1192, in do_execute
+    cursor.execute(statement, parameters)
+  File "C:\w7\live\ed\walmart-oxylabs-1.5.0\.venv\Lib\site-packages\psycopg\cursor.py", line 117, in execute
+    raise ex.with_traceback(None)
+sqlalchemy.exc.ProgrammingError: (psycopg.errors.UndefinedColumn) column "requested_at" does not exist
+LINE 1: select url, count(*), min(requested_at), max(requested_at) f...
+                                  ^
+[SQL: select url, count(*), min(requested_at), max(requested_at) from page_fetches where run_id='01M69Y882GTVYRJZM0CXQ44MXN' and purpose='listing' group by 1 having count(*)>1]
+(Background on this error at: https://sqlalche.me/e/21/f405)
+== provider usage of S4 by outcome
+outcome|count|sum|min|max
+reserved|2|2.0|2026-10-31 21:37:21.915864+00:00|2026-10-31 21:37:27.454872+00:00
+ok|37|37.0|2026-10-31 21:36:04.539392+00:00|2026-10-31 21:41:52.345128+00:00
+== campaign ledger, all runs
+run_id|outcome|count|sum
+01M69X9XHZR83KZ2FNWBJYJKA7|ok|4|4.0
+01M69XM9RZN3C8D0K7W2NSXR3D|ok|28|28.0
+01M69Y1J6YWFEZ1DJHAC2MT17M|ok|9|9.0
+01M69Y882GTVYRJZM0CXQ44MXN|ok|37|37.0
+01M69Y882GTVYRJZM0CXQ44MXN|reserved|2|2.0
+== S4 page fetches before and after the kill (2026-10-31 21:37:29.087+00), by purpose
+phase|purpose|fetches|distinct_urls|challenged
+before_kill|listing|8|8|0
+before_kill|robots|2|1|0
+before_kill|store_page|2|1|0
+after_resume|listing|11|11|0
+after_resume|product_detail|10|10|0
+after_resume|robots|2|1|0
+after_resume|store_page|2|1|0
+== listing URLs fetched more than once in S4
+url|count|min|max
+== distinct listing pages fetched in S4
+count
+19
+== segments of S4
+id|run_id|store_id|trigger|day|started_at|heartbeat_at|ended_at|active_s|credits_estimated|browser_sessions|browsers_closed|steps|products_verified|account_remaining_start|account_remaining_end|stop_code|stop_detail|workers|stats
+01M69Y888GBAXVW4GK9VNTHP6F|01M69Y882GTVYRJZM0CXQ44MXN|01M69X5MFE8D9A5D6M6GVSFB35|manual|2026-10-31|2026-10-31 21:36:03.853300+00:00|2026-10-31 21:37:27.291233+00:00|None|83.42200000000048|13.0|2|0|10|281|42|None|None|None|2|{"limiter": {"waited_s": 0.1, "max_in_flight": 2, "min_interval_s": 0.5}, "lineage": {"replaced": [], "transport": "network"}, "process": {"cpu_s": 12.64, "max_rss_mb": null}, "workers": [{"usd": 0.0105, "steps": 6, "tasks": 0, "worker": "w0", "credits": 8.0, "requests": 7, "sessions": 1, "reconnects": 0}, {"usd": 0.0075, "steps": 4, "tasks": 0, "worker": "w1", "credits": 5.0, "requests": 5, "sessions": 1, "reconnects": 0}], "abandonment": {"durable": {"pages": {"pages": 12, "last_at": "2026-10-31T21:37:13.187896Z", "attributed_by": "time window"}, "ledger": {"usd": 0.021, "credits": 14.0, "last_at": "2026-10-31T21:37:27.454872Z", "requests": 14, "by_outcome": {"ok": 12, "reserved": 2}, "by_purpose": {"robots": 2, "listing": 10, "store_page": 2}, "in_flight_when_last_seen": 2}, "observations": {"last_at": "2026-10-31T21:37:13.187896Z", "products": 332, "verified": 281, "observations": 381}, "last_observed_at": "2026-10-31T21:37:27.454872Z"}, "ended_at": null, "recorded": {"steps": 10, "workers": 2, "active_s": 83.42200000000048, "ended_at": null, "stop_code": null, "heartbeat_at": "2026-10-31T21:37:27.291233Z", "browsers_closed": 0, "browser_sessions": 2, "credits_estimated": 13.0, "products_verified": 281}, "detected_at": "2026-10-31T21:39:26.746483Z", "detected_by": "the run's recovery", "ended_between": ["2026-10-31T21:37:27.454872Z", "2026-10-31T21:39:26.746483Z"], "last_observed_at": "2026-10-31T21:37:27.454872Z", "last_heartbeat_at": "2026-10-31T21:37:27.291233Z"}}
+01M69YEEN6381MWEQJ2MEDMS65|01M69Y882GTVYRJZM0CXQ44MXN|01M69X5MFE8D9A5D6M6GVSFB35|resume|2026-10-31|2026-10-31 21:39:27.011755+00:00|2026-10-31 21:42:17.809529+00:00|2026-10-31 21:42:17.809529+00:00|170.76499999999942|25.0|2|2|23|396|28|3|None|None|2|{"limiter": {"waited_s": 0.0, "max_in_flight": 2, "min_interval_s": 0.5}, "lineage": {"replaced": [], "transport": "network"}, "process": {"cpu_s": 37.25, "max_rss_mb": null}, "workers": [{"usd": 0.0165, "steps": 10, "tasks": 6, "worker": "w0", "credits": 11.0, "requests": 11, "sessions": 1, "reconnects": 0}, {"usd": 0.021, "steps": 13, "tasks": 5, "worker": "w1", "credits": 14.0, "requests": 14, "sessions": 1, "reconnects": 0}]}

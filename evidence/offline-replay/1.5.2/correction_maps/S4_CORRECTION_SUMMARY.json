@@ -1,0 +1,33 @@
+{
+ "evidence_class": "OFFLINE REPLAY",
+ "label": "OFFLINE REPLAY of live run 01M69Y882GTVYRJZM0CXQ44MXN by replay run 01M6CB5X64C1NCDN9PMKBTD1MV: no request was made, and the run's original exports are unchanged",
+ "source_run": "01M69Y882GTVYRJZM0CXQ44MXN",
+ "replay_run": "01M6CB5X64C1NCDN9PMKBTD1MV",
+ "products_before": 689,
+ "products_after": 689,
+ "only_before": [],
+ "only_after": [],
+ "rows": 9889,
+ "by_change_class": {
+  "capture_hash_added": 8630,
+  "disposition_changed": 2811,
+  "disposition_detail_added": 2018,
+  "field_source_corrected": 2859,
+  "missing_kind_corrected": 876,
+  "missing_resolved": 884,
+  "replay_read_again": 31,
+  "replay_read_id": 8646,
+  "size_value": 26,
+  "store_brand_value": 29,
+  "upc_value": 355
+ },
+ "counted_here_not_listed_in_the_map": [
+  "capture_hash_added",
+  "replay_read_id"
+ ],
+ "exported_values_changed_by_field": {
+  "store_brand": 29,
+  "upc": 355,
+  "weight": 26
+ }
+}

@@ -1,0 +1,8 @@
+ASSEMBLY CHECK of the Walmart 1.5.2 evidence tree (offline; no request)
+carried byte for byte from WALMART_EVIDENCE_1.5.1.zip (SHA-256 c70c137035ec35fd86c36bcd7bdef5988e4f8f626e74a34bac336f2196ea6326): 668 files
+added in 7_release_1_5_2/ and as new versions of the two documents: 693 files
+files listed: 1361
+by class: {"ACCOUNT READING": 3, "DOCUMENT": 2, "ESTIMATE": 7, "HISTORICAL": 24, "LIVE VERIFIED": 483, "OFFLINE": 1, "OFFLINE REPLAY": 447, "OFFLINE REPROCESSING": 110, "OFFLINE REPROCESSING of LIVE pages": 5, "OFFLINE VERIFIED": 14, "OWNER AZURE TEST": 129, "PLAN": 2, "RECONCILIATION": 22, "SYNTHETIC TEST": 17, "TOOL": 95}
+files changed when packaged in this release: 10
+raw originals in the package: 0
+RESULT: PASS

@@ -1,0 +1,26 @@
+{
+  "note": "Copied unchanged from the Walmart collector so that the probe reads Walmart's page data with the readers the collector was validated with. Never edit these copies: a change is made in the collector and copied again, with new hashes here. tests/test_vendored.py checks both.",
+  "files": [
+    {
+      "vendored": "src/classic_probe/vendor/walmart_page_data.py",
+      "origin": "walmart-azure-headless/src/walmart_headless/sites/walmart/page_data.py",
+      "origin_last_changed_in_commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+      "git_blob": "4f9bd5fdb22328607379555f575e52ba93873a05",
+      "sha256": "048ab48646dea7e81742c1f13a0c526edf0c355289fb96a58bfaf75aac67849f"
+    },
+    {
+      "vendored": "src/classic_probe/vendor/walmart_challenge.py",
+      "origin": "walmart-azure-headless/src/walmart_headless/acquisition/challenge.py",
+      "origin_last_changed_in_commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+      "git_blob": "d2f9abe74b2833573da779087be518ee4597546a",
+      "sha256": "0df7b020150fa4e26546fbb3cbc064c2a405f00304861ee71a225177c0b8a13a"
+    },
+    {
+      "vendored": "src/classic_probe/vendor/walmart_sanitize.py",
+      "origin": "walmart-azure-headless/src/walmart_headless/sites/walmart/sanitize.py",
+      "origin_last_changed_in_commit": "61a67d8aa617d13ef2a07a58b8e353fa49532211",
+      "git_blob": "9e955f3042ea3c2be077f0c77fa0e25795500ee7",
+      "sha256": "6e14fbb1aafbfeae41df104b2abdf45084fdf68d82d4c9f0a491ee5555f15ad4"
+    }
+  ]
+}

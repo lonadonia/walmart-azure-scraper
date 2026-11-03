@@ -1,0 +1,8 @@
+id,run_id,scope,ref,gate,severity,code,message,metrics,created_at
+01M69YTCHYVJTQ0HJ7BQ3VN7KT,01M69YS2X0YG5JSEMCGKK8BHE5,category,Household Essentials,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7KV,01M69YS2X0YG5JSEMCGKK8BHE5,category,Beauty,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7KW,01M69YS2X0YG5JSEMCGKK8BHE5,category,Household Essentials,G4,FAIL,RETAINED_MASKS_YIELD,"67% of the published products are retained from earlier runs (80 retained, 40 fresh valid)","{""retained"": 80, ""fresh_valid"": 40, ""retained_share"": 0.6667}",2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7KX,01M69YS2X0YG5JSEMCGKK8BHE5,category,Beauty,G4,FAIL,RETAINED_MASKS_YIELD,"67% of the published products are retained from earlier runs (80 retained, 40 fresh valid)","{""retained"": 80, ""fresh_valid"": 40, ""retained_share"": 0.6667}",2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7KY,01M69YS2X0YG5JSEMCGKK8BHE5,run,,G4,FAIL,RETAINED_MASKS_YIELD,"67% of the published products are retained from earlier runs (160 retained, 80 fresh valid)","{""retained"": 160, ""fresh_valid"": 80, ""retained_share"": 0.6667}",2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7KZ,01M69YS2X0YG5JSEMCGKK8BHE5,run,,G14,FAIL,CONTEST_NOT_READY,80 valid records,{},2026-10-31 21:45:57.604549+00:00
+01M69YTCHYVJTQ0HJ7BQ3VN7M0,01M69YS2X0YG5JSEMCGKK8BHE5,run,,G14,FAIL,CONTEST_NOT_READY,2 categories,{},2026-10-31 21:45:57.604549+00:00

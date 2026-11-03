@@ -1,0 +1,361 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M69Y882GTVYRJZM0CXQ44MXN",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-10-31T21:42:17.636751Z",
+  "record_count": 689,
+  "fresh_record_count": 677,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/products.json",
+      "sha256": "ea69d4259d2c8c063674f1b3100ae37cafdd66698440b886d08a87ca527cd35f",
+      "size": 868167
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/products.csv",
+      "sha256": "099efe66952a13d39d504cf74f554c337531f4d4a516855c5ac2b6c53a06fdd9",
+      "size": 532913
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/memberships.json",
+      "sha256": "b3fac8058cfa185fb461dd675f4aee3da9b0b009beb91c2e3ebe44af8606a302",
+      "size": 165044
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/provenance.json",
+      "sha256": "666a4c5c9b9f81ecde9a2206f526e74aae2cb0cd4886d645b51354bdeb42f6ba",
+      "size": 6932730
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/validation_report.json",
+      "sha256": "aef6970f57404cd1cd2648484b0f614d6167355f1676586eb03e6ee0219c83e6",
+      "size": 3131
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/products_fresh.json",
+      "sha256": "04632e549586744026d8f831ccbd7c86a84a73b563adadf72eaa3fe6ee3e044f",
+      "size": 853902
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/products_fresh.csv",
+      "sha256": "d2f5ab01c13d5381b7c6a30c0f57cc5c8a5390ec18ad91cb87991e68c9205e7f",
+      "size": 524496
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/record_map.json",
+      "sha256": "5e3b2009859f5dc709e09384e251f3f386ca75cff12a1896e861e51b456b5660",
+      "size": 5880610
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/field_dispositions.json",
+      "sha256": "3e5ef6e2f10443206e5fb0ca2cf13c8c471186fb3addb669dd672b9ba4d88b97",
+      "size": 649914
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M69Y882GTVYRJZM0CXQ44MXN/exports/field_dispositions.csv",
+      "sha256": "1421ebbf11ecc841b76ee07f5bfeb60b35ca859e4e24b7e10772e290a1e049ff",
+      "size": 393081
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+      "source": "build_info",
+      "version": "1.5.0",
+      "built_at": "2026-10-31T20:51:17+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/food/976759?povid=GlobalNav_rWeb_Grocery_GroceryShopAll",
+          "kind": "landing",
+          "only": [
+            "/browse/food/fresh-fruits/976759_976793_9756351",
+            "/browse/food/fresh-vegetables/976759_976793_8910423",
+            "/browse/food/strawberries/976759_976793_9756351_3521037"
+          ],
+          "category": "Food",
+          "excluded": [
+            "Shop All Foods",
+            "Recipes"
+          ],
+          "row_index": 0,
+          "taxonomy_id": "976759",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90T"
+        },
+        {
+          "url": "https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning",
+          "kind": "landing",
+          "only": [
+            "/browse/laundry/1115193_1071967"
+          ],
+          "category": "Household Essentials",
+          "excluded": [],
+          "row_index": 1,
+          "taxonomy_id": "1115193",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90V"
+        },
+        {
+          "url": "https://www.walmart.com/cp/beauty/1085666?povid=GlobalNav_rWeb_Beauty_Beauty_ShopAll_051123",
+          "kind": "landing",
+          "only": [
+            "/browse/hair-care/shampoo/1085666_3147628_5752434"
+          ],
+          "category": "Beauty",
+          "excluded": [],
+          "row_index": 3,
+          "taxonomy_id": "1085666",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRD"
+        },
+        {
+          "url": "https://www.walmart.com/cp/health/976760",
+          "kind": "landing",
+          "only": [
+            "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
+          ],
+          "category": "Health & Wellness",
+          "excluded": [],
+          "row_index": 6,
+          "taxonomy_id": "976760",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRG"
+        },
+        {
+          "url": "https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies",
+          "kind": "landing",
+          "only": [
+            "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+          ],
+          "category": "Pets",
+          "excluded": [
+            "Farm Animals"
+          ],
+          "row_index": 7,
+          "taxonomy_id": "5440",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRH"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w7\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 2,
+      "provider": "oxylabs",
+      "categories": [
+        0,
+        1,
+        3,
+        6,
+        7
+      ],
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-fruits/976759_976793_9756351",
+          "/browse/food/fresh-vegetables/976759_976793_8910423",
+          "/browse/food/strawberries/976759_976793_9756351_3521037"
+        ],
+        "1": [
+          "/browse/laundry/1115193_1071967"
+        ],
+        "3": [
+          "/browse/hair-care/shampoo/1085666_3147628_5752434"
+        ],
+        "6": [
+          "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
+        ],
+        "7": [
+          "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+        ]
+      },
+      "follow_up_pages": 0,
+      "max_run_minutes": 45,
+      "pilot_detail_pages": 10,
+      "max_credits_per_run": 42,
+      "max_pages_per_listing": 3
+    },
+    "collection": {
+      "detail": {
+        "enabled": true,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": 10,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 45,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 42,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 3,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 2,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [],
+        "variants": true,
+        "max_pages": 0,
+        "sponsored": true
+      },
+      "categories": [
+        0,
+        1,
+        3,
+        6,
+        7
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-fruits/976759_976793_9756351",
+          "/browse/food/fresh-vegetables/976759_976793_8910423",
+          "/browse/food/strawberries/976759_976793_9756351_3521037"
+        ],
+        "1": [
+          "/browse/laundry/1115193_1071967"
+        ],
+        "3": [
+          "/browse/hair-care/shampoo/1085666_3147628_5752434"
+        ],
+        "6": [
+          "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
+        ],
+        "7": [
+          "/browse/pets/dry-dog-food/5440_202072_6432755_1636265"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.max_per_run": 10,
+      "follow_up.max_pages": 0,
+      "limits.max_pages_per_listing": 3
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.5.0"
+  },
+  "site_version": "walmart-next"
+}

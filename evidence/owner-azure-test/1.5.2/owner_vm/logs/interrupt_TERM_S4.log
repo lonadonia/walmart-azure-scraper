@@ -1,0 +1,24 @@
+2026-11-01T19:57:15Z start the replay of S4 (01M69Y882GTVYRJZM0CXQ44MXN), detached
+ae7d1ece2e2997c4902b06176b200f14a80cbce97704c8c50a52311682357f08
+2026-11-01T19:57:19Z replay run 01M6CB03EQ9G8D0GQBY5MEMD2Z has 6 pages read: TERM
+running: true
+Flag --time has been deprecated, use --timeout instead
+v152replay
+exit code 75 oom false
+{"ts": "2026-11-01T19:57:19.419Z", "level": "INFO", "event": "RUN_INTERRUPTED", "collector": "walmart-azure-headless", "run_id": "01M6CB03EQ9G8D0GQBY5MEMD2Z", "message": "running -> interrupted", "data": {}}
+{"ts": "2026-11-01T19:57:19.420Z", "level": "WARN", "event": "RUN_INTERRUPTED", "collector": "walmart-azure-headless", "run_id": "01M6CB03EQ9G8D0GQBY5MEMD2Z", "message": "the collector received a termination signal during the run", "data": {"stop_code": "TERMI
+{"ts": "2026-11-01T19:57:19.428Z", "level": "WARN", "event": "TERMINATED", "collector": "walmart-azure-headless", "command": "replay", "signal": "SIGTERM", "exit_code": 75}
+v152replay
+--- the state after the signal
+interrupted|TERMINATED
+pending|10
+succeeded|1
+pages read 7 records 80
+--- resume: repeated only while it is refused because the dead worker's lease holds (exit 9)
+2026-11-01T19:57:46Z resume attempt 1: exit 0
+{"ts": "2026-11-01T19:57:45.352Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "resume", "exit_code": 0, "result": {}}
+--- the state after the resume
+rejected|
+succeeded|11
+pages read 33 records 730
+pages read twice: 2

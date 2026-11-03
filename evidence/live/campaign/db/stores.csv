@@ -1,0 +1,2 @@
+id,key,retailer,location_id,division_number,store_number,expected_display_name,expected_postal_code,expected_address_line1,modality,timezone,enabled,is_contest_store,created_at,updated_at
+01M69X5MFE8D9A5D6M6GVSFB35,walmart-3891-pickup,walmart,3891,,3891,Walmart #3891 Waukegan,60085,3900 Fountain Square Pl,PICKUP,America/Chicago,True,False,2026-10-31 21:17:09.478218+00:00,2026-10-31 21:17:09.478218+00:00

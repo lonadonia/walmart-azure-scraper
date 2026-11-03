@@ -1,0 +1,346 @@
+{
+ "stage": "S7",
+ "run_id": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+  "dataset": "pilot"
+ },
+ "fresh_rows": 32,
+ "fresh_distinct_items": 32,
+ "export_rows_with_carried": 706,
+ "by_category": {
+  "Food": 32
+ },
+ "by_sub_category": {
+  "Fresh Vegetables": 32
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "crawl_dates_fresh": {
+   "2026-10-31": 32
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 32
+  },
+  "store_name": {
+   "Waukegan Supercenter": 32
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 32
+  },
+  "store_logo_filled": 32
+ },
+ "filled_fresh": {
+  "zipcode": 32,
+  "store_name": 32,
+  "store_location": 32,
+  "store_logo": 32,
+  "store_brand": 32,
+  "category": 32,
+  "sub_category": 32,
+  "product_title": 32,
+  "weight": 26,
+  "regular_price": 32,
+  "sale_price": 7,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 32,
+  "url": 32,
+  "upc": 0,
+  "gupc": 0,
+  "ppm": 21,
+  "unit_price": 0,
+  "crawl_date": 32
+ },
+ "store_brand_fresh": {
+  "no": 27,
+  "yes": 5
+ },
+ "upc_outcomes_fresh": {
+  "budget_deadline_interruption": 32
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 26,
+  "budget_deadline_interruption": 6
+ },
+ "multipack_items_of_1_5_0": [
+  {
+   "item_id": "13388557389",
+   "fresh_in_this_stage": false,
+   "weight": "2 pack, 1 Pack",
+   "ppm": "30.2 ¢/oz",
+   "regular_price": "19.34",
+   "product_title": "(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack"
+  },
+  {
+   "item_id": "18491854361",
+   "fresh_in_this_stage": false,
+   "weight": "2 pack, 16 lbs",
+   "ppm": "$1.58/lb",
+   "regular_price": "50.62",
+   "product_title": "(2 pack) Pure Balance Pro+ Large Breed Chicken & Brown Rice Recipe Dry Dog Food, 16 lbs"
+  },
+  {
+   "item_id": "18472720019",
+   "fresh_in_this_stage": false,
+   "weight": "30 lb",
+   "ppm": "$1.36/lb",
+   "regular_price": "81.67",
+   "product_title": "(2 pack) Pure Balance Pro+ Large Breed Chicken & Brown Rice Recipe Dry Dog Food, 30 lb"
+  },
+  {
+   "item_id": "20475405083",
+   "fresh_in_this_stage": false,
+   "weight": "2 pack, 8 lb Bag",
+   "ppm": "$1.97/lb",
+   "regular_price": "31.44",
+   "product_title": "(2 pack) Pure Balance Pro+ Sensitive Skin & Stomach Dog Food, Salmon & Rice Recipe, 8 lb Bag"
+  },
+  {
+   "item_id": "18468708077",
+   "fresh_in_this_stage": false,
+   "weight": "24 lbs",
+   "ppm": "$1.40/lb",
+   "regular_price": "100.98",
+   "product_title": "(3 pack) Pure Balance Wild & Free Grain-Free Salmon & Pea Recipe Dry Dog Food, 24 lbs"
+  },
+  {
+   "item_id": "15345264397",
+   "fresh_in_this_stage": false,
+   "weight": "3 pack, 44 lb Bag",
+   "ppm": "63.3 ¢/lb",
+   "regular_price": "83.61",
+   "product_title": "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag"
+  },
+  {
+   "item_id": "18511760810",
+   "fresh_in_this_stage": false,
+   "weight": "15 lbs",
+   "ppm": "$1.37/lb",
+   "regular_price": "82.38",
+   "product_title": "(4 pack) Pure Balance Chicken & Brown Rice Recipe Dry Dog Food, 15 lbs"
+  },
+  {
+   "item_id": "20636621408",
+   "fresh_in_this_stage": false,
+   "weight": "30 lbs",
+   "ppm": "$1.17/lb",
+   "regular_price": "139.88",
+   "product_title": "(4 pack) Pure Balance Chicken & Brown Rice Recipe Dry Dog Food, 30 lbs"
+  },
+  {
+   "item_id": "18529653937",
+   "fresh_in_this_stage": false,
+   "weight": "15 lbs",
+   "ppm": "$1.38/lb",
+   "regular_price": "103.52",
+   "product_title": "(5 pack) Pure Balance Chicken & Brown Rice Recipe Dry Dog Food, 15 lbs"
+  }
+ ],
+ "multipack_rule_fresh": [],
+ "multipack_rule_fresh_count": 0,
+ "bracketed_pack_titles_fresh": [],
+ "run": {
+  "status": "rejected",
+  "stop_code": "SPENDING_CEILING",
+  "stop_detail": "about 1 Oxylabs submissions left under the operator's ceiling and the task's money budget (rooms {'submissions': 1, 'usd': 1, 'task_budget': 2}); the next request could cross them",
+  "started_at": "2026-10-31 23:35:16.690230+00:00",
+  "finished_at": "2026-11-01 00:15:16.237268+00:00",
+  "parser_version": "1.5.1",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 3,
+   "credits": 3.0,
+   "first": "2026-10-31 23:35:17.534837+00:00",
+   "last": "2026-10-31 23:35:31.395659+00:00"
+  }
+ ],
+ "ledger_campaign": [
+  {
+   "outcome": "provider_failed_free",
+   "submissions": 1
+  },
+  {
+   "outcome": "abandoned",
+   "submissions": 3
+  },
+  {
+   "outcome": "ok",
+   "submissions": 115
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "segments": [
+  {
+   "id": "01M6A52HFKY241C7JZ8SR78TRZ",
+   "started": "2026-10-31 23:35:16.720349+00:00",
+   "ended": "2026-10-31 23:36:40.026861+00:00",
+   "active_s": 83.28099999999904,
+   "stop_code": "SPENDING_CEILING",
+   "credits_estimated": 3.0
+  }
+ ],
+ "events": {},
+ "coverage": [
+  {
+   "status": "CAPPED",
+   "total_count": 287,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.15331010452961671,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 8,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6A52ZT1AZGW5GXS0FPX7FKM",
+      "max_page": 8,
+      "products": 44,
+      "sponsored": 4,
+      "page_count": 54,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 8
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 287
+     }
+    ],
+    "children_named": [
+     "976759_976793_8910423_1740611",
+     "976759_976793_8910423_4455738",
+     "976759_976793_8910423_6824326",
+     "976759_976793_8910423_1819145",
+     "976759_976793_8910423_9157552",
+     "976759_976793_8910423_7635722",
+     "976759_976793_8910423_9050148",
+     "976759_976793_8910423_4023809",
+     "976759_976793_8910423_3168197",
+     "976759_976793_8910423_6743445",
+     "976759_976793_8910423_2835097",
+     "976759_976793_8910423_9225247",
+     "976759_976793_8910423_8013618",
+     "976759_976793_8910423_5379855",
+     "976759_976793_8910423_2148282",
+     "976759_976793_8910423_8584247",
+     "976759_976793_8910423_4570048",
+     "976759_976793_8910423_3376733",
+     "976759_976793_8910423_8389254",
+     "976759_976793_8910423_8929117"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 44,
+     "organic": 40,
+     "difference": 243,
+     "placements": 44,
+     "total_stable": true,
+     "reported_total": 287,
+     "sponsored_only": 4,
+     "totals_reported": [
+      287
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 243
+    }
+   }
+  }
+ ],
+ "gate_failures": [
+  {
+   "gate": "G14",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "32 valid records"
+  },
+  {
+   "gate": "G14",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "1 categories"
+  },
+  {
+   "gate": "G3",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Food",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G4",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "category",
+   "ref": "Food",
+   "message": "70% of the published products are retained from earlier runs (74 retained, 32 fresh valid)"
+  },
+  {
+   "gate": "G4",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "run",
+   "ref": null,
+   "message": "70% of the published products are retained from earlier runs (74 retained, 32 fresh valid)"
+  }
+ ]
+}

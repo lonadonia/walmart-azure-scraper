@@ -1,0 +1,115 @@
+{
+  "campaign": "walmart-1.5.0-owner-funded",
+  "written_at": "2026-10-31T17:55:00Z",
+  "written_before_first_billable_request": true,
+  "authority": "Hamza's brief of 2026-10-31, section 1A: bounded live validation of Walmart from his own existing provider accounts and balances; no purchase, top-up, subscription change, overage, new account, Azure deployment or schedule activation",
+  "separation": "This owner-funded ledger is separate from the client's proposed Oxylabs Classic campaign (10 + 10 requests, 20 total, 30 minutes, USD 5), which the client has not approved and which uses other credentials. Nothing here spends from, or is authorized by, that proposal.",
+  "rule": "The new ceiling must fit under the worst-case reconciliation below, with every earlier use counted at the highest non-AI rate, the Mariano's allowance remainder kept whole and billing headroom left over. Every submission is reserved in the isolated campaign database before dispatch. Restarts do not reset counters. An in-flight or uncertain submission keeps its reservation.",
+  "accounts": {
+    "oxylabs_web_api": {
+      "credential_location": "data/local/oxylabs.env (read only through the collector's load_key())",
+      "key_fingerprint": "ending 77255c",
+      "product": "Oxylabs Web API, Bearer key, https://webapi.oxylabs.io. Not the Classic Web Scraper API, not Agent Browser, not proxies.",
+      "ownership": "Stated by the owner in the brief. No provider response names the account; the fingerprint is the one recorded in every campaign since 2026-10-26.",
+      "current_balance_usd": null,
+      "current_balance_status": "UNVERIFIED. The Web API documents no balance or usage endpoint for a Bearer key; the balance is on the dashboard Overview page, which only the owner can open. The owner's dashboard was not opened in this task.",
+      "last_owner_side_reading": {
+        "source": "owner screenshots in Downloads, screencapture-dashboard-oxylabs-io-en-overview-2026-10-27-01_21_25.png and -2026-10-29-08_39_02.png",
+        "plan": "Free",
+        "spent": "USD 0.22 of USD 5 on both dates",
+        "instances": "headless_browser_1 (Agent Browser) USD 0.22; DSS (Residential Proxies) USD 0; no Web API instance listed",
+        "caveat": "A historical reading, not a current one. About 2,290 Web API submissions preceded the second reading and none shows on it, so whether this key's use draws on that USD 5 is unresolved. The worst-case line below assumes that it does."
+      },
+      "overage": "Documented as none: 'When your credit balance is fully used, the service pauses, there's no overusage allowance in the self-service flow' (developers.oxylabs.io/dashboard/credit-based-billing.md, read 2026-10-31T17:44Z).",
+      "rates": {
+        "read_at": "2026-10-31T17:49Z, https://oxylabs.io/products/web-api",
+        "published_usd_per_result": "0.001 ('Other targets', from USD 1.00 per 1,000; 'Custom domain scraping, non-JS' USD 1.00 per 1,000)",
+        "reserve_usd_per_submission": "0.0015 ('Custom domain scraping, JS', the highest non-AI row; the collector requests raw HTML without JS rendering and without AI parsing)",
+        "failed_requests": "Documented 500 REQUEST_FAILED_AFTER_TOO_MANY_RETRIES is not charged; any other non-2xx, timeout or cancellation keeps its reservation as possibly charged."
+      },
+      "reconciliation_usd_worst_case": {
+        "basis": "Every earlier use at the reserve rate. These are ledgers and estimates, not invoices.",
+        "lines": [
+          {"use": "Walmart, 2026-10-26", "submissions": 770, "usd": "1.1550", "source": "C:/w6/WORKLOG.md line 607-608"},
+          {"use": "Walmart campaign 1.4.0/1.4.1, 2026-10-28, closed", "submissions": 1190, "counted": 1175, "usd": "1.7625", "source": "baseline COST_AND_RUNTIME_REPORT.md; 4_offline_reprocessing/final_1_4_1/usage"},
+          {"use": "Mariano's 1.3.x-1.4.0, VM ledger", "submissions": 414, "usd": "0.6075", "source": "C:/m5/WORKLOG.md line 201"},
+          {"use": "Mariano's probe ledger P3 and Q1", "counted": 17, "usd": "0.0255", "source": "C:/m5/plan/TEST_PLAN_140.md line 13; C:/m5/WORKLOG.md line 201"},
+          {"use": "Mariano's 1.6.0, Residential and Web Unblocker", "usd": "0.0564", "source": "C:/m5/ev160/ledger/budget160.jsonl"},
+          {"use": "Mariano's 1.7.0", "submissions": 345, "usd": "0.5175", "source": "C:/m5/WORKLOG.md line 428"},
+          {"use": "Agent Browser, dashboard reading", "usd": "0.2200", "source": "owner screenshot 2026-10-29"}
+        ],
+        "total_worst_used": "4.3444",
+        "welcome_credit": "5.0000",
+        "worst_remaining": "0.6556",
+        "protected_mariano_allowance_remainder": "0.4261",
+        "available_for_this_campaign_before_headroom": "0.2295",
+        "campaign_ceiling": "0.1800",
+        "headroom_left_for_delayed_or_uncertain_charges": "0.0495",
+        "same_lines_at_the_published_rate": "about USD 3.00 used, about USD 2.00 remaining, about USD 1.58 after the protected remainder (an estimate, not used to size the ceiling)"
+      }
+    },
+    "scrapedo": {
+      "credential_location": "data/local/scrapedo.env (read only through code that removes the key from its output)",
+      "key_fingerprint": "ending 0021db",
+      "plan": "Free, 1,000 credits a month, concurrency 5, stops at 0 with no overage; shared with Mariano's",
+      "reading": {"at": "2026-10-31T17:36:08Z", "source": "GET /info (free)", "remaining_credits": 10, "file": "C:/w7/evidence/accounts/scrapedo_info_2026-10-31T173608Z.json"},
+      "renewal": "Date unknown. 1,000 remaining on 2026-10-26 and 10-28 03:46Z, 10 on 10-28 17:27Z and still 10 today; nothing shows a renewal before the end of this task.",
+      "decision": "No Scrape.do submission now: a canary needs about 21 credits (robots 1, store page 10, listing 10) and a 19-page run about 192. /info is read again before packaging. If renewed, a separately reported test stays within 950 credits and leaves the Mariano's share a recorded amount. The final-version >=500 demonstration stays NOT MET until then."
+    },
+    "azure": {
+      "decision": "No use. The live work runs on this PC against an isolated local PostgreSQL under C:/w7. The VM power state is the owner's decision and is not touched."
+    }
+  },
+  "stages_oxylabs": [
+    {"id": "S1", "purpose": "Canary on the frozen revision: store 3891, ZIP 60085, PICKUP, seller, actual source response, field parsing, one product page", "submissions": 6, "retries": "1 attempt repeated on a documented transient 5xx or timeout, inside the ceiling", "workers": 1, "minutes": 10, "stop": "any essential context wrong or unverified: nothing further is sent"},
+    {"id": "S2", "purpose": "Targeted product pages: blank UPC or size without a saved page, sponsored-only and tile-only variant cases still open", "submissions": 30, "retries": "as S1", "workers": 1, "minutes": 20, "stop": "challenge, identity mismatch rate above 20 percent, ceiling"},
+    {"id": "S3", "purpose": "One category with several real pages through the pipeline: newly observed identities, traceable subdivision, count reconciliation", "submissions": 12, "retries": "as S1", "workers": 1, "minutes": 15, "stop": "repeated page, wrong store, thin page, ceiling"},
+    {"id": "S4", "purpose": ">=500 distinct valid fresh products across required categories with the detail path on, including a forced kill and a resume of the same run", "submissions": 42, "retries": "as S1; the kill and resume costs are counted", "workers": 2, "minutes": 45, "stop": "as S3; the measured estimate is checked after 5 pages and the run is cut before the ceiling"},
+    {"id": "S5a", "purpose": "Time-separated repeat of a small slice, at least 30 minutes after S4", "submissions": 6, "retries": "as S1", "workers": 1, "minutes": 10, "stop": "as S3"},
+    {"id": "S5b", "purpose": "Serial against parallel on the same small slice through the pipeline", "submissions": 12, "retries": "as S1", "workers": "1 then 2", "minutes": 15, "stop": "as S3"},
+    {"id": "margin", "purpose": "Documented transient retries and recovery only, each recorded as an amendment", "submissions": 12, "retries": "-", "workers": "-", "minutes": 0, "stop": "-"}
+  ],
+  "totals_oxylabs": {
+    "submissions": 120,
+    "usd_at_reserve_rate": "0.1800",
+    "usd_at_published_rate": "0.1200",
+    "minutes": 115,
+    "enforced_by": "set-ceiling --provider oxylabs in the isolated database C:/w7/live, raised stage by stage, cumulative across runs, workers and resumes; never above 120 submissions or USD 0.18"
+  },
+  "amendments": [
+    {
+      "id": "A1",
+      "written_at": "2026-10-31T22:31Z",
+      "written_before": "any request of stage S6",
+      "reason": "S3, S4 and S5a showed three defects of release 1.5.0: a multipack lost when the size is in a comma segment (9 campaign products, all Dry Dog Food; price check: 50.62 at $1.58/lb buys 32 lb, not the 16 lbs exported); store_brand 'no' after a bracketed multipack and for two wordings of listed brands; a pilot's page budget stopping the reuse of pages already saved (S4: 355 of its 601 unattempted products had a saved page). Release 1.5.1 changes what is exported, so the brief and step 5 of the test plan require the affected verification to run again on the new commit. No earlier record is attributed to it.",
+      "used_before_this_amendment": {"S1": 4, "S2": 28, "S3": 9, "S4": 39, "S5a": 4, "S5b": 10, "total": 94, "of_which_reserved_in_flight_at_the_forced_kill": 2, "usd_at_reserve_rate": "0.1410", "source": "provider_usage, read 2026-10-31T22:30Z"},
+      "stage": {"id": "S6", "purpose": "On the 1.5.1 commit: the >=500 demonstration again, the multipack weights and store_brand on live pages, and saved pages reused behind a page budget", "scope": "Fresh Vegetables, Laundry, Shampoo, Cold and Flu, Dry Dog Food; 3 pages each; 3 product pages; no follow-up pages; 1 worker", "expected_submissions": 20, "limit_submissions": 22, "limit_usd_at_reserve_rate": "0.0330", "minutes": 30, "stop": "as S3; below 500 valid products the result is reported as it is and no further run follows"},
+      "accounting": "22 = 14 left unused by S1 to S5b + 8 of the margin. At most 116 of 120 after S6 (USD 0.1740), about 114 expected; the margin keeps 4 for documented transient retries. The total of 120 submissions and USD 0.18 does not change, and the budget of USD 0.18 set at S1 stays in force.",
+      "not_done_with_it": "The 25 tile-only sibling cases S2 left unread stay open: reading them needs about 29 submissions (robots, store, 2 listings, 25 product pages), more than what is left. Reported with that cost."
+    },
+    {
+      "id": "A2",
+      "written_at": "2026-10-31T22:32Z",
+      "written_before": "any request of stage S6",
+      "reason": "Brief section 7 asks for the stop/resume and repeat-run checks on the same final version where affordable. S4's kill and S5a's repeat ran on 1.5.0, and 1.5.1 is the final version. Both fit what is left, so A1's S6 is changed before it starts and S7 is added. Recovery itself did not change in 1.5.1; the checks are repeated because the brief asks for them on the final version, not because a defect was found there.",
+      "stages": [
+        {"id": "S6", "changes_from_A1": "1 product page instead of 3; a forced kill after 8 collected pages and a resume of the same run, as in S4; two overlap refusals (the same run command while S6 collects and after its kill, before its resume), each expected to exit 9 with no request", "expected_submissions": 21, "expected_detail": "robots 1 + store 1 + 15 listing pages + 1 product page + 1 in-flight request reserved at the kill + robots 1 and store 1 of the resumed session", "limit_submissions": 22, "limit_usd_at_reserve_rate": "0.0330", "minutes": 30, "run_credit_limit": 23},
+        {"id": "S7", "purpose": "Time-separated repeat of Fresh Vegetables page 1 on 1.5.1, at least 30 minutes after S6 ends", "expected_submissions": 3, "expected_detail": "robots 1 + store 1 + 1 listing page; a fourth only if that page names a product never read", "limit_submissions": 4, "limit_usd_at_reserve_rate": "0.0060", "minutes": 10, "workers": 1, "run_credit_limit": 5, "stop": "as S3"}
+      ],
+      "accounting": "Used before S6: 94. S6 limit 22 + S7 limit 4 = 26, exactly what is left of 120, so at most 120 submissions and USD 0.18 if everything hits its limit, and about 118 (USD 0.177) expected. The cumulative budget of USD 0.18 set at S1 stays in force and stops anything beyond. USD 0.0495 of headroom stays below the worst-case reconciliation. The margin is used up by this amendment: a transient failure in S6 or S7 is reported as an unfinished stage, not retried beyond these limits.",
+      "unchanged": "No top-up, no new account, no change to the total, the reconciliation or the protected remainder for Mariano's."
+    }
+  ],
+  "outcome_after_the_last_stage": {
+    "written_at": "2026-11-01T00:20Z",
+    "note": "Added after the campaign, not an amendment: it changes no limit. Source: provider_usage in walmart_live150 and C:/w7/evidence/campaign_summary_151/CAMPAIGN_SUMMARY.json.",
+    "ledger": {"ok": 115, "abandoned": 3, "provider_failed_free": 1, "rows": 119, "counted_credits": 118, "limit_rows": 120, "usd_at_reserve_rate_on_all_rows": "0.1785", "usd_at_published_rate_on_all_rows": "0.1190", "last_request": "2026-10-31T23:35:31Z"},
+    "by_stage": {"S1": 4, "S2": 28, "S3": 9, "S4": 39, "S5b_serial": 4, "S5b_parallel": 6, "S5a": 4, "S6": 22, "S7": 3},
+    "S6": "22 rows of its limit of 22. The expected 21 became 22 because of one provider failure that was not charged (HTTP 500 after 67.7 s on product page 51259274, 2026-10-31T23:02:20Z) and its retry (200 at 23:03:30Z); the retry was allowed by the collector's documented transient rule and used the stage's last room. The follow-up task then paused the run at SPENDING_CEILING (exit 4). The limit was not raised and the run was not resumed, because a resume costs 2 submissions; finalize closed the run with no request. A row the stage reserved at its forced kill stays counted (now abandoned).",
+    "S7": "3 rows of its limit of 4, as expected: robots, store page, Fresh Vegetables page 1. It paused at SPENDING_CEILING with 1 row of room, before its detail and reuse step, so its 32 fresh rows have blank UPCs labelled budget_deadline_interruption; finalize closed it with no request.",
+    "step_65": "An operator error, recorded in logs/65: the overlap check first used --max-credits 2, below the minimum of 5, and stopped at exit 2 CONFIG_INVALID before the lock check, with no request. It tested nothing. Step 66 repeated it correctly (exit 9, no request).",
+    "not_used": "1 row of the 120 and USD 0.0015 at the reserve rate stay unused. The USD 0.0495 of headroom and the USD 0.4261 protected for Mariano's were not touched."
+  },
+  "unfinished_scope_rule": "If the ceiling stops the detail queue or traversal, the checkpoint, the exact unfinished scope and the smallest additional dependency are reported. A current dashboard reading by the owner is the first dependency: it can release further detail requests under a recorded amendment.",
+  "stop_rules": "Stop on blocking or a challenge, invalid store or fulfillment context, non-advancing pages, an exhausted limit or unresolved correctness. A retry must address a documented transient condition or a materially corrected hypothesis. Useful partial evidence and the last-good publication are preserved."
+}

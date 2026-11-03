@@ -1,0 +1,3 @@
+PASS  SHA-256 d4785ccbb8b23a4d2bb6cfb6b16ba1242cab5cab0b292e3222581f7844282193 = SOURCE_AND_RUN_MANIFEST.json
+PASS  one top folder ['oxylabs-classic-offline-probe-1.5.2']
+PASS  no unsafe name

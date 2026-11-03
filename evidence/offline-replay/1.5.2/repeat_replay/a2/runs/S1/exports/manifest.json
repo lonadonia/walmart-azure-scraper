@@ -1,0 +1,284 @@
+{
+  "mode": "REPLAY",
+  "run_id": "01M6CBF00KWA4KDFZA8549CANN",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-11-01T20:05:28.172768Z",
+  "record_count": 35,
+  "replayed_record_count": 35,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/products.json",
+      "sha256": "e7b8eb7f76bd030486a5da6e4b044f5e575ae2d30667a765a0c44f306c36c20a",
+      "size": 39340
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/products.csv",
+      "sha256": "7f89fb70186cae20e416b7bff5ee67895cd3664ada7352d98a53577511937406",
+      "size": 22558
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/memberships.json",
+      "sha256": "d5b2007a4901131e4ce5d31d83101664a53b3ba2bae169869f112390a575d6f8",
+      "size": 8789
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/provenance.json",
+      "sha256": "2f62e6effb327fe1e41beb3eff7aa142fbd21363c03a28c2a3f9c29f2e4b3011",
+      "size": 488008
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/validation_report.json",
+      "sha256": "7e84606f8516bf09bc93057cbe5a278b56dc7c5973d9576f00f0fb798cf69a60",
+      "size": 2619
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/products_fresh.json",
+      "sha256": "e7b8eb7f76bd030486a5da6e4b044f5e575ae2d30667a765a0c44f306c36c20a",
+      "size": 39340
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/products_fresh.csv",
+      "sha256": "7f89fb70186cae20e416b7bff5ee67895cd3664ada7352d98a53577511937406",
+      "size": 22558
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/record_map.json",
+      "sha256": "cf6f11a4eac36d4eb63abb85dd478fab3976e87437ce9a6e35d4d44066f98355",
+      "size": 412408
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/field_dispositions.json",
+      "sha256": "416e66fa4a475a8ea50a087506472dcdab4090db1f3975b9f6228aca9ee19a55",
+      "size": 46943
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M6CBF00KWA4KDFZA8549CANN/exports/field_dispositions.csv",
+      "sha256": "a515e4b667b973ae2343fc8e0ec09669837a172bcdd06595f1f48ba795aa522b",
+      "size": 26439
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+      "source": "git",
+      "version": "1.5.2",
+      "uncommitted_changes": false
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/food/976759?povid=GlobalNav_rWeb_Grocery_GroceryShopAll",
+          "kind": "landing",
+          "only": [
+            "/browse/food/fresh-fruits/976759_976793_9756351"
+          ],
+          "category": "Food",
+          "excluded": [
+            "Shop All Foods",
+            "Recipes"
+          ],
+          "row_index": 0,
+          "taxonomy_id": "976759",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90T"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "replay": {
+      "source_run": "01M69X9XHZR83KZ2FNWBJYJKA7",
+      "source_code": {
+        "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+        "source": "build_info",
+        "version": "1.5.0",
+        "built_at": "2026-10-31T20:51:17+00:00"
+      },
+      "source_counts": {
+        "verified": 35,
+        "upc_detail": {
+          "extracted": 1,
+          "extracted_reused": 34
+        },
+        "records_by_status": {
+          "valid": 35,
+          "excluded": 5
+        }
+      },
+      "source_status": "rejected",
+      "source_stop_code": null,
+      "source_created_at": "2026-10-31T21:19:29.833343Z",
+      "source_started_at": "2026-10-31T21:19:30.070427Z",
+      "source_finished_at": "2026-10-31T21:21:11.703296Z"
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w7\\r152d\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        0
+      ],
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-fruits/976759_976793_9756351"
+        ]
+      },
+      "follow_up_pages": 0,
+      "max_run_minutes": 10,
+      "pilot_detail_pages": 1,
+      "max_credits_per_run": 6,
+      "max_pages_per_listing": 1
+    },
+    "collection": {
+      "detail": {
+        "enabled": true,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": null,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 10,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 6,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 1,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [],
+        "variants": true,
+        "max_pages": 0,
+        "sponsored": true
+      },
+      "categories": [
+        0
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "0": [
+          "/browse/food/fresh-fruits/976759_976793_9756351"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.5.2"
+  },
+  "site_version": "walmart-next"
+}

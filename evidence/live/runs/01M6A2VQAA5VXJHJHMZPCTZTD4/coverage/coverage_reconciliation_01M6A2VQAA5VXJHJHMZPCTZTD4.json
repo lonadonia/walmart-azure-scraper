@@ -1,0 +1,358 @@
+{
+  "run_id": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+  "store": {
+    "key": "walmart-3891-pickup",
+    "name": "Walmart #3891 Waukegan",
+    "modality": "PICKUP",
+    "retailer": "walmart",
+    "location_id": "3891"
+  },
+  "provider": "oxylabs",
+  "pilot": true,
+  "scope_units": 5,
+  "status_counts": {
+    "CAPPED": 5
+  },
+  "status_counts_rule_1_3_1": {
+    "CAPPED": 5
+  },
+  "result_window_units": 0,
+  "csv_rows_not_planned": [
+    {
+      "csv_row": 2,
+      "category": "Personal Care",
+      "url": "https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19",
+      "enabled": true
+    },
+    {
+      "csv_row": 4,
+      "category": "Diapering",
+      "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+      "enabled": true
+    },
+    {
+      "csv_row": 5,
+      "category": "Feeding",
+      "url": "https://www.walmart.com/cp/feeding/133283?povid=GlobalNav_mWeb_BabyKids_babyformula_babyfood",
+      "enabled": true
+    },
+    {
+      "csv_row": 8,
+      "category": "Balloons",
+      "url": "https://www.walmart.com/browse/party-occasions/balloons/2637_1042319_1212898_3956207?povid=GlobalNav_rWeb_ETS_partysupplies_balloons",
+      "enabled": true
+    },
+    {
+      "csv_row": 9,
+      "category": "Art Supplies",
+      "url": "https://www.walmart.com/cp/art-supplies/5899871?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_ArtsCraftsSewing_ArtSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 10,
+      "category": "Office Supplies",
+      "url": "https://www.walmart.com/cp/office-supplies/1229749?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_Department_ShopAllOfficeSupplies",
+      "enabled": true
+    }
+  ],
+  "coverage_complete": false,
+  "rows": [
+    {
+      "csv_row": 0,
+      "category": "Food",
+      "listing_id": "976759_976793_8910423",
+      "listing_name": "Fresh Vegetables",
+      "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 3,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup",
+        "Pickup",
+        "Pickup"
+      ],
+      "reported_total": 287,
+      "totals_reported": [
+        287
+      ],
+      "total_observed_at": "2026-10-31T22:57:27.517670Z",
+      "pages_visited": [
+        1,
+        2,
+        3
+      ],
+      "page_fetches": [
+        "01M6A2W2PS9ZXRZS2E30S04RZ8",
+        "01M6A2WSHQAA2ZFW224YSRF76P",
+        "01M6A2X9EXQKM1NZCTM4ZNP461"
+      ],
+      "raw_placements": 132,
+      "organic_placements": 120,
+      "distinct_identities": 120,
+      "sponsored_only_in_listing": 4,
+      "placed_identities": 124,
+      "distinct_with_children": 120,
+      "duplicate_placements": 0,
+      "sponsored_placements": 12,
+      "sponsored_only_products": 4,
+      "other_module_products": 8,
+      "variant_identities_named": 0,
+      "variant_identities_not_own_tile": 0,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 18,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 4,
+      "difference_organic": 167,
+      "difference_placed": 163,
+      "reconciliation_basis": "",
+      "unresolved_difference": 163,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (3) reached"
+    },
+    {
+      "csv_row": 1,
+      "category": "Household Essentials",
+      "listing_id": "1115193_1071967",
+      "listing_name": "Laundry",
+      "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 3,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup",
+        "Pickup",
+        "Pickup"
+      ],
+      "reported_total": 623,
+      "totals_reported": [
+        623
+      ],
+      "total_observed_at": "2026-10-31T22:58:04.986921Z",
+      "pages_visited": [
+        1,
+        2,
+        3
+      ],
+      "page_fetches": [
+        "01M6A2XM10EGTRYRAY081GYPVR",
+        "01M6A2Y4QFQ5BED1S7BV6QXYTE",
+        "01M6A2YE1TMXJ093Q8GAS4BVCM"
+      ],
+      "raw_placements": 150,
+      "organic_placements": 120,
+      "distinct_identities": 120,
+      "sponsored_only_in_listing": 9,
+      "placed_identities": 129,
+      "distinct_with_children": 120,
+      "duplicate_placements": 0,
+      "sponsored_placements": 30,
+      "sponsored_only_products": 9,
+      "other_module_products": 10,
+      "variant_identities_named": 184,
+      "variant_identities_not_own_tile": 184,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 1,
+      "difference_organic": 503,
+      "difference_placed": 494,
+      "reconciliation_basis": "",
+      "unresolved_difference": 494,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (3) reached"
+    },
+    {
+      "csv_row": 3,
+      "category": "Beauty",
+      "listing_id": "1085666_3147628_5752434",
+      "listing_name": "Shampoo",
+      "url": "https://www.walmart.com/browse/hair-care/shampoo/1085666_3147628_5752434",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 3,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup",
+        "Pickup",
+        "Pickup"
+      ],
+      "reported_total": 600,
+      "totals_reported": [
+        600
+      ],
+      "total_observed_at": "2026-10-31T23:00:57.533456Z",
+      "pages_visited": [
+        1,
+        2,
+        3
+      ],
+      "page_fetches": [
+        "01M6A2YQDY1KNFDR0XM8YA0VC2",
+        "01M6A2Z209XVNTQYS3BR76JXRQ",
+        "01M6A33PHXFDSR169KASBY4MRG"
+      ],
+      "raw_placements": 150,
+      "organic_placements": 120,
+      "distinct_identities": 120,
+      "sponsored_only_in_listing": 4,
+      "placed_identities": 124,
+      "distinct_with_children": 120,
+      "duplicate_placements": 0,
+      "sponsored_placements": 30,
+      "sponsored_only_products": 4,
+      "other_module_products": 10,
+      "variant_identities_named": 109,
+      "variant_identities_not_own_tile": 109,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 14,
+      "difference_organic": 480,
+      "difference_placed": 476,
+      "reconciliation_basis": "",
+      "unresolved_difference": 476,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (3) reached"
+    },
+    {
+      "csv_row": 6,
+      "category": "Health & Wellness",
+      "listing_id": "976760_4661388_6244277_7158394",
+      "listing_name": "Shop all Cold Cough & Flu Medicine",
+      "url": "https://www.walmart.com/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 3,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup",
+        "Pickup",
+        "Pickup"
+      ],
+      "reported_total": 350,
+      "totals_reported": [
+        350
+      ],
+      "total_observed_at": "2026-10-31T23:01:34.273625Z",
+      "pages_visited": [
+        1,
+        2,
+        3
+      ],
+      "page_fetches": [
+        "01M6A340C67H0CZCK3JHVRBQEB",
+        "01M6A34H60KN0QY4VCN6JNJ7K9",
+        "01M6A34TE0B6CCYPEFK5B6KA5H"
+      ],
+      "raw_placements": 150,
+      "organic_placements": 120,
+      "distinct_identities": 120,
+      "sponsored_only_in_listing": 5,
+      "placed_identities": 125,
+      "distinct_with_children": 120,
+      "duplicate_placements": 0,
+      "sponsored_placements": 30,
+      "sponsored_only_products": 5,
+      "other_module_products": 10,
+      "variant_identities_named": 44,
+      "variant_identities_not_own_tile": 44,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 1,
+      "difference_organic": 230,
+      "difference_placed": 225,
+      "reconciliation_basis": "",
+      "unresolved_difference": 225,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (3) reached"
+    },
+    {
+      "csv_row": 7,
+      "category": "Pets",
+      "listing_id": "5440_202072_6432755_1636265",
+      "listing_name": "Dry Dog Food",
+      "url": "https://www.walmart.com/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 3,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup",
+        "Pickup",
+        "Pickup"
+      ],
+      "reported_total": 137,
+      "totals_reported": [
+        139,
+        137
+      ],
+      "total_observed_at": "2026-10-31T23:02:04.743853Z",
+      "pages_visited": [
+        1,
+        2,
+        3
+      ],
+      "page_fetches": [
+        "01M6A354M0H8AEH19M4BVBAHG5",
+        "01M6A35E2T3HWYJA75RX4CRN6E",
+        "01M6A35R66QR6J5501T3ZXKKCV"
+      ],
+      "raw_placements": 148,
+      "organic_placements": 118,
+      "distinct_identities": 118,
+      "sponsored_only_in_listing": 1,
+      "placed_identities": 119,
+      "distinct_with_children": 118,
+      "duplicate_placements": 0,
+      "sponsored_placements": 30,
+      "sponsored_only_products": 1,
+      "other_module_products": 10,
+      "variant_identities_named": 220,
+      "variant_identities_not_own_tile": 219,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 8,
+      "difference_organic": 19,
+      "difference_placed": 18,
+      "reconciliation_basis": "",
+      "unresolved_difference": 18,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (3) reached"
+    }
+  ],
+  "follow_ups": []
+}

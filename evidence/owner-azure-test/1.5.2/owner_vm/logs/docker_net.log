@@ -1,0 +1,11 @@
+26addbc275629c6c2603384c1b087d1567984ea6751456b7a5e54f9ab61a890f
+v152pgdata
+v152data
+b23485014e1498359f085403887b5840ee8579eecb0a6b24f15da7f2fe005097
+/var/run/postgresql:5432 - no response
+/var/run/postgresql:5432 - no response
+/var/run/postgresql:5432 - no response
+/var/run/postgresql:5432 - accepting connections
+109.2M	/data
+--- no route out of this network (the attempt must fail):
+refused as intended: [Errno 101] Network is unreachable

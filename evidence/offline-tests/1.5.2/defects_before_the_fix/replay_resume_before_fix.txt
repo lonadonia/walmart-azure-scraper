@@ -1,0 +1,7 @@
+     +  where 17 = len([('primary', '/', 'https://www.walmart.com/robots.txt'), ('primary', '/', 'https://www.walmart.com/store/3891-waukegan...gin/walmart/store', 'https://www.walmart.com/browse/food/snacks/976759_976787?facet=fulfillment_method%3APickup'), ...])
+     +    where [('primary', '/', 'https://www.walmart.com/robots.txt'), ('primary', '/', 'https://www.walmart.com/store/3891-waukegan...gin/walmart/store', 'https://www.walmart.com/browse/food/snacks/976759_976787?facet=fulfillment_method%3APickup'), ...] = <tests.mock_scrapedo.MockScrapeDo object 
+     +      where <tests.mock_scrapedo.MockScrapeDo object at 0x000001EA9CB824E0> = Env(config=WindowsPath('<home>/AppData/Local/Temp/pytest-of-<user>/pytest-844/test_an_interrupted_replay_res0/config/...ytest-844/test_an_interrupted_replay_res0/data'), capsys=<_pytest.capture.CaptureFixture object
+C:\w7\wt\headless\walmart-azure-headless\tests\integration\test_replay.py:230: AssertionError: assert 17 == 11
+=========================== short test summary info ===========================
+FAILED tests/integration/test_replay.py::test_an_interrupted_replay_resumes_as_a_replay_and_requests_nothing
+1 failed, 1 passed, 6 deselected in 27.08s

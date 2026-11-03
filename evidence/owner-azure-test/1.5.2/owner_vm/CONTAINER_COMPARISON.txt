@@ -1,0 +1,29 @@
+OWNER AZURE TEST: the container replays compared with the workstation replays, release 1.5.2 (627c804)
+
+What was compared. The nine runs of 2026-10-31 (S1, S2, S3, S4, S5a, S5b serial, S5b parallel, S6, S7), replayed from
+their stored pages twice with the same commit: once on Hamza's workstation (the final offline replays of 1.5.2) and once
+in the Oxylabs edition's Docker container on the Azure test VM, 2026-11-01T19:56:50Z to 19:59:22Z (the replays, then
+their exports). In the container, S4 was stopped with SIGTERM (exit 75) and resumed (exit 0), and S6 was killed with
+SIGKILL (exit 137) and resumed (exit 0); on the workstation both ran without a stop. Offline: no provider, retailer or
+Classic request.
+
+Result, for all nine runs:
+  products.json, products.csv, products_fresh.json, products_fresh.csv, offers.json, memberships.json
+                                       byte-identical (CONTAINER_VS_WORKSTATION.json)
+  field_dispositions.json, field_dispositions.csv
+                                       identical once run and fetch ids are numbered in order of appearance: they
+                                       name the replay's own run and the pages it read again, whose ids are new
+  validation_report.json               identical once run ids are numbered in order and times are set aside
+  record_map.json                      with every id and time blanked, the only differing lines are
+                                       "uncommitted_changes": false on the workstation, where git reports a clean
+                                       tree, and null in the container, which holds no git repository
+  provenance.json                      with every id and time blanked: run durations ("active_s"); and, in S4 and S6
+                                       only, the segments of the stopped and resumed run, with 80 (S4) and 120 (S6)
+                                       records marked "earlier_segment": true, observed before the stop
+  manifest.json                        the SHA-256 and sizes of the five files above that carry ids or times, the
+                                       code's source ("git" on the workstation, "build_info" in the container), the
+                                       local data root, and the build time
+
+Files: CONTAINER_VS_WORKSTATION.json (file by file), CONTAINER_DIFF_KINDS.json (differing keys, ids numbered),
+CONTAINER_DIFF_IDS_BLANKED.json (differing lines by key, every id and time blanked; "workstation_lines" and
+"container_lines" count each side's lines). The container's exports: replay/exports_container.tar.gz.

@@ -1,0 +1,9 @@
+Building wheel...
+Successfully built C:\w7\v2\wheel\oxylabs\walmart_azure_headless-1.5.2-py3-none-any.whl
+
+Note: a wheel holds the package only. Its configuration (config/) and BUILD_INFO.json stay in the source tree; the Dockerfile and deploy/vm/install.sh use the tree, not a wheel.
+PASS  one wheel walmart_azure_headless-1.5.2-py3-none-any.whl, version 1.5.2
+PASS  entry point walmart-collector = walmart_headless.cli:entrypoint
+PASS  the wheel's 95 package files are the source's 95, byte for byte
+PASS  its 11 requirements are the 11 pyproject.toml declares
+PASS  the tree's commit (BUILD_INFO.json, EDITION.json)

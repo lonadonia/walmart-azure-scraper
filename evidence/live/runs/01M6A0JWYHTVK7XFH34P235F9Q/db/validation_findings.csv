@@ -1,0 +1,6 @@
+id,run_id,scope,ref,gate,severity,code,message,metrics,created_at
+01M6A0MCW3AYZQH2F6K64XKMSS,01M6A0JWYHTVK7XFH34P235F9Q,category,Food,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-10-31 22:17:38.452943+00:00
+01M6A0MCW3AYZQH2F6K64XKMST,01M6A0JWYHTVK7XFH34P235F9Q,category,Food,G4,FAIL,RETAINED_MASKS_YIELD,"67% of the published products are retained from earlier runs (136 retained, 67 fresh valid)","{""retained"": 136, ""fresh_valid"": 67, ""retained_share"": 0.67}",2026-10-31 22:17:38.452943+00:00
+01M6A0MCW3AYZQH2F6K64XKMSV,01M6A0JWYHTVK7XFH34P235F9Q,run,,G4,FAIL,RETAINED_MASKS_YIELD,"67% of the published products are retained from earlier runs (136 retained, 67 fresh valid)","{""retained"": 136, ""fresh_valid"": 67, ""retained_share"": 0.67}",2026-10-31 22:17:38.452943+00:00
+01M6A0MCW3AYZQH2F6K64XKMSW,01M6A0JWYHTVK7XFH34P235F9Q,run,,G14,FAIL,CONTEST_NOT_READY,67 valid records,{},2026-10-31 22:17:38.452943+00:00
+01M6A0MCW3AYZQH2F6K64XKMSX,01M6A0JWYHTVK7XFH34P235F9Q,run,,G14,FAIL,CONTEST_NOT_READY,1 categories,{},2026-10-31 22:17:38.452943+00:00

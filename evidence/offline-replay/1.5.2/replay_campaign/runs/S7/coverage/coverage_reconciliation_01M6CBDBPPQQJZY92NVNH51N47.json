@@ -1,0 +1,210 @@
+{
+  "run_id": "01M6CBDBPPQQJZY92NVNH51N47",
+  "store": {
+    "key": "walmart-3891-pickup",
+    "name": "Walmart #3891 Waukegan",
+    "modality": "PICKUP",
+    "retailer": "walmart",
+    "location_id": "3891"
+  },
+  "provider": "oxylabs",
+  "pilot": true,
+  "scope_units": 1,
+  "status_counts": {
+    "CAPPED": 1
+  },
+  "status_counts_rule_1_3_1": {
+    "CAPPED": 1
+  },
+  "result_window_units": 0,
+  "csv_rows_not_planned": [
+    {
+      "csv_row": 1,
+      "category": "Household Essentials",
+      "url": "https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning",
+      "enabled": true
+    },
+    {
+      "csv_row": 2,
+      "category": "Personal Care",
+      "url": "https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19",
+      "enabled": true
+    },
+    {
+      "csv_row": 3,
+      "category": "Beauty",
+      "url": "https://www.walmart.com/cp/beauty/1085666?povid=GlobalNav_rWeb_Beauty_Beauty_ShopAll_051123",
+      "enabled": true
+    },
+    {
+      "csv_row": 4,
+      "category": "Diapering",
+      "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+      "enabled": true
+    },
+    {
+      "csv_row": 5,
+      "category": "Feeding",
+      "url": "https://www.walmart.com/cp/feeding/133283?povid=GlobalNav_mWeb_BabyKids_babyformula_babyfood",
+      "enabled": true
+    },
+    {
+      "csv_row": 6,
+      "category": "Health & Wellness",
+      "url": "https://www.walmart.com/cp/health/976760",
+      "enabled": true
+    },
+    {
+      "csv_row": 7,
+      "category": "Pets",
+      "url": "https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 8,
+      "category": "Balloons",
+      "url": "https://www.walmart.com/browse/party-occasions/balloons/2637_1042319_1212898_3956207?povid=GlobalNav_rWeb_ETS_partysupplies_balloons",
+      "enabled": true
+    },
+    {
+      "csv_row": 9,
+      "category": "Art Supplies",
+      "url": "https://www.walmart.com/cp/art-supplies/5899871?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_ArtsCraftsSewing_ArtSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 10,
+      "category": "Office Supplies",
+      "url": "https://www.walmart.com/cp/office-supplies/1229749?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_Department_ShopAllOfficeSupplies",
+      "enabled": true
+    }
+  ],
+  "coverage_complete": false,
+  "rows": [
+    {
+      "csv_row": 0,
+      "category": "Food",
+      "listing_id": "976759_976793_8910423",
+      "listing_name": "Fresh Vegetables",
+      "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 1,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup"
+      ],
+      "reported_total": 287,
+      "totals_reported": [
+        287
+      ],
+      "total_observed_at": "2026-10-31T23:35:31.393503Z",
+      "pages_visited": [
+        1
+      ],
+      "page_fetches": [
+        "01M6CBDC87NEE9QT921N0K49EM"
+      ],
+      "raw_placements": 44,
+      "organic_placements": 40,
+      "distinct_identities": 40,
+      "sponsored_only_in_listing": 4,
+      "placed_identities": 44,
+      "distinct_with_children": 40,
+      "duplicate_placements": 0,
+      "sponsored_placements": 4,
+      "sponsored_only_products": 4,
+      "other_module_products": 8,
+      "variant_identities_named": 0,
+      "variant_identities_not_own_tile": 0,
+      "follow_up_outcomes": {
+        "sponsored:not_attempted": 4
+      },
+      "approx_weight_exclusions": 8,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 74,
+      "difference_organic": 247,
+      "difference_placed": 243,
+      "reconciliation_basis": "",
+      "unresolved_difference": 243,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (1) reached"
+    }
+  ],
+  "follow_ups": [
+    {
+      "at": "2026-11-01T20:04:33.579347Z",
+      "key": "wm:646842793",
+      "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Roasted-Garlic-Stir-in-Paste-4-oz-Tube/646842793?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached",
+      "status": "not_attempted",
+      "item_id": "646842793",
+      "listing": "976759_976793_8910423",
+      "seen_on": "01M6CBDC87NEE9QT921N0K49EM",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Vegetables"
+    },
+    {
+      "at": "2026-11-01T20:04:33.586699Z",
+      "key": "wm:51259335",
+      "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Minced-Garlic-Stir-in-Paste-4-oz-Tube/51259335?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached",
+      "status": "not_attempted",
+      "item_id": "51259335",
+      "listing": "976759_976793_8910423",
+      "seen_on": "01M6CBDC87NEE9QT921N0K49EM",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Vegetables"
+    },
+    {
+      "at": "2026-11-01T20:04:33.593123Z",
+      "key": "wm:44391186",
+      "url": "https://www.walmart.com/ip/Gourmet-Garden-Gluten-Free-Garlic-Stir-in-Paste-4-oz-Tube/44391186?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached",
+      "status": "not_attempted",
+      "item_id": "44391186",
+      "listing": "976759_976793_8910423",
+      "seen_on": "01M6CBDC87NEE9QT921N0K49EM",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Vegetables"
+    },
+    {
+      "at": "2026-11-01T20:04:33.600331Z",
+      "key": "wm:6342151752",
+      "url": "https://www.walmart.com/ip/Spice-World-Fresh-Diced-Garlic-5oz-Pouch/6342151752?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached",
+      "status": "not_attempted",
+      "item_id": "6342151752",
+      "listing": "976759_976793_8910423",
+      "seen_on": "01M6CBDC87NEE9QT921N0K49EM",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Vegetables"
+    }
+  ]
+}

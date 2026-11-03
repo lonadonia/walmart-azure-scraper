@@ -1,0 +1,249 @@
+{
+ "evidence_class": "OFFLINE REPROCESSING (authentic saved pages; no request)",
+ "listing_pages_read": 129,
+ "tiles": {
+  "tiles": 5161,
+  "tiles_with_promotion_wording_or_structure": 9,
+  "tiles_with_promoDiscount": 9
+ },
+ "classified_offer_kinds": {},
+ "badge_and_promo_texts": {
+  "badge | Pickup as soon as 7am": 3591,
+  "badge | Save with": 1737,
+  "badge | SNAP EBT eligible": 1590,
+  "badge | Pickup as soon as tomorrow": 899,
+  "badge | Best seller": 827,
+  "badge | Delivery as soon as tomorrow": 738,
+  "badge | Delivery as soon as 7am": 720,
+  "badge | Rollback": 634,
+  "badge | Shipping, arrives tomorrow": 482,
+  "badge | Shipping, arrives today": 393,
+  "badge | 10K+ bought since yesterday": 306,
+  "badge | Pickup available": 193,
+  "badge | In 500+ people's carts": 148,
+  "badge | 1K+ bought since yesterday": 144,
+  "badge | 500+ bought since yesterday": 132,
+  "badge | Overall pick": 110,
+  "badge | In 1K+ people's carts": 110,
+  "badge | Free pickup as soon as 7am": 99,
+  "badge | Shipping, arrives Fri, Oct 30": 96,
+  "badge | 2K+ bought since yesterday": 88,
+  "badge | In 2K+ people's carts": 84,
+  "badge | Shipping, arrives Thu, Oct 29": 77,
+  "badge | 100+ bought since yesterday": 66,
+  "badge | Low stock": 66,
+  "badge | Delivery available": 43,
+  "badge | Free shipping, arrives in 3+ days": 43,
+  "badge | New": 36,
+  "badge | Free shipping, arrives tomorrow": 24,
+  "badge | 5K+ bought since yesterday": 18,
+  "badge | In 5K+ people's carts": 16,
+  "badge | Only 1 left": 13,
+  "badge | Free pickup as soon as tomorrow": 13,
+  "badge | Only at": 12,
+  "badge | Shipping, arrives in 3+ days": 11,
+  "badge | Free shipping, arrives Fri, Oct 30": 11,
+  "badge | Free shipping, arrives today": 10,
+  "badge | Free shipping, arrives Thu, Oct 29": 8,
+  "badge | In 200+ people's carts": 6,
+  "badge | Only 2 left": 6,
+  "badge | Deal": 6,
+  "badge | Only 3 left": 5,
+  "badge | In 10K+ people's carts": 4,
+  "badge | Only 7 left": 4,
+  "badge | Shipping, arrives Sat, Oct 31": 4,
+  "badge | Only 5 left": 3,
+  "badge | Only 8 left": 2,
+  "badge | Clearance": 2,
+  "badge | Only 4 left": 2,
+  "badge | Free shipping, arrives Sat, Oct 31": 1
+ },
+ "tile_promotion_like_keys": {
+  "badges.groupsV2[].members[]": {
+   "count": 12360,
+   "examples": [
+    "{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"C",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup as soon as\"",
+    "{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"C"
+   ]
+  },
+  "groupsV2[].members[]": {
+   "count": 12360,
+   "examples": [
+    "{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"C",
+    "{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup as soon as\"",
+    "{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"C"
+   ]
+  },
+  "badges.groupsV2[].members": {
+   "count": 10076,
+   "examples": [
+    "[{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup as soon as",
+    "[{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \""
+   ]
+  },
+  "groupsV2[].members": {
+   "count": 10076,
+   "examples": [
+    "[{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \"",
+    "[{\"memType\": \"badge\", \"memId\": \"L1051\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"TEXT\", \"value\": \"Pickup as soon as",
+    "[{\"memType\": \"badge\", \"memId\": \"L1033\", \"memStyleId\": \"PRIMARY_TRANSPARENT_WRAP\", \"fbMemStyleId\": null, \"content\": [{\"type\": \"ICON\", \"value\": null, \"styleId\": \""
+   ]
+  },
+  "additionalOfferCount": {
+   "count": 2378,
+   "examples": [
+    "9",
+    "1",
+    "2"
+   ]
+  },
+  "badges.groups[].members[]": {
+   "count": 205,
+   "examples": [
+    "{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": n",
+    "{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": n",
+    "{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": n"
+   ]
+  },
+  "badges.groups[].members[].memberType": {
+   "count": 205,
+   "examples": [
+    "\"badge\"",
+    "\"badge\"",
+    "\"badge\""
+   ]
+  },
+  "snapEligible": {
+   "count": 167,
+   "examples": [
+    "true",
+    "true",
+    "true"
+   ]
+  },
+  "badges.groups[].members": {
+   "count": 162,
+   "examples": [
+    "[{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": ",
+    "[{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": ",
+    "[{\"__typename\": \"BadgeGroupMember\", \"id\": \"L1051\", \"key\": \"FF_PICKUP\", \"memberType\": \"badge\", \"otherInfo\": null, \"rank\": 1, \"textTemplate\": null, \"textValues\": "
+   ]
+  },
+  "promoDiscount": {
+   "count": 15,
+   "examples": [
+    "{\"discount\": 2, \"discountEligible\": true, \"discountEligibleVariantPresent\": false, \"promotionId\": \"1a7c7142-976c-468a-bb51-5a825dbf66de\", \"promoOffer\": \"1000785",
+    "{\"discount\": null, \"discountEligible\": true, \"discountEligibleVariantPresent\": true, \"promotionId\": null, \"promoOffer\": null, \"state\": null, \"showOtherEligibleI",
+    "{\"discount\": 2, \"discountEligible\": true, \"discountEligibleVariantPresent\": false, \"promotionId\": \"1a7c7142-976c-468a-bb51-5a825dbf66de\", \"promoOffer\": \"1000785"
+   ]
+  },
+  "promoDiscount.promotionId": {
+   "count": 12,
+   "examples": [
+    "\"1a7c7142-976c-468a-bb51-5a825dbf66de\"",
+    "\"1a7c7142-976c-468a-bb51-5a825dbf66de\"",
+    "\"fb2dbf42-34ca-45f4-b7b7-c89001ed83fe\""
+   ]
+  },
+  "promoDiscount.promoOffer": {
+   "count": 12,
+   "examples": [
+    "\"1000785345\"",
+    "\"1000785345\"",
+    "\"1000649044\""
+   ]
+  },
+  "discounts.savings": {
+   "count": 11,
+   "examples": [
+    "\"$12.00\"",
+    "\"$12.00\"",
+    "\"$6.00\""
+   ]
+  },
+  "discounts.savingsAmt": {
+   "count": 11,
+   "examples": [
+    "12",
+    "12",
+    "6"
+   ]
+  },
+  "discountsRaw.discountMetaData[].savings": {
+   "count": 11,
+   "examples": [
+    "{\"amount\": 12, \"priceString\": \"$12.00\", \"percent\": 12}",
+    "{\"amount\": 12, \"priceString\": \"$12.00\", \"percent\": 12}",
+    "{\"amount\": 6, \"priceString\": \"$6.00\", \"percent\": 6}"
+   ]
+  }
+ },
+ "product_page_promotion_like_keys": {
+  "product.badges.groupsV2[].members[]": 2248,
+  "product.badges.groupsV2[].members": 1411,
+  "product.primaryOffer": 1079,
+  "product.topBoostedOffer": 1079,
+  "product.secondaryOfferPrice": 1079,
+  "product.conditionOffers[]": 1070,
+  "product.selectedOfferId": 1068,
+  "product.conditionOffers": 1068,
+  "product.discounts.discountMetaData[].savings": 1068,
+  "product.transactableOfferCount": 1017,
+  "product.promoData": 863,
+  "product.promoData[]": 863,
+  "product.additionalOfferCount": 412,
+  "product.conditionOffers[].priceInfo.savingsAmount": 100,
+  "product.priceInfo.savingsAmount": 98,
+  "product.priceInfo.priceDisplayCodes.rollback": 54,
+  "product.variantsMap.4JS54CZ0C5IA.priceInfo.savingsAmount": 15,
+  "product.variantsMap.3611G07KP58E.priceInfo.savingsAmount": 15,
+  "product.variantsMap.3SBUMJ6M9PVC.priceInfo.savingsAmount": 15,
+  "product.priceInfo.secondaryOfferBoost": 14,
+  "product.variantsMap.3845SO1HCN4H.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.3845SO1HCN4H.priceInfo.savingsAmount": 10,
+  "product.variantsMap.1VV14MBPU340.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.1VV14MBPU340.priceInfo.savingsAmount": 10,
+  "product.variantsMap.26PQ7XL2P5R2.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.26PQ7XL2P5R2.priceInfo.savingsAmount": 10,
+  "product.variantsMap.1D068CQ1MF7U.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.1D068CQ1MF7U.priceInfo.savingsAmount": 10,
+  "product.variantsMap.7D4UV7EW2XGH.priceInfo.savingsAmount": 10,
+  "product.variantsMap.1A495IDOC01B.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.1A495IDOC01B.priceInfo.savingsAmount": 10,
+  "product.variantsMap.2ZCY2FQ5QMDS.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.2ZCY2FQ5QMDS.priceInfo.savingsAmount": 10,
+  "product.variantsMap.2OTULJECYFQV.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.2OTULJECYFQV.priceInfo.savingsAmount": 10,
+  "product.variantsMap.2WLCTISY5210.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.2WLCTISY5210.priceInfo.savingsAmount": 10,
+  "product.variantsMap.2AIOIRK87P9H.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.2AIOIRK87P9H.priceInfo.savingsAmount": 10,
+  "product.variantsMap.5JD82P4BJ6CO.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.5JD82P4BJ6CO.priceInfo.savingsAmount": 10,
+  "product.variantsMap.48AQDH0B0QDI.priceInfo.priceDisplayCodes.rollback": 10,
+  "product.variantsMap.48AQDH0B0QDI.priceInfo.savingsAmount": 10,
+  "product.variantsMap.3J10O9EIG76G.priceInfo.priceDisplayCodes.rollback": 9,
+  "product.variantsMap.3J10O9EIG76G.priceInfo.savingsAmount": 9,
+  "product.variantsMap.1TRFQGTXTQD4.priceInfo.priceDisplayCodes.rollback": 9,
+  "product.variantsMap.1TRFQGTXTQD4.priceInfo.savingsAmount": 9,
+  "product.variantsMap.3RBB24TC1MGZ.priceInfo.priceDisplayCodes.rollback": 9,
+  "product.variantsMap.3RBB24TC1MGZ.priceInfo.savingsAmount": 9,
+  "product.variantsMap.292G812Q8TKX.priceInfo.priceDisplayCodes.rollback": 9,
+  "product.variantsMap.292G812Q8TKX.priceInfo.savingsAmount": 9,
+  "product.variantsMap.4HGWJMRNDES9.priceInfo.priceDisplayCodes.rollback": 9,
+  "product.variantsMap.4HGWJMRNDES9.priceInfo.savingsAmount": 9,
+  "product.variantsMap.2NLLD1JIE5QY.priceInfo.savingsAmount": 9,
+  "product.variantsMap.1UWKDE03KUB4.priceInfo.savingsAmount": 9,
+  "product.variantsMap.3MYDQ45V29P2.priceInfo.savingsAmount": 9,
+  "product.variantsMap.2IRN1IGM6Y3T.priceInfo.savingsAmount": 9,
+  "product.variantsMap.0WNIJCM383RB.priceInfo.savingsAmount": 9,
+  "product.variantsMap.7JGD514TAZIA.priceInfo.savingsAmount": 9,
+  "product.variantsMap.3CSXJMUFYDP4.priceInfo.savingsAmount": 9
+ },
+ "B3_662_dispositions": {
+  "absent_on_result_tile | no_product_offer_on_saved_product_page": 421,
+  "absent_on_result_tile | product_page_not_read (B3's detail limit was 0; no saved page of the item)": 241
+ }
+}

@@ -1,0 +1,5 @@
+.......................................................................s [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_vendored.py:31: the Walmart collector's source is not beside this probe (a probe-only extraction)
+
+PASS  exit 0; skipped ['test_the_vendored_files_are_still_the_collectors_files']; allowed ['test_the_vendored_files_are_still_the_collectors_files']

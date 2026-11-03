@@ -1,0 +1,77 @@
+{
+ "campaign_id": "classic-proposal-walmart-marianos",
+ "limits": {
+  "billing_headroom_usd": "0.50",
+  "campaign_minutes": 30,
+  "export_reserve_seconds": 180,
+  "per_retailer_requests": 10,
+  "retailers": [
+   "walmart",
+   "marianos"
+  ],
+  "total_requests": 20,
+  "total_usd": "5.00"
+ },
+ "marianos": [
+  "marianos: this probe has no adapter for it (its share of the limits stays reserved)",
+  "marianos: the retailer's store ID is not verified from the source"
+ ],
+ "mode": "plan (nothing is sent, nothing is written)",
+ "rates": "no rate card given: a live campaign would be refused",
+ "retailer_share_usd": "2.25",
+ "walmart_steps": [
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries?type=raw,parsed",
+   "max_billable_results": 2,
+   "payload": {
+    "fulfillment_type": "pickup",
+    "parse": true,
+    "query": "milk",
+    "source": "walmart_search",
+    "store_id": "3891"
+   },
+   "purpose": "result page 1 of the store's Pickup search: store, fulfillment, seller, parsing",
+   "retailer": "walmart",
+   "step": "walmart-search-p1"
+  },
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries?type=raw,parsed",
+   "max_billable_results": 2,
+   "payload": {
+    "fulfillment_type": "pickup",
+    "parse": true,
+    "query": "milk",
+    "source": "walmart_search",
+    "start_page": 2,
+    "store_id": "3891"
+   },
+   "purpose": "result page 2 of the store's Pickup search: store, fulfillment, seller, parsing; does the page advance",
+   "retailer": "walmart",
+   "step": "walmart-search-p2"
+  },
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries?type=raw,parsed",
+   "max_billable_results": 2,
+   "payload": {
+    "fulfillment_type": "pickup",
+    "parse": true,
+    "product_id": "<from page 1>",
+    "source": "walmart_product",
+    "store_id": "3891"
+   },
+   "purpose": "the product's own page for the store's Pickup: identity, UPC, store, seller",
+   "retailer": "walmart",
+   "step": "walmart-product"
+  },
+  {
+   "endpoint": "https://realtime.oxylabs.io/v1/queries",
+   "max_billable_results": 1,
+   "payload": {
+    "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351"
+   },
+   "purpose": "a required category page by its URL alone: is it served for the store at all (undocumented)",
+   "retailer": "walmart",
+   "step": "walmart-category-url"
+  }
+ ]
+}

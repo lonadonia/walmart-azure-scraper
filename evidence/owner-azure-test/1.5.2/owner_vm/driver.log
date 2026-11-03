@@ -1,0 +1,67 @@
+19:55:15Z reset_docker exit 0
+19:55:15Z prepare0 exit 0
+19:55:31Z probe exit 0
+19:55:58Z docker_build_oxylabs exit 0
+19:56:20Z docker_build_scrapedo exit 0
+19:56:21Z docker_image exit 0
+19:56:34Z docker_smoke exit 0
+19:56:46Z docker_net exit 0
+19:56:48Z c_db_upgrade exit 0
+19:56:50Z c_validate exit 0
+19:56:54Z c_replay_S1 exit 0
+19:57:04Z c_replay_S2 exit 0
+19:57:15Z c_replay_S3 exit 0
+19:57:46Z interrupt_and_resume S4 TERM: resume exit 0
+19:57:57Z c_replay_S5b_serial exit 6
+19:58:07Z c_replay_S5b_parallel exit 6
+19:58:17Z c_replay_S5a exit 6
+19:58:46Z interrupt_and_resume S6 KILL: resume exit 0
+19:58:57Z c_replay_S7 exit 6
+19:58:59Z c_export_S1 exit 0
+19:59:01Z c_export_S2 exit 0
+19:59:04Z c_export_S3 exit 0
+19:59:06Z c_export_S4 exit 0
+19:59:09Z c_export_S5b_serial exit 0
+19:59:12Z c_export_S5b_parallel exit 0
+19:59:14Z c_export_S5a exit 0
+19:59:17Z c_export_S6 exit 0
+19:59:20Z c_export_S7 exit 0
+19:59:22Z c_status exit 0
+total 7972
+drwxrwxr-x  2 azureuser azureuser    4096 Nov  1 19:59 .
+drwxrwxr-x 12 azureuser azureuser    4096 Nov  1 19:55 ..
+-rw-rw-r--  1 azureuser azureuser 8146964 Nov  1 19:59 exports_container.tar.gz
+-rw-rw-r--  1 azureuser azureuser     289 Nov  1 19:58 replay_runs.txt
+REPLAY_DONE
+19:59:25Z prepare exit 0
+19:59:30Z uv_sync exit 0
+19:59:33Z version exit 0
+19:59:33Z validate_config exit 0
+19:59:34Z ruff_check exit 0
+19:59:34Z ruff_format exit 0
+19:59:42Z mypy exit 0
+19:59:51Z unit exit 0
+20:00:03Z int_test_abandoned_segments exit 0
+20:00:13Z int_test_captures_replay exit 0
+20:01:41Z int_test_coverage_and_assortment exit 0
+20:04:03Z int_test_detail_path exit 0
+20:04:13Z int_test_editions exit 0
+20:04:37Z int_test_follow_queue exit 0
+20:05:20Z int_test_followups exit 0
+20:05:49Z int_test_lineage_retention exit 0
+20:09:14Z int_test_operations exit 0
+20:09:24Z int_test_publish exit 0
+20:09:37Z int_test_queue_locks exit 0
+20:10:53Z int_test_replay exit 0
+20:11:14Z int_test_retained_masking exit 0
+20:11:26Z int_test_runner exit 0
+20:13:06Z int_test_scrapedo_walmart exit 0
+20:13:19Z int_test_weight_wording exit 0
+20:14:10Z int_test_workers_and_oxylabs exit 0
+20:14:23Z int_test_yield_baseline exit 0
+20:16:10Z publication_faults exit 0
+20:20:08Z concurrency_load exit 0
+TESTS_DONE
+20:20:08Z counts_after exit 0
+diff: /home/azureuser/v152/logs/counts_before.log: No such file or directory
+ALL_DONE

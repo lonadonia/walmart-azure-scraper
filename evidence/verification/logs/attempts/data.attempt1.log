@@ -1,0 +1,165 @@
+evidence ZIP extracted into e1/ of the work folder
+
+1. inventory of the delivery folder
+  57 files; expected 57: missing []; not expected []; written after this step 0
+
+2. archives
+  WALMART_SOURCE_1.5.2.zip: SHA-256 1100aa16ce7d459afd020c057eff3fb42cd54bcc172a4c22f04ba3f1859af941 = SOURCE_AND_RUN_MANIFEST.json: True; 5,068,349 bytes; 434 files; top folder ['walmart-source-1.5.2']; unsafe names []
+  WALMART_EVIDENCE_1.5.2.zip: SHA-256 256b968ea2502a233a16828797ae90e359bf5bdbcb78551cea3800c12c187baa = SOURCE_AND_RUN_MANIFEST.json: True; 57,038,721 bytes; 1364 files; top folder ['walmart-evidence-1.5.2']; unsafe names []
+  OXYLABS_CLASSIC_OFFLINE_PROBE_1.5.2.zip: SHA-256 d4785ccbb8b23a4d2bb6cfb6b16ba1242cab5cab0b292e3222581f7844282193 = SOURCE_AND_RUN_MANIFEST.json: True; 1,173,962 bytes; 132 files; top folder ['oxylabs-classic-offline-probe-1.5.2']; unsafe names []
+  every file and every member of every archive read in full, to any depth: 2,247 blobs; {'zip entries': 1930, 'gzip members': 152, 'tar members': 108}; unreadable []
+
+3. source ZIP (read in place; its own steps extract and run it)
+  walmart-oxylabs-1.5.2/: 216 files, tree 3a37a77c1bc0e96a50ec0d0bac289f7f270858f9e75027b92da337ac816650b3, commit 627c804d66aa33fc423fd2296c8896c5d5c2c3d4: every file against EDITION.json and BUILD_MANIFEST.json: True []
+  walmart-scrapedo-1.5.2/: 216 files, tree b8e7ae56d85a8595c712c005473f74dd2c45bf018772c6dab31815321c5f6b5b, commit 627c804d66aa33fc423fd2296c8896c5d5c2c3d4: every file against EDITION.json and BUILD_MANIFEST.json: True []
+  the two editions differ in ['.env.example', 'BUILD_INFO.json', 'EDITION.json', 'config/collector.yaml']; BUILD_MANIFEST.json lists the same: True
+  the Oxylabs tree of this release is not the one S6 and S7 ran (the campaign's build record: tree a3ce100cd91eaa43328385b1c5315fe37e37e9cd676535bcabf0c6846cdb90f8, release 1.5.1): True; no live run in this delivery ran this revision
+  oxylabs rebuilt from the commit in the repository: ZIP SHA-256 f37e34d12ccc2e1e855b7f9dad8ed91beae0096a52a20cd132477f55261fe73c, as the source ZIP's manifest gives it: True
+  scrapedo rebuilt from the commit in the repository: ZIP SHA-256 a50a2346cebaa810a4bb10f145983682d14d031f573ec9da1b683b2388af9c84, as the source ZIP's manifest gives it: True
+  every other file is the commit's: differing []; committed but not in the tree []
+  the packaging commit 18df90baae9440111966eb08a4004dfac85cf743 changes nothing under headless/ against 627c804: True 
+
+4. probe ZIP (read in place; its own steps extract and run it)
+  revision 627c804d66aa33fc423fd2296c8896c5d5c2c3d4, probe 1.5.2, live mode off in the code: True; 45 files against FILE_SHA256.txt: differing []
+  saved documentation: 50 pages against their index: differing []; each hash the contract document names is saved: True
+  no .env file []; .env.example holds placeholders only: True
+
+5. evidence ZIP: the extracted tree
+  1364 files; manifest 1361 rows: absent or another SHA-256 []; not listed []; changed from their source 26, not matched by SANITIZATION_LOG.csv []; RESULT: PASS; protected originals []
+
+6. product files
+  live/S4_1.5.0/products_fresh.json: 677 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 76, leading zero 29
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (677): True; zipcode 60085 on every row: True; one row per Walmart item: True
+  live/S4_1.5.0/products_retained.json: 689 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 80, leading zero 30
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (689): True; zipcode 60085 on every row: True; one row per Walmart item: True
+    S4: fresh 677 rows, each the same row in the retained file (689 rows): problems []
+  live/S6_1.5.1/products_fresh.json: 580 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 353, leading zero 193
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (580): True; zipcode 60085 on every row: True; one row per Walmart item: True
+  live/S6_1.5.1/products_retained.json: 706 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 434, leading zero 223
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (706): True; zipcode 60085 on every row: True; one row per Walmart item: True
+    S6: fresh 580 rows, each the same row in the retained file (706 rows): problems []
+  live/S7_1.5.1/products_fresh.json: 32 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 0, leading zero 0
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (32): True; zipcode 60085 on every row: True; one row per Walmart item: True
+  live/S7_1.5.1/products_retained.json: 706 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 402, leading zero 207
+    the CSV holds the JSON's rows: True; rows as RUN_SUMMARY.json gives them (706): True; zipcode 60085 on every row: True; one row per Walmart item: True
+    S7: fresh 32 rows, each the same row in the retained file (706 rows): problems []
+
+7. every row of the nine runs' exports against its record and its stored page
+  S1 (01M69X9XHZR83KZ2FNWBJYJKA7): 35 rows, kinds {'fresh': 35}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S2 (01M69XM9RZN3C8D0K7W2NSXR3D): 203 rows, kinds {'fresh': 203}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S3 (01M69Y1J6YWFEZ1DJHAC2MT17M): 319 rows, kinds {'carried_forward': 203, 'fresh': 116}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S4 (01M69Y882GTVYRJZM0CXQ44MXN): 689 rows, kinds {'fresh': 677, 'carried_forward': 12}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S5b_serial (01M69YPZTFCP7AWJ5B78AXEA2N): 689 rows, kinds {'carried_forward': 609, 'fresh': 80}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S5b_parallel (01M69YS2X0YG5JSEMCGKK8BHE5): 689 rows, kinds {'carried_forward': 609, 'fresh': 80}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S5a (01M6A0JWYHTVK7XFH34P235F9Q): 689 rows, kinds {'carried_forward': 622, 'fresh': 67}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S6 (01M6A2VQAA5VXJHJHMZPCTZTD4): 706 rows, kinds {'carried_forward': 126, 'fresh': 580}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+  S7 (01M6A52HA6XYCEDS6DBE5N5RQ7): 706 rows, kinds {'carried_forward': 674, 'fresh': 32}; record map, run, revision, stored page (SHA-256), fetch and store checks: problems 0 []; title, prices, PPM and crawl_date on the page: problems 0 []
+
+8. UPCs
+  S1: with a UPC 35, digits {12: 35}, leading zero 12, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'recovered_from_saved_detail': 34, 'fetched_detail': 1}; problems 0 []
+  S2: with a UPC 81, digits {12: 81}, leading zero 40, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'budget_deadline_interruption': 122, 'recovered_from_saved_detail': 67, 'fetched_detail': 14}; problems 0 []
+  S3: with a UPC 103, digits {12: 103}, leading zero 54, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'budget_deadline_interruption': 94, 'recovered_from_saved_detail': 19, 'fetched_detail': 3}; problems 0 []
+  S4: with a UPC 80, digits {12: 80}, leading zero 30, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'recovered_from_saved_detail': 66, 'budget_deadline_interruption': 601, 'fetched_detail': 10}; problems 0 []
+  S5b_serial: with a UPC 80, digits {12: 80}, leading zero 30, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'not_attempted': 80}; problems 0 []
+  S5b_parallel: with a UPC 80, digits {12: 80}, leading zero 30, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'not_attempted': 80}; problems 0 []
+  S5a: with a UPC 113, digits {12: 113}, leading zero 46, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'recovered_from_saved_detail': 67}; problems 0 []
+  S6: with a UPC 434, digits {12: 434}, leading zero 223, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'recovered_from_saved_detail': 352, 'budget_deadline_interruption': 226, 'fetched_detail': 1, 'absent_in_source': 1}; problems 0 []
+  S7: with a UPC 402, digits {12: 402}, leading zero 207, check digit not valid 0 [] (copied as the page states it; not a failure); fresh rows' outcomes {'budget_deadline_interruption': 32}; problems 0 []
+
+9. offline reprocessing
+  offline_reprocessing/S6_products_fresh_OFFLINE_REPLAY.json: 580 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 353, leading zero 193
+  offline_reprocessing/S6_products_fresh_OFFLINE_REPLAY: 580 rows, byte for byte the replay's products_fresh.json and .csv: True; the CSV holds the JSON's rows: True
+  offline_reprocessing/S6_products_retained_OFFLINE_REPLAY.json: 706 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 434, leading zero 223
+  offline_reprocessing/S6_products_retained_OFFLINE_REPLAY: 706 rows, byte for byte the replay's products.json and .csv: True; the CSV holds the JSON's rows: True
+  offline_reprocessing/B3_products_fresh_OFFLINE_REPROCESSING.json: 662 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 419, leading zero 212
+  offline_reprocessing/B3_products_fresh_OFFLINE_REPROCESSING: 662 rows, byte for byte the replay's products_fresh.json and .csv: True; the CSV holds the JSON's rows: True
+  offline_reprocessing/B3_products_retained_OFFLINE_REPROCESSING.json: 862 rows; contract problems none; duplicate URLs/UPCs 0; store identities 1; with UPC 539, leading zero 277
+  offline_reprocessing/B3_products_retained_OFFLINE_REPROCESSING: 862 rows, byte for byte the replay's products.json and .csv: True; the CSV holds the JSON's rows: True
+  S6: the export's own label: mode REPLAY, code 1.5.2 627c804, uncommitted changes False: True
+  S6: the three provenance files and the product file agree on every row: problems 0 []
+    outcomes {'upc absent_in_source': 1, 'upc not_attempted': 271, 'upc recovered_from_saved_detail': 434, 'weight absent_in_source': 7, 'weight not_attempted': 11, 'weight present_in_listing': 664, 'weight recovered_from_saved_detail': 21, 'weight unresolved_conflict': 3}
+  B3: the export's own label: mode REPLAY, code 1.5.2 627c804, uncommitted changes False: True
+  B3: the three provenance files and the product file agree on every row: problems 0 []
+    outcomes {'upc absent_in_source': 1, 'upc budget_deadline_interruption': 39, 'upc fetched_detail': 119, 'upc not_attempted': 283, 'upc recovered_from_saved_detail': 420, 'weight absent_in_source': 6, 'weight budget_deadline_interruption': 10, 'weight not_attempted': 20, 'weight present_in_listing': 804, 'weight recovered_from_saved_detail': 19, 'weight unresolved_conflict': 3}
+  the repeat replay of the same revision on a new copy, 9 runs: data files that differ []; other files that differ beyond the replay's own clock []
+  S6 correction map: 32 exported values changed, {'store_brand': 26, 'weight': 6}; before side = live/S6_1.5.1, after side = the reprocessed file: problems []; differences the map does not declare []
+  the five carried sizes of 1.5.0: corrected as expected, problems []; title and crawl date kept, problems []
+  B3 correction map: 382 rows, changes {'upc filled': 314, 'weight filled': 35, 'store_brand changed': 24, 'weight changed': 9}; before side = the delivered 1.4.1 B3 retained file, after side = the reprocessed file: problems []; differences the map does not declare: []
+  B3, 1.5.1's replay to 1.5.2's: 23 exported values changed, {'store_brand': 22, 'weight': 1}: problems []; differences the map does not declare []
+
+10. acceptance matrix
+  206 rows; columns as agreed: True; duplicate ids []
+  the 171 requirements of 1.5.1: absent []; reworded []
+  status classes {'VERIFIED OFFLINE': 103, 'VERIFIED LIVE': 49, 'PARTIAL': 32, 'BLOCKED': 18, 'NOT TESTED': 4}: unknown []; VERIFIED LIVE without its revision []; VERIFIED LIVE naming the final revision (no live run ran it) []
+  empty cells []; evidence classes {'LIVE VERIFIED': 76, 'NOT TESTED': 6, 'OFFLINE VERIFIED': 106, 'OFFLINE REPROCESSING': 9, 'PARTIAL': 8, 'PENDING': 14, 'HISTORICAL': 11, 'SYNTHETIC TEST': 10, 'ESTIMATE': 8, 'BLOCKED': 8, 'OWNER AZURE TEST': 8, 'CLIENT AGREEMENT ITEM': 1, 'OFFLINE REPLAY': 7}; unknown []; rows that are an overall score []
+  results (Oxylabs, Scrape.do): {('VERIFIED', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 25, ('VERIFIED', 'VERIFIED'): 17, ('VERIFIED', 'VERIFIED (same code)'): 17, ('RECORDED IN PACKAGE_VERIFICATION.txt', 'RECORDED IN PACKAGE_VERIFICATION.txt'): 13, ('PARTIAL', 'PARTIAL'): 5, ('BLOCKED', 'BLOCKED'): 4, ("VERIFIED on the owner's VM", "VERIFIED on the owner's VM"): 3, ('RECORDED IN PACKAGE_VERIFICATION.txt (every delivered JSON and CSV)', 'RECORDED IN PACKAGE_VERIFICATION.txt (validate-export of the edition)'): 2, ('VERIFIED (the reconciliation); coverage INCOMPLETE', 'VERIFIED (the reconciliation)'): 2, ('VERIFIED (draft)', 'VERIFIED (draft)'): 2, ('VERIFIED (tests)', 'VERIFIED (tests)'): 2, ('VERIFIED', 'n/a'): 2, ("LIVE VERIFIED (S1 to S7: every fresh row's page passed the store check, with a PICKUP line for 3891)", 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('LIVE VERIFIED (Web API, Bearer key) on 1.5.0 and 1.5.1; 1 of 120 rows left, so not on 1.5.2', 'VERIFIED on 1.4.1 (historical); no live run since'): 1, ('RECORDED IN PACKAGE_VERIFICATION.txt (clean extraction, own lock)', 'RECORDED IN PACKAGE_VERIFICATION.txt (clean extraction, own lock)'): 1, ('VERIFIED; live: S6 excluded 18 products', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED on the S6 replay: of 580 fresh, 555 present, 12 recovered, 9 not read, 3 absent, 1 conflict', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED on the replays of S1 to S7 and B3: 0 disagreements', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (B3 and the nine runs, offline)', 'HISTORICAL: not reprocessed by 1.5.2 (C v3 on 1.4.1, 5 products; B2 on 1.4.0, from the unfiltered grid)'): 1, ('VERIFIED; live: no listing of a capped run is DONE (G3 rejects every pilot)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ("VERIFIED (tests); live: Strawberries EMPTY is the store's own page (COVERAGE_RECONCILIATION.csv)", 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED; live S3: 4 pages, each advancing', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED; live: no challenge page in any of the nine runs', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED; live: all nine pilots rejected by G3, none published', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('LIVE VERIFIED (S6 on 1.5.1, S4 on 1.5.0)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('BLOCKED (no row complete; capped pilots only)', 'BLOCKED'): 1, ('n/a', 'VERIFIED (release 1.2.1)'): 1, ('VERIFIED', 'VERIFIED (its 1.4.1 rows carried)'): 1, ('LIVE VERIFIED: all 11 cases closed (S01, S05, S06, S08 included; S03 excluded; S02, S04, S07, S09, S10, S11 their own organic tile)', 'PARTIAL (its VM queue: 68 sponsored pending)'): 1, ('PARTIAL: 5 of 30 closed live; the 610 identities read from saved pages where one exists; 275 items need their own page read (EXACT_LIVE_READ_QUEUE.csv)', 'PARTIAL (736 variant candidates pending)'): 1, ('VERIFIED; live S2: seller Walmart.com on the product pages read', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('HISTORICAL (release 1.3.0); NOT OBSERVED in S5a or S7 (none manufactured)', 'NOT OBSERVED'): 1, ('VERIFIED on the S6 replay: of 580 fresh UPCs, 353 filled, 226 not read, 1 absent; a failed or blocked read now has its own class (blocked, request_failed)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED; live S6 (1 product page and 352 reuses within its limit)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('NOT OBSERVED', 'VERIFIED (historical)'): 1, ('VERIFIED (synthetic tests)', 'VERIFIED (synthetic tests)'): 1, ('PARTIAL: 0 offers on 52 listing pages, 25 product-detail and 10 product pages (2,415 tiles); the example stays unproven', 'NOT TESTED'): 1, ('RECORDED IN PACKAGE_VERIFICATION.txt (every row of the nine runs traced to its stored page)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (carried and replayed rows keep their own dates)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('LIVE VERIFIED (S6: kill after 8 pages, lease reclaimed, 7 more pages, nothing lost or duplicated)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('LIVE VERIFIED (S6: exit 9 twice, no request)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (test fixture, labelled)', 'VERIFIED (test fixture, labelled)'): 1, ('VERIFIED (tests); schedules off', 'VERIFIED (tests); schedules off'): 1, ('PARTIAL (measured per page; full-run runtime unmeasured)', 'PARTIAL'): 1, ("PARTIAL: live on 1.5.0 with 1 and 2 workers (S5b); a load test on 1.5.2 against a local fixture (1, 2 and 4 workers, not a provider); a full run's throughput unmeasured", 'PARTIAL (tests only)'): 1, ('RECORDED IN PACKAGE_VERIFICATION.txt (secret scan of every file and archive member)', 'RECORDED IN PACKAGE_VERIFICATION.txt (secret scan of every file and archive member)'): 1, ('VERIFIED (119 of 120 rows)', 'VERIFIED (no request)'): 1, ('PARTIAL: 580 valid distinct fresh products in 5 categories on 1.5.1 (S6). The final revision 1.5.2 has not run live', 'BLOCKED'): 1, ('VERIFIED; live: 0 challenges', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('RECORDED IN PACKAGE_VERIFICATION.txt (bicep build and lint)', 'RECORDED IN PACKAGE_VERIFICATION.txt (bicep build and lint)'): 1, ('PARTIAL: owner VM, container, offline; no live run on Azure on 1.5.2', 'PARTIAL: the same'): 1, ("VERIFIED (recorded on the owner's VM)", 'VERIFIED (the same recording; the edition is named in it)'): 1, ('NOT AGREED', 'NOT AGREED'): 1, ('BLOCKED (not done; runs by the owner are not client acceptance)', 'BLOCKED'): 1, ('NOT TESTED (offline probe ready)', 'n/a'): 1, ('1.4.1: VERIFIED (historical); 1.5.2: owner VM, offline; no live run on Azure', '1.4.1: PARTIAL (historical); 1.5.2: owner VM, offline'): 1, ('NOT TESTED (accelerated tests pass; unattended operation not run)', 'NOT TESTED'): 1, ('BLOCKED (not attempted)', 'BLOCKED'): 1, ('VERIFIED (release 1.3.1)', 'VERIFIED (release 1.3.1)'): 1, ('PARTIAL (ledger reconciled; the dashboard not read)', 'VERIFIED (credits; /info read)'): 1, ('n/a', 'VERIFIED (tests; historical 1.4.1 run)'): 1, ('n/a', 'BLOCKED: no request; 10 credits left, about 213 needed'): 1, ('PARTIAL: S6 ran 1.5.1 (580). The final revision has not run live', 'n/a'): 1, ('VERIFIED', 'VERIFIED (1.4.1 measures carried)'): 1, ('ESTIMATE (cadence UNKNOWN until a full run is measured)', 'ESTIMATE'): 1, ('PARTIAL: of the 651 rows, 215 closed; 161 settled by what a saved page can settle; 275 items need their own page read', 'the same identity rows (one file, a column per edition); its VM queue pending'): 1, ('PARTIAL (no natural transition)', 'PARTIAL'): 1, ('VERIFIED (USD 0.1785 at the reserve rate, within the ceiling of USD 0.18)', 'VERIFIED (no request)'): 1, ('n/a', 'BLOCKED'): 1, ('PARTIAL: PASS on 1.5.1 (S6: 580); the final revision has not run live', 'n/a'): 1, ('BLOCKED (INCOMPLETE)', 'BLOCKED (INCOMPLETE)'): 1, ('PARTIAL (no live example; unproven)', 'NOT TESTED'): 1, ('PASS', 'PASS (tests)'): 1, ('VERIFIED: 119 of 120 submissions, USD 0.1785 at the reserve rate, 0.1190 at the published rate (estimates, not invoices)', 'no request (10 of 1,000 credits left)'): 1, ("VERIFIED: 35 valid and 5 excluded of 40; the store page and the pages of all 35 rows passed the store check (3891, Waukegan Supercenter, 60085, a PICKUP line); seller Walmart.com in the run's provenance", 'n/a'): 1, ('VERIFIED (S01, S05, S06, S08 included; S03, V01, V05, V13, V20, V21 excluded)', 'n/a'): 1, ('VERIFIED: 116 valid; the reported total changed while the listing was read (139, 137, 138), 127 identities placed, unresolved difference 11: INCOMPLETE, as it should be', 'n/a'): 1, ('PARTIAL: 580 in 5 categories on 1.5.1 (S6); the final revision has not run live', 'BLOCKED'): 1, ('VERIFIED; the serial and parallel comparison ran on 1.5.0 only', 'n/a'): 1, ('VERIFIED: S6 and S7 stopped at their limits (SPENDING_CEILING) and were finalized without a request', 'n/a'): 1, ('VERIFIED: S1 to S5 attributed to 7b6f325, S6 and S7 to 488a033', 'n/a'): 1, ('VERIFIED; schedules: RECORDED IN PACKAGE_VERIFICATION.txt', 'schedules: RECORDED IN PACKAGE_VERIFICATION.txt'): 1, ('n/a', 'BLOCKED: no request, 10 credits left, about 213 needed'): 1, ('BLOCKED (full coverage not attempted)', 'BLOCKED'): 1, ('RECORDED IN PACKAGE_VERIFICATION.txt (clean extraction, network closed)', 'RECORDED IN PACKAGE_VERIFICATION.txt (clean extraction, network closed)'): 1, ('VERIFIED: UPC 314 recovered, 1 absent, 242 not attempted; weight 16 present, 19 recovered, 3 conflict, 6 absent, 11 not attempted', 'n/a'): 1, ('VERIFIED: classes as in the brief of 2026-11-01, with blocked and request_failed apart', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (S6: kale 40347953, a conflict left blank)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED on the S6 replay: a pack is kept beside its size, and the five carried rows now say so. The known limit of a Dual Pack of two sizes stays', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED: the provenance defect is corrected; provenance.json, record_map.json and field_dispositions.json agree on every row of ten replays', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (S6: 352 reused within a 1-page budget)', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('VERIFIED (no row complete)', 'VERIFIED'): 1, ('16 of 41 closed live; 25 variant cases PENDING; VM queue 498 of 990 pending', 'VM queue 804 of 828 pending'): 1, ('PARTIAL: tests and a load test on 1.5.2; live 2 workers on 1.5.0 only', 'VERIFIED offline'): 1, ('VERIFIED (tests); capacity UNKNOWN', 'VERIFIED (tests); capacity UNKNOWN'): 1, ('VERIFIED (as measured and as estimated, kept apart)', 'VERIFIED (1.4.1 measures carried)'): 1, ('VERIFIED on the S6 replay: 100 yes, 480 no of 580 (the delivered S6 live file: 80 yes, 500 no). Six brands confirmed in USPTO records', 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ("VERIFIED: no offer on any Pickup tile or product page read; the one quantity-tier discount seen (GenCare 16058169052, BUY_MORE_SAVINGS, tiers from 2 units) is in a module titled 'Available for shipping' on S4's page 01M69YFV67JTQG3F32K5E0A6G8, outside the Pickup grid, and is not exported", 'VERIFIED offline (same code; no live run of this edition on 1.5.2)'): 1, ('37 LIVE VERIFIED, 6 OFFLINE REPROCESSING, 5 PENDING (E022, E032, E039, E047, E048)', 'n/a'): 1, ('VERIFIED (tests); no live example (A41)', 'VERIFIED (tests)'): 1, ('VERIFIED (fixture)', 'VERIFIED (fixture)'): 1, ('VERIFIED; client acceptance NOT DONE', 'n/a'): 1, ('VERIFIED (tests; S6 carries 126 rows from earlier runs with their own dates)', 'VERIFIED (tests)'): 1, ('VERIFIED offline; no request ever sent', 'n/a'): 1, ('VERIFIED (documentation read 2026-10-31, no API call)', 'n/a'): 1, ('VERIFIED (72 tests, the live command refused with exit 3)', 'n/a'): 1, ('VERIFIED (config only; no adapter claim)', 'n/a'): 1, ('VERIFIED (offline tests of every listed case)', 'n/a'): 1, ('VERIFIED (recorded)', 'VERIFIED (recorded)'): 1, ('VERIFIED (no request; 119 of 120 rows)', 'VERIFIED (no request; 10 credits left)'): 1, ('BLOCKED: not replaced', 'n/a'): 1, ('BLOCKED: 226 UPCs and 9 sizes of S6 not read', 'BLOCKED'): 1, ('BLOCKED: no CSV row complete', 'BLOCKED'): 1, ('PARTIAL: 275 items wait for their own page', 'PARTIAL'): 1, ('PARTIAL: rules tested; no live example', 'PARTIAL'): 1, ('VERIFIED offline in the container; the live proof is S6 on 1.5.1', 'VERIFIED offline (same code)'): 1, ('VERIFIED offline; a live repeat on 1.5.2 is not run', 'n/a'): 1, ('PARTIAL: measured against a fixture, not a provider', 'PARTIAL: the same'): 1, ('PARTIAL: ledger tested, fit unknown', 'PARTIAL'): 1, ('VERIFIED (tests); unattended operation NOT TESTED (A69)', 'VERIFIED (tests)'): 1, ('BLOCKED', 'n/a'): 1, ('n/a', 'BLOCKED: at least about 213 credits; 10 left'): 1, ('NOT TESTED', 'n/a'): 1, ('PARTIAL: two inputs marked for Hamza', 'n/a'): 1}
+
+11. references
+  ACCEPTANCE_MATRIX.csv (evidence): paths {'package': 430, 'later': 35}; missing []
+  LINKED_EXAMPLES.csv: 54 rows; page_sha256 matched {"the stored file's": 36, "its content's (body_sha256)": 9}; problems []
+  SOURCE_AND_RUN_MANIFEST.json: paths {'package': 37}; missing []
+  live/RUN_SUMMARY.json: paths {'package': 13}; missing []
+  ACCEPTANCE_RUNBOOK.md: quoted paths {'package': 35, 'later': 3, 'earlier delivery': 4}; missing []
+  CLASSIC_TEST_PLAN.md: quoted paths {'package': 4}; missing []
+  CLIENT_AZURE_ACCESS_REQUEST.md: quoted paths {'package': 3}; missing []
+  <client-message draft>: quoted paths {}; missing []
+  COST_AND_RUNTIME_REPORT.md: quoted paths {'package': 12}; missing []
+  DELIVERY_INDEX.md: quoted paths {'package': 48, 'later': 3, 'earlier delivery': 3}; missing []
+  TECHNICAL_REPORT.md: quoted paths {'package': 25, 'later': 2}; missing []
+  TEST_PLAN.md: quoted paths {'package': 6}; missing []
+  walmart-evidence-1.5.2/README.md: quoted paths {'package': 73, 'later': 3, 'earlier delivery': 1}; missing []
+  walmart-evidence-1.5.2/SANITIZATION.md: quoted paths {'package': 11, 'later': 2}; missing []
+
+12. PDFs
+  CLIENT_SUMMARY.pdf: header and trailer present; 89,083 bytes; Windows PDF engine (Windows.Data.Pdf): 2 pages, 2 rendered, exit 0
+
+13. secrets, personal data and wording
+  files and archive members holding a value of the local key files: 0 [] (15 values; every blob of section 2)
+  files and archive members naming a full value the package abbreviates (3 rules): 0 []
+  external scanner secret_scan.py over 57 paths: exit 1; scanned 57 files (2139 blobs: 1930 archive entries, 152 gzip members opened) against 17 local secret values and 7 generic patterns
+    allowed, in that one place: 1 x api_key_assign fp a98699cc08c7: the name of the probe's password environment variable, no value
+    allowed, in that one place: 2 x authorization_header fp 6e23030be226: `Authorization: Bearer YOUR_API_KEY`, Oxylabs' documented placeholder
+    allowed, in that one place: 8 x authorization_header fp 969f734f10fc: `Authorization: Bearer {YOUR_API_KEY}`, Oxylabs' documented placeholder
+    allowed, in that one place: 4 x authorization_header fp a20da79eeb0a: a Bearer header holding an environment variable's name, Oxylabs' documented placeholder
+    any other hit: 0 []
+  external scanner keyscan170.py over 57 paths: exit 0; scanned 2246 files/members against 17 credential forms: 0 hits
+    any other hit: 0 []
+  a generated workstation host name, and the operator's names and addresses from the local --personal list, in any file or ZIP member (gzip members opened): 0 []
+  Arabic text in any text file or ZIP member (the client package is in English): 0 []
+  forbidden claims in the documents ('production-ready' unless negated, 100%, 'deferred by the client'): []
+  <client-message draft> names ('DRAFT', 'unapproved', '1.5.2', 'correction update'): absent []
+
+14. earlier deliveries
+  task start: 2026-11-01T18:20:00+00:00
+  20261024_walmart_1.2.1: 11 of 11 listed files unchanged; absent 0; changed 0
+  20261027_walmart_1.3.1: 19 of 19 listed files unchanged; absent 0; changed 0
+  20261028_walmart_1.4.1_dual_provider: 147 of 165 listed files unchanged; absent 18; changed 0
+    oxylabs/RUN_SUMMARY.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/WALMART_OXYLABS_EVIDENCE_1.4.1.zip: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/WALMART_OXYLABS_SOURCE_1.4.1.zip: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/products_fresh.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/products_fresh.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/products_retained.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    oxylabs/products_retained.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/RUN_SUMMARY.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/WALMART_SCRAPEDO_EVIDENCE_1.4.1.zip: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/WALMART_SCRAPEDO_SOURCE_1.4.1.zip: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_fresh.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_fresh.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_fresh_1.4.0_B2.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_fresh_1.4.0_B2.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_retained.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_retained.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_retained_1.4.0_B2.csv: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+    scrapedo/products_retained_1.4.0_B2.json: absent; last change 2026-10-28T17:09:46+00:00 (before the task start)
+  20261101_walmart_1.5.1: 183 of 185 listed files unchanged; absent 2; changed 0
+    <client-message draft>: absent since 2026-11-01T20:31:59+00:00, removed outside this task while none of its processes ran (the local record of outside changes); not counted as a change by this task
+    VIDEO_STORYBOARD.md: absent since 2026-11-01T20:31:59+00:00, removed outside this task while none of its processes ran (the local record of outside changes); not counted as a change by this task
+  deliveries of the workstation's other project: 7 checked the same way, with the local list of packed deliveries; not named in this record; problems among them are counted below
+  20261027_walmart_1.3.1/SHA256SUMS.txt: SHA-256 72a481e8da12e03a16b83852eb8bc153da481d0ff6011bc4d2e1b7e002e3e5a6, expected 72a481e8da12e03a16b83852eb8bc153da481d0ff6011bc4d2e1b7e002e3e5a6: True
+  20261028_walmart_1.4.1_dual_provider/SHA256SUMS.txt: SHA-256 0e52a45442d9fb5529ce087074a733c86f33843ef02afe3565dafc1e3786897f, expected 0e52a45442d9fb5529ce087074a733c86f33843ef02afe3565dafc1e3786897f: True
+  20261101_walmart_1.5.1/SHA256SUMS.txt: SHA-256 a72a7d623b3b7e80e51695e81eec28a77a32325e2b246ea056e9104f0c1c929e, expected a72a7d623b3b7e80e51695e81eec28a77a32325e2b246ea056e9104f0c1c929e: True
+  the 1.4.1 edition folders, moved beside that delivery before this task: 18 files by the hashes its SHA256SUMS.txt lists: differing []
+
+data checks: PASS
+

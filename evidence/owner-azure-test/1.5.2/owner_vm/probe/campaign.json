@@ -1,0 +1,6 @@
+{
+  "campaign_id": "vm-offline-check",
+  "ledger_path": "/home/azureuser/v152/probe/ledger.sqlite",
+  "ledger_genesis_id": "d44867615c2448bdbd611abc8a20e2c6",
+  "offline": true
+}

@@ -1,0 +1,49 @@
+{
+  "zip": "WALMART_OXYLABS_SOURCE_1.5.0.zip",
+  "sha256": "32abbc06aebcb6d611290597abba1ba7c2fc1d286996e679ab63e89b94d0cce4",
+  "size": 2498576,
+  "top_folder": "walmart-oxylabs-1.5.0",
+  "entries": 213,
+  "edition": {
+    "edition": "oxylabs",
+    "provider": "oxylabs",
+    "title": "Oxylabs Web API (Bearer key; not the Classic product)",
+    "version": "1.5.0",
+    "source_revision": "7b6f3258e0f4ab755732605eb88717c592d07073",
+    "committed_at": "2026-10-31T20:51:17+00:00",
+    "changes": [
+      {
+        "path": "config/collector.yaml",
+        "sha256_core": "c8a852b7bc09fedbaf2b1007ee2347dbe8b3616030e6defc7f8c0467b260b2f3",
+        "sha256_edition": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+        "replaced_lines": [
+          {
+            "line": 8,
+            "core": "edition: { name: core, providers: [scrapedo, oxylabs] }",
+            "edition": "edition: { name: oxylabs, providers: [oxylabs] }"
+          },
+          {
+            "line": 51,
+            "core": "    provider: scrapedo             # the run's page provider: scrapedo | oxylabs (the Oxylabs Web API, Bearer key;",
+            "edition": "    provider: oxylabs              # the run's page provider: scrapedo | oxylabs (the Oxylabs Web API, Bearer key;"
+          }
+        ]
+      },
+      {
+        "path": ".env.example",
+        "sha256_core": "f720f5987b9bd5feaf783b81591c9512dc12800d20bd7b64c0ae8e1a2458cc70",
+        "sha256_edition": "e11cbb4e54cf1c8ef1ad30a638aff12920e9e0c3cbe27f08694043caa78f0caa",
+        "from": "editions/oxylabs.env.example",
+        "diff": "--- core/.env.example\n+++ oxylabs/.env.example\n@@ -1,25 +1,23 @@\n-# walmart-azure-headless: environment for a local run (copy to .env, never commit .env).\n-# In Azure these are set on the job; the secrets are Key Vault references (see docs/AZURE.md).\n+# walmart-azure-headless, Oxylabs Web API edition: environment for a local run (copy to .env, never commit\n+# .env). The edition runs the Oxylabs Web API only (docs/EDITIONS.md): it needs no Scrape.do key and refuses\n+# a Scrape.do run. In Azure these are set on the job; the secrets are Key Vault references (see docs/AZURE.md).\n \n-# PostgreSQL (psycopg). A password may be in the URL or in PGPASSWORD.\n-WALMART_COLLECTOR_DATABASE_URL=postgresql://walmart_collector@localhost:5432/walmart_collector\n+# PostgreSQL (psycopg): a database of this edition's own, never the other edition's. A password may be in the\n+# URL or in PGPASSWORD.\n+WALMART_COLLECTOR_DATABASE_URL=postgresql://walmart_collector@localhost:5432/walmart_oxylabs\n # PGPASSWORD=\n # entra = Azure Database for PostgreSQL with the job's managed identity (no password)\n # WALMART_COLLECTOR_DATABASE_AUTH=entra\n \n-# Scrape.do: the key itself, or a file holding it (an Azure secret volume)\n-SCRAPEDO_API_KEY=\n-# SCRAPEDO_API_KEY_FILE=/mnt/secrets/scrapedo-api-key\n-\n-# Oxylabs Web API, for a store whose provider is oxylabs: its Bearer key itself, or a file holding it. Not\n-# credentials of the Oxylabs Classic product. Each edition (editions/) names its own provider's key only.\n-# OXYLABS_WEB_API_KEY=\n+# Oxylabs Web API: its Bearer key itself, or a file holding it (an Azure secret volume). Not credentials of\n+# the Oxylabs Classic product. Nothing is sent before `set-ceiling --provider oxylabs` (docs/CLI.md).\n+OXYLABS_WEB_API_KEY=\n # OXYLABS_WEB_API_KEY_FILE=/mnt/secrets/oxylabs-web-api-key\n \n-# Configuration and storage\n+# Configuration and storage: a data folder (or blob container) of this edition's own\n WALMART_COLLECTOR_CONFIG=config/collector.yaml\n+WALMART_COLLECTOR_DATA_DIR=./data\n # WALMART_COLLECTOR_STORAGE=azure_blob\n # WALMART_COLLECTOR_BLOB_ACCOUNT_URL=https://<account>.blob.core.windows.net\n-# WALMART_COLLECTOR_BLOB_CONTAINER=walmart-collector\n-# WALMART_COLLECTOR_DATA_DIR=./data\n+# WALMART_COLLECTOR_BLOB_CONTAINER=walmart-collector-oxylabs\n # WALMART_COLLECTOR_LOG_LEVEL=INFO\n"
+      },
+      {
+        "path": "BUILD_INFO.json",
+        "added": true,
+        "sha256_edition": "8f7c75755c34ff795c5640798e5d19540d8aeaa58defe9d157a4d5a7cf93ef52"
+      }
+    ],
+    "files": 212,
+    "tree_sha256": "1e74db3f3d496f753f6b62a905902d09820ab9c3cea03d0d00a4ce71da63a724",
+    "note": "the revision's own files but for the changes listed; the other edition of the release is built from the same revision"
+  }
+}

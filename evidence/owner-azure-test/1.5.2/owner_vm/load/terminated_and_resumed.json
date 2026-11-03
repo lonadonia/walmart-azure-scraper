@@ -1,0 +1,13 @@
+{
+ "synthetic": true,
+ "delay_s": 0.05,
+ "products": 360,
+ "products_recorded_at_the_termination": 320,
+ "products_after_the_resume": 360,
+ "requests_before_the_resume": 342,
+ "requests_total": 386,
+ "ledger_outcomes": {
+  "ok": 386
+ },
+ "pages_requested_twice": 1
+}

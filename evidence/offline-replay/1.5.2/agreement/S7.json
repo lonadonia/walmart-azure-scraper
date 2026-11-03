@@ -1,0 +1,96 @@
+{
+ "export": "C:\\w7\\ev152\\final_a1\\runs\\S7\\exports",
+ "rows": 706,
+ "problems": {},
+ "examples": {},
+ "combinations": [
+  [
+   "upc | carried_forward | absent_in_source | imported | ?",
+   1
+  ],
+  [
+   "upc | carried_forward | not_attempted | None | ?",
+   271
+  ],
+  [
+   "upc | carried_forward | recovered_from_saved_detail | fetched | LIVE",
+   12
+  ],
+  [
+   "upc | carried_forward | recovered_from_saved_detail | imported | ?",
+   375
+  ],
+  [
+   "upc | carried_forward | recovered_from_saved_detail | read_again | LIVE",
+   15
+  ],
+  [
+   "upc | imported page hash: of the page, index: of the file",
+   406
+  ],
+  [
+   "upc | read_again: the fetch is the replay's read of the source run's page",
+   15
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | fetched | LIVE",
+   2
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | imported | ?",
+   30
+  ],
+  [
+   "weight | carried_forward | absent_in_source | fetched | LIVE",
+   1
+  ],
+  [
+   "weight | carried_forward | absent_in_source | imported | ?",
+   5
+  ],
+  [
+   "weight | carried_forward | not_attempted | None | ?",
+   11
+  ],
+  [
+   "weight | carried_forward | present_in_listing | None | LIVE",
+   638
+  ],
+  [
+   "weight | carried_forward | recovered_from_saved_detail | imported | ?",
+   15
+  ],
+  [
+   "weight | carried_forward | recovered_from_saved_detail | read_again | LIVE",
+   1
+  ],
+  [
+   "weight | carried_forward | unresolved_conflict | imported | ?",
+   3
+  ],
+  [
+   "weight | imported page hash: of the page, index: of the file",
+   28
+  ],
+  [
+   "weight | read_again: the fetch is the replay's read of the source run's page",
+   1
+  ],
+  [
+   "weight | replayed | absent_in_source | imported | ?",
+   1
+  ],
+  [
+   "weight | replayed | present_in_listing | None | LIVE",
+   26
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | fetched | LIVE",
+   1
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | imported | ?",
+   4
+  ]
+ ]
+}

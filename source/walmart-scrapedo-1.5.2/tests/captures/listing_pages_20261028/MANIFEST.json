@@ -1,0 +1,36 @@
+[
+ {
+  "file": "strawberries_scrapedo_page1.html.gz",
+  "fetch_id": "01M60EXJRBN7XKX1S812SKBQJC",
+  "run_id": "01M60ESB2201KQ56K9GRTMY0V7",
+  "provider": "scrapedo",
+  "url": "https://www.walmart.com/browse/food/strawberries/976759_976793_9756351_3521037",
+  "fetched_at": "2026-10-28 05:14:55.627679+00",
+  "source": "operator evidence store: c140/evidence/runs/walmart_scrapedo/01M60ESB2201KQ56K9GRTMY0V7/live.tar, live/dom/01M60EXJRBN7XKX1S812SKBQJC.html.gz",
+  "source_sha256": "b860a84da19e67eb007752ee06ad572661313463960634afb0cd56a527c955cc",
+  "content_sha256": "a2f377129ca5d60f47903334c4b1784d6105456678ae43009132bd6a5c4da6d7",
+  "raw_original_body_sha256": "3ef121bf65f76d08c2270cfce32d4f16f4d4f01cc5423ef763ece6471d8c10a2",
+  "sanitized_again_1_4_1": {
+   "content_changed": false,
+   "values_redacted": 0,
+   "previous_content_sha256": "a2f377129ca5d60f47903334c4b1784d6105456678ae43009132bd6a5c4da6d7"
+  }
+ },
+ {
+  "file": "strawberries_oxylabs_page1.html.gz",
+  "fetch_id": "01M60GMZT54339VB9S4J3D5SBS",
+  "run_id": "01M60GKSSDDC2FPGSE9F0NNGWH",
+  "provider": "oxylabs",
+  "url": "https://www.walmart.com/browse/food/strawberries/976759_976793_9756351_3521037",
+  "fetched_at": "2026-10-28 05:45:11.237123+00",
+  "source": "operator evidence store: c140/evidence/runs/walmart_oxylabs/01M60GKSSDDC2FPGSE9F0NNGWH/live.tar, live/dom/01M60GMZT54339VB9S4J3D5SBS.html.gz",
+  "source_sha256": "6714f4c7e1e5f6bd06dced80d0b733026bd01e8efa0bb8d0729622ad8b4067c7",
+  "content_sha256": "e161c37db3b93f72833927c5bc7060434199ac9a895549742dc0a34e002fac0c",
+  "raw_original_body_sha256": "8ab99f30a4210c05cfd85acc271d2281502928751a982d3e13a5950e86fb6a2a",
+  "sanitized_again_1_4_1": {
+   "content_changed": false,
+   "values_redacted": 0,
+   "previous_content_sha256": "e161c37db3b93f72833927c5bc7060434199ac9a895549742dc0a34e002fac0c"
+  }
+ }
+]

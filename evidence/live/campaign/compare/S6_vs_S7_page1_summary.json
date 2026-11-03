@@ -1,0 +1,26 @@
+{
+ "label": "S6_vs_S7_page1",
+ "run_a": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+ "run_b": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+ "restricted_to_b_subcategories": true,
+ "restricted_to_page_1_of": [
+  "976759_976793_8910423"
+ ],
+ "fresh_a": 32,
+ "fresh_b": 32,
+ "in_both": 32,
+ "only_in_a": 0,
+ "only_in_b": 0,
+ "products_in_both_with_any_difference": 32,
+ "differences_by_field": {
+  "upc": 32,
+  "weight": 5
+ },
+ "by_subcategory": {
+  "Fresh Vegetables": {
+   "a": 32,
+   "b": 32
+  }
+ },
+ "output": "C:\\w7\\evidence\\live150\\compare\\S6_vs_S7_page1_products.csv"
+}

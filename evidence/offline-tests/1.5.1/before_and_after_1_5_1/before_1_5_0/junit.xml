@@ -1,0 +1,1268 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="29" skipped="0" tests="182" time="131.092" timestamp="2026-11-01T01:24:18.259858+00:00" hostname="(workstation)"><testcase classname="tests.unit.test_pack_size" name="test_a_net_content_label_does_not_hide_the_statement_and_stays_in_the_value" time="0.004" /><testcase classname="tests.unit.test_pack_size" name="test_the_size_specification_fills_an_empty_size_as_written" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_serving_size_unit_price_and_sibling_variants_are_kept_but_never_used" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_the_selected_variant_is_the_pack_not_its_siblings" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_real_cases_a_parent_net_content_against_its_own_declared_unit_is_a_conflict[162577028-4 Pound]" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_real_cases_a_parent_net_content_against_its_own_declared_unit_is_a_conflict[51259387-7 Pound]" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_real_cases_a_parent_net_content_against_its_own_declared_unit_is_a_conflict[40347953-8 Pound]" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_a_parent_net_content_that_agrees_with_its_declared_unit_still_fills_the_size" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_a_conflict_is_kept_and_no_value_is_chosen" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_real_case_item_49986668_title_and_page_disagree_on_loads" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_a_pack_the_title_states_explains_a_larger_size_on_the_page_and_nothing_else" time="0.002"><failure message="assert ('', 'title_c...erent mass&quot;,)) == ('', 'title_kept', ())&#10;  &#10;  At index 1 diff: 'title_conflict' != 'title_kept'&#10;  Use -v to get more diff">def test_a_pack_the_title_states_explains_a_larger_size_on_the_page_and_nothing_else() -&gt; None:
+        """Release 1.5.1: the title's size keeps its multipack ("2 pack, 16 lbs"). A page's "32 lb" differs from
+        it by that pack; checked only, nothing is computed. SYNTHETIC page shape."""
+        d = wps.pack_size(page({"Size": "32 lb"}), "2 pack, 16 lbs")
+&gt;       assert (d.value, d.outcome, d.conflicts) == ("", "title_kept", ())
+E       assert ('', 'title_c...erent mass",)) == ('', 'title_kept', ())
+E         
+E         At index 1 diff: 'title_conflict' != 'title_kept'
+E         Use -v to get more diff
+
+tests\unit\test_pack_size.py:129: AssertionError</failure></testcase><testcase classname="tests.unit.test_pack_size" name="test_units_are_converted_only_to_compare" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_a_multipack_stays_beside_the_size_and_is_never_multiplied" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_a_count_takes_its_unit_from_its_own_label" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_words_that_are_no_quantity_are_never_a_size" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_one_each_is_only_used_when_nothing_else_is_stated_and_never_conflicts" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_a_shipping_or_assembled_weight_is_not_a_pack" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_a_page_without_page_data_states_nothing" time="0.001" /><testcase classname="tests.unit.test_pack_size" name="test_a_title_that_agrees_keeps_its_own_text[16.9 fl oz, 24 Pack Bottles-16.9 fl oz]" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_a_title_that_agrees_keeps_its_own_text[12 oz Bag-12 oz]" time="0.002" /><testcase classname="tests.unit.test_pack_size" name="test_a_title_that_agrees_keeps_its_own_text[Pack of 4-]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Great Value Whole Vitamin D Milk, Gallon, 128 fl oz-Great Value-yes]" time="0.006" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Equate Beauty Micellar Cleansing Water, 13.5 fl oz-Equate Beauty-yes]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Parent's Choice Newborn Diapers, 84 Count-None-yes]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Parent\u2019s Choice Baby Wipes, 3 Packs-None-yes]" time="0.003" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Pen+Gear Composition Book, Wide Ruled-Pen+Gear-yes]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Pampers Swaddlers Diapers, Size 1, 84 Count-Pampers-no]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_brand_and_title_signals[Great Valley Farms Honey-None-no]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack-yes]" time="0.003"><failure message="AssertionError: assert 'no' == 'yes'&#10;  &#10;  - yes&#10;  + no">detector = &lt;walmart_headless.assembly.private_label.PrivateLabelDetector object at 0x000002B2DE8C9DF0&gt;
+title = "(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack"
+expected = 'yes'
+
+    @pytest.mark.parametrize(
+        ("title", "expected"),
+        [
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "yes"),
+            ("(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz", "yes"),
+            ("(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap",
+             "yes"),
+            ("Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag", "yes"),
+            ("Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz",
+             "yes"),
+            # A multipack of another brand stays "no", and a brand only compared to stays "no".
+            ("(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+             "44 lb Bag", "no"),
+            ("(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs", "no"),
+        ],
+    )  # fmt: skip
+    def test_a_brand_after_a_bracketed_multipack_or_a_listed_wording(
+        detector: PrivateLabelDetector, title: str, expected: str
+    ) -&gt; None:
+&gt;       assert detector.detect(title=title, upc=None, brand=None).value == expected
+E       AssertionError: assert 'no' == 'yes'
+E         
+E         - yes
+E         + no
+
+tests\unit\test_private_label.py:56: AssertionError</failure></testcase><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz-yes]" time="0.002"><failure message="AssertionError: assert 'no' == 'yes'&#10;  &#10;  - yes&#10;  + no">detector = &lt;walmart_headless.assembly.private_label.PrivateLabelDetector object at 0x000002B2DE8CB080&gt;
+title = "(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz"
+expected = 'yes'
+
+    @pytest.mark.parametrize(
+        ("title", "expected"),
+        [
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "yes"),
+            ("(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz", "yes"),
+            ("(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap",
+             "yes"),
+            ("Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag", "yes"),
+            ("Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz",
+             "yes"),
+            # A multipack of another brand stays "no", and a brand only compared to stays "no".
+            ("(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+             "44 lb Bag", "no"),
+            ("(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs", "no"),
+        ],
+    )  # fmt: skip
+    def test_a_brand_after_a_bracketed_multipack_or_a_listed_wording(
+        detector: PrivateLabelDetector, title: str, expected: str
+    ) -&gt; None:
+&gt;       assert detector.detect(title=title, upc=None, brand=None).value == expected
+E       AssertionError: assert 'no' == 'yes'
+E         
+E         - yes
+E         + no
+
+tests\unit\test_private_label.py:56: AssertionError</failure></testcase><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap\xae Aquarium Series Hand Soap-yes]" time="0.002"><failure message="AssertionError: assert 'no' == 'yes'&#10;  &#10;  - yes&#10;  + no">detector = &lt;walmart_headless.assembly.private_label.PrivateLabelDetector object at 0x000002B2DE8CBE90&gt;
+title = '(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap'
+expected = 'yes'
+
+    @pytest.mark.parametrize(
+        ("title", "expected"),
+        [
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "yes"),
+            ("(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz", "yes"),
+            ("(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap",
+             "yes"),
+            ("Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag", "yes"),
+            ("Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz",
+             "yes"),
+            # A multipack of another brand stays "no", and a brand only compared to stays "no".
+            ("(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+             "44 lb Bag", "no"),
+            ("(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs", "no"),
+        ],
+    )  # fmt: skip
+    def test_a_brand_after_a_bracketed_multipack_or_a_listed_wording(
+        detector: PrivateLabelDetector, title: str, expected: str
+    ) -&gt; None:
+&gt;       assert detector.detect(title=title, upc=None, brand=None).value == expected
+E       AssertionError: assert 'no' == 'yes'
+E         
+E         - yes
+E         + no
+
+tests\unit\test_private_label.py:56: AssertionError</failure></testcase><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag-yes]" time="0.003"><failure message="AssertionError: assert 'no' == 'yes'&#10;  &#10;  - yes&#10;  + no">detector = &lt;walmart_headless.assembly.private_label.PrivateLabelDetector object at 0x000002B2DE8D62D0&gt;
+title = 'Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag'
+expected = 'yes'
+
+    @pytest.mark.parametrize(
+        ("title", "expected"),
+        [
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "yes"),
+            ("(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz", "yes"),
+            ("(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap",
+             "yes"),
+            ("Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag", "yes"),
+            ("Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz",
+             "yes"),
+            # A multipack of another brand stays "no", and a brand only compared to stays "no".
+            ("(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+             "44 lb Bag", "no"),
+            ("(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs", "no"),
+        ],
+    )  # fmt: skip
+    def test_a_brand_after_a_bracketed_multipack_or_a_listed_wording(
+        detector: PrivateLabelDetector, title: str, expected: str
+    ) -&gt; None:
+&gt;       assert detector.detect(title=title, upc=None, brand=None).value == expected
+E       AssertionError: assert 'no' == 'yes'
+E         
+E         - yes
+E         + no
+
+tests\unit\test_private_label.py:56: AssertionError</failure></testcase><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz-yes]" time="0.003"><failure message="AssertionError: assert 'no' == 'yes'&#10;  &#10;  - yes&#10;  + no">detector = &lt;walmart_headless.assembly.private_label.PrivateLabelDetector object at 0x000002B2DE8D70E0&gt;
+title = "Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz"
+expected = 'yes'
+
+    @pytest.mark.parametrize(
+        ("title", "expected"),
+        [
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "yes"),
+            ("(4 pack) Parent's Choice Maximum Strength Diaper Rash Ointment with Zinc Oxide, 4 oz", "yes"),
+            ("(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap",
+             "yes"),
+            ("Organic Marketside Fresh Baby Peeled Carrots, 1 lb Bag", "yes"),
+            ("Children's Equate Cough &amp; Cold Relief DM, Multi-Symptom Liquid for Kids, Grape Flavor, 4 fl oz",
+             "yes"),
+            # A multipack of another brand stays "no", and a brand only compared to stays "no".
+            ("(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+             "44 lb Bag", "no"),
+            ("(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs", "no"),
+        ],
+    )  # fmt: skip
+    def test_a_brand_after_a_bracketed_multipack_or_a_listed_wording(
+        detector: PrivateLabelDetector, title: str, expected: str
+    ) -&gt; None:
+&gt;       assert detector.detect(title=title, upc=None, brand=None).value == expected
+E       AssertionError: assert 'no' == 'yes'
+E         
+E         - yes
+E         + no
+
+tests\unit\test_private_label.py:56: AssertionError</failure></testcase><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag-no]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_a_brand_after_a_bracketed_multipack_or_a_listed_wording[(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs-no]" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_a_title_that_only_mentions_a_listed_brand_further_along_is_no_signal" time="0.002" /><testcase classname="tests.unit.test_private_label" name="test_a_brand_outside_the_list_wins_over_a_title_signal_and_is_flagged" time="0.001" /><testcase classname="tests.unit.test_private_label" name="test_the_longest_brand_wins" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_both_price_layouts_are_read_as_displayed" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_upc_is_kept_only_when_the_page_states_one_and_never_made_from_the_item_id" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Great Value Whole Vitamin D Milk, Gallon, 128 fl oz-128 fl oz]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Coca-Cola Soda Pop, 16.9 fl oz, 24 Pack Bottles-16.9 fl oz, 24 Pack Bottles]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Pampers Swaddlers Diapers, Size 1, 84 Count-84 Count]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Bananas, approx 1.5 lb-approx 1.5 lb]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[LEGO Creator Set, 3 in 1-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Gain Flings! 76 Ct Laundry Detergent Pacs, Original Scent-76 Ct]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Party Balloons, Pack of 15-Pack of 15]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[No size here-]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Pampers Diapers, Size 5, 66 Count (Select for More Options)-66 Count]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Pampers Wipes, 9 Pack, 648 Wipes (Select for More Options)-9 Pack, 648 Wipes]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Fairlife Chocolate Milk, 32 fl oz (Shelf-Stable)-32 fl oz]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Nabisco Snacks, 12.2 oz (6 Multi Snack Packs)-12.2 oz (6 Multi Snack Packs)]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[20 Mule Team Borax Booster, 65 Ounce-65 Ounce]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Johnson's Baby Gift Set, 3 Items-3 Items]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Bounty Paper Towels, 24-Pack-24-Pack]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Head &amp; Shoulders, 2-in-1 Shampoo-]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_size_is_the_titles_trailing_size_segments[Great Value Coconut Milk, 13.5 fl oz, Can-13.5 fl oz]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Fresh Cranberries, 12 oz Bag, Whole Fruit, Perfect for Cooking and Baking-12 oz Bag-title_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Marketside Cantaloupe Chunks, 10 oz, Pre-Cut (Fresh)-10 oz-title_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Fresh SunGold Kiwi, 1lb, Package-1lb-title_segments]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Taylor Farms Protein Plus Mini Meal Snack Tray with Fresh Fruit 7.5 oz-7.5 oz-in_title]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Natural Delights Pitted Medjool Dates 8oz Pouch-8oz-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Crunch Pak Family Sized 24oz Bag of Peeled Sweet Sliced Apples-24oz-in_title]" time="0.003" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Red Delicious Apples 5 Lb Bag-5 Lb-in_title]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Rambutan Bag 12oz-12oz-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Similac NeoSure Premature Post-Discharge Baby Formula Powder, 13.1-oz Can-13.1-oz-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Pampers Swaddlers Newborn Diapers Size N 32 count-32 count-in_title]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Desitin Maximum Strength Diaper Rash Paste 4 oz (Pack of 4)-4 oz (Pack of 4)-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Sun Date Premium Organic California Medjool Dates 2 lbs. (Pack of 2)-2 lbs. (Pack of 2)-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Freshness Guaranteed Ready-to-Serve Garden Pasta Salad (14 Ounce, 1 Count), Fresh-14 Ounce, 1 Count-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Huggies Wipes with Aloe &amp; Vitamin E, Unscented, 1 Flip-Top Pack, (56 Wipes)-56 Wipes-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Fresh Organic Limes, 1 lb Bag-1 lb Bag-trailing_segments]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[(6 pack) Enfamil Infant Powder Baby Formula with Iron 12.5 oz Can-6 pack, 12.5 oz-multipack_in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Blue Buffalo Wilderness Lamb Chicken-Free Formula 38 g Protein Meat Rich Natural Adult Dry Dog Food 24 lbs.--ambiguous]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[10 Pack Large Balloon Arch Clips 3.5 Inch Heavy Duty Clip and 100 Pcs Clear 260 Long Balloons--ambiguous]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Gender Reveal Confetti Balloon 36 Inch Big Black Balloons with Pink and Blue Confetti--dimension_only]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_sizes_written_inside_authentic_titles_are_read_as_written[Fresh Butternut Squash, Each--none]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Fresh Mandarin Oranges, 3 lb Bag - Naturally Ripened Citrus Fruit-3 lb Bag - Naturally Ripened Citrus Fruit-3 lb Bag]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Fresh Organic Lemons, 2 lb - Juicy, Non-GMO, Ready-to-Use Citrus Fruits-2 lb - Juicy-2 lb]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Fresh Whole Celery, 1ea Premium Quality, Rich in antioxidants-1ea Premium Quality-1ea]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Mainstays Lint Roller, 60 Sheets Easy Tear, Ergonomic Handle, Removes Lint and Pet Hair from Clothing, Furniture, Crafts, Travel-60 Sheets Easy Tear-60 Sheets]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Xtra Tropical Passion, 84 Loads Liquid Laundry Detergent, 100.8 fl oz-84 Loads Liquid Laundry Detergent, 100.8 fl oz-84 Loads, 100.8 fl oz]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[(6 pack) StarKist Chicken Creations, Chicken Salad, Gluten Free, 10g Protein, 2.6 oz Pouch-10g Protein, 2.6 oz Pouch-6 pack, 2.6 oz Pouch]" time="0.002"><failure message="AssertionError: assert '2.6 oz Pouch' == '6 pack, 2.6 oz Pouch'&#10;  &#10;  - 6 pack, 2.6 oz Pouch&#10;  ? --------&#10;  + 2.6 oz Pouch">title = '(6 pack) StarKist Chicken Creations, Chicken Salad, Gluten Free, 10g Protein, 2.6 oz Pouch'
+exported_1_3_0 = '10g Protein, 2.6 oz Pouch', size = '6 pack, 2.6 oz Pouch'
+
+    @pytest.mark.parametrize(
+        ("title", "exported_1_3_0", "size"),
+        [
+            (
+                "Fresh Mandarin Oranges, 3 lb Bag - Naturally Ripened Citrus Fruit",
+                "3 lb Bag - Naturally Ripened Citrus Fruit",
+                "3 lb Bag",
+            ),
+            ("Fresh Organic Lemons, 2 lb - Juicy, Non-GMO, Ready-to-Use Citrus Fruits", "2 lb - Juicy", "2 lb"),
+            ("Fresh Whole Celery, 1ea Premium Quality, Rich in antioxidants", "1ea Premium Quality", "1ea"),
+            (
+                "Mainstays Lint Roller, 60 Sheets Easy Tear, Ergonomic Handle, Removes Lint and Pet Hair from "
+                "Clothing, Furniture, Crafts, Travel",
+                "60 Sheets Easy Tear",
+                "60 Sheets",
+            ),
+            (
+                "Xtra Tropical Passion, 84 Loads Liquid Laundry Detergent, 100.8 fl oz",
+                "84 Loads Liquid Laundry Detergent, 100.8 fl oz",
+                "84 Loads, 100.8 fl oz",
+            ),
+            # A quantity followed by a nutrient is a nutrition claim, not the package's size.
+            # (Release 1.5.1: the title's multipack stays beside the size; until 1.5.0 this gave "2.6 oz Pouch".)
+            (
+                "(6 pack) StarKist Chicken Creations, Chicken Salad, Gluten Free, 10g Protein, 2.6 oz Pouch",
+                "10g Protein, 2.6 oz Pouch",
+                "6 pack, 2.6 oz Pouch",
+            ),
+            (
+                "Old Spice Holiday Gift Pack for Men, Fiji, Body Wash, Deodorant, Antiperspirant &amp; Deodorant, "
+                "2-in-1 Shampoo + Conditioner, Palm Tree + Coconut Scent, 4 Pack Gift Box for Him",
+                "4 Pack Gift Box for Him",
+                "4 Pack Gift Box",
+            ),
+            # Unchanged: the package, its period and its count belong to the size.
+            ("Gravy Train Beefy Classic Dry Dog Food, 13 lb. Bag", "13 lb. Bag", "13 lb. Bag"),
+            ("Fresh Raspberries, 12 oz. Container", "12 oz. Container", "12 oz. Container"),
+            (
+                "Little Leaf Farms Baby Crispy Green Leaf Lettuce Salad, 8 oz Clam Shell, Fresh",
+                "8 oz Clam Shell",
+                "8 oz Clam Shell",
+            ),
+            (
+                "Pampers Wipes, Clean &amp; Calm, Cotton Blossom Scent, 168 Wipes Total (3X Pop-Top Packs)",
+                "168 Wipes Total (3X Pop-Top Packs)",
+                "168 Wipes Total (3X Pop-Top Packs)",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_size_segment_ends_where_the_products_description_begins(
+        title: str, exported_1_3_0: str, size: str
+    ) -&gt; None:
+&gt;       assert wrec.title_size(title) == size
+E       AssertionError: assert '2.6 oz Pouch' == '6 pack, 2.6 oz Pouch'
+E         
+E         - 6 pack, 2.6 oz Pouch
+E         ? --------
+E         + 2.6 oz Pouch
+
+tests\unit\test_walmart.py:255: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Old Spice Holiday Gift Pack for Men, Fiji, Body Wash, Deodorant, Antiperspirant &amp; Deodorant, 2-in-1 Shampoo + Conditioner, Palm Tree + Coconut Scent, 4 Pack Gift Box for Him-4 Pack Gift Box for Him-4 Pack Gift Box]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Gravy Train Beefy Classic Dry Dog Food, 13 lb. Bag-13 lb. Bag-13 lb. Bag]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Fresh Raspberries, 12 oz. Container-12 oz. Container-12 oz. Container]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Little Leaf Farms Baby Crispy Green Leaf Lettuce Salad, 8 oz Clam Shell, Fresh-8 oz Clam Shell-8 oz Clam Shell]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_segment_ends_where_the_products_description_begins[Pampers Wipes, Clean &amp; Calm, Cotton Blossom Scent, 168 Wipes Total (3X Pop-Top Packs)-168 Wipes Total (3X Pop-Top Packs)-168 Wipes Total (3X Pop-Top Packs)]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Fresh Black Seedless Grapes, From California, Bag (2.25 lbs/Bag Est.)-2.25 lbs/Bag Est.]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Fresh Red Globe Seeded Grapes, Bag (2.25 lbs/Bag Est.)-2.25 lbs/Bag Est.]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Green Seedless Grapes From California, Bag (2.25 lbs/Bag Est.)-2.25 lbs/Bag Est.]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Red Seedless Grapes, From California, Bag (2.25 lbs/Bag Est.)-2.25 lbs/Bag Est.]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Fresh Tomato on the Vine, Bag (1.9 lbs/Bag Est.)-1.9 lbs/Bag Est.]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Bananas, approx 1.5 lb-approx 1.5 lb]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Ground Beef, about 2 lb Package-about 2 lb]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Fresh Avocado, Each (est. 0.4 lb)-est. 0.4 lb]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Pork Shoulder, ~3 lb-~3 lb]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Salmon Fillet, 1.25 lb avg.-1.25 lb avg.]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[About Time Protein Bar, 12 ct-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Best Choice Peanut Butter, 16 oz-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Est\xe9e Lauder Double Wear, 1 fl oz-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Average Joe's Coffee, 12 oz-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_approximate_weight_wording_is_found_in_the_title_even_without_a_weight[Ground Beef 80/20, 1 lb (approximately 4 servings)-]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_product_with_an_approximate_title_weight_is_excluded_with_its_evidence" time="0.003" /><testcase classname="tests.unit.test_walmart" name="test_a_sale_keeps_both_displayed_prices_and_a_range_is_never_turned_into_a_price" time="0.003" /><testcase classname="tests.unit.test_walmart" name="test_local_offer_rules" time="0.003" /><testcase classname="tests.unit.test_walmart" name="test_out_of_stock_with_the_stores_pickup_line_keeps_the_stores_price" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_records_follow_the_22_field_contract_and_the_exclusion_rules" time="0.004" /><testcase classname="tests.unit.test_walmart" name="test_an_unverified_page_never_yields_a_located_record" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_deal_wording_is_separated_from_sale_merchandising_and_rewards" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_family_size_or_multipack_title_is_not_a_volume_deal" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_category_page_links_pagination_and_store_page" time="0.003" /><testcase classname="tests.unit.test_walmart" name="test_the_sanitizer_keeps_the_page_data_and_removes_session_identifiers" time="0.004" /><testcase classname="tests.unit.test_walmart" name="test_the_sanitizer_redacts_camel_case_session_and_trace_identifiers" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_walmart_challenge_pages_are_refusals_and_a_page_without_its_data_is_not_content" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_store_page_without_a_store_object_is_read_from_its_displayed_address" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_challenge_dialog_added_at_the_end_of_a_large_page_is_detected" time="0.090" /><testcase classname="tests.unit.test_walmart" name="test_a_bot_manager_block_answer_to_a_data_request_is_a_refusal" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_the_sanitizer_removes_third_party_api_keys_embedded_by_the_site" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_sizes_and_packs_of_one_product_stay_separate_records" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_listing_page_states_its_own_name_and_category_path" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_configured_listings_under_the_rows_category_are_read_directly" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Clorox No Splash Bleach, 40 Fluid Ounces-40 Fluid Ounces]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[HALLS Cough and Throat Relief Mountain Menthol Sugar Free Cough Drops, Value Pack, 70 Drops-70 Drops]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Sambucol Cold and Flu Relief Tablets, Homeopathic Black Elderberry, 30 Tabs-30 Tabs]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Purina Moist and Meaty Rise and Shine Awaken Bacon and Egg Flavor Soft Dog Food, 12 Pouches-12 Pouches]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Equate Cough &amp; Cold 60mg Compare to Maximum Strength Mucinex\xae DM Active Ingredients 14 Tablets for Congestion-14 Tablets]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[L'Oreal Paris EverPure Moisture Sulfate Free Shampoo and Conditioner, 1 Kit-1 Kit]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Fresh Produce, Whole Red Radish, 1 Bunch-1 Bunch]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_size_the_title_states_is_read_as_written[Fresh Whole Green Onion 1 Bunch, Fresh Produce-1 Bunch]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_multipack_in_the_title_keeps_its_count_and_its_unit_size_never_multiplied" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs-16 lbs-2 pack, 16 lbs]" time="0.002"><failure message="AssertionError: assert '16 lbs' != '16 lbs'&#10; +  where '16 lbs' = SizeEvidence(value='16 lbs', outcome='trailing_segments', candidates=()).value">title = '(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs'
+size_until_1_5_0 = '16 lbs', size = '2 pack, 16 lbs'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '16 lbs' != '16 lbs'
+E        +  where '16 lbs' = SizeEvidence(value='16 lbs', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag-44 lb Bag-3 pack, 44 lb Bag]" time="0.002"><failure message="AssertionError: assert '44 lb Bag' != '44 lb Bag'&#10; +  where '44 lb Bag' = SizeEvidence(value='44 lb Bag', outcome='trailing_segments', candidates=()).value">title = '(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag'
+size_until_1_5_0 = '44 lb Bag', size = '3 pack, 44 lb Bag'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '44 lb Bag' != '44 lb Bag'
+E        +  where '44 lb Bag' = SizeEvidence(value='44 lb Bag', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs-15 lbs-5 pack, 15 lbs]" time="0.002"><failure message="AssertionError: assert '15 lbs' != '15 lbs'&#10; +  where '15 lbs' = SizeEvidence(value='15 lbs', outcome='trailing_segments', candidates=()).value">title = '(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs'
+size_until_1_5_0 = '15 lbs', size = '5 pack, 15 lbs'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '15 lbs' != '15 lbs'
+E        +  where '15 lbs' = SizeEvidence(value='15 lbs', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack-1 Pack-2 pack, 1 Pack]" time="0.002"><failure message="AssertionError: assert '1 Pack' != '1 Pack'&#10; +  where '1 Pack' = SizeEvidence(value='1 Pack', outcome='trailing_segments', candidates=()).value">title = "(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack"
+size_until_1_5_0 = '1 Pack', size = '2 pack, 1 Pack'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '1 Pack' != '1 Pack'
+E        +  where '1 Pack' = SizeEvidence(value='1 Pack', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap\xae Aquarium Series Hand Soap-50 fl oz-3 pack, 50 fl oz]" time="0.002"><failure message="AssertionError: assert '50 fl oz' != '50 fl oz'&#10; +  where '50 fl oz' = SizeEvidence(value='50 fl oz', outcome='title_segments', candidates=()).value">title = '(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series Hand Soap'
+size_until_1_5_0 = '50 fl oz', size = '3 pack, 50 fl oz'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '50 fl oz' != '50 fl oz'
+E        +  where '50 fl oz' = SizeEvidence(value='50 fl oz', outcome='title_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count-45 Count-6 pack, 45 Count]" time="0.002"><failure message="AssertionError: assert '45 Count' != '45 Count'&#10; +  where '45 Count' = SizeEvidence(value='45 Count', outcome='trailing_segments', candidates=()).value">title = '(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count'
+size_until_1_5_0 = '45 Count', size = '6 pack, 45 Count'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '45 Count' != '45 Count'
+E        +  where '45 Count' = SizeEvidence(value='45 Count', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_a_multipack_outside_the_size_segment_stays_beside_the_size[Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for Kids 2+-3 oz Cans-8-Pack, 3 oz Cans]" time="0.002"><failure message="AssertionError: assert '3 oz Cans' != '3 oz Cans'&#10; +  where '3 oz Cans' = SizeEvidence(value='3 oz Cans', outcome='title_segments', candidates=()).value">title = 'Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for Kids 2+'
+size_until_1_5_0 = '3 oz Cans', size = '8-Pack, 3 oz Cans'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size"),
+        [
+            (
+                "(2 pack) Pure Balance Pro+ Large Breed Chicken &amp; Brown Rice Recipe Dry Dog Food, 16 lbs",
+                "16 lbs",
+                "2 pack, 16 lbs",
+            ),
+            (
+                "(3 pack) Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, "
+                "44 lb Bag",
+                "44 lb Bag",
+                "3 pack, 44 lb Bag",
+            ),
+            ("(5 pack) Pure Balance Chicken &amp; Brown Rice Recipe Dry Dog Food, 15 lbs", "15 lbs",
+             "5 pack, 15 lbs"),
+            # The source states both quantities: both stay as written, neither is chosen or multiplied.
+            ("(2 pack) Ol' Roy Natural Large Beef Femur Dog Chew for Healthy Teeth, 1 Pack", "1 Pack",
+             "2 pack, 1 Pack"),
+            # A size among the segments, not the last one.
+            (
+                "(3 pack) Equate Liquid Hand Soap, Clear, 50 fl oz, Compare to Softsoap® Aquarium Series "
+                "Hand Soap",
+                "50 fl oz",
+                "3 pack, 50 fl oz",
+            ),
+            # A word that is no pack quantity ("Value Pack") stays out of it.
+            (
+                "(6 pack) Ricola Honey Herb Cough Drops for Sore Throat and Cough Relief, Value Pack, 45 Count",
+                "45 Count",
+                "6 pack, 45 Count",
+            ),
+            # Without brackets: a pack quantity outside the size's segment.
+            (
+                "Play-Doh 8-Pack Rainbow Colors Modeling Compound, 3 oz Cans, Classroom Arts &amp; Crafts for "
+                "Kids 2+",
+                "3 oz Cans",
+                "8-Pack, 3 oz Cans",
+            ),
+        ],
+    )  # fmt: skip
+    def test_a_multipack_outside_the_size_segment_stays_beside_the_size(
+        title: str, size_until_1_5_0: str, size: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '3 oz Cans' != '3 oz Cans'
+E        +  where '3 oz Cans' = SizeEvidence(value='3 oz Cans', outcome='title_segments', candidates=()).value
+
+tests\unit\test_walmart.py:697: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example Paste, 4 oz (Pack of 4)-4 oz (Pack of 4)-trailing_segments-candidates0]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example Soda, 12 fl oz, 12 Pack Cans-12 fl oz, 12 Pack Cans-trailing_segments-candidates1]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[(2-Pack) Example Soda, 2 Pack, 12 oz-2 Pack, 12 oz-trailing_segments-candidates2]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[(2 pack) Example Soda, 12 Pack-2 pack, 12 Pack-multipack_in_title-candidates3]" time="0.003"><failure message="AssertionError: assert ('12 Pack', '...segments', ()) == ('2 pack, 12 ...', '12 Pack'))&#10;  &#10;  At index 0 diff: '12 Pack' != '2 pack, 12 Pack'&#10;  Use -v to get more diff">title = '(2 pack) Example Soda, 12 Pack', size = '2 pack, 12 Pack'
+outcome = 'multipack_in_title', candidates = ('2 pack', '12 Pack')
+
+    @pytest.mark.parametrize(
+        ("title", "size", "outcome", "candidates"),
+        [
+            # SYNTHETIC titles for the rule's limits: the stored pages hold no title of these shapes.
+            # The size already holds its pack: nothing is added or repeated.
+            ("Example Paste, 4 oz (Pack of 4)", "4 oz (Pack of 4)", "trailing_segments", ()),
+            ("Example Soda, 12 fl oz, 12 Pack Cans", "12 fl oz, 12 Pack Cans", "trailing_segments", ()),
+            # The same pack quantity on both sides is one statement, in any spelling.
+            ("(2-Pack) Example Soda, 2 Pack, 12 oz", "2 Pack, 12 oz", "trailing_segments", ()),
+            # "2 pack" is not found inside "12 Pack".
+            ("(2 pack) Example Soda, 12 Pack", "2 pack, 12 Pack", "multipack_in_title", ("2 pack", "12 Pack")),
+            # Without brackets, one pack is not a multipack.
+            ("Example 1-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            # Two different quantities and nothing to tell them apart: neither is chosen, the size stands.
+            ("Example 2-Pack Soap 3-Pack Refill, 12 oz", "12 oz", "trailing_segments", ("2-Pack", "3-Pack")),
+            # A bracket tells them apart.
+            ("(2 pack) Example 3-Pack Soap, 12 oz", "2 pack, 12 oz", "multipack_in_title", ("2 pack", "12 oz")),
+            # Not a quantity of packs: a model number and a word.
+            ("Example Model#2-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            ("Example Family Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+        ],
+    )  # fmt: skip
+    def test_the_limits_of_keeping_a_multipack_beside_the_size(
+        title: str, size: str, outcome: str, candidates: tuple[str, ...]
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert (out.value, out.outcome, out.candidates) == (size, outcome, candidates)
+E       AssertionError: assert ('12 Pack', '...segments', ()) == ('2 pack, 12 ...', '12 Pack'))
+E         
+E         At index 0 diff: '12 Pack' != '2 pack, 12 Pack'
+E         Use -v to get more diff
+
+tests\unit\test_walmart.py:727: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example 1-Pack Soap, 12 oz-12 oz-trailing_segments-candidates4]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example 2-Pack Soap 3-Pack Refill, 12 oz-12 oz-trailing_segments-candidates5]" time="0.002"><failure message="AssertionError: assert ('12 oz', 'tr...segments', ()) == ('12 oz', 'tr...k', '3-Pack'))&#10;  &#10;  At index 2 diff: () != ('2-Pack', '3-Pack')&#10;  Use -v to get more diff">title = 'Example 2-Pack Soap 3-Pack Refill, 12 oz', size = '12 oz'
+outcome = 'trailing_segments', candidates = ('2-Pack', '3-Pack')
+
+    @pytest.mark.parametrize(
+        ("title", "size", "outcome", "candidates"),
+        [
+            # SYNTHETIC titles for the rule's limits: the stored pages hold no title of these shapes.
+            # The size already holds its pack: nothing is added or repeated.
+            ("Example Paste, 4 oz (Pack of 4)", "4 oz (Pack of 4)", "trailing_segments", ()),
+            ("Example Soda, 12 fl oz, 12 Pack Cans", "12 fl oz, 12 Pack Cans", "trailing_segments", ()),
+            # The same pack quantity on both sides is one statement, in any spelling.
+            ("(2-Pack) Example Soda, 2 Pack, 12 oz", "2 Pack, 12 oz", "trailing_segments", ()),
+            # "2 pack" is not found inside "12 Pack".
+            ("(2 pack) Example Soda, 12 Pack", "2 pack, 12 Pack", "multipack_in_title", ("2 pack", "12 Pack")),
+            # Without brackets, one pack is not a multipack.
+            ("Example 1-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            # Two different quantities and nothing to tell them apart: neither is chosen, the size stands.
+            ("Example 2-Pack Soap 3-Pack Refill, 12 oz", "12 oz", "trailing_segments", ("2-Pack", "3-Pack")),
+            # A bracket tells them apart.
+            ("(2 pack) Example 3-Pack Soap, 12 oz", "2 pack, 12 oz", "multipack_in_title", ("2 pack", "12 oz")),
+            # Not a quantity of packs: a model number and a word.
+            ("Example Model#2-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            ("Example Family Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+        ],
+    )  # fmt: skip
+    def test_the_limits_of_keeping_a_multipack_beside_the_size(
+        title: str, size: str, outcome: str, candidates: tuple[str, ...]
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert (out.value, out.outcome, out.candidates) == (size, outcome, candidates)
+E       AssertionError: assert ('12 oz', 'tr...segments', ()) == ('12 oz', 'tr...k', '3-Pack'))
+E         
+E         At index 2 diff: () != ('2-Pack', '3-Pack')
+E         Use -v to get more diff
+
+tests\unit\test_walmart.py:727: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[(2 pack) Example 3-Pack Soap, 12 oz-2 pack, 12 oz-multipack_in_title-candidates6]" time="0.002"><failure message="AssertionError: assert ('12 oz', 'tr...segments', ()) == ('2 pack, 12 ...ck', '12 oz'))&#10;  &#10;  At index 0 diff: '12 oz' != '2 pack, 12 oz'&#10;  Use -v to get more diff">title = '(2 pack) Example 3-Pack Soap, 12 oz', size = '2 pack, 12 oz'
+outcome = 'multipack_in_title', candidates = ('2 pack', '12 oz')
+
+    @pytest.mark.parametrize(
+        ("title", "size", "outcome", "candidates"),
+        [
+            # SYNTHETIC titles for the rule's limits: the stored pages hold no title of these shapes.
+            # The size already holds its pack: nothing is added or repeated.
+            ("Example Paste, 4 oz (Pack of 4)", "4 oz (Pack of 4)", "trailing_segments", ()),
+            ("Example Soda, 12 fl oz, 12 Pack Cans", "12 fl oz, 12 Pack Cans", "trailing_segments", ()),
+            # The same pack quantity on both sides is one statement, in any spelling.
+            ("(2-Pack) Example Soda, 2 Pack, 12 oz", "2 Pack, 12 oz", "trailing_segments", ()),
+            # "2 pack" is not found inside "12 Pack".
+            ("(2 pack) Example Soda, 12 Pack", "2 pack, 12 Pack", "multipack_in_title", ("2 pack", "12 Pack")),
+            # Without brackets, one pack is not a multipack.
+            ("Example 1-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            # Two different quantities and nothing to tell them apart: neither is chosen, the size stands.
+            ("Example 2-Pack Soap 3-Pack Refill, 12 oz", "12 oz", "trailing_segments", ("2-Pack", "3-Pack")),
+            # A bracket tells them apart.
+            ("(2 pack) Example 3-Pack Soap, 12 oz", "2 pack, 12 oz", "multipack_in_title", ("2 pack", "12 oz")),
+            # Not a quantity of packs: a model number and a word.
+            ("Example Model#2-Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+            ("Example Family Pack Soap, 12 oz", "12 oz", "trailing_segments", ()),
+        ],
+    )  # fmt: skip
+    def test_the_limits_of_keeping_a_multipack_beside_the_size(
+        title: str, size: str, outcome: str, candidates: tuple[str, ...]
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert (out.value, out.outcome, out.candidates) == (size, outcome, candidates)
+E       AssertionError: assert ('12 oz', 'tr...segments', ()) == ('2 pack, 12 ...ck', '12 oz'))
+E         
+E         At index 0 diff: '12 oz' != '2 pack, 12 oz'
+E         Use -v to get more diff
+
+tests\unit\test_walmart.py:727: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example Model#2-Pack Soap, 12 oz-12 oz-trailing_segments-candidates7]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_keeping_a_multipack_beside_the_size[Example Family Pack Soap, 12 oz-12 oz-trailing_segments-candidates8]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, 8 fl oz-20mg/400mg, 8 fl oz-8 fl oz-trailing_segments]" time="0.002"><failure message="AssertionError: assert '20mg/400mg, 8 fl oz' != '20mg/400mg, 8 fl oz'&#10; +  where '20mg/400mg, 8 fl oz' = SizeEvidence(value='20mg/400mg, 8 fl oz', outcome='trailing_segments', candidates=()).value">title = 'Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, 8 fl oz'
+size_until_1_5_0 = '20mg/400mg, 8 fl oz', size = '8 fl oz'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '20mg/400mg, 8 fl oz' != '20mg/400mg, 8 fl oz'
+E        +  where '20mg/400mg, 8 fl oz' = SizeEvidence(value='20mg/400mg, 8 fl oz', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, 16 Count-10 mg, 16 Count-16 Count-trailing_segments]" time="0.002"><failure message="AssertionError: assert '10 mg, 16 Count' != '10 mg, 16 Count'&#10; +  where '10 mg, 16 Count' = SizeEvidence(value='10 mg, 16 Count', outcome='trailing_segments', candidates=()).value">title = "Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, 16 Count"
+size_until_1_5_0 = '10 mg, 16 Count', size = '16 Count'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '10 mg, 16 Count' != '10 mg, 16 Count'
+E        +  where '10 mg, 16 Count' = SizeEvidence(value='10 mg, 16 Count', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, 14 Count-1200 mg, 14 Count-14 Count-trailing_segments]" time="0.002"><failure message="AssertionError: assert '1200 mg, 14 Count' != '1200 mg, 14 Count'&#10; +  where '1200 mg, 14 Count' = SizeEvidence(value='1200 mg, 14 Count', outcome='trailing_segments', candidates=()).value">title = 'Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, 14 Count'
+size_until_1_5_0 = '1200 mg, 14 Count', size = '14 Count'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '1200 mg, 14 Count' != '1200 mg, 14 Count'
+E        +  where '1200 mg, 14 Count' = SizeEvidence(value='1200 mg, 14 Count', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count-600 mg, 20 Count-20 Count-trailing_segments]" time="0.003"><failure message="AssertionError: assert '600 mg, 20 Count' != '600 mg, 20 Count'&#10; +  where '600 mg, 20 Count' = SizeEvidence(value='600 mg, 20 Count', outcome='trailing_segments', candidates=()).value">title = 'Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count'
+size_until_1_5_0 = '600 mg, 20 Count', size = '20 Count'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '600 mg, 20 Count' != '600 mg, 20 Count'
+E        +  where '600 mg, 20 Count' = SizeEvidence(value='600 mg, 20 Count', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[HealthA2Z\xae Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release-600 mg-300 Counts-in_title]" time="0.003"><failure message="AssertionError: assert '600 mg' != '600 mg'&#10; +  where '600 mg' = SizeEvidence(value='600 mg', outcome='in_title', candidates=()).value">title = 'HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release'
+size_until_1_5_0 = '600 mg', size = '300 Counts', outcome = 'in_title'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '600 mg' != '600 mg'
+E        +  where '600 mg' = SizeEvidence(value='600 mg', outcome='in_title', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, 6 Pack-2.9 in, 6 Pack-6 Pack-trailing_segments]" time="0.004"><failure message="AssertionError: assert '2.9 in, 6 Pack' != '2.9 in, 6 Pack'&#10; +  where '2.9 in, 6 Pack' = SizeEvidence(value='2.9 in, 6 Pack', outcome='trailing_segments', candidates=()).value">title = 'S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, 6 Pack'
+size_until_1_5_0 = '2.9 in, 6 Pack', size = '6 Pack'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '2.9 in, 6 Pack' != '2.9 in, 6 Pack'
+E        +  where '2.9 in, 6 Pack' = SizeEvidence(value='2.9 in, 6 Pack', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, Safe Locking Closures-2.2in-100 Pcs-in_title]" time="0.003"><failure message="AssertionError: assert '2.2in' != '2.2in'&#10; +  where '2.2in' = SizeEvidence(value='2.2in', outcome='title_segments', candidates=()).value">title = 'OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, Safe Locking Closures'
+size_until_1_5_0 = '2.2in', size = '100 Pcs', outcome = 'in_title'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '2.2in' != '2.2in'
+E        +  where '2.2in' = SizeEvidence(value='2.2in', outcome='title_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Utopia Home Folding Step Stool with Handle, Black \u2013 Anti-Slip, Holds Up to 300 lbs, for Kitchen, Bathroom &amp; Home Use, 9 Inch-9 Inch--dimension_only]" time="0.003"><failure message="AssertionError: assert '9 Inch' != '9 Inch'&#10; +  where '9 Inch' = SizeEvidence(value='9 Inch', outcome='trailing_segments', candidates=()).value">title = 'Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, Bathroom &amp; Home Use, 9 Inch'
+size_until_1_5_0 = '9 Inch', size = '', outcome = 'dimension_only'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '9 Inch' != '9 Inch'
+E        +  where '9 Inch' = SizeEvidence(value='9 Inch', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds-50 Pounds--none]" time="0.003"><failure message="AssertionError: assert '50 Pounds' != '50 Pounds'&#10; +  where '50 Pounds' = SizeEvidence(value='50 Pounds', outcome='in_title', candidates=()).value">title = 'Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds'
+size_until_1_5_0 = '50 Pounds', size = '', outcome = 'none'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '50 Pounds' != '50 Pounds'
+E        +  where '50 Pounds' = SizeEvidence(value='50 Pounds', outcome='in_title', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads-105 Loads-105 fl oz, 105 Loads-trailing_segments]" time="0.004"><failure message="AssertionError: assert '105 Loads' != '105 Loads'&#10; +  where '105 Loads' = SizeEvidence(value='105 Loads', outcome='trailing_segments', candidates=()).value">title = 'ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads'
+size_until_1_5_0 = '105 Loads', size = '105 fl oz, 105 Loads'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '105 Loads' != '105 Loads'
+E        +  where '105 Loads' = SizeEvidence(value='105 Loads', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_what_a_title_says_about_the_product_is_not_the_size_of_its_package[ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads-170 Loads-170 fl oz, 170 Loads-trailing_segments]" time="0.003"><failure message="AssertionError: assert '170 Loads' != '170 Loads'&#10; +  where '170 Loads' = SizeEvidence(value='170 Loads', outcome='trailing_segments', candidates=()).value">title = 'ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads'
+size_until_1_5_0 = '170 Loads', size = '170 fl oz, 170 Loads'
+outcome = 'trailing_segments'
+
+    @pytest.mark.parametrize(
+        ("title", "size_until_1_5_0", "size", "outcome"),
+        [
+            # A medicine's strength is not the size of the pack, when the title also states one.
+            ("Equate Alcohol-Free Dextromethorphan Guaifenesin Relief Liquid for Chest Congestion, 20mg/400mg, "
+             "8 fl oz",
+             "20mg/400mg, 8 fl oz", "8 fl oz", "trailing_segments"),
+            ("Equate Children's Cough Relief Dextromethorphan HBr Chewable Tablets, Citrus Punch Flavor, 10 mg, "
+             "16 Count",
+             "10 mg, 16 Count", "16 Count", "trailing_segments"),
+            ("Equate Maximum Strength Mucus Relief Guaifenesin Extended-Release Expectorant Tablets,1200 mg, "
+             "14 Count",
+             "1200 mg, 14 Count", "14 Count", "trailing_segments"),
+            ("Equate Mucus Relief DM Guaifenesin Expectorant &amp; Cough Suppressant Tablets, 600 mg, 20 Count",
+             "600 mg, 20 Count", "20 Count", "trailing_segments"),
+            # "Counts" is a count unit as "Count" is: the title's size, and the strength beside it steps aside.
+            ("HealthA2Z® Mucus Relief | Guaifenesin 600 mg | 12 Hour | 300 Counts | No Benzene | Expectorant | "
+             "Relieves Chest Congestion | Thins and Loosens Mucus | Extended Release",
+             "600 mg", "300 Counts", "in_title"),
+            # A measure in inches describes the product: never what its package holds.
+            ("S&amp;T INC. XL New Zealand Wool Dryer Balls, Fabric Softener for Laundry, Natural White, 2.9 in, "
+             "6 Pack",
+             "2.9 in, 6 Pack", "6 Pack", "trailing_segments"),
+            ("OFEFE 100 Pcs Diaper Pins, Baby Safety Pins, Diaper Pins for Cloth Diapers, Heavy Duty, "
+             "Stainless Steel, ABS Plastic, Colorful (Red, Yellow, Pink, Blue, Green, Purple), 2.2in, "
+             "Safe Locking Closures",
+             "2.2in", "100 Pcs", "in_title"),
+            ("Utopia Home Folding Step Stool with Handle, Black – Anti-Slip, Holds Up to 300 lbs, for Kitchen, "
+             "Bathroom &amp; Home Use, 9 Inch",
+             "9 Inch", "", "dimension_only"),
+            # What a product bears is not what its package holds.
+            ("Ingenuity Flip &amp; Sit Potty Seat - For Ages 18 Months, Up to 50 Pounds", "50 Pounds", "", "none"),
+            # The volume that ends the segment before a count of loads is part of the size.
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 105 fl oz, 105 Loads",
+             "105 Loads", "105 fl oz, 105 Loads", "trailing_segments"),
+            ("ARM &amp; HAMMER Sensitive Skin Plus Fresh Scent Liquid Laundry Detergent 170 fl oz, 170 Loads",
+             "170 Loads", "170 fl oz, 170 Loads", "trailing_segments"),
+        ],
+    )  # fmt: skip
+    def test_what_a_title_says_about_the_product_is_not_the_size_of_its_package(
+        title: str, size_until_1_5_0: str, size: str, outcome: str
+    ) -&gt; None:
+        out = wrec.size_from_title(title)
+&gt;       assert out.value != size_until_1_5_0
+E       AssertionError: assert '170 Loads' != '170 Loads'
+E        +  where '170 Loads' = SizeEvidence(value='170 Loads', outcome='trailing_segments', candidates=()).value
+
+tests\unit\test_walmart.py:775: AssertionError</failure></testcase><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_what_is_not_the_size_of_a_package[Example Ibuprofen Tablets, 200 mg-200 mg-trailing_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_what_is_not_the_size_of_a_package[Example Ibuprofen 200 mg, 24 Count-24 Count-trailing_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_what_is_not_the_size_of_a_package[Example Detergent 50 fl oz, 32 oz, 20 Loads-32 oz, 20 Loads-trailing_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_what_is_not_the_size_of_a_package[Example Aluminum Foil, 75 sq ft-75 sq ft-trailing_segments]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_the_limits_of_what_is_not_the_size_of_a_package[Example Potty Seat Refill 50 Pounds-50 Pounds-in_title]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_title_with_no_single_size_stays_empty[Theraflu Max Strength Flu Symptom Relief - 20 Caplets Plus Theraflu Max Strength Nighttime Flu Medicine for Flu Symptom Relief- 20 Caplets Combo Pack-ambiguous]" time="0.002" /><testcase classname="tests.unit.test_walmart" name="test_a_title_with_no_single_size_stays_empty[Fresh Cantaloupe, Each-none]" time="0.001" /><testcase classname="tests.unit.test_walmart" name="test_a_title_with_no_single_size_stays_empty[Fresh Kale Greens, Bunch-none]" time="0.001" /><testcase classname="tests.integration.test_detail_path" name="test_a_listing_upc_with_no_size_has_its_page_read_for_the_size_only" time="9.436" /><testcase classname="tests.integration.test_detail_path" name="test_a_page_never_replaces_a_stated_upc_and_a_disagreement_is_flagged" time="4.586" /><testcase classname="tests.integration.test_detail_path" name="test_sizes_that_disagree_are_all_kept_flagged_and_none_is_chosen" time="4.602" /><testcase classname="tests.integration.test_detail_path" name="test_a_title_size_stays_and_a_page_that_disagrees_with_it_is_flagged" time="4.473" /><testcase classname="tests.integration.test_detail_path" name="test_serving_size_unit_price_and_sibling_variants_never_fill_a_size" time="4.991" /><testcase classname="tests.integration.test_detail_path" name="test_approximate_wording_on_the_page_excludes_the_whole_product" time="4.790" /><testcase classname="tests.integration.test_detail_path" name="test_a_saved_read_is_reused_with_its_own_time_run_and_revision_for_both_fields" time="8.822" /><testcase classname="tests.integration.test_detail_path" name="test_a_source_that_states_nothing_is_not_asked_again_and_says_when_it_was_inspected" time="7.880" /><testcase classname="tests.integration.test_detail_path" name="test_a_page_budget_does_not_read_the_same_first_products_run_after_run" time="18.524" /><testcase classname="tests.integration.test_detail_path" name="test_a_page_budget_never_stops_what_earlier_reads_already_established" time="9.512"><failure message="KeyError: 'recovered_from_saved_detail'">env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:49844/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_page_budget_never_stops_what_earlier_reads_already_established(
+        env: dict[str, Any],  # noqa: F811
+    ) -&gt; None:
+        """Release 1.5.1. The never-read products come first in the queue, so until 1.5.0 a spent budget ended the
+        loop before the products whose page was already saved: they stayed blank at no saving of any request.
+        The live campaign's repeat of 2026-10-31 showed it: the same product blank in one run and filled in the
+        next. With one page never read behind the budget, a second pass of the loop hid this, so two are left."""
+        first, _ = _run(env, detail=DetailConfig(max_per_run=1))
+        read_first = {item for _, item in _detail_calls(env)}
+        assert len(read_first) == 1
+        env["mock"].calls.clear()
+        second, _ = _run(env, detail=DetailConfig(max_per_run=1))
+        read_second = [item for _, item in _detail_calls(env)]
+        assert len(read_second) == 1 and read_second[0] not in read_first  # still goes to a never-read one
+        rows = field_rows(env, second)
+        by_disposition: dict[str, set[str]] = {}
+        for key, row in rows.items():
+            by_disposition.setdefault(row["upc"]["disposition"], set()).add(key.removeprefix("wm:"))
+&gt;       assert by_disposition[disp.RECOVERED] == read_first  # no request, and each names the run that read it
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'recovered_from_saved_detail'
+
+tests\integration\test_detail_path.py:293: KeyError</failure></testcase><testcase classname="tests.integration.test_detail_path" name="test_two_workers_never_read_past_a_page_budget" time="6.756" /><testcase classname="tests.integration.test_detail_path" name="test_every_outcome_of_an_empty_field_is_told_apart" time="10.616" /><testcase classname="tests.integration.test_detail_path" name="test_a_failed_page_stays_in_the_queue_and_is_read_again" time="11.132" /><testcase classname="tests.integration.test_detail_path" name="test_a_carried_row_names_the_run_that_read_its_fields" time="9.898" /><testcase classname="tests.integration.test_detail_path" name="test_saved_pages_load_with_their_own_time_and_serve_a_later_run_as_recovered" time="4.183" /><testcase classname="tests.integration.test_detail_path" name="test_a_duplicate_upc_from_a_saved_page_is_still_excluded" time="7.591" /></testsuite></testsuites>

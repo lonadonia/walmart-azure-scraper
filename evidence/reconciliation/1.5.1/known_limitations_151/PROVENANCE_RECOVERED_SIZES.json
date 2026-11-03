@@ -1,0 +1,513 @@
+{
+ "evidence_class": "OFFLINE (read of the exports; no request)",
+ "stages": {
+  "S1": {
+   "tally": {
+    "recovered_size_rows": 5,
+    "fields_weight_names_the_title_rule_none": 5,
+    "missing_weight_text_still_present": 5,
+    "upc_detail_size_holds_the_same_value": 5
+   },
+   "examples": [
+    {
+     "key": "wm:44390949",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "observed_at": "2026-10-31T21:19:39.485231Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[22].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:21:07.817971Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60F8Y794MCKQ5Y4GTZJJ5FB",
+      "body_sha256": "8da3052c8ee2f95a4da685a60adbdea24eb9657fa140bd9bc41d498f9c2a3331",
+      "path": "props.pageProps.initialData.data.idml.specifications[3].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[3].value"
+    },
+    {
+     "key": "wm:44390986",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "observed_at": "2026-10-31T21:19:39.485231Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[34].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:23:10.347579Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FCNWBS0DH7ECMXM6RM327",
+      "body_sha256": "d76ca48dfb786e81d96d394fe3de2392cbe16acdbe21953d13f605aa8f8d6ea6",
+      "path": "props.pageProps.initialData.data.idml.specifications[7].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[7].value"
+    },
+    {
+     "key": "wm:44391101",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "observed_at": "2026-10-31T21:19:39.485231Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[30].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:22:45.893043Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FBY05861JQ69RY40R3RXG",
+      "body_sha256": "bfb459fdd3069d165cabc574a9a6e81af5d46b0922a163db3e1d7c9cdc22be9d",
+      "path": "props.pageProps.initialData.data.idml.specifications[7].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[7].value"
+    }
+   ]
+  },
+  "S2": {
+   "tally": {
+    "recovered_size_rows": 7,
+    "fields_weight_names_the_title_rule_none": 7,
+    "missing_weight_text_still_present": 7,
+    "upc_detail_size_holds_the_same_value": 7
+   },
+   "examples": [
+    {
+     "key": "wm:10402651",
+     "exported": "1 Count",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XMYP0VGNJ2SV1MFGBNPEW",
+      "observed_at": "2026-10-31T21:25:31.456164Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[35].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Count",
+      "observed_at": "2026-10-28T05:30:51.021010Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FTQRCDR4V3Y54567SN7X1",
+      "body_sha256": "b0f04c13c175921e197924e42321ca3f2e30a3f92b3a37f7e92ea42d676a0315",
+      "path": "props.pageProps.initialData.data.idml.specifications[1].value",
+      "rule": "spec_net_content"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[1].value"
+    },
+    {
+     "key": "wm:44390945",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XMM9BTF941EJT861DRQAV",
+      "observed_at": "2026-10-31T21:25:20.811579Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[5].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:27:10.979180Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FM0W3GWKS28P5EQYN3WBH",
+      "body_sha256": "e7507e8a66cb873fe86f9bcadebf860ebb9456873f9a66280ae457b4ae05c7eb",
+      "path": "props.pageProps.initialData.data.idml.specifications[5].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[5].value"
+    },
+    {
+     "key": "wm:44390952",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69XMM9BTF941EJT861DRQAV",
+      "observed_at": "2026-10-31T21:25:20.811579Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[25].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:28:08.128331Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FNRP07C4Z6082TV9XASS4",
+      "body_sha256": "07ad2e67621e3f5f10ffdcd7156f130a05b7be953785846c72bd5d307a4a764b",
+      "path": "props.pageProps.initialData.data.idml.specifications[10].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[10].value"
+    }
+   ]
+  },
+  "S3": {
+   "tally": {},
+   "examples": []
+  },
+  "S4": {
+   "tally": {
+    "recovered_size_rows": 8,
+    "fields_weight_names_the_title_rule_none": 8,
+    "missing_weight_text_still_present": 8,
+    "upc_detail_size_holds_the_same_value": 8
+   },
+   "examples": [
+    {
+     "key": "wm:190716908",
+     "exported": "3.75 fl oz, 2 Pack",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69Y99PJHETFFWG7BK1SPR6X",
+      "observed_at": "2026-10-31T21:36:38.098517Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[43].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "3.75 fl oz, 2 Pack",
+      "observed_at": "2026-10-28T05:26:23.273508Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FJJ9982H7PMAYE51605DG",
+      "body_sha256": "71df0294310a62c760e8a7ae96cef1e0d635f7833bb415eb0181963b96b6f541",
+      "path": "props.pageProps.initialData.data.idml.specifications[4].value",
+      "rule": "spec_size"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[4].value"
+    },
+    {
+     "key": "wm:34143814",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69Y99PJHETFFWG7BK1SPR6X",
+      "observed_at": "2026-10-31T21:36:38.098517Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[15].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:24:58.784863Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FFZS0BAJS9BG8Y7181M6Z",
+      "body_sha256": "b006af4b7e09707a5ce5f8bcf6525432c8b340a1c1a6330e315afc8773549a07",
+      "path": "props.pageProps.initialData.data.idml.specifications[6].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[6].value"
+    },
+    {
+     "key": "wm:44390949",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M69Y900C9Z7QA7GJCM0C92AW",
+      "observed_at": "2026-10-31T21:36:28.172120Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[22].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:21:07.817971Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60F8Y794MCKQ5Y4GTZJJ5FB",
+      "body_sha256": "8da3052c8ee2f95a4da685a60adbdea24eb9657fa140bd9bc41d498f9c2a3331",
+      "path": "props.pageProps.initialData.data.idml.specifications[3].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[3].value"
+    }
+   ]
+  },
+  "S5b_serial": {
+   "tally": {},
+   "examples": []
+  },
+  "S5b_parallel": {
+   "tally": {},
+   "examples": []
+  },
+  "S5a": {
+   "tally": {
+    "recovered_size_rows": 10,
+    "fields_weight_names_the_title_rule_none": 10,
+    "missing_weight_text_still_present": 10,
+    "upc_detail_size_holds_the_same_value": 10
+   },
+   "examples": [
+    {
+     "key": "wm:10402650",
+     "exported": "1 Count",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A0KWESWZ432QF79E36Y2Y2",
+      "observed_at": "2026-10-31T22:17:22.137934Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[11].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Count",
+      "observed_at": "2026-10-31T21:26:39.334413Z",
+      "source_run": "01M69XM9RZN3C8D0K7W2NSXR3D",
+      "source_revision": "1.5.0 7b6f3258e0f4ab755732605eb88717c592d07073",
+      "origin": "fetched",
+      "page_fetch_id": "01M69XQ0Z6FDRJFCSMNTVSH0DD",
+      "body_sha256": "a6f5480c8823d7388b9da087ae91e4c80081f70cf1944211c328e3e44e99a446",
+      "path": "props.pageProps.initialData.data.idml.specifications[3].value",
+      "rule": "spec_net_content"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[3].value"
+    },
+    {
+     "key": "wm:44390945",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A0KWESWZ432QF79E36Y2Y2",
+      "observed_at": "2026-10-31T22:17:22.137934Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[5].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:27:10.979180Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FM0W3GWKS28P5EQYN3WBH",
+      "body_sha256": "e7507e8a66cb873fe86f9bcadebf860ebb9456873f9a66280ae457b4ae05c7eb",
+      "path": "props.pageProps.initialData.data.idml.specifications[5].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[5].value"
+    },
+    {
+     "key": "wm:44390949",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A0KA19JQGF9RPJTRP2GTSR",
+      "observed_at": "2026-10-31T22:17:03.273145Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[22].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:21:07.817971Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60F8Y794MCKQ5Y4GTZJJ5FB",
+      "body_sha256": "8da3052c8ee2f95a4da685a60adbdea24eb9657fa140bd9bc41d498f9c2a3331",
+      "path": "props.pageProps.initialData.data.idml.specifications[3].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[3].value"
+    }
+   ]
+  },
+  "S6": {
+   "tally": {
+    "recovered_size_rows": 12,
+    "fields_weight_names_the_title_rule_none": 12,
+    "missing_weight_text_still_present": 12,
+    "upc_detail_size_holds_the_same_value": 12
+   },
+   "examples": [
+    {
+     "key": "wm:10402650",
+     "exported": "1 Count",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A2W2PS9ZXRZS2E30S04RZ8",
+      "observed_at": "2026-10-31T22:56:47.833573Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[11].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Count",
+      "observed_at": "2026-10-31T21:26:39.334413Z",
+      "source_run": "01M69XM9RZN3C8D0K7W2NSXR3D",
+      "source_revision": "1.5.0 7b6f3258e0f4ab755732605eb88717c592d07073",
+      "origin": "fetched",
+      "page_fetch_id": "01M69XQ0Z6FDRJFCSMNTVSH0DD",
+      "body_sha256": "a6f5480c8823d7388b9da087ae91e4c80081f70cf1944211c328e3e44e99a446",
+      "path": "props.pageProps.initialData.data.idml.specifications[3].value",
+      "rule": "spec_net_content"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[3].value"
+    },
+    {
+     "key": "wm:10402651",
+     "exported": "1 Count",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A2WSHQAA2ZFW224YSRF76P",
+      "observed_at": "2026-10-31T22:57:11.223020Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[32].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Count",
+      "observed_at": "2026-10-28T05:30:51.021010Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FTQRCDR4V3Y54567SN7X1",
+      "body_sha256": "b0f04c13c175921e197924e42321ca3f2e30a3f92b3a37f7e92ea42d676a0315",
+      "path": "props.pageProps.initialData.data.idml.specifications[1].value",
+      "rule": "spec_net_content"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[1].value"
+    },
+    {
+     "key": "wm:296855985",
+     "exported": "60 Sheets",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A2Y4QFQ5BED1S7BV6QXYTE",
+      "observed_at": "2026-10-31T22:57:55.439291Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[9].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "60 Sheets",
+      "observed_at": "2026-10-28T05:33:02.987408Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FYRMB04AHBJWN7G28QJPN",
+      "body_sha256": "6d04316560972ee18523ff73035221e9ed809eaac35510291d811a529cd9ddc2",
+      "path": "props.pageProps.initialData.data.idml.specifications[4].value",
+      "rule": "spec_sheets"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[4].value"
+    }
+   ]
+  },
+  "S7": {
+   "tally": {},
+   "examples": []
+  },
+  "B3 OFFLINE REPROCESSING on 1.5.1": {
+   "tally": {
+    "recovered_size_rows": 19,
+    "fields_weight_names_the_title_rule_none": 19,
+    "missing_weight_text_still_present": 19,
+    "upc_detail_size_holds_the_same_value": 19
+   },
+   "examples": [
+    {
+     "key": "wm:10402651",
+     "exported": "1 Count",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A3H1RMM7FKYR5VE71AD1NJ",
+      "observed_at": "2026-10-28T08:48:08.058222Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[37].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Count",
+      "observed_at": "2026-10-28T05:30:51.021010Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FTQRCDR4V3Y54567SN7X1",
+      "body_sha256": "b0f04c13c175921e197924e42321ca3f2e30a3f92b3a37f7e92ea42d676a0315",
+      "path": "props.pageProps.initialData.data.idml.specifications[1].value",
+      "rule": "spec_net_content"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[1].value"
+    },
+    {
+     "key": "wm:190716908",
+     "exported": "3.75 fl oz, 2 Pack",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A3GZBH9ARMM0HAT472AERG",
+      "observed_at": "2026-10-28T08:47:58.539041Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[4].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "3.75 fl oz, 2 Pack",
+      "observed_at": "2026-10-28T05:26:23.273508Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FJJ9982H7PMAYE51605DG",
+      "body_sha256": "71df0294310a62c760e8a7ae96cef1e0d635f7833bb415eb0181963b96b6f541",
+      "path": "props.pageProps.initialData.data.idml.specifications[4].value",
+      "rule": "spec_size"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[4].value"
+    },
+    {
+     "key": "wm:34143814",
+     "exported": "1 Each",
+     "fields_weight": {
+      "source": "walmart_title",
+      "fetch_id": "01M6A3GYBQ1S5BH5GMDE63Q44J",
+      "observed_at": "2026-10-28T08:47:53.306949Z",
+      "response_sha256": null,
+      "selector_or_path": "props.pageProps.initialData.searchResult.itemStacks[0].items[27].name (none)"
+     },
+     "field_dispositions_weight": {
+      "disposition": "recovered_from_saved_detail",
+      "value": "1 Each",
+      "observed_at": "2026-10-28T05:24:58.784863Z",
+      "source_run": "01M60F6GHNXCTZPJ6G1PRM7KW7",
+      "source_revision": "8c3fbb1169cb3a20d8523d8c99bc96e3d6b9e890",
+      "origin": "imported",
+      "page_fetch_id": "01M60FFZS0BAJS9BG8Y7181M6Z",
+      "body_sha256": "b006af4b7e09707a5ce5f8bcf6525432c8b340a1c1a6330e315afc8773549a07",
+      "path": "props.pageProps.initialData.data.idml.specifications[6].value",
+      "rule": "spec_net_content_parent"
+     },
+     "upc_detail_size_path": "props.pageProps.initialData.data.idml.specifications[6].value"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "synthetic": true,
+ "delay_s": 0.05,
+ "min_interval_s": 0.08,
+ "max_in_flight": 2,
+ "requests": 257,
+ "smallest_gap_s": 0.099,
+ "peak_requests_in_flight": 1
+}

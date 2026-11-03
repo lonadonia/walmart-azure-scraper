@@ -1,0 +1,261 @@
+{
+  "run_id": "01M69X9XHZR83KZ2FNWBJYJKA7",
+  "store": {
+    "key": "walmart-3891-pickup",
+    "name": "Walmart #3891 Waukegan",
+    "modality": "PICKUP",
+    "retailer": "walmart",
+    "location_id": "3891"
+  },
+  "provider": "oxylabs",
+  "pilot": true,
+  "scope_units": 1,
+  "status_counts": {
+    "CAPPED": 1
+  },
+  "status_counts_rule_1_3_1": {
+    "CAPPED": 1
+  },
+  "result_window_units": 0,
+  "csv_rows_not_planned": [
+    {
+      "csv_row": 1,
+      "category": "Household Essentials",
+      "url": "https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning",
+      "enabled": true
+    },
+    {
+      "csv_row": 2,
+      "category": "Personal Care",
+      "url": "https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19",
+      "enabled": true
+    },
+    {
+      "csv_row": 3,
+      "category": "Beauty",
+      "url": "https://www.walmart.com/cp/beauty/1085666?povid=GlobalNav_rWeb_Beauty_Beauty_ShopAll_051123",
+      "enabled": true
+    },
+    {
+      "csv_row": 4,
+      "category": "Diapering",
+      "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+      "enabled": true
+    },
+    {
+      "csv_row": 5,
+      "category": "Feeding",
+      "url": "https://www.walmart.com/cp/feeding/133283?povid=GlobalNav_mWeb_BabyKids_babyformula_babyfood",
+      "enabled": true
+    },
+    {
+      "csv_row": 6,
+      "category": "Health & Wellness",
+      "url": "https://www.walmart.com/cp/health/976760",
+      "enabled": true
+    },
+    {
+      "csv_row": 7,
+      "category": "Pets",
+      "url": "https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 8,
+      "category": "Balloons",
+      "url": "https://www.walmart.com/browse/party-occasions/balloons/2637_1042319_1212898_3956207?povid=GlobalNav_rWeb_ETS_partysupplies_balloons",
+      "enabled": true
+    },
+    {
+      "csv_row": 9,
+      "category": "Art Supplies",
+      "url": "https://www.walmart.com/cp/art-supplies/5899871?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_ArtsCraftsSewing_ArtSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 10,
+      "category": "Office Supplies",
+      "url": "https://www.walmart.com/cp/office-supplies/1229749?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_Department_ShopAllOfficeSupplies",
+      "enabled": true
+    }
+  ],
+  "coverage_complete": false,
+  "rows": [
+    {
+      "csv_row": 0,
+      "category": "Food",
+      "listing_id": "976759_976793_9756351",
+      "listing_name": "Fresh Fruits",
+      "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 1,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup"
+      ],
+      "reported_total": 135,
+      "totals_reported": [
+        135
+      ],
+      "total_observed_at": "2026-10-31T21:19:39.485231Z",
+      "pages_visited": [
+        1
+      ],
+      "page_fetches": [
+        "01M69XA6YXZEH0P59XHWJDA2P0"
+      ],
+      "raw_placements": 47,
+      "organic_placements": 40,
+      "distinct_identities": 40,
+      "sponsored_only_in_listing": 7,
+      "placed_identities": 47,
+      "distinct_with_children": 40,
+      "duplicate_placements": 0,
+      "sponsored_placements": 7,
+      "sponsored_only_products": 7,
+      "other_module_products": 10,
+      "variant_identities_named": 0,
+      "variant_identities_not_own_tile": 0,
+      "follow_up_outcomes": {
+        "sponsored:not_attempted": 7
+      },
+      "approx_weight_exclusions": 5,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 0,
+      "difference_organic": 95,
+      "difference_placed": 88,
+      "reconciliation_basis": "",
+      "unresolved_difference": 88,
+      "status": "CAPPED",
+      "status_rule_1_3_1": "CAPPED",
+      "end": "PAGE_LIMIT",
+      "stop_reason": "page limit of this run (1) reached"
+    }
+  ],
+  "follow_ups": [
+    {
+      "at": "2026-10-31T21:21:10.855053Z",
+      "key": "wm:810359707",
+      "url": "https://www.walmart.com/ip/Crunch-Pak-Snack-Dipperz-with-Fresh-Tart-Sliced-Apples-and-Caramel-in-a-5pk/810359707?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "810359707",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.867861Z",
+      "key": "wm:17687202926",
+      "url": "https://www.walmart.com/ip/Fresh-Sunchaser-Apples-3lb-Bag-from-Washington/17687202926?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "17687202926",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.878993Z",
+      "key": "wm:286846442",
+      "url": "https://www.walmart.com/ip/Crunch-Pak-Family-Sized-24oz-Bag-of-Peeled-Sweet-Sliced-Apples/286846442?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "286846442",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.889909Z",
+      "key": "wm:43923746",
+      "url": "https://www.walmart.com/ip/SugarBee-Apple-Bulk/43923746?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "43923746",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.903188Z",
+      "key": "wm:374006257",
+      "url": "https://www.walmart.com/ip/Crunch-Pak-Fresh-Sweet-Apple-Slices-Family-Size-14-oz-Resealable-Bag/374006257?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "374006257",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.914216Z",
+      "key": "wm:978115165",
+      "url": "https://www.walmart.com/ip/Fresh-Envy-Apples-3-lb-Bag/978115165?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "978115165",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    },
+    {
+      "at": "2026-10-31T21:21:10.925945Z",
+      "key": "wm:51259330",
+      "url": "https://www.walmart.com/ip/Fresh-Envy-Apples-Each/51259330?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+      "kind": "sponsored",
+      "seed": null,
+      "option": null,
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "51259330",
+      "listing": "976759_976793_9756351",
+      "seen_on": "01M69XA6YXZEH0P59XHWJDA2P0",
+      "category": "Food",
+      "named_by": null,
+      "queued_from": null,
+      "listing_name": "Fresh Fruits"
+    }
+  ]
+}

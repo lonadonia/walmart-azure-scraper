@@ -1,0 +1,30 @@
+{
+ "evidence_class": "OFFLINE REPLAY",
+ "label": "OFFLINE REPLAY of live run 01M60V2DCCWR72BGVVG3EM9R74 by replay run 01M6CAYDES6RF52M6PCNY2V560: no request was made, and the run's original exports are unchanged",
+ "source_run": "01M60V2DCCWR72BGVVG3EM9R74",
+ "replay_run": "01M6CAYDES6RF52M6PCNY2V560",
+ "products_before": 862,
+ "products_after": 862,
+ "only_before": [],
+ "only_after": [],
+ "rows": 8894,
+ "by_change_class": {
+  "capture_hash_added": 8426,
+  "disposition_changed": 1,
+  "disposition_detail_added": 1006,
+  "field_source_corrected": 3303,
+  "missing_kind_corrected": 2277,
+  "missing_resolved": 2284,
+  "replay_read_id": 8426,
+  "size_value": 1,
+  "store_brand_value": 22
+ },
+ "counted_here_not_listed_in_the_map": [
+  "capture_hash_added",
+  "replay_read_id"
+ ],
+ "exported_values_changed_by_field": {
+  "store_brand": 22,
+  "weight": 1
+ }
+}

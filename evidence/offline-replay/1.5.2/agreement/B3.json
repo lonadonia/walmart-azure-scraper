@@ -1,0 +1,84 @@
+{
+ "export": "C:\\w7\\ev152\\final_b3\\export_replay_1_5_2",
+ "rows": 862,
+ "problems": {},
+ "examples": {},
+ "combinations": [
+  [
+   "upc | carried_forward | budget_deadline_interruption | None | ?",
+   39
+  ],
+  [
+   "upc | carried_forward | fetched_detail | fetched | LIVE",
+   119
+  ],
+  [
+   "upc | carried_forward | not_attempted | None | ?",
+   41
+  ],
+  [
+   "upc | carried_forward | recovered_from_saved_detail | fetched | LIVE",
+   1
+  ],
+  [
+   "upc | imported page hash: of the page, index: of the file",
+   420
+  ],
+  [
+   "upc | replayed | absent_in_source | imported | ?",
+   1
+  ],
+  [
+   "upc | replayed | not_attempted | None | ?",
+   242
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | imported | ?",
+   142
+  ],
+  [
+   "upc | replayed | recovered_from_saved_detail | imported | LIVE",
+   277
+  ],
+  [
+   "weight | carried_forward | budget_deadline_interruption | None | ?",
+   10
+  ],
+  [
+   "weight | carried_forward | not_attempted | None | ?",
+   9
+  ],
+  [
+   "weight | carried_forward | present_in_listing | None | LIVE",
+   181
+  ],
+  [
+   "weight | imported page hash: of the page, index: of the file",
+   28
+  ],
+  [
+   "weight | replayed | absent_in_source | imported | LIVE",
+   6
+  ],
+  [
+   "weight | replayed | not_attempted | None | ?",
+   11
+  ],
+  [
+   "weight | replayed | present_in_listing | None | LIVE",
+   623
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | imported | ?",
+   2
+  ],
+  [
+   "weight | replayed | recovered_from_saved_detail | imported | LIVE",
+   17
+  ],
+  [
+   "weight | replayed | unresolved_conflict | imported | LIVE",
+   3
+  ]
+ ]
+}

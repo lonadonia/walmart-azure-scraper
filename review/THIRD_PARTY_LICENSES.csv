@@ -1,0 +1,54 @@
+package,version,used_in,license,home_page
+alembic,1.20.0,runtime,MIT,https://alembic.sqlalchemy.org
+annotated-types,0.8.0,runtime,MIT,https://github.com/annotated-types/annotated-types
+anyio,4.15.1,runtime,MIT,https://anyio.readthedocs.io/en/latest/
+ast-serialize,0.13.1,tests and checks only,MIT,https://github.com/mypyc/ast_serialize
+azure-core,1.41.0,runtime,MIT,https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core
+azure-identity,1.26.0,runtime,MIT,https://github.com/Azure/azure-sdk-for-python
+azure-storage-blob,12.31.0,runtime,MIT License,https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/storage/azure-storage-blob
+certifi,2026.10.19,runtime,Mozilla Public License 2.0 (MPL 2.0),https://github.com/certifi/python-certifi
+cffi,2.1.1,runtime,MIT-0,https://cffi.readthedocs.io/
+charset-normalizer,3.5.2,runtime,MIT,https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md
+colorama,0.4.6,tests and checks only,BSD License,https://github.com/tartley/colorama
+cryptography,50.0.2,runtime,Apache-2.0 OR BSD-3-Clause,https://github.com/pyca/cryptography
+fasteners,0.20,tests and checks only,Apache-2.0,https://github.com/harlowja/fasteners
+h11,0.16.0,runtime,MIT License,https://github.com/python-hyper/h11
+httpcore,1.0.9,runtime,BSD-3-Clause,https://www.encode.io/httpcore/
+httpx,0.28.1,runtime,BSD License,https://github.com/encode/httpx
+hypothesis,6.170.5,tests and checks only,MPL-2.0,https://hypothesis.works
+idna,3.20,runtime,BSD-3-Clause,https://github.com/kjd/idna
+iniconfig,2.3.1,tests and checks only,MIT,https://github.com/pytest-dev/iniconfig
+isodate,0.7.2,runtime,BSD License,https://github.com/gweis/isodate/
+librt,0.16.0,tests and checks only,MIT,https://github.com/mypyc/librt
+mako,1.4.3,runtime,MIT,https://www.makotemplates.org/
+markupsafe,3.0.4,runtime,BSD-3-Clause,https://github.com/pallets/markupsafe/
+msal,1.39.0,runtime,MIT License,https://github.com/AzureAD/microsoft-authentication-library-for-python
+msal-extensions,1.3.1,runtime,MIT License,https://github.com/AzureAD/microsoft-authentication-extensions-for-python/releases
+mypy,2.4.0,tests and checks only,MIT,https://www.mypy-lang.org/
+mypy-extensions,1.1.0,tests and checks only,MIT,https://github.com/python/mypy_extensions
+packaging,26.3,tests and checks only,Apache-2.0 OR BSD-2-Clause,https://github.com/pypa/packaging
+pathspec,1.1.1,tests and checks only,Mozilla Public License 2.0 (MPL 2.0),https://python-path-specification.readthedocs.io/en/latest/changes.html
+pgserver,0.1.4,tests and checks only,not stated in the package metadata,https://github.com/orm011/pgserver
+platformdirs,4.13.5,tests and checks only,MIT,https://github.com/tox-dev/platformdirs
+pluggy,1.7.0,tests and checks only,MIT License,https://github.com/pytest-dev/pluggy
+psutil,7.2.2,tests and checks only,BSD-3-Clause,https://github.com/giampaolo/psutil
+psycopg,3.3.6,runtime,LGPL-3.0-only,https://psycopg.org/
+psycopg-binary,3.3.6,runtime,LGPL-3.0-only,https://psycopg.org/
+pycparser,3.11,runtime,BSD-3-Clause,https://github.com/eliben/pycparser
+pydantic,2.14.1,runtime,MIT,https://github.com/pydantic/pydantic
+pydantic-core,2.50.1,runtime,MIT,https://github.com/pydantic/pydantic
+pygments,2.21.0,tests and checks only,BSD-2-Clause,https://pygments.org
+pyjwt,2.15.1,runtime,MIT,https://github.com/jpadilla/pyjwt
+pytest,9.1.1,tests and checks only,MIT,https://docs.pytest.org/en/latest/
+python-ulid,4.0.1,runtime,MIT,https://github.com/mdomke/python-ulid
+pyyaml,6.0.3,runtime,MIT License,https://pyyaml.org/
+requests,2.34.2,runtime,Apache Software License,https://github.com/psf/requests
+ruff,0.17.1,tests and checks only,MIT,https://docs.astral.sh/ruff
+selectolax,1.0.1,runtime,MIT,https://github.com/rushter/selectolax
+sortedcontainers,2.4.0,tests and checks only,Apache Software License,http://www.grantjenks.com/docs/sortedcontainers/
+sqlalchemy,2.1.6,runtime,MIT,https://www.sqlalchemy.org
+types-pyyaml,6.0.12.20260906,tests and checks only,Apache-2.0,https://github.com/python/typeshed
+typing-extensions,4.16.0,runtime,PSF-2.0,https://github.com/python/typing_extensions
+typing-inspection,0.4.4,runtime,MIT,https://github.com/pydantic/typing-inspection
+tzdata,2026.5,runtime,Apache-2.0,https://github.com/python/tzdata
+urllib3,2.8.0,runtime,MIT,https://github.com/urllib3/urllib3/blob/main/CHANGES.rst

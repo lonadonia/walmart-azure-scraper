@@ -1,0 +1,62 @@
+[
+ {
+  "file": "citrus_page1.html.gz",
+  "fetch_id": "01M5X47P2BD3F4276C9H7H9NVQ",
+  "url": "https://www.walmart.com/browse/food/citrus/976759_976793_9756351_4914029",
+  "fetched_at": "2026-10-26 22:10:29.067273+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X47P2BD3F4276C9H7H9NVQ.html.gz",
+  "source_sha256": "0653ddf8e1c255a646e4716bf1fa369e5330861325757d29ee75e6a84d423b26",
+  "content_sha256": "bdd03727fac3593d7dce41ba0d001e5ffbf407ca675b73c3b1f42753b1acd314",
+  "raw_original_body_sha256": "496cc70f326ef8cf4a0f3bf719c79f08f85326b0a057c833b7c5e2e903e9e765",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "0a344861dd9546de23c7b6a4ba338fd2e04c4c2b61c36dadea20ef0afccaeedf",
+   "values_redacted": 6,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "apples_page1.html.gz",
+  "fetch_id": "01M5X4CB3MXJHMSXYS7KKVCCTE",
+  "url": "https://www.walmart.com/browse/food/apples/976759_976793_9756351_7796396",
+  "fetched_at": "2026-10-26 22:13:01.684238+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X4CB3MXJHMSXYS7KKVCCTE.html.gz",
+  "source_sha256": "39b269c04508c03e3caff4bff2388f5f1b6c0592d4996612e88f1252c9940a66",
+  "content_sha256": "86b3ed3050670e72e046eefbf6bbeb2ee9a395066c7855f3cde20e338a2d5e68",
+  "raw_original_body_sha256": "34321f62ae0c8db4134d10c17764f2175160a78dbe486c408854b748cc6aa994",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "22bb0e0bbfecd581581121c92f89ab421ce3f4949da721615307d44adbce4080",
+   "values_redacted": 6,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "bath_body_page1.html.gz",
+  "fetch_id": "01M5X4BWZ7P8YGY36JYZS54VV4",
+  "url": "https://www.walmart.com/browse/personal-care/1005862_1071969",
+  "fetched_at": "2026-10-26 22:12:47.207131+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X4BWZ7P8YGY36JYZS54VV4.html.gz",
+  "source_sha256": "440df21e4b995c5ce8e0996b89e3900e7bbebd71b90217f709a1fc3b927c5354",
+  "content_sha256": "f134056eae829f18bea71d7666e57bc7a7a350650687dbd3daa5f09d1a23c766",
+  "raw_original_body_sha256": "e91cebeda67995f25203dfcc7e2efd297510aa0efe4e41c0e7dc725e3f78913e",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "f2edc386d0c8f42d7de13d7a3ecad62199d382d49e0b20c91250a1df9e1ff5ef",
+   "values_redacted": 6,
+   "what": "copied in release 1.3.1; isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "fresh_vegetables_page1.html.gz",
+  "fetch_id": "01M5X3MGRW3AXMS36A57YM9J5S",
+  "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+  "fetched_at": "2026-10-26 22:00:01.052558+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X3MGRW3AXMS36A57YM9J5S.html.gz",
+  "source_sha256": "af0796c571eca49e023b5c5d3172eed2d643f68005be075f37e754d96fcd2385",
+  "content_sha256": "9777f74d781fe13d6246ca55af802df594c1bd6e3c2fe968ecefceb4a9439eb3",
+  "raw_original_body_sha256": "f795ad690aeb0db2b83356d62d60965450701131999e400014dfd3c40fb47ce3",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "a7cc39d628d39b1fe8eb9beb0395cb3a83f8dc68fa0bb4bf43a29e0b0e9236fc",
+   "values_redacted": 6,
+   "what": "copied in release 1.4.0; isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ }
+]

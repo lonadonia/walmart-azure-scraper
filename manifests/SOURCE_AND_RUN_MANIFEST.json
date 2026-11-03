@@ -1,0 +1,306 @@
+{
+ "about": "What this delivery was built from and what ran. Release 1.5.2 of the Walmart collector (both provider editions) and the Oxylabs Classic offline probe 1.5.2 come from commit 627c804 on the local branch walmart-1.5.2 (not pushed). No live run used 1.5.2. The live campaign of 2026-10-31 ran release 1.5.0 (7b6f325) in stages S1 to S5 and release 1.5.1 (488a033) in S6 and S7. Release 1.5.2 read those runs and B3 of release 1.4.1 again offline. The client reviewed 37ffca8 (release 1.4.1).",
+ "release": "1.5.2",
+ "status": "correction update; not an acceptance candidate and not an accepted release",
+ "source": {
+  "zip": "WALMART_SOURCE_1.5.2.zip",
+  "sha256": "1100aa16ce7d459afd020c057eff3fb42cd54bcc172a4c22f04ba3f1859af941",
+  "bytes": 5068349,
+  "files": 434,
+  "top_folder": "walmart-source-1.5.2",
+  "commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+  "committed_at": "2026-11-01T19:52:28+00:00",
+  "build_manifest": "WALMART_SOURCE_1.5.2.zip: BUILD_MANIFEST.json",
+  "editions": {
+   "oxylabs": {
+    "folder": "WALMART_SOURCE_1.5.2.zip: walmart-oxylabs-1.5.2",
+    "provider": "oxylabs",
+    "title": "Oxylabs Web API (Bearer key; not the Classic product)",
+    "files": 216,
+    "tree_sha256": "3a37a77c1bc0e96a50ec0d0bac289f7f270858f9e75027b92da337ac816650b3",
+    "edition_zip_built_by_build_edition": "WALMART_OXYLABS_SOURCE_1.5.2.zip",
+    "edition_zip_sha256": "f37e34d12ccc2e1e855b7f9dad8ed91beae0096a52a20cd132477f55261fe73c"
+   },
+   "scrapedo": {
+    "folder": "WALMART_SOURCE_1.5.2.zip: walmart-scrapedo-1.5.2",
+    "provider": "scrapedo",
+    "title": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
+    "files": 216,
+    "tree_sha256": "b8e7ae56d85a8595c712c005473f74dd2c45bf018772c6dab31815321c5f6b5b",
+    "edition_zip_built_by_build_edition": "WALMART_SCRAPEDO_SOURCE_1.5.2.zip",
+    "edition_zip_sha256": "a50a2346cebaa810a4bb10f145983682d14d031f573ec9da1b683b2388af9c84"
+   }
+  },
+  "files_that_differ_between_the_editions": [
+   ".env.example",
+   "BUILD_INFO.json",
+   "EDITION.json",
+   "config/collector.yaml"
+  ]
+ },
+ "evidence": {
+  "zip": "WALMART_EVIDENCE_1.5.2.zip",
+  "sha256": "256b968ea2502a233a16828797ae90e359bf5bdbcb78551cea3800c12c187baa",
+  "bytes": 57038721,
+  "files": 1364,
+  "top_folder": "walmart-evidence-1.5.2",
+  "readme": "WALMART_EVIDENCE_1.5.2.zip: README.md",
+  "manifest": "WALMART_EVIDENCE_1.5.2.zip: EVIDENCE_MANIFEST.csv",
+  "sanitization": "WALMART_EVIDENCE_1.5.2.zip: SANITIZATION.md",
+  "sanitization_log": "WALMART_EVIDENCE_1.5.2.zip: SANITIZATION_LOG.csv",
+  "carried_byte_for_byte_from": {
+   "zip": "WALMART_EVIDENCE_1.5.1.zip",
+   "sha256": "c70c137035ec35fd86c36bcd7bdef5988e4f8f626e74a34bac336f2196ea6326"
+  }
+ },
+ "probe": {
+  "zip": "OXYLABS_CLASSIC_OFFLINE_PROBE_1.5.2.zip",
+  "sha256": "d4785ccbb8b23a4d2bb6cfb6b16ba1242cab5cab0b292e3222581f7844282193",
+  "bytes": 1173962,
+  "files": 132,
+  "top_folder": "oxylabs-classic-offline-probe-1.5.2",
+  "version": "1.5.2",
+  "frozen_revision": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+  "probe_code_last_changed_in": "2ed64b70809a67c49c68ebda5e3c3420f079073b",
+  "live_enabled": false,
+  "requests_sent": 0,
+  "package_manifest": "OXYLABS_CLASSIC_OFFLINE_PROBE_1.5.2.zip: PACKAGE_MANIFEST.json"
+ },
+ "revisions": {
+  "branch": "walmart-1.5.2 (local; nothing pushed)",
+  "client_reviewed_baseline": {
+   "commit": "37ffca808f2163287e3d50b91529c5fd69213418",
+   "release": "1.4.1"
+  },
+  "release_1_5_0": {
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "live_runs": [
+    "01M69X9XHZR83KZ2FNWBJYJKA7",
+    "01M69XM9RZN3C8D0K7W2NSXR3D",
+    "01M69Y1J6YWFEZ1DJHAC2MT17M",
+    "01M69Y882GTVYRJZM0CXQ44MXN",
+    "01M69YPZTFCP7AWJ5B78AXEA2N",
+    "01M69YS2X0YG5JSEMCGKK8BHE5",
+    "01M6A0JWYHTVK7XFH34P235F9Q"
+   ]
+  },
+  "release_1_5_1": {
+   "commit": "488a033fc22d09db9f6270feae274d8c77963d6f",
+   "live_runs": [
+    "01M6A2VQAA5VXJHJHMZPCTZTD4",
+    "01M6A52HA6XYCEDS6DBE5N5RQ7"
+   ]
+  },
+  "release_1_5_2_first_commit": {
+   "commit": "2ed64b70809a67c49c68ebda5e3c3420f079073b",
+   "note": "The first replays and Docker attempts ran here. They are superseded and are not evidence of this delivery."
+  },
+  "release_1_5_2": {
+   "commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+   "committed_at": "2026-11-01T19:52:28+00:00",
+   "live_runs": []
+  },
+  "commits_since_1_5_1": [
+   {
+    "commit": "5836df03687ed1c6c3fe7256acba7052a8ec1083",
+    "committed_at": "2026-11-01T03:39:29Z",
+    "subject": "walmart-azure-headless 1.5.1: the delivery, its build and its verification from clean extractions"
+   },
+   {
+    "commit": "2ed64b70809a67c49c68ebda5e3c3420f079073b",
+    "committed_at": "2026-11-01T19:25:43Z",
+    "subject": "walmart-azure-headless 1.5.2: corrections of the known defects of 1.5.1; oxylabs-classic-probe 1.5.2"
+   },
+   {
+    "commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+    "committed_at": "2026-11-01T19:52:28Z",
+    "subject": "walmart-azure-headless 1.5.2: a row carried from a replay names the live run that fetched its page"
+   }
+  ],
+  "packaging": {
+   "commit": "d9d357549305b899cbd7f65b74d6239668406e68",
+   "committed_at": "2026-11-02T01:46:29Z",
+   "parent": "18df90baae9440111966eb08a4004dfac85cf743",
+   "files_added": [
+    "scripts/build_walmart_152_delivery.py",
+    "scripts/verify_walmart_152_delivery.py"
+   ],
+   "relationship": "The second of the two commits after the 1.5.2 release commit. 18df90b adds the delivery builder and the delivery verifier under scripts/; d9d3575 corrects one summary line of the verifier and adds a note to its report, after the first verification pass. Nothing under headless/ (the collector and the probe) differs from 627c804, which the verification checks."
+  }
+ },
+ "live_runs": [
+  {
+   "stage": "S1",
+   "run": "01M69X9XHZR83KZ2FNWBJYJKA7",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69X9XHZR83KZ2FNWBJYJKA7",
+   "delivered_files": []
+  },
+  {
+   "stage": "S2",
+   "run": "01M69XM9RZN3C8D0K7W2NSXR3D",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69XM9RZN3C8D0K7W2NSXR3D",
+   "delivered_files": []
+  },
+  {
+   "stage": "S3",
+   "run": "01M69Y1J6YWFEZ1DJHAC2MT17M",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69Y1J6YWFEZ1DJHAC2MT17M",
+   "delivered_files": []
+  },
+  {
+   "stage": "S4",
+   "run": "01M69Y882GTVYRJZM0CXQ44MXN",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69Y882GTVYRJZM0CXQ44MXN",
+   "delivered_files": [
+    "live/S4_1.5.0/products_fresh.csv",
+    "live/S4_1.5.0/products_fresh.json",
+    "live/S4_1.5.0/products_retained.csv",
+    "live/S4_1.5.0/products_retained.json"
+   ]
+  },
+  {
+   "stage": "S5b_serial",
+   "run": "01M69YPZTFCP7AWJ5B78AXEA2N",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69YPZTFCP7AWJ5B78AXEA2N",
+   "delivered_files": []
+  },
+  {
+   "stage": "S5b_parallel",
+   "run": "01M69YS2X0YG5JSEMCGKK8BHE5",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M69YS2X0YG5JSEMCGKK8BHE5",
+   "delivered_files": []
+  },
+  {
+   "stage": "S5a",
+   "run": "01M6A0JWYHTVK7XFH34P235F9Q",
+   "release": "1.5.0",
+   "commit": "7b6f3258e0f4ab755732605eb88717c592d07073",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M6A0JWYHTVK7XFH34P235F9Q",
+   "delivered_files": []
+  },
+  {
+   "stage": "S6",
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "release": "1.5.1",
+   "commit": "488a033fc22d09db9f6270feae274d8c77963d6f",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "delivered_files": [
+    "live/S6_1.5.1/products_fresh.csv",
+    "live/S6_1.5.1/products_fresh.json",
+    "live/S6_1.5.1/products_retained.csv",
+    "live/S6_1.5.1/products_retained.json"
+   ]
+  },
+  {
+   "stage": "S7",
+   "run": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+   "release": "1.5.1",
+   "commit": "488a033fc22d09db9f6270feae274d8c77963d6f",
+   "provider": "oxylabs",
+   "store": "3891",
+   "fulfillment": "PICKUP",
+   "status": "rejected",
+   "run_folder": "WALMART_EVIDENCE_1.5.2.zip: 1_new_live/runs/01M6A52HA6XYCEDS6DBE5N5RQ7",
+   "delivered_files": [
+    "live/S7_1.5.1/products_fresh.csv",
+    "live/S7_1.5.1/products_fresh.json",
+    "live/S7_1.5.1/products_retained.csv",
+    "live/S7_1.5.1/products_retained.json"
+   ]
+  }
+ ],
+ "run_summary": "live/RUN_SUMMARY.json",
+ "offline_replays_by_1_5_2": {
+  "commit": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+  "campaign_first_pass": {
+   "replays": {
+    "S1": "01M6CB2YEYXKA9TFR625F9VD2W",
+    "S2": "01M6CB3MHNMJK74SR3691XVSHS",
+    "S3": "01M6CB4TFKJA8VZR477ZZG0WM1",
+    "S4": "01M6CB5X64C1NCDN9PMKBTD1MV",
+    "S5b_serial": "01M6CB7ZF0QQ4CMXFXJ8YKRRZC",
+    "S5b_parallel": "01M6CB9501B3R09JZW0F8EJE3B",
+    "S5a": "01M6CBACH0WSTZ26XZY0VHZKZZ",
+    "S6": "01M6CBBKK60YBBVN6G7KVH2C9A",
+    "S7": "01M6CBDBPPQQJZY92NVNH51N47"
+   },
+   "folder_in_evidence": "WALMART_EVIDENCE_1.5.2.zip: 7_release_1_5_2/replay_campaign"
+  },
+  "campaign_second_pass": {
+   "replays": {
+    "S1": "01M6CBF00KWA4KDFZA8549CANN",
+    "S2": "01M6CBFJG3WJRGSBHAJ7RZSTK7",
+    "S3": "01M6CBGHJG8Z5X0V3WZGWZR35H",
+    "S4": "01M6CBHGEAZFGB6FCVJVJEERSW",
+    "S5b_serial": "01M6CBK8W1AFMM11Y1MPNXBSN7",
+    "S5b_parallel": "01M6CBMCAC3MRRYPRK4QBMDSJ4",
+    "S5a": "01M6CBNF5AQ9JF562V1K8YVQWV",
+    "S6": "01M6CBPJ840755PK2MTPGR57PC",
+    "S7": "01M6CBR7EW3EVV1Z01AE9T26WP"
+   },
+   "folder_in_evidence": "WALMART_EVIDENCE_1.5.2.zip: 7_release_1_5_2/repeat_replay/a2"
+  },
+  "b3": {
+   "replay_run": "01M6CAYDES6RF52M6PCNY2V560",
+   "of_run": "01M60V2DCCWR72BGVVG3EM9R74 (B3, release 1.4.1, 2026-10-28)",
+   "folder_in_evidence": "WALMART_EVIDENCE_1.5.2.zip: 7_release_1_5_2/replay_b3"
+  },
+  "readme": "offline_reprocessing/README.txt"
+ },
+ "earlier_deliveries_referenced": {
+  "20261028_walmart_1.4.1_dual_provider": {
+   "folder": "deliverables/20261028_walmart_1.4.1_dual_provider",
+   "its_SHA256SUMS_txt_sha256": "0e52a45442d9fb5529ce087074a733c86f33843ef02afe3565dafc1e3786897f",
+   "unchanged_by_this_delivery": true
+  },
+  "20261101_walmart_1.5.1": {
+   "folder": "deliverables/20261101_walmart_1.5.1",
+   "its_SHA256SUMS_txt_sha256": "a72a7d623b3b7e80e51695e81eec28a77a32325e2b246ea056e9104f0c1c929e",
+   "unchanged_by_this_delivery": true
+  }
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "evidence_class": "LIVE VERIFIED where a campaign page read answered; PENDING otherwise; no request made here",
+ "rows": 252,
+ "tally": {
+  "upc: filled by the campaign": 21,
+  "upc: not in any listing page the campaign read": 39,
+  "upc: read, no value: absent_in_source": 1,
+  "upc: seen by the campaign, its page not read within the budget": 182,
+  "weight: filled by the campaign": 2,
+  "weight: filled by the listing's own title in a campaign run": 1,
+  "weight: not in any listing page the campaign read": 1,
+  "weight: read, no value: absent_in_source": 7,
+  "weight: read, no value: unresolved_conflict": 3,
+  "weight: seen by the campaign, its page not read within the budget": 6
+ },
+ "dispositions_seen_in_campaign_exports": {
+  "recovered_from_saved_detail": 647,
+  "present_in_listing": 1735,
+  "unresolved_conflict": 8,
+  "fetched_detail": 31,
+  "absent_in_source": 20,
+  "budget_deadline_interruption": 1137,
+  "not_attempted": 162
+ }
+}

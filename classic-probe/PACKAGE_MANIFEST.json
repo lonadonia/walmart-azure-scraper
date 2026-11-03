@@ -1,0 +1,17 @@
+{
+  "package": "oxylabs-classic-offline-probe-1.5.2",
+  "probe_version": "1.5.2",
+  "frozen_revision": "627c804d66aa33fc423fd2296c8896c5d5c2c3d4",
+  "revision_committed_at": "2026-11-01T19:52:28+00:00",
+  "probe_code_last_changed_in": "2ed64b70809a67c49c68ebda5e3c3420f079073b",
+  "walmart_release_of_that_revision": "1.5.2",
+  "live_enabled": false,
+  "requests_sent": 0,
+  "credentials_in_this_package": "none: placeholders only (.env.example, config/*.example.json)",
+  "evidence_classes": {
+    "tests": "SYNTHETIC TEST (invented Classic responses) and OFFLINE REPLAY (real saved Walmart pages inside invented Classic envelopes)",
+    "a Classic request": "NOT TESTED"
+  },
+  "files_of_the_probe_tree": 45,
+  "file_list_sha256": "456b1c5f18df47b7a71233a6f5f553abe71240e1929b964118a25f24246ef017"
+}

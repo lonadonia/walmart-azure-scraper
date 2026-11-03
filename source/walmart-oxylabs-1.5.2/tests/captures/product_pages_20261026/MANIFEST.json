@@ -1,0 +1,70 @@
+[
+ {
+  "file": "walmart_seller_15268670678.html.gz",
+  "fetch_id": "01M5X5D96WAES8ZTCGP7QDAM73",
+  "item_id": "15268670678",
+  "url": "https://www.walmart.com/ip/Fresh-Peeled-Ginger-7oz/15268670678",
+  "fetched_at": "2026-10-26 22:31:01.084348+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X5D96WAES8ZTCGP7QDAM73.html.gz",
+  "source_sha256": "0eba587a61d2a778b9ef75ba7a20252c52a763e91cd04c6d32c4ae207622939f",
+  "content_sha256": "2c33dff6c11bc21accf189c9abea1a3759a937fdeb8f6e419d1b4758b923ff68",
+  "raw_original_body_sha256": "f97a3960f1477d66f60d90a131c7d423c80107ce8cbd79e86ca0e3f092089154",
+  "follow_up_outcome_1_3_0": "sponsored included",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "e89ddded9e9aba33c544e2c34e27feca4b2e196004869126008240f8499b5987",
+   "values_redacted": 7,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "marketplace_15163163334.html.gz",
+  "fetch_id": "01M5X5FEPHZ09DJ4F1ZSVQ4EET",
+  "item_id": "15163163334",
+  "url": "https://www.walmart.com/ip/Del-Monte-Fresh-Cut-Golden-Sweet-Whole-Kernel-Corn-Canned-Vegetables-8-75-oz-Can/15163163334",
+  "fetched_at": "2026-10-26 22:32:12.241582+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X5FEPHZ09DJ4F1ZSVQ4EET.html.gz",
+  "source_sha256": "76c892a91f994ecd8cceb89f969f6a6a1e3c50a8adc8572b4e0ddc8c6982ba8e",
+  "content_sha256": "ffde6d591287536b593501ef1ffcb9f08c450d5ec7fab4b33bde42f03fd9ef00",
+  "raw_original_body_sha256": "1a028fadfa8a62d9d63b24176819e12927a19a9bf8066a9f29425f711ffd75f8",
+  "follow_up_outcome_1_3_0": "variant excluded: required category not established: its own page files it under categoryPathId 0:976759:976794:2807108, not under Fresh Vegetables (976759_976793_8910423)",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "cfdea88d656c71051f633a3bd1fc3149e66521b540992f2ee1a26f743ed323fe",
+   "values_redacted": 7,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "out_of_stock_994998279.html.gz",
+  "fetch_id": "01M5X5G2VC1DCVPPX6BYMCHBQZ",
+  "item_id": "994998279",
+  "url": "https://www.walmart.com/ip/Fresh-Mangoes-Each-Sweet/994998279",
+  "fetched_at": "2026-10-26 22:32:32.876166+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X5G2VC1DCVPPX6BYMCHBQZ.html.gz",
+  "source_sha256": "1301a9dbf96801095a31fbc70187e2c7162d364e4ab3a3709ff1cd338ba69018",
+  "content_sha256": "93fc0d6ff0d0accb382ea5ae832641401e86705ba3ff02a4d4c6832927236b08",
+  "raw_original_body_sha256": "a98dafda349e6a2bbc61455ba02c3a715eae2dcc2c387a15b42f6e38f5f651e9",
+  "follow_up_outcome_1_3_0": "sponsored excluded: the product page shows no eligible local offer or assortment: LOCATION_UNATTESTED, ASSORTMENT_UNRESOLVED",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "598cfac69140d46b5019782872039f76ef0635ea8dcd0b5d592857c0e0673b30",
+   "values_redacted": 7,
+   "what": "isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ },
+ {
+  "file": "each_estimated_12852163028.html.gz",
+  "fetch_id": "01M5X3AP334EZQY37WB82ZJ87C",
+  "item_id": "12852163028",
+  "url": "https://www.walmart.com/ip/Fresh-Pears-Bartlett-Bulk-Each/12852163028?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1300",
+  "fetched_at": "2026-10-26 21:54:38.819639+00",
+  "source": "operator evidence store: evidence/azure/runs/01M5X364ZR83MZ9M60QGPFR7TX/pages/dom/01M5X3AP334EZQY37WB82ZJ87C.html.gz",
+  "source_sha256": "37925d7a1e96554691ff70ba3cf1790b5dab9a75e3afffb382c966a5dac9b952",
+  "content_sha256": "73e1256d0281a8f95e4c0a87bc3633fd9e611c41da2c6aadd3a7679e6b27859b",
+  "raw_original_body_sha256": "5c6e80b921c78af5537dbad962100ac4b18b72186e4e7090b50bcb6a1ccc3641",
+  "purpose_1_3_0": "product_detail (the UPC read of an exported product; the 1.3.0 export kept the listing tile's estimated price as a fixed price)",
+  "resanitized_1_3_1": {
+   "previous_content_sha256": "b14c9c37e003bf6daf81829f524e6a4e1f9d485f11d870d233d6cbecb85b9a49",
+   "values_redacted": 7,
+   "what": "copied in release 1.3.1; isomorphicSessionId, adSessionId, traceId, spanId, renderViewId values replaced with [REDACTED] by the release 1.3.1 sanitizer"
+  }
+ }
+]

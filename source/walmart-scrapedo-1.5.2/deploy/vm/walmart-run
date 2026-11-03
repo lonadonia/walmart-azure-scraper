@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# A long walmart-collector command (run, resume) as a transient systemd unit `walmart-NAME`, started by hand
+# (no timer): it outlives the SSH session, writes its JSON lines to /var/lib/walmart-collector/logs/NAME.jsonl
+# (and the journal), and its CPU and memory are sampled every 5 s to logs/NAME.resources.csv
+# (walmart-sample). `systemctl kill -s SIGTERM walmart-NAME` interrupts it resumably (exit 75); the result
+# line is the last line of the log.   sudo walmart-run demo1 run --store walmart-3891-pickup ...
+# WC_ENV names another environment file, WC_RELEASE another release folder with its own configuration and
+# WC_CONFIG another configuration file, as for walmart-cmd: an edition (docs/EDITIONS.md) runs with the first
+# two, e.g.
+#   sudo WC_ENV=/etc/walmart-collector/env.scrapedo WC_RELEASE=/opt/walmart-collector/edition-scrapedo \
+#     walmart-run sd-main run --store walmart-3891-pickup ...
+set -euo pipefail
+name=${1:?usage: walmart-run NAME ARGS...}
+shift
+[[ "$name" =~ ^[a-z0-9][a-z0-9-]{0,40}$ ]] || { echo "NAME: lowercase letters, digits and dashes" >&2; exit 2; }
+env_file=${WC_ENV:-/etc/walmart-collector/env}
+release=${WC_RELEASE:-/opt/walmart-collector/current}
+config=()
+if [ -n "${WC_CONFIG:-}" ]; then
+  config=(--config "$WC_CONFIG")
+elif [ -n "${WC_RELEASE:-}" ]; then
+  config=(--config "$release/config/collector.yaml")
+fi
+logs=/var/lib/walmart-collector/logs
+if systemctl is-active --quiet "walmart-$name"; then
+  echo "walmart-$name is already running" >&2
+  exit 9
+fi
+systemctl reset-failed "walmart-$name" 2>/dev/null || true
+systemd-run --quiet --unit="walmart-$name" \
+  --uid=walmart --gid=walmart \
+  -p EnvironmentFile="$env_file" \
+  -p WorkingDirectory="$release" \
+  -p NoNewPrivileges=yes -p ProtectSystem=strict -p ProtectHome=yes -p PrivateTmp=yes \
+  -p ReadWritePaths=/var/lib/walmart-collector \
+  -p KillMode=mixed -p KillSignal=SIGTERM -p TimeoutStopSec=180 \
+  -p MemoryMax=3G \
+  -p StandardOutput=append:"$logs/$name.jsonl" -p StandardError=append:"$logs/$name.stderr" \
+  "$release/.venv/bin/walmart-collector" "${config[@]}" "$@"
+systemd-run --quiet --unit="walmart-sample-$name" /usr/local/bin/walmart-sample "$name"
+echo "started walmart-$name: journalctl -u walmart-$name -f, or tail -f $logs/$name.jsonl"

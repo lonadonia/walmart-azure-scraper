@@ -1,0 +1,120 @@
+{
+  "mode": "REPLAY",
+  "run_id": "01M6CBDBPPQQJZY92NVNH51N47",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "gates": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "FAIL",
+      "G4": "FAIL",
+      "G5": "PASS",
+      "G6": "PASS",
+      "G7": "PASS",
+      "G8": "PASS",
+      "G9": "PASS",
+      "G10": "PASS",
+      "G11": "PASS",
+      "G12": "PASS",
+      "G13": "PASS",
+      "G14": "FAIL"
+    },
+    "nodes": {
+      "INCOMPLETE": 1
+    },
+    "canary": {
+      "at": "2026-11-01T20:04:32.901319Z",
+      "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+      "page": "01M6CBDC87NEE9QT921N0K49EM",
+      "valid": 32,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 0.8,
+      "source_check": {
+        "checked": 32,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "outcome": "rejected",
+    "contract": {
+      "pages": 1,
+      "problems": []
+    },
+    "verified": 32,
+    "follow_up": {
+      "variants": {
+        "kind": "variant",
+        "candidates": 0,
+        "pages_read": 0
+      },
+      "sponsored": {
+        "kind": "sponsored",
+        "candidates": 4,
+        "pages_read": 0,
+        "not_attempted": 4
+      }
+    },
+    "historical": {
+      "not_valid_now": 0,
+      "carried_forward": 674,
+      "refused_sources": 0,
+      "not_verified_by_current_rules": 0
+    },
+    "upc_detail": {
+      "extracted_reused": 32
+    },
+    "completeness": {
+      "ppm": 0.65625,
+      "upc": 1.0,
+      "url": 1.0,
+      "gupc": 0.0,
+      "weight": 0.96875,
+      "zipcode": 1.0,
+      "category": 1.0,
+      "image_url": 1.0,
+      "crawl_date": 1.0,
+      "sale_price": 0.21875,
+      "store_logo": 1.0,
+      "store_name": 1.0,
+      "unit_price": 0.0,
+      "store_brand": 1.0,
+      "sub_category": 1.0,
+      "product_title": 1.0,
+      "regular_price": 1.0,
+      "store_location": 1.0,
+      "volume_deals_price": 0.0,
+      "digital_deals_price": 0.0,
+      "volume_deals_description": 0.0,
+      "digital_deals_description": 0.0
+    },
+    "yield_baseline": null,
+    "records_by_status": {
+      "valid": 32,
+      "excluded": 8,
+      "historical": 674
+    },
+    "field_dispositions": {
+      "upc": {
+        "not_attempted": 271,
+        "absent_in_source": 1,
+        "recovered_from_saved_detail": 434
+      },
+      "weight": {
+        "not_attempted": 11,
+        "absent_in_source": 7,
+        "present_in_listing": 664,
+        "unresolved_conflict": 3,
+        "recovered_from_saved_detail": 21
+      }
+    },
+    "collection_complete": false
+  },
+  "excluded_by_reason": {
+    "APPROX_WEIGHT": 8,
+    "CARRIED_FORWARD": 674
+  },
+  "duplicates": 0
+}

@@ -1,0 +1,25 @@
+{
+ "evidence_class": "OFFLINE REPLAY",
+ "label": "OFFLINE REPLAY of live run 01M69X9XHZR83KZ2FNWBJYJKA7 by replay run 01M6CB2YEYXKA9TFR625F9VD2W: no request was made, and the run's original exports are unchanged",
+ "source_run": "01M69X9XHZR83KZ2FNWBJYJKA7",
+ "replay_run": "01M6CB2YEYXKA9TFR625F9VD2W",
+ "products_before": 35,
+ "products_after": 35,
+ "only_before": [],
+ "only_after": [],
+ "rows": 262,
+ "by_change_class": {
+  "capture_hash_added": 482,
+  "disposition_detail_added": 81,
+  "field_source_corrected": 75,
+  "missing_kind_corrected": 50,
+  "missing_resolved": 54,
+  "replay_read_again": 2,
+  "replay_read_id": 483
+ },
+ "counted_here_not_listed_in_the_map": [
+  "capture_hash_added",
+  "replay_read_id"
+ ],
+ "exported_values_changed_by_field": {}
+}
