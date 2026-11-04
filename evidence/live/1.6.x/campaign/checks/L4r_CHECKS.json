@@ -1,0 +1,1789 @@
+{
+ "stage": "L4r",
+ "run_id": "01M6HCF2YSD7N18W7JMH6EHK23",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6HCF2YSD7N18W7JMH6EHK23",
+  "record_count": 1754,
+  "fresh_record_count": 1601,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 1601,
+ "fresh_distinct_items": 1601,
+ "export_rows_with_carried": 1754,
+ "by_category": {
+  "Food": 355,
+  "Household Essentials": 393,
+  "Beauty": 395,
+  "Health & Wellness": 332,
+  "Pets": 126
+ },
+ "by_sub_category": {
+  "Fresh Fruits": 102,
+  "Fresh Vegetables": 253,
+  "Laundry": 393,
+  "Shampoo": 395,
+  "Shop all Cold Cough & Flu Medicine": 332,
+  "Dry Dog Food": 126
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 1754,
+  "crawl_dates_fresh": {
+   "2026-11-03": 1601
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 1601
+  },
+  "store_name": {
+   "Waukegan Supercenter": 1601
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 1601
+  },
+  "store_logo_filled": 1601
+ },
+ "filled_fresh": {
+  "zipcode": 1601,
+  "store_name": 1601,
+  "store_location": 1601,
+  "store_logo": 1601,
+  "store_brand": 1601,
+  "category": 1601,
+  "sub_category": 1601,
+  "product_title": 1601,
+  "weight": 1518,
+  "regular_price": 1600,
+  "sale_price": 81,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 1601,
+  "url": 1601,
+  "upc": 0,
+  "gupc": 0,
+  "ppm": 1533,
+  "unit_price": 0,
+  "crawl_date": 1601
+ },
+ "store_brand_fresh": {
+  "no": 1348,
+  "yes": 253
+ },
+ "upc_outcomes_fresh": {
+  "not_attempted": 1601
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 1518,
+  "not_attempted": 83
+ },
+ "upc_outcomes_all_rows": {
+  "not_attempted": 1681,
+  "fetched_detail": 58,
+  "recovered_from_saved_detail": 11,
+  "budget_deadline_interruption": 4
+ },
+ "weight_outcomes_all_rows": {
+  "present_in_listing": 1663,
+  "not_attempted": 86,
+  "fetched_detail": 4,
+  "budget_deadline_interruption": 1
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {
+  "sponsored | duplicate": 57,
+  "sponsored | not_attempted": 3,
+  "variant | not_attempted": 1175,
+  "variant | duplicate": 1
+ },
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-03 18:59:09.123390+00:00",
+  "finished_at": "2026-11-03 19:04:08.867495+00:00",
+  "parser_version": "1.6.1",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 52,
+   "credits": 52.0,
+   "usd": "0.07800000000000004",
+   "first": "2026-11-03 18:59:10.276517+00:00",
+   "last": "2026-11-03 19:03:06.891962+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 48
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 2
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 48,
+   "distinct_urls": 48
+  },
+  {
+   "purpose": "robots",
+   "fetches": 2,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 2,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6HCF37MG7ZPYR15ZXQF9CGH",
+   "started": "2026-11-03 18:59:09.166488+00:00",
+   "ended": "2026-11-03 19:04:08.962773+00:00",
+   "active_s": 299.78100000001723,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 52.0,
+   "workers": 2
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_8910423",
+   "status": "INCOMPLETE",
+   "total_count": 287,
+   "organic_upcs": 277,
+   "coverage_ratio": 0.9651567944250871,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+    "via": "configured",
+    "depth": 0,
+    "pages": 7,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([289, 288, 287]): 7 result pages, 277 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCFBYTG8RQV9RKFBMQFBGS",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 8
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 289
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCFTNGRAW4ZKJ93EVJYJKJ",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 289
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6HCG3GWCZXCDA5X7AGW661K",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 288
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6HCGAB4Q1H23BZFQRR527TA",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 289
+     },
+     {
+      "page": 5,
+      "organic": 40,
+      "fetch_id": "01M6HCGHHQTT8M694222ETN76G",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 289
+     },
+     {
+      "page": 6,
+      "organic": 40,
+      "fetch_id": "01M6HCGSWEFW0ZZDD4V2RP3Z5F",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 289
+     },
+     {
+      "page": 7,
+      "organic": 37,
+      "fetch_id": "01M6HCH1Z97CWBNTZD86RR58G0",
+      "max_page": 7,
+      "products": 47,
+      "sponsored": 10,
+      "page_count": 48,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 37,
+      "reported_total": 287
+     }
+    ],
+    "children_named": [
+     "976759_976793_8910423_1740611",
+     "976759_976793_8910423_4455738",
+     "976759_976793_8910423_6824326",
+     "976759_976793_8910423_1819145",
+     "976759_976793_8910423_9157552",
+     "976759_976793_8910423_7635722",
+     "976759_976793_8910423_9050148",
+     "976759_976793_8910423_4023809",
+     "976759_976793_8910423_3168197",
+     "976759_976793_8910423_6743445",
+     "976759_976793_8910423_2835097",
+     "976759_976793_8910423_9225247",
+     "976759_976793_8910423_8013618",
+     "976759_976793_8910423_5379855",
+     "976759_976793_8910423_2148282",
+     "976759_976793_8910423_8584247",
+     "976759_976793_8910423_4570048",
+     "976759_976793_8910423_3376733",
+     "976759_976793_8910423_8929117",
+     "976759_976793_8910423_8389254"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 277,
+     "organic": 277,
+     "difference": 10,
+     "placements": 346,
+     "total_stable": false,
+     "reported_total": 287,
+     "sponsored_only": 0,
+     "totals_reported": [
+      289,
+      288,
+      287
+     ],
+     "repeat_placements": 69,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967",
+   "status": "INCOMPLETE",
+   "total_count": 611,
+   "organic_upcs": 393,
+   "coverage_ratio": 0.6432078559738135,
+   "partition": {
+    "end": "EMPTY_PAGE",
+    "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+    "via": "configured",
+    "depth": 0,
+    "pages": 10,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([615, 613, 614, 611]): 10 result pages, 393 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 16,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCFQ6Q2G8QJ339VWNT6BS8",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 65,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCG1DN9MABB9FGAR3YZR1E",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6HCGD55EPCQQFEZSV28QC9E",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6HCGPEMMX37YY3DSYB821S2",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 5,
+      "organic": 40,
+      "fetch_id": "01M6HCGY2N8PCMNMJPR3KF84CD",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 6,
+      "organic": 40,
+      "fetch_id": "01M6HCH8PSBVZZXG29ZZQCR22R",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 7,
+      "organic": 40,
+      "fetch_id": "01M6HCHFTDK6V70KYNK7YKQNWJ",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 8,
+      "organic": 38,
+      "fetch_id": "01M6HCJ2PTRTRQYS744AWS9E50",
+      "max_page": 16,
+      "products": 48,
+      "sponsored": 10,
+      "page_count": 49,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 38,
+      "reported_total": 613
+     },
+     {
+      "page": 9,
+      "organic": 39,
+      "fetch_id": "01M6HCJCZ9PQ59976DTH63SN8Z",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 614
+     },
+     {
+      "page": 10,
+      "organic": 36,
+      "fetch_id": "01M6HCJNBHF6JCN3PBHA36W5JH",
+      "max_page": 16,
+      "products": 46,
+      "sponsored": 10,
+      "page_count": 47,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 36,
+      "reported_total": 611
+     },
+     {
+      "page": 11,
+      "organic": 0,
+      "fetch_id": "01M6HCJZX9KK2CFR92B6J1TQWZ",
+      "max_page": 16,
+      "products": 0,
+      "sponsored": 0,
+      "page_count": 0,
+      "grid_filter": "no result grid",
+      "other_modules": [],
+      "result_stacks": [],
+      "new_identities": 0,
+      "reported_total": 0
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149379",
+     "1115193_1071967_1630538",
+     "1115193_1071967_9527386",
+     "1115193_1071967_1149381",
+     "1115193_1071967_1149382",
+     "1115193_1071967_5244758",
+     "1115193_1071967_1149380",
+     "1115193_1071967_9242841",
+     "1115193_1071967_4824233",
+     "1115193_1071967_4670672",
+     "1115193_1071967_9155789",
+     "1115193_1071967_8953745"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 393,
+     "organic": 393,
+     "difference": 218,
+     "placements": 493,
+     "total_stable": false,
+     "reported_total": 611,
+     "sponsored_only": 0,
+     "totals_reported": [
+      615,
+      613,
+      614,
+      611
+     ],
+     "repeat_placements": 100,
+     "unresolved_difference": 218
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9756351",
+   "status": "INCOMPLETE",
+   "total_count": 130,
+   "organic_upcs": 124,
+   "coverage_ratio": 0.9538461538461539,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+    "via": "configured",
+    "depth": 0,
+    "pages": 4,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([134, 130]): 4 result pages, 124 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCHCA78PDFM5RTKJ54Z7MM",
+      "max_page": 4,
+      "products": 46,
+      "sponsored": 6,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 134
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCHMC6DX1PP43SV2G84C7K",
+      "max_page": 4,
+      "products": 46,
+      "sponsored": 6,
+      "page_count": 47,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 134
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6HCHW0MFHEGKW1VNQM6WDDD",
+      "max_page": 4,
+      "products": 46,
+      "sponsored": 6,
+      "page_count": 47,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 134
+     },
+     {
+      "page": 4,
+      "organic": 4,
+      "fetch_id": "01M6HCJ5E3PA86SXTKGRBZ46V2",
+      "max_page": 4,
+      "products": 10,
+      "sponsored": 6,
+      "page_count": 10,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 4,
+      "reported_total": 130
+     }
+    ],
+    "children_named": [
+     "976759_976793_9756351_2787146",
+     "976759_976793_9756351_4914029",
+     "976759_976793_9756351_1643058",
+     "976759_976793_9756351_7796396",
+     "976759_976793_9756351_3666751",
+     "976759_976793_9756351_2098775",
+     "976759_976793_9756351_5526945",
+     "976759_976793_9756351_1815247",
+     "976759_976793_9756351_9043545",
+     "976759_976793_9756351_6537775",
+     "976759_976793_9756351_9015203",
+     "976759_976793_9756351_3521037",
+     "976759_976793_9756351_4446268",
+     "976759_976793_9756351_9855664",
+     "976759_976793_9756351_7288972"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 124,
+     "organic": 124,
+     "difference": 6,
+     "placements": 148,
+     "total_stable": false,
+     "reported_total": 130,
+     "sponsored_only": 0,
+     "totals_reported": [
+      134,
+      130
+     ],
+     "repeat_placements": 24,
+     "unresolved_difference": 6
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9756351_3521037",
+   "status": "DONE",
+   "total_count": 3,
+   "organic_upcs": 3,
+   "coverage_ratio": 1.0,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/strawberries/976759_976793_9756351_3521037",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 3 organic and 0 sponsored-only identities; 3 reported; the organic identities equal the total",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 3,
+      "fetch_id": "01M6HCJJQ6Y7FCEPEYD8V16J5Z",
+      "max_page": 1,
+      "products": 3,
+      "sponsored": 0,
+      "page_count": 3,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 3,
+      "reported_total": 3
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "organic",
+     "placed": 3,
+     "organic": 3,
+     "difference": 0,
+     "placements": 3,
+     "total_stable": true,
+     "reported_total": 3,
+     "sponsored_only": 0,
+     "totals_reported": [
+      3
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434",
+   "status": "INCOMPLETE",
+   "total_count": 608,
+   "organic_upcs": 397,
+   "coverage_ratio": 0.65625,
+   "partition": {
+    "end": "EMPTY_PAGE",
+    "url": "https://www.walmart.com/browse/hair-care/shampoo/1085666_3147628_5752434",
+    "via": "configured",
+    "depth": 0,
+    "pages": 11,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([608, 607]): 11 result pages, 397 organic and 2 sponsored-only identities; not reconciled",
+    "max_page": 15,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCJW5B4BYNMJD59KAE88EG",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCK5R3VT9GDZRFFF2EC63X",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6HCKH8JZX8AYC34AXEM8SHS",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6HCKSSBMV3Q8SMGGXKBCG5P",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 5,
+      "organic": 39,
+      "fetch_id": "01M6HCM1PJVPDK2CE3KV58MZBM",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 607
+     },
+     {
+      "page": 6,
+      "organic": 39,
+      "fetch_id": "01M6HCM8V8TE06AVT0BDBK9S2R",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 607
+     },
+     {
+      "page": 7,
+      "organic": 39,
+      "fetch_id": "01M6HCMGDBJ8BZMKWG5717G6JT",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 607
+     },
+     {
+      "page": 8,
+      "organic": 40,
+      "fetch_id": "01M6HCMQ7SQ1BK4ZQC7WA9W9Z6",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 9,
+      "organic": 39,
+      "fetch_id": "01M6HCMY286DQ4STWPG06TPM2C",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 607
+     },
+     {
+      "page": 10,
+      "organic": 40,
+      "fetch_id": "01M6HCN7884H52Y28XV90HD3FP",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 608
+     },
+     {
+      "page": 11,
+      "organic": 1,
+      "fetch_id": "01M6HCNFXPRHHD95QDB97WVS0Q",
+      "max_page": 15,
+      "products": 11,
+      "sponsored": 10,
+      "page_count": 11,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 1,
+      "reported_total": 608
+     },
+     {
+      "page": 12,
+      "organic": 0,
+      "fetch_id": "01M6HCNNT7ZR76K8YGPXFF93PC",
+      "max_page": 15,
+      "products": 0,
+      "sponsored": 0,
+      "page_count": 0,
+      "grid_filter": "no result grid",
+      "other_modules": [],
+      "result_stacks": [],
+      "new_identities": 0,
+      "reported_total": 0
+     }
+    ],
+    "children_named": [
+     "1085666_3147628_5752434_2927912",
+     "1085666_3147628_5752434_9290117",
+     "1085666_3147628_5752434_5345451",
+     "1085666_3147628_5752434_6013811",
+     "1085666_3147628_5752434_8999798",
+     "1085666_3147628_5752434_6015425",
+     "1085666_3147628_5752434_3936937",
+     "1085666_3147628_5752434_9323405"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 399,
+     "organic": 397,
+     "difference": 209,
+     "placements": 507,
+     "total_stable": false,
+     "reported_total": 608,
+     "sponsored_only": 2,
+     "totals_reported": [
+      608,
+      607
+     ],
+     "repeat_placements": 108,
+     "unresolved_difference": 209
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRG",
+   "taxonomy_id": "976760_4661388_6244277_7158394",
+   "status": "INCOMPLETE",
+   "total_count": 344,
+   "organic_upcs": 332,
+   "coverage_ratio": 0.9651162790697675,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394",
+    "via": "configured",
+    "depth": 0,
+    "pages": 9,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([351, 349, 344]): 9 result pages, 332 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 9,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCK6KQM2D0MXX57D8W1XM3",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCKEFSN8DA79K768AA97CB",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6HCKPR64VT87E7HTAS78S28",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6HCM3QYFQWPHSHDJBWX1M12",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 5,
+      "organic": 40,
+      "fetch_id": "01M6HCMBA0H1MT560C2EBVDFFX",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 6,
+      "organic": 40,
+      "fetch_id": "01M6HCMJXYM96S4GZE27YCQ60W",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 7,
+      "organic": 40,
+      "fetch_id": "01M6HCMTNGV6TVHVMJF6340H32",
+      "max_page": 9,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 351
+     },
+     {
+      "page": 8,
+      "organic": 38,
+      "fetch_id": "01M6HCN2D9WX78A9VQ6VDKSG2E",
+      "max_page": 9,
+      "products": 48,
+      "sponsored": 10,
+      "page_count": 49,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 38,
+      "reported_total": 349
+     },
+     {
+      "page": 9,
+      "organic": 14,
+      "fetch_id": "01M6HCNAC6C5152BH65G68BBQ3",
+      "max_page": 9,
+      "products": 24,
+      "sponsored": 10,
+      "page_count": 25,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 14,
+      "reported_total": 344
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 332,
+     "organic": 332,
+     "difference": 12,
+     "placements": 422,
+     "total_stable": false,
+     "reported_total": 344,
+     "sponsored_only": 0,
+     "totals_reported": [
+      351,
+      349,
+      344
+     ],
+     "repeat_placements": 90,
+     "unresolved_difference": 12
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRH",
+   "taxonomy_id": "5440_202072_6432755_1636265",
+   "status": "INCOMPLETE",
+   "total_count": 138,
+   "organic_upcs": 126,
+   "coverage_ratio": 0.9202898550724637,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/pets/dry-dog-food/5440_202072_6432755_1636265",
+    "via": "configured",
+    "depth": 0,
+    "pages": 4,
+    "parent": "",
+    "reason": "the reported total changed while the listing was read ([139, 137, 138]): 4 result pages, 126 organic and 1 sponsored-only identities; not reconciled",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HCNHEMMHVQPVANEEJ8G7YP",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 139
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6HCNVZHQPC65NKFS1ZCMXD6",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 139
+     },
+     {
+      "page": 3,
+      "organic": 38,
+      "fetch_id": "01M6HCP3V7FYRJDXGW8EETG4D0",
+      "max_page": 4,
+      "products": 48,
+      "sponsored": 10,
+      "page_count": 49,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 38,
+      "reported_total": 137
+     },
+     {
+      "page": 4,
+      "organic": 8,
+      "fetch_id": "01M6HCPBCAD70T0FR7M1VVQ4X7",
+      "max_page": 4,
+      "products": 18,
+      "sponsored": 10,
+      "page_count": 19,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 8,
+      "reported_total": 138
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 127,
+     "organic": 126,
+     "difference": 11,
+     "placements": 166,
+     "total_stable": false,
+     "reported_total": 138,
+     "sponsored_only": 1,
+     "totals_reported": [
+      139,
+      137,
+      138
+     ],
+     "repeat_placements": 39,
+     "unresolved_difference": 11
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Food",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Household Essentials",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Health & Wellness",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Pets",
+   "message": "status INCOMPLETE"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L4r-capped-revisits-161-20261103",
+  "rows": 52,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 52,
+    "worst_usd": 0.078,
+    "settled_usd": 0.078,
+    "settled_results": 52
+   }
+  }
+ }
+}

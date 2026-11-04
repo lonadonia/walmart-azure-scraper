@@ -1,0 +1,33 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6HCZXM0WGMRCFDTCNZ7218K",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "canary": {
+      "at": "2026-11-03T19:08:54.542089Z",
+      "url": "https://www.walmart.com/browse/food/shop-all-game-time-food/976759_1567409_3282877_6093905?povid=976759_LHNCP_976759_NowTrending_TailgatingFood_Shopall_Sep_4",
+      "page": "01M6HD0KYRW50MQ7ZGZVM8CXVD",
+      "valid": 38,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 0.95,
+      "source_check": {
+        "checked": 38,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "contract": {
+      "pages": 31,
+      "problems": [
+        "https://www.walmart.com/browse/food/flowers/976759_1089004_2424807?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshFlowers_07_26: the page data has no search result"
+      ]
+    }
+  },
+  "excluded_by_reason": {
+    "APPROX_WEIGHT": 17
+  },
+  "duplicates": 0
+}

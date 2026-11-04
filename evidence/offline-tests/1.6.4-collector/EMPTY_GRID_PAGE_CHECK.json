@@ -1,0 +1,153 @@
+{
+ "what": "L7's stored Bidets answer (fetch 01M6K7Z4E1EMC2ZYJW0F7VA458, run 01M6K7HT3XVV8R8CX79P31KMB4): the private raw answer and the stored copy, judged offline by each release's own page reader (tools/empty_grid_check.py); no request, no page content",
+ "1.6.3": {
+  "release": "1.6.3",
+  "raw_file": "01M6K7Z4E1EMC2ZYJW0F7VA458.listing.body.gz",
+  "raw_file_sha256": "2de7bdaf268dc7df3bfc53ea390c0b8866e1dbea9ab79ae183f169e35b1551b7",
+  "raw_body_sha256": "aed1f0588a3213f5fe9f0b0be298ab5b2e9eebefcee61a3502311b2088111774",
+  "stored_copy_file": "01M6K7Z4E1EMC2ZYJW0F7VA458.html.gz",
+  "stored_copy_file_sha256": "20f482eaf05e8addb61b4b438bf32be72a163a268705f354148b5e74fb6a9c67",
+  "stored_copy_content_sha256": "8cd52779434ea43f88025b5608c2e2c869dcce9ac7626b76f498e11c64a446d3",
+  "raw_answer": {
+   "total_count": 10,
+   "page_count": 10,
+   "max_page": 0,
+   "stacks": [
+    {
+     "index": 0,
+     "layout": "GRID",
+     "title": "Results for \"bidets\"",
+     "count": 0,
+     "products": 0,
+     "primary": true,
+     "fulfillment": "Pickup"
+    },
+    {
+     "index": 1,
+     "layout": "CAROUSEL",
+     "title": "Available for shipping",
+     "count": 838,
+     "products": 10,
+     "primary": false,
+     "fulfillment": "Shipping"
+    }
+   ],
+   "listing_products": 0,
+   "result_grid_placements": 0,
+   "page_location": {
+    "store_id": "3891",
+    "postal_code": "60085",
+    "intent": "PICKUP"
+   },
+   "first_page_without_products": "stop: the page reports results but shows no product (ABNORMAL_RESULT)"
+  },
+  "stored_copy": {
+   "total_count": 10,
+   "page_count": 10,
+   "max_page": 0,
+   "stacks": [
+    {
+     "index": 0,
+     "layout": "GRID",
+     "title": "Results for \"bidets\"",
+     "count": 0,
+     "products": 0,
+     "primary": true,
+     "fulfillment": "Pickup"
+    },
+    {
+     "index": 1,
+     "layout": "CAROUSEL",
+     "title": "Available for shipping",
+     "count": 838,
+     "products": 10,
+     "primary": false,
+     "fulfillment": "Shipping"
+    }
+   ],
+   "listing_products": 0,
+   "result_grid_placements": 0,
+   "page_location": {
+    "store_id": "3891",
+    "postal_code": "60085",
+    "intent": "PICKUP"
+   },
+   "first_page_without_products": "stop: the page reports results but shows no product (ABNORMAL_RESULT)"
+  }
+ },
+ "1.6.4": {
+  "release": "1.6.4",
+  "raw_file": "01M6K7Z4E1EMC2ZYJW0F7VA458.listing.body.gz",
+  "raw_file_sha256": "2de7bdaf268dc7df3bfc53ea390c0b8866e1dbea9ab79ae183f169e35b1551b7",
+  "raw_body_sha256": "aed1f0588a3213f5fe9f0b0be298ab5b2e9eebefcee61a3502311b2088111774",
+  "stored_copy_file": "01M6K7Z4E1EMC2ZYJW0F7VA458.html.gz",
+  "stored_copy_file_sha256": "20f482eaf05e8addb61b4b438bf32be72a163a268705f354148b5e74fb6a9c67",
+  "stored_copy_content_sha256": "8cd52779434ea43f88025b5608c2e2c869dcce9ac7626b76f498e11c64a446d3",
+  "raw_answer": {
+   "total_count": 0,
+   "page_count": 10,
+   "max_page": 0,
+   "stacks": [
+    {
+     "index": 0,
+     "layout": "GRID",
+     "title": "Results for \"bidets\"",
+     "count": 0,
+     "products": 0,
+     "primary": true,
+     "fulfillment": "Pickup"
+    },
+    {
+     "index": 1,
+     "layout": "CAROUSEL",
+     "title": "Available for shipping",
+     "count": 838,
+     "products": 10,
+     "primary": false,
+     "fulfillment": "Shipping"
+    }
+   ],
+   "listing_products": 0,
+   "result_grid_placements": 0,
+   "page_location": {
+    "store_id": "3891",
+    "postal_code": "60085",
+    "intent": "PICKUP"
+   },
+   "first_page_without_products": "empty listing (EMPTY, 'the listing shows 0 results'), once the page's own store check passes"
+  },
+  "stored_copy": {
+   "total_count": 0,
+   "page_count": 10,
+   "max_page": 0,
+   "stacks": [
+    {
+     "index": 0,
+     "layout": "GRID",
+     "title": "Results for \"bidets\"",
+     "count": 0,
+     "products": 0,
+     "primary": true,
+     "fulfillment": "Pickup"
+    },
+    {
+     "index": 1,
+     "layout": "CAROUSEL",
+     "title": "Available for shipping",
+     "count": 838,
+     "products": 10,
+     "primary": false,
+     "fulfillment": "Shipping"
+    }
+   ],
+   "listing_products": 0,
+   "result_grid_placements": 0,
+   "page_location": {
+    "store_id": "3891",
+    "postal_code": "60085",
+    "intent": "PICKUP"
+   },
+   "first_page_without_products": "empty listing (EMPTY, 'the listing shows 0 results'), once the page's own store check passes"
+  }
+ }
+}

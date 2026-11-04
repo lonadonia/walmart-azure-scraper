@@ -2,19 +2,46 @@
 
 There is one entry for each delivery to the client's review, newest first. Each delivery keeps its own review tag,
 and a tag is never moved. The collector's change history by release is in
-[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.5.2/docs/VERIFICATION.md).
+[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.6.5/docs/VERIFICATION.md).
 
 ## How this repository is updated
 
 - **One source tree.** For each release, `source/` is replaced by the next frozen tree. An earlier tree stays
   available through its tag.
-- **Live runs.** Each new live run gets its own folder, `data/<run>-<release that collected it>/`, for example
-  `data/S6-1.5.1/`. An existing folder is never rewritten.
+- **Live runs.** The product files of a delivered live run get their own folder, `data/<run>-<release that
+  collected it>/`, for example `data/S6-1.5.1/`. Every run's exports are in its evidence folder. An existing folder
+  is never rewritten.
 - **Evidence.** It goes under `evidence/<class>/`, with the release in the path where the class has one.
 - **Each delivery** adds:
   - an entry here;
   - its own tag, `review-<release>-<YYYYMMDD>`, with the UTC date the tag was made;
   - freshly written manifests, with `SHA256SUMS.txt` written last.
+
+## 1.6.5: correction delivery, published 2026-11-04 (tag `review-1.6.5-20261104`)
+
+- **Collector:** release 1.6.5, commit `67d216eb8ee2ec839a437b0b5bf2d594324b6982`, 2026-11-04. It follows 1.6.0 to
+  1.6.4, which were not published separately; their changes are in this delivery. The shared Classic probe is
+  1.7.0 ([`classic-probe-1.7.0/`](classic-probe-1.7.0/)). The Walmart probe 1.5.2 stays in
+  [`classic-probe/`](classic-probe/), unchanged.
+- **Corrections** (see [`review/CORRECTION_MAP.md`](review/CORRECTION_MAP.md)):
+  - the four deal fields are always `""`, the client's clarification (1.6.0);
+  - saved product-page reads are used when a run ends early, when detail reading is off, and for carried rows
+    (1.6.1, 1.6.3);
+  - a listing whose total moves while it is read is never `DONE`; a link that serves a category page is recorded
+    (1.6.2);
+  - Walmart's not-found page is recognized (1.6.3);
+  - a listing total of 0 is a total (1.6.4);
+  - the independent source check reads the flat price strings some pages use (1.6.5);
+  - the Classic findings C1 to C5 are corrected offline (probe 1.7.0).
+- **Live data:** fourteen runs of the user's Oxylabs Web API trial, 2026-11-03 and 2026-11-04, each on the release
+  that ran it. [`data/L10-1.6.4/`](data/L10-1.6.4/) is the census of release 1.6.4 (7,055 fresh valid, detail
+  reading off); its export passes the final release's check. [`data/L8-1.6.3/`](data/L8-1.6.3/) is the last
+  demonstration with detail reading on (675 fresh valid). 1.6.5's own live runs are two canaries. The 1.5.x folders
+  of `data/` are unchanged. The full catalogue was not read.
+- **Verification:** the suites of every release on its commit, and both 1.6.5 edition ZIPs from clean extractions
+  ([`evidence/verification/1.6.5/`](evidence/verification/1.6.5/)). Nothing ran in the client's environment.
+- **States:** [`review/REQUIREMENT_MATRIX.md`](review/REQUIREMENT_MATRIX.md) and the four new columns of
+  [`review/ACCEPTANCE_MATRIX.csv`](review/ACCEPTANCE_MATRIX.csv).
 
 ## 1.5.2: correction delivery, published 2026-11-03 (tag `review-1.5.2-20261103`)
 

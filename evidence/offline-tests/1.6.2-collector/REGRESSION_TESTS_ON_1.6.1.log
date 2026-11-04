@@ -1,0 +1,118 @@
+FF.FF..                                                                  [100%]
+================================== FAILURES ===================================
+___ test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one ___
+
+    def test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one() -> None:
+        # Release 1.6.2. The shape of the "Flower Shop" page the listing link "Fresh Flowers" served on 2026-11-03
+        # (a SYNTHETIC copy of its route, its address and an empty initialData).
+        hub = {
+            "page": "/cp/[...categoryParams]",
+            "query": {"categoryParams": ["flower-shop", "5098771"]},
+            "props": {"pageProps": {"pageUrl": "/cp/flower-shop/5098771?povid=x", "initialData": {}}},
+        }
+>       assert wpd.category_page(hub) == "/cp/flower-shop/5098771" and wpd.search_result(hub) is None
+               ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.sites.walmart.page_data' has no attribute 'category_page'. Did you mean: 'category_nav'?
+
+tests\unit\test_walmart.py:482: AttributeError
+_ test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done _
+
+    def test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done() -> None:
+        # Live 2026-11-03, Laundry (release 1.6.1 left it unpartitioned): 615, 613, 614 and 611 reported while it
+        # was read, page 11 of the 16 linked empty, 393 served.
+        lst = _listing(393, 611, totals=[615, 613, 614, 611])
+        close_listing(lst, "EMPTY_PAGE", 11, "result page 11 shows no products")
+>       assert lst.status == "INCOMPLETE" and lst.end == "RESULT_WINDOW"
+E       AssertionError: assert ('INCOMPLETE' == 'INCOMPLETE'
+E         
+E           INCOMPLETE and 'EMPTY_PAGE' == 'RESULT_WINDOW'
+E         
+E         - RESULT_WINDOW
+E         + EMPTY_PAGE)
+
+tests\unit\test_listing_reconciliation.py:226: AssertionError
+_ test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:57152/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children(
+        env: dict[str, Any],
+    ) -> None:
+        # Release 1.6.2. Until 1.6.1 the moved total ended the listing "not reconciled" and unpartitioned.
+        serve(
+            env,
+            {
+                DIAPERING: moving_window_parent,
+                DIAPERS: lambda n: listing(
+                    items(1, 7, 8), page=n, max_page=1, total=3, cat=("Diapers", [*CRUMBS, "5427_486190_1"])
+                ),
+                WIPES: lambda n: listing(
+                    items(9, 10), page=n, max_page=1, total=2, cat=("Wipes", [*CRUMBS, "5427_486190_2"])
+                ),
+            },
+        )
+        run_id, _ = run_diapering(env)
+        cov = coverage(env, run_id)
+        parent = cov["5427_486190"]
+>       assert parent.status == "PARTITIONED" and parent.partition["end"] == "RESULT_WINDOW"
+E       AssertionError: assert ('INCOMPLETE' == 'PARTITIONED'
+E         
+E         - PARTITIONED
+E         + INCOMPLETE)
+
+tests\integration\test_coverage_and_assortment.py:247: AssertionError
+---------------------------- Captured stdout call -----------------------------
+{"ts": "2026-11-03T19:23:14.523Z", "level": "INFO", "event": "RUN_CREATED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "LIVE run for walmart-3891-pickup", "data": {"trigger": "manual"}}
+{"ts": "2026-11-03T19:23:14.648Z", "level": "INFO", "event": "RUN_PREFLIGHT", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "queued -> preflight", "data": {}}
+{"ts": "2026-11-03T19:23:14.679Z", "level": "INFO", "event": "PROVIDER_BALANCE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Scrape.do balance before collecting", "data": {"provider": "scrape.do", "keys": {"primary": {"fingerprint": "57d5f2f2d6e6", "remaining": 1000, "monthly": 1000, "read_at": "2026-11-03T19:23:14.675227Z", "error": null, "exhausted_at": null}}, "usable": 1000.0}}
+{"ts": "2026-11-03T19:23:14.861Z", "level": "INFO", "event": "PROVIDER_SESSION_OPENED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Scrape.do session opened (Walmart store-scoped requests); robots.txt loaded", "data": {"session": 1, "session_id": "01M6HDV6YVNHZ42RTXSGC0B9EE", "worker": "w0", "robots_sha256": "7a68d758825839c28cd4d605ccdda745c06c62e29157102d8a6c1d47195316e4", "provider": "scrapedo", "endpoint": "/plugin/walmart/store", "store_scope": {"storeid": "3891", "zipcode": "60085"}}}
+{"ts": "2026-11-03T19:23:15.352Z", "level": "INFO", "event": "STORE_SELECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Walmart store 3891 verified on its own page; Scrape.do applies it on every page and each page's own data is checked", "data": {"store_page": "01M6HDV71Y215DGBSSHF70NGDW", "result": {"method": "Scrape.do store-scoped requests (the provider applies the store; no click)", "provider": "scrapedo", "endpoint": "/plugin/walmart/store", "storeid": "3891", "zipcode": "60085"}}}
+{"ts": "2026-11-03T19:23:15.367Z", "level": "INFO", "event": "STORE_VERIFIED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Walmart #3891 Waukegan verified on Walmart's store page; every listing page is checked for PICKUP at store 3891", "data": {"url": "https://www.walmart.com/store/3891-waukegan-il"}}
+{"ts": "2026-11-03T19:23:15.367Z", "level": "INFO", "event": "RUN_RUNNING", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "preflight -> running", "data": {}}
+{"ts": "2026-11-03T19:23:15.968Z", "level": "INFO", "event": "PAGE_COLLECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Diapering › Diapering: result page 1", "data": {"node": "5427_486190", "listing": "5427_486190", "page": 1, "products": 3, "new_records": 3, "new_verified": 3, "duplicates": 0, "sponsored": 0, "excluded": 0, "total": 12, "max_page": 25, "seen": 3, "bytes": 4422}}
+{"ts": "2026-11-03T19:23:15.991Z", "level": "INFO", "event": "CANARY_PASSED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "first recorded page passed the automated checks: collection continues", "data": {"page": "01M6HDV7JSRC5G53SE5TP9MX42", "url": "https://www.walmart.com/browse/diapering/5427_486190", "records": 3, "valid": 3, "valid_ratio": 1.0, "source_check": {"checked": 3, "mismatch": 0, "unverified": 0}, "problems": []}}
+{"ts": "2026-11-03T19:23:16.393Z", "level": "INFO", "event": "PAGE_COLLECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Diapering › Diapering: result page 2", "data": {"node": "5427_486190", "listing": "5427_486190", "page": 2, "products": 3, "new_records": 3, "new_verified": 3, "duplicates": 0, "sponsored": 0, "excluded": 0, "total": 10, "max_page": 25, "seen": 6, "bytes": 4422}}
+{"ts": "2026-11-03T19:23:16.899Z", "level": "WARN", "event": "NODE_INCOMPLETE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Diapering: 6 distinct products in 1 listings (5427_486190: the reported total changed while the listing was read ([12, 10]): 2 result pages, 6 organic and 0 sponsored-only identities; not reconciled)", "data": {"node": "5427_486190", "pages": 2, "listings": [{"id": "5427_486190", "status": "INCOMPLETE", "end": "EMPTY_PAGE", "total": 10, "seen": 6, "difference": 4, "basis": "", "unresolved_difference": 4}]}}
+{"ts": "2026-11-03T19:23:16.956Z", "level": "INFO", "event": "FOLLOW_UP_DONE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "sponsored: {'kind': 'sponsored', 'candidates': 0, 'pages_read': 0, 'named_by_run': 0, 'from_queue': 0, 'queue_pending_after': 0}", "data": {"kind": "sponsored", "candidates": 0, "pages_read": 0, "named_by_run": 0, "from_queue": 0, "queue_pending_after": 0}}
+{"ts": "2026-11-03T19:23:17.009Z", "level": "INFO", "event": "FOLLOW_UP_DONE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "variants: {'kind': 'variant', 'candidates': 0, 'pages_read': 0, 'named_by_run': 0, 'from_queue': 0, 'queue_pending_after': 0}", "data": {"kind": "variant", "candidates": 0, "pages_read": 0, "named_by_run": 0, "from_queue": 0, "queue_pending_after": 0}}
+{"ts": "2026-11-03T19:23:17.118Z", "level": "INFO", "event": "PRODUCT_DETAILS_CLOSED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "UPC outcomes of the exported products", "data": {"not_attempted": 6}}
+{"ts": "2026-11-03T19:23:17.134Z", "level": "INFO", "event": "RECORDS_ASSEMBLED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "6 products (6 verified); collection incomplete", "data": {"records_by_status": {"valid": 6}, "collection_complete": false}}
+{"ts": "2026-11-03T19:23:17.307Z", "level": "INFO", "event": "RUN_VALIDATING", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "running -> validating", "data": {}}
+{"ts": "2026-11-03T19:23:17.307Z", "level": "INFO", "event": "CHECKS_COMPLETE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "rejected", "data": {"G1": "PASS", "G2": "PASS", "G3": "FAIL", "G4": "PASS", "G5": "PASS", "G6": "PASS", "G7": "PASS", "G8": "PASS", "G9": "PASS", "G10": "PASS", "G11": "PASS", "G12": "PASS", "G13": "PASS", "G14": "FAIL"}}
+{"ts": "2026-11-03T19:23:17.589Z", "level": "INFO", "event": "EXPORTS_STAGED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "runs/walmart-3891-pickup/01M6HDV6PV3JZ51TCC949AQCVH/exports/manifest.json", "data": {"records": 6}}
+{"ts": "2026-11-03T19:23:17.589Z", "level": "INFO", "event": "RUN_REJECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "validating -> rejected", "data": {}}
+{"ts": "2026-11-03T19:23:17.611Z", "level": "INFO", "event": "PROVIDER_SESSION_CLOSED", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "provider session closed", "data": {"credits_charged": 32.0, "requests": 5}}
+{"ts": "2026-11-03T19:23:17.619Z", "level": "INFO", "event": "PROVIDER_TRAFFIC", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "requests of the closed Scrape.do session (w0)", "data": {"provider": "scrapedo", "requests": 5, "credits_charged": 32.0, "usd": 0.0, "bytes_received": 10914, "worker": "w0"}}
+{"ts": "2026-11-03T19:23:17.632Z", "level": "INFO", "event": "PROVIDER_BALANCE", "collector": "walmart-azure-headless", "run_id": "01M6HDV6PV3JZ51TCC949AQCVH", "message": "Scrape.do balance after collecting", "data": {"provider": "scrape.do", "keys": {"primary": {"fingerprint": "57d5f2f2d6e6", "remaining": 998, "monthly": 1000, "read_at": "2026-11-03T19:23:17.627478Z", "error": null, "exhausted_at": null}}, "usable": 998.0}}
+_ test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:57152/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on(
+        env: dict[str, Any],
+    ) -> None:
+        # Release 1.6.2. Release 1.6.1 stopped the run (ABNORMAL_RESULT, not resumable) and the store was held.
+        serve(env, {MILK: lambda n: no_grid("/cp/[...categoryParams]")})
+        run_id, _ = run_food(env)
+        cov = coverage(env, run_id)
+>       milk = cov["976759_9176907"]
+               ^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '976759_9176907'
+
+tests\integration\test_coverage_and_assortment.py:961: KeyError
+---------------------------- Captured stdout call -----------------------------
+{"ts": "2026-11-03T19:23:18.483Z", "level": "INFO", "event": "RUN_CREATED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "LIVE run for walmart-3891-pickup", "data": {"trigger": "manual"}}
+{"ts": "2026-11-03T19:23:18.593Z", "level": "INFO", "event": "RUN_PREFLIGHT", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "queued -> preflight", "data": {}}
+{"ts": "2026-11-03T19:23:18.618Z", "level": "INFO", "event": "PROVIDER_BALANCE", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Scrape.do balance before collecting", "data": {"provider": "scrape.do", "keys": {"primary": {"fingerprint": "57d5f2f2d6e6", "remaining": 1000, "monthly": 1000, "read_at": "2026-11-03T19:23:18.617232Z", "error": null, "exhausted_at": null}}, "usable": 1000.0}}
+{"ts": "2026-11-03T19:23:18.765Z", "level": "INFO", "event": "PROVIDER_SESSION_OPENED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Scrape.do session opened (Walmart store-scoped requests); robots.txt loaded", "data": {"session": 1, "session_id": "01M6HDVAS800WFFJWMGNDH8FNV", "worker": "w0", "robots_sha256": "7a68d758825839c28cd4d605ccdda745c06c62e29157102d8a6c1d47195316e4", "provider": "scrapedo", "endpoint": "/plugin/walmart/store", "store_scope": {"storeid": "3891", "zipcode": "60085"}}}
+{"ts": "2026-11-03T19:23:19.255Z", "level": "INFO", "event": "STORE_SELECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Walmart store 3891 verified on its own page; Scrape.do applies it on every page and each page's own data is checked", "data": {"store_page": "01M6HDVAW42N6ZA1KHZ62WQT0P", "result": {"method": "Scrape.do store-scoped requests (the provider applies the store; no click)", "provider": "scrapedo", "endpoint": "/plugin/walmart/store", "storeid": "3891", "zipcode": "60085"}}}
+{"ts": "2026-11-03T19:23:19.255Z", "level": "INFO", "event": "STORE_VERIFIED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Walmart #3891 Waukegan verified on Walmart's store page; every listing page is checked for PICKUP at store 3891", "data": {"url": "https://www.walmart.com/store/3891-waukegan-il"}}
+{"ts": "2026-11-03T19:23:19.271Z", "level": "INFO", "event": "RUN_RUNNING", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "preflight -> running", "data": {}}
+{"ts": "2026-11-03T19:23:19.758Z", "level": "INFO", "event": "SUBCATEGORIES_FOUND", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Food: 4 subcategory listings on the category page, 2 to read", "data": {"node": "976759", "excluded_by_csv": ["recipe", "shop all food"], "listings": [{"name": "Recipes", "url": "https://www.walmart.com/i/recipes", "note": "excluded by the client's CSV"}, {"name": "Dairy & Eggs", "url": "https://www.walmart.com/cp/dairy-eggs/9176907", "note": "a category page or other page, not a product listing"}, {"name": "Milk", "url": "https://www.walmart.com/browse/food/milk/976759_9176907", "note": ""}, {"name": "Snacks", "url": "https://www.walmart.com/browse/food/snacks/976759_976787", "note": ""}]}}
+{"ts": "2026-11-03T19:23:20.288Z", "level": "WARN", "event": "RUN_STOPPED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "https://www.walmart.com/browse/food/milk/976759_9176907: the page data has no search result (unexpected shape)", "data": {"stop_code": "ABNORMAL_RESULT", "task": "01M6HDVAJD6EKRSEQXCC51J6K2/node/0000-976759", "resumable": false}}
+{"ts": "2026-11-03T19:23:20.299Z", "level": "INFO", "event": "PROVIDER_SESSION_CLOSED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "provider session closed", "data": {"credits_charged": 13.0, "requests": 4}}
+{"ts": "2026-11-03T19:23:20.304Z", "level": "INFO", "event": "PROVIDER_TRAFFIC", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "requests of the closed Scrape.do session (w0)", "data": {"provider": "scrapedo", "requests": 4, "credits_charged": 13.0, "usd": 0.0, "bytes_received": 2456, "worker": "w0"}}
+{"ts": "2026-11-03T19:23:20.321Z", "level": "INFO", "event": "PROVIDER_BALANCE", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "Scrape.do balance after collecting", "data": {"provider": "scrape.do", "keys": {"primary": {"fingerprint": "57d5f2f2d6e6", "remaining": 997, "monthly": 1000, "read_at": "2026-11-03T19:23:20.313482Z", "error": null, "exhausted_at": null}}, "usable": 997.0}}
+{"ts": "2026-11-03T19:23:20.342Z", "level": "INFO", "event": "RUN_REJECTED", "collector": "walmart-azure-headless", "run_id": "01M6HDVAJD6EKRSEQXCC51J6K2", "message": "running -> rejected", "data": {}}
+4 failed, 3 passed in 31.35s
+exit=1

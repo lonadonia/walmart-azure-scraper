@@ -1,0 +1,39 @@
+{
+ "queue_products": 275,
+ "runs": {
+  "L2": "01M6H72J86K5TF7A1874N7BJ2R",
+  "L3": "01M6HA74X4QYMW45SVD62JQDSQ",
+  "L2b": "01M6HAXEP6495EGWT91JQS09SS"
+ },
+ "by_decision": {
+  "included": 48,
+  "excluded": 224,
+  "duplicate": 3
+ },
+ "by_listing_and_decision": {
+  "1005862_1071969 | included": 7,
+  "1005862_1071969 | excluded": 17,
+  "5440_202072_6432755_1636265 | excluded": 92,
+  "976760_4661388_6244277_7158394 | excluded": 17,
+  "5427_486190 | excluded": 47,
+  "5427_486190 | included": 27,
+  "5440_202072_6432755_1636265 | duplicate": 2,
+  "5440_202072_6432755_1636265 | included": 2,
+  "976759_976793_8910423 | excluded": 24,
+  "1115193_1071967 | excluded": 27,
+  "1115193_1071967 | included": 11,
+  "976759_976793_8910423 | included": 1,
+  "976760_4661388_6244277_7158394 | duplicate": 1
+ },
+ "by_record_status": {
+  "valid": 48,
+  "excluded": 55
+ },
+ "client_cases": {
+  "sponsored_only | not in the 1.5.2 live-read queue (closed before)": 11,
+  "tile_only_variant_sibling | not in the 1.5.2 live-read queue (closed before)": 5,
+  "tile_only_variant_sibling | excluded": 24,
+  "tile_only_variant_sibling | included": 1
+ },
+ "note": "Aggregates are computed from W3_DECISIONS_1_6_1.csv and W3_CLIENT_CASES_1_6_1.csv rows."
+}

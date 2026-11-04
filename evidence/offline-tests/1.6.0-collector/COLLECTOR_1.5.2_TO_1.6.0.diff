@@ -1,0 +1,1114 @@
+diff --git a/Dockerfile b/Dockerfile
+index 01d7757..1c7a112 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.5.2 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.5.2 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.0 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.0 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 4cb6ad5..ce06830 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.5.2" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.0" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/pyproject.toml b/pyproject.toml
+index 38a2f22..358ef7a 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.5.2"
++version = "1.6.0"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 19c2435..a7148e3 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.5.2"
++__version__ = "1.6.0"
+diff --git a/src/walmart_headless/acquisition/oxylabs.py b/src/walmart_headless/acquisition/oxylabs.py
+index e1bab05..2cfff71 100644
+--- a/src/walmart_headless/acquisition/oxylabs.py
++++ b/src/walmart_headless/acquisition/oxylabs.py
+@@ -25,6 +25,14 @@ request is sent. A 200 answer is settled as one charged result; the documented f
+ REQUEST_FAILED_AFTER_TOO_MANY_RETRIES) and an authentication refusal (no account was reached) as not
+ charged; any other answer, and a request cancelled or cut after it was sent, keeps its reserved cost as
+ possibly charged (``cost_source`` "unknown").
++
++Account gate (1.6.0). When several collectors share one provider account and one allowance, an operator's
++harness can set :attr:`OxylabsTransport.account_gate_factory` to an account-wide controller outside this
++collector (:class:`AccountGate`). It is consulted for every submission after this collector's own ledger has
++reserved it: the gate reserves the submission's worst case before anything is sent, is told just before the
++request leaves, and then learns the outcome. A refusal sends nothing and stops the run as a spending ceiling
++does. A submission sent without a usable answer is reported to the gate as unknown, never as free. Without a
++gate (the default) nothing changes.
+ """
+ 
+ from __future__ import annotations
+@@ -40,7 +48,7 @@ from dataclasses import dataclass
+ from datetime import datetime, timedelta
+ from pathlib import Path
+ from time import monotonic
+-from typing import Any, ClassVar
++from typing import Any, ClassVar, Protocol
+ 
+ import httpx
+ from pydantic import SecretStr
+@@ -343,6 +351,37 @@ class OxylabsLedger:
+             s.commit()
+ 
+ 
++# -- an account-wide gate (1.6.0) ----------------------------------------------------------------------------
++
++
++class GateRefused(RuntimeError):
++    """The account-wide gate refused this submission: nothing is sent."""
++
++
++class AccountGate(Protocol):
++    """An optional spending controller outside this collector, shared with the other collectors that use the
++    same provider account. For one submission, in order: :meth:`reserve` (a refusal raises
++    :class:`GateRefused`: nothing is sent), :meth:`dispatched` just before the request leaves (a refusal:
++    :meth:`unsent`, nothing is sent), then exactly one of :meth:`settled` (an answer came), :meth:`unknown`
++    (sent, no answer: its reservation stays held)."""
++
++    def reserve(
++        self, *, purpose: str, endpoint: str, target_url: str, attempt: int, usd: float, key: str
++    ) -> str:
++        """Reserve one submission's worst case; returns the gate's own reference for it."""
++        ...
++
++    def dispatched(self, ref: str) -> None: ...
++
++    def unsent(self, ref: str, reason: str) -> None: ...
++
++    def settled(
++        self, ref: str, *, status: int, kind: str | None, charged: bool | None, usd: float
++    ) -> None: ...
++
++    def unknown(self, ref: str, reason: str) -> None: ...
++
++
+ # -- answers ----------------------------------------------------------------------------------------------
+ 
+ 
+@@ -414,6 +453,9 @@ class OxylabsTransport:
+ 
+     # Tests point this at an in-memory mock of the Web API (never at the real API).
+     client_factory: ClassVar[Callable[[], httpx.AsyncClient] | None] = None
++    # 1.6.0: an account-wide spending gate, set by an operator's harness (None: this collector's own ceiling
++    # and budget apply alone).
++    account_gate_factory: ClassVar[Callable[[], AccountGate] | None] = None
+ 
+     def __init__(
+         self,
+@@ -428,8 +470,12 @@ class OxylabsTransport:
+         segment_id: str | None = None,
+         worker: str | None = None,
+         sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
++        account_gate: AccountGate | None = None,
+     ):
+         self.ledger, self.run_id, self.retailer, self.actor = ledger, run_id, retailer, actor
++        gate_factory = OxylabsTransport.account_gate_factory
++        self.gate: AccountGate | None = account_gate or (gate_factory() if gate_factory else None)
++        self.gate_errors: list[str] = []
+         self.max_attempts = max_attempts
+         self.segment_id, self.worker = segment_id, worker
+         self.sleep = sleep
+@@ -452,6 +498,47 @@ class OxylabsTransport:
+             "Content-Type": "application/json",
+         }
+ 
++    def _gate_open(self, row_id: str, req: OxyRequest, attempt: int, rate: float) -> str | None:
++        """The account-wide gate's reservation and dispatch mark, or a CEILING error with nothing sent."""
++        if self.gate is None:
++            return None
++        ref: str | None = None
++        try:
++            ref = self.gate.reserve(
++                purpose=req.purpose,
++                endpoint=req.endpoint,
++                target_url=req.url[:2000],
++                attempt=attempt,
++                usd=rate,
++                key=row_id,
++            )
++            self.gate.dispatched(ref)
++        except Exception as exc:  # any failure of the gate is a refusal: nothing is sent
++            if ref is not None:
++                try:
++                    self.gate.unsent(ref, f"refused at dispatch: {type(exc).__name__}")
++                except Exception as exc2:  # recorded; the reservation stays held there
++                    self.gate_errors.append(f"unsent: {type(exc2).__name__}: {exc2}"[:300])
++            self.ledger.release(row_id, "gate_refused", charged_unknown=False)
++            raise ProviderError(
++                ProviderErrorKind.CEILING,
++                redact(f"the account-wide spending gate refused the submission: {exc}", self.key)[:300],
++            ) from None
++        return ref
++
++    def _gate_close(self, ref: str | None, outcome: str, **detail: Any) -> None:
++        """Report an outcome (``settled`` or ``unknown``) to the gate. A failure there is recorded and never
++        loses the answer: the gate keeps that submission's reservation held."""
++        if self.gate is None or ref is None:
++            return
++        try:
++            if outcome == "settled":
++                self.gate.settled(ref, **detail)
++            else:
++                self.gate.unknown(ref, str(detail.get("reason") or ""))
++        except Exception as exc:
++            self.gate_errors.append(redact(f"{type(exc).__name__}: {exc}", self.key)[:300])
++
+     async def fetch(self, req: OxyRequest) -> Answer:
+         attempts: list[dict[str, Any]] = []
+         t_all = monotonic()
+@@ -468,6 +555,7 @@ class OxylabsTransport:
+                 segment_id=self.segment_id,
+                 worker=self.worker,
+             )
++            gate_ref = self._gate_open(row_id, req, attempt, rate)
+             t0 = monotonic()
+             try:
+                 r = await self.http.post(f"{API_BASE}{req.endpoint}", json=req.body, headers=self._headers())
+@@ -475,6 +563,8 @@ class OxylabsTransport:
+                 # Not connected: the provider never saw it. Otherwise it may have run (and charged) it.
+                 unsent = isinstance(exc, (httpx.ConnectError, httpx.ConnectTimeout))
+                 self.ledger.release(row_id, "network", charged_unknown=not unsent)
++                # The account-wide gate keeps even an unconnected submission held: it was marked dispatched.
++                self._gate_close(gate_ref, "unknown", reason=f"no answer: {type(exc).__name__}")
+                 attempts.append(
+                     {
+                         "attempt": attempt,
+@@ -496,6 +586,7 @@ class OxylabsTransport:
+             except BaseException:
+                 # Cancelled in flight (the collector is stopping): it may still run and be charged.
+                 self.ledger.release(row_id, "cancelled", charged_unknown=True)
++                self._gate_close(gate_ref, "unknown", reason="cancelled in flight")
+                 raise
+             elapsed = int((monotonic() - t0) * 1000)
+             html, meta = envelope(r.content)
+@@ -523,6 +614,14 @@ class OxylabsTransport:
+                 cost_usd=0.0 if charged is False else rate,
+             )
+             self.ledger.settle(row_id, answer, charged, rate)
++            self._gate_close(
++                gate_ref,
++                "settled",
++                status=r.status_code,
++                kind=kind,
++                charged=charged,
++                usd=float(answer.cost_usd or 0.0),
++            )
+             attempts.append(
+                 {
+                     "attempt": attempt,
+diff --git a/src/walmart_headless/assembly/record_builder.py b/src/walmart_headless/assembly/record_builder.py
+index c47018b..01631e6 100644
+--- a/src/walmart_headless/assembly/record_builder.py
++++ b/src/walmart_headless/assembly/record_builder.py
+@@ -25,7 +25,14 @@ from walmart_headless.assembly.offers import (
+ from walmart_headless.assembly.prices import PriceDisplay, PriceDisplayKind
+ from walmart_headless.assembly.private_label import PrivateLabelDetector
+ from walmart_headless.core.findings import RecordFlag
+-from walmart_headless.core.schema import ALWAYS_EMPTY, build_record, format_violations, shape_violations
++from walmart_headless.core.schema import (
++    ALWAYS_EMPTY,
++    POLICY_EMPTY,
++    POLICY_EMPTY_REASON,
++    build_record,
++    format_violations,
++    shape_violations,
++)
+ from walmart_headless.core.settings import RecordSettings
+ from walmart_headless.core.text import collapse_ws
+ 
+@@ -243,6 +250,8 @@ def missing_reasons(
+             continue
+         if name in ALWAYS_EMPTY:
+             reason = "always empty (client rule)"
++        elif name in POLICY_EMPTY:
++            reason = POLICY_EMPTY_REASON
+         elif name == "weight":
+             if size_problem:
+                 reason = size_problem
+@@ -384,10 +393,12 @@ def build_product_record(
+             "weight": weight,
+             "regular_price": price.regular_price,
+             "sale_price": price.sale_price,
+-            "volume_deals_description": deals.volume_deals_description,
+-            "volume_deals_price": deals.volume_deals_price,
+-            "digital_deals_description": deals.digital_deals_description,
+-            "digital_deals_price": deals.digital_deals_price,
++            # Release 1.6.0: never filled for Walmart (core/schema.DEAL_FIELDS); the classified offers stay in
++            # ``deals`` and reach offers.json and the provenance, never the exported record.
++            "volume_deals_description": "",
++            "volume_deals_price": "",
++            "digital_deals_description": "",
++            "digital_deals_price": "",
+             "image_url": evidence.image_url,
+             "url": evidence.url,
+             "upc": evidence.upc or "",
+@@ -430,6 +441,15 @@ def build_product_record(
+         provenance["_schema_problems"] = {"problems": problems}
+     if evidence.offer_notes:
+         provenance["_offers_left_out"] = {"notes": list(evidence.offer_notes)}
++    derived = {
++        "volume_deals_description": deals.volume_deals_description,
++        "volume_deals_price": deals.volume_deals_price,
++        "digital_deals_description": deals.digital_deals_description,
++        "digital_deals_price": deals.digital_deals_price,
++    }
++    if any(derived.values()):
++        # What the 1.5.x rules would have exported from the displayed offers: evidence only (release 1.6.0).
++        provenance["_deal_fields_not_exported"] = {"rule": POLICY_EMPTY_REASON, "derived": derived}
+     # Every approximate-weight exclusion names the wording that qualifies it and where it was read.
+     weight_wording = approx_weight_match(weight, settings)
+     if evidence.approx_weight_source:
+diff --git a/src/walmart_headless/checks/contract.py b/src/walmart_headless/checks/contract.py
+index e90dcb0..e36d390 100644
+--- a/src/walmart_headless/checks/contract.py
++++ b/src/walmart_headless/checks/contract.py
+@@ -1,8 +1,9 @@
+ """The 22-field contract of an exported products file (offline): field order, string values, no nulls,
+-gupc and unit_price empty, UPC empty unless shown (12 to 14 digits, leading zeros kept), walmart.com product
+-URLs and walmartimages.com pictures, price format, PPM with its unit, crawl_date format, duplicates (by UPC,
+-URL and Walmart item id), approximate-weight wording (in the weight, or in a weight expression of the
+-title: the whole product is excluded then). ``walmart-collector validate-export`` runs it."""
++gupc and unit_price empty, the four deal fields empty (release 1.6.0), UPC empty unless shown (12 to 14
++digits, leading zeros kept), walmart.com product URLs and walmartimages.com pictures, price format, PPM
++with its unit, crawl_date format, duplicates (by UPC, URL and Walmart item id), approximate-weight wording
++(in the weight, or in a weight expression of the title: the whole product is excluded then).
++``walmart-collector validate-export`` runs it."""
+ 
+ from __future__ import annotations
+ 
+@@ -12,7 +13,7 @@ from collections import Counter
+ from pathlib import Path
+ from typing import Any
+ 
+-from walmart_headless.core.schema import OUTPUT_FIELDS
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS
+ from walmart_headless.sites.walmart.records import approx_weight_text
+ 
+ PRICE = re.compile(r"^\d+\.\d{2}$")
+@@ -36,6 +37,8 @@ def check(path: Path) -> dict[str, Any]:
+                 problems[f"not a string {k}"] += 1
+         if r.get("gupc") or r.get("unit_price"):
+             problems["gupc or unit_price not empty"] += 1
++        if any(r.get(f) for f in DEAL_FIELDS):
++            problems["a deal field not empty (client rule: always empty for Walmart)"] += 1
+         if not WALMART_UPC.match(r.get("upc", "")):
+             problems["upc not empty or 12-14 digits"] += 1
+         if not WALMART_ITEM.match(r.get("url", "")):
+diff --git a/src/walmart_headless/collection/retention.py b/src/walmart_headless/collection/retention.py
+index 6747faf..9a9f330 100644
+--- a/src/walmart_headless/collection/retention.py
++++ b/src/walmart_headless/collection/retention.py
+@@ -54,7 +54,13 @@ from walmart_headless.acquisition import lineage
+ from walmart_headless.core import jsonvalues as jv
+ from walmart_headless.core.findings import DataMode, RecordFlag
+ from walmart_headless.core.ids import new_id
+-from walmart_headless.core.schema import OUTPUT_FIELDS, format_violations, ordered_record, shape_violations
++from walmart_headless.core.schema import (
++    OUTPUT_FIELDS,
++    apply_output_policy,
++    format_violations,
++    ordered_record,
++    shape_violations,
++)
+ from walmart_headless.core.timeutil import iso
+ from walmart_headless.db.models import (
+     NodeCoverage,
+@@ -505,7 +511,12 @@ def carry_forward(
+     for key, v in registry.items():
+         if key in present:
+             continue
+-        if record_problems(v.record):
++        # Release 1.6.0: an earlier release's row may hold deal values; the carried row never does. The values
++        # stay in the carried row's lineage (``withheld_by_policy``), with the source record's own hash.
++        kept_record, withheld = (
++            apply_output_policy(v.record) if set(v.record) == set(OUTPUT_FIELDS) else (dict(v.record), {})
++        )
++        if record_problems(kept_record):
+             counts["not_valid_now"] += 1  # never carried past the record checks it would now fail
+             continue
+         if v.run_id not in source_lineage:
+@@ -520,6 +531,12 @@ def carry_forward(
+             "the ones observed on its crawl date, not verified by this run",
+             "kept": True,
+         }
++        if withheld:
++            info["withheld_by_policy"] = {
++                "fields": withheld,
++                "rule": "release 1.6.0: Walmart's four deal fields are always empty strings",
++                "source_record_sha256": record_sha256(ordered_record(v.record)),
++            }
+         flags = [
+             *(f for f in v.flags if f != RecordFlag.CARRIED_FORWARD.value),
+             RecordFlag.CARRIED_FORWARD.value,
+@@ -530,8 +547,8 @@ def carry_forward(
+                 run_id=run_id,
+                 mode=mode,
+                 upc=key,
+-                record=dict(v.record),
+-                record_sha256=record_sha256(ordered_record(v.record)),
++                record=kept_record,
++                record_sha256=record_sha256(ordered_record(kept_record)),
+                 primary_category_source_id=v.category_source_id,
+                 status=CARRIED_STATUS,
+                 reasons=[RecordFlag.CARRIED_FORWARD.value],
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index 268e525..21d86fc 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.5.2"
++PARSER_VERSION = "1.6.0"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/src/walmart_headless/core/schema.py b/src/walmart_headless/core/schema.py
+index 7804ed4..9c2ecc5 100644
+--- a/src/walmart_headless/core/schema.py
++++ b/src/walmart_headless/core/schema.py
+@@ -1,7 +1,8 @@
+ """The canonical 22-field output record (brief §6.1, docx §4).
+ 
+ Every exported item has exactly these keys, in this order, and every value is a ``str``. Missing
+-values are ``""``; ``gupc`` and ``unit_price`` are always ``""`` at the scraper stage.
++values are ``""``; ``gupc`` and ``unit_price`` are always ``""`` at the scraper stage, and so are the four
++deal fields for Walmart (release 1.6.0, the client's clarification).
+ """
+ 
+ from __future__ import annotations
+@@ -36,6 +37,21 @@ OUTPUT_FIELDS: Final[tuple[str, ...]] = (
+ )
+ 
+ ALWAYS_EMPTY: Final[frozenset[str]] = frozenset({"gupc", "unit_price"})
++# Release 1.6.0, the client's clarification for Walmart (handoff of 2026-11-03): the four deal fields are
++# ALWAYS empty strings, unconditionally. Coupon and multi-buy evidence stays in the sidecars (offers.json,
++# provenance); a value is never exported in these fields, from any path (fresh, carried, replayed, either
++# edition).
++DEAL_FIELDS: Final[tuple[str, ...]] = (
++    "volume_deals_description",
++    "volume_deals_price",
++    "digital_deals_description",
++    "digital_deals_price",
++)
++POLICY_EMPTY: Final[frozenset[str]] = frozenset(DEAL_FIELDS)
++POLICY_EMPTY_REASON: Final = (
++    "always empty (client rule for Walmart: the four deal fields are empty strings; any offer evidence is "
++    "kept in offers.json and the provenance, never in these fields)"
++)
+ PRICE_FIELDS: Final[tuple[str, ...]] = (
+     "regular_price",
+     "sale_price",
+@@ -73,6 +89,9 @@ def build_record(values: Mapping[str, str]) -> dict[str, str]:
+     for key in ALWAYS_EMPTY:
+         if values.get(key, ""):
+             raise RecordShapeError(f"{key} must be empty at the scraper stage")
++    for key in DEAL_FIELDS:
++        if values.get(key, ""):
++            raise RecordShapeError(f"{key} must be empty (client rule for Walmart's deal fields)")
+     record: dict[str, str] = {}
+     for key in OUTPUT_FIELDS:
+         value = values.get(key, "")
+@@ -94,6 +113,17 @@ def ordered_record(stored: Mapping[str, str]) -> dict[str, str]:
+     return {key: stored.get(key, "") for key in OUTPUT_FIELDS}
+ 
+ 
++def apply_output_policy(stored: Mapping[str, str]) -> tuple[dict[str, str], dict[str, str]]:
++    """A record in output order with the policy-empty fields set to ``""``, and the non-empty values it held
++    there (kept by the caller as lineage, never exported). Used where an earlier record (an older release's
++    carried row) becomes a row of a new run."""
++    record = ordered_record(stored)
++    withheld = {k: record[k] for k in DEAL_FIELDS if record[k]}
++    for k in DEAL_FIELDS:
++        record[k] = ""
++    return record, withheld
++
++
+ def shape_violations(item: Mapping[str, object]) -> list[str]:
+     """G5: key order, string types, forbidden keys and always-empty fields."""
+     problems: list[str] = []
+@@ -108,6 +138,9 @@ def shape_violations(item: Mapping[str, object]) -> list[str]:
+     for key in ALWAYS_EMPTY:
+         if item.get(key, "") != "":
+             problems.append(f"{key} must be empty")
++    for key in DEAL_FIELDS:
++        if item.get(key, "") != "":
++            problems.append(f"{key} must be empty (client rule for Walmart's deal fields)")
+     return problems
+ 
+ 
+diff --git a/src/walmart_headless/publishing/exports.py b/src/walmart_headless/publishing/exports.py
+index cb9c7e3..eab2706 100644
+--- a/src/walmart_headless/publishing/exports.py
++++ b/src/walmart_headless/publishing/exports.py
+@@ -63,18 +63,27 @@ def sort_records(records: Sequence[Mapping[str, str]], csv_order: Mapping[str, i
+     )
+ 
+ 
+-def canonical_products_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
++def refuse_nonconforming(records: Sequence[Mapping[str, str]]) -> None:
++    """The final output boundary of every products file (JSON and CSV, all records and the fresh ones): the 22
++    string fields in order, ``gupc``/``unit_price`` and Walmart's four deal fields empty (release 1.6.0). A
++    record that breaks it is refused, never repaired here: a repaired row would no longer match the hash the
++    run recorded for it."""
+     for r in records:
+-        if shape_violations(r):
+-            raise ValueError(f"record {r.get('upc')!r} violates the output schema")
++        if problems := shape_violations(r):
++            raise ValueError(f"record {r.get('upc')!r} violates the output schema: {'; '.join(problems)}")
+         if list(r) != list(OUTPUT_FIELDS):
+             raise ValueError("record keys out of order")
++
++
++def canonical_products_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
++    refuse_nonconforming(records)
+     return dumps_bytes(list(records))
+ 
+ 
+ def products_csv_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
+     """The same records as CSV: the 22 fields as columns in order, every value a string (UTF-8 with a byte
+     order mark, so spreadsheet programs read the text as written, leading zeros included)."""
++    refuse_nonconforming(records)
+     buf = io.StringIO()
+     w = csv.writer(buf, lineterminator="\r\n")
+     w.writerow(OUTPUT_FIELDS)
+diff --git a/tests/integration/test_account_gate.py b/tests/integration/test_account_gate.py
+new file mode 100644
+index 0000000..86227d9
+--- /dev/null
++++ b/tests/integration/test_account_gate.py
+@@ -0,0 +1,175 @@
++"""The account-wide spending gate around every Oxylabs submission (1.6.0). SYNTHETIC: the Web API is an
++in-memory mock (tests/mock_oxylabs.py) and the gate a recording fake; nothing reaches Oxylabs."""
++
++from __future__ import annotations
++
++from typing import Any
++
++import httpx
++import pytest
++from sqlalchemy import select
++from sqlalchemy.orm import sessionmaker
++
++from tests.integration.test_operations import STORE_KEY, Env, env  # noqa: F401
++from tests.mock_oxylabs import OXY_KEY, MockOxylabs
++from walmart_headless.acquisition import oxylabs
++from walmart_headless.db.models import ProviderUsage
++
++
++class FakeGate:
++    """Refuses once ``cap`` submissions are held or spent; records every call in order."""
++
++    def __init__(self, cap: int, *, fail_settle: bool = False) -> None:
++        self.cap = cap
++        self.fail_settle = fail_settle
++        self.calls: list[tuple[str, str]] = []
++        self.state: dict[str, str] = {}
++        self.keys: set[str] = set()
++        self.calls_at_dispatch: list[int] = []
++        self.mock: MockOxylabs | None = None
++
++    def reserve(
++        self, *, purpose: str, endpoint: str, target_url: str, attempt: int, usd: float, key: str
++    ) -> str:
++        held = sum(1 for v in self.state.values() if v != "unsent")
++        if held >= self.cap:
++            raise oxylabs.GateRefused(f"account allowance: {held} of {self.cap} submissions held (test)")
++        assert usd == 0.0015 and key not in self.keys  # one reservation per collector row
++        self.keys.add(key)
++        ref = f"g{len(self.state) + 1}"
++        self.state[ref] = "reserved"
++        self.calls.append(("reserve", ref))
++        return ref
++
++    def dispatched(self, ref: str) -> None:
++        assert self.state[ref] == "reserved"
++        self.state[ref] = "dispatched"
++        self.calls.append(("dispatched", ref))
++        assert self.mock is not None
++        self.calls_at_dispatch.append(len(self.mock.calls))
++
++    def unsent(self, ref: str, reason: str) -> None:
++        self.state[ref] = "unsent"
++        self.calls.append(("unsent", ref))
++
++    def settled(self, ref: str, *, status: int, kind: str | None, charged: bool | None, usd: float) -> None:
++        assert self.state[ref] == "dispatched"
++        if self.fail_settle:
++            raise OSError("the gate's disk is full (test)")
++        self.state[ref] = "settled" if charged is not None else "unknown"
++        self.calls.append(("settled", ref))
++
++    def unknown(self, ref: str, reason: str) -> None:
++        self.state[ref] = "unknown"
++        self.calls.append(("unknown", ref))
++
++
++@pytest.fixture
++def oxy(env: Env, monkeypatch: pytest.MonkeyPatch) -> MockOxylabs:  # noqa: F811
++    monkeypatch.setenv(oxylabs.ENV_KEY, OXY_KEY)
++    mock = MockOxylabs(env.mock)
++    monkeypatch.setattr(
++        oxylabs.OxylabsTransport,
++        "client_factory",
++        lambda: httpx.AsyncClient(transport=httpx.MockTransport(mock.handler)),
++    )
++    return mock
++
++
++def use_gate(monkeypatch: pytest.MonkeyPatch, gate: FakeGate, mock: MockOxylabs) -> None:
++    gate.mock = mock
++    monkeypatch.setattr(oxylabs.OxylabsTransport, "account_gate_factory", lambda: gate)
++
++
++def ceiling(e: Env) -> None:
++    code, _ = e.result(
++        "set-ceiling",
++        "--provider",
++        "oxylabs",
++        "--submissions",
++        "200",
++        "--usd-per-result",
++        "0.0015",
++        "--basis",
++        "test ceiling",
++    )
++    assert code == 0
++
++
++def usage(e: Env) -> list[ProviderUsage]:
++    with sessionmaker(e.engine, expire_on_commit=False)() as s:
++        return list(s.scalars(select(ProviderUsage).where(ProviderUsage.provider == "oxylabs")))
++
++
++def test_every_submission_is_reserved_and_marked_dispatched_by_the_gate_before_it_is_sent(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 0
++    sent = len(oxy.calls)
++    assert sent > 0 and len(gate.state) == sent == len(usage(env))
++    # Each request left after its own reservation and dispatch mark, and before the next one's.
++    assert gate.calls_at_dispatch == list(range(sent))
++    order = [c for c, _ in gate.calls]
++    assert order == ["reserve", "dispatched", "settled"] * sent
++    assert set(gate.state.values()) == {"settled"}
++
++
++def test_a_refusal_of_the_gate_sends_nothing_more_and_stops_the_run_as_a_ceiling(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=3)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 4
++    [run] = env.runs()
++    assert run.status == "interrupted" and run.stop_code == "SPENDING_CEILING"
++    assert "account-wide spending gate" in (run.stop_detail or "")
++    assert len(oxy.calls) == 3 == len(gate.state)  # the fourth was refused before anything was sent
++    rows = usage(env)
++    refused = [r for r in rows if r.outcome == "gate_refused"]
++    assert len(refused) == 1 and refused[0].cost_usd == 0.0  # the collector's own row, never sent
++    assert OXY_KEY not in (run.stop_detail or "")
++
++
++def test_a_failure_to_record_an_outcome_keeps_the_answer_and_the_gate_holds_its_reservation(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000, fail_settle=True)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 0  # the answers were kept and used
++    assert set(gate.state.values()) == {"dispatched"}  # held at the gate: never released as free
++
++
++def test_an_unanswered_submission_is_reported_to_the_gate_as_unknown(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    n = {"calls": 0}
++
++    def cut(endpoint: str, body: dict[str, Any]) -> httpx.Response | None:
++        n["calls"] += 1
++        if n["calls"] == 1:
++            raise httpx.ReadTimeout("no answer (test)")
++        return None
++
++    oxy.answer_override = cut
++    env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert gate.state["g1"] == "unknown"  # sent, no answer: held, never assumed free
++    assert ("unknown", "g1") in gate.calls
+diff --git a/tests/integration/test_coverage_and_assortment.py b/tests/integration/test_coverage_and_assortment.py
+index fb7e310..da4a016 100644
+--- a/tests/integration/test_coverage_and_assortment.py
++++ b/tests/integration/test_coverage_and_assortment.py
+@@ -660,9 +660,13 @@ def test_the_offers_exported_are_those_of_the_tile_the_record_is_kept_from(env:
+     run_id, _ = run_diapering(env)
+     rec = records(env, run_id)["wm:9001"]
+     assert rec.record["regular_price"] == "2.49"
+-    assert "3 for $6.00" in rec.record["volume_deals_description"]
+-    assert "2 for $3.00" not in rec.record["volume_deals_description"]
++    # Release 1.6.0: the deal fields are always "" for Walmart; the later tile's offer is the one kept as
++    # evidence (what the 1.5.x rules would have exported), the earlier tile's is not.
++    assert rec.record["volume_deals_description"] == "" and rec.record["volume_deals_price"] == ""
+     obs = card(env, run_id, "wm:9001")
++    derived = obs.provenance["fields"]["_deal_fields_not_exported"]["derived"]
++    assert "3 for $6.00" in derived["volume_deals_description"]
++    assert "2 for $3.00" not in derived["volume_deals_description"]
+     offers = json.loads(env["storage"].get_bytes(f"runs/{STORE_KEY}/{run_id}/exports/offers.json"))
+     mine = [o for o in offers if o["upc"] == "wm:9001"]
+     assert [o["text"] for o in mine] == ["3 for $6.00"]
+diff --git a/tests/integration/test_deal_fields_policy.py b/tests/integration/test_deal_fields_policy.py
+new file mode 100644
+index 0000000..f650924
+--- /dev/null
++++ b/tests/integration/test_deal_fields_policy.py
+@@ -0,0 +1,198 @@
++"""Release 1.6.0, the client's clarification: Walmart's four deal fields are ALWAYS empty strings.
++
++Each test starts from pages that DISPLAY multi-unit and coupon offers (SYNTHETIC tiles through the Scrape.do
++mock, tests/mock_scrapedo.py; nothing reaches Scrape.do or Walmart) and proves the final files hold "" in the
++four fields, with exactly the 22 string fields in order: the fresh rows (products and products_fresh, JSON
++and CSV), a carried row of an earlier release that held deal values (its values kept as lineage only), an
++offline replay and its export, the store's published dataset and the ``export`` command's copy. The offers
++themselves stay as evidence in offers.json and the provenance. The exporters refuse a row that breaks the rule
++(tests/unit/test_exports_policy.py)."""
++
++from __future__ import annotations
++
++import csv
++import io
++import json
++from pathlib import Path
++from typing import Any
++from urllib.parse import parse_qs, urlsplit
++
++import httpx
++import pytest
++from sqlalchemy import select
++from sqlalchemy.orm import sessionmaker
++
++from tests import synthetic_walmart as syn
++from tests.integration.test_followups import CAT, product_page
++from tests.integration.test_operations import Env, env  # noqa: F401  (the CLI fixture)
++from tests.mock_scrapedo import DIAPERING, listing
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, ordered_record
++from walmart_headless.db.models import RecordRow
++from walmart_headless.publishing.exports import record_sha256
++
++pytestmark = [pytest.mark.postgres]
++
++STORE = "walmart-3891-pickup"
++OFFERS = (
++    ("ROLLBACK", "Rollback"),
++    ("MULTI", "2 for $5.00"),
++    ("CPN", "Clip coupon: $3.99"),
++    ("CASH", "Earn $2 Walmart Cash"),
++)
++DEAL_TILES = [
++    syn.Item("9001", "Diapers A, Size 1, 84 Count", "$9.97", unit="11.9 ¢/ea", badges=OFFERS),
++    syn.Item("9002", "Wipes B, 3 Pack", "$5.97", badges=(("MULTI", "3 for $15.00"),)),
++    syn.Item("9003", "Diapers C, Size 4, 60 Count", "$10.97", was="$12.97", badges=(("CPN", "Save $1.00"),)),
++]
++
++UPCS = {"9001": "036000451293", "9002": "000123456789", "9003": "078742000000"}
++
++
++def serve_tiles(e: Env, tiles: list[syn.Item]) -> None:
++    organic = len({t.item_id for t in tiles})
++
++    def override(url: str) -> httpx.Response | None:
++        u = urlsplit(url)
++        headers = {"Scrape.do-Request-Cost": "10", "Scrape.do-Walmart-Store-Id": "3891"}
++        if f"{u.scheme}://{u.netloc}{u.path}" == DIAPERING:
++            n = int(parse_qs(u.query).get("page", ["1"])[0])
++            html = listing(tiles if n == 1 else [], page=n, max_page=1, total=organic, cat=CAT)
++            return httpx.Response(200, text=html, headers=headers)
++        if u.path.startswith("/ip/"):
++            item = u.path.rstrip("/").rsplit("/", 1)[-1]
++            tile = next((t for t in tiles if t.item_id == item), None)
++            if tile is None:
++                return httpx.Response(404, text="not found", headers=headers)
++            return httpx.Response(200, text=product_page(tile, upc=UPCS[item]), headers=headers)
++        return None
++
++    e.mock.page_override = override
++
++
++def products_files(exports: Path) -> dict[str, list[dict[str, str]]]:
++    """Every products file of an export folder, each row checked: 22 string fields in order, deals empty."""
++    out: dict[str, list[dict[str, str]]] = {}
++    for name in ("products.json", "products_fresh.json"):
++        if not (exports / name).is_file():
++            continue
++        rows = json.loads((exports / name).read_text("utf-8"))
++        for r in rows:
++            assert list(r) == list(OUTPUT_FIELDS), name
++            assert all(isinstance(v, str) for v in r.values()), name
++            assert [r[f] for f in DEAL_FIELDS] == ["", "", "", ""], (name, r["url"])
++        out[name] = rows
++    for name in ("products.csv", "products_fresh.csv"):
++        if not (exports / name).is_file():
++            continue
++        table = list(csv.reader(io.StringIO((exports / name).read_bytes().decode("utf-8-sig"))))
++        assert table[0] == list(OUTPUT_FIELDS), name
++        rows = [dict(zip(table[0], line, strict=True)) for line in table[1:]]
++        assert all(r[f] == "" for r in rows for f in DEAL_FIELDS), name
++        out[name] = rows
++    # The JSON and CSV forms hold the same rows.
++    for stem in ("products", "products_fresh"):
++        if f"{stem}.json" in out:
++            assert out[f"{stem}.json"] == out[f"{stem}.csv"]
++    return out
++
++
++def exports_of(e: Env, run_id: str) -> Path:
++    return e.data / "runs" / STORE / run_id / "exports"
++
++
++def test_fresh_rows_never_carry_a_deal_value_and_the_offers_stay_as_evidence(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    env.edit(categories=[4])  # the configured scope: a complete run, published (narrowing makes a pilot)
++    assert env.result("run", "--store", STORE)[0] == 0
++    [run] = env.runs()
++    assert run.status == "published"
++    files = products_files(exports_of(env, run.id))
++    fresh = {r["url"].rsplit("/", 1)[-1]: r for r in files["products_fresh.json"]}
++    assert {"9001", "9002", "9003"} <= set(fresh)
++    assert fresh["9003"]["sale_price"] == "10.97" and fresh["9003"]["regular_price"] == "12.97"  # own rules
++    offers = json.loads((exports_of(env, run.id) / "offers.json").read_text("utf-8"))
++    texts = {o["text"] for o in offers}
++    assert {"2 for $5.00", "3 for $15.00"} <= texts  # the displayed offers, kept as evidence
++    log = json.loads((exports_of(env, run.id) / "provenance.json").read_text("utf-8"))
++    kept = [v for v in log["records"].values() if "_deal_fields_not_exported" in json.dumps(v)]
++    assert kept, "the offers the 1.5.x rules would have exported are kept in the provenance"
++    # The store's published dataset (the pointer names this run's manifest) and the export command's copy.
++    latest = json.loads((env.data / "published" / STORE / "latest.json").read_text("utf-8"))
++    assert latest["run_id"] == run.id
++    products_files(exports_of(env, run.id))
++    out = env.data.parent / "exported"
++    code, res = env.result("export", "--store", STORE, "--out", str(out))  # the published dataset
++    assert code == 0 and res["run_id"] == run.id
++    assert products_files(out)["products.json"] == files["products.json"]
++
++
++def test_a_carried_row_of_an_earlier_release_is_exported_without_its_deal_values(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    [first] = env.runs()
++    # As release 1.5.2 stored it: the same row with deal values (and its own consistent hash).
++    with sessionmaker(env.engine, expire_on_commit=False)() as s:
++        row = s.scalars(
++            select(RecordRow).where(
++                RecordRow.run_id == first.id, RecordRow.record["url"].astext.like("%/9002")
++            )
++        ).one()
++        legacy = {
++            **ordered_record(row.record),
++            "volume_deals_description": "3 for $15.00",
++            "volume_deals_price": "15.00",
++        }
++        row.record = legacy
++        row.record_sha256 = record_sha256(ordered_record(legacy))
++        legacy_sha = row.record_sha256
++        s.commit()
++    serve_tiles(env, [t for t in DEAL_TILES if t.item_id != "9002"])  # 9002 is not observed again
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    second = next(r for r in env.runs() if r.id != first.id)
++    files = products_files(exports_of(env, second.id))
++    carried = next(r for r in files["products.json"] if r["url"].endswith("/9002"))
++    assert carried["regular_price"] == "5.97" and carried["crawl_date"]  # its own observation, unchanged
++    assert all(not r["url"].endswith("/9002") for r in files["products_fresh.json"])  # carried, not fresh
++    with sessionmaker(env.engine, expire_on_commit=False)() as s:
++        crow = s.scalars(
++            select(RecordRow).where(
++                RecordRow.run_id == second.id, RecordRow.record["url"].astext.like("%/9002")
++            )
++        ).one()
++    hist = crow.provenance["historical"]
++    assert hist["run_id"] == first.id
++    assert hist["withheld_by_policy"]["fields"] == {
++        "volume_deals_description": "3 for $15.00",
++        "volume_deals_price": "15.00",
++    }
++    assert hist["withheld_by_policy"]["source_record_sha256"] == legacy_sha
++    assert crow.record_sha256 == record_sha256(ordered_record(crow.record))
++
++
++def test_a_replay_and_its_export_keep_the_deal_fields_empty(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    [source] = env.runs()
++    calls = len(env.mock.calls)
++    assert env.result("replay", "--run", source.id)[0] == 0
++    assert len(env.mock.calls) == calls  # offline
++    replay = next(r for r in env.runs() if r.id != source.id)
++    rows = products_files(exports_of(env, replay.id))["products_fresh.json"]
++    assert {r["url"].rsplit("/", 1)[-1] for r in rows} >= {"9001", "9002", "9003"}
++    out = env.data.parent / "replay_export"
++    assert env.result("export", "--run", replay.id, "--out", str(out))[0] == 0
++    products_files(out)
++
++
++def test_the_export_contract_check_reports_a_deal_value(tmp_path: Path) -> None:
++    from walmart_headless.checks.contract import check
++
++    row: dict[str, Any] = {f: "" for f in OUTPUT_FIELDS}
++    row.update(url="https://www.walmart.com/ip/x/9001", crawl_date="2026-11-03", regular_price="1.00")
++    good, bad = tmp_path / "good.json", tmp_path / "bad.json"
++    good.write_text(json.dumps([row]), "utf-8")
++    bad.write_text(json.dumps([{**row, "digital_deals_description": "Clip coupon"}]), "utf-8")
++    assert check(good)["passed"] is True
++    res = check(bad)
++    assert res["passed"] is False
++    assert res["problems"] == {"a deal field not empty (client rule: always empty for Walmart)": 1}
+diff --git a/tests/unit/test_exports_policy.py b/tests/unit/test_exports_policy.py
+new file mode 100644
+index 0000000..2d5b506
+--- /dev/null
++++ b/tests/unit/test_exports_policy.py
+@@ -0,0 +1,49 @@
++"""Release 1.6.0: the final output boundary. Both products writers (JSON and CSV, used for products.* and
++products_fresh.* of every run, replay and edition) refuse a row holding a Walmart deal value, a 23rd field,
++a wrong order or a non-string, so no branch can reintroduce one into a file."""
++
++from __future__ import annotations
++
++import pytest
++
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, build_record
++from walmart_headless.publishing.exports import canonical_products_bytes, products_csv_bytes
++
++
++def row() -> dict[str, str]:
++    return build_record(
++        {
++            "product_title": "Synthetic, 12 oz",
++            "url": "https://www.walmart.com/ip/x/9001",
++            "category": "Food",
++            "regular_price": "1.99",
++            "crawl_date": "2026-11-03",
++        }
++    )
++
++
++@pytest.mark.parametrize("writer", [canonical_products_bytes, products_csv_bytes])
++@pytest.mark.parametrize("field", DEAL_FIELDS)
++def test_a_deal_value_is_refused_by_both_writers(writer: object, field: str) -> None:
++    bad = {**row(), field: "2 for $5.00" if field.endswith("description") else "5.00"}
++    with pytest.raises(ValueError, match="client rule for Walmart's deal fields"):
++        writer([row(), bad])  # type: ignore[operator]
++
++
++@pytest.mark.parametrize("writer", [canonical_products_bytes, products_csv_bytes])
++def test_order_extra_fields_and_types_are_refused(writer: object) -> None:
++    good = row()
++    with pytest.raises(ValueError):
++        writer([{**good, "points": ""}])  # type: ignore[operator]
++    with pytest.raises(ValueError):
++        writer([dict(reversed(list(good.items())))])  # type: ignore[operator]
++    with pytest.raises(ValueError):
++        writer([{**good, "upc": 12345}])  # type: ignore[operator, dict-item]
++
++
++def test_conforming_rows_are_written_in_the_22_field_order() -> None:
++    body = products_csv_bytes([row()]).decode("utf-8-sig").splitlines()
++    assert body[0].split(",") == list(OUTPUT_FIELDS)
++    assert b'"volume_deals_description": ""' in canonical_products_bytes(
++        [row()]
++    ) or b'"volume_deals_description":""' in canonical_products_bytes([row()])
+diff --git a/tests/unit/test_gates.py b/tests/unit/test_gates.py
+index 0137773..79cae89 100644
+--- a/tests/unit/test_gates.py
++++ b/tests/unit/test_gates.py
+@@ -1,7 +1,9 @@
+ from __future__ import annotations
+ 
++import pytest
++
+ from walmart_headless.core.findings import DataMode, Severity
+-from walmart_headless.core.schema import build_record
++from walmart_headless.core.schema import OUTPUT_FIELDS, RecordShapeError, build_record
+ from walmart_headless.core.settings import Settings
+ from walmart_headless.validation.gates import (
+     AttestationSummary,
+@@ -143,10 +145,20 @@ def test_promotion_sanity() -> None:
+     assert deal_price_supported("4/$10 when you buy 4 or more", "10.00")
+     assert not deal_price_supported("Buy 1, Get 1 Free", "2.50")
+     ev = good_evidence(10)
+-    ev.exported_records = [
++    # Release 1.6.0: build_record refuses a Walmart deal value, so a record carrying one can only reach the
++    # gates from some other path; it is the same 22 keys in order, with the deal values set afterwards.
++    with pytest.raises(RecordShapeError, match="volume_deals_description must be empty"):
+         rec("0000000000001", volume_deals_description="Buy 1, Get 1 Free", volume_deals_price="2.50")
+-    ]
+-    assert status(ev)["G11"] is GateStatus.FAIL
++    bad = {
++        **rec("0000000000001"),
++        "volume_deals_description": "Buy 1, Get 1 Free",
++        "volume_deals_price": "2.50",
++    }
++    assert list(bad) == list(OUTPUT_FIELDS)
++    ev.exported_records = [bad]
++    st = status(ev)
++    assert st["G11"] is GateStatus.FAIL  # the price is not in its description
++    assert st["G5"] is GateStatus.FAIL  # and the deal fields must be empty at all (client rule)
+ 
+ 
+ def test_missing_integrity_and_contract_fail() -> None:
+diff --git a/tests/unit/test_retention_rules.py b/tests/unit/test_retention_rules.py
+index c56a82c..139d930 100644
+--- a/tests/unit/test_retention_rules.py
++++ b/tests/unit/test_retention_rules.py
+@@ -40,7 +40,12 @@ def test_formats_types_and_deal_prices_are_checked() -> None:
+     ]
+     assert "upc is int, not str" in record_problems(stored({**good(), "upc": 78742000000}))
+     bad_deal = {**good(), "volume_deals_description": "Buy 1, Get 1 Free", "volume_deals_price": "2.50"}
+-    assert record_problems(bad_deal) == ["volume_deals_price not in volume_deals_description"]
++    # Release 1.6.0: a deal value is itself a problem (client rule), besides the unsupported price.
++    assert record_problems(bad_deal) == [
++        "volume_deals_description must be empty (client rule for Walmart's deal fields)",
++        "volume_deals_price must be empty (client rule for Walmart's deal fields)",
++        "volume_deals_price not in volume_deals_description",
++    ]
+     assert record_problems({**good(), "gupc": "078742000000"}) == ["gupc must be empty"]
+ 
+ 
+diff --git a/tests/unit/test_schema.py b/tests/unit/test_schema.py
+index f86016e..2bb6db2 100644
+--- a/tests/unit/test_schema.py
++++ b/tests/unit/test_schema.py
+@@ -5,8 +5,10 @@ from hypothesis import given
+ from hypothesis import strategies as st
+ 
+ from walmart_headless.core.schema import (
++    DEAL_FIELDS,
+     OUTPUT_FIELDS,
+     RecordShapeError,
++    apply_output_policy,
+     build_record,
+     format_violations,
+     shape_violations,
+@@ -105,10 +107,32 @@ def test_format_violations(field: str, value: str, ok: bool) -> None:
+ 
+ @given(
+     st.dictionaries(
+-        st.sampled_from([f for f in OUTPUT_FIELDS if f not in ("gupc", "unit_price")]), st.text(max_size=20)
++        st.sampled_from([f for f in OUTPUT_FIELDS if f not in ("gupc", "unit_price", *DEAL_FIELDS)]),
++        st.text(max_size=20),
+     )
+ )
+ def test_build_record_property_all_strings_in_order(values: dict[str, str]) -> None:
+     rec = build_record(values)
+     assert list(rec) == list(OUTPUT_FIELDS)
+     assert all(isinstance(v, str) for v in rec.values())
++    assert all(rec[f] == "" for f in DEAL_FIELDS)
++
++
++@given(st.sampled_from(DEAL_FIELDS), st.text(min_size=1, max_size=20))
++def test_build_record_refuses_any_walmart_deal_value(field: str, value: str) -> None:
++    """Release 1.6.0, the client's clarification: the four deal fields are always "" for Walmart."""
++    with pytest.raises(RecordShapeError, match="client rule for Walmart's deal fields"):
++        build_record({field: value})
++    full = {**build_record({}), field: value}
++    assert f"{field} must be empty (client rule for Walmart's deal fields)" in shape_violations(full)
++
++
++def test_apply_output_policy_blanks_the_deal_fields_and_returns_what_it_held() -> None:
++    legacy = {k: "" for k in reversed(OUTPUT_FIELDS)}  # stored order, as JSONB returns it
++    legacy.update(volume_deals_description="2 for $5.00", volume_deals_price="5.00", regular_price="2.50")
++    kept, withheld = apply_output_policy(legacy)
++    assert list(kept) == list(OUTPUT_FIELDS)
++    assert [kept[f] for f in DEAL_FIELDS] == ["", "", "", ""]
++    assert kept["regular_price"] == "2.50"  # the other fields keep their own rules
++    assert withheld == {"volume_deals_description": "2 for $5.00", "volume_deals_price": "5.00"}
++    assert shape_violations(kept) == []
+diff --git a/tests/unit/test_walmart.py b/tests/unit/test_walmart.py
+index eead863..77509db 100644
+--- a/tests/unit/test_walmart.py
++++ b/tests/unit/test_walmart.py
+@@ -22,7 +22,7 @@ from walmart_headless.assembly.record_builder import (
+     build_product_record,
+ )
+ from walmart_headless.core.findings import RecordFlag
+-from walmart_headless.core.schema import OUTPUT_FIELDS, format_violations
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, format_violations
+ from walmart_headless.core.settings import RecordSettings, load_private_label
+ from walmart_headless.sites.walmart import page_data as wpd
+ from walmart_headless.sites.walmart import records as wrec
+@@ -421,10 +421,17 @@ def test_deal_wording_is_separated_from_sale_merchandising_and_rewards() -> None
+     assert {"Rollback", "Best seller", "Save with W+", "Free shipping"} <= set(other)
+     built, _ = _record(it)
+     rec = built.record  # type: ignore[attr-defined]
+-    assert (rec["volume_deals_description"], rec["volume_deals_price"]) == ("2 for $5.00", "5.00")
+-    assert rec["digital_deals_description"] == "Coupon: Clip coupon: Save $1.00"
+-    assert rec["digital_deals_price"] == ""  # "Save $1" states no final price
+-    assert "Walmart Cash" not in rec["digital_deals_description"]  # a reward paid later, not a price
++    # Release 1.6.0 (the client's clarification): the four deal fields are always "" for Walmart, whatever
++    # the page shows. The classification is still made, and kept as evidence only.
++    assert [rec[f] for f in DEAL_FIELDS] == ["", "", "", ""]
++    deals = built.deals  # type: ignore[attr-defined]
++    assert (deals.volume_deals_description, deals.volume_deals_price) == ("2 for $5.00", "5.00")
++    assert deals.digital_deals_description == "Coupon: Clip coupon: Save $1.00"
++    assert deals.digital_deals_price == ""  # "Save $1" states no final price
++    assert "Walmart Cash" not in deals.digital_deals_description  # a reward paid later, not a price
++    kept = built.provenance["_deal_fields_not_exported"]  # type: ignore[attr-defined]
++    assert kept["derived"]["volume_deals_description"] == "2 for $5.00"
++    assert built.missing["volume_deals_description"].startswith("always empty (client rule for Walmart")  # type: ignore[attr-defined]
+     assert RecordFlag.CASHBACK_OFFER_EXCLUDED in built.flags  # type: ignore[attr-defined]
+ 
+ 
+diff --git a/uv.lock b/uv.lock
+index fa6cb88..95d13fd 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.5.2"
++version = "1.6.0"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

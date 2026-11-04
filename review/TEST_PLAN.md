@@ -1,78 +1,104 @@
-# Test plan and consolidated request: Walmart release 1.5.2
+# Test plan and the next live work: Walmart release 1.6.5
 
-Status on 2026-11-01: **nothing below has been run, and nothing below is approved.** This is the one request that
-remains for the live work. Every figure is an estimate from the measurements in [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md), not a
-quote. Money is at USD 0.50 to 1.50 per 1,000 results, the readings of Oxylabs' price page, which names no rate for
-Walmart. The upper figure is what a ceiling would be set to. Times are UTC. Store: Walmart #3891, 3900 Fountain Square
-Pl, Waukegan, IL 60085, PICKUP.
+Status on 2026-11-04: **nothing below has been run, and nothing below is approved.** Every figure is an estimate
+from this delivery's measurements, not a quote. Money is at the shared trial's reserve rate, USD 0.0015 per result
+(a list price, not an invoice). Times are UTC. Store: Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085,
+PICKUP.
 
-Release 1.5.2 has not run live. Its corrections are verified offline, against the pages the live runs stored. The last
-live evidence is run S6 on release 1.5.1 (`488a033`).
+## Why the live work stops here
 
-## Why no live run was made in this release
-
-| Account | Limit | Used | Left | Needed for the smallest useful run |
+| Account | Limit | Used (committed) | Left | Needed for the smallest useful stage |
 |---|---|---:|---:|---|
-| Oxylabs Web API (the owner's) | 120 rows, [`evidence/live/plan/CAMPAIGN_BUDGET.json`](../evidence/live/plan/CAMPAIGN_BUDGET.json) | 119 | 1 | at least 3 rows for any session; about 300 for Stage 1 |
-| Scrape.do (the owner's free plan) | 1,000 credits a month | 990 | 10 | about 213 credits: canary about 21, a 19-page run about 192 |
+| The user's Oxylabs Web API trial, Walmart's envelope | USD 2.25 | USD 2.2275 (1,500 reservations) | USD 0.0225 (15 submissions) | Stage 1: about 28 to 45 submissions, at most about USD 0.07 |
+| The same trial, Mariano's envelope | USD 2.25 | 0 | USD 2.25 | not available to Walmart: Mariano's essential tests have not been done |
+| Scrape.do | no access authorized in this delivery | 0 | none | Stage 3 |
 | Oxylabs Classic (the client's) | no access | 0 | not known | credentials, entitlement, rates, written approval |
 
-The ledger was not reset, nothing was bought, and nothing was charged to the client.
+The trial's cap is USD 5 in total across Walmart and Mariano's, with USD 0.50 kept as headroom inside it. The
+ledger was not reset, nothing was bought, and nothing was charged to the client. The Oxylabs ceiling is 0 since
+2026-11-04T14:43:43Z: no run sends anything until a new ceiling is set with its own approved basis. Figures:
+[`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md).
 
-## The request
+Each stage below runs the frozen release 1.6.5 (`67d216e`). Its ceiling is set with `set-ceiling` before its first
+request, every submission's worst case is reserved before it is sent, a retry or a restart counts against the same
+ceiling, and an unknown outcome stays charged. A stage that meets a block, a wrong store, repeated pages or its
+ceiling stops, and reports what remains.
+
+## Stage 1: a detail-on demonstration on the final revision (the smallest next proposal)
+
+What it closes: N1A-05 and the detail-on part of W5 (at least 500 genuine distinct fresh valid products from one run
+of the final revision, with the detail path on).
+
+| Step | Submissions | What it shows |
+|---|---:|---|
+| Preflight of each worker: robots.txt and the store page | 4 | store 3891, ZIP 60085, PICKUP, on Walmart's own store page |
+| The six listings of L2, L3, L5 and L8, three result pages each, two workers, one execution | 18 | about 675 fresh products, as L8 read; the automated canary and the 1.6.5 source check on the first recorded page |
+| Product pages, detail on, for the products with no saved read of the last 30 days | about 6 to 23 | L8 needed 6 (with 667 UPCs from saved reads); more if Walmart's listings changed |
+| **Total** | **about 28 to 45** | **at most about USD 0.07** (45 × USD 0.0015) |
+
+Ceiling: `set-ceiling --provider oxylabs --submissions 45 --usd 0.0675`. Afterwards: `export`, `validate-export
+--run`, `field-dispositions`, `coverage-report`. The saved reads it relies on date from 2026-11-03 and 2026-11-04,
+so they serve until 2026-12-03; later, more product pages are needed.
+
+An optional addition of about 6 submissions: reach Beauty's "New Arrivals" listing through Beauty's category page,
+as L10 did, so that 1.6.5's source check also meets the flat price layout live. L11 named that listing directly and
+it was rejected for its identity (see [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8).
+
+## Stage 2: the continuation toward full scope (W4), priced from the coverage table
+
+Computed offline from [`W4_LISTINGS_1_6_5.csv`](../evidence/reconciliation/1.6.5/w4/W4_LISTINGS_1_6_5.csv) by
+`continuation_165.py`
+([`CONTINUATION_ESTIMATE_1_6_5.json`](../evidence/reconciliation/1.6.5/w4/CONTINUATION_ESTIMATE_1_6_5.json)): 40
+results per page, at most 25 pages per listing (the result window).
+
+| Listings | How many | Listing pages | Basis |
+|---|---:|---:|---|
+| `PARTIAL`: the pages after those read | 203 | 1,236 | measured: each listing's reported total |
+| `INCOMPLETE`: read again from page 1 | 9 | 37 | measured: each listing's last reported total |
+| `NOT_ATTEMPTED`: named, never reached | 407 | about 1,410 | **an estimate**: no total is known; each row's mean from the listings reached in that row (row 0: 124 listings, about 956 pages; row 10: 256 listings, about 377 pages) |
+| `RESULT_WINDOW`, `CATEGORY_PAGE`, `NOT_FOUND` | 11 | 0 | read through their child categories, or not a listing |
+| **Total** | | **about 2,683** | |
+
+- **Submissions:** about 2,711 (the listing pages, and robots.txt and the store page for each worker of each of
+  about 7 executions of about 440 pages, the size of L10).
+- **Money:** about **USD 4.07** at the reserve rate.
+- **Time:** about **4.4 active hours** with two workers, at L10's measured 10.19 pages per active minute.
+- **Not included:** product pages with detail on (one per distinct product without a saved read of the last 30
+  days: priced once the continuation has counted the products); retries; and the listings found only by reading
+  child categories. 14 `PARTIAL` listings report more results than the window serves (from 1,001 to 2,943, and
+  "Special Kitty" 60,000): they are read through their child categories, at a cost known only once those are named.
+  A child that also exceeds the window needs the second partition level (A18).
+- **Then:** a timed full run of the whole scope, which measures what a twice-weekly run costs and whether it fits
+  between two starts (A52, A53, N5-06). It is not proposed here: the continuation decides its size.
+
+## Stage 3: a Scrape.do canary
+
+Needs separately supplied Scrape.do access; this delivery authorizes no Scrape.do spending. The Scrape.do edition is
+built from the same revision and passes the same offline suites. Its request code (`acquisition/scrapedo.py`) has
+not changed since 1.5.2, so the estimates of the 1.5.2 plan stand: a canary of about 21 credits, and a 19-page
+demonstration of about 192 credits. The canary is run as L11b was: robots.txt, the store page and one listing page,
+with the store, Pickup and source checks.
+
+## Stage 4: a sequence the client observes
+
+In the client's environment once access is restored, or shared on screen from the workstation; never certified on
+the client's behalf:
+1. the offline checks of [`ACCEPTANCE_RUNBOOK.md`](ACCEPTANCE_RUNBOOK.md), sections 1 to 6, on the client's copy;
+2. `validate-config --check-db --require-credentials` and `status` on the client's database;
+3. a live canary of one listing page (3 submissions), a pause, a refused second run, `resume`, `status`, then
+   `export`, `validate-export --run` and `coverage-report`;
+4. the published dataset unchanged afterwards (a pilot is never published).
+
+At most 30 results, USD 0.045, on the account the client chooses.
+
+## Order and dependencies
 
 | # | Who | What | Cost, an estimate |
 |---|---|---|---:|
-| 1 | Hamza | Replace the owner's Web API key in the Oxylabs dashboard before the next live run | none |
-| 2 | Hamza or the client | Approve Stage 1 in writing: the account, about 300 rows, the date | USD 0.15 to 0.45 |
-| 3 | Hamza or the client | Approve the rest of [`evidence/reconciliation/1.5.2/sponsored_and_variant_reconciliation/EXACT_LIVE_READ_QUEUE_1_5_2.csv`](../evidence/reconciliation/1.5.2/sponsored_and_variant_reconciliation/EXACT_LIVE_READ_QUEUE_1_5_2.csv) (250 items left after Stage 1) | USD 0.13 to 0.38 |
-| 4 | the client | Approve Stage 2, the census: about 615 rows | USD 0.31 to 0.92 |
-| 5 | the client | After the census, choose a plan and approve Stage 3, one timed full run | see below |
-| 6 | Hamza | Scrape.do: wait for the monthly renewal or take a paid plan, for at least about 213 credits | none, or the plan |
-| 7 | the client | Azure access and paid Classic: an Azure access request (drafted separately; not published here) and [`classic-probe/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md`](../classic-probe/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md) | as the request and that plan say |
-| 8 | the client | Observe a run: [`ACCEPTANCE_RUNBOOK.md`](ACCEPTANCE_RUNBOOK.md), section 7 | at most 30 rows, USD 0.045 |
-| 9 | the client | The support period and the transfer of intellectual property | an agreement |
+| 1 | Hamza or the client | Approve Stage 1 in writing: the account, the ceiling, the date | at most about USD 0.07 |
+| 2 | the client | Approve Stage 2 on an account the client chooses | about USD 4.07, plus product pages |
+| 3 | Hamza or the client | Supply Scrape.do access for Stage 3 | about 21 credits, then about 192 |
+| 4 | the client | Restore access to the VM (restart, window, `scraper_client_test_v2.pub` with the old key revoked); then Stage 4 | at most USD 0.045 |
+| 5 | the client | After Stage 2: the timed full run, the schedule, Classic, the support and IP terms | decided then |
 
-Items 2 to 4 together come to about 1,165 rows, USD 0.58 to 1.75.
-
-## Stage 1: qualification of the final revision (about 300 rows)
-
-| Step | Rows | What it shows | Stop if |
-|---|---:|---|---|
-| Canary: store page, store checks, one listing page, one product page | 4 | store 3891, ZIP 60085, PICKUP, seller, the corrected fields on live pages | any store check fails |
-| Demonstration: at least 500 fresh products with their product pages read, a kill and a resume | about 255 | the corrected collector end to end, on live pages: about 235 product pages, plus setup and the restart | a block, a wrong store, repeated pages or the ceiling |
-| Repeat of one page, later | 4 | the same revision read twice, live | as above |
-| The 25 tile-only siblings of the earlier reviews | 29 | each sibling's own page: identity, category, Pickup | as above |
-| Serial and parallel on the same pages | 10 | 1 and 2 workers through the real pipeline, on the final revision | as above |
-
-The rows are estimates: Walmart's pages change. The ceiling is set with `set-ceiling` before the first request and a
-retry or a restart counts against it.
-
-## Stage 2: census (about 615 rows)
-
-One Pickup result page per root listing (613 roots) reads each root's Pickup total. The sum bounds the store's
-assortment from above and fixes the number of result pages of a full run. It replaces the assumed N of the cost
-report with a measurement. The 945 listings of the earlier inventory are a baseline, not an assumed current truth.
-
-## Stage 3: one timed full run
-
-No figure here is a measurement yet. For N of 20,000 to 40,000 the model gives 31,769 to 99,418 results for a first
-run on Oxylabs, and more for N of 80,000. That is beyond a free balance and needs a paid plan, so it is a decision
-for after the census. The plan and the amount are not proposed here because the census decides them. The run has no
-demonstration cap: its limits stop it safely, keep its checkpoints and report what remains, and a run stopped by a
-limit is never reported as complete. If accessible pages run out with a gap left, the report says "accessible pages
-exhausted; coverage incomplete". The twice-weekly fit is known only after this run.
-
-## Milestones
-
-These are the earliest realistic times, and each depends on the approval before it. A later approval moves what
-follows by the same delay.
-
-| Earliest | Milestone | Depends on |
-|---|---|---|
-| 2026-11-03T12:00Z | Key replaced, Stage 1 approved | items 1 and 2 |
-| 2026-11-03T14:00Z to 18:00Z | Stage 1 runs | the approval; Oxylabs answering as on 2026-10-31 |
-| 2026-11-04T12:00Z | Stage 1 report, with a correction release if Stage 1 finds a defect | Stage 1 |
-| 2026-11-05T18:00Z | Census report | item 4 |
-| Set after the census | Stage 3, and the twice-weekly answer | item 5 |
-| Set by the client | The client-observed run, Azure and Classic | items 7 and 8 |
+The dated milestones are in [`MILESTONES.md`](MILESTONES.md).

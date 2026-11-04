@@ -1,0 +1,60 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen walmart-collector --help
+(cwd walmart-oxylabs-1.6.5; offline=True)
+usage: walmart-collector [-h] [--version] [--config CONFIG] [--pretty]
+                         {validate-config,db-upgrade,sync-config,run,resume,finalize,replay,stop,publish,status,export,validate-export,provider-balance,set-ceiling,set-budget,coverage-report,follow-ups,schedule-status,field-dispositions,import-detail-captures,attest-lineage,release-hold,schedule-info,ops}
+                         ...
+
+``walmart-collector``: the headless collector's command line.
+
+positional arguments:
+  {validate-config,db-upgrade,sync-config,run,resume,finalize,replay,stop,publish,status,export,validate-export,provider-balance,set-ceiling,set-budget,coverage-report,follow-ups,schedule-status,field-dispositions,import-detail-captures,attest-lineage,release-hold,schedule-info,ops}
+    validate-config     check the configuration files and the environment
+    db-upgrade          create or upgrade the database schema
+    sync-config         load the stores and the category CSV into the database
+    run                 collect a store (a new run)
+    resume              continue an interrupted run from its checkpoints
+    finalize            check and export what an unfinished run collected (no
+                        provider request)
+    replay              read an earlier live run's stored pages again with
+                        this code (offline; a REPLAY run, never published)
+    stop                stop collecting; the run is finalized with what it
+                        collected
+    publish             publish a complete validated run
+    status              runs, holds, the published dataset and the provider
+                        ledger
+    export              copy a run's verified export files to a folder
+    validate-export     the 22-field contract (and, for a run, the source
+                        check)
+    provider-balance    the provider's balance (Scrape.do: free /info) or, for
+                        Oxylabs, its ceiling and ledger
+    set-ceiling         a provider's spending ceiling across every run from
+                        now on
+    set-budget          the task's money budget across every provider from now
+                        on
+    coverage-report     a run's coverage reconciliation and follow-up outcomes
+    follow-ups          the store's follow-up queue: sponsored-only products
+                        and variant siblings its runs named, and whether a run
+                        has read them to a decision
+    schedule-status     the store's scheduled occurrences: backlog, lateness,
+                        missed deadlines and the capacity gap (reads only)
+    field-dispositions  why each exported product's UPC and size are filled or
+                        empty, in a run (reads only)
+    import-detail-captures
+                        load saved product pages, with their original time,
+                        run, revision and hash, for runs to reuse (offline: no
+                        provider request; pages of another item are refused)
+    attest-lineage      record that a LIVE run made before release 1.3.1 read
+                        its pages from the network (its observations may then
+                        serve later runs)
+    release-hold        let a held store collect again
+    schedule-info       the store's schedule and the Azure cron expression
+                        (UTC)
+    ops                 run the command written in $WALMART_COLLECTOR_COMMAND
+                        (the Azure operations job; default: status)
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --config CONFIG       collector configuration file (default:
+                        $WALMART_COLLECTOR_CONFIG or config/collector.yaml)
+  --pretty              print the result indented

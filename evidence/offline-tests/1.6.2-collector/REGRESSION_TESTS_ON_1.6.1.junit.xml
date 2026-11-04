@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="7" time="22.127" timestamp="2026-11-03T19:23:04.857594+00:00" hostname="(workstation)"><testcase classname="tests.unit.test_walmart" name="test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one" time="0.004"><failure message="AttributeError: module 'walmart_headless.sites.walmart.page_data' has no attribute 'category_page'. Did you mean: 'category_nav'?">def test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one() -&gt; None:
+        # Release 1.6.2. The shape of the "Flower Shop" page the listing link "Fresh Flowers" served on 2026-11-03
+        # (a SYNTHETIC copy of its route, its address and an empty initialData).
+        hub = {
+            "page": "/cp/[...categoryParams]",
+            "query": {"categoryParams": ["flower-shop", "5098771"]},
+            "props": {"pageProps": {"pageUrl": "/cp/flower-shop/5098771?povid=x", "initialData": {}}},
+        }
+&gt;       assert wpd.category_page(hub) == "/cp/flower-shop/5098771" and wpd.search_result(hub) is None
+               ^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.sites.walmart.page_data' has no attribute 'category_page'. Did you mean: 'category_nav'?
+
+tests\unit\test_walmart.py:482: AttributeError</failure></testcase><testcase classname="tests.unit.test_listing_reconciliation" name="test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done" time="0.011"><failure message="AssertionError: assert ('INCOMPLETE' == 'INCOMPLETE'&#10;  &#10;    INCOMPLETE and 'EMPTY_PAGE' == 'RESULT_WINDOW'&#10;  &#10;  - RESULT_WINDOW&#10;  + EMPTY_PAGE)">def test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done() -&gt; None:
+        # Live 2026-11-03, Laundry (release 1.6.1 left it unpartitioned): 615, 613, 614 and 611 reported while it
+        # was read, page 11 of the 16 linked empty, 393 served.
+        lst = _listing(393, 611, totals=[615, 613, 614, 611])
+        close_listing(lst, "EMPTY_PAGE", 11, "result page 11 shows no products")
+&gt;       assert lst.status == "INCOMPLETE" and lst.end == "RESULT_WINDOW"
+E       AssertionError: assert ('INCOMPLETE' == 'INCOMPLETE'
+E         
+E           INCOMPLETE and 'EMPTY_PAGE' == 'RESULT_WINDOW'
+E         
+E         - RESULT_WINDOW
+E         + EMPTY_PAGE)
+
+tests\unit\test_listing_reconciliation.py:226: AssertionError</failure></testcase><testcase classname="tests.unit.test_listing_reconciliation" name="test_a_shortfall_no_larger_than_the_totals_moved_stays_unreconciled_not_a_window" time="0.002" /><testcase classname="tests.integration.test_coverage_and_assortment" name="test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children" time="9.994"><failure message="AssertionError: assert ('INCOMPLETE' == 'PARTITIONED'&#10;  &#10;  - PARTITIONED&#10;  + INCOMPLETE)">env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:57152/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children(
+        env: dict[str, Any],
+    ) -&gt; None:
+        # Release 1.6.2. Until 1.6.1 the moved total ended the listing "not reconciled" and unpartitioned.
+        serve(
+            env,
+            {
+                DIAPERING: moving_window_parent,
+                DIAPERS: lambda n: listing(
+                    items(1, 7, 8), page=n, max_page=1, total=3, cat=("Diapers", [*CRUMBS, "5427_486190_1"])
+                ),
+                WIPES: lambda n: listing(
+                    items(9, 10), page=n, max_page=1, total=2, cat=("Wipes", [*CRUMBS, "5427_486190_2"])
+                ),
+            },
+        )
+        run_id, _ = run_diapering(env)
+        cov = coverage(env, run_id)
+        parent = cov["5427_486190"]
+&gt;       assert parent.status == "PARTITIONED" and parent.partition["end"] == "RESULT_WINDOW"
+E       AssertionError: assert ('INCOMPLETE' == 'PARTITIONED'
+E         
+E         - PARTITIONED
+E         + INCOMPLETE)
+
+tests\integration\test_coverage_and_assortment.py:247: AssertionError</failure></testcase><testcase classname="tests.integration.test_coverage_and_assortment" name="test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on" time="2.633"><failure message="KeyError: '976759_9176907'">env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:57152/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on(
+        env: dict[str, Any],
+    ) -&gt; None:
+        # Release 1.6.2. Release 1.6.1 stopped the run (ABNORMAL_RESULT, not resumable) and the store was held.
+        serve(env, {MILK: lambda n: no_grid("/cp/[...categoryParams]")})
+        run_id, _ = run_food(env)
+        cov = coverage(env, run_id)
+&gt;       milk = cov["976759_9176907"]
+               ^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: '976759_9176907'
+
+tests\integration\test_coverage_and_assortment.py:961: KeyError</failure></testcase><testcase classname="tests.integration.test_coverage_and_assortment" name="test_any_other_page_without_a_result_grid_still_stops_the_run[an-unknown-page-without-a-grid]" time="2.238" /><testcase classname="tests.integration.test_coverage_and_assortment" name="test_any_other_page_without_a_result_grid_still_stops_the_run[a-category-page-after-the-first-result-page]" time="4.308" /></testsuite></testsuites>

@@ -1,0 +1,121 @@
+{
+ "from": "data/S6-1.5.1/products_retained.csv (706 rows, run 01M6A2VQAA5VXJHJHMZPCTZTD4, release 1.5.1, as delivered in 1.5.2)",
+ "to": "the 1.6.2 export of run 01M6K1HG154683NAAFXQZX33C6 (2274 rows)",
+ "s6_fresh_baseline_recomputed": {
+  "upc": {
+   "budget_deadline_interruption": 226,
+   "recovered_from_saved_detail": 352,
+   "fetched_detail": 1,
+   "absent_in_source": 1
+  },
+  "size (weight)": {
+   "present_in_listing": 555,
+   "recovered_from_saved_detail": 12,
+   "budget_deadline_interruption": 9,
+   "unresolved_conflict": 1,
+   "absent_in_source": 3
+  }
+ },
+ "s6_fresh_filled_1_5_2": {
+  "upc": 353,
+  "size (weight)": 567
+ },
+ "s6_fresh_filled_1_6_2": {
+  "upc": 509,
+  "size (weight)": 569
+ },
+ "s6_fresh_changes_by_field": {
+  "upc": {
+   "filled": 171,
+   "still blank": 56,
+   "unchanged": 338,
+   "cleared": 15
+  },
+  "size (weight)": {
+   "unchanged": 565,
+   "changed": 1,
+   "still blank": 10,
+   "filled": 3,
+   "cleared": 1
+  }
+ },
+ "by_evidence_class": {
+  "LIVE (an earlier read of the product's own page, run 01M6H72J86K5TF7A1874N7BJ2R, reused)": 176,
+  "LIVE VERIFIED (1.6.2): the listing tile, read by this delivery": 574,
+  "CARRIED (an earlier live run's value; not re-read)": 105,
+  "LIVE VERIFIED (1.6.1): the listing tile, read by this delivery": 82,
+  "LIVE (an earlier read of the product's own page, run 01M60CG5Y3KY64JP0ZV5F6MBDP, reused)": 57,
+  "LIVE (an earlier read of the product's own page, run 01M69Y1J6YWFEZ1DJHAC2MT17M, reused)": 3,
+  "LIVE VERIFIED (1.6.2): the product's own page, read by this delivery": 18,
+  "LIVE (an earlier read of the product's own page, run 01M69Y882GTVYRJZM0CXQ44MXN, reused)": 11,
+  "LIVE (an earlier read of the product's own page, run 01M60F6GHNXCTZPJ6G1PRM7KW7, reused)": 286,
+  "LIVE (an earlier read of the product's own page, run 01M60C3EGX839C5B2R3TXV5MAZ, reused)": 5,
+  "LIVE (an earlier read of the product's own page, run 01M60JAPKBR4FNK22QMYTHNBSX, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M6H5TX7R4ZWV8W3NTH0QN6HF, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M69X9XHZR83KZ2FNWBJYJKA7, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M60PQ9JTV9BQCVF45EMEWMZM, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M69XM9RZN3C8D0K7W2NSXR3D, reused)": 12,
+  "LIVE VERIFIED (1.6.0): the listing tile, read by this delivery": 1,
+  "LIVE (an earlier read of the product's own page, run 01M6A2VQAA5VXJHJHMZPCTZTD4, reused)": 1,
+  "NOT ESTABLISHED": 2,
+  "LIVE (an earlier read of the product's own page, run 01M60VA50N50W10GJZE9C6P95K, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M6HA74X4QYMW45SVD62JQDSQ, reused)": 3,
+  "LIVE (an earlier read of the product's own page, run 01M60RPW1ABES1RWTXXHZBTAXS, reused)": 71
+ },
+ "changes_by_field": {
+  "upc": {
+   "filled": 198,
+   "still blank": 74,
+   "unchanged": 415,
+   "cleared": 19
+  },
+  "size (weight)": {
+   "unchanged": 678,
+   "changed": 6,
+   "still blank": 16,
+   "filled": 5,
+   "cleared": 1
+  }
+ },
+ "outcome_1_6_2_by_field": {
+  "upc": {
+   "recovered_from_saved_detail": 595,
+   "not_attempted": 88,
+   "fetched_detail": 18,
+   "budget_deadline_interruption": 2,
+   "identity_mismatch": 2,
+   "absent_in_source": 1
+  },
+  "size (weight)": {
+   "present_in_listing": 665,
+   "unresolved_conflict": 3,
+   "recovered_from_saved_detail": 22,
+   "absent_in_source": 7,
+   "fetched_detail": 2,
+   "budget_deadline_interruption": 1,
+   "not_attempted": 6
+  }
+ },
+ "filled_by_outcome": {
+  "upc | recovered_from_saved_detail": 181,
+  "upc | fetched_detail": 17,
+  "size (weight) | recovered_from_saved_detail": 3,
+  "size (weight) | fetched_detail": 1,
+  "size (weight) | present_in_listing": 1
+ },
+ "still_blank_by_outcome": {
+  "upc | not_attempted": 69,
+  "size (weight) | unresolved_conflict": 3,
+  "size (weight) | absent_in_source": 7,
+  "upc | budget_deadline_interruption": 2,
+  "size (weight) | budget_deadline_interruption": 1,
+  "size (weight) | not_attempted": 5,
+  "upc | identity_mismatch": 2,
+  "upc | absent_in_source": 1
+ },
+ "rows_with_a_page_of_the_compared_run": 20,
+ "rows_with_a_page_of_this_delivery": 200,
+ "rows_with_a_public_copy": 228,
+ "rows_with_a_private_original_hash": 650,
+ "note": "Computed from W2_FIELD_CORRECTIONS_1_6_2.csv. A blank stays blank unless a page states the value; nothing is inferred."
+}

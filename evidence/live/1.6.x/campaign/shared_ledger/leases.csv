@@ -1,0 +1,27 @@
+id,project,holder,token,host,pid,acquired_at,expires_at,released_at,release_reason
+1,walmart,walmart-session-15268,<withheld>,<withheld>,<withheld>,2026-11-03T16:14:41.009965Z,2026-11-03T16:19:41.009965Z,2026-11-03T16:14:42.126944Z,W0 done
+2,walmart,live160:l1_run:19724,<withheld>,<withheld>,<withheld>,2026-11-03T17:03:13.016595Z,2026-11-03T17:06:43.094477Z,2026-11-03T17:04:55.792785Z,step l1_run ended with exit code 6
+3,walmart,live160:l2_run:6420,<withheld>,<withheld>,<withheld>,2026-11-03T17:24:52.988833Z,2026-11-03T17:34:53.786533Z,2026-11-03T17:32:55.281446Z,step l2_run ended with exit code 75
+4,walmart,live160:l2_resume1:22840,<withheld>,<withheld>,<withheld>,2026-11-03T17:34:23.251037Z,2026-11-03T17:42:54.288480Z,2026-11-03T17:43:11.512612Z,expired before a new acquisition
+5,walmart,live160:l2_resume2:2288,<withheld>,<withheld>,<withheld>,2026-11-03T17:43:11.500951Z,2026-11-03T18:09:43.161207Z,2026-11-03T18:07:51.968988Z,step l2_resume2 ended with exit code 0
+6,walmart,live160:l3_run:22704,<withheld>,<withheld>,<withheld>,2026-11-03T18:19:49.426409Z,2026-11-03T18:22:19.437404Z,2026-11-03T18:20:34.336904Z,step l3_run ended with exit code 75
+7,walmart,live160:l3_overlap_refused:24144,<withheld>,<withheld>,<withheld>,2026-11-03T18:20:37.412615Z,2026-11-03T18:22:37.412615Z,2026-11-03T18:20:39.417803Z,step l3_overlap_refused ended with exit code 9
+8,walmart,live160:l3_resume1:12724,<withheld>,<withheld>,<withheld>,2026-11-03T18:21:29.788970Z,2026-11-03T18:24:29.833694Z,2026-11-03T18:24:33.077730Z,expired before a new acquisition
+9,walmart,live160:l3_resume2:2704,<withheld>,<withheld>,<withheld>,2026-11-03T18:24:33.072687Z,2026-11-03T18:31:33.293337Z,2026-11-03T18:29:39.906345Z,step l3_resume2 ended with exit code 0
+10,walmart,live160:l2b_run:22652,<withheld>,<withheld>,<withheld>,2026-11-03T18:32:00.119371Z,2026-11-03T18:58:31.190307Z,2026-11-03T18:56:45.822784Z,step l2b_run ended with exit code 0
+11,walmart,live160:l4r_run:7920,<withheld>,<withheld>,<withheld>,2026-11-03T18:59:05.581260Z,2026-11-03T19:06:05.960045Z,2026-11-03T19:04:09.065313Z,step l4r_run ended with exit code 0
+12,walmart,live160:l4_run:15900,<withheld>,<withheld>,<withheld>,2026-11-03T19:08:17.927682Z,2026-11-03T19:13:18.060653Z,2026-11-03T19:11:22.771155Z,step l4_run ended with exit code 6
+13,walmart,live160:l5_run:11764,<withheld>,<withheld>,<withheld>,2026-11-04T10:26:40.150838Z,2026-11-04T10:29:10.167179Z,2026-11-04T10:27:26.946831Z,step l5_run ended with exit code 75
+14,walmart,live160:l5_overlap_refused:14704,<withheld>,<withheld>,<withheld>,2026-11-04T10:27:30.394988Z,2026-11-04T10:29:30.394988Z,2026-11-04T10:27:32.525740Z,step l5_overlap_refused ended with exit code 9
+15,walmart,live160:l5_resume1:13232,<withheld>,<withheld>,<withheld>,2026-11-04T10:27:50.480045Z,2026-11-04T10:30:50.528019Z,2026-11-04T10:30:53.934398Z,expired before a new acquisition
+16,walmart,live160:l5_resume2:11092,<withheld>,<withheld>,<withheld>,2026-11-04T10:30:53.926507Z,2026-11-04T10:37:24.166670Z,2026-11-04T10:35:30.808952Z,step l5_resume2 ended with exit code 6
+17,walmart,live160:l6_run:10920,<withheld>,<withheld>,<withheld>,2026-11-04T10:37:45.805126Z,2026-11-04T10:44:46.430373Z,2026-11-04T10:43:14.913683Z,step l6_run ended with exit code 5
+18,walmart,live160:l8_run:10752,<withheld>,<withheld>,<withheld>,2026-11-04T11:56:32.155566Z,2026-11-04T11:59:02.188986Z,2026-11-04T11:57:17.149647Z,step l8_run ended with exit code 75
+19,walmart,live160:l8_overlap_refused:5684,<withheld>,<withheld>,<withheld>,2026-11-04T11:57:20.924323Z,2026-11-04T11:59:20.924323Z,2026-11-04T11:57:23.200772Z,step l8_overlap_refused ended with exit code 9
+20,walmart,live160:l8_resume1:2340,<withheld>,<withheld>,<withheld>,2026-11-04T11:57:32.387364Z,2026-11-04T12:00:02.410406Z,2026-11-04T12:00:05.756088Z,expired before a new acquisition
+21,walmart,live160:l8_resume2:13508,<withheld>,<withheld>,<withheld>,2026-11-04T12:00:05.749947Z,2026-11-04T12:06:35.942568Z,2026-11-04T12:04:55.963453Z,step l8_resume2 ended with exit code 6
+22,walmart,live160:l9_run:1920,<withheld>,<withheld>,<withheld>,2026-11-04T12:07:37.332106Z,2026-11-04T12:11:07.402066Z,2026-11-04T12:09:31.263041Z,step l9_run ended with exit code 6
+23,walmart,live160:l7_run:19912,<withheld>,<withheld>,<withheld>,2026-11-04T12:11:41.050134Z,2026-11-04T12:21:11.896624Z,2026-11-04T12:19:30.821736Z,step l7_run ended with exit code 6
+24,walmart,live160:l10_run:2344,<withheld>,<withheld>,<withheld>,2026-11-04T12:56:14.967172Z,2026-11-04T13:44:19.272436Z,2026-11-04T13:42:46.630390Z,step l10_run ended with exit code 4
+25,walmart,live160:l11_run:12640,<withheld>,<withheld>,<withheld>,2026-11-04T14:24:22.638500Z,2026-11-04T14:31:53.000034Z,2026-11-04T14:30:07.808572Z,step l11_run ended with exit code 6
+26,walmart,live160:l11b_run:21200,<withheld>,<withheld>,<withheld>,2026-11-04T14:35:09.046451Z,2026-11-04T14:42:09.821172Z,2026-11-04T14:40:22.742358Z,step l11b_run ended with exit code 6

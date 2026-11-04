@@ -1,0 +1,32 @@
+{
+ "l2": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l2.yaml",
+  "sha256": "c7f7e2781a21d988a1bd78dc9fe55d5db7271baa863a55d607f148798424f9d8",
+  "seeds": 177,
+  "by_listing": {
+   "5440_202072_6432755_1636265": 96,
+   "976760_4661388_6244277_7158394": 18,
+   "976759_976793_8910423": 25,
+   "1115193_1071967": 38
+  },
+  "links_from_queue": 25,
+  "seeds_per_shard_of_2": {
+   "0": 77,
+   "1": 100
+  }
+ },
+ "l2b": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l2b.yaml",
+  "sha256": "cbfaa0be2fee64d08c7438a6dc63609b5caa17a9c7e0db9969dcfde2183588f1",
+  "seeds": 98,
+  "by_listing": {
+   "1005862_1071969": 24,
+   "5427_486190": 74
+  },
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {
+   "1": 46,
+   "0": 52
+  }
+ }
+}

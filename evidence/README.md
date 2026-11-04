@@ -1,5 +1,32 @@
 # Evidence
 
+Grouped by class. Paths are rewritten to this repository's layout; contents are not, except for the redactions
+listed in [`../manifests/REDACTIONS.csv`](../manifests/REDACTIONS.csv).
+[`../manifests/FILE_MAP.csv`](../manifests/FILE_MAP.csv) gives each file's origin and both SHA-256 values.
+
+## The evidence of releases 1.6.0 to 1.6.5 (this delivery)
+
+**Read the class before the number.** Every 1.6.x live request was made on 2026-11-03 or 2026-11-04, from the
+workstation, with the user's Oxylabs Web API trial account, by the release named for its run. Nothing ran in the
+client's environment.
+
+| Folder | Class | What it holds |
+|---|---|---|
+| [`live/1.6.x/runs/`](live/1.6.x/runs/) | LIVE, releases 1.6.0 to 1.6.5 | the fourteen runs, one folder each (`<stage>_<run id>/`): the collector database's rows of the run, its stored pages (sanitized, with `PAGE_LINEAGE.csv` and the SHA-256 of each private original in `RAW_ORIGINALS_MANIFEST.csv`), its exports, coverage and field dispositions |
+| [`live/1.6.x/campaign/`](live/1.6.x/campaign/) | LIVE, the campaign record | the harness that launched the collector's commands, the step definitions, `commands.csv` (every command with its start, end and exit code), each command's log, the checks, and the shared trial ledger's Walmart extract (`shared_ledger/`) |
+| [`live/1.6.x/builds/`](live/1.6.x/builds/) | BUILD | the Oxylabs edition ZIP of each release that ran live, 1.6.0 to 1.6.5, as built |
+| [`offline-tests/1.6.0-collector/`](offline-tests/1.6.0-collector/) to [`1.6.5-collector/`](offline-tests/1.6.5-collector/) | OFFLINE TEST | each release's diff from the one before, its new tests run against the release before (where they fail), and its suites on its commit; `1.6.5-collector/` also holds the pinned diff from 1.5.2 and the scan of every stored page's price layout |
+| [`offline-tests/1.7.0-classic-probe/`](offline-tests/1.7.0-classic-probe/) | OFFLINE TEST | the shared Classic probe 1.7.0: its diff from 1.6.0 and its tests |
+| [`verification/1.6.5/`](verification/1.6.5/) | the delivery's verification | `package/`: both editions from clean extractions of the source ZIP, and the Bicep build and lint; `last_good_publication/`: the synthetic publication faults; `source_check_l10/`: the live L10 and L8 exports checked with 1.6.5's source check, and the record of the 1.6.4 check's defect |
+| [`verification/1.6.1/`](verification/1.6.1/), [`verification/1.6.4/`](verification/1.6.4/) | SYNTHETIC TEST | the same last-good publication check on releases 1.6.1 and 1.6.4 |
+| [`reconciliation/1.6.1/`](reconciliation/1.6.1/) to [`1.6.5/`](reconciliation/1.6.5/) | OFFLINE REPROCESSING of the live evidence | W2, the field corrections of S6's 706 rows (final: `1.6.3/w2/`); W3, the 275 sponsored and variant decisions (`1.6.1/w3/`); W4, coverage by row, listing and page with the continuation estimate (`1.6.5/w4/`); the measured concurrency (`1.6.5/`) |
+
+The runs, their releases and their results are in [`../data/RUN_SUMMARY.json`](../data/RUN_SUMMARY.json) and
+[`../review/TECHNICAL_REPORT.md`](../review/TECHNICAL_REPORT.md), section 3. To trace one row back to the page it
+was read from, see section 4 of [`../review/ACCEPTANCE_RUNBOOK.md`](../review/ACCEPTANCE_RUNBOOK.md).
+
+## The evidence of release 1.5.2, as published on 2026-11-03
+
 The evidence of release 1.5.2 (collector commit `627c804`), grouped by class. Each file comes from the delivery's
 evidence ZIP `WALMART_EVIDENCE_1.5.2.zip` (1,364 files, SHA-256 `256b968e…187baa`) or from the delivery folder.
 Their paths are rewritten here, but their contents are not, except for the redactions listed in
@@ -28,7 +55,7 @@ container tests.
 | [`verification/`](verification/) | the delivery's verification | `PACKAGE_VERIFICATION.txt` and its raw record (`steps.jsonl`, logs, JUnit XML, data checks) from clean extractions of the delivered archives |
 | [`as-packaged/`](as-packaged/) | INDEX | the evidence ZIP's own `README.md`, `EVIDENCE_MANIFEST.csv` (every archive file, its class and SHA-256 as packaged), `SANITIZATION.md`, `SANITIZATION_LOG.csv` and `ASSEMBLY_CHECK.txt` |
 
-## The nine live runs (2026-10-31, store 3891, Pickup)
+### The nine live runs (2026-10-31, store 3891, Pickup)
 
 Each run is a capped pilot, rejected by the coverage gate G3 at least, so none was published. Fresh rows are the
 ones a run observed itself. The other rows are carried from earlier runs and keep their own run and date.
@@ -48,7 +75,7 @@ ones a run observed itself. The other rows are carried from earlier runs and kee
 To trace one row back to the page it was read from, see section 4 of
 [`../review/ACCEPTANCE_RUNBOOK.md`](../review/ACCEPTANCE_RUNBOOK.md).
 
-## Reading a path written into an archive
+### Reading a path written into an archive
 
 Evidence files and JSON records still cite paths as `WALMART_EVIDENCE_1.5.2.zip: <path>`. Every member of the 1.5.1
 evidence ZIP except its 5 root index files is carried byte for byte at the same path in the 1.5.2 ZIP, so
@@ -81,7 +108,7 @@ and S7 and S4 moved the same way. `live/RUN_SUMMARY.json` and `COVERAGE_RECONCIL
 `evidence/verification/`. `CAMPAIGN_BUDGET.json` is published once, at `evidence/live/plan/CAMPAIGN_BUDGET.json`.
 References to `shared/WALMART_SHARED_EVIDENCE_1.4.1.zip` point into the 1.4.1 delivery, which is not republished here.
 
-## Not published
+### Not published
 
 [`../manifests/EXCLUDED.csv`](../manifests/EXCLUDED.csv) lists each file left out, with its SHA-256 and the reason.
 In short:

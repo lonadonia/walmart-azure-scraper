@@ -1,0 +1,53 @@
+{
+ "l3_161": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l3_161.yaml",
+  "sha256": "dae5080469f5f507bc107f23d364388100e5b09fbed70dca90aee7f3de97b13c",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0,
+  "by_listing": {},
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {}
+ },
+ "l2b_161": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l2b_161.yaml",
+  "sha256": "b91f3066da953f77eaaffea3709c4dc176a6cd32936b53db86f6c47b5fc2655e",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 98,
+  "by_listing": {
+   "1005862_1071969": 24,
+   "5427_486190": 74
+  },
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {
+   "1": 46,
+   "0": 52
+  }
+ },
+ "l4r_161": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l4r_161.yaml",
+  "sha256": "dae5080469f5f507bc107f23d364388100e5b09fbed70dca90aee7f3de97b13c",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0,
+  "by_listing": {},
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {}
+ },
+ "census_161": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.census_161.yaml",
+  "sha256": "dae5080469f5f507bc107f23d364388100e5b09fbed70dca90aee7f3de97b13c",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0,
+  "by_listing": {},
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {}
+ },
+ "l5_161": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l5_161.yaml",
+  "sha256": "dae5080469f5f507bc107f23d364388100e5b09fbed70dca90aee7f3de97b13c",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0,
+  "by_listing": {},
+  "links_from_queue": 0,
+  "seeds_per_shard_of_2": {}
+ }
+}

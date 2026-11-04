@@ -1,0 +1,26 @@
+extract: exit 0 in 0.6 s: ok: 462 entries; zip sha256 1c032d87a2cc95a2c9da7b8e9d0bd29666ffcd23f3c6cd435130ce45795c2c90
+oxylabs.tree: exit 0 in 0.0 s: ok: 230 files, tree 877f36afbf465317..., commit 67d216eb8ee2
+oxylabs.lock: exit 0 in 0.1 s: ok
+oxylabs.install: exit 0 in 7.2 s: ok
+oxylabs.ruff: exit 0 in 0.7 s: ok
+oxylabs.format: exit 0 in 0.2 s: ok
+oxylabs.mypy: exit 0 in 33.9 s: ok
+oxylabs.version: exit 0 in 8.5 s: ok
+oxylabs.help: exit 0 in 2.5 s: ok
+oxylabs.validate-config: exit 0 in 2.5 s: ok
+oxylabs.unit: exit 0 in 35.5 s: ok
+oxylabs.integration: exit 0 in 1362.9 s: ok
+scrapedo.tree: exit 0 in 0.0 s: ok: 230 files, tree b771dcb5e876c80f..., commit 67d216eb8ee2
+scrapedo.lock: exit 0 in 0.1 s: ok
+scrapedo.install: exit 0 in 7.3 s: ok
+scrapedo.ruff: exit 0 in 0.7 s: ok
+scrapedo.format: exit 0 in 0.2 s: ok
+scrapedo.mypy: exit 0 in 29.6 s: ok
+scrapedo.version: exit 0 in 8.0 s: ok
+scrapedo.help: exit 0 in 2.2 s: ok
+scrapedo.validate-config: exit 0 in 2.2 s: ok
+scrapedo.unit: exit 0 in 31.5 s: ok
+scrapedo.integration: exit 0 in 1353.9 s: ok
+
+23 steps, 0 not ok: none
+RESULT: PASS

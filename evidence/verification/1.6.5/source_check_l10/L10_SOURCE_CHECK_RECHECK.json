@@ -1,0 +1,169 @@
+{
+ "about": "validate-export --run 01M6KA3CKYJSD6WDY4TDAAV73Y (L10, release 1.6.4) exits 6: its source check reports 21 of 10,301 records as mismatches. This recheck reads each one's item on every stored L10 page that holds it, in the three price layouts the collector's page reader documents. a_page_shows_every_field: one page shows the record's prices, unit price, url, image and title exactly, with a Pickup line for store 3891.",
+ "records": 21,
+ "records_shown_exactly_by_a_page": 21,
+ "layouts_of_those_pages": [
+  "flat strings"
+ ],
+ "per_record": [
+  {
+   "item_id": "20585873588",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20066266417",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20485002977",
+   "checker_reported": [
+    "url"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "18905414013",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "19909366278",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20192714815",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20258112559",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20409871453",
+   "checker_reported": [
+    "image_url"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20319706283",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20394253049",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20154869224",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20137674624",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20160165023",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20217861532",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "19980750071",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20363470928",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20349174178",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20165660963",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20110071119",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20256006906",
+   "checker_reported": [
+    "regular_price"
+   ],
+   "a_page_shows_every_field": true
+  },
+  {
+   "item_id": "20691356609",
+   "checker_reported": [
+    "regular_price",
+    "ppm"
+   ],
+   "a_page_shows_every_field": true
+  }
+ ]
+}

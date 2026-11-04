@@ -1,0 +1,1 @@
+{"ts": "2026-11-03T17:02:44.989Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "sync-config", "exit_code": 0, "result": {"stores": {"inserted": 0, "updated": 0, "disabled": 0}, "categories": {"inserted": 0, "updated": 0, "disabled": 0, "csv_sha256": "65127cf3cd48f967ea3db0c4dd2be67de3f2ac1f6b60aef406c0778c999f3640"}}}

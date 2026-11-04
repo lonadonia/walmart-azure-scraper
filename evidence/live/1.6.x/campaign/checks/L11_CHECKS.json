@@ -1,0 +1,309 @@
+{
+ "stage": "L11",
+ "run_id": "01M6KF4RDC2MKR5Q26ZY5D727P",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6KF4RDC2MKR5Q26ZY5D727P",
+  "record_count": 10301,
+  "fresh_record_count": 0,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 0,
+ "fresh_distinct_items": 0,
+ "export_rows_with_carried": 10301,
+ "by_category": {},
+ "by_sub_category": {},
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 10301,
+  "crawl_dates_fresh": {},
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {},
+  "store_name": {},
+  "store_location": {},
+  "store_logo_filled": 0
+ },
+ "filled_fresh": {
+  "zipcode": 0,
+  "store_name": 0,
+  "store_location": 0,
+  "store_logo": 0,
+  "store_brand": 0,
+  "category": 0,
+  "sub_category": 0,
+  "product_title": 0,
+  "weight": 0,
+  "regular_price": 0,
+  "sale_price": 0,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 0,
+  "url": 0,
+  "upc": 0,
+  "gupc": 0,
+  "ppm": 0,
+  "unit_price": 0,
+  "crawl_date": 0
+ },
+ "store_brand_fresh": {},
+ "upc_outcomes_fresh": {},
+ "weight_outcomes_fresh": {},
+ "upc_outcomes_all_rows": {
+  "not_attempted": 9327,
+  "recovered_from_saved_detail": 911,
+  "fetched_detail": 57,
+  "absent_in_source": 4,
+  "budget_deadline_interruption": 1,
+  "identity_mismatch": 1
+ },
+ "weight_outcomes_all_rows": {
+  "not_attempted": 2039,
+  "present_in_listing": 8202,
+  "recovered_from_saved_detail": 35,
+  "absent_in_source": 19,
+  "fetched_detail": 3,
+  "unresolved_conflict": 3
+ },
+ "carried_rows_1_6_3": {
+  "carried_rows": 10301,
+  "rows_with_recovered_fields": 267,
+  "recovered_by_field": {
+   "upc": 267,
+   "weight": 15
+  },
+  "recovery_withheld": {
+   "the read's statements about size conflict": 12
+  },
+  "carried_upc_blank": 9333,
+  "carried_weight_blank": 2061
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {},
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-04 14:24:25.123189+00:00",
+  "finished_at": "2026-11-04 14:30:07.660585+00:00",
+  "parser_version": "1.6.5",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 3,
+   "credits": 3.0,
+   "usd": "0.0045000000000000005",
+   "first": "2026-11-04 14:24:28.308623+00:00",
+   "last": "2026-11-04 14:24:40.903280+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 1
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6KF4RJF2X9HN6W12MF9HK3N",
+   "started": "2026-11-04 14:24:25.163903+00:00",
+   "ended": "2026-11-04 14:30:07.740218+00:00",
+   "active_s": 342.56199999997625,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 3.0,
+   "workers": 1
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_4427759",
+   "status": "INCOMPLETE",
+   "total_count": null,
+   "organic_upcs": 0,
+   "coverage_ratio": null,
+   "partition": {
+    "end": "IDENTITY",
+    "url": "https://www.walmart.com/browse/beauty/new-arrivals/1085666_4427759",
+    "via": "configured",
+    "depth": 0,
+    "pages": 0,
+    "parent": "",
+    "reason": "the listing's own page does not place it under 1085666: name 'Shop all New Beauty', breadcrumb []",
+    "max_page": null,
+    "result_pages": [],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 0,
+     "organic": 0,
+     "difference": null,
+     "placements": 0,
+     "total_stable": true,
+     "reported_total": null,
+     "sponsored_only": 0,
+     "totals_reported": [],
+     "repeat_placements": 0,
+     "unresolved_difference": null
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G12",
+   "severity": "FAIL",
+   "code": "SITE_CONTRACT_DRIFT",
+   "scope": "run",
+   "ref": null,
+   "message": "contract canary did not pass"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "0 categories"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "0 valid records"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "run",
+   "ref": null,
+   "message": "100% of the published products are retained from earlier runs (26 retained, 0 fresh valid)"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "100% of the published products are retained from earlier runs (26 retained, 0 fresh valid)"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "ZERO_YIELD_SUSPECT",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "0 records"
+  },
+  {
+   "gate": "G8",
+   "severity": "FAIL",
+   "code": "FIELD_INCOMPLETE",
+   "scope": "run",
+   "ref": null,
+   "message": "no exported records"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L11-canary-165-20261104",
+  "rows": 3,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 3,
+    "worst_usd": 0.0045,
+    "settled_usd": 0.0045,
+    "settled_results": 3
+   }
+  }
+ }
+}

@@ -1,0 +1,285 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6K7AB85824HHKD17VNEHASS",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-11-04T12:09:30.891226Z",
+  "record_count": 2515,
+  "fresh_record_count": 2,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/products.json",
+      "sha256": "82e730f971dfffa81715e5478f9392c6bd34c58b0b90baaa8a6b242acb33844a",
+      "size": 3196521
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/products.csv",
+      "sha256": "6f92b31bedd29cabe2932936bd607ea6804d5bb26a68ae9e149ad028dfe2e2f8",
+      "size": 1972511
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/memberships.json",
+      "sha256": "ba7cb3d047e86435cf939738d572e3bd8114a932b5467a013cb86920c65d5030",
+      "size": 381
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/provenance.json",
+      "sha256": "3fee38004f98405880317a479ab2eb2c6de17b2a037c2676c1b332e16b29cc52",
+      "size": 21871394
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/validation_report.json",
+      "sha256": "d462d974bfa936ab5cac52c13d16f375863d209d64d5f49291c243dd04db314e",
+      "size": 3228
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/products_fresh.json",
+      "sha256": "2eead5c3507f63a6e7b5b4007021592568a99bc419d71ee4bea6920cafad6f9d",
+      "size": 2742
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/products_fresh.csv",
+      "sha256": "393d6f03b6810d8702e8ad97254f214ebf93ff98a2bd81ef1b50ff0a8fb13c6c",
+      "size": 2037
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/record_map.json",
+      "sha256": "335842cddefb1f0240a3c346034b12e13a4387c7a9ca18f2054032895393a670",
+      "size": 26090084
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/field_dispositions.json",
+      "sha256": "229fa8f65e5562dab63b45146e18d75d893a3ad4629a1caff2d8816035333515",
+      "size": 2719462
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M6K7AB85824HHKD17VNEHASS/exports/field_dispositions.csv",
+      "sha256": "aea1c7bbf574cff726eaaf967fd8611f8409da90863cab758fa0001788139aac",
+      "size": 1656554
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "def55e5c5f69fc60053f52fe49d077ec7648a513",
+      "source": "build_info",
+      "version": "1.6.3",
+      "built_at": "2026-11-04T11:54:09+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning",
+          "kind": "landing",
+          "only": [
+            "/browse/household-essentials/seventh-generation-laundry-care/1115193_1071967_8953745"
+          ],
+          "category": "Household Essentials",
+          "excluded": [],
+          "row_index": 1,
+          "taxonomy_id": "1115193",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90V"
+        },
+        {
+          "url": "https://www.walmart.com/cp/beauty/1085666?povid=GlobalNav_rWeb_Beauty_Beauty_ShopAll_051123",
+          "kind": "landing",
+          "only": [
+            "/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405"
+          ],
+          "category": "Beauty",
+          "excluded": [],
+          "row_index": 3,
+          "taxonomy_id": "1085666",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRD"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w9\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        1,
+        3
+      ],
+      "subcategories": {
+        "1": [
+          "/browse/household-essentials/seventh-generation-laundry-care/1115193_1071967_8953745"
+        ],
+        "3": [
+          "/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405"
+        ]
+      },
+      "follow_up_pages": 0,
+      "max_run_minutes": 20,
+      "pilot_no_detail": true,
+      "max_credits_per_run": 12
+    },
+    "collection": {
+      "detail": {
+        "enabled": false,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": null,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 20,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 12,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": null,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [],
+        "variants": true,
+        "max_pages": 0,
+        "sponsored": true
+      },
+      "categories": [
+        1,
+        3
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "1": [
+          "/browse/household-essentials/seventh-generation-laundry-care/1115193_1071967_8953745"
+        ],
+        "3": [
+          "/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.enabled": "off",
+      "follow_up.max_pages": 0
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.6.3"
+  },
+  "site_version": "walmart-next"
+}

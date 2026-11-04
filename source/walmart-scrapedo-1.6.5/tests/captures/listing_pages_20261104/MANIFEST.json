@@ -1,0 +1,15 @@
+[
+ {
+  "file": "bidets_page1.html.gz",
+  "fetch_id": "01M6K7Z4E1EMC2ZYJW0F7VA458",
+  "url": "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22",
+  "fetched_at": "2026-11-04 12:19:00.673078+00",
+  "run": "01M6K7HT3XVV8R8CX79P31KMB4",
+  "release": "1.6.3",
+  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6K7HT3XVV8R8CX79P31KMB4/live/dom/01M6K7Z4E1EMC2ZYJW0F7VA458.html.gz",
+  "source_sha256": "20f482eaf05e8addb61b4b438bf32be72a163a268705f354148b5e74fb6a9c67",
+  "content_sha256": "8cd52779434ea43f88025b5608c2e2c869dcce9ac7626b76f498e11c64a446d3",
+  "raw_original_body_sha256": "aed1f0588a3213f5fe9f0b0be298ab5b2e9eebefcee61a3502311b2088111774",
+  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.3), not recompressed"
+ }
+]

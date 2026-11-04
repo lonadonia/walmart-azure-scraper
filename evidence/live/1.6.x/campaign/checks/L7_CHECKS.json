@@ -1,0 +1,5720 @@
+{
+ "stage": "L7",
+ "run_id": "01M6K7HT3XVV8R8CX79P31KMB4",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6K7HT3XVV8R8CX79P31KMB4",
+  "record_count": 2019,
+  "fresh_record_count": 2019,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 2019,
+ "fresh_distinct_items": 2019,
+ "export_rows_with_carried": 2019,
+ "by_category": {
+  "Food": 1099,
+  "Household Essentials": 920
+ },
+ "by_sub_category": {
+  "Bacon, Hot Dogs, & Sausage": 34,
+  "Beef & Lamb": 18,
+  "Beef Jerky & Dried Meats": 39,
+  "Beverages": 39,
+  "Bread & Bakery": 36,
+  "Canned Goods": 35,
+  "Chicken": 15,
+  "Crackers": 31,
+  "Cut Fruits & Vegetables": 29,
+  "Deli meat & Cheese": 25,
+  "Dried Fruits": 35,
+  "Fresh": 36,
+  "Fresh Dressings": 14,
+  "Fresh Fruits": 30,
+  "Fresh Herbs": 32,
+  "Fresh Sandwiches": 37,
+  "Fresh Vegetables": 26,
+  "Frozen": 35,
+  "Fruit Snacks": 40,
+  "Great Value Pantry": 5,
+  "Healthy Snacks": 36,
+  "Hummus, Dips & Salsa": 19,
+  "Meat Sticks": 30,
+  "Nuts, Trail Mix & Seeds": 40,
+  "Organic Produce": 38,
+  "Organic and Plant-Based": 12,
+  "Pantry": 38,
+  "Plant-based Protein & Tofu": 27,
+  "Popcorn": 39,
+  "Pork": 8,
+  "Prepared meals & sides": 31,
+  "Pretzels": 39,
+  "Rotisserie Chicken": 23,
+  "Salsa & Dips": 37,
+  "Salsas & Dips": 20,
+  "Snacks": 34,
+  "Tailgating Food": 37,
+  "Air Fresheners": 38,
+  "All-Purpose Cleaners": 26,
+  "Bathroom Cleaners": 15,
+  "Bleach": 32,
+  "Brooms": 13,
+  "Carpet Cleaning Solutions": 19,
+  "Cleaning Tools": 28,
+  "Disinfectant Cleaners": 27,
+  "Disposable Bowls": 12,
+  "Disposable Cups": 34,
+  "Disposable Napkins": 6,
+  "Disposable Plates": 18,
+  "Disposable Utensils": 16,
+  "Dryer Sheets": 38,
+  "Dusters": 27,
+  "Fabric Softeners": 37,
+  "Facial Tissues": 32,
+  "Floor Cleaners": 37,
+  "Furniture Cleaners": 23,
+  "Laundry Detergent": 25,
+  "Laundry Sanitizer": 12,
+  "Lint Roller": 23,
+  "Mops": 29,
+  "Paper Towels": 15,
+  "Parchment Paper": 12,
+  "Plastic Wrap": 13,
+  "Scent Boosters": 32,
+  "Shop All Bathroom Supplies": 27,
+  "Shop All Cleaning Supplies": 39,
+  "Shop All Disposable Tableware": 40,
+  "Shop All Laundry Supplies": 40,
+  "Shop All Paper & Plastic": 28,
+  "Stain Removers": 37,
+  "Toilet Paper": 30,
+  "Trash Bags": 39,
+  "Washing Machine Cleaner": 1
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 2019,
+  "crawl_dates_fresh": {
+   "2026-11-04": 2019
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 2019
+  },
+  "store_name": {
+   "Waukegan Supercenter": 2019
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 2019
+  },
+  "store_logo_filled": 2019
+ },
+ "filled_fresh": {
+  "zipcode": 2019,
+  "store_name": 2019,
+  "store_location": 2019,
+  "store_logo": 2019,
+  "store_brand": 2019,
+  "category": 2019,
+  "sub_category": 2019,
+  "product_title": 2019,
+  "weight": 1817,
+  "regular_price": 2018,
+  "sale_price": 161,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 2019,
+  "url": 2019,
+  "upc": 0,
+  "gupc": 0,
+  "ppm": 1860,
+  "unit_price": 0,
+  "crawl_date": 2019
+ },
+ "store_brand_fresh": {
+  "no": 1304,
+  "yes": 715
+ },
+ "upc_outcomes_fresh": {
+  "not_attempted": 2019
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 1817,
+  "not_attempted": 202
+ },
+ "upc_outcomes_all_rows": {
+  "not_attempted": 2019
+ },
+ "weight_outcomes_all_rows": {
+  "present_in_listing": 1817,
+  "not_attempted": 202
+ },
+ "carried_rows_1_6_3": {
+  "carried_rows": 0,
+  "rows_with_recovered_fields": 0,
+  "recovered_by_field": {},
+  "recovery_withheld": {},
+  "carried_upc_blank": 0,
+  "carried_weight_blank": 0
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {},
+ "run": {
+  "status": "rejected",
+  "stop_code": "ABNORMAL_RESULT",
+  "stop_detail": "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22: the page reports results but shows no product",
+  "started_at": "2026-11-04 12:11:44.318270+00:00",
+  "finished_at": "2026-11-04 12:19:13.577334+00:00",
+  "parser_version": "1.6.3",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 82,
+   "credits": 82.0,
+   "usd": "0.12300000000000008",
+   "first": "2026-11-04 12:11:46.206732+00:00",
+   "last": "2026-11-04 12:19:04.660354+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "category_page",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 76
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 2
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "category_page",
+   "fetches": 2,
+   "distinct_urls": 2
+  },
+  {
+   "purpose": "listing",
+   "fetches": 76,
+   "distinct_urls": 76
+  },
+  {
+   "purpose": "robots",
+   "fetches": 2,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 2,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6K7HTBM2XG410Q2FH8R559R",
+   "started": "2026-11-04 12:11:44.368208+00:00",
+   "ended": "2026-11-04 12:19:13.492712+00:00",
+   "active_s": 449.10899999999674,
+   "stop_code": "ABNORMAL_RESULT",
+   "stop_detail": "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22: the page reports results but shows no product",
+   "credits_estimated": 82.0,
+   "workers": 2
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_1567409_3282877_6093905",
+   "status": "CAPPED",
+   "total_count": 2018,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.019821605550049554,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/shop-all-game-time-food/976759_1567409_3282877_6093905?povid=976759_LHNCP_976759_NowTrending_TailgatingFood_Shopall_Sep_4",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7JF2M34GRZ4XZ8TRDTF37",
+      "max_page": 25,
+      "products": 40,
+      "sponsored": 0,
+      "page_count": 48,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 2018
+     }
+    ],
+    "children_named": [
+     "976759_1567409_3282877_6093905_6754530",
+     "976759_1567409_3282877_6093905_7987477",
+     "976759_1567409_3282877_6093905_4546166",
+     "976759_1567409_3282877_6093905_1837672",
+     "976759_1567409_3282877_6093905_8342027",
+     "976759_1567409_3282877_6093905_8935145",
+     "976759_1567409_3282877_6093905_1415101",
+     "976759_1567409_3282877_6093905_7083253",
+     "976759_1567409_3282877_6093905_3146498"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 1978,
+     "placements": 40,
+     "total_stable": true,
+     "reported_total": 2018,
+     "sponsored_only": 0,
+     "totals_reported": [
+      2018
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 1978
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_7128585_2981759",
+   "status": "CAPPED",
+   "total_count": 1951,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.025115325474115838,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/private-label-fresh-food/976759_7128585_2981759?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Fresh_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7JRAKVTKD381A8E7DVM3W",
+      "max_page": 25,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 1951
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 1902,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 1951,
+     "sponsored_only": 9,
+     "totals_reported": [
+      1951
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 1902
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_7128585_8934463",
+   "status": "CAPPED",
+   "total_count": 573,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.08551483420593368,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/private-label-frozen-food/976759_7128585_8934463?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Frozen_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 15,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7K2A7VM9QQGEZSADTQT6P",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 573
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 524,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 573,
+     "sponsored_only": 9,
+     "totals_reported": [
+      573
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 524
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967",
+   "status": "CAPPED",
+   "total_count": 615,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.07479674796747968,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/laundry/1115193_1071967?povid=HHE_HHECP_LHN_laundry_alllaundrysupplies",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 16,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7K5NBMWMAC9AGEX2PV64B",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149379",
+     "1115193_1071967_1630538",
+     "1115193_1071967_9527386",
+     "1115193_1071967_1149381",
+     "1115193_1071967_1149382",
+     "1115193_1071967_5244758",
+     "1115193_1071967_1149380",
+     "1115193_1071967_9242841",
+     "1115193_1071967_4824233",
+     "1115193_1071967_4670672",
+     "1115193_1071967_9155789",
+     "1115193_1071967_8953745"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 569,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 615,
+     "sponsored_only": 6,
+     "totals_reported": [
+      615
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 569
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_7128585_1478350",
+   "status": "CAPPED",
+   "total_count": 44,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.9090909090909091,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/private-label-beverages/976759_7128585_1478350?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Beverages_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7KBD8ZTFTM1VWZ32GNJM3",
+      "max_page": 2,
+      "products": 40,
+      "sponsored": 0,
+      "page_count": 48,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 44
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 4,
+     "placements": 40,
+     "total_stable": true,
+     "reported_total": 44,
+     "sponsored_only": 0,
+     "totals_reported": [
+      44
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 4
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149380",
+   "status": "DONE",
+   "total_count": 44,
+   "organic_upcs": 39,
+   "coverage_ratio": 0.8863636363636364,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/bleach/1115193_1071967_1149380?povid=HHE_HHECP_LHN_laundry_bleach",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 39 organic and 0 sponsored-only identities; 44 reported; the 44 tiles served equal the total (5 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 39,
+      "fetch_id": "01M6K7KJQCRF2V7ZZGYWNF321S",
+      "max_page": 1,
+      "products": 44,
+      "sponsored": 5,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 44
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149380_6794236",
+     "1115193_1071967_1149380_2289877",
+     "1115193_1071967_1149380_4879305"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 39,
+     "organic": 39,
+     "difference": 5,
+     "placements": 44,
+     "total_stable": true,
+     "reported_total": 44,
+     "sponsored_only": 0,
+     "totals_reported": [
+      44
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_7128585_3996130",
+   "status": "DONE",
+   "total_count": 36,
+   "organic_upcs": 36,
+   "coverage_ratio": 1.0,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/private-label-snacks/976759_7128585_3996130?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Snacks_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 36 organic and 0 sponsored-only identities; 36 reported; the organic identities equal the total",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 36,
+      "fetch_id": "01M6K7KMRJTS64DJZ47V9AA9WQ",
+      "max_page": 1,
+      "products": 36,
+      "sponsored": 0,
+      "page_count": 37,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 36,
+      "reported_total": 36
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "organic",
+     "placed": 36,
+     "organic": 36,
+     "difference": 0,
+     "placements": 36,
+     "total_stable": true,
+     "reported_total": 36,
+     "sponsored_only": 0,
+     "totals_reported": [
+      36
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_9527386",
+   "status": "CAPPED",
+   "total_count": 57,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.7017543859649122,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/dryer-sheets/1115193_1071967_9527386?povid=HHE_HHECP_LHN_laundry_dryersheets",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7KV5RGSVRPC9DJB2KV8ZE",
+      "max_page": 2,
+      "products": 48,
+      "sponsored": 8,
+      "page_count": 62,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 57
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_9527386_6173021",
+     "1115193_1071967_9527386_3445410",
+     "1115193_1071967_9527386_3332264",
+     "1115193_1071967_9527386_6541219"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 17,
+     "placements": 48,
+     "total_stable": true,
+     "reported_total": 57,
+     "sponsored_only": 0,
+     "totals_reported": [
+      57
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 17
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976794_2002490",
+   "status": "CAPPED",
+   "total_count": 773,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.0517464424320828,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/great-value-pantry-deals/976759_976794_2002490?povid=976759_LHNCP_976759_Categories_Pantry_GreatValuePantry_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 20,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7YXW97D2XH9V06GX3MX9M",
+      "max_page": 20,
+      "products": 40,
+      "sponsored": 0,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 773
+     }
+    ],
+    "children_named": [
+     "976759_976794_2002490_3030772",
+     "976759_976794_2002490_4822814",
+     "976759_976794_2002490_4053797",
+     "976759_976794_2002490_6034772",
+     "976759_976794_2002490_2029695",
+     "976759_976794_2002490_5266453",
+     "976759_976794_2002490_3038845",
+     "976759_976794_2002490_5543259",
+     "976759_976794_2002490_9641523",
+     "976759_976794_2002490_9004858",
+     "976759_976794_2002490_6963114",
+     "976759_976794_2002490_7982044",
+     "976759_976794_2002490_8533260",
+     "976759_976794_2002490_4332993"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 733,
+     "placements": 40,
+     "total_stable": true,
+     "reported_total": 773,
+     "sponsored_only": 0,
+     "totals_reported": [
+      773
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 733
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1630538",
+   "status": "CAPPED",
+   "total_count": 79,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5063291139240507,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538?povid=HHE_HHECP_LHN_laundry_fabricsofteners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7M4AXC9N5RWRD34WX8ZK4",
+      "max_page": 2,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 79
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1630538_8226415",
+     "1115193_1071967_1630538_3142904",
+     "1115193_1071967_1630538_3222723",
+     "1115193_1071967_1630538_8030109"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 39,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 79,
+     "sponsored_only": 0,
+     "totals_reported": [
+      79
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 39
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976779_8001722",
+   "status": "CAPPED",
+   "total_count": 2035,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.02407862407862408,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/from-our-bakery/976759_976779_8001722?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_BreadandBakery_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7MAS0MJJSBFRADFJEECTS",
+      "max_page": 25,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 8
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 2035
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 1986,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 2035,
+     "sponsored_only": 9,
+     "totals_reported": [
+      2035
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 1986
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149379",
+   "status": "CAPPED",
+   "total_count": 274,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.17518248175182483,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-detergents/1115193_1071967_1149379?povid=HHE_HHECP_LHN_laundry_laundrydetergent",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7MDS2096YWHA65R3E3VHM",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 274
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149379_9609981",
+     "1115193_1071967_1149379_5250095",
+     "1115193_1071967_1149379_8361277",
+     "1115193_1071967_1149379_9053212",
+     "1115193_1071967_1149379_3978991",
+     "1115193_1071967_1149379_2590354",
+     "1115193_1071967_1149379_8908643",
+     "1115193_1071967_1149379_6149853",
+     "1115193_1071967_1149379_2675803",
+     "1115193_1071967_1149379_5771678",
+     "1115193_1071967_1149379_7814273"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 226,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 274,
+     "sponsored_only": 8,
+     "totals_reported": [
+      274
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 226
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_1913529",
+   "status": "CAPPED",
+   "total_count": 48,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.8333333333333334,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/organic-produce/976759_976793_1913529?povid=976759_LHNCP_976759_Categories_FreshProduce_OrganicProduce_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7MQ4V09EYH0NY4FWAEKH4",
+      "max_page": 2,
+      "products": 41,
+      "sponsored": 1,
+      "page_count": 42,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 48
+     }
+    ],
+    "children_named": [
+     "976759_976793_1913529_5216450",
+     "976759_976793_1913529_1703615"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 8,
+     "placements": 41,
+     "total_stable": true,
+     "reported_total": 48,
+     "sponsored_only": 0,
+     "totals_reported": [
+      48
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 8
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149382_9155789",
+   "status": "DONE",
+   "total_count": 15,
+   "organic_upcs": 13,
+   "coverage_ratio": 0.8666666666666667,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-sanitizers/1115193_1071967_1149382_9155789?povid=HHE_HHECP_LHN_laundry_laundrysanitizer",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 13 organic and 0 sponsored-only identities; 15 reported; the 15 tiles served equal the total (2 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 13,
+      "fetch_id": "01M6K7MVC5WMWH60W6Y0G09RW0",
+      "max_page": 1,
+      "products": 15,
+      "sponsored": 2,
+      "page_count": 27,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 13,
+      "reported_total": 15
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149382_9155789_2116888"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 13,
+     "organic": 13,
+     "difference": 2,
+     "placements": 15,
+     "total_stable": true,
+     "reported_total": 15,
+     "sponsored_only": 0,
+     "totals_reported": [
+      15
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9756351",
+   "status": "CAPPED",
+   "total_count": 140,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.34285714285714286,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshFruits_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7N0N2SPMQA8Z41W5B7C2G",
+      "max_page": 4,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 140
+     }
+    ],
+    "children_named": [
+     "976759_976793_9756351_2787146",
+     "976759_976793_9756351_4914029",
+     "976759_976793_9756351_1643058",
+     "976759_976793_9756351_7796396",
+     "976759_976793_9756351_3666751",
+     "976759_976793_9756351_2098775",
+     "976759_976793_9756351_5526945",
+     "976759_976793_9756351_1815247",
+     "976759_976793_9756351_9043545",
+     "976759_976793_9756351_6537775",
+     "976759_976793_9756351_3521037",
+     "976759_976793_9756351_9015203",
+     "976759_976793_9756351_4446268",
+     "976759_976793_9756351_9855664",
+     "976759_976793_9756351_7288972"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 92,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 140,
+     "sponsored_only": 8,
+     "totals_reported": [
+      140
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 92
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149382_8276232",
+   "status": "DONE",
+   "total_count": 26,
+   "organic_upcs": 23,
+   "coverage_ratio": 0.8846153846153846,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/lint-roller/1115193_1071967_1149382_8276232?povid=HHE_HHECP_LHN_laundry_lintrollers",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 23 organic and 0 sponsored-only identities; 26 reported; the 26 tiles served equal the total (3 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 23,
+      "fetch_id": "01M6K7N5A802XKMQSEQCB0XAZN",
+      "max_page": 1,
+      "products": 26,
+      "sponsored": 3,
+      "page_count": 40,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 23,
+      "reported_total": 26
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 23,
+     "organic": 23,
+     "difference": 3,
+     "placements": 26,
+     "total_stable": true,
+     "reported_total": 26,
+     "sponsored_only": 0,
+     "totals_reported": [
+      26
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_8910423",
+   "status": "CAPPED",
+   "total_count": 294,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.16666666666666666,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshVegetables_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 8,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7NHZRXAV9KJVC8THMAWA9",
+      "max_page": 8,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 294
+     }
+    ],
+    "children_named": [
+     "976759_976793_8910423_1740611",
+     "976759_976793_8910423_4455738",
+     "976759_976793_8910423_6824326",
+     "976759_976793_8910423_1819145",
+     "976759_976793_8910423_9157552",
+     "976759_976793_8910423_7635722",
+     "976759_976793_8910423_9050148",
+     "976759_976793_8910423_4023809",
+     "976759_976793_8910423_3168197",
+     "976759_976793_8910423_6743445",
+     "976759_976793_8910423_2835097",
+     "976759_976793_8910423_9225247",
+     "976759_976793_8910423_8013618",
+     "976759_976793_8910423_5379855",
+     "976759_976793_8910423_2148282",
+     "976759_976793_8910423_8584247",
+     "976759_976793_8910423_4570048",
+     "976759_976793_8910423_3376733",
+     "976759_976793_8910423_8929117",
+     "976759_976793_8910423_8389254"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 245,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 294,
+     "sponsored_only": 9,
+     "totals_reported": [
+      294
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 245
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_5244758",
+   "status": "CAPPED",
+   "total_count": 87,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.45977011494252873,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-scent-boosters/1115193_1071967_5244758?povid=HHE_HHECP_LHN_laundry_scentboosters",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7NNDS221CXFQAV7V781MX",
+      "max_page": 2,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 87
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_5244758_9447243",
+     "1115193_1071967_5244758_6324977",
+     "1115193_1071967_5244758_8548219",
+     "1115193_1071967_5244758_8947560",
+     "1115193_1071967_5244758_9366181",
+     "1115193_1071967_5244758_4628687",
+     "1115193_1071967_5244758_6166490"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 47,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 87,
+     "sponsored_only": 0,
+     "totals_reported": [
+      87
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 47
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_8402496",
+   "status": "CAPPED",
+   "total_count": 120,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.4083333333333333,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/cut-fruits-vegetables/976759_976793_8402496?povid=976759_LHNCP_976759_Categories_FreshProduce_CutFruitsVegetables_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7NTZ6ABKNQ31R4VS55E7Q",
+      "max_page": 3,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 56,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 6
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 120
+     }
+    ],
+    "children_named": [
+     "976759_976793_8402496_8304794",
+     "976759_976793_8402496_9043545",
+     "976759_976793_8402496_2303330",
+     "976759_976793_8402496_2835097"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 71,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 120,
+     "sponsored_only": 9,
+     "totals_reported": [
+      120
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 71
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149381",
+   "status": "CAPPED",
+   "total_count": 71,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5915492957746479,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/stain-removers/1115193_1071967_1149381?povid=HHE_HHECP_LHN_laundry_stainremovers",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7P01WTCYVC7BDD5DXYVWD",
+      "max_page": 2,
+      "products": 48,
+      "sponsored": 8,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 71
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149381_4121325",
+     "1115193_1071967_1149381_6303360",
+     "1115193_1071967_1149381_1971090",
+     "1115193_1071967_1149381_3728605",
+     "1115193_1071967_1149381_6501593"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 29,
+     "placements": 48,
+     "total_stable": true,
+     "reported_total": 71,
+     "sponsored_only": 2,
+     "totals_reported": [
+      71
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 29
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9538337_5920602",
+   "status": "DONE",
+   "total_count": 21,
+   "organic_upcs": 14,
+   "coverage_ratio": 0.6666666666666666,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/fresh-dressings/976759_976793_9538337_5920602?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshDressings_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 14 organic and 0 sponsored-only identities; 21 reported; the 21 tiles served equal the total (7 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 14,
+      "fetch_id": "01M6K7P4SWZM3DNHQTQP5X4AV8",
+      "max_page": 1,
+      "products": 21,
+      "sponsored": 7,
+      "page_count": 22,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 14,
+      "reported_total": 21
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 14,
+     "organic": 14,
+     "difference": 7,
+     "placements": 21,
+     "total_stable": true,
+     "reported_total": 21,
+     "sponsored_only": 0,
+     "totals_reported": [
+      21
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149382_9484616",
+   "status": "DONE",
+   "total_count": 3,
+   "organic_upcs": 2,
+   "coverage_ratio": 0.6666666666666666,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/washing-machine-cleaner/1115193_1071967_1149382_9484616?povid=HHE_HHECP_LHN_laundry_washingmachinecleaners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 2 organic and 0 sponsored-only identities; 3 reported; the 3 tiles served equal the total (1 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 2,
+      "fetch_id": "01M6K7PAFCK6MXPJ3ZGQDZ3NJV",
+      "max_page": 1,
+      "products": 3,
+      "sponsored": 1,
+      "page_count": 13,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 2,
+      "reported_total": 3
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 2,
+     "organic": 2,
+     "difference": 1,
+     "placements": 3,
+     "total_stable": true,
+     "reported_total": 3,
+     "sponsored_only": 0,
+     "totals_reported": [
+      3
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_3513831",
+   "status": "DONE",
+   "total_count": 40,
+   "organic_upcs": 32,
+   "coverage_ratio": 0.8,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/fresh-herbs/976759_976793_3513831?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshHerbs_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 32 organic and 0 sponsored-only identities; 40 reported; the 40 tiles served equal the total (8 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 32,
+      "fetch_id": "01M6K7PCYFGBKHN10NK16JD4JM",
+      "max_page": 1,
+      "products": 40,
+      "sponsored": 8,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 32,
+      "reported_total": 40
+     }
+    ],
+    "children_named": [
+     "976759_976793_3513831_2699039",
+     "976759_976793_3513831_4862612"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 32,
+     "organic": 32,
+     "difference": 8,
+     "placements": 40,
+     "total_stable": true,
+     "reported_total": 40,
+     "sponsored_only": 0,
+     "totals_reported": [
+      40
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966",
+   "status": "CAPPED",
+   "total_count": 1144,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.04108391608391608,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/cleaning-supplies/1115193_1071966?povid=HHE_HHECP_LHN_cleaningsupplies_allcleaningsupplies",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7PG526Z4K2W8M2BMJE5YH",
+      "max_page": 25,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 1144
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_7408243",
+     "1115193_1071966_1025741",
+     "1115193_1071966_7583868",
+     "1115193_1071966_2346201",
+     "1115193_1071966_1073104",
+     "1115193_1071966_1071965",
+     "1115193_1071966_4020052",
+     "1115193_1071966_8189517",
+     "1115193_1071966_4986682",
+     "1115193_1071966_2600011",
+     "1115193_1071966_3278685",
+     "1115193_1071966_7553837",
+     "1115193_1071966_4836020",
+     "1115193_1071966_1072132",
+     "1115193_1071966_6525182",
+     "1115193_1071966_8090463",
+     "1115193_1071966_9318577",
+     "1115193_1071966_8926761",
+     "1115193_1071966_5046678",
+     "1115193_1071966_3804306"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 40,
+     "difference": 1097,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 1144,
+     "sponsored_only": 7,
+     "totals_reported": [
+      1144
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 1097
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9538337_9157112",
+   "status": "CAPPED",
+   "total_count": 92,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5108695652173914,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fresh-dips-salsa/976759_976793_9538337_9157112?povid=976759_LHNCP_976759_Categories_FreshProduce_SalsaDips_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7PM9HSKF7X68EDVC79KY4",
+      "max_page": 3,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 92
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 40,
+     "difference": 45,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 92,
+     "sponsored_only": 7,
+     "totals_reported": [
+      92
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 45
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_7408243",
+   "status": "CAPPED",
+   "total_count": 339,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.12979351032448377,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/all-purpose-cleaners/1115193_1071966_7408243?povid=HHE_HHECP_LHN_cleaningsupplies_allpurposecleaners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 9,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7PTET7S50RDCQ9699ADMP",
+      "max_page": 9,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 339
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_7408243_3119118",
+     "1115193_1071966_7408243_5609577",
+     "1115193_1071966_7408243_8049174",
+     "1115193_1071966_7408243_4920942",
+     "1115193_1071966_7408243_6145378",
+     "1115193_1071966_7408243_3877374",
+     "1115193_1071966_7408243_6350166"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 44,
+     "organic": 40,
+     "difference": 295,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 339,
+     "sponsored_only": 4,
+     "totals_reported": [
+      339
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 295
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_6919650",
+   "status": "DONE",
+   "total_count": 37,
+   "organic_upcs": 27,
+   "coverage_ratio": 0.7297297297297297,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/plant-based-protein-tofu/976759_976793_6919650?povid=976759_LHNCP_976759_Categories_FreshProduce_PlantbasedProteinTofu_Aug_22",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 27 organic and 0 sponsored-only identities; 37 reported; the 37 tiles served equal the total (10 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 27,
+      "fetch_id": "01M6K7PXZ45TH52CAY9N0JCW6N",
+      "max_page": 1,
+      "products": 37,
+      "sponsored": 10,
+      "page_count": 48,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 27,
+      "reported_total": 37
+     }
+    ],
+    "children_named": [
+     "976759_976793_6919650_7849537",
+     "976759_976793_6919650_2015203"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 27,
+     "organic": 27,
+     "difference": 10,
+     "placements": 37,
+     "total_stable": true,
+     "reported_total": 37,
+     "sponsored_only": 0,
+     "totals_reported": [
+      37
+     ],
+     "repeat_placements": 10,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1073104",
+   "status": "CAPPED",
+   "total_count": 119,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.36134453781512604,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/floor-cleaners/1115193_1071966_1073104?povid=HHE_HHECP_LHN_cleaningsupplies_floorcleaners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7Q424MG71NKMJ7Y2XC9ZS",
+      "max_page": 3,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 119
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_1073104_1306024",
+     "1115193_1071966_1073104_8116517",
+     "1115193_1071966_1073104_3188590",
+     "1115193_1071966_1073104_7750586",
+     "1115193_1071966_1073104_9763071",
+     "1115193_1071966_1073104_7081630"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 43,
+     "organic": 40,
+     "difference": 76,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 119,
+     "sponsored_only": 3,
+     "totals_reported": [
+      119
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 76
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_1089004_2424807",
+   "status": "INCOMPLETE",
+   "total_count": null,
+   "organic_upcs": 0,
+   "coverage_ratio": null,
+   "partition": {
+    "end": "CATEGORY_PAGE",
+    "url": "https://www.walmart.com/browse/food/flowers/976759_1089004_2424807?povid=976759_LHNCP_976759_Categories_FreshProduce_FreshFlowers_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 0,
+    "parent": "",
+    "reason": "not read: the site served the category page /cp/flower-shop/5098771 for this listing link (links to other listings, no result grid); that page links 17 listings: Roses; Mixed bouquets; Tulips; Sunflower; Lillies; Baby's Breath; Alstroemerias; Carnations; Artificial; Indoor plants; Orchids; Mums; View all; Romance; Birthday flowers; Sympathy flowers; Shop now",
+    "max_page": null,
+    "result_pages": [],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 0,
+     "organic": 0,
+     "difference": null,
+     "placements": 0,
+     "total_stable": true,
+     "reported_total": null,
+     "sponsored_only": 0,
+     "totals_reported": [],
+     "repeat_placements": 0,
+     "unresolved_difference": null
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1073104_8116517",
+   "status": "PARTITIONED",
+   "total_count": 45,
+   "organic_upcs": 35,
+   "coverage_ratio": 0.7777777777777778,
+   "partition": {
+    "end": "RESULT_WINDOW",
+    "url": "https://www.walmart.com/browse/household-essentials/carpet-cleaning-solution/1115193_1071966_1073104_8116517?povid=HHE_HHECP_LHN_cleaningsupplies_carpetcleaningsolution",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "accessible pages exhausted; coverage incomplete: the site served 1 result pages, 35 organic and 0 sponsored-only identities and no more (result page 1 is the last page the listing links), while the listing reports 45 results; partitioned into 5 child categories its own Departments facet names",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 35,
+      "fetch_id": "01M6K7QD02P3B6GK152GT9MY3P",
+      "max_page": 1,
+      "products": 44,
+      "sponsored": 9,
+      "page_count": 55,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 35,
+      "reported_total": 45
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_1073104_8116517_4599908",
+     "1115193_1071966_1073104_8116517_1795377",
+     "1115193_1071966_1073104_8116517_4420684",
+     "1115193_1071966_1073104_8116517_2690021",
+     "1115193_1071966_1073104_8116517_8488558"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 35,
+     "organic": 35,
+     "difference": 10,
+     "placements": 44,
+     "total_stable": true,
+     "reported_total": 45,
+     "sponsored_only": 0,
+     "totals_reported": [
+      45
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_1730435",
+   "status": "CAPPED",
+   "total_count": 132,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.3484848484848485,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/beef-lamb/976759_9569500_1730435?povid=976759_LHNCP_976759_Categories_MeatandSeafood_BeefandLamb_Oct_31",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7QFEGJANPRQNDP0W5FGZE",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 132
+     }
+    ],
+    "children_named": [
+     "976759_9569500_1730435_7586253",
+     "976759_9569500_1730435_8361185",
+     "976759_9569500_1730435_3846672",
+     "976759_9569500_1730435_3148145",
+     "976759_9569500_1730435_3186239",
+     "976759_9569500_1730435_3234365",
+     "976759_9569500_1730435_3673205",
+     "976759_9569500_1730435_4351737",
+     "976759_9569500_1730435_9847080",
+     "976759_9569500_1730435_2965729"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 86,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 132,
+     "sponsored_only": 6,
+     "totals_reported": [
+      132
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 86
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_4836020",
+   "status": "DONE",
+   "total_count": 31,
+   "organic_upcs": 28,
+   "coverage_ratio": 0.9032258064516129,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/furniture-cleaners/1115193_1071966_4836020",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 28 organic and 0 sponsored-only identities; 31 reported; the 31 tiles served equal the total (3 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 28,
+      "fetch_id": "01M6K7QP120GGVMWT2R22MDYC4",
+      "max_page": 1,
+      "products": 31,
+      "sponsored": 3,
+      "page_count": 43,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 28,
+      "reported_total": 31
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_4836020_6106522",
+     "1115193_1071966_4836020_7108494",
+     "1115193_1071966_4836020_4862124",
+     "1115193_1071966_4836020_4880865"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 28,
+     "organic": 28,
+     "difference": 3,
+     "placements": 31,
+     "total_stable": true,
+     "reported_total": 31,
+     "sponsored_only": 0,
+     "totals_reported": [
+      31
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_2941132",
+   "status": "CAPPED",
+   "total_count": 361,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.12742382271468145,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/bacon-hot-dogs-sausages/976759_9569500_2941132?povid=976759_LHNCP_976759_Categories_MeatandSeafood_BaconHotDogsandSausage_Oct_31",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 9,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7QTZEPNRZDKCETSPBD123",
+      "max_page": 9,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 361
+     }
+    ],
+    "children_named": [
+     "976759_9569500_2941132_7236134",
+     "976759_9569500_2941132_1001429",
+     "976759_9569500_2941132_4344925"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 315,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 361,
+     "sponsored_only": 6,
+     "totals_reported": [
+      361
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 315
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1025741",
+   "status": "CAPPED",
+   "total_count": 350,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.12,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/cleaning-tools/1115193_1071966_1025741?povid=HHE_HHECP_LHN_cleaningsupplies_cleaningtools",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 9,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7QXWTD2MPRC3H022MHVHA",
+      "max_page": 9,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 350
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_1025741_3990620",
+     "1115193_1071966_1025741_1712053",
+     "1115193_1071966_1025741_2872506",
+     "1115193_1071966_1025741_4732216",
+     "1115193_1071966_1025741_4577303",
+     "1115193_1071966_1025741_6498065",
+     "1115193_1071966_1025741_8366049",
+     "1115193_1071966_1025741_9174086",
+     "1115193_1071966_1025741_4020052",
+     "1115193_1071966_1025741_7165204",
+     "1115193_1071966_1025741_4870864",
+     "1115193_1071966_1025741_3301469",
+     "1115193_1071966_1025741_3583755",
+     "1115193_1071966_1025741_8531960"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 308,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 350,
+     "sponsored_only": 2,
+     "totals_reported": [
+      350
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 308
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_8189517",
+   "status": "CAPPED",
+   "total_count": 101,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.42574257425742573,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/disinfectant-cleaners/1115193_1071966_8189517?povid=HHE_HHECP_LHN_cleaningsupplies_disinfectantcleaners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7R8X4R7ZS9YVZQMZ0ZN04",
+      "max_page": 3,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 101
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_8189517_2789494",
+     "1115193_1071966_8189517_1149373"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 43,
+     "organic": 40,
+     "difference": 58,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 101,
+     "sponsored_only": 3,
+     "totals_reported": [
+      101
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 58
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_1001443",
+   "status": "CAPPED",
+   "total_count": 546,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.08791208791208792,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/chicken/976759_9569500_1001443?povid=976759_LHNCP_976759_Categories_MeatandSeafood_Chicken_Oct_31",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 14,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7R6TP3MSR4JV8N698WX2Z",
+      "max_page": 14,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 59,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 546
+     }
+    ],
+    "children_named": [
+     "976759_9569500_1001443_6133868",
+     "976759_9569500_1001443_9284629",
+     "976759_9569500_1001443_8161643",
+     "976759_9569500_1001443_7240892",
+     "976759_9569500_1001443_5910137",
+     "976759_9569500_1001443_4759356",
+     "976759_9569500_1001443_4123234",
+     "976759_9569500_1001443_3084707",
+     "976759_9569500_1001443_7804028",
+     "976759_9569500_1001443_9015610",
+     "976759_9569500_1001443_7844950",
+     "976759_9569500_1001443_4632522",
+     "976759_9569500_1001443_3465723",
+     "976759_9569500_1001443_1236125",
+     "976759_9569500_1001443_6736292",
+     "976759_9569500_1001443_8999285"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 498,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 546,
+     "sponsored_only": 8,
+     "totals_reported": [
+      546
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 498
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1025741_9174086",
+   "status": "PARTITIONED",
+   "total_count": 36,
+   "organic_upcs": 28,
+   "coverage_ratio": 0.7777777777777778,
+   "partition": {
+    "end": "RESULT_WINDOW",
+    "url": "https://www.walmart.com/browse/household-essentials/dusters/1115193_1071966_1025741_9174086?povid=HHE_HHECP_LHN_cleaningsupplies_dusters",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "accessible pages exhausted; coverage incomplete: the site served 1 result pages, 28 organic and 0 sponsored-only identities and no more (result page 1 is the last page the listing links), while the listing reports 36 results; partitioned into 3 child categories its own Departments facet names",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 28,
+      "fetch_id": "01M6K7RJE3CE6X2D2283E56Z9G",
+      "max_page": 1,
+      "products": 35,
+      "sponsored": 7,
+      "page_count": 46,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 28,
+      "reported_total": 36
+     }
+    ],
+    "children_named": [
+     "1115193_1071966_1025741_9174086_9039970",
+     "1115193_1071966_1025741_9174086_6708635",
+     "1115193_1071966_1025741_9174086_2766175"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 28,
+     "organic": 28,
+     "difference": 8,
+     "placements": 35,
+     "total_stable": true,
+     "reported_total": 36,
+     "sponsored_only": 0,
+     "totals_reported": [
+      36
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 8
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_1044143",
+   "status": "CAPPED",
+   "total_count": 254,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.17716535433070865,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/pork/976759_9569500_1044143?povid=976759_LHNCP_976759_Categories_MeatandSeafood_Pork_Oct_31",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7RM8JVWSPN63B7DPRYP3V",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 254
+     }
+    ],
+    "children_named": [
+     "976759_9569500_1044143_6118429",
+     "976759_9569500_1044143_1881417",
+     "976759_9569500_1044143_3760727",
+     "976759_9569500_1044143_6204850",
+     "976759_9569500_1044143_3778550",
+     "976759_9569500_1044143_1714169",
+     "976759_9569500_1044143_7796263",
+     "976759_9569500_1044143_3237433",
+     "976759_9569500_1044143_7011978",
+     "976759_9569500_1044143_9173866",
+     "976759_9569500_1044143_7236404",
+     "976759_9569500_1044143_6968038",
+     "976759_9569500_1044143_3355001"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 45,
+     "organic": 40,
+     "difference": 209,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 254,
+     "sponsored_only": 5,
+     "totals_reported": [
+      254
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 209
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1025741_3818944",
+   "status": "CAPPED",
+   "total_count": 108,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.37037037037037035,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/mops/1115193_1071966_1025741_3818944?povid=HHE_HHECP_LHN_cleaningsupplies_mops",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7RTSHFFH063PXMFVDKYY9",
+      "max_page": 3,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 108
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 68,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 108,
+     "sponsored_only": 0,
+     "totals_reported": [
+      108
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 68
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_5574987",
+   "status": "CAPPED",
+   "total_count": 56,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.7142857142857143,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/organic-plant-based/976759_9569500_5574987?povid=976759_LHNCP_976759_Categories_MeatandSeafood_OrganicandPlantBased_Oct_31",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7S08XX6G6ZFD2A38MS99F",
+      "max_page": 2,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 56
+     }
+    ],
+    "children_named": [
+     "976759_9569500_5574987_6851082",
+     "976759_9569500_5574987_3370046"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 16,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 56,
+     "sponsored_only": 0,
+     "totals_reported": [
+      56
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 16
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071966_1025741_9906599",
+   "status": "INCOMPLETE",
+   "total_count": 22,
+   "organic_upcs": 16,
+   "coverage_ratio": 0.7272727272727273,
+   "partition": {
+    "end": "RESULT_WINDOW",
+    "url": "https://www.walmart.com/browse/household-essentials/brooms/1115193_1071966_1025741_9906599?povid=HHE_HHECP_LHN_cleaningsupplies_brooms",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "accessible pages exhausted; coverage incomplete: the site served 1 result pages, 16 organic and 0 sponsored-only identities and no more (result page 1 is the last page the listing links), while the listing reports 22 results; not partitioned: its own Departments facet names no child category",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 16,
+      "fetch_id": "01M6K7S9G8RR92F12HZ9906390",
+      "max_page": 1,
+      "products": 21,
+      "sponsored": 5,
+      "page_count": 34,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 16,
+      "reported_total": 22
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 16,
+     "organic": 16,
+     "difference": 6,
+     "placements": 21,
+     "total_stable": true,
+     "reported_total": 22,
+     "sponsored_only": 0,
+     "totals_reported": [
+      22
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 6
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976789_5428795",
+   "status": "CAPPED",
+   "total_count": 362,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.12430939226519337,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/deli-meat-cheese/976759_976789_5428795?povid=976759_LHNCP_976759_Categories_Deli_DelimeatCheese_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 9,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7SBH7SAT5J0W3F9MFYZHJ",
+      "max_page": 9,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 56,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 6
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 362
+     }
+    ],
+    "children_named": [
+     "976759_976789_5428795_3809977",
+     "976759_976789_5428795_5985683",
+     "976759_976789_5428795_3333999",
+     "976759_976789_5428795_4154828",
+     "976759_976789_5428795_2533789",
+     "976759_976789_5428795_3976849",
+     "976759_976789_5428795_9084734",
+     "976759_976789_5428795_3280186",
+     "976759_976789_5428795_5424799",
+     "976759_976789_5428795_2022170",
+     "976759_976789_5428795_1554677",
+     "976759_976789_5428795_8712433",
+     "976759_976789_5428795_5048812",
+     "976759_976789_5428795_6738378",
+     "976759_976789_5428795_8512319",
+     "976759_976789_5428795_5715095",
+     "976759_976789_5428795_7959691",
+     "976759_976789_5428795_2716560",
+     "976759_976789_5428795_4192046",
+     "976759_976789_5428795_4422759",
+     "976759_976789_5428795_5817988",
+     "976759_976789_5428795_6823659",
+     "976759_976789_5428795_7293860",
+     "976759_976789_5428795_9279331",
+     "976759_976789_5428795_9691101",
+     "976759_976789_5428795_6048824",
+     "976759_976789_5428795_7744990"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 45,
+     "organic": 40,
+     "difference": 317,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 362,
+     "sponsored_only": 5,
+     "totals_reported": [
+      362
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 317
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388",
+   "status": "CAPPED",
+   "total_count": 181,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.26519337016574585,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/disposable-tableware/1115193_1073264_1149388?povid=HHE_HHECP_LHN_disposabletableware_alldisposable",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 5,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7SHQ92MTRZYEZ6843ZTS0",
+      "max_page": 5,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 181
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149388_9920020",
+     "1115193_1073264_1149388_7986870",
+     "1115193_1073264_1149388_3938005",
+     "1115193_1073264_1149388_8777672",
+     "1115193_1073264_1149388_2749653",
+     "1115193_1073264_1149388_3861848",
+     "1115193_1073264_1149388_2378390",
+     "1115193_1073264_1149388_9781947",
+     "1115193_1073264_1149388_1735590",
+     "1115193_1073264_1149388_6401814",
+     "1115193_1073264_1149388_9478808",
+     "1115193_1073264_1149388_8417242",
+     "1115193_1073264_1149388_6640585",
+     "1115193_1073264_1149388_2628335",
+     "1115193_1073264_1149388_4768139",
+     "1115193_1073264_1149388_7294154",
+     "1115193_1073264_1149388_2648120",
+     "1115193_1073264_1149388_6995108",
+     "1115193_1073264_1149388_1341497",
+     "1115193_1073264_1149388_3606388",
+     "1115193_1073264_1149388_9610242"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 133,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 181,
+     "sponsored_only": 8,
+     "totals_reported": [
+      181
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 133
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976789_8979491",
+   "status": "CAPPED",
+   "total_count": 540,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.09074074074074075,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/prepared-meals-sides/976759_976789_8979491?povid=976759_LHNCP_976759_Categories_Deli_Preparedmealssides_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 14,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7SNFH3Y27Z79P3ZZ099AJ",
+      "max_page": 14,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 540
+     }
+    ],
+    "children_named": [
+     "976759_976789_8979491_5211272",
+     "976759_976789_8979491_3257757",
+     "976759_976789_8979491_4766029",
+     "976759_976789_8979491_5894074",
+     "976759_976789_8979491_2887627",
+     "976759_976789_8979491_4565462",
+     "976759_976789_8979491_5123314",
+     "976759_976789_8979491_4355084",
+     "976759_976789_8979491_8674185",
+     "976759_976789_8979491_6950866",
+     "976759_976789_8979491_3288834",
+     "976759_976789_8979491_9089541",
+     "976759_976789_8979491_8827715",
+     "976759_976789_8979491_9475827",
+     "976759_976789_8979491_4369669",
+     "976759_976789_8979491_3175741",
+     "976759_976789_8979491_2551609",
+     "976759_976789_8979491_9445027",
+     "976759_976789_8979491_8103926"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 491,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 540,
+     "sponsored_only": 9,
+     "totals_reported": [
+      540
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 491
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388_7986870",
+   "status": "DONE",
+   "total_count": 34,
+   "organic_upcs": 30,
+   "coverage_ratio": 0.8823529411764706,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/disposable-plates/1115193_1073264_1149388_7986870?povid=HHE_HHECP_LHN_disposabletableware_disposableplates",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 30 organic and 0 sponsored-only identities; 34 reported; the 34 tiles served equal the total (4 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 30,
+      "fetch_id": "01M6K7T1CYNX3THYZWJDC07ASS",
+      "max_page": 1,
+      "products": 34,
+      "sponsored": 4,
+      "page_count": 49,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 30,
+      "reported_total": 34
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 30,
+     "organic": 30,
+     "difference": 4,
+     "placements": 34,
+     "total_stable": true,
+     "reported_total": 34,
+     "sponsored_only": 0,
+     "totals_reported": [
+      34
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_9569500_1001443_9284629_8331739",
+   "status": "DONE",
+   "total_count": 30,
+   "organic_upcs": 29,
+   "coverage_ratio": 0.9666666666666667,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/food/rotisserie-chicken/976759_9569500_1001443_9284629_8331739?povid=976759_LHNCP_976759_Categories_Deli_RotisseriePulledChicken_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 29 organic and 0 sponsored-only identities; 30 reported; the 30 tiles served equal the total (1 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 29,
+      "fetch_id": "01M6K7T55Q0AHZ56M1B1F1K60T",
+      "max_page": 1,
+      "products": 30,
+      "sponsored": 1,
+      "page_count": 31,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 29,
+      "reported_total": 30
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 29,
+     "organic": 29,
+     "difference": 1,
+     "placements": 30,
+     "total_stable": true,
+     "reported_total": 30,
+     "sponsored_only": 0,
+     "totals_reported": [
+      30
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388_2749653",
+   "status": "DONE",
+   "total_count": 21,
+   "organic_upcs": 19,
+   "coverage_ratio": 0.9047619047619048,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/disposable-bowls/1115193_1073264_1149388_2749653?povid=HHE_HHECP_LHN_disposabletableware_disposablebowls",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 19 organic and 0 sponsored-only identities; 21 reported; the 21 tiles served equal the total (2 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 19,
+      "fetch_id": "01M6K7TB9RBDCKC2YZV2W1W2EE",
+      "max_page": 1,
+      "products": 21,
+      "sponsored": 2,
+      "page_count": 33,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 19,
+      "reported_total": 21
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 19,
+     "organic": 19,
+     "difference": 2,
+     "placements": 21,
+     "total_stable": true,
+     "reported_total": 21,
+     "sponsored_only": 0,
+     "totals_reported": [
+      21
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976789_2985474",
+   "status": "CAPPED",
+   "total_count": 81,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5432098765432098,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/snacks-fresh-sandwiches/976759_976789_2985474?povid=976759_LHNCP_976759_Categories_Deli_SnacksFreshSandwiches_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7TD0DB1TQQBTR46M48TQ1",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 81
+     }
+    ],
+    "children_named": [
+     "976759_976789_2985474_3723804",
+     "976759_976789_2985474_6706861",
+     "976759_976789_2985474_3909681",
+     "976759_976789_2985474_1746106",
+     "976759_976789_2985474_4777603",
+     "976759_976789_2985474_4118699",
+     "976759_976789_2985474_4800863",
+     "976759_976789_2985474_4062485",
+     "976759_976789_2985474_1846526",
+     "976759_976789_2985474_1678627",
+     "976759_976789_2985474_5458768"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 44,
+     "organic": 40,
+     "difference": 37,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 81,
+     "sponsored_only": 4,
+     "totals_reported": [
+      81
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 37
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388_9920020_8484860",
+   "status": "CAPPED",
+   "total_count": 53,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.7547169811320755,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/disposable-cups/1115193_1073264_1149388_9920020_8484860?povid=HHE_HHECP_LHN_disposabletableware_disposablecups",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7TM9RV1BRYD06S8S6WWQE",
+      "max_page": 2,
+      "products": 46,
+      "sponsored": 6,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 53
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 13,
+     "placements": 46,
+     "total_stable": true,
+     "reported_total": 53,
+     "sponsored_only": 0,
+     "totals_reported": [
+      53
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 13
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976789_7056897",
+   "status": "CAPPED",
+   "total_count": 126,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.35714285714285715,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/hummus-dips-salsa/976759_976789_7056897?povid=976759_LHNCP_976759_Categories_Deli_HummusDipsSalsa_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7TS8SDG185Q5WN3A1Q1FD",
+      "max_page": 3,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 126
+     }
+    ],
+    "children_named": [
+     "976759_976789_7056897_5615828",
+     "976759_976789_7056897_5863482",
+     "976759_976789_7056897_6173058",
+     "976759_976789_7056897_5143339",
+     "976759_976789_7056897_9768693",
+     "976759_976789_7056897_3193116",
+     "976759_976789_7056897_8585503",
+     "976759_976789_7056897_7411084",
+     "976759_976789_7056897_4881309",
+     "976759_976789_7056897_4011153",
+     "976759_976789_7056897_6738680",
+     "976759_976789_7056897_9849088",
+     "976759_976789_7056897_6756485",
+     "976759_976789_7056897_3896245"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 45,
+     "organic": 40,
+     "difference": 81,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 126,
+     "sponsored_only": 5,
+     "totals_reported": [
+      126
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 81
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388_2378390",
+   "status": "DONE",
+   "total_count": 27,
+   "organic_upcs": 25,
+   "coverage_ratio": 0.9259259259259259,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/plastic-utensils/1115193_1073264_1149388_2378390?povid=HHE_HHECP_LHN_disposabletableware_disposableutensils",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 25 organic and 0 sponsored-only identities; 27 reported; the 27 tiles served equal the total (2 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 25,
+      "fetch_id": "01M6K7TYDQD51PQXCGN29SS405",
+      "max_page": 1,
+      "products": 27,
+      "sponsored": 2,
+      "page_count": 40,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 25,
+      "reported_total": 27
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 25,
+     "organic": 25,
+     "difference": 2,
+     "placements": 27,
+     "total_stable": true,
+     "reported_total": 27,
+     "sponsored_only": 0,
+     "totals_reported": [
+      27
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001392",
+   "status": "CAPPED",
+   "total_count": 432,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.1087962962962963,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/crackers/976759_976787_1001392?povid=976759_LHNCP_976759_Categories_Snacks_Crackers_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 11,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7V3PNWTAK56V0E6EMAFZZ",
+      "max_page": 11,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 432
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001392_9358664",
+     "976759_976787_1001392_7514350",
+     "976759_976787_1001392_6622891",
+     "976759_976787_1001392_4684978",
+     "976759_976787_1001392_3433128",
+     "976759_976787_1001392_1904919",
+     "976759_976787_1001392_3160974",
+     "976759_976787_1001392_5445685",
+     "976759_976787_1001392_1898174",
+     "976759_976787_1001392_3051702",
+     "976759_976787_1001392_8713132",
+     "976759_976787_1001392_4767196",
+     "976759_976787_1001392_8926169",
+     "976759_976787_1001392_9056086",
+     "976759_976787_1001392_4785040",
+     "976759_976787_1001392_4618860",
+     "976759_976787_1001392_4971367",
+     "976759_976787_1001392_9984380",
+     "976759_976787_1001392_2603007"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 40,
+     "difference": 385,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 432,
+     "sponsored_only": 7,
+     "totals_reported": [
+      432
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 385
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149388_3861848",
+   "status": "DONE",
+   "total_count": 12,
+   "organic_upcs": 9,
+   "coverage_ratio": 0.75,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/paper-napkins/1115193_1073264_1149388_3861848?povid=HHE_HHECP_LHN_disposabletableware_disposablenapkin",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 9 organic and 0 sponsored-only identities; 12 reported; the 12 tiles served equal the total (3 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 9,
+      "fetch_id": "01M6K7V70DD6GHMP4NFCXJDBMH",
+      "max_page": 1,
+      "products": 12,
+      "sponsored": 3,
+      "page_count": 24,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 9,
+      "reported_total": 12
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 9,
+     "organic": 9,
+     "difference": 3,
+     "placements": 12,
+     "total_stable": true,
+     "reported_total": 12,
+     "sponsored_only": 0,
+     "totals_reported": [
+      12
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001395",
+   "status": "CAPPED",
+   "total_count": 166,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.25903614457831325,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fruit-snacks/976759_976787_1001395?povid=976759_LHNCP_976759_Categories_Snacks_FruitSnacks_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7VDS00JTVZKED2ZHVV5KG",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 166
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001395_4571833",
+     "976759_976787_1001395_7813769",
+     "976759_976787_1001395_6636172",
+     "976759_976787_1001395_9645697",
+     "976759_976787_1001395_3909270",
+     "976759_976787_1001395_6730562"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 43,
+     "organic": 40,
+     "difference": 123,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 166,
+     "sponsored_only": 3,
+     "totals_reported": [
+      166
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 123
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264",
+   "status": "CAPPED",
+   "total_count": 691,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.06801736613603473,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/paper-plastic/1115193_1073264?povid=HHE_HHECP_LHN_paperplastic_allpaperplastic",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 18,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7VF8MTFP486ZPBMQ4EJWT",
+      "max_page": 18,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 691
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149388",
+     "1115193_1073264_1149384",
+     "1115193_1073264_1149383",
+     "1115193_1073264_1149386",
+     "1115193_1073264_1149389",
+     "1115193_1073264_1149385",
+     "1115193_1073264_9780411",
+     "1115193_1073264_8722438",
+     "1115193_1073264_2688905",
+     "1115193_1073264_3508092",
+     "1115193_1073264_1149387",
+     "1115193_1073264_6993435",
+     "1115193_1073264_4572946",
+     "1115193_1073264_6005903",
+     "1115193_1073264_6721600",
+     "1115193_1073264_9057309"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 40,
+     "difference": 644,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 691,
+     "sponsored_only": 7,
+     "totals_reported": [
+      691
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 644
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001405",
+   "status": "CAPPED",
+   "total_count": 195,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.2358974358974359,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/jerky-dried-meats/976759_976787_1001405?povid=976759_LHNCP_976759_Categories_Snacks_BeefJerkyDriedMeats_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 5,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7VQ5D54RV23C1SSB51M4J",
+      "max_page": 5,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 195
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001405_7388356",
+     "976759_976787_1001405_6874479",
+     "976759_976787_1001405_9903149",
+     "976759_976787_1001405_8395887",
+     "976759_976787_1001405_3187156",
+     "976759_976787_1001405_7755930",
+     "976759_976787_1001405_4525401"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 149,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 195,
+     "sponsored_only": 6,
+     "totals_reported": [
+      195
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 149
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149389",
+   "status": "DONE",
+   "total_count": 38,
+   "organic_upcs": 33,
+   "coverage_ratio": 0.868421052631579,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/facial-tissue/1115193_1073264_1149389?povid=HHE_HHECP_LHN_paperplastic_facialtissues",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 33 organic and 0 sponsored-only identities; 38 reported; the 38 tiles served equal the total (5 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 33,
+      "fetch_id": "01M6K7VWJATKNMDDPQGA0KR8CE",
+      "max_page": 1,
+      "products": 38,
+      "sponsored": 5,
+      "page_count": 53,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 33,
+      "reported_total": 38
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149389_4273740",
+     "1115193_1073264_1149389_6776592",
+     "1115193_1073264_1149389_2969117",
+     "1115193_1073264_1149389_8546422",
+     "1115193_1073264_1149389_8615763"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 33,
+     "organic": 33,
+     "difference": 5,
+     "placements": 38,
+     "total_stable": true,
+     "reported_total": 38,
+     "sponsored_only": 0,
+     "totals_reported": [
+      38
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001407",
+   "status": "CAPPED",
+   "total_count": 174,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.2471264367816092,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/popcorn/976759_976787_1001407?povid=976759_LHNCP_976759_Categories_Snacks_Popcorn_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 5,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7W1SRFS784AWFVGFVSS6J",
+      "max_page": 5,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 174
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001407_6926277",
+     "976759_976787_1001407_7354735",
+     "976759_976787_1001407_2318843",
+     "976759_976787_1001407_4228947",
+     "976759_976787_1001407_6760361",
+     "976759_976787_1001407_2886328",
+     "976759_976787_1001407_8669333",
+     "976759_976787_1001407_4177215",
+     "976759_976787_1001407_1970460",
+     "976759_976787_1001407_6195600",
+     "976759_976787_1001407_2066160",
+     "976759_976787_1001407_5187104",
+     "976759_976787_1001407_8152766",
+     "976759_976787_1001407_4054999",
+     "976759_976787_1001407_1641051",
+     "976759_976787_1001407_6156015",
+     "976759_976787_1001407_8452116",
+     "976759_976787_1001407_2879702"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 43,
+     "organic": 40,
+     "difference": 131,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 174,
+     "sponsored_only": 3,
+     "totals_reported": [
+      174
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 131
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149383",
+   "status": "DONE",
+   "total_count": 29,
+   "organic_upcs": 24,
+   "coverage_ratio": 0.8275862068965517,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/paper-towels/1115193_1073264_1149383?povid=HHE_HHECP_LHN_paperplastic_papertowels",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 24 organic and 0 sponsored-only identities; 29 reported; the 29 tiles served equal the total (5 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 24,
+      "fetch_id": "01M6K7W6Q6AXBXDRYB1RQ4JAER",
+      "max_page": 1,
+      "products": 29,
+      "sponsored": 5,
+      "page_count": 42,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 24,
+      "reported_total": 29
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149383_7315926",
+     "1115193_1073264_1149383_6041827",
+     "1115193_1073264_1149383_1453896",
+     "1115193_1073264_1149383_4220241",
+     "1115193_1073264_1149383_7509334",
+     "1115193_1073264_1149383_2330568"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 24,
+     "organic": 24,
+     "difference": 5,
+     "placements": 29,
+     "total_stable": true,
+     "reported_total": 29,
+     "sponsored_only": 0,
+     "totals_reported": [
+      29
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001406",
+   "status": "CAPPED",
+   "total_count": 387,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.12403100775193798,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/nuts-trail-mix-seeds/976759_976787_1001406?povid=976759_LHNCP_976759_Categories_Snacks_NutsTrailMixSeeds_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 10,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7WANNN6PDVCQVNHHFDHW9",
+      "max_page": 10,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 387
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001406_5010510",
+     "976759_976787_1001406_7771097",
+     "976759_976787_1001406_7339625",
+     "976759_976787_1001406_2697433",
+     "976759_976787_1001406_9012417",
+     "976759_976787_1001406_9805333",
+     "976759_976787_1001406_4873199",
+     "976759_976787_1001406_5892757",
+     "976759_976787_1001406_4229333",
+     "976759_976787_1001406_3474924",
+     "976759_976787_1001406_8200836",
+     "976759_976787_1001406_8305691",
+     "976759_976787_1001406_7563874",
+     "976759_976787_1001406_7358205",
+     "976759_976787_1001406_3309015",
+     "976759_976787_1001406_4855419",
+     "976759_976787_1001406_8001839",
+     "976759_976787_1001406_6784667"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 339,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 387,
+     "sponsored_only": 8,
+     "totals_reported": [
+      387
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 339
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1044156",
+   "status": "CAPPED",
+   "total_count": 108,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.39814814814814814,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/pretzels/976759_976787_1044156?povid=976759_LHNCP_976759_Categories_Snacks_Pretzels_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7WKKZ0Z8R5E8V0KRM2GQD",
+      "max_page": 3,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 108
+     }
+    ],
+    "children_named": [
+     "976759_976787_1044156_4356725",
+     "976759_976787_1044156_2305837",
+     "976759_976787_1044156_1782857",
+     "976759_976787_1044156_9229495",
+     "976759_976787_1044156_3076405",
+     "976759_976787_1044156_3337394",
+     "976759_976787_1044156_2207566",
+     "976759_976787_1044156_9091653",
+     "976759_976787_1044156_2853390",
+     "976759_976787_1044156_9999508",
+     "976759_976787_1044156_8340438"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 43,
+     "organic": 40,
+     "difference": 65,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 108,
+     "sponsored_only": 3,
+     "totals_reported": [
+      108
+     ],
+     "repeat_placements": 7,
+     "unresolved_difference": 65
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149384",
+   "status": "CAPPED",
+   "total_count": 98,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.42857142857142855,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/toilet-paper/1115193_1073264_1149384?povid=HHE_HHECP_LHN_paperplastic_toiletpaper",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7WHRPGKJAAD3Z1C015401",
+      "max_page": 3,
+      "products": 48,
+      "sponsored": 8,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 98
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149384_1281787",
+     "1115193_1073264_1149384_2612959",
+     "1115193_1073264_1149384_3355558",
+     "1115193_1073264_1149384_1386254",
+     "1115193_1073264_1149384_7837184",
+     "1115193_1073264_1149384_5796208",
+     "1115193_1073264_1149384_1828270",
+     "1115193_1073264_1149384_6513187"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 56,
+     "placements": 48,
+     "total_stable": true,
+     "reported_total": 98,
+     "sponsored_only": 2,
+     "totals_reported": [
+      98
+     ],
+     "repeat_placements": 6,
+     "unresolved_difference": 56
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1044154_5006109",
+   "status": "EMPTY",
+   "total_count": 0,
+   "organic_upcs": 0,
+   "coverage_ratio": 1.0,
+   "partition": {
+    "end": "EMPTY_PAGE",
+    "url": "https://www.walmart.com/browse/food/granola-bars/976759_976787_1044154_5006109?povid=976759_LHNCP_976759_Categories_Snacks_GranolaBars_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 0,
+    "parent": "",
+    "reason": "the listing shows 0 results",
+    "max_page": null,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 0,
+      "fetch_id": "01M6K7WWF40DWWT2EWE9P63QDD",
+      "max_page": null,
+      "products": 0,
+      "sponsored": 0,
+      "page_count": 0,
+      "grid_filter": "no result grid",
+      "other_modules": [],
+      "result_stacks": [],
+      "new_identities": 0,
+      "reported_total": 0
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "organic",
+     "placed": 0,
+     "organic": 0,
+     "difference": 0,
+     "placements": 0,
+     "total_stable": true,
+     "reported_total": 0,
+     "sponsored_only": 0,
+     "totals_reported": [],
+     "repeat_placements": 0,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149385",
+   "status": "CAPPED",
+   "total_count": 120,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.38333333333333336,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/trash-bags/1115193_1073264_1149385?povid=HHE_HHECP_LHN_paperplastic_trashbags",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7WYSRKW9P5V4BGQ7K1H3Y",
+      "max_page": 3,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 62,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 120
+     }
+    ],
+    "children_named": [
+     "1115193_1073264_1149385_5503871",
+     "1115193_1073264_1149385_8421953",
+     "1115193_1073264_1149385_4941238",
+     "1115193_1073264_1149385_8187368",
+     "1115193_1073264_1149385_5040735",
+     "1115193_1073264_1149385_3965613",
+     "1115193_1073264_1149385_7139481",
+     "1115193_1073264_1149385_8964040",
+     "1115193_1073264_1149385_9229050",
+     "1115193_1073264_1149385_4759941",
+     "1115193_1073264_1149385_8529119",
+     "1115193_1073264_1149385_1368105",
+     "1115193_1073264_1149385_1298797",
+     "1115193_1073264_1149385_7994758",
+     "1115193_1073264_1149385_2961163",
+     "1115193_1073264_1149385_3640251"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 74,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 120,
+     "sponsored_only": 6,
+     "totals_reported": [
+      120
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 74
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_9830353",
+   "status": "CAPPED",
+   "total_count": 386,
+   "organic_upcs": 39,
+   "coverage_ratio": 0.12435233160621761,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/healthy-snacks/976759_976787_9830353?povid=976759_LHNCP_976759_Categories_Snacks_HealthySnacks_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 10,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 39,
+      "fetch_id": "01M6K7X0MZKTBRJ8NF08KPVH3M",
+      "max_page": 10,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 386
+     }
+    ],
+    "children_named": [
+     "976759_976787_9830353_2837144",
+     "976759_976787_9830353_1558458",
+     "976759_976787_9830353_2174556",
+     "976759_976787_9830353_4593950",
+     "976759_976787_9830353_5667132",
+     "976759_976787_9830353_6998433",
+     "976759_976787_9830353_3049581"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 39,
+     "difference": 338,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 386,
+     "sponsored_only": 9,
+     "totals_reported": [
+      386
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 338
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_1149387",
+   "status": "DONE",
+   "total_count": 17,
+   "organic_upcs": 14,
+   "coverage_ratio": 0.8235294117647058,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/plastic-wrap/1115193_1073264_1149387?povid=HHE_HHECP_LHN_paperplastic_plasticwrap",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 14 organic and 0 sponsored-only identities; 17 reported; the 17 tiles served equal the total (3 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 14,
+      "fetch_id": "01M6K7X7MK71NQQMRQD89C7914",
+      "max_page": 1,
+      "products": 17,
+      "sponsored": 3,
+      "page_count": 30,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 14,
+      "reported_total": 17
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 14,
+     "organic": 14,
+     "difference": 3,
+     "placements": 17,
+     "total_stable": true,
+     "reported_total": 17,
+     "sponsored_only": 0,
+     "totals_reported": [
+      17
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1073264_6993435",
+   "status": "DONE",
+   "total_count": 17,
+   "organic_upcs": 14,
+   "coverage_ratio": 0.8235294117647058,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/parchment-paper/1115193_1073264_6993435",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 14 organic and 0 sponsored-only identities; 17 reported; the 17 tiles served equal the total (3 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 14,
+      "fetch_id": "01M6K7XE7BXE5P7BYBJMVTBEFT",
+      "max_page": 1,
+      "products": 17,
+      "sponsored": 3,
+      "page_count": 30,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 14,
+      "reported_total": 17
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 14,
+     "organic": 14,
+     "difference": 3,
+     "placements": 17,
+     "total_stable": true,
+     "reported_total": 17,
+     "sponsored_only": 0,
+     "totals_reported": [
+      17
+     ],
+     "repeat_placements": 3,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001405_2758322",
+   "status": "CAPPED",
+   "total_count": 94,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.4787234042553192,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/meat-sticks/976759_976787_1001405_2758322?povid=976759_LHNCP_976759_Categories_Snacks_MeatSticks_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 3,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7XBTV73SYSXF8BXD8AHB5",
+      "max_page": 3,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 94
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 45,
+     "organic": 40,
+     "difference": 49,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 94,
+     "sponsored_only": 5,
+     "totals_reported": [
+      94
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 49
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071965",
+   "status": "CAPPED",
+   "total_count": 200,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.21,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/bathroom/1115193_1071965?povid=HHE_HHECP_LHN_bathroom_allbathroomsupplies",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 5,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7XNDC33VSX44YNX4JVXF9",
+      "max_page": 5,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 65,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 200
+     }
+    ],
+    "children_named": [
+     "1115193_1071965_1072125",
+     "1115193_1071965_6148203",
+     "1115193_1071965_2600011",
+     "1115193_1071965_5859660",
+     "1115193_1071965_4273739",
+     "1115193_1071965_6616232",
+     "1115193_1071965_9424016",
+     "1115193_1071965_2963058"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 158,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 200,
+     "sponsored_only": 2,
+     "totals_reported": [
+      200
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 158
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_4962467",
+   "status": "CAPPED",
+   "total_count": 76,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5526315789473685,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/dried-fruits/976759_976787_4962467?povid=976759_LHNCP_976759_Categories_Snacks_DriedFruits_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7XQMG8NPDEDJC58R42D1R",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 76
+     }
+    ],
+    "children_named": [
+     "976759_976787_4962467_4271416",
+     "976759_976787_4962467_8099720",
+     "976759_976787_4962467_8921920"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 34,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 76,
+     "sponsored_only": 2,
+     "totals_reported": [
+      76
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 34
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1025739",
+   "status": "CAPPED",
+   "total_count": 858,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.055944055944055944,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/air-fresheners/1115193_1025739?povid=HHE_HHECP_LHN_bathroom_airfresheners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 22,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7Y0X6CKGBZ8VPXWA2VH59",
+      "max_page": 22,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 858
+     }
+    ],
+    "children_named": [
+     "1115193_1025739_6453453",
+     "1115193_1025739_3653204",
+     "1115193_1025739_1149374",
+     "1115193_1025739_7780439",
+     "1115193_1025739_7085880",
+     "1115193_1025739_5929933",
+     "1115193_1025739_8403021",
+     "1115193_1025739_7032476",
+     "1115193_1025739_1279160",
+     "1115193_1025739_3975002",
+     "1115193_1025739_6869990",
+     "1115193_1025739_9198928",
+     "1115193_1025739_7780635"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 810,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 858,
+     "sponsored_only": 8,
+     "totals_reported": [
+      858
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 810
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976787_1001393",
+   "status": "CAPPED",
+   "total_count": 276,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.17028985507246377,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/dips-spreads/976759_976787_1001393?povid=976759_LHNCP_976759_Categories_Snacks_SalsasDips_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7YKFJ63VQAJC0M5E7SY0G",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 8
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 276
+     }
+    ],
+    "children_named": [
+     "976759_976787_1001393_7109351",
+     "976759_976787_1001393_2603202",
+     "976759_976787_1001393_8798385",
+     "976759_976787_1001393_9915594"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 40,
+     "difference": 229,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 276,
+     "sponsored_only": 7,
+     "totals_reported": [
+      276
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 229
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071965_1072125",
+   "status": "CAPPED",
+   "total_count": 158,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.26582278481012656,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/bathroom-cleaners/1115193_1071965_1072125?povid=HHE_HHECP_LHN_bathroom_bathroomcleaners",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7YSK2PK3SBFF24ERP6PXB",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 65,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 158
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 42,
+     "organic": 40,
+     "difference": 116,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 158,
+     "sponsored_only": 2,
+     "totals_reported": [
+      158
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 116
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976794_7433209",
+   "status": "CAPPED",
+   "total_count": 1159,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.04227782571182054,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/canned-goods/976759_976794_7433209?povid=976759_LHNCP_976759_Categories_Pantry_CannedGoods_07_26",
+    "via": "category_page",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K7Z8AJM54R9TKQRW5C1X5R",
+      "max_page": 25,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 1159
+     }
+    ],
+    "children_named": [
+     "976759_976794_7433209_4695838",
+     "976759_976794_7433209_9025162",
+     "976759_976794_7433209_5197176",
+     "976759_976794_7433209_3707472",
+     "976759_976794_7433209_5637428",
+     "976759_976794_7433209_2960352",
+     "976759_976794_7433209_7630313",
+     "976759_976794_7433209_5240732",
+     "976759_976794_7433209_3601103",
+     "976759_976794_7433209_8800371",
+     "976759_976794_7433209_3219937",
+     "976759_976794_7433209_2536858",
+     "976759_976794_7433209_8195019"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 40,
+     "difference": 1110,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 1159,
+     "sponsored_only": 9,
+     "totals_reported": [
+      1159
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 1110
+    }
+   }
+  }
+ ],
+ "gate_findings": [],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L7-census-163-20261104",
+  "rows": 82,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 82,
+    "worst_usd": 0.123,
+    "settled_usd": 0.123,
+    "settled_results": 82
+   }
+  }
+ }
+}

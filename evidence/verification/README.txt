@@ -1,3 +1,6 @@
+RELEASE 1.5.2's record (publication c4e665c, 2026-11-03), unchanged below this paragraph. The records of
+this delivery are in 1.6.5/ (and 1.6.1/, 1.6.4/ for the earlier last-good checks).
+
 The raw record of the clean-extraction verification of this delivery:
   logs/<step>.log        each step's full output (logs/attempts/: earlier attempts of a step, kept)
   junit/<group>/*.xml    the JUnit XML of every test step (attempts/: earlier ones)

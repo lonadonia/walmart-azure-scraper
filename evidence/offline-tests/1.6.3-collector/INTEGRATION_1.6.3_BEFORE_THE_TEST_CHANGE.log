@@ -1,0 +1,36 @@
+2026-11-04T11:19:00Z
+........................................................................ [ 36%]
+..................................................F..................... [ 72%]
+......................................................                   [100%]
+================================== FAILURES ===================================
+_________ test_a_pilot_budget_is_named_on_the_run_and_never_published _________
+
+env = Env(config=WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-<user>/pytest-1006/test_a_pilot_budget_is_named_o0/config...test-1006/test_a_pilot_budget_is_named_o0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x000001D793641130>)
+
+    def test_a_pilot_budget_is_named_on_the_run_and_never_published(env: Env) -> None:
+        code, _ = env.result("run", "--store", STORE_KEY, "--pilot-detail-pages", "1")
+        assert code == 0
+        [run] = env.runs()
+        assert run.config_snapshot["pilot"] is True and run.status == "validated"
+        assert run.config_snapshot["pilot_budgets"] == {"detail.max_per_run": 1}
+        code, table = env.result("field-dispositions", "--run", run.id)
+        assert code == 0 and table["counts"]["upc"] == {"budget_deadline_interruption": 3, "fetched_detail": 1}
+        code, _ = env.result("run", "--store", STORE_KEY, "--pilot-no-detail")
+        assert code == 0
+        last = env.runs()[-1]
+        assert last.config_snapshot["pilot_budgets"] == {"detail.enabled": "off"}
+        code, table = env.result("field-dispositions", "--run", last.id)
+>       assert code == 0 and table["counts"]["upc"] == {"not_attempted": 4}
+E       AssertionError: assert (0 == 0 and {'not_attempt...ed_detail': 1} == {'not_attempted': 4}
+E         
+E         Differing items:
+E         {'not_attempted': 3} != {'not_attempted': 4}
+E         Left contains 1 more item:
+E         {'recovered_from_saved_detail': 1}
+E         Use -v to get more diff)
+
+tests\integration\test_operations.py:822: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_operations.py::test_a_pilot_budget_is_named_on_the_run_and_never_published
+1 failed, 197 passed in 1333.63s (0:22:13)
+exit=1

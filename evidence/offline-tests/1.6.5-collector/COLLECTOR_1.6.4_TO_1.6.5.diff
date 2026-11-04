@@ -1,0 +1,1060 @@
+diff --git a/Dockerfile b/Dockerfile
+index ae6fe53..5467985 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.4 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.6.4 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.5 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.5 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 9b893f2..543116d 100644
+--- a/README.md
++++ b/README.md
+@@ -78,7 +78,7 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
+-## What releases 1.6.0 to 1.6.4 change
++## What releases 1.6.0 to 1.6.5 change
+ 
+ Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
+ `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
+@@ -99,7 +99,10 @@ data, called it a challenge, stopped the run and held the store). Release 1.6.4
+ the census of 2026-11-04: a listing whose Pickup grid the page reports empty (0 results) is an empty listing
+ once the page names the store and Pickup, even when the page also shows an "Available for shipping" carousel
+ (release 1.6.3 took the reported 0 for a missing total, read the carousel's products as results it could not
+-show, stopped the run and held the store). See `docs/VERIFICATION.md`.
++show, stopped the run and held the store). Release 1.6.5 corrects the independent source check that
++`validate-export --run` and the canary use: it now reads Walmart's flat price strings, the third price layout the
++page reader reads (release 1.6.4 reported 21 correct records of the census as mismatches, all from the one page in
++that layout). What a run collects and exports is unchanged. See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 5b474bd..195d09f 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.4" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.5" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index 2c32aba..d39175e 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -195,7 +195,9 @@ manifest lists).
+ ### validate-export (--file products.json | --run ID)
+ The 22-field contract of a products file. For a run, also: the manifest and every export file verified
+ from storage, and every exported record compared with the run's stored pages, read independently of the
+-parser (title, URL, image, prices, PPM). No provider request. Exit 6 on any problem.
++parser (title, URL, image, prices, PPM), in each of the three price layouts the parser reads (price lines,
++nested price objects, flat price strings; the flat strings from release 1.6.5). No provider request. Exit 6 on
++any problem.
+ A record exported without a local price (a verified store product the page shows with no Pickup line for
+ the store) is verified on its other fields (`verified_without_local_price`); empty prices where the page has
+ the store's Pickup line are a mismatch.
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index cc3742f..e25338f 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.6.4 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.5 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 924a817..5ea6468 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,4 +1,17 @@
+-# Verification report: walmart-azure-headless 1.6.4
++# Verification report: walmart-azure-headless 1.6.5
++
++## Release 1.6.5
++
++Release 1.6.5 corrects a defect of the independent source check, found when the export of this delivery's live
++census L10 (release 1.6.4) was verified. What a run collects and exports does not change: the page reader, the
++records, the gates and the exports are those of 1.6.4. An offline test on two pages that census stored shows the
++defect and its correction; each new test of the change fails on 1.6.4 and passes on 1.6.5, and the tests that show
++what did not change pass on both. Live results are not recorded here: the delivery's review documents give each
++live stage, the frozen build it ran on and its result.
++
++| Change | Until 1.6.4 | Where |
++|---|---|---|
++| The source check (`checks/source_check.py`: `validate-export --run`, and the automated canary on a run's first recorded page) reads the three price layouts that the page reader reads: price lines, nested price objects (`currentPrice`, `wasPrice`, `unitPrice` › `priceString`), and flat display strings (`priceInfo.linePriceDisplay`, `linePrice` or `itemPrice`; `priceInfo.wasPrice` and `priceInfo.unitPrice` as strings). A was-price above the current price is a sale in each layout. A record whose price or unit price differs from its page's, in any layout, is still a mismatch | The check read price lines and nested objects only. A page in the flat layout showed it no price, so a valid record read from it was a mismatch (its regular price, and its unit price when it has one), or was judged on another page that shows the item differently (its URL or image). Live L10 of 2026-11-04 (run `01M6KA3CKYJSD6WDY4TDAAV73Y`): one page, Beauty's "New Arrivals" (`/browse/beauty/new-arrivals/1085666_4427759`), gave the prices of its 50 placements as flat strings; the check reported 21 of the run's 10,301 records as mismatches (19 regular prices, 12 unit prices, 1 URL, 1 image), each equal to that page's own data, and `validate-export --run` exited 6. The canary compares a run's first recorded page in the same way, so a first page in this layout would have stopped a run (exit 6, store held) although its records were right. Of the 1,526 pages stored by the collector's 21 live runs (releases 1.5.0 to 1.6.4), it is the only page with flat price strings | `checks/source_check.py` (`expected_prices`, `flat_text`); `tests/unit/test_flat_price_layout.py` on the authentic pages `tests/captures/listing_pages_20261104_flat/` (the collector's stored copies, with their manifest) and the run's 26 exported records read from the flat page: the prices read, the 26 records verified, the record seen on both pages judged on its own, the canary's comparison, a wrong price or unit price still a mismatch, a flat was-price as a sale (6 tests: fail on 1.6.4); the manifest and the two pages' layouts (pass on both) |
+ 
+ ## Release 1.6.4
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 02664e2..d645bb4 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.6.4"
++version = "1.6.5"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 0f434f6..bcb8345 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.6.4"
++__version__ = "1.6.5"
+diff --git a/src/walmart_headless/checks/source_check.py b/src/walmart_headless/checks/source_check.py
+index 2af75c4..938e5c7 100644
+--- a/src/walmart_headless/checks/source_check.py
++++ b/src/walmart_headless/checks/source_check.py
+@@ -11,12 +11,21 @@ a few lines of code of its own, and compared with the record:
+ 
+ * ``product_title`` = the item's ``name`` (runs of spaces read as one, as a browser shows them); ``url`` =
+   its ``canonicalUrl`` on walmart.com; ``image_url`` = its ``imageInfo.thumbnailUrl``;
+-* prices: the item's ``priceInfo.priceDetails.priceLines`` (or the older ``currentPrice``/``wasPrice``
+-  strings): a sale is a ``DISCOUNTED_PRICE`` with a ``COMPARISON``/``WAS_PRICE`` above it (``sale_price``
+-  and ``regular_price``), otherwise ``CURRENT_PRICE`` is ``regular_price``; amounts compared as decimals;
+-* ``ppm`` = the ``UNIT_PRICE`` line (or ``unitPrice.priceString``) exactly as displayed;
++* prices, in whichever of the three price layouts the item uses (the three that the collector's page reader
++  reads): the price lines ``priceInfo.priceDetails.priceLines`` (a sale is a ``DISCOUNTED_PRICE`` with a
++  ``COMPARISON``/``WAS_PRICE`` above it: ``sale_price`` and ``regular_price``; otherwise ``CURRENT_PRICE`` is
++  ``regular_price``), the nested objects ``currentPrice``/``wasPrice``/``unitPrice`` › ``priceString``, or the
++  flat display strings ``priceInfo.linePriceDisplay``/``linePrice``/``itemPrice``, ``priceInfo.wasPrice`` and
++  ``priceInfo.unitPrice``; a was-price above the current price makes a sale in each layout; amounts compared
++  as decimals;
++* ``ppm`` = the ``UNIT_PRICE`` line (or the unit price of the other two layouts) exactly as displayed;
+ * the item's Pickup line for the store (``fulfillmentSummary``), seller and availability are reported.
+ 
++Release 1.6.5 reads the flat display strings. Release 1.6.4 and earlier read only the first two layouts, so
++a record read correctly from a page in the flat layout was reported as a mismatch (live census L10 of
++2026-11-04: 21 of 10,301 records, all from one page; ``tests/captures/listing_pages_20261104_flat``). The
++canary judges the first recorded page with the same comparison, so such a first page would have stopped a run.
++
+ When an item appears on several pages (a repeat, a later page), the page that matches the record best is
+ reported, each page judged with its own Pickup line (below; release 1.3.1 chose the page before setting
+ aside the prices of a page without the store's line, so an earlier page with the line could be chosen and
+@@ -99,8 +108,18 @@ def dec(text: str) -> Decimal | None:
+         return None
+ 
+ 
++def flat_text(info: dict[str, Any], *keys: str) -> str:
++    """The first non-empty flat display string of ``priceInfo`` among ``keys``, as given ("" when none)."""
++    for key in keys:
++        value = info.get(key)
++        if isinstance(value, str) and value:
++            return value
++    return ""
++
++
+ def expected_prices(item: dict[str, Any]) -> tuple[str, str, str]:
+-    """(regular, sale, ppm) as the page shows them ("" when not shown)."""
++    """(regular, sale, ppm) as the page shows them ("" when not shown): the price lines, else the nested
++    objects, else the flat display strings (release 1.6.5)."""
+     info = item.get("priceInfo") or {}
+     pl = lines(item)
+     current = (pl.get("DISCOUNTED_PRICE") or {}).get("PRICE") or (pl.get("CURRENT_PRICE") or {}).get("PRICE")
+@@ -109,9 +128,15 @@ def expected_prices(item: dict[str, Any]) -> tuple[str, str, str]:
+         current = info["currentPrice"].get("priceString")
+     if not was and isinstance(info.get("wasPrice"), dict):
+         was = info["wasPrice"].get("priceString")
++    if not current:
++        current = flat_text(info, "currentPrice", "linePriceDisplay", "linePrice", "itemPrice")
++    if not was:
++        was = flat_text(info, "wasPrice")
+     ppm = (pl.get("UNIT_PRICE") or {}).get("UNIT_PRICE") or ""
+     if not ppm and isinstance(info.get("unitPrice"), dict):
+         ppm = info["unitPrice"].get("priceString") or ""
++    if not ppm:
++        ppm = flat_text(info, "unitPrice")
+     c, w = dec(current or ""), dec(was or "")
+     if c is not None and w is not None and w > c:
+         return str(was), str(current), ppm
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index 78743a3..aecad5d 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.6.4"
++PARSER_VERSION = "1.6.5"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/tests/captures/listing_pages_20261104_flat/MANIFEST.json b/tests/captures/listing_pages_20261104_flat/MANIFEST.json
+new file mode 100644
+index 0000000..ad6512b
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104_flat/MANIFEST.json
+@@ -0,0 +1,28 @@
++[
++ {
++  "file": "flat_layout_page.html.gz",
++  "fetch_id": "01M6KB69AJA2N65MDQP4V1QWTE",
++  "url": "https://www.walmart.com/browse/beauty/new-arrivals/1085666_4427759?povid=Beauty_BeautyCP_LHN_NewArrivals",
++  "fetched_at": "2026-11-04 13:15:20.786313+00:00",
++  "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
++  "release": "1.6.4",
++  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz",
++  "source_sha256": "07ddcabc1c57e0016f28abf37687e16606dd5a3cf41acecb2f8892515b140458",
++  "content_sha256": "67bfd781b04e1c946ed2e32ff8eff90ecbda9c5b2cba097f554f8fe4787b857e",
++  "raw_original_body_sha256": "e38c690f859c9462cb49a9152c35872fdd5773dd426e8898df256517cd48f743",
++  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.4), not recompressed"
++ },
++ {
++  "file": "price_lines_page.html.gz",
++  "fetch_id": "01M6KB1YNCARK7HQ80N2KNCE23",
++  "url": "https://www.walmart.com/browse/personal-care/men-s-hair-beard-care/1005862_1056884_2965909?povid=PersonalCare_PCCP_LHN_HAIRCARE_MensHairAndBeardCare_5.12_PCXSELL",
++  "fetched_at": "2026-11-04 13:12:58.797274+00:00",
++  "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
++  "release": "1.6.4",
++  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB1YNCARK7HQ80N2KNCE23.html.gz",
++  "source_sha256": "a55702c968a5f17fa8f65dd3b4cd7ca2d45dc2c1a54da2407d620908ab13d1c3",
++  "content_sha256": "7cd4883d8fb54a86f49a7f58eabc0ce65583a8fcbcbd7ca2258519123ff2c8e1",
++  "raw_original_body_sha256": "302804868c4fba2e922cd142c564f8d9c99ccde32f9557538e553d893d3f5260",
++  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.4), not recompressed"
++ }
++]
+diff --git a/tests/captures/listing_pages_20261104_flat/README.md b/tests/captures/listing_pages_20261104_flat/README.md
+new file mode 100644
+index 0000000..f2215cf
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104_flat/README.md
+@@ -0,0 +1,22 @@
++# Two authentic listing pages of live run L10, replayed offline
++
++Two result pages saved by run `01M6KA3CKYJSD6WDY4TDAAV73Y` (stage L10, the census on release 1.6.4, Oxylabs Web
++API, store #3891 Pickup) on 2026-11-04. Each is the collector's stored copy of the page, byte for byte (sanitized
++at capture by release 1.6.4: scripts other than the page data removed, session, trace and key values in the page
++data replaced with `[REDACTED]`); it is not the raw answer. `MANIFEST.json` gives each page's fetch id, URL, fetch
++time, the SHA-256 of the stored copy and of its content, and the SHA-256 of the raw answer kept privately with the
++run's other raw answers.
++
++| File | Listing | What the page data shows |
++|---|---|---|
++| `flat_layout_page.html.gz` | Beauty, "New Arrivals" (`1085666_4427759`), page 1 | 50 placements of 42 products. Every price is a flat display string (`priceInfo.linePriceDisplay` and `linePrice`, `priceInfo.unitPrice`, an empty `priceInfo.wasPrice`), with no price line. It is the only page with flat price strings among the 1,526 pages stored by the collector's 21 live runs of 2026-10-31 to 2026-11-04 (releases 1.5.0 to 1.6.4; 33,736 placements) |
++| `price_lines_page.html.gz` | Personal Care, "Men's Hair & Beard Care" (`1005862_1056884_2965909`), page 1 | 58 of its 59 placements give their prices in price lines (`priceInfo.priceDetails.priceLines`), and one shows no price; it also shows Head & Shoulders `20409871453`, with another image size |
++
++`l10_records.json` holds the 26 records of the run's export (`products.json`, byte-identical values) that the run
++read from `flat_layout_page.html.gz`, as its `record_map.json` names each record's page.
++
++Release 1.6.4's source check read only the price lines and the nested price objects. It found no price on the flat
++page, so it reported 21 of the run's 10,301 records as mismatches (it verified the other 5 records read from this
++page on another stored page that shows the same values), and `validate-export` exited 6.
++`tests/unit/test_flat_price_layout.py` reads these pages with the 1.6.5 source check. They are earlier captures,
++not new evidence: no test reaches Walmart or a provider.
+diff --git a/tests/captures/listing_pages_20261104_flat/flat_layout_page.html.gz b/tests/captures/listing_pages_20261104_flat/flat_layout_page.html.gz
+new file mode 100644
+index 0000000..29fd8d5
+Binary files /dev/null and b/tests/captures/listing_pages_20261104_flat/flat_layout_page.html.gz differ
+diff --git a/tests/captures/listing_pages_20261104_flat/l10_records.json b/tests/captures/listing_pages_20261104_flat/l10_records.json
+new file mode 100644
+index 0000000..7e36c28
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104_flat/l10_records.json
+@@ -0,0 +1,626 @@
++[
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "BETTER FRAGRANCE PISTACHIO KIWI 2 PC SET",
++  "weight": "2 PC",
++  "regular_price": "5.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Better-Fragrance-Pistachio-Kiwi-2-Pc-Set_386e7b81-6f63-4ba3-98fc-667c0a7f259c.35606e490666ba203a062d7b1564694b.jpeg",
++  "url": "https://www.walmart.com/ip/Better-Fragrance-Pistachio-Kiwi-2-Pc-Set/20585873588?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Bodycology Mix & Mingle Holiday Layering Gift Set, 4 Piece",
++  "weight": "4 Piece",
++  "regular_price": "10.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Bodycology-Mix-Mingle-Holiday-Layering-Gift-Set-4-Piece_022d3fb3-3090-4c94-9313-871214d83057.a8cfe4f6f925a6315a78f83246e00db5.jpeg",
++  "url": "https://www.walmart.com/ip/Bodycology-Mix-Mingle-Holiday-Layering-Gift-Set-4-Piece/20066266417?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "COVERGIRL Lash Blast Showstopper Mascara - 800 Hypnotic Black, 0.30 FL.OZ.",
++  "weight": "0.30 FL.OZ.",
++  "regular_price": "9.74",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/COVERGIRL-Lash-Blast-Showstopper-Mascara-800-Hypnotic-Black-0-30-FL-OZ_2b697308-a85b-4353-baf2-36fdc5cfd0fc.61cff1186f6044c9c215c4cc75758ebc.jpeg?odnHeight=180&odnWidth=180&odnBg=FFFFFF",
++  "url": "https://www.walmart.com/ip/COVERGIRL-Lash-Blast-Showstopper-Mascara-800-Hypnotic-Black-0-30-FL-OZ/20485002977?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$32.47/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Cetaphil Nourishing & Hydrating Cream, Oil-Infused Body Cream for Normal to Very Dry Skin, 16 oz, Lipids & Vitamin E, 72 Hour Hydration, Non-Greasy",
++  "weight": "16 oz",
++  "regular_price": "16.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Cetaphil-Nourishing-Hydrating-Cream-Oil-Infused-Body-Cream-for-Normal-to-Very-Dry-Skin-16-oz-Lipids-Vitamin-E-72-Hour-Hydration-Non-Greasy_65d10361-58e6-4d62-b22a-1bda8cb5bdc0.710e635ecca91ff9c6e4a0c331658bc0.jpeg",
++  "url": "https://www.walmart.com/ip/Cetaphil-Nourishing-Hydrating-Cream-Oil-Infused-Body-Cream-for-Normal-to-Very-Dry-Skin-16-oz-Lipids-Vitamin-E-72-Hour-Hydration-Non-Greasy/18905414013?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$1.06/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "ChapStick Moisture + SPF 15 Lip Protectant with Broad Spectrum Sunscreen, Relieves Dryness, 24 Hour Moisture, Hydrating Lip Balm, 0.15 oz",
++  "weight": "0.15 oz",
++  "regular_price": "1.43",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/ChapStick-Moisture-SPF-15-Lip-Protectant-with-Broad-Spectrum-Sunscreen-Relieves-Dryness-24-Hour-Moisture-Hydrating-Lip-Balm-0-15-oz_6a5458ce-6362-4df7-a33c-ce28ff06f394.2c8628afbe9ec6f8645c35fcb19ed816.jpeg",
++  "url": "https://www.walmart.com/ip/ChapStick-Moisture-SPF-15-Lip-Protectant-with-Broad-Spectrum-Sunscreen-Relieves-Dryness-24-Hour-Moisture-Hydrating-Lip-Balm-0-15-oz/19909366278?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$9.53/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Dashing Diva Gloss Gel Nail Strips, Santa's Little Mani, 32 Count",
++  "weight": "32 Count",
++  "regular_price": "7.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Dashing-Diva-Gloss-Gel-Nail-Strips-Santa-s-Little-Mani-32-Count_0edc835b-0432-45ae-b1e5-25a9d93ff834.f4ad9ca72178ebf146d253945982ccb5.jpeg?odnHeight=180&odnWidth=180&odnBg=FFFFFF",
++  "url": "https://www.walmart.com/ip/Dashing-Diva-Gloss-Gel-Nail-Strips-Santa-s-Little-Mani-32-Count/20192714815?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "24.9 ¢/count",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Free Assembly Women's Embellished Pearlescent Bead Headband, Black",
++  "weight": "",
++  "regular_price": "11.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Free-Assembly-Women-s-Embellished-Pearlescent-Bead-Headband-Black_e2e2f66f-6584-4b5a-9d1f-fe2f3d20e3cb.a2aeb9ebe50a904518aa57854e495773.jpeg",
++  "url": "https://www.walmart.com/ip/Free-Assembly-Women-s-Embellished-Pearlescent-Bead-Headband-Black/20258112559?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Head & Shoulders Hydrating Coconut Anti-Dandruff Shampoo & Conditioner, 24/7 Dandruff Protection, with Zinc Pyrithione 12.5oz + 10.9oz Dual Pack",
++  "weight": "12.5oz + 10.9oz",
++  "regular_price": "12.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Head-Shoulders-Shampoo-Hydrating-Coconut-12-5oz-and-10-9z-Conditioner-Dual-Pack_8c2e26c8-f2eb-4160-a865-7a21d660dcb1.54cc316f2328ba149c7c8b83b7a66576.jpeg",
++  "url": "https://www.walmart.com/ip/Head-Shoulders-Shampoo-Hydrating-Coconut-12-5oz-and-10-9z-Conditioner-Dual-Pack/18081862879?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "55.4 ¢/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Head & Shoulders Scalp Purify Anti-Dandruff Volumizing Shampoo, Salicylic Acid 13.5 fl oz",
++  "weight": "13.5 fl oz",
++  "regular_price": "11.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Head-and-Shoulders-Scalp-Purifying-Dandruff-Shampoo-Volumizing-for-Oily-Scalps-with-Salicylic-Acid-13-5-fl-oz_f83c8983-90a8-4026-8552-fd6814e90672.87f8fd73c47cddefd654d26028fe5185.jpeg",
++  "url": "https://www.walmart.com/ip/Head-and-Shoulders-Scalp-Purifying-Dandruff-Shampoo-Volumizing-for-Oily-Scalps-with-Salicylic-Acid-13-5-fl-oz/20509901213?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "88.7 ¢/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Head & Shoulders Scalp Restore Anti-Dandruff Conditioner, for Dry, Flaky Scalps, Deep hydration, with Bio-Ceramides, 10.6 fl oz",
++  "weight": "10.6 fl oz",
++  "regular_price": "11.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Head-and-Shoulders-Scalp-Restore-Dandruff-Conditioner-for-Dry-Flaky-Scalps-Deep-hydration-with-Bio-Ceramides-10-6-fl-oz_a63738e3-6f9b-42fc-acac-f51e19fb0871.a8f9873fedb2ffb7c8cab15a3c82af3b.jpeg",
++  "url": "https://www.walmart.com/ip/Head-and-Shoulders-Scalp-Restore-Dandruff-Conditioner-for-Dry-Flaky-Scalps-Deep-hydration-with-Bio-Ceramides-10-6-fl-oz/20409871453?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$1.13/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Head & Shoulders Scalp Soothe Anti-Dandruff Cooling Shampoo, with Niacinamide, 13.5 fl oz",
++  "weight": "13.5 fl oz",
++  "regular_price": "11.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Head-and-Shoulders-Scalp-Soothe-Dandruff-Shampoo-Cooling-for-Itchy-Scalps-with-Niacinamide-13-5-fl-oz_ab3c2253-4407-4b7c-824e-6add2ba382a7.9eb3aef0d83a6165f14cdb9198cafa3e.jpeg",
++  "url": "https://www.walmart.com/ip/Head-and-Shoulders-Scalp-Soothe-Dandruff-Shampoo-Cooling-for-Itchy-Scalps-with-Niacinamide-13-5-fl-oz/20526512097?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "88.7 ¢/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Hero Mighty Patch Frost Pop Limited Edition Holiday Hydrocolloid Pimple Design Patches, 24 count",
++  "weight": "24 count",
++  "regular_price": "10.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Hero-Mighty-Patch-Frost-Pop-Limited-Edition-Holiday-Hydrocolloid-Pimple-Design-Patches-24-count_4056dfe7-c475-4da4-8474-5e1203e2356b.e4042ea7d7277cff2b08e5089e273862.jpeg",
++  "url": "https://www.walmart.com/ip/Hero-Mighty-Patch-Frost-Pop-Limited-Edition-Holiday-Hydrocolloid-Pimple-Design-Patches-24-count/20285108840?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "45.7 ¢/ea",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Holiday Time Women's Fashion Headband, Gift Box Design, Polyester Blend",
++  "weight": "",
++  "regular_price": "5.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Holiday-Time-Women-s-Gift-Box-Headband-Red_01a08e28-6d2c-4c96-8e64-59ac8a077613.cc251c5bd8ea6349915913bd3dfe667f.jpeg?odnHeight=180&odnWidth=180&odnBg=FFFFFF",
++  "url": "https://www.walmart.com/ip/Holiday-Time-Women-s-Gift-Box-Headband-Red/20319706283?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "My Beauty Spot Migraine Relief Facial Mask with Gel Inserts",
++  "weight": "",
++  "regular_price": "9.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/My-Beauty-Spot-Migraine-Relief-Facial-Mask-with-Gel-Inserts_456342ee-964c-450b-b36d-1a8b60db09d4.1771411b4f97c5c390f17be072b01903.jpeg",
++  "url": "https://www.walmart.com/ip/My-Beauty-Spot-Migraine-Relief-Facial-Mask-with-Gel-Inserts/20394253049?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$9.97/count",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Old Spice 'A Kittle Goes A Long Way' NFL Holiday Pack With 2in1 Shampoo and Conditioner, Lightweight Cream Hair Styler, & Deodorant, $50 Value",
++  "weight": "",
++  "regular_price": "15.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Old-Spice-A-Kittle-Goes-A-Long-Way-NFL-Holiday-Pack-With-2in1-Shampoo-and-Conditioner-Lightweight-Cream-Hair-Styler-Deodorant-50-Value_487f0aec-b1c6-400c-986d-bb408e83808a.6b15af745df59dc52a01ab3e3fb2c2e3.jpeg",
++  "url": "https://www.walmart.com/ip/Old-Spice-A-Kittle-Goes-A-Long-Way-NFL-Holiday-Pack-With-2in1-Shampoo-and-Conditioner-Lightweight-Cream-Hair-Styler-Deodorant-50-Value/20154869224?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Old Spice Holiday Pack With Swagger 2in1, Pomade Styler, & Body Wash",
++  "weight": "",
++  "regular_price": "15.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Old-Spice-Holiday-Pack-With-Swagger-2in1-Pomade-Styler-Body-Wash_b7d2c066-a171-4f9e-bfc9-c5903acd7dcd.9b688497f033db5f7f002f821d279328.jpeg",
++  "url": "https://www.walmart.com/ip/Old-Spice-Holiday-Pack-With-Swagger-2in1-Pomade-Styler-Body-Wash/20137674624?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Profusion Cosmetics Elf 4 PC Lip Set",
++  "weight": "4 PC",
++  "regular_price": "12.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Profusion-Cosmetics-Elf-4-PC-Lip-Set_3c6353d7-4d3d-4d90-938d-3c2e41d1dc0a.d61c2d53dfd66bb6c95ad692620988a8.png",
++  "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Elf-4-PC-Lip-Set/20160165023?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$10.81/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Profusion Cosmetics Elf Stocking Stuffer - 2 PC Shimmer Mini Lip Oil",
++  "weight": "2 PC",
++  "regular_price": "7.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Profusion-Cosmetics-Elf-Stocking-Stuffer-2-PC-Shimmer-Mini-Lip-Oil_7bfbb76b-233f-43e9-b228-1bc662f6cc00.f3cc4064e9fa7899045a4a749020ab24.png",
++  "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Elf-Stocking-Stuffer-2-PC-Shimmer-Mini-Lip-Oil/20217861532?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$2.49/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Profusion Cosmetics Monsters Inc - Lip Trio (Boo) - Lip Liner Pencil, Blurring Lip Cream, Pencil Sharpener",
++  "weight": "",
++  "regular_price": "7.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Profusion-Cosmetics-Monsters-Inc-Lip-Trio-Boo-Lip-Liner-Pencil-Blurring-Lip-Cream-Pencil-Sharpener_bc907745-ae29-4ea9-aeff-e1f951dda08f.94bcb4dc0d92af2ffe8885824d31771d.png",
++  "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Monsters-Inc-Lip-Trio-Boo-Lip-Liner-Pencil-Blurring-Lip-Cream-Pencil-Sharpener/19980750071?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$36.23/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "SheaMoisture Intensive Hydration Shampoo & Conditioner Pack for Dry, Damaged Curly Hair, Manuka Honey & Mafura Oil with No Parabens, Phthalates, Petrolatum, or Mineral Oils, 13 fl oz, 2 count",
++  "weight": "13 fl oz, 2 count",
++  "regular_price": "19.97",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/SheaMoisture-Intensive-Hydration-Shampoo-Conditioner-Pack-Dry-Damaged-Curly-Hair-Manuka-Honey-Mafura-Oil-Parabens-Phthalates-Petrolatum-Mineral-Oils_db903ccc-1b87-4c56-bc5a-9c4d41713474.e97d9f831516c5f5c79a538a098e1e73.jpeg",
++  "url": "https://www.walmart.com/ip/SheaMoisture-Intensive-Hydration-Shampoo-Conditioner-Pack-Dry-Damaged-Curly-Hair-Manuka-Honey-Mafura-Oil-Parabens-Phthalates-Petrolatum-Mineral-Oils/20121364952?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "76.8 ¢/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "yes",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Way to Celebrate Fashion Headband, Glittery Reindeer Antler, Fabric",
++  "weight": "",
++  "regular_price": "6.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Way-to-Celebrate-Women-s-Light-Pink-Glittery-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most_9b1ca636-4882-49dc-954d-e3dfa55a9900.318653f859422b63896f17424b72f92b.jpeg",
++  "url": "https://www.walmart.com/ip/Way-to-Celebrate-Women-s-Light-Pink-Glittery-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most/20363470928?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$100.00/ea",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "yes",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Way to Celebrate Women's Fashion Headband, Reindeer Antler, One Size Fits Most",
++  "weight": "",
++  "regular_price": "6.00",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Way-to-Celebrate-Women-s-Gold-Metal-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most_ad0934d5-7777-4067-a7c2-9b72bf657bd7.542da8e199ff300cc376edc0697c5575.jpeg",
++  "url": "https://www.walmart.com/ip/Way-to-Celebrate-Women-s-Gold-Metal-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most/20349174178?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$100.00/ea",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Wet n Wild Fantasy Makers Paint Pot - Beam Me Green",
++  "weight": "",
++  "regular_price": "4.98",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Wet-n-Wild-Fantasy-Makers-Paint-Pot-Beam-Me-Green_6ef88d52-7394-43ed-b497-e0fcc5924345.b94aa6ff0cc825b36d1a92d4bff7855f.jpeg",
++  "url": "https://www.walmart.com/ip/Wet-n-Wild-Fantasy-Makers-Paint-Pot-Beam-Me-Green/20165660963?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$24.90/oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Wet n Wild Fantasy Makers Shimmer Setting Mist - Starborn Glow",
++  "weight": "",
++  "regular_price": "8.48",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Wet-n-Wild-Fantasy-Makers-Shimmer-Setting-Mist-Starborn-Glow_ad4214c7-809d-40ac-80a7-6727a339d23b.f23b13cde838fb85f3e12261c93d90a4.png",
++  "url": "https://www.walmart.com/ip/Wet-n-Wild-Fantasy-Makers-Shimmer-Setting-Mist-Starborn-Glow/20110071119?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$4.28/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "Wonder Nation Girls Hair Scrunchies, 7 Piece, Red",
++  "weight": "7 Piece",
++  "regular_price": "3.98",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/Wonder-Nation-Girls-Hair-Scrunch-7-Piece-Red_632c0804-7409-4583-be4f-f42c164dc528.ea7e408dddd3f07fba2e31880667b2c2.jpeg",
++  "url": "https://www.walmart.com/ip/Wonder-Nation-Girls-Hair-Scrunch-7-Piece-Red/20256006906?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
++  "upc": "",
++  "gupc": "",
++  "ppm": "",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ },
++ {
++  "zipcode": "60085",
++  "store_name": "Waukegan Supercenter",
++  "store_location": "3900 Fountain Square Pl, Waukegan, IL 60085",
++  "store_logo": "https://i5.walmartimages.com/dfw/63fd9f59-14e2/9d304ce6-96de-4331-b8ec-c5191226d378/v1/spark-icon.svg",
++  "store_brand": "no",
++  "category": "Beauty",
++  "sub_category": "New Arrivals",
++  "product_title": "eos Cashmere Body Mist, Frosted Plum & Amber, Plum Body Spray, 6 fl oz",
++  "weight": "6 fl oz",
++  "regular_price": "12.98",
++  "sale_price": "",
++  "volume_deals_description": "",
++  "volume_deals_price": "",
++  "digital_deals_description": "",
++  "digital_deals_price": "",
++  "image_url": "https://i5.walmartimages.com/seo/eos-Cashmere-Body-Mist-Frosted-Plum-Amber-Plum-Body-Spray-6-fl-oz_546bcbc0-59ac-4831-a274-eada25506d21.65755d2ae9315008f9735802adc18eab.jpeg",
++  "url": "https://www.walmart.com/ip/eos-Cashmere-Body-Mist-Frosted-Plum-Amber-Plum-Body-Spray-6-fl-oz/20691356609?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
++  "upc": "",
++  "gupc": "",
++  "ppm": "$2.16/fl oz",
++  "unit_price": "",
++  "crawl_date": "2026-11-04"
++ }
++]
+diff --git a/tests/captures/listing_pages_20261104_flat/price_lines_page.html.gz b/tests/captures/listing_pages_20261104_flat/price_lines_page.html.gz
+new file mode 100644
+index 0000000..baf611f
+Binary files /dev/null and b/tests/captures/listing_pages_20261104_flat/price_lines_page.html.gz differ
+diff --git a/tests/unit/test_flat_price_layout.py b/tests/unit/test_flat_price_layout.py
+new file mode 100644
+index 0000000..89078d3
+--- /dev/null
++++ b/tests/unit/test_flat_price_layout.py
+@@ -0,0 +1,138 @@
++"""Release 1.6.5: the source check reads Walmart's flat price layout.
++
++Live census L10 of 2026-11-04 (run 01M6KA3CKYJSD6WDY4TDAAV73Y, release 1.6.4): one listing page (Beauty's
++"New Arrivals", fetch 01M6KB69AJA2N65MDQP4V1QWTE) gave its items' prices as flat display strings
++(``priceInfo.linePriceDisplay``/``linePrice``, ``priceInfo.unitPrice``) with no price line. The collector's
++page reader reads that layout, and the records it exported show the page's prices. The source check
++(:mod:`walmart_headless.checks.source_check`) read only the price lines and the nested price objects: it
++reported 21 of the run's 10,301 records as mismatches, and ``validate-export`` exited 6. The canary compares a
++run's first recorded page in the same way, so a first page in this layout would have stopped a run.
++
++The authentic pages, and the run's exported records that it read from the flat page, are
++``tests/captures/listing_pages_20261104_flat``; the changed values below are SYNTHETIC."""
++
++from __future__ import annotations
++
++import copy
++import gzip
++import hashlib
++import json
++import shutil
++from pathlib import Path
++from typing import Any
++
++from walmart_headless.checks import source_check
++
++PAGES = Path(__file__).resolve().parents[1] / "captures" / "listing_pages_20261104_flat"
++FLAT, LINES = "flat_layout_page.html.gz", "price_lines_page.html.gz"
++STORE = "3891"
++
++
++def records() -> list[dict[str, Any]]:
++    data: list[dict[str, Any]] = json.loads((PAGES / "l10_records.json").read_text("utf-8"))
++    return data
++
++
++def placements(name: str) -> list[dict[str, Any]]:
++    nd = source_check.page_json(PAGES / name)
++    assert nd is not None
++    return [item for _, item in source_check.items_of(nd)]
++
++
++def item(name: str, item_id: str) -> dict[str, Any]:
++    return next(it for it in placements(name) if str(it["usItemId"]) == item_id)
++
++
++def record(item_id: str) -> dict[str, Any]:
++    return next(r for r in records() if source_check.item_id_of(r["url"]) == item_id)
++
++
++def folder(tmp_path: Path, *names: str) -> Path:
++    out = tmp_path / "pages"
++    out.mkdir()
++    for name in names:
++        shutil.copyfile(PAGES / name, out / name)
++    return out
++
++
++def test_the_fixture_matches_its_manifest() -> None:
++    for entry in json.loads((PAGES / "MANIFEST.json").read_text("utf-8")):
++        data = (PAGES / entry["file"]).read_bytes()
++        assert hashlib.sha256(data).hexdigest() == entry["source_sha256"], entry["file"]
++        assert hashlib.sha256(gzip.decompress(data)).hexdigest() == entry["content_sha256"], entry["file"]
++
++
++def test_the_live_page_gives_its_prices_as_flat_strings_only() -> None:
++    flat = placements(FLAT)
++    assert (len(flat), len({str(it["usItemId"]) for it in flat})) == (50, 42)
++    for it in flat:
++        info = it["priceInfo"]
++        assert not (info.get("priceDetails") or {}).get("priceLines")
++        assert not isinstance(info.get("currentPrice"), dict)
++        assert info["linePriceDisplay"] and info["linePrice"]
++    # The other page gives its prices in price lines, as every other stored page of the live runs; one of its
++    # placements shows no price.
++    other = placements(LINES)
++    assert not any(
++        it["priceInfo"].get("linePriceDisplay") or it["priceInfo"].get("linePrice") for it in other
++    )
++    assert sum(1 for it in other if (it["priceInfo"].get("priceDetails") or {}).get("priceLines")) == 58
++    assert len(other) == 59
++
++
++def test_the_prices_read_are_those_the_page_displays() -> None:
++    assert source_check.expected_prices(item(FLAT, "20585873588")) == ("$5.00", "", "")
++    assert source_check.expected_prices(item(FLAT, "18905414013")) == ("$16.97", "", "$1.06/oz")
++    assert source_check.expected_prices(item(FLAT, "20485002977")) == ("$9.74", "", "$32.47/fl oz")
++
++
++def test_the_records_the_run_read_from_the_page_are_verified_against_it(tmp_path: Path) -> None:
++    recs = records()
++    assert len(recs) == 26 and sum(1 for r in recs if r["ppm"]) == 19
++    res = source_check.check(recs, folder(tmp_path, FLAT), STORE)
++    assert res["summary"] == {"records": 26, "verified": 26, "mismatch": 0, "unverified": 0}
++    assert {r["source"]["page"] for r in res["results"]} == {FLAT}
++    assert all(r["page"]["pickup_at_store"] for r in res["results"])
++
++
++def test_a_record_seen_on_two_pages_is_judged_on_the_page_it_was_read_from(tmp_path: Path) -> None:
++    """Head & Shoulders 20409871453: a placement on each page; the price-lines page shows another image size.
++    Release 1.6.4 could not read the flat page's prices, judged the record on the other page and reported its
++    image as a mismatch."""
++    rec = record("20409871453")
++    [res] = source_check.check([rec], folder(tmp_path, FLAT, LINES), STORE)["results"]
++    assert res["result"] == "verified" and res["mismatched_fields"] == []
++    assert (res["source"]["page"], res["source"]["pages_with_item"]) == (FLAT, 3)
++    assert item(LINES, "20409871453")["imageInfo"]["thumbnailUrl"] != rec["image_url"]
++
++
++def test_the_canary_comparison_accepts_the_page() -> None:
++    """The canary judges each valid record of a run's first recorded page by ``compare`` against its best
++    placement on that page."""
++    flat = placements(FLAT)
++    for rec in records():
++        options = [it for it in flat if str(it["usItemId"]) == source_check.item_id_of(rec["url"])]
++        best = min(
++            (source_check.compare(rec, it)[0] for it in options), key=lambda c: sum(not v for v in c.values())
++        )
++        assert all(best.values()), (rec["url"], best)
++
++
++def test_a_wrong_price_or_unit_price_is_still_a_mismatch(tmp_path: Path) -> None:
++    rec = record("18905414013")  # SYNTHETIC changes of an authentic record
++    wrong = [dict(rec, regular_price="99.99"), dict(rec, ppm="$0.01/oz"), dict(rec, regular_price="", ppm="")]
++    res = source_check.check(wrong, folder(tmp_path, FLAT), STORE)
++    assert res["summary"] == {"records": 3, "verified": 0, "mismatch": 3, "unverified": 0}
++    assert [r["mismatched_fields"] for r in res["results"]] == [
++        ["regular_price"],
++        ["ppm"],
++        ["regular_price", "ppm"],
++    ]
++
++
++def test_a_flat_was_price_above_the_current_price_is_a_sale() -> None:
++    it = copy.deepcopy(item(FLAT, "18905414013"))  # SYNTHETIC: the live page shows no was-price
++    it["priceInfo"]["wasPrice"] = "$19.97"
++    assert source_check.expected_prices(it) == ("$19.97", "$16.97", "$1.06/oz")
++    it["priceInfo"]["wasPrice"] = "$15.00"  # not above the current price: no sale
++    assert source_check.expected_prices(it) == ("$16.97", "", "$1.06/oz")
+diff --git a/uv.lock b/uv.lock
+index dfcdbef..5e8d272 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.6.4"
++version = "1.6.5"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

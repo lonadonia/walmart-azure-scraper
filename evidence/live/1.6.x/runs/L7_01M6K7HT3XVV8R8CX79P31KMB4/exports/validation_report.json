@@ -1,0 +1,35 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6K7HT3XVV8R8CX79P31KMB4",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "canary": {
+      "at": "2026-11-04T12:12:14.774361Z",
+      "url": "https://www.walmart.com/browse/food/shop-all-game-time-food/976759_1567409_3282877_6093905?povid=976759_LHNCP_976759_NowTrending_TailgatingFood_Shopall_Sep_4",
+      "page": "01M6K7JF2M34GRZ4XZ8TRDTF37",
+      "valid": 37,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 0.925,
+      "source_check": {
+        "checked": 37,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "contract": {
+      "pages": 77,
+      "problems": [
+        "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22: results reported but no product could be read"
+      ]
+    }
+  },
+  "excluded_by_reason": {
+    "APPROX_WEIGHT": 103,
+    "ASSORTMENT_UNRESOLVED": 1,
+    "LOCATION_UNATTESTED": 1
+  },
+  "duplicates": 0
+}

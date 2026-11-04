@@ -1,0 +1,135 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6HA74X4QYMW45SVD62JQDSQ",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "gates": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "FAIL",
+      "G4": "PASS",
+      "G5": "PASS",
+      "G6": "PASS",
+      "G7": "PASS",
+      "G8": "PASS",
+      "G9": "PASS",
+      "G10": "PASS",
+      "G11": "PASS",
+      "G12": "PASS",
+      "G13": "PASS",
+      "G14": "PASS"
+    },
+    "nodes": {
+      "INCOMPLETE": 5
+    },
+    "canary": {
+      "at": "2026-11-03T18:20:32.962189Z",
+      "url": "https://www.walmart.com/browse/food/fresh-vegetables/976759_976793_8910423",
+      "page": "01M6HA7J7Y7TPESBA5THABKW74",
+      "valid": 30,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 0.75,
+      "source_check": {
+        "checked": 30,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "outcome": "rejected",
+    "contract": {
+      "pages": 18,
+      "problems": []
+    },
+    "verified": 676,
+    "follow_up": {
+      "variants": {
+        "kind": "variant",
+        "duplicate": 1,
+        "candidates": 628,
+        "from_queue": 67,
+        "pages_read": 0,
+        "named_by_run": 561,
+        "not_attempted": 627,
+        "queue_pending_after": 627
+      },
+      "sponsored": {
+        "kind": "sponsored",
+        "duplicate": 35,
+        "candidates": 58,
+        "from_queue": 0,
+        "pages_read": 0,
+        "named_by_run": 58,
+        "not_attempted": 23,
+        "queue_pending_after": 23
+      }
+    },
+    "historical": {
+      "not_valid_now": 0,
+      "carried_forward": 132,
+      "refused_sources": 0,
+      "not_verified_by_current_rules": 0
+    },
+    "upc_detail": {
+      "extracted": 10,
+      "absent_in_source": 3,
+      "extracted_reused": 661,
+      "identity_mismatch": 2
+    },
+    "completeness": {
+      "ppm": 0.9393491124260355,
+      "upc": 0.992603550295858,
+      "url": 1.0,
+      "gupc": 0.0,
+      "weight": 0.9822485207100592,
+      "zipcode": 1.0,
+      "category": 1.0,
+      "image_url": 1.0,
+      "crawl_date": 1.0,
+      "sale_price": 0.06360946745562131,
+      "store_logo": 1.0,
+      "store_name": 1.0,
+      "unit_price": 0.0,
+      "store_brand": 1.0,
+      "sub_category": 1.0,
+      "product_title": 1.0,
+      "regular_price": 1.0,
+      "store_location": 1.0,
+      "volume_deals_price": 0.0,
+      "digital_deals_price": 0.0,
+      "volume_deals_description": 0.0,
+      "digital_deals_description": 0.0
+    },
+    "yield_baseline": null,
+    "records_by_status": {
+      "valid": 676,
+      "excluded": 40,
+      "historical": 132
+    },
+    "field_dispositions": {
+      "upc": {
+        "fetched_detail": 48,
+        "absent_in_source": 3,
+        "identity_mismatch": 2,
+        "recovered_from_saved_detail": 689,
+        "budget_deadline_interruption": 66
+      },
+      "weight": {
+        "fetched_detail": 1,
+        "absent_in_source": 7,
+        "present_in_listing": 765,
+        "unresolved_conflict": 5,
+        "recovered_from_saved_detail": 26,
+        "budget_deadline_interruption": 4
+      }
+    },
+    "collection_complete": false
+  },
+  "excluded_by_reason": {
+    "APPROX_WEIGHT": 40,
+    "CARRIED_FORWARD": 132
+  },
+  "duplicates": 0
+}

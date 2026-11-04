@@ -1,0 +1,111 @@
+{
+ "from": "data/S6-1.5.1/products_retained.csv (706 rows, run 01M6A2VQAA5VXJHJHMZPCTZTD4, release 1.5.1, as delivered in 1.5.2)",
+ "to": "the 1.6.1 export of run 01M6HA74X4QYMW45SVD62JQDSQ (808 rows)",
+ "s6_fresh_baseline_recomputed": {
+  "upc": {
+   "budget_deadline_interruption": 226,
+   "recovered_from_saved_detail": 352,
+   "fetched_detail": 1,
+   "absent_in_source": 1
+  },
+  "size (weight)": {
+   "present_in_listing": 555,
+   "recovered_from_saved_detail": 12,
+   "budget_deadline_interruption": 9,
+   "unresolved_conflict": 1,
+   "absent_in_source": 3
+  }
+ },
+ "s6_fresh_filled_1_5_2": {
+  "upc": 353,
+  "size (weight)": 567
+ },
+ "s6_fresh_filled_1_6_1": {
+  "upc": 524,
+  "size (weight)": 571
+ },
+ "s6_fresh_changes_by_field": {
+  "upc": {
+   "filled": 171,
+   "still blank": 56,
+   "unchanged": 353
+  },
+  "size (weight)": {
+   "unchanged": 566,
+   "changed": 1,
+   "still blank": 9,
+   "filled": 4
+  }
+ },
+ "by_evidence_class": {
+  "LIVE (an earlier read of the product's own page, run 01M6H72J86K5TF7A1874N7BJ2R, reused)": 191,
+  "LIVE VERIFIED (1.6.1): the listing tile, read by this delivery": 567,
+  "CARRIED (an earlier live run's value; not re-read)": 155,
+  "LIVE (an earlier read of the product's own page, run 01M60CG5Y3KY64JP0ZV5F6MBDP, reused)": 63,
+  "LIVE (an earlier read of the product's own page, run 01M69Y1J6YWFEZ1DJHAC2MT17M, reused)": 3,
+  "LIVE VERIFIED (1.6.1): the product's own page, read by this delivery": 8,
+  "LIVE VERIFIED (1.6.0): the product's own page, read by this delivery": 8,
+  "LIVE VERIFIED (1.6.0): the listing tile, read by this delivery": 13,
+  "LIVE (an earlier read of the product's own page, run 01M69Y882GTVYRJZM0CXQ44MXN, reused)": 11,
+  "LIVE (an earlier read of the product's own page, run 01M60F6GHNXCTZPJ6G1PRM7KW7, reused)": 294,
+  "LIVE (an earlier read of the product's own page, run 01M60C3EGX839C5B2R3TXV5MAZ, reused)": 5,
+  "LIVE (an earlier read of the product's own page, run 01M60JAPKBR4FNK22QMYTHNBSX, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M6H5TX7R4ZWV8W3NTH0QN6HF, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M69X9XHZR83KZ2FNWBJYJKA7, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M60PQ9JTV9BQCVF45EMEWMZM, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M69XM9RZN3C8D0K7W2NSXR3D, reused)": 12,
+  "LIVE (an earlier read of the product's own page, run 01M6A2VQAA5VXJHJHMZPCTZTD4, reused)": 1,
+  "NOT ESTABLISHED": 2,
+  "LIVE (an earlier read of the product's own page, run 01M60VA50N50W10GJZE9C6P95K, reused)": 1,
+  "LIVE (an earlier read of the product's own page, run 01M60RPW1ABES1RWTXXHZBTAXS, reused)": 74
+ },
+ "changes_by_field": {
+  "upc": {
+   "filled": 203,
+   "still blank": 69,
+   "unchanged": 434
+  },
+  "size (weight)": {
+   "unchanged": 683,
+   "changed": 2,
+   "still blank": 15,
+   "filled": 6
+  }
+ },
+ "outcome_1_6_1_by_field": {
+  "upc": {
+   "recovered_from_saved_detail": 619,
+   "budget_deadline_interruption": 66,
+   "fetched_detail": 18,
+   "identity_mismatch": 2,
+   "absent_in_source": 1
+  },
+  "size (weight)": {
+   "present_in_listing": 665,
+   "unresolved_conflict": 4,
+   "recovered_from_saved_detail": 25,
+   "absent_in_source": 7,
+   "fetched_detail": 1,
+   "budget_deadline_interruption": 4
+  }
+ },
+ "filled_by_outcome": {
+  "upc | recovered_from_saved_detail": 191,
+  "upc | fetched_detail": 12,
+  "size (weight) | recovered_from_saved_detail": 5,
+  "size (weight) | present_in_listing": 1
+ },
+ "still_blank_by_outcome": {
+  "upc | budget_deadline_interruption": 66,
+  "size (weight) | unresolved_conflict": 4,
+  "size (weight) | absent_in_source": 7,
+  "size (weight) | budget_deadline_interruption": 4,
+  "upc | identity_mismatch": 2,
+  "upc | absent_in_source": 1
+ },
+ "rows_with_a_page_of_the_compared_run": 10,
+ "rows_with_a_page_of_this_delivery": 210,
+ "rows_with_a_public_copy": 243,
+ "rows_with_a_private_original_hash": 677,
+ "note": "Computed from W2_FIELD_CORRECTIONS_1_6_1.csv. A blank stays blank unless a page states the value; nothing is inferred."
+}

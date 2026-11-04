@@ -1,0 +1,61 @@
+{
+ "what": "the raw answer run L6 (01M6K25T57WW4BJBJ3RQGWN26G, release 1.6.2) stored for the listing link /browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405 (page fetch 01M6K2F80M1AFY26P6BMN56F4C, 2026-11-04 10:43Z), judged offline by each release's own installed code; no request was made",
+ "tool": {
+  "name": "not_found_check.py",
+  "sha256": "806944f1c402966ace7060917c4529699d86f9dfc6c2295d38edf239b5f2171f",
+  "command": "<edition python> -I not_found_check.py <run>/live/raw/01M6K2F80M1AFY26P6BMN56F4C.listing.body.gz"
+ },
+ "editions": {
+  "1.6.2": {
+   "zip": "WALMART_OXYLABS_SOURCE_1.6.2.zip",
+   "sha256": "91230d32052a0ab1fb30e98159078c6d2d99cae65c05e8c6930a202c6c2ef97c"
+  },
+  "1.6.3": {
+   "zip": "WALMART_OXYLABS_SOURCE_1.6.3.zip",
+   "sha256": "9fa0124f69aa4b2e019847ea0f7dd2247bfa40a01b4aba25cb3edd6e8fee898b"
+  }
+ },
+ "verdicts": {
+  "1.6.2": {
+   "release": "1.6.2",
+   "file": "01M6K2F80M1AFY26P6BMN56F4C.listing.body.gz",
+   "file_sha256": "2da27ac24e90adb5e4c93624903c79b217a13ff7ed1d98421e6347ae3e4c183f",
+   "body_sha256": "6d97679921f4f78f335be6ccb6b0b05d998b855dcba6dd192b8c60a0e18ca995",
+   "body_bytes": 126168,
+   "quoted_marker_present": false,
+   "raw_verdict": {
+    "is_challenge": true,
+    "reasons": [
+     "missing_initial_state"
+    ]
+   },
+   "sanitizer_kept_page_data": false,
+   "stored_copy_verdict": {
+    "is_challenge": true,
+    "reasons": [
+     "missing_initial_state"
+    ]
+   },
+   "stored_copy_route": "(no page data: no __NEXT_DATA__ script in the page)"
+  },
+  "1.6.3": {
+   "release": "1.6.3",
+   "file": "01M6K2F80M1AFY26P6BMN56F4C.listing.body.gz",
+   "file_sha256": "2da27ac24e90adb5e4c93624903c79b217a13ff7ed1d98421e6347ae3e4c183f",
+   "body_sha256": "6d97679921f4f78f335be6ccb6b0b05d998b855dcba6dd192b8c60a0e18ca995",
+   "body_bytes": 126168,
+   "quoted_marker_present": false,
+   "raw_verdict": {
+    "is_challenge": false,
+    "reasons": []
+   },
+   "sanitizer_kept_page_data": true,
+   "stored_copy_verdict": {
+    "is_challenge": false,
+    "reasons": []
+   },
+   "stored_copy_route": "/404"
+  }
+ },
+ "note": "the private original (raw answer) is not published; its SHA-256 is. No page content is printed."
+}

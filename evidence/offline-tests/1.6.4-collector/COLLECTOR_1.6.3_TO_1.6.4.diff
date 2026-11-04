@@ -1,0 +1,490 @@
+diff --git a/Dockerfile b/Dockerfile
+index f212e0c..ae6fe53 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.3 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.6.3 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.4 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.4 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 76d606c..9b893f2 100644
+--- a/README.md
++++ b/README.md
+@@ -78,7 +78,7 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
+-## What releases 1.6.0 to 1.6.3 change
++## What releases 1.6.0 to 1.6.4 change
+ 
+ Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
+ `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
+@@ -95,7 +95,11 @@ run with product detail reading off now still uses what earlier reads of a produ
+ exported those products blank); a carried row whose UPC or size is empty now gets them from such a read, naming
+ that read, and never when the value would clash with another row; and a listing link the site answers with its
+ own not-found page is recorded `NOT_FOUND` while the run goes on (release 1.6.2 did not recognize that page's
+-data, called it a challenge, stopped the run and held the store). See `docs/VERIFICATION.md`.
++data, called it a challenge, stopped the run and held the store). Release 1.6.4 corrects the defect that stopped
++the census of 2026-11-04: a listing whose Pickup grid the page reports empty (0 results) is an empty listing
++once the page names the store and Pickup, even when the page also shows an "Available for shipping" carousel
++(release 1.6.3 took the reported 0 for a missing total, read the carousel's products as results it could not
++show, stopped the run and held the store). See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 6af96e4..5b474bd 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.3" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.4" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index 5798b8b..2c32aba 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -37,7 +37,7 @@ indented instead of that line. A key value is never written: keys appear only as
+ | 3 | Credentials: no key for the run's provider, or the provider refused it | set or replace the key (OPERATIONS.md) |
+ | 4 | Credits: the key's credits, the credit ceiling or a credit budget ran out; or the next request could cross a provider's spending ceiling or the task's money budget (`SPENDING_CEILING`, also when no Oxylabs ceiling is set) | add credits or raise the budget; after `SPENDING_CEILING` the run stays interrupted: raise the ceiling (`set-ceiling`, `set-budget`) and `resume` it |
+ | 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge). The site's own not-found page is not a refusal: its listing is recorded `NOT_FOUND` and the run goes on (release 1.6.3) | the store is held; investigate, then `release-hold` |
+-| 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page, release 1.6.2), which also holds the store | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold` |
++| 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page or the site's not-found page, releases 1.6.2 and 1.6.3; a first result page that reports results and shows none; a first page that reports 0 results is an empty listing, release 1.6.4), which also holds the store | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold` |
+ | 7 | Store or source checks failed: a page was not for store/Pickup, or the canary's records differ from the page | the store is held; investigate, then `release-hold` |
+ | 8 | Held: the store's collection is held after an earlier stop | `status` shows why; `release-hold` |
+ | 9 | Busy: another execution holds the store, or an unfinished run must be resumed or finalized first | wait, or `resume` / `finalize` |
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index bd7edcf..cc3742f 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.6.3 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.4 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+@@ -117,7 +117,12 @@ tiles (sponsored tiles repeating organic products). There is no tolerance thresh
+ (`coverage.node_min_coverage_ratio` is fixed at 1.0), reaching the last page proves nothing by itself, and
+ more identities than the listing reports is an overcount, never done (sponsored products, scope, variants or
+ a stale total must explain it). An empty later page counts as an end only when its own data still names
+-store 3891 and Pickup (otherwise the run stops: exit 7). Otherwise the listing is `INCOMPLETE` with the
++store 3891 and Pickup (otherwise the run stops: exit 7). A listing whose first page shows 0 results is `EMPTY`
++on the same condition, whatever other modules the page shows: a 0 the page reports is a total of 0 (release
++1.6.4: on 2026-11-04 Walmart's "Bidets" listing reported 0 Pickup results for store 3891 beside an "Available
++for shipping" carousel of 10 products; release 1.6.3 took the 0 for a missing total, read the carousel's 10 as
++the total, stopped the run, exit 6, and held the store). A first page that reports results and shows none
++still stops the run (exit 6). Otherwise the listing is `INCOMPLETE` with the
+ reason (`RESULT_WINDOW`, written "accessible pages exhausted; coverage incomplete": the site stopped serving
+ results while it reports more, as Walmart's listings did at page 11 on 2026-10-23, also when the total moved
+ while the listing was read and the site served less than its smallest total by more than it moved (release
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 3b486bc..924a817 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,4 +1,16 @@
+-# Verification report: walmart-azure-headless 1.6.2
++# Verification report: walmart-azure-headless 1.6.4
++
++## Release 1.6.4
++
++Release 1.6.4 corrects the defect that stopped this delivery's live census L7 of 2026-11-04 on release 1.6.3. An
++offline test on the page that census stored shows the defect and its correction; each new test of the change
++fails on 1.6.3 and passes on 1.6.4, and the tests that show what did not change pass on both. Live results are
++not recorded here: the delivery's review documents give each live stage, the frozen build it ran on and its
++result. (Until this release the title of this report still named release 1.6.2; its sections were current.)
++
++| Change | Until 1.6.3 | Where |
++|---|---|---|
++| The listing's total is the `aggregatedCount` its page reports, and a reported 0 is a total of 0; the page's `count` (the products the page shows, other modules' too) is read only when the page reports no `aggregatedCount`. A listing whose first page reports 0 results and shows none is `EMPTY` ("the listing shows 0 results") once that page's own data names the store and the fulfillment, whatever other modules the page shows; their products are not the listing's and none is recorded. The run goes on. A first page that reports results and shows none still stops the run (`ABNORMAL_RESULT`) | The total was read as `aggregatedCount or count`, so a reported 0 counted as missing and the page's `count` took its place. Live L7 of 2026-11-04 (run `01M6K7HT3XVV8R8CX79P31KMB4`): the Household Essentials link "Bidets" (`/browse/home-improvement/bidets/1072864_1045879_5533759_6108305`) reported 0 Pickup results for store 3891 (`aggregatedCount` 0, its result grid empty) beside an "Available for shipping" carousel of 10 products (`count` 10); 1.6.3 read a total of 10, stopped the run ("the page reports results but shows no product", `ABNORMAL_RESULT`, exit 6, not resumable) and held the store. Of the 343 listing pages stored by this delivery's live runs, it is the only one the change reads differently | `sites/walmart/page_data.py` (`pagination`); `tests/unit/test_empty_pickup_grid.py` (the authentic page `tests/captures/listing_pages_20261104/bidets_page1.html.gz`, the collector's stored copy, and a reported 0 beside other products: fail on 1.6.3; a total above 0, no or a null `aggregatedCount`, 0 and no product, and the synthetic copy's shape: pass on both); `tests/integration/test_coverage_and_assortment.py::test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on` (fails on 1.6.3); `::test_a_page_that_reports_results_it_does_not_show_still_stops_the_run` (unchanged; passes on both) |
+ 
+ ## Release 1.6.3
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index d40044f..02664e2 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.6.3"
++version = "1.6.4"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 6e910a4..0f434f6 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.6.3"
++__version__ = "1.6.4"
+diff --git a/src/walmart_headless/collection/walmart.py b/src/walmart_headless/collection/walmart.py
+index 4dd62ac..d9861a9 100644
+--- a/src/walmart_headless/collection/walmart.py
++++ b/src/walmart_headless/collection/walmart.py
+@@ -41,7 +41,9 @@ task continues there. A listing link that serves a category page instead of a li
+ page ``/cp/[...categoryParams]``: links, no result grid) is ``INCOMPLETE`` (``CATEGORY_PAGE``) with the
+ listings that page links, and the run goes on (release 1.6.2); so is a link the site answers with its own
+ not-found page (its data is the page ``/404``: ``NOT_FOUND``, release 1.6.3); any other page without a result
+-grid stops the run (``ABNORMAL_RESULT``).
++grid stops the run (``ABNORMAL_RESULT``). A listing whose first page reports 0 results (``aggregatedCount``)
++and shows none is ``EMPTY`` once the page's own data names the store and the fulfillment, whatever other
++modules it shows (release 1.6.4); a first page that reports results and shows none stops the run.
+ 
+ Completion is decided from evidence, never from the last page reached. Every result page is recorded (its
+ products, new identities, the listing's reported total and page count); only its result grid is the listing's
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index 6d1b217..78743a3 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.6.3"
++PARSER_VERSION = "1.6.4"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/src/walmart_headless/sites/walmart/page_data.py b/src/walmart_headless/sites/walmart/page_data.py
+index b830c95..bac7682 100644
+--- a/src/walmart_headless/sites/walmart/page_data.py
++++ b/src/walmart_headless/sites/walmart/page_data.py
+@@ -728,7 +728,14 @@ def pagination(nd: Mapping[str, Any]) -> Pagination:
+     p2: Mapping[str, Any] = raw_p2 if isinstance(raw_p2, Mapping) else {}
+     raw_props = p2.get("pageProperties")
+     props: Mapping[str, Any] = raw_props if isinstance(raw_props, Mapping) else {}
+-    count = _num(sr.get("aggregatedCount")) or _num(sr.get("count"))
++    # The listing's total is ``aggregatedCount``, and a reported 0 is a total of 0, not a missing total
++    # (release 1.6.4). ``count`` counts the page's own products, other modules' too: live on 2026-11-04,
++    # Walmart's "Bidets" listing for store 3891 reported aggregatedCount 0 with an empty Pickup grid next to
++    # an "Available for shipping" carousel of 10 products, and count 10. ``count`` is read only when the
++    # page reports no aggregatedCount.
++    count = _num(sr.get("aggregatedCount"))
++    if count is None:
++        count = _num(sr.get("count"))
+     if count is None:
+         try:
+             results = [s for s in item_stacks(nd) if s.primary]
+diff --git a/tests/captures/listing_pages_20261104/MANIFEST.json b/tests/captures/listing_pages_20261104/MANIFEST.json
+new file mode 100644
+index 0000000..52878e5
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104/MANIFEST.json
+@@ -0,0 +1,15 @@
++[
++ {
++  "file": "bidets_page1.html.gz",
++  "fetch_id": "01M6K7Z4E1EMC2ZYJW0F7VA458",
++  "url": "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22",
++  "fetched_at": "2026-11-04 12:19:00.673078+00",
++  "run": "01M6K7HT3XVV8R8CX79P31KMB4",
++  "release": "1.6.3",
++  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6K7HT3XVV8R8CX79P31KMB4/live/dom/01M6K7Z4E1EMC2ZYJW0F7VA458.html.gz",
++  "source_sha256": "20f482eaf05e8addb61b4b438bf32be72a163a268705f354148b5e74fb6a9c67",
++  "content_sha256": "8cd52779434ea43f88025b5608c2e2c869dcce9ac7626b76f498e11c64a446d3",
++  "raw_original_body_sha256": "aed1f0588a3213f5fe9f0b0be298ab5b2e9eebefcee61a3502311b2088111774",
++  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.3), not recompressed"
++ }
++]
+diff --git a/tests/captures/listing_pages_20261104/README.md b/tests/captures/listing_pages_20261104/README.md
+new file mode 100644
+index 0000000..e3cacff
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104/README.md
+@@ -0,0 +1,15 @@
++# An authentic listing page of live run L7, replayed offline
++
++One result page saved by run `01M6K7HT3XVV8R8CX79P31KMB4` (stage L7, the census on release 1.6.3, Oxylabs Web API,
++store #3891 Pickup) on 2026-11-04. It is the collector's stored copy of the page, byte for byte (sanitized at
++capture by release 1.6.3: scripts other than the page data removed, session, trace and key values in the page data
++replaced with `[REDACTED]`); it is not the raw answer. `MANIFEST.json` gives its fetch id, URL, fetch time, the
++SHA-256 of the stored copy and of its content, and the SHA-256 of the raw answer kept privately with the run's
++other raw answers.
++
++| File | Listing | What the page data shows |
++|---|---|---|
++| `bidets_page1.html.gz` | Bidets, `1072864_1045879_5533759_6108305`, a link of the Household Essentials category page | `aggregatedCount` 0 and an empty result grid (stack 0, "Results for \"bidets\"", count 0, fulfillment Pickup, named the results by `primaryStacksToMatch`), next to an "Available for shipping" carousel (stack 1, fulfillment Shipping) with 10 products of its 838; `searchResult.count` 10 (the carousel's products), `maxPage` 0; the page location names store 3891, ZIP 60085 and PICKUP. Release 1.6.3 read the listing's total as `aggregatedCount or count`, took the 0 for a missing value and the 10 for the total, and stopped the run: "the page reports results but shows no product" (ABNORMAL_RESULT, store held). Release 1.6.4 reads the 0 |
++
++`tests/unit/test_empty_pickup_grid.py` reads it with the 1.6.4 parser. It is an earlier capture, not new
++evidence: no test reaches Walmart or a provider.
+diff --git a/tests/captures/listing_pages_20261104/bidets_page1.html.gz b/tests/captures/listing_pages_20261104/bidets_page1.html.gz
+new file mode 100644
+index 0000000..9fdd44a
+Binary files /dev/null and b/tests/captures/listing_pages_20261104/bidets_page1.html.gz differ
+diff --git a/tests/integration/test_coverage_and_assortment.py b/tests/integration/test_coverage_and_assortment.py
+index 3068eef..0e4310e 100644
+--- a/tests/integration/test_coverage_and_assortment.py
++++ b/tests/integration/test_coverage_and_assortment.py
+@@ -42,6 +42,7 @@ from walmart_headless.db.models import (
+     ProductObservation,
+     RecordRow,
+     Run,
++    StoreAttestation,
+     Task,
+ )
+ from walmart_headless.publishing import supporting_log
+@@ -1005,6 +1006,56 @@ def test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unr
+     assert not [c for c, _ in codes if c == "CHALLENGE_DETECTED"]  # never called a refusal
+ 
+ 
++SHIPPING_ONLY = items(51, 52, 53, lines=(("SHIPPING", "0"),))
++
++
++def test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on(
++    env: dict[str, Any],
++) -> None:
++    """Release 1.6.4. Release 1.6.3 took the listing's reported 0 for a missing total, read the number of the
++    carousel's products as the total and stopped the run ("the page reports results but shows no product",
++    ABNORMAL_RESULT, store held): live L7 of 2026-11-04, the Household Essentials link "Bidets"
++    (tests/captures/listing_pages_20261104)."""
++    serve(env, {MILK: lambda n: syn.empty_pickup_grid_page(SHIPPING_ONLY, store="3891", title="Milk")})
++    run_id, _ = run_food(env)
++    cov = coverage(env, run_id)
++    milk = cov["976759_9176907"]
++    assert milk.status == "EMPTY" and milk.partition["end"] == "EMPTY_PAGE"
++    assert milk.partition["reason"] == "the listing shows 0 results"
++    assert milk.total_count == 0 and milk.organic_upcs == 0
++    assert cov["976759_976787"].status == "DONE"  # the row's other listing is still read
++    recs = records(env, run_id).values()
++    assert any(r.status == "valid" for r in recs)
++    carousel = {i.item_id for i in SHIPPING_ONLY}
++    assert not [r for r in recs if str(r.record.get("url", "")).rsplit("/", 1)[-1] in carousel]  # not results
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        milk_fetches = [
++            f.id
++            for f in s.scalars(select(PageFetch).where(PageFetch.run_id == run_id))
++            if f.url.startswith(MILK)
++        ]
++        assert len(milk_fetches) == 1  # one page: the listing ends at its empty first page
++        # The empty page ended the listing only after its own store check (the page location names the store
++        # and PICKUP); every check of the run passed.
++        attested = {
++            (a.phase, a.result)
++            for a in s.scalars(select(StoreAttestation).where(StoreAttestation.run_id == run_id))
++        }
++        assert ("task_start", "PASS") in attested and {r for _, r in attested} == {"PASS"}
++
++
++def test_a_page_that_reports_results_it_does_not_show_still_stops_the_run(env: dict[str, Any]) -> None:
++    # Unchanged in release 1.6.4: the same page reporting 5 results, its result grid empty.
++    serve(env, {MILK: lambda n: syn.empty_pickup_grid_page(SHIPPING_ONLY, store="3891", reported=5)})
++    run_id, _ = run_food(env)
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code == "ABNORMAL_RESULT"
++        assert "the page reports results but shows no product" in (run.stop_detail or "")
++
++
+ @pytest.mark.parametrize(
+     ("route", "first_page_listing"),
+     [("/browse/[...slug]", False), ("/cp/[...categoryParams]", True)],
+diff --git a/tests/synthetic_walmart.py b/tests/synthetic_walmart.py
+index 13ce08d..dc84256 100644
+--- a/tests/synthetic_walmart.py
++++ b/tests/synthetic_walmart.py
+@@ -179,6 +179,72 @@ def listing_page(
+     )
+ 
+ 
++def empty_pickup_grid_page(
++    carousel: list[Item],
++    *,
++    store: str,
++    reported: int = 0,
++    title: str = "Bidets",
++    cat: tuple[str, list[str]] | None = None,
++) -> str:
++    """A listing page whose Pickup result grid is empty beside an "Available for shipping" carousel: the shape
++    Walmart's "Bidets" listing served for store 3891 on 2026-11-04 (live L7, run 01M6K7HT3XVV8R8CX79P31KMB4,
++    fetch 01M6K7Z4E1EMC2ZYJW0F7VA458): ``aggregatedCount`` 0, an empty GRID stack named the results by
++    ``primaryStacksToMatch`` (its fulfillment "Pickup"), a CAROUSEL stack of shipping products (fulfillment
++    "Shipping"), ``count`` the number of the carousel's products, ``maxPage`` 0, and the page location naming
++    the store and PICKUP. A SYNTHETIC copy with invented products. ``reported``: the ``aggregatedCount`` the
++    page states (0 as on that page; above 0 for a page that reports results it does not show)."""
++    data = {
++        "props": {
++            "pageProps": {
++                "initialData": {
++                    "pageMetadata": {
++                        "location": {"storeId": store, "postalCode": "60085", "intent": "PICKUP"}
++                    },
++                    "searchResult": {
++                        "title": f'Results for "{title}"',
++                        "aggregatedCount": reported,
++                        "count": len(carousel),
++                        "itemStacks": [
++                            {
++                                "title": f'Results for "{title.lower()}"',
++                                "count": reported,
++                                "items": [],
++                                "layoutEnum": "GRID",
++                                "meta": {"fulfillmentIntent": "Pickup"},
++                            },
++                            {
++                                "title": "Available for shipping",
++                                "count": 838,
++                                "items": [item_json(i, store) for i in carousel],
++                                "layoutEnum": "CAROUSEL",
++                                "meta": {"fulfillmentIntent": "Shipping"},
++                            },
++                        ],
++                        "paginationV2": {
++                            "maxPage": 0,
++                            "pageProperties": {
++                                "page": 1,
++                                "stores": store,
++                                "facet": "fulfillment_method:Pickup",
++                                "primaryStacksToMatch": [{"isPrimaryStack": True, "matchIndex": 0}],
++                            },
++                        },
++                        "breadCrumb": [{"id": c, "name": f"Synthetic {c}"} for c in cat[1]] if cat else [],
++                        **({"catInfo": {"catId": cat[1][-1], "name": cat[0]}} if cat else {}),
++                    },
++                }
++            }
++        },
++        "page": "/browse/[...seo]",
++        "query": {"page": "1"},
++    }
++    return (
++        "<!doctype html><html><head><title>SYNTHETIC listing</title></head>"
++        f'<body><div id="__next"><h1>{title}</h1></div>{next_data_script(data)}</body></html>'
++    )
++
++
+ def category_page(links: list[tuple[str, str]], *, title: str = "Synthetic category") -> str:
+     data = {
+         "props": {
+diff --git a/tests/unit/test_empty_pickup_grid.py b/tests/unit/test_empty_pickup_grid.py
+new file mode 100644
+index 0000000..4b2e5d2
+--- /dev/null
++++ b/tests/unit/test_empty_pickup_grid.py
+@@ -0,0 +1,97 @@
++"""Release 1.6.4: a listing total the page reports as 0 is a total of 0.
++
++Live L7 of 2026-11-04 (run 01M6K7HT3XVV8R8CX79P31KMB4, release 1.6.3): Walmart's "Bidets" listing for store
++3891 answered with an empty Pickup result grid (``aggregatedCount`` 0) next to an "Available for shipping"
++carousel of 10 products (``searchResult.count`` 10). Release 1.6.3 read the listing's total as
++``aggregatedCount or count``: it took the 0 for a missing value and the carousel's 10 for the total, and
++stopped the run ("the page reports results but shows no product"). The authentic page is
++``tests/captures/listing_pages_20261104``; the other pages here are SYNTHETIC."""
++
++from __future__ import annotations
++
++import gzip
++import hashlib
++import json
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from tests import synthetic_walmart as syn
++from walmart_headless.sites.walmart import page_data as wpd
++
++PAGES = Path(__file__).resolve().parents[1] / "captures" / "listing_pages_20261104"
++
++
++def page(name: str) -> dict[str, Any]:
++    return wpd.next_data(gzip.decompress((PAGES / name).read_bytes()).decode("utf-8"))
++
++
++def shape(nd: dict[str, Any]) -> tuple[Any, ...]:
++    pag = wpd.pagination(nd)
++    loc = wpd.page_location(nd)
++    return (
++        (pag.total_count, pag.page_count, pag.max_page),
++        [(s.layout, s.products, s.primary, s.fulfillment_filter) for s in wpd.item_stacks(nd)],
++        len(wpd.page_items(nd)),
++        wpd.placements(nd),
++        (loc.store_id, loc.intent) if loc else None,
++    )
++
++
++def test_the_fixture_matches_its_manifest() -> None:
++    for entry in json.loads((PAGES / "MANIFEST.json").read_text("utf-8")):
++        data = (PAGES / entry["file"]).read_bytes()
++        assert hashlib.sha256(data).hexdigest() == entry["source_sha256"], entry["file"]
++        assert hashlib.sha256(gzip.decompress(data)).hexdigest() == entry["content_sha256"], entry["file"]
++
++
++def test_the_live_bidets_page_reports_a_total_of_zero_not_the_count_of_its_carousel() -> None:
++    nd = page("bidets_page1.html.gz")
++    pag = wpd.pagination(nd)
++    assert (pag.total_count, pag.page_count, pag.max_page) == (0, 10, 0)
++    assert [
++        (s.layout, s.title, s.count, s.products, s.primary, s.fulfillment_filter) for s in wpd.item_stacks(nd)
++    ] == [
++        ("GRID", 'Results for "bidets"', 0, 0, True, "Pickup"),
++        ("CAROUSEL", "Available for shipping", 838, 10, False, "Shipping"),
++    ]
++    assert wpd.page_items(nd) == [] and wpd.placements(nd) == 0  # the carousel's products are not results
++    loc = wpd.page_location(nd)
++    assert loc is not None and (loc.store_id, loc.postal_code, loc.intent) == ("3891", "60085", "PICKUP")
++
++
++@pytest.mark.parametrize(
++    ("search_result", "total"),
++    [
++        ({"aggregatedCount": 0, "count": 10}, 0),
++        ({"aggregatedCount": "0", "count": 10}, 0),
++        ({"aggregatedCount": 25, "count": 10}, 25),
++        ({"count": 10}, 10),
++        ({"aggregatedCount": None, "count": 10}, 10),
++        ({"aggregatedCount": 0, "count": 0}, 0),
++    ],
++    ids=[
++        "zero-beside-a-carousel",
++        "zero-written-as-text",
++        "a-total-above-zero",
++        "no-aggregated-count",
++        "a-null-aggregated-count",
++        "zero-and-no-product",
++    ],
++)
++def test_a_reported_zero_is_the_total_and_count_is_read_only_without_one(
++    search_result: dict[str, Any], total: int
++) -> None:
++    nd = {"props": {"pageProps": {"initialData": {"searchResult": search_result}}}}
++    assert wpd.pagination(nd).total_count == total
++
++
++def test_the_synthetic_copy_has_the_shape_of_the_live_page() -> None:
++    carousel = [
++        syn.Item(str(7000 + i), f"Synthetic Shipping Product {i}", "$9.99", lines=(("SHIPPING", "0"),))
++        for i in range(10)
++    ]
++    assert shape(wpd.next_data(syn.empty_pickup_grid_page(carousel, store="3891"))) == shape(
++        page("bidets_page1.html.gz")
++    )
+diff --git a/uv.lock b/uv.lock
+index 87d2bb0..dfcdbef 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.6.3"
++version = "1.6.4"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

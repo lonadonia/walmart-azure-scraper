@@ -1,0 +1,55 @@
+{
+ "fault": "interrupted_run",
+ "synthetic": true,
+ "first_run": "01M6HBES4BT2MK218H8VW2SWFA",
+ "second_run": "01M6HBEZCRR08KVH5NAXPZQGEG",
+ "interrupted_exit_code": 75,
+ "manual_publish_exit_code": 6,
+ "resume_exit_code": 0,
+ "before": {
+  "pointer": {
+   "publication_id": "01M6HBEZ6P5CFC3ZNC9QCR8WME",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6HBES4BT2MK218H8VW2SWFA",
+  "latest_json_sha256": "af03a3a3a7f0e94d73229debe5f3e06b7cf4d92183ed6cbf6f5d7d7705b9dab0",
+  "manifest_sha256": "1353cb9704cbd753246f065da193a987006fbe7ceb6b8569b9b3f5c3a95e74ba",
+  "products_sha256": "6ef1f398c02a652d6e6df362c138510c46412e25aae3b2fbdd7397ecf9a626db",
+  "published_products": 4,
+  "first_run_observations_sha256": "bb6051c081033fc5e4b20adc25e7ecac73f9c0b05a05b8b94d4640170125b5d3",
+  "first_run_records_sha256": "c23bd77beb6f0c6177c2253679a905468cdeda55067d318052cb4e3c481f4e31",
+  "first_run_observations": 5
+ },
+ "after_interruption": {
+  "pointer": {
+   "publication_id": "01M6HBEZ6P5CFC3ZNC9QCR8WME",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6HBES4BT2MK218H8VW2SWFA",
+  "latest_json_sha256": "af03a3a3a7f0e94d73229debe5f3e06b7cf4d92183ed6cbf6f5d7d7705b9dab0",
+  "manifest_sha256": "1353cb9704cbd753246f065da193a987006fbe7ceb6b8569b9b3f5c3a95e74ba",
+  "products_sha256": "6ef1f398c02a652d6e6df362c138510c46412e25aae3b2fbdd7397ecf9a626db",
+  "published_products": 4,
+  "first_run_observations_sha256": "bb6051c081033fc5e4b20adc25e7ecac73f9c0b05a05b8b94d4640170125b5d3",
+  "first_run_records_sha256": "c23bd77beb6f0c6177c2253679a905468cdeda55067d318052cb4e3c481f4e31",
+  "first_run_observations": 5
+ },
+ "after_resume": {
+  "pointer": {
+   "publication_id": "01M6HBF4S3ZFDCW0ERNBSZWPVE",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6HBEZCRR08KVH5NAXPZQGEG",
+  "latest_json_sha256": "144a0b1b4f365cc8d84fb2eb8ab8d03389cfcd303f9b0d44cbe795954234e52c",
+  "manifest_sha256": "84f564e0065ea42d9e87b08a2648edb0e617c285c15e4554b9b57a75e279268a",
+  "products_sha256": "6ef1f398c02a652d6e6df362c138510c46412e25aae3b2fbdd7397ecf9a626db",
+  "published_products": 4,
+  "first_run_observations_sha256": "bb6051c081033fc5e4b20adc25e7ecac73f9c0b05a05b8b94d4640170125b5d3",
+  "first_run_records_sha256": "c23bd77beb6f0c6177c2253679a905468cdeda55067d318052cb4e3c481f4e31",
+  "first_run_observations": 5
+ },
+ "unchanged_until_resume": true
+}

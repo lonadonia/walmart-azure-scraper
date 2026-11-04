@@ -1,0 +1,48 @@
+2026-11-04T12:30:41Z
+release 1.6.3, clean copy of the Oxylabs edition (WALMART_OXYLABS_SOURCE_1.6.3.zip: its own code and lock), with the 1.6.4 test files copied in
+$ uv run --frozen python -m pytest -q -p no:cacheprovider -rA --tb=short --show-capture=no <the 11 tests of REGRESSION_SET.txt> --junitxml=REGRESSION_TESTS_ON_1.6.3.junit.xml
+.FFF.....F.                                                              [100%]
+================================== FAILURES ===================================
+_ test_the_live_bidets_page_reports_a_total_of_zero_not_the_count_of_its_carousel _
+tests\unit\test_empty_pickup_grid.py:52: in test_the_live_bidets_page_reports_a_total_of_zero_not_the_count_of_its_carousel
+    assert (pag.total_count, pag.page_count, pag.max_page) == (0, 10, 0)
+E   assert (10, 10, 0) == (0, 10, 0)
+E     
+E     At index 0 diff: 10 != 0
+E     Use -v to get more diff
+_ test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[zero-beside-a-carousel] _
+tests\unit\test_empty_pickup_grid.py:87: in test_a_reported_zero_is_the_total_and_count_is_read_only_without_one
+    assert wpd.pagination(nd).total_count == total
+E   AssertionError: assert 10 == 0
+E    +  where 10 = Pagination(current_page=1, max_page=None, total_count=10, page_size=None, page_count=10).total_count
+E    +    where Pagination(current_page=1, max_page=None, total_count=10, page_size=None, page_count=10) = <function pagination at 0x00000249D1F589A0>({'props': {'pageProps': {'initialData': {'searchResult': {'aggregatedCount': 0, 'count': 10}}}}})
+E    +      where <function pagination at 0x00000249D1F589A0> = wpd.pagination
+_ test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[zero-written-as-text] _
+tests\unit\test_empty_pickup_grid.py:87: in test_a_reported_zero_is_the_total_and_count_is_read_only_without_one
+    assert wpd.pagination(nd).total_count == total
+E   AssertionError: assert 10 == 0
+E    +  where 10 = Pagination(current_page=1, max_page=None, total_count=10, page_size=None, page_count=10).total_count
+E    +    where Pagination(current_page=1, max_page=None, total_count=10, page_size=None, page_count=10) = <function pagination at 0x00000249D1F589A0>({'props': {'pageProps': {'initialData': {'searchResult': {'aggregatedCount': '0', 'count': 10}}}}})
+E    +      where <function pagination at 0x00000249D1F589A0> = wpd.pagination
+_ test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on _
+tests\integration\test_coverage_and_assortment.py:1022: in test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on
+    milk = cov["976759_9176907"]
+           ^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: '976759_9176907'
+=================================== PASSES ====================================
+____ test_a_page_that_reports_results_it_does_not_show_still_stops_the_run ____
+=========================== short test summary info ===========================
+PASSED tests/unit/test_empty_pickup_grid.py::test_the_fixture_matches_its_manifest
+PASSED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[a-total-above-zero]
+PASSED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[no-aggregated-count]
+PASSED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[a-null-aggregated-count]
+PASSED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[zero-and-no-product]
+PASSED tests/unit/test_empty_pickup_grid.py::test_the_synthetic_copy_has_the_shape_of_the_live_page
+PASSED tests/integration/test_coverage_and_assortment.py::test_a_page_that_reports_results_it_does_not_show_still_stops_the_run
+FAILED tests/unit/test_empty_pickup_grid.py::test_the_live_bidets_page_reports_a_total_of_zero_not_the_count_of_its_carousel
+FAILED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[zero-beside-a-carousel]
+FAILED tests/unit/test_empty_pickup_grid.py::test_a_reported_zero_is_the_total_and_count_is_read_only_without_one[zero-written-as-text]
+FAILED tests/integration/test_coverage_and_assortment.py::test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on
+4 failed, 7 passed in 19.39s
+exit=1
+2026-11-04T12:31:10Z

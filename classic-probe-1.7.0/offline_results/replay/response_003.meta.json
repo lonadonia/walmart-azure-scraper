@@ -1,0 +1,28 @@
+{
+ "body_bytes": 1630,
+ "detail": {
+  "elapsed_s": 0.0,
+  "file_sha256": "31a3fe85ab59704f810f24feee6a0744968318e28e8bb091b80fda669ddf4ebe",
+  "headers": {},
+  "raw_pages": [
+   {
+    "input_sha256": "b4a673e1f445fd022d8ffdffc35dd576475d969198721c16b894118b663dacf4",
+    "other_values_redacted": 0,
+    "output_sha256": "cfa582e059c166bba4fbd7153fba40e20e4e5e1d416b0ea8ad2773c63f81b595",
+    "page_data_kept": true,
+    "page_data_values_redacted": 0,
+    "result": 0,
+    "scripts_removed": 0
+   }
+  ],
+  "redirect_location": null,
+  "step": "walmart-product"
+ },
+ "file": "response_003.json.gz",
+ "http_status": 200,
+ "kept_sha256": "971dfade1a4d4e9c7c39dd7dc6c32df904a9f569e06f586faf3af8bfc7ff325c",
+ "original_sha256": "55bbc2b40816e522fa73c2e02373295e8706e5e6453f7fd8473d7a77370f02c4",
+ "sanitized": true,
+ "seq": 3,
+ "truncated": false
+}

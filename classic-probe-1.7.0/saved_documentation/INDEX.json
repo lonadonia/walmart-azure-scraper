@@ -1,0 +1,452 @@
+[
+ {
+  "file": "api-reference_core-endpoints.md",
+  "url": "https://developers.oxylabs.io/api-reference/core-endpoints.md",
+  "title": "Core Endpoints",
+  "bytes": 11148,
+  "saved_at": "2026-10-31T17:44:43Z",
+  "sha256": "833c56f29688b3ef69f4d19e90826eeb7738a89e9285567b69a3e69dfd111913",
+  "page_not_found": false
+ },
+ {
+  "file": "api-reference_dedicated-scrapers_commerce-scrapers.md",
+  "url": "https://developers.oxylabs.io/api-reference/dedicated-scrapers/commerce-scrapers.md",
+  "title": "Commerce Scrapers",
+  "bytes": 434419,
+  "saved_at": "2026-10-31T17:44:42Z",
+  "sha256": "0df881dbd9caa83b3884b68c208a0b70398e4f9798b2a7686445015d55db0f22",
+  "page_not_found": false
+ },
+ {
+  "file": "api-reference_errors-and-status-codes.md",
+  "url": "https://developers.oxylabs.io/api-reference/errors-and-status-codes.md",
+  "title": "Errors & Status Codes",
+  "bytes": 11023,
+  "saved_at": "2026-10-31T17:44:45Z",
+  "sha256": "a6e9b5ba138ca78b3dec1aa20cbb87c98316cd38d1b0283bb23ffb682d29ca8a",
+  "page_not_found": false
+ },
+ {
+  "file": "api-reference_full-endpoint-index.md",
+  "url": "https://developers.oxylabs.io/api-reference/full-endpoint-index.md",
+  "title": "Full Endpoint Index",
+  "bytes": 37955,
+  "saved_at": "2026-10-31T17:44:47Z",
+  "sha256": "a9247589b5e23e4a2c71afcca158bf84c9b34d736f9b28cad22ec9b43fa70028",
+  "page_not_found": false
+ },
+ {
+  "file": "api-reference_jobs-and-discovery.md",
+  "url": "https://developers.oxylabs.io/api-reference/jobs-and-discovery.md",
+  "title": "Jobs & Discovery",
+  "bytes": 9320,
+  "saved_at": "2026-10-31T17:44:46Z",
+  "sha256": "e7a94c6f4785ea7a6d273d7528206acf3b5b90bbe6fa7d29165a5202a3607c60",
+  "page_not_found": false
+ },
+ {
+  "file": "api-reference_overview.md",
+  "url": "https://developers.oxylabs.io/api-reference/overview.md",
+  "title": "Overview",
+  "bytes": 4076,
+  "saved_at": "2026-10-31T17:44:41Z",
+  "sha256": "997013086bee1c458afb099b930472554ad470e126c455c2dc92252ecd39e7ed",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api.md",
+  "title": "Web Scraper API (Classic)",
+  "bytes": 7887,
+  "saved_at": "2026-10-31T17:46:02Z",
+  "sha256": "20ea8ea923b5e10ec4bc7bd0da94a08dc2fb76fb80cb53f57e43505d6c7d0348",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_errors.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2305,
+  "saved_at": "2026-10-31T17:46:33Z",
+  "sha256": "8b83b37f6383ffde3dbc47643ea95177abcfc95eadd3ef838b2aebc425af0191",
+  "page_not_found": true
+ },
+ {
+  "file": "classic_products_web-scraper-api_features.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/features.md",
+  "title": "Features",
+  "bytes": 1938,
+  "saved_at": "2026-10-31T17:46:09Z",
+  "sha256": "d441f45dc6d616f46732021bd3d3afbc5071892f58efc984c4c6dbc32a953376",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_features_js-rendering-and-browser-control.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/features/js-rendering-and-browser-control.md",
+  "title": "JS Rendering & Browser Control",
+  "bytes": 41633,
+  "saved_at": "2026-10-31T17:46:11Z",
+  "sha256": "1911d892c20a241a6e55fa4f7f4468973a4c45fff93dfca92cd203a9fe0ded1d",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_features_localization.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/features/localization.md",
+  "title": "Localization",
+  "bytes": 1936,
+  "saved_at": "2026-10-31T17:46:26Z",
+  "sha256": "04cb509fe7b5c2878537c8aac9c3628eab5de3a2baec8266dc216e1b77865eb8",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_features_localization_proxy-location.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/features/localization/proxy-location.md",
+  "title": "Proxy Location",
+  "bytes": 13519,
+  "saved_at": "2026-10-31T17:46:24Z",
+  "sha256": "233cace957e776385bf3facf1099d5e64d9b74176a868ff3e13371a3e47cf1ab",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_features_result-processing-and-storage_dedicated-parsers.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/features/result-processing-and-storage/dedicated-parsers.md",
+  "title": "Dedicated Parsers",
+  "bytes": 5452,
+  "saved_at": "2026-10-31T17:46:27Z",
+  "sha256": "54b403b3693b7169c053281cc77cd99a16b554baf6487f9897355d00bc48979a",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_integration-methods.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/integration-methods.md",
+  "title": "Integration Methods",
+  "bytes": 3972,
+  "saved_at": "2026-10-31T17:46:08Z",
+  "sha256": "5be4e1f8fd4543f0e54fc500ea123f68ac3e57643443a567cb2d439ec4cc9ca3",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_integration-methods_push-pull.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/integration-methods/push-pull.md",
+  "title": "Push-Pull",
+  "bytes": 59398,
+  "saved_at": "2026-10-31T17:46:07Z",
+  "sha256": "593745ed9fb6020605f47d1444b3f4fbaf9961b47421e4bab9639eeb6a978286",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_integration-methods_realtime.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/integration-methods/realtime.md",
+  "title": "Realtime",
+  "bytes": 12356,
+  "saved_at": "2026-10-31T17:46:06Z",
+  "sha256": "1a6fe8e898164cad8b5320a434bf89f0ebabd7fc6986a95111a88b4155b93027",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_quick-start.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2308,
+  "saved_at": "2026-10-31T17:46:29Z",
+  "sha256": "d2b742f17c423a3a619980d961856c2436efb19e289fc5e0d42ec282acefaaef",
+  "page_not_found": true
+ },
+ {
+  "file": "classic_products_web-scraper-api_rate-limits.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2342,
+  "saved_at": "2026-10-31T17:46:23Z",
+  "sha256": "fd118e3044d8c0cf2e02c189956378cf84c938fdcc2f4340a1032bff6a60c2f9",
+  "page_not_found": true
+ },
+ {
+  "file": "classic_products_web-scraper-api_response-codes.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/response-codes.md",
+  "title": "Response Codes",
+  "bytes": 9117,
+  "saved_at": "2026-10-31T17:46:20Z",
+  "sha256": "3ed8aa064352b9a8c2bea8f587081b2bed2df14c12bca505145993dd81ca17c0",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_targets_e-commerce_walmart.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart.md",
+  "title": "Walmart",
+  "bytes": 3408,
+  "saved_at": "2026-10-31T17:46:03Z",
+  "sha256": "588593028d7c1397f58a6dc4a7d956511b4e4ebb4a72fb98ac145d8cf12b01ad",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_targets_e-commerce_walmart_product.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart/product.md",
+  "title": "Product",
+  "bytes": 31243,
+  "saved_at": "2026-10-31T17:46:05Z",
+  "sha256": "1c9a44c22380bc748e8843945ce8ed18802c2776c82981e5beb5ae0fcf93d380",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_targets_e-commerce_walmart_search.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart/search.md",
+  "title": "Search",
+  "bytes": 27688,
+  "saved_at": "2026-10-31T17:46:04Z",
+  "sha256": "937d99960384d488e631016b1599f3ddc12cd174557d45a191dc43fad8f522a4",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_usage-and-billing.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/usage-and-billing.md",
+  "title": "Usage and Billing",
+  "bytes": 2361,
+  "saved_at": "2026-10-31T17:46:14Z",
+  "sha256": "dd48a7382d1d95787994bb4ceec4d0b06ec32a52063949d3d4881c5466015228",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_usage-and-billing_billing-information.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/usage-and-billing/billing-information.md",
+  "title": "Traffic and Billing",
+  "bytes": 4882,
+  "saved_at": "2026-10-31T17:46:19Z",
+  "sha256": "c6b89586b4f12ba338307999167ff1aac89d80ed1392803450c6007773881aa4",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_usage-and-billing_pricing.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2444,
+  "saved_at": "2026-10-31T17:46:16Z",
+  "sha256": "3e9ffcb857fb4d43062bfcda8661266cc66a113a682d929322efadef99a8228f",
+  "page_not_found": true
+ },
+ {
+  "file": "classic_products_web-scraper-api_usage-and-billing_rate-limits.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/usage-and-billing/rate-limits.md",
+  "title": "Rate Limits",
+  "bytes": 4797,
+  "saved_at": "2026-10-31T17:46:17Z",
+  "sha256": "a3a0c802cb26df1d191b32c58728c5defd933fd6351484a176be548e0d97f0c0",
+  "page_not_found": false
+ },
+ {
+  "file": "classic_products_web-scraper-api_usage-and-billing_usage-statistics.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/usage-and-billing/usage-statistics.md",
+  "title": "Usage Statistics",
+  "bytes": 11488,
+  "saved_at": "2026-10-31T17:46:12Z",
+  "sha256": "a612ad688f0f78153007340858c79e705f5328a4aa9678e4f47ebd0465e6bed0",
+  "page_not_found": false
+ },
+ {
+  "file": "dashboard_credit-based-billing.md",
+  "url": "https://developers.oxylabs.io/dashboard/credit-based-billing.md",
+  "title": "Credit-Based Billing",
+  "bytes": 6064,
+  "saved_at": "2026-10-31T17:44:53Z",
+  "sha256": "4332a120fa10cdaa94e49064114c22a81c87d298ffb85a9970de304f2af79c68",
+  "page_not_found": false
+ },
+ {
+  "file": "dashboard_dashboard-api.md",
+  "url": "https://developers.oxylabs.io/dashboard/dashboard-api.md",
+  "title": "Dashboard API",
+  "bytes": 13300,
+  "saved_at": "2026-10-31T17:44:54Z",
+  "sha256": "b12fe2d774bfa71450e8adb6f55e3a61b081b48367475e99e7cc1f72b9f743ba",
+  "page_not_found": false
+ },
+ {
+  "file": "dashboard_upgrading-downgrading-top-ups.md",
+  "url": "https://developers.oxylabs.io/dashboard/upgrading-downgrading-top-ups.md",
+  "title": "Upgrading, Downgrading, Top-Ups",
+  "bytes": 4959,
+  "saved_at": "2026-10-31T17:44:55Z",
+  "sha256": "efc5d3cfdf94be9a6c965a8608fd756564e2a0c090e5d44fbc168e69c97c4da4",
+  "page_not_found": false
+ },
+ {
+  "file": "get-started_quick-start-web-api.md",
+  "url": "https://developers.oxylabs.io/get-started/quick-start-web-api.md",
+  "title": "Quick Start: Web API",
+  "bytes": 16798,
+  "saved_at": "2026-10-31T17:44:59Z",
+  "sha256": "45cd84a2f94158c23ac5989d13f6586877ff3dd5cbe5e1105e57fe0148bbcd2a",
+  "page_not_found": false
+ },
+ {
+  "file": "help-center_most-popular-questions_how-pricing-and-billing-work.md",
+  "url": "https://developers.oxylabs.io/help-center/most-popular-questions/how-pricing-and-billing-work.md",
+  "title": "How pricing and billing work",
+  "bytes": 6664,
+  "saved_at": "2026-10-31T17:44:56Z",
+  "sha256": "4d784b08885fd899887e2cd6f364a2f2de636219552161c0e146ea96390e1f92",
+  "page_not_found": false
+ },
+ {
+  "file": "integrations_overview.md",
+  "url": "https://developers.oxylabs.io/integrations/overview.md",
+  "title": "Oxylabs Integrations",
+  "bytes": 3109,
+  "saved_at": "2026-10-31T17:45:14Z",
+  "sha256": "3e3e39ba9796c2d3fd73d5da8dad4afa7282461fe0bb8d32cc47e4f1df653ac5",
+  "page_not_found": false
+ },
+ {
+  "file": "integrations_web-scraper-api-integrations.md",
+  "url": "https://developers.oxylabs.io/integrations/web-scraper-api-integrations.md",
+  "title": "Web Scraper API (Classic) Integrations",
+  "bytes": 2757,
+  "saved_at": "2026-10-31T17:45:12Z",
+  "sha256": "d9df01f43182007e74bb18e5f4fb898b85c124b83c5c3eb3ef96f972dd6af597",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy___changes_1231_scraping-solutions_web-scraper-api_targets_walmart.md",
+  "url": "https://developers.oxylabs.io/~/changes/1231/scraping-solutions/web-scraper-api/targets/walmart.md",
+  "title": "Walmart",
+  "bytes": 10824,
+  "saved_at": "2026-10-31T17:45:38Z",
+  "sha256": "98c0d428b8aae8a949d1faa64121fe49c81b0ae141489ef9c5413c5520bb56c8",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_e-commerce_walmart.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart.md",
+  "title": "Walmart",
+  "bytes": 3408,
+  "saved_at": "2026-10-31T17:45:28Z",
+  "sha256": "588593028d7c1397f58a6dc4a7d956511b4e4ebb4a72fb98ac145d8cf12b01ad",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_e-commerce_walmart_product.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart/product.md",
+  "title": "Product",
+  "bytes": 31243,
+  "saved_at": "2026-10-31T17:45:32Z",
+  "sha256": "1c9a44c22380bc748e8843945ce8ed18802c2776c82981e5beb5ae0fcf93d380",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_e-commerce_walmart_search.md",
+  "url": "https://developers.oxylabs.io/products/web-scraper-api/targets/e-commerce/walmart/search.md",
+  "title": "Search",
+  "bytes": 27688,
+  "saved_at": "2026-10-31T17:45:31Z",
+  "sha256": "937d99960384d488e631016b1599f3ddc12cd174557d45a191dc43fad8f522a4",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_e-commerce_walmart_url.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2324,
+  "saved_at": "2026-10-31T17:45:29Z",
+  "sha256": "02e571122441b0b19ccf4039428bb65c21c0bec74fa924d928411c9a75a2997b",
+  "page_not_found": true
+ },
+ {
+  "file": "legacy_api-targets_llms-full.txt",
+  "url": "",
+  "title": "",
+  "bytes": 182731,
+  "saved_at": "2026-10-31T17:45:43Z",
+  "sha256": "c394727436b334df500a5fea531d9ee1c82aaa15c3fdb84bbfe3df7925555b17",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_llms.txt",
+  "url": "",
+  "title": "",
+  "bytes": 182721,
+  "saved_at": "2026-10-31T17:45:35Z",
+  "sha256": "28292ca549d46bfc8d3908faeb05ec596553c5338ee6512d275bb811a9ad960f",
+  "page_not_found": false
+ },
+ {
+  "file": "legacy_api-targets_sitemap.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2319,
+  "saved_at": "2026-10-31T17:45:37Z",
+  "sha256": "fa39fcade0a2b23fc2ba46af4ae14f598279fc3fd8152b701c6603b72b4d3e50",
+  "page_not_found": true
+ },
+ {
+  "file": "legacy_documentation_es_soluciones-de-scraping_web-scraper-api_targets_walmart.md",
+  "url": "",
+  "title": "Page Not Found",
+  "bytes": 2463,
+  "saved_at": "2026-10-31T17:45:40Z",
+  "sha256": "33bdd07731a6a8ac9affdf5177ee3f8629f30572ab9e3eca2c1e256983494117",
+  "page_not_found": true
+ },
+ {
+  "file": "llms-full.txt",
+  "url": "",
+  "title": "Agent Instructions",
+  "bytes": 627128,
+  "saved_at": "2026-10-31T17:44:40Z",
+  "sha256": "967ada4e2b2912c0cc047d63bcb06c6c13593f2a3b4952eaa81f3a7f66ee892d",
+  "page_not_found": false
+ },
+ {
+  "file": "products_web-api.md",
+  "url": "https://developers.oxylabs.io/products/web-api.md",
+  "title": "Web API",
+  "bytes": 15822,
+  "saved_at": "2026-10-31T17:44:57Z",
+  "sha256": "bcd49c44fe33f641ceb66a35ddaff1a20423b441c6606cf0569c882c881a4e4f",
+  "page_not_found": false
+ },
+ {
+  "file": "products_web-api_scrape_dedicated-scrapers.md",
+  "url": "https://developers.oxylabs.io/products/web-api/scrape/dedicated-scrapers.md",
+  "title": "Dedicated Scrapers",
+  "bytes": 37980,
+  "saved_at": "2026-10-31T17:44:49Z",
+  "sha256": "b6358c96b2c5c5f8570657a25fb1b50114bd41e6b4905331c429e1d60a8c6970",
+  "page_not_found": false
+ },
+ {
+  "file": "products_web-api_scrape_delivery-modes.md",
+  "url": "https://developers.oxylabs.io/products/web-api/scrape/delivery-modes.md",
+  "title": "Delivery Modes",
+  "bytes": 9987,
+  "saved_at": "2026-10-31T17:44:48Z",
+  "sha256": "74dcf99509197e2d561e3f77404c78a821df6733b67ae9c4015cfbd7d8115971",
+  "page_not_found": false
+ },
+ {
+  "file": "products_web-api_scrape_endpoint-discovery.md",
+  "url": "https://developers.oxylabs.io/products/web-api/scrape/endpoint-discovery.md",
+  "title": "Endpoint Discovery",
+  "bytes": 5692,
+  "saved_at": "2026-10-31T17:44:50Z",
+  "sha256": "34c03368e224386675136e198d3a897844e13ef71d92142f40301b9ce6666d51",
+  "page_not_found": false
+ },
+ {
+  "file": "products_web-api_troubleshooting.md",
+  "url": "https://developers.oxylabs.io/products/web-api/troubleshooting.md",
+  "title": "Troubleshooting",
+  "bytes": 15131,
+  "saved_at": "2026-10-31T17:44:52Z",
+  "sha256": "bc42c437de2f2e8c19c0bf40c3d4671e0125ce93a05642e68ea0feb048822d56",
+  "page_not_found": false
+ },
+ {
+  "file": "sitemap.md",
+  "url": "",
+  "title": "Oxylabs Documentation",
+  "bytes": 60491,
+  "saved_at": "2026-10-31T17:44:38Z",
+  "sha256": "d9469ad4a25181dc29a2795f7547245e3b0ce5fb5e244f0eade322ed25c1c383",
+  "page_not_found": false
+ }
+]

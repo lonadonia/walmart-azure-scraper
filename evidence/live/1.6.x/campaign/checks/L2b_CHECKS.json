@@ -1,0 +1,535 @@
+{
+ "stage": "L2b",
+ "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+  "record_count": 928,
+  "fresh_record_count": 120,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 120,
+ "fresh_distinct_items": 120,
+ "export_rows_with_carried": 928,
+ "by_category": {
+  "Personal Care": 50,
+  "Diapering": 70
+ },
+ "by_sub_category": {
+  "Bath & Body": 50,
+  "Diapering": 70
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 928,
+  "crawl_dates_fresh": {
+   "2026-11-03": 120
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 120
+  },
+  "store_name": {
+   "Waukegan Supercenter": 120
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 120
+  },
+  "store_logo_filled": 120
+ },
+ "filled_fresh": {
+  "zipcode": 120,
+  "store_name": 120,
+  "store_location": 120,
+  "store_logo": 120,
+  "store_brand": 120,
+  "category": 120,
+  "sub_category": 120,
+  "product_title": 120,
+  "weight": 117,
+  "regular_price": 120,
+  "sale_price": 13,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 120,
+  "url": 120,
+  "upc": 40,
+  "gupc": 0,
+  "ppm": 112,
+  "unit_price": 0,
+  "crawl_date": 120
+ },
+ "store_brand_fresh": {
+  "no": 112,
+  "yes": 8
+ },
+ "upc_outcomes_fresh": {
+  "not_attempted": 80,
+  "fetched_detail": 40
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 114,
+  "fetched_detail": 3,
+  "not_attempted": 3
+ },
+ "upc_outcomes_all_rows": {
+  "recovered_from_saved_detail": 689,
+  "budget_deadline_interruption": 66,
+  "not_attempted": 80,
+  "fetched_detail": 88,
+  "absent_in_source": 3,
+  "identity_mismatch": 2
+ },
+ "weight_outcomes_all_rows": {
+  "present_in_listing": 879,
+  "recovered_from_saved_detail": 26,
+  "unresolved_conflict": 5,
+  "fetched_detail": 4,
+  "budget_deadline_interruption": 4,
+  "not_attempted": 3,
+  "absent_in_source": 7
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {
+  "sponsored | excluded": 10,
+  "sponsored | included": 6,
+  "sponsored | duplicate": 3,
+  "variant | included": 34,
+  "variant | excluded": 66,
+  "variant | not_attempted": 161
+ },
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-03 18:32:02.632331+00:00",
+  "finished_at": "2026-11-03 18:56:45.687340+00:00",
+  "parser_version": "1.6.1",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 120,
+   "credits": 120.0,
+   "usd": "0.18000000000000013",
+   "first": "2026-11-03 18:32:03.650943+00:00",
+   "last": "2026-11-03 18:55:56.849332+00:00"
+  },
+  {
+   "outcome": "provider_failed_free",
+   "submissions": 5,
+   "credits": 0.0,
+   "usd": "0.0",
+   "first": "2026-11-03 18:32:30.538739+00:00",
+   "last": "2026-11-03 18:54:44.659734+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "product_page",
+   "outcome": "ok",
+   "submissions": 116
+  },
+  {
+   "purpose": "product_page",
+   "outcome": "provider_failed_free",
+   "submissions": 5
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 1
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 2,
+   "distinct_urls": 2
+  },
+  {
+   "purpose": "product_page",
+   "fetches": 116,
+   "distinct_urls": 116
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [
+  {
+   "origin": "fetched",
+   "status": "absent_in_source",
+   "rows": 11,
+   "with_upc": 0
+  },
+  {
+   "origin": "fetched",
+   "status": "extracted",
+   "rows": 61,
+   "with_upc": 61
+  }
+ ],
+ "segments": [
+  {
+   "id": "01M6HAXEWD1TZ1ZJYYJKJG340K",
+   "started": "2026-11-03 18:32:02.698202+00:00",
+   "ended": "2026-11-03 18:56:45.759864+00:00",
+   "active_s": 1483.0310000000172,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 120.0,
+   "workers": 1
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRC",
+   "taxonomy_id": "1005862_1071969",
+   "status": "CAPPED",
+   "total_count": 3002,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.015989340439706862,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/personal-care/1005862_1071969",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 25,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HAXQZ0BYSB0BC7WJFDRZM8",
+      "max_page": 25,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 62,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 8
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 3002
+     }
+    ],
+    "children_named": [
+     "1005862_1071969_1001719",
+     "1005862_1071969_1001487",
+     "1005862_1071969_1074364",
+     "1005862_1071969_2566660",
+     "1005862_1071969_1694681",
+     "1005862_1071969_6952214",
+     "1005862_1071969_9458907",
+     "1005862_1071969_3179364",
+     "1005862_1071969_2398684",
+     "1005862_1071969_3461912",
+     "1005862_1071969_1001508",
+     "1005862_1071969_1424543",
+     "1005862_1071969_1967855",
+     "1005862_1071969_7745301",
+     "1005862_1071969_1574874",
+     "1005862_1071969_4075449",
+     "1005862_1071969_4544239",
+     "1005862_1071969_1001518",
+     "1005862_1071969_7892672",
+     "1005862_1071969_9311902",
+     "1005862_1071969_2786220",
+     "1005862_1071969_6606385",
+     "1005862_1071969_3942179",
+     "1005862_1071969_4742025",
+     "1005862_1071969_9011420",
+     "1005862_1071969_4092819",
+     "1005862_1071969_3391060",
+     "1005862_1071969_2329962",
+     "1005862_1071969_2510017",
+     "1005862_1071969_6370674",
+     "1005862_1071969_6976070",
+     "1005862_1071969_8990857",
+     "1005862_1071969_6621389",
+     "1005862_1071969_1001509",
+     "1005862_1071969_9679778",
+     "1005862_1071969_2434650",
+     "1005862_1071969_4376074",
+     "1005862_1071969_3355612",
+     "1005862_1071969_5306718",
+     "1005862_1071969_6947492",
+     "1005862_1071969_8904943",
+     "1005862_1071969_1296860",
+     "1005862_1071969_3719297",
+     "1005862_1071969_4769481",
+     "1005862_1071969_6886797",
+     "1005862_1071969_7384273",
+     "1005862_1071969_9077678",
+     "1005862_1071969_9936161",
+     "1005862_1071969_9943636",
+     "1005862_1071969_2462773",
+     "1005862_1071969_1744700",
+     "1005862_1071969_3531432",
+     "1005862_1071969_1552023",
+     "1005862_1071969_5857471",
+     "1005862_1071969_5862148",
+     "1005862_1071969_6629114",
+     "1005862_1071969_9197137",
+     "1005862_1071969_4250380",
+     "1005862_1071969_9331812",
+     "1005862_1071969_9733667"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 2954,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 3002,
+     "sponsored_only": 8,
+     "totals_reported": [
+      3002
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 2954
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRE",
+   "taxonomy_id": "5427_486190",
+   "status": "CAPPED",
+   "total_count": 515,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.09320388349514563,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+    "via": "csv",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 13,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6HAY1TVD0NE0D0NV41ZA68W",
+      "max_page": 13,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 515
+     }
+    ],
+    "children_named": [
+     "5427_486190_1101406",
+     "5427_486190_1096134",
+     "5427_486190_3581788",
+     "5427_486190_7103845",
+     "5427_486190_1928754",
+     "5427_486190_9277627",
+     "5427_486190_486193",
+     "5427_486190_3224984",
+     "5427_486190_132980",
+     "5427_486190_1457965",
+     "5427_486190_5145033",
+     "5427_486190_9988601",
+     "5427_486190_2277795",
+     "5427_486190_1784315",
+     "5427_486190_5021363",
+     "5427_486190_2009548",
+     "5427_486190_9573703",
+     "5427_486190_6587719",
+     "5427_486190_4880786",
+     "5427_486190_164195",
+     "5427_486190_2458176",
+     "5427_486190_8663653",
+     "5427_486190_2844952",
+     "5427_486190_486191",
+     "5427_486190_1229265",
+     "5427_486190_486995",
+     "5427_486190_2020857",
+     "5427_486190_2920992",
+     "5427_486190_5594709",
+     "5427_486190_2844649",
+     "5427_486190_8127691",
+     "5427_486190_435831",
+     "5427_486190_5193192",
+     "5427_486190_6304161"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 48,
+     "organic": 40,
+     "difference": 467,
+     "placements": 50,
+     "total_stable": true,
+     "reported_total": 515,
+     "sponsored_only": 8,
+     "totals_reported": [
+      515
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 467
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "120 valid records"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "2 categories"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Personal Care",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Diapering",
+   "message": "status INCOMPLETE"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L2b-queue-seeds-161-20261103",
+  "rows": 125,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 120,
+    "worst_usd": 0.18,
+    "settled_usd": 0.18,
+    "settled_results": 120
+   },
+   "settled | documented_free": {
+    "rows": 5,
+    "worst_usd": 0.0075,
+    "settled_usd": 0.0,
+    "settled_results": 0
+   }
+  }
+ }
+}

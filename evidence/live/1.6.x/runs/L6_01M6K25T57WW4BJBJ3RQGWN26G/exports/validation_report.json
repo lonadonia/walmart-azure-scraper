@@ -1,0 +1,32 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "canary": {
+      "at": "2026-11-04T10:38:18.017326Z",
+      "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+      "page": "01M6K261HKKS8H7WETRFM5W1Z4",
+      "valid": 40,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 1.0,
+      "source_check": {
+        "checked": 40,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "contract": {
+      "pages": 64,
+      "problems": []
+    }
+  },
+  "excluded_by_reason": {
+    "ASSORTMENT_UNRESOLVED": 8,
+    "LOCATION_UNATTESTED": 8
+  },
+  "duplicates": 0
+}

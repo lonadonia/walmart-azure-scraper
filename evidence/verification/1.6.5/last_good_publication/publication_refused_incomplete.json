@@ -1,0 +1,41 @@
+{
+ "fault": "incomplete",
+ "synthetic": true,
+ "first_run": "01M6KHJJFTARSHMD6EP5EXF47Z",
+ "second_run": "01M6KHJRZ0QT47CCBS17J3Y4AS",
+ "second_run_status": "rejected",
+ "second_run_stop_code": "CREDITS_EXHAUSTED",
+ "second_run_exit_code": 4,
+ "second_run_carried_forward_rows": 2,
+ "before": {
+  "pointer": {
+   "publication_id": "01M6KHJRQGYNV9F8JQ0K2SSQR4",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6KHJJFTARSHMD6EP5EXF47Z",
+  "latest_json_sha256": "2a8d83ebde09d5fe334f794d9d6c17a807a8a70eb699df06325fbe8a727672b5",
+  "manifest_sha256": "fafcde6d8d3906dce0a1bdc99a1b66f3d4d58dfb61ee7148a13ff0f573ca90af",
+  "products_sha256": "cb190e5ae401b859490784e52d218bcf0e4baec75fe37bc3dcc0942c8bd4aa90",
+  "published_products": 4,
+  "first_run_observations_sha256": "8dc514f5850006fbc0658b61481270593ea02ca390f464e946379add356bbf7c",
+  "first_run_records_sha256": "ee1cf45210ea8108e5d54614857bd29e7ee7666a6a0b64c84749ea102c41fbec",
+  "first_run_observations": 5
+ },
+ "after": {
+  "pointer": {
+   "publication_id": "01M6KHJRQGYNV9F8JQ0K2SSQR4",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6KHJJFTARSHMD6EP5EXF47Z",
+  "latest_json_sha256": "2a8d83ebde09d5fe334f794d9d6c17a807a8a70eb699df06325fbe8a727672b5",
+  "manifest_sha256": "fafcde6d8d3906dce0a1bdc99a1b66f3d4d58dfb61ee7148a13ff0f573ca90af",
+  "products_sha256": "cb190e5ae401b859490784e52d218bcf0e4baec75fe37bc3dcc0942c8bd4aa90",
+  "published_products": 4,
+  "first_run_observations_sha256": "8dc514f5850006fbc0658b61481270593ea02ca390f464e946379add356bbf7c",
+  "first_run_records_sha256": "ee1cf45210ea8108e5d54614857bd29e7ee7666a6a0b64c84749ea102c41fbec",
+  "first_run_observations": 5
+ },
+ "unchanged": true
+}

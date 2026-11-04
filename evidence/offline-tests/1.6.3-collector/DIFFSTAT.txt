@@ -1,0 +1,27 @@
+git diff 1274056..def55e5 (development monorepo), relative to the collector's folder
+1.6.2 = 12740567afc1499d1eb850c9faa306439b0798d2; 1.6.3 = def55e5c5f69fc60053f52fe49d077ec7648a513
+
+ Dockerfile                                        |   4 +-
+ README.md                                         |   9 +-
+ azure/main.parameters.example.json                |   2 +-
+ docs/CLI.md                                       |   4 +-
+ docs/OPERATIONS.md                                |  11 ++-
+ docs/VERIFICATION.md                              |  24 ++++++
+ pyproject.toml                                    |   2 +-
+ src/walmart_headless/__init__.py                  |   2 +-
+ src/walmart_headless/acquisition/challenge.py     |  17 +++-
+ src/walmart_headless/collection/walmart.py        | 233 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+ src/walmart_headless/core/paths.py                |   2 +-
+ src/walmart_headless/publishing/supporting_log.py |  18 +++-
+ src/walmart_headless/sites/walmart/page_data.py   |  16 +++-
+ src/walmart_headless/sites/walmart/sanitize.py    |   4 +-
+ tests/integration/test_coverage_and_assortment.py |  31 +++++++
+ tests/integration/test_detail_path.py             | 171 +++++++++++++++++++++++++++++++++++++-
+ tests/integration/test_operations.py              |  19 ++++-
+ tests/synthetic_walmart.py                        |  17 ++++
+ tests/unit/test_not_found_page.py                 |  96 ++++++++++++++++++++++
+ uv.lock                                           |   2 +-
+ 20 files changed, 652 insertions(+), 32 deletions(-)
+
+tests only:
+ 5 files changed, 328 insertions(+), 6 deletions(-)

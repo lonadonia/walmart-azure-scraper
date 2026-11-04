@@ -1,0 +1,12 @@
+LAST GOOD PUBLICATION on release 1.6.5: clean extraction of WALMART_OXYLABS_SOURCE_1.6.5.zip (sha256 edd60bb8435e7abd8293d7c2b5b76eaaaff0051d18c053d715afc2533070ba6b), {  "commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",  "built_at": "2026-11-04T14:15:19+00:00",  "edition": "oxylabs"}
+start 2026-11-04T15:06:30Z
+$ uv sync --frozen
+ + tzdata==2026.5
+ + urllib3==2.8.0
+ + walmart-azure-headless==1.6.5 (from file:///C:/w9/lastgood165src/walmart-oxylabs-1.6.5)
+uv sync exit=0
+$ PUBLICATION_EVIDENCE_DIR=<evidence folder> uv run --frozen python -m pytest -q -p no:cacheprovider tests/integration/test_publication_safety.py tests/integration/test_publish.py tests/integration/test_last_good_corrupt_evidence.py
+...................                                                      [100%]
+19 passed in 184.96s (0:03:04)
+exit=0
+end 2026-11-04T15:09:51Z

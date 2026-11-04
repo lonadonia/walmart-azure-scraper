@@ -1,0 +1,122 @@
+2026-11-04T11:46:44Z
+release 1.6.2, clean copy of the Oxylabs edition (its own code and lock), with the 1.6.3 test files copied in
+$ uv run --frozen python -m pytest -q -p no:cacheprovider -rA --tb=short --show-capture=no <the 25 tests of REGRESSION_SET.txt> --junitxml=REGRESSION_TESTS_ON_1.6.2.junit.xml
+FFFFFFFFFFF............FF                                                [100%]
+================================== FAILURES ===================================
+________________ test_the_site_not_found_page_is_no_challenge _________________
+tests\unit\test_not_found_page.py:43: in test_the_site_not_found_page_is_no_challenge
+    assert not v.is_challenge and v.reasons == ()
+E   AssertionError: assert (not True)
+E    +  where True = ChallengeVerdict(is_challenge=True, reasons=('missing_initial_state',), http_status=200).is_challenge
+________ test_its_page_data_is_read_and_says_it_is_the_not_found_page _________
+tests\unit\test_not_found_page.py:48: in test_its_page_data_is_read_and_says_it_is_the_not_found_page
+    nd = wpd.next_data(syn.not_found_page())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\walmart_headless\sites\walmart\page_data.py:44: in next_data
+    raise PageDataMissing("no __NEXT_DATA__ script in the page")
+E   walmart_headless.sites.walmart.page_data.PageDataMissing: no __NEXT_DATA__ script in the page
+_______ test_the_stored_copy_keeps_that_page_data_redacted_and_readable _______
+tests\unit\test_not_found_page.py:55: in test_the_stored_copy_keeps_that_page_data_redacted_and_readable
+    assert report.page_data_kept
+E   AssertionError: assert False
+E    +  where False = SanitizeReport(input_bytes=342, output_bytes=231, input_sha256='433d76f6d1ae4246af596ad5daed5bce4de2d416ee14136be466a1...=1, styles_removed=0, data_uris_replaced=0, page_data_kept=False, page_data_values_redacted=0, other_values_redacted=0).page_data_kept
+_ test_the_page_data_script_is_found_however_its_id_is_quoted[single-quoted] __
+tests\unit\test_not_found_page.py:64: in test_the_page_data_script_is_found_however_its_id_is_quoted
+    assert not judge(page).is_challenge
+E   assert not True
+E    +  where True = ChallengeVerdict(is_challenge=True, reasons=('missing_initial_state',), http_status=200).is_challenge
+E    +    where ChallengeVerdict(is_challenge=True, reasons=('missing_initial_state',), http_status=200) = judge('<script id=\'__NEXT_DATA__\' type="application/json">{"page": "/browse/[...slug]", "props": {"pageProps": {}}}</script>')
+____ test_the_page_data_script_is_found_however_its_id_is_quoted[unquoted] ____
+tests\unit\test_not_found_page.py:64: in test_the_page_data_script_is_found_however_its_id_is_quoted
+    assert not judge(page).is_challenge
+E   assert not True
+E    +  where True = ChallengeVerdict(is_challenge=True, reasons=('missing_initial_state',), http_status=200).is_challenge
+E    +    where ChallengeVerdict(is_challenge=True, reasons=('missing_initial_state',), http_status=200) = judge('<script id=__NEXT_DATA__ type="application/json">{"page": "/browse/[...slug]", "props": {"pageProps": {}}}</script>')
+_____ test_a_listing_page_and_a_category_page_are_not_the_not_found_page ______
+tests\unit\test_not_found_page.py:71: in test_a_listing_page_and_a_category_page_are_not_the_not_found_page
+    assert wpd.not_found_page(listing) == ""
+           ^^^^^^^^^^^^^^^^^^
+E   AttributeError: module 'walmart_headless.sites.walmart.page_data' has no attribute 'not_found_page'
+_ test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on _
+tests\integration\test_coverage_and_assortment.py:987: in test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on
+    milk = cov["976759_9176907"]
+           ^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: '976759_9176907'
+_ test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established _
+tests\integration\test_detail_path.py:463: in test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established
+    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
+E   AssertionError: assert ('' == '078742371245'
+E     
+E     - 078742371245)
+_ test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names _
+tests\integration\test_detail_path.py:514: in test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names
+    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
+E   AssertionError: assert ('' == '078742371245'
+E     
+E     - 078742371245)
+________ test_a_carried_row_never_takes_a_upc_another_exported_row_has ________
+tests\integration\test_detail_path.py:560: in test_a_carried_row_never_takes_a_upc_another_exported_row_has
+    withheld = rec.provenance["historical"]["recovery_withheld"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'recovery_withheld'
+_ test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure _
+tests\integration\test_detail_path.py:581: in test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure
+    assert d["status"] == "request_failed"
+E   AssertionError: assert 'parse_failed' == 'request_failed'
+E     
+E     - request_failed
+E     + parse_failed
+_____________ test_every_outcome_of_an_empty_field_is_told_apart ______________
+tests\integration\test_detail_path.py:638: in test_every_outcome_of_an_empty_field_is_told_apart
+    assert inspected["disposition"] == disp.ABSENT and inspected["value"] == ""
+E   AssertionError: assert ('not_attempted' == 'absent_in_source'
+E     
+E     - absent_in_source
+E     + not_attempted)
+_________ test_a_pilot_budget_is_named_on_the_run_and_never_published _________
+tests\integration\test_operations.py:828: in test_a_pilot_budget_is_named_on_the_run_and_never_published
+    assert code == 0 and table["counts"]["upc"] == {"not_attempted": 3, "recovered_from_saved_detail": 1}
+E   AssertionError: assert (0 == 0 and {'not_attempted': 4} == {'not_attempt...ed_detail': 1}
+E     
+E     Differing items:
+E     {'not_attempted': 4} != {'not_attempted': 3}
+E     Right contains 1 more item:
+E     {'recovered_from_saved_detail': 1}
+E     Use -v to get more diff)
+=================================== PASSES ====================================
+__ test_a_page_nobody_requested_is_never_called_absent_in_any_evidence_file ___
+_________ test_a_carried_row_names_the_sources_of_its_own_earlier_run _________
+____________ test_a_carried_row_names_the_run_that_read_its_fields ____________
+_ test_a_run_that_ends_before_its_detail_pass_still_uses_what_earlier_reads_established _
+_ test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on _
+_ test_any_other_page_without_a_result_grid_still_stops_the_run[an-unknown-page-without-a-grid] _
+_ test_any_other_page_without_a_result_grid_still_stops_the_run[a-category-page-after-the-first-result-page] _
+=========================== short test summary info ===========================
+PASSED tests/unit/test_not_found_page.py::test_the_page_data_script_is_found_however_its_id_is_quoted[double-quoted]
+PASSED tests/unit/test_not_found_page.py::test_a_challenge_is_still_a_challenge_with_unquoted_page_data
+PASSED tests/unit/test_not_found_page.py::test_a_page_without_the_page_data_script_is_still_refused_as_before[no-page-data]
+PASSED tests/unit/test_not_found_page.py::test_a_page_without_the_page_data_script_is_still_refused_as_before[the-name-elsewhere]
+PASSED tests/unit/test_not_found_page.py::test_a_page_without_the_page_data_script_is_still_refused_as_before[another-id]
+PASSED tests/integration/test_detail_path.py::test_a_page_nobody_requested_is_never_called_absent_in_any_evidence_file
+PASSED tests/integration/test_detail_path.py::test_a_carried_row_names_the_sources_of_its_own_earlier_run
+PASSED tests/integration/test_detail_path.py::test_a_carried_row_names_the_run_that_read_its_fields
+PASSED tests/integration/test_detail_path.py::test_a_run_that_ends_before_its_detail_pass_still_uses_what_earlier_reads_established
+PASSED tests/integration/test_coverage_and_assortment.py::test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on
+PASSED tests/integration/test_coverage_and_assortment.py::test_any_other_page_without_a_result_grid_still_stops_the_run[an-unknown-page-without-a-grid]
+PASSED tests/integration/test_coverage_and_assortment.py::test_any_other_page_without_a_result_grid_still_stops_the_run[a-category-page-after-the-first-result-page]
+FAILED tests/unit/test_not_found_page.py::test_the_site_not_found_page_is_no_challenge
+FAILED tests/unit/test_not_found_page.py::test_its_page_data_is_read_and_says_it_is_the_not_found_page
+FAILED tests/unit/test_not_found_page.py::test_the_stored_copy_keeps_that_page_data_redacted_and_readable
+FAILED tests/unit/test_not_found_page.py::test_the_page_data_script_is_found_however_its_id_is_quoted[single-quoted]
+FAILED tests/unit/test_not_found_page.py::test_the_page_data_script_is_found_however_its_id_is_quoted[unquoted]
+FAILED tests/unit/test_not_found_page.py::test_a_listing_page_and_a_category_page_are_not_the_not_found_page
+FAILED tests/integration/test_coverage_and_assortment.py::test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on
+FAILED tests/integration/test_detail_path.py::test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established
+FAILED tests/integration/test_detail_path.py::test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names
+FAILED tests/integration/test_detail_path.py::test_a_carried_row_never_takes_a_upc_another_exported_row_has
+FAILED tests/integration/test_detail_path.py::test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure
+FAILED tests/integration/test_detail_path.py::test_every_outcome_of_an_empty_field_is_told_apart
+FAILED tests/integration/test_operations.py::test_a_pilot_budget_is_named_on_the_run_and_never_published
+13 failed, 12 passed in 108.82s (0:01:48)
+exit=1
+2026-11-04T11:48:36Z

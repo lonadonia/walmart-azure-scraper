@@ -1,0 +1,25 @@
+git diff def55e5..28ac7d3 (development monorepo), relative to the collector's folder
+1.6.3 = def55e5c5f69fc60053f52fe49d077ec7648a513; 1.6.4 = 28ac7d3b6b7c5fc8aee38cf15cb597d51f465cf2
+
+ Dockerfile                                                 |   4 +-
+ README.md                                                  |   8 +++-
+ azure/main.parameters.example.json                         |   2 +-
+ docs/CLI.md                                                |   2 +-
+ docs/OPERATIONS.md                                         |   9 +++-
+ docs/VERIFICATION.md                                       |  14 ++++++-
+ pyproject.toml                                             |   2 +-
+ src/walmart_headless/__init__.py                           |   2 +-
+ src/walmart_headless/collection/walmart.py                 |   4 +-
+ src/walmart_headless/core/paths.py                         |   2 +-
+ src/walmart_headless/sites/walmart/page_data.py            |   9 +++-
+ tests/captures/listing_pages_20261104/MANIFEST.json        |  15 +++++++
+ tests/captures/listing_pages_20261104/README.md            |  15 +++++++
+ tests/captures/listing_pages_20261104/bidets_page1.html.gz | Bin 0 -> 94855 bytes
+ tests/integration/test_coverage_and_assortment.py          |  51 +++++++++++++++++++++++
+ tests/synthetic_walmart.py                                 |  66 +++++++++++++++++++++++++++++
+ tests/unit/test_empty_pickup_grid.py                       |  97 +++++++++++++++++++++++++++++++++++++++++++
+ uv.lock                                                    |   2 +-
+ 18 files changed, 289 insertions(+), 15 deletions(-)
+
+tests only:
+ 6 files changed, 244 insertions(+)

@@ -1,0 +1,287 @@
+{
+ "generated_at": "2026-11-03T17:17:20.853617+00:00",
+ "reuse_since": "2026-10-04T17:17:20.853617+00:00",
+ "saved_items": 1110,
+ "pages": [
+  {
+   "listing": "1085666_3147628_5752434",
+   "page": 1,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 49,
+   "status:no record": 4,
+   "status:valid": 45,
+   "no_read_needed": 41,
+   "new_read_needed": 4
+  },
+  {
+   "listing": "1085666_3147628_5752434",
+   "page": 2,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 46,
+   "status:no record": 4,
+   "status:valid": 42,
+   "no_read_needed": 31,
+   "new_read_needed": 11
+  },
+  {
+   "listing": "1085666_3147628_5752434",
+   "page": 3,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 48,
+   "status:no record": 4,
+   "status:valid": 44,
+   "no_read_needed": 20,
+   "new_read_needed": 23,
+   "reusable": 1
+  },
+  {
+   "listing": "1115193_1071967",
+   "page": 1,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 48,
+   "status:no record": 8,
+   "status:valid": 40,
+   "no_read_needed": 35,
+   "new_read_needed": 5
+  },
+  {
+   "listing": "1115193_1071967",
+   "page": 2,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 50,
+   "status:no record": 8,
+   "status:valid": 42,
+   "no_read_needed": 36,
+   "new_read_needed": 6
+  },
+  {
+   "listing": "1115193_1071967",
+   "page": 3,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 50,
+   "status:no record": 8,
+   "status:valid": 42,
+   "no_read_needed": 18,
+   "new_read_needed": 24
+  },
+  {
+   "listing": "5440_202072_6432755_1636265",
+   "page": 1,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 44,
+   "status:valid": 43,
+   "no_read_needed": 31,
+   "status:no record": 1,
+   "seed_seen_as_tile": 1,
+   "new_read_needed": 12
+  },
+  {
+   "listing": "5440_202072_6432755_1636265",
+   "page": 2,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 47,
+   "status:valid": 46,
+   "no_read_needed": 9,
+   "status:no record": 1,
+   "seed_seen_as_tile": 2,
+   "new_read_needed": 37
+  },
+  {
+   "listing": "5440_202072_6432755_1636265",
+   "page": 3,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 48,
+   "status:valid": 47,
+   "no_read_needed": 7,
+   "status:no record": 1,
+   "seed_seen_as_tile": 1,
+   "new_read_needed": 40
+  },
+  {
+   "listing": "5440_202072_6432755_1636265",
+   "page": 4,
+   "run": "01M69Y1J6YWFEZ1DJHAC2MT17M",
+   "tiles": 18,
+   "status:valid": 16,
+   "no_read_needed": 5,
+   "status:no record": 1,
+   "seed_seen_as_tile": 1,
+   "new_read_needed": 10,
+   "status:excluded": 1,
+   "reusable": 1
+  },
+  {
+   "listing": "976759_976793_8910423",
+   "page": 1,
+   "run": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+   "tiles": 44,
+   "status:historical": 3,
+   "status:no record": 1,
+   "status:valid": 32,
+   "reusable": 32,
+   "status:excluded": 8
+  },
+  {
+   "listing": "976759_976793_8910423",
+   "page": 2,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 44,
+   "status:historical": 3,
+   "status:no record": 1,
+   "status:valid": 32,
+   "no_read_needed": 30,
+   "reusable": 2,
+   "status:excluded": 8
+  },
+  {
+   "listing": "976759_976793_8910423",
+   "page": 3,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 44,
+   "status:historical": 3,
+   "status:no record": 1,
+   "status:valid": 38,
+   "no_read_needed": 13,
+   "reusable": 1,
+   "new_read_needed": 24,
+   "status:excluded": 2
+  },
+  {
+   "listing": "976759_976793_9756351",
+   "page": 1,
+   "run": "01M6H5TX7R4ZWV8W3NTH0QN6HF",
+   "tiles": 48,
+   "status:historical": 8,
+   "status:excluded": 8,
+   "status:valid": 32,
+   "no_read_needed": 25,
+   "reusable": 6,
+   "new_read_needed": 1
+  },
+  {
+   "listing": "976759_976793_9756351",
+   "page": 2,
+   "run": "01M69Y882GTVYRJZM0CXQ44MXN",
+   "tiles": 44,
+   "status:valid": 33,
+   "no_read_needed": 33,
+   "status:excluded": 11
+  },
+  {
+   "listing": "976759_976793_9756351",
+   "page": 3,
+   "run": "01M69Y882GTVYRJZM0CXQ44MXN",
+   "tiles": 43,
+   "status:valid": 35,
+   "no_read_needed": 14,
+   "status:excluded": 8,
+   "new_read_needed": 20,
+   "reusable": 1
+  },
+  {
+   "listing": "976760_4661388_6244277_7158394",
+   "page": 1,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 48,
+   "status:no record": 5,
+   "status:valid": 43,
+   "no_read_needed": 42,
+   "new_read_needed": 1
+  },
+  {
+   "listing": "976760_4661388_6244277_7158394",
+   "page": 2,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 49,
+   "status:no record": 5,
+   "status:valid": 44,
+   "no_read_needed": 29,
+   "new_read_needed": 15,
+   "seed_seen_as_tile": 1
+  },
+  {
+   "listing": "976760_4661388_6244277_7158394",
+   "page": 3,
+   "run": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "tiles": 48,
+   "status:no record": 5,
+   "status:valid": 43,
+   "no_read_needed": 11,
+   "new_read_needed": 32
+  }
+ ],
+ "by_listing": {
+  "1085666_3147628_5752434": {
+   "tiles": 143,
+   "status:no record": 12,
+   "status:valid": 131,
+   "no_read_needed": 92,
+   "new_read_needed": 38,
+   "reusable": 1
+  },
+  "1115193_1071967": {
+   "tiles": 148,
+   "status:no record": 24,
+   "status:valid": 124,
+   "no_read_needed": 89,
+   "new_read_needed": 35
+  },
+  "5440_202072_6432755_1636265": {
+   "tiles": 157,
+   "status:valid": 152,
+   "no_read_needed": 52,
+   "status:no record": 4,
+   "seed_seen_as_tile": 5,
+   "new_read_needed": 99,
+   "status:excluded": 1,
+   "reusable": 1
+  },
+  "976759_976793_8910423": {
+   "tiles": 132,
+   "status:historical": 9,
+   "status:no record": 3,
+   "status:valid": 102,
+   "reusable": 35,
+   "status:excluded": 18,
+   "no_read_needed": 43,
+   "new_read_needed": 24
+  },
+  "976759_976793_9756351": {
+   "tiles": 135,
+   "status:historical": 8,
+   "status:excluded": 27,
+   "status:valid": 100,
+   "no_read_needed": 72,
+   "reusable": 7,
+   "new_read_needed": 21
+  },
+  "976760_4661388_6244277_7158394": {
+   "tiles": 145,
+   "status:no record": 15,
+   "status:valid": 130,
+   "no_read_needed": 82,
+   "new_read_needed": 48,
+   "seed_seen_as_tile": 1
+  }
+ },
+ "seeds_by_listing": {
+  "1005862_1071969 (Bath & Body)": 24,
+  "5440_202072_6432755_1636265 (Dry Dog Food)": 96,
+  "976760_4661388_6244277_7158394 (Shop all Cold Cough & Flu Medicine)": 18,
+  "5427_486190 (Diapering)": 74,
+  "976759_976793_8910423": 25,
+  "1115193_1071967 (Laundry)": 38
+ },
+ "dataset_unresolved_by_sub_category": {
+  "Dry Dog Food | needs_read": 93,
+  "Fresh Fruits | needs_read": 21,
+  "Fresh Vegetables | needs_read": 24,
+  "Fresh Vegetables | reusable": 32,
+  "Laundry | needs_read": 36,
+  "Shampoo | needs_read": 43,
+  "Shampoo | reusable": 5,
+  "Shop all Cold Cough & Flu Medicine | needs_read": 49
+ },
+ "seeds_with_saved_page": 0,
+ "seeds_in_dataset": 2
+}

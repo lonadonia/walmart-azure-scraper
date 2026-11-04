@@ -1,0 +1,18 @@
+git diff 56f078e..1780349 (development monorepo), relative to the collector's folder
+1.6.0 = 56f078efce4df3b40165dbeafcfe49e6c6f581eb; 1.6.1 = 1780349e522d771a3642fe88bfb7b542044ec844
+
+ Dockerfile                                 |  4 ++--
+ README.md                                  | 10 ++++++++++
+ azure/main.parameters.example.json         |  2 +-
+ docs/OPERATIONS.md                         |  2 +-
+ docs/VERIFICATION.md                       | 30 +++++++++++++++++++++++++++++-
+ pyproject.toml                             |  2 +-
+ src/walmart_headless/__init__.py           |  2 +-
+ src/walmart_headless/collection/walmart.py | 24 ++++++++++++++++++++++++
+ src/walmart_headless/core/paths.py         |  2 +-
+ tests/integration/test_detail_path.py      | 40 ++++++++++++++++++++++++++++++++++++++++
+ uv.lock                                    |  2 +-
+ 11 files changed, 111 insertions(+), 9 deletions(-)
+
+tests only:
+ 1 file changed, 40 insertions(+)

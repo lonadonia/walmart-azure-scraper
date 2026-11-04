@@ -1,0 +1,759 @@
+{
+ "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+ "summary": {
+  "records": 10301,
+  "verified": 10280,
+  "mismatch": 21,
+  "unverified": 0
+ },
+ "mismatched_fields": {
+  "regular_price": 19,
+  "url": 1,
+  "ppm": 12,
+  "image_url": 1
+ },
+ "source_runs": [
+  "01M69Y882GTVYRJZM0CXQ44MXN",
+  "01M6A0JWYHTVK7XFH34P235F9Q",
+  "01M6A2VQAA5VXJHJHMZPCTZTD4",
+  "01M6H72J86K5TF7A1874N7BJ2R",
+  "01M6HAXEP6495EGWT91JQS09SS",
+  "01M6HCF2YSD7N18W7JMH6EHK23",
+  "01M6HCZXM0WGMRCFDTCNZ7218K",
+  "01M6K1HG154683NAAFXQZX33C6",
+  "01M6K25T57WW4BJBJ3RQGWN26G",
+  "01M6K6P21BW509BMRTN1FSB9H7",
+  "01M6K7AB85824HHKD17VNEHASS",
+  "01M6K7HT3XVV8R8CX79P31KMB4",
+  "01M6KA3CKYJSD6WDY4TDAAV73Y"
+ ],
+ "pages": 1478,
+ "mismatches": [
+  {
+   "url": "https://www.walmart.com/ip/Better-Fragrance-Pistachio-Kiwi-2-Pc-Set/20585873588?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[49]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "BETTER FRAGRANCE PISTACHIO KIWI 2 PC SET",
+    "regular_price": "5.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "BETTER FRAGRANCE PISTACHIO KIWI 2 PC SET",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Bodycology-Mix-Mingle-Holiday-Layering-Gift-Set-4-Piece/20066266417?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[14]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Bodycology Mix & Mingle Holiday Layering Gift Set, 4 Piece",
+    "regular_price": "10.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Bodycology Mix & Mingle Holiday Layering Gift Set, 4 Piece",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/COVERGIRL-Lash-Blast-Showstopper-Mascara-800-Hypnotic-Black-0-30-FL-OZ/20485002977?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "url"
+   ],
+   "source": {
+    "page": "1325.html.gz",
+    "json_path": "itemStacks[0].items[5]",
+    "pages_with_item": 3,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KAC1TDFMCWX5DC50A2NX4Y.html.gz"
+   },
+   "record": {
+    "product_title": "COVERGIRL Lash Blast Showstopper Mascara - 800 Hypnotic Black, 0.30 FL.OZ.",
+    "regular_price": "9.74",
+    "sale_price": "",
+    "ppm": "$32.47/fl oz"
+   },
+   "page": {
+    "name": "COVERGIRL Lash Blast Showstopper Mascara - 800 Hypnotic Black, 0.30 FL.OZ.",
+    "regular_price": "9.74",
+    "sale_price": "",
+    "ppm": "$32.47/fl oz",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Cetaphil-Nourishing-Hydrating-Cream-Oil-Infused-Body-Cream-for-Normal-to-Very-Dry-Skin-16-oz-Lipids-Vitamin-E-72-Hour-Hydration-Non-Greasy/18905414013?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[3]",
+    "pages_with_item": 2,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Cetaphil Nourishing & Hydrating Cream, Oil-Infused Body Cream for Normal to Very Dry Skin, 16 oz, Lipids & Vitamin E, 72 Hour Hydration, Non-Greasy",
+    "regular_price": "16.97",
+    "sale_price": "",
+    "ppm": "$1.06/oz"
+   },
+   "page": {
+    "name": "Cetaphil Nourishing & Hydrating Cream, Oil-Infused Body Cream for Normal to Very Dry Skin, 16 oz, Lipids & Vitamin E, 72 Hour Hydration, Non-Greasy",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/ChapStick-Moisture-SPF-15-Lip-Protectant-with-Broad-Spectrum-Sunscreen-Relieves-Dryness-24-Hour-Moisture-Hydrating-Lip-Balm-0-15-oz/19909366278?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[32]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "ChapStick Moisture + SPF 15 Lip Protectant with Broad Spectrum Sunscreen, Relieves Dryness, 24 Hour Moisture, Hydrating Lip Balm, 0.15 oz",
+    "regular_price": "1.43",
+    "sale_price": "",
+    "ppm": "$9.53/oz"
+   },
+   "page": {
+    "name": "ChapStick Moisture + SPF 15 Lip Protectant with Broad Spectrum Sunscreen, Relieves Dryness, 24 Hour Moisture, Hydrating Lip Balm, 0.15 oz",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Dashing-Diva-Gloss-Gel-Nail-Strips-Santa-s-Little-Mani-32-Count/20192714815?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[44]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Dashing Diva Gloss Gel Nail Strips, Santa's Little Mani, 32 Count",
+    "regular_price": "7.97",
+    "sale_price": "",
+    "ppm": "24.9 ¢/count"
+   },
+   "page": {
+    "name": "Dashing Diva Gloss Gel Nail Strips, Santa's Little Mani, 32 Count",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Free-Assembly-Women-s-Embellished-Pearlescent-Bead-Headband-Black/20258112559?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[48]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Free Assembly Women's Embellished Pearlescent Bead Headband, Black",
+    "regular_price": "11.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Free Assembly Women's Embellished Pearlescent Bead Headband, Black",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Head-and-Shoulders-Scalp-Restore-Dandruff-Conditioner-for-Dry-Flaky-Scalps-Deep-hydration-with-Bio-Ceramides-10-6-fl-oz/20409871453?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "image_url"
+   ],
+   "source": {
+    "page": "0246.html.gz",
+    "json_path": "itemStacks[0].items[2]",
+    "pages_with_item": 4,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB1YNCARK7HQ80N2KNCE23.html.gz"
+   },
+   "record": {
+    "product_title": "Head & Shoulders Scalp Restore Anti-Dandruff Conditioner, for Dry, Flaky Scalps, Deep hydration, with Bio-Ceramides, 10.6 fl oz",
+    "regular_price": "11.97",
+    "sale_price": "",
+    "ppm": "$1.13/fl oz"
+   },
+   "page": {
+    "name": "Head & Shoulders Scalp Restore Anti-Dandruff Conditioner, for Dry, Flaky Scalps, Deep hydration, with Bio-Ceramides, 10.6 fl oz",
+    "regular_price": "11.97",
+    "sale_price": "",
+    "ppm": "$1.13/fl oz",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Holiday-Time-Women-s-Gift-Box-Headband-Red/20319706283?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[30]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Holiday Time Women's Fashion Headband, Gift Box Design, Polyester Blend",
+    "regular_price": "5.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Holiday Time Women's Fashion Headband, Gift Box Design, Polyester Blend",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/My-Beauty-Spot-Migraine-Relief-Facial-Mask-with-Gel-Inserts/20394253049?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[53]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "My Beauty Spot Migraine Relief Facial Mask with Gel Inserts",
+    "regular_price": "9.97",
+    "sale_price": "",
+    "ppm": "$9.97/count"
+   },
+   "page": {
+    "name": "My Beauty Spot Migraine Relief Facial Mask with Gel Inserts",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Old-Spice-A-Kittle-Goes-A-Long-Way-NFL-Holiday-Pack-With-2in1-Shampoo-and-Conditioner-Lightweight-Cream-Hair-Styler-Deodorant-50-Value/20154869224?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[31]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Old Spice 'A Kittle Goes A Long Way' NFL Holiday Pack With 2in1 Shampoo and Conditioner, Lightweight Cream Hair Styler, & Deodorant, $50 Value",
+    "regular_price": "15.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Old Spice 'A Kittle Goes A Long Way' NFL Holiday Pack With 2in1 Shampoo and Conditioner, Lightweight Cream Hair Styler, & Deodorant, $50 Value",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Old-Spice-Holiday-Pack-With-Swagger-2in1-Pomade-Styler-Body-Wash/20137674624?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[33]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Old Spice Holiday Pack With Swagger 2in1, Pomade Styler, & Body Wash",
+    "regular_price": "15.00",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Old Spice Holiday Pack With Swagger 2in1, Pomade Styler, & Body Wash",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Elf-4-PC-Lip-Set/20160165023?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[54]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Profusion Cosmetics Elf 4 PC Lip Set",
+    "regular_price": "12.97",
+    "sale_price": "",
+    "ppm": "$10.81/oz"
+   },
+   "page": {
+    "name": "Profusion Cosmetics Elf 4 PC Lip Set",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Elf-Stocking-Stuffer-2-PC-Shimmer-Mini-Lip-Oil/20217861532?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[43]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Profusion Cosmetics Elf Stocking Stuffer - 2 PC Shimmer Mini Lip Oil",
+    "regular_price": "7.97",
+    "sale_price": "",
+    "ppm": "$2.49/oz"
+   },
+   "page": {
+    "name": "Profusion Cosmetics Elf Stocking Stuffer - 2 PC Shimmer Mini Lip Oil",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Profusion-Cosmetics-Monsters-Inc-Lip-Trio-Boo-Lip-Liner-Pencil-Blurring-Lip-Cream-Pencil-Sharpener/19980750071?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=VARIANT",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[47]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Profusion Cosmetics Monsters Inc - Lip Trio (Boo) - Lip Liner Pencil, Blurring Lip Cream, Pencil Sharpener",
+    "regular_price": "7.97",
+    "sale_price": "",
+    "ppm": "$36.23/oz"
+   },
+   "page": {
+    "name": "Profusion Cosmetics Monsters Inc - Lip Trio (Boo) - Lip Liner Pencil, Blurring Lip Cream, Pencil Sharpener",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Way-to-Celebrate-Women-s-Light-Pink-Glittery-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most/20363470928?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[20]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Way to Celebrate Fashion Headband, Glittery Reindeer Antler, Fabric",
+    "regular_price": "6.00",
+    "sale_price": "",
+    "ppm": "$100.00/ea"
+   },
+   "page": {
+    "name": "Way to Celebrate Fashion Headband, Glittery Reindeer Antler, Fabric",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Way-to-Celebrate-Women-s-Gold-Metal-Reindeer-Antler-Headband-1-Piece-One-Size-Fits-Most/20349174178?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[25]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Way to Celebrate Women's Fashion Headband, Reindeer Antler, One Size Fits Most",
+    "regular_price": "6.00",
+    "sale_price": "",
+    "ppm": "$100.00/ea"
+   },
+   "page": {
+    "name": "Way to Celebrate Women's Fashion Headband, Reindeer Antler, One Size Fits Most",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Wet-n-Wild-Fantasy-Makers-Paint-Pot-Beam-Me-Green/20165660963?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[8]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Wet n Wild Fantasy Makers Paint Pot - Beam Me Green",
+    "regular_price": "4.98",
+    "sale_price": "",
+    "ppm": "$24.90/oz"
+   },
+   "page": {
+    "name": "Wet n Wild Fantasy Makers Paint Pot - Beam Me Green",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Wet-n-Wild-Fantasy-Makers-Shimmer-Setting-Mist-Starborn-Glow/20110071119?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[22]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Wet n Wild Fantasy Makers Shimmer Setting Mist - Starborn Glow",
+    "regular_price": "8.48",
+    "sale_price": "",
+    "ppm": "$4.28/fl oz"
+   },
+   "page": {
+    "name": "Wet n Wild Fantasy Makers Shimmer Setting Mist - Starborn Glow",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/Wonder-Nation-Girls-Hair-Scrunch-7-Piece-Red/20256006906?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[39]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "Wonder Nation Girls Hair Scrunchies, 7 Piece, Red",
+    "regular_price": "3.98",
+    "sale_price": "",
+    "ppm": ""
+   },
+   "page": {
+    "name": "Wonder Nation Girls Hair Scrunchies, 7 Piece, Red",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  },
+  {
+   "url": "https://www.walmart.com/ip/eos-Cashmere-Body-Mist-Frosted-Plum-Amber-Plum-Body-Spray-6-fl-oz/20691356609?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=REGULAR&athbdg=L1600",
+   "status": null,
+   "result": "mismatch",
+   "mismatched_fields": [
+    "regular_price",
+    "ppm"
+   ],
+   "source": {
+    "page": "0256.html.gz",
+    "json_path": "itemStacks[0].items[13]",
+    "pages_with_item": 1,
+    "page_key": "runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz"
+   },
+   "record": {
+    "product_title": "eos Cashmere Body Mist, Frosted Plum & Amber, Plum Body Spray, 6 fl oz",
+    "regular_price": "12.98",
+    "sale_price": "",
+    "ppm": "$2.16/fl oz"
+   },
+   "page": {
+    "name": "eos Cashmere Body Mist, Frosted Plum & Amber, Plum Body Spray, 6 fl oz",
+    "regular_price": "",
+    "sale_price": "",
+    "ppm": "",
+    "pickup_store_ids": [
+     "3891",
+     "3891",
+     "3891"
+    ],
+    "pickup_at_store": true,
+    "seller": "Walmart.com",
+    "availability": "IN_STOCK"
+   }
+  }
+ ]
+}

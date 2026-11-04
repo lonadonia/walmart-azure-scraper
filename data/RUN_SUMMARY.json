@@ -1,18 +1,26 @@
 {
- "about": "The nine runs of the owner-funded live campaign of 2026-10-31 on the Oxylabs Web API, store 3891, PICKUP. S1 to S5 ran release 1.5.0 at 7b6f3258e0f4ab755732605eb88717c592d07073, S6 and S7 release 1.5.1 at 488a033fc22d09db9f6270feae274d8c77963d6f: no record of a run is attributed to another revision. Every run is a capped pilot: status 'rejected' (the coverage gate G3 at least), nothing published. Three runs' product files are delivered under live/: S6 (the final release, the >=500 demonstration), S7 (its time-separated repeat) and S4 (the >=500 run on 1.5.0, for comparison). products_retained is the run's products.json: its fresh rows plus rows carried from earlier runs of the campaign, each with its own observation date. USD amounts are estimates at the rates named, not invoices.",
+ "about": "Every live run of Walmart #3891 Pickup that this repository publishes. The nine 1.5.x stages are the owner-funded campaign of 2026-10-31 (releases 1.5.0 and 1.5.1), with the values the 1.5.2 publication gave them and repository paths. The 1.6.x stages are the user-trial campaign oxylabs-trial-20261103 (2026-11-03/04; releases 1.6.0 to 1.6.4 and the final 1.6.5): each entry is computed from the run's own evidence in evidence/live/1.6.x/runs/ and from the shared trial ledger's reservations of its stage (evidence/live/1.6.x/campaign/shared_ledger/). A run's status is the collector's: 'rejected' means a release gate failed (G3, coverage, at least: no run read the whole catalogue), so nothing was published. products.valid_fresh is the run's own count of valid fresh records (its validation report); a run that stopped before its validation (L4, L6, L7) has none, and products.fresh_rows_exported is the number of fresh rows its export holds. products_retained is the run's products.json: its fresh rows plus the rows it carried from earlier runs, each with its own observation date. USD amounts are at the reserve rate (USD 0.0015 per result, a list price), not an invoice.",
  "evidence_class": "LIVE VERIFIED",
- "campaign": {
-  "ledger_rows": 119,
-  "limit_rows": 120,
-  "usd_at_reserve_rate": "0.1785",
-  "usd_at_published_rate": "0.1190",
-  "ledger_by_outcome": {
-   "abandoned": 3,
-   "ok": 115,
-   "provider_failed_free": 1
+ "campaigns": {
+  "1.5.x": {
+   "ledger_rows": 119,
+   "limit_rows": 120,
+   "usd_at_reserve_rate": "0.1785",
+   "usd_at_published_rate": "0.1190",
+   "ledger_by_outcome": {
+    "abandoned": 3,
+    "ok": 115,
+    "provider_failed_free": 1
+   },
+   "plan": "CAMPAIGN_BUDGET.json; TEST_PLAN.md"
   },
-  "plan": "CAMPAIGN_BUDGET.json; TEST_PLAN.md"
+  "1.6.x": {
+   "campaign_id": "oxylabs-trial-20261103",
+   "ledger": "evidence/live/1.6.x/campaign/shared_ledger/",
+   "allowance": "USD 5 in total for Walmart and Mariano's together (the trial's free credit), envelopes USD 2.25 each and USD 0.50 headroom"
+  }
  },
+ "files_delivered": 20,
  "stages": [
   {
    "stage": "S1",
@@ -78,7 +86,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69X9XHZR83KZ2FNWBJYJKA7",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M69X9XHZR83KZ2FNWBJYJKA7/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69X9XHZR83KZ2FNWBJYJKA7"
   },
   {
    "stage": "S2",
@@ -144,7 +154,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69XM9RZN3C8D0K7W2NSXR3D",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M69XM9RZN3C8D0K7W2NSXR3D/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69XM9RZN3C8D0K7W2NSXR3D"
   },
   {
    "stage": "S3",
@@ -210,7 +222,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69Y1J6YWFEZ1DJHAC2MT17M",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M69Y1J6YWFEZ1DJHAC2MT17M/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69Y1J6YWFEZ1DJHAC2MT17M"
   },
   {
    "stage": "S4",
@@ -277,27 +291,29 @@
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69Y882GTVYRJZM0CXQ44MXN",
    "delivered_files": {
-    "live/S4_1.5.0/products_fresh.json": {
+    "data/S4-1.5.0/products_fresh.json": {
      "copied_from_export": "products_fresh.json",
      "sha256": "04632e549586744026d8f831ccbd7c86a84a73b563adadf72eaa3fe6ee3e044f",
      "rows": 677
     },
-    "live/S4_1.5.0/products_fresh.csv": {
+    "data/S4-1.5.0/products_fresh.csv": {
      "copied_from_export": "products_fresh.csv",
      "sha256": "d2f5ab01c13d5381b7c6a30c0f57cc5c8a5390ec18ad91cb87991e68c9205e7f",
      "rows": 677
     },
-    "live/S4_1.5.0/products_retained.json": {
+    "data/S4-1.5.0/products_retained.json": {
      "copied_from_export": "products.json",
      "sha256": "ea69d4259d2c8c063674f1b3100ae37cafdd66698440b886d08a87ca527cd35f",
      "rows": 689
     },
-    "live/S4_1.5.0/products_retained.csv": {
+    "data/S4-1.5.0/products_retained.csv": {
      "copied_from_export": "products.csv",
      "sha256": "099efe66952a13d39d504cf74f554c337531f4d4a516855c5ac2b6c53a06fdd9",
      "rows": 689
     }
-   }
+   },
+   "exports": "evidence/live/runs/01M69Y882GTVYRJZM0CXQ44MXN/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69Y882GTVYRJZM0CXQ44MXN"
   },
   {
    "stage": "S5b_serial",
@@ -363,7 +379,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69YPZTFCP7AWJ5B78AXEA2N",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M69YPZTFCP7AWJ5B78AXEA2N/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69YPZTFCP7AWJ5B78AXEA2N"
   },
   {
    "stage": "S5b_parallel",
@@ -429,7 +447,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M69YS2X0YG5JSEMCGKK8BHE5",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M69YS2X0YG5JSEMCGKK8BHE5/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M69YS2X0YG5JSEMCGKK8BHE5"
   },
   {
    "stage": "S5a",
@@ -495,7 +515,9 @@
    "challenges": 0,
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M6A0JWYHTVK7XFH34P235F9Q",
-   "delivered_files": {}
+   "delivered_files": {},
+   "exports": "evidence/live/runs/01M6A0JWYHTVK7XFH34P235F9Q/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M6A0JWYHTVK7XFH34P235F9Q"
   },
   {
    "stage": "S6",
@@ -562,27 +584,29 @@
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M6A2VQAA5VXJHJHMZPCTZTD4",
    "delivered_files": {
-    "live/S6_1.5.1/products_fresh.json": {
+    "data/S6-1.5.1/products_fresh.json": {
      "copied_from_export": "products_fresh.json",
      "sha256": "8e3a9c3c9bbbadd54252829911b4e4659781f62165613e262d3e6edccea4a06a",
      "rows": 580
     },
-    "live/S6_1.5.1/products_fresh.csv": {
+    "data/S6-1.5.1/products_fresh.csv": {
      "copied_from_export": "products_fresh.csv",
      "sha256": "21e2b03434252c446900d7822edff211af85210de33f4a396b3546c30c703f76",
      "rows": 580
     },
-    "live/S6_1.5.1/products_retained.json": {
+    "data/S6-1.5.1/products_retained.json": {
      "copied_from_export": "products.json",
      "sha256": "9d53cdc9ac14fcc8890b0907addfdc27c61f85243fa2efd83e5eb249733026e6",
      "rows": 706
     },
-    "live/S6_1.5.1/products_retained.csv": {
+    "data/S6-1.5.1/products_retained.csv": {
      "copied_from_export": "products.csv",
      "sha256": "3487cb2f372a3cd29e9d22bdb4b2ed90d4d2e6195175166eca4cb2b99b904e48",
      "rows": 706
     }
-   }
+   },
+   "exports": "evidence/live/runs/01M6A2VQAA5VXJHJHMZPCTZTD4/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M6A2VQAA5VXJHJHMZPCTZTD4"
   },
   {
    "stage": "S7",
@@ -649,27 +673,1250 @@
    "http_not_200": 0,
    "run_folder": "WALMART_EVIDENCE_1.5.1.zip: 1_new_live/runs/01M6A52HA6XYCEDS6DBE5N5RQ7",
    "delivered_files": {
-    "live/S7_1.5.1/products_fresh.json": {
+    "data/S7-1.5.1/products_fresh.json": {
      "copied_from_export": "products_fresh.json",
      "sha256": "5f1c002aebd8010bdfdb0ab0ad4e746a915a4f8ef369bb006c004a162104b056",
      "rows": 32
     },
-    "live/S7_1.5.1/products_fresh.csv": {
+    "data/S7-1.5.1/products_fresh.csv": {
      "copied_from_export": "products_fresh.csv",
      "sha256": "6678eb301161f85ac5fb9aea6c75b4b37a22aa8c5f632a8ba779894acb60b73d",
      "rows": 32
     },
-    "live/S7_1.5.1/products_retained.json": {
+    "data/S7-1.5.1/products_retained.json": {
      "copied_from_export": "products.json",
      "sha256": "9f6c41ac8e454e38827bad29ac9880f49fbc71f162f5c83ae0c7d73988413e01",
      "rows": 706
     },
-    "live/S7_1.5.1/products_retained.csv": {
+    "data/S7-1.5.1/products_retained.csv": {
      "copied_from_export": "products.csv",
      "sha256": "107d681de8604420312bad16b38a0e251874b896b896aeb03888f5583168396d",
      "rows": 706
     }
+   },
+   "exports": "evidence/live/runs/01M6A52HA6XYCEDS6DBE5N5RQ7/exports",
+   "run_folder_in_repository": "evidence/live/runs/01M6A52HA6XYCEDS6DBE5N5RQ7"
+  },
+  {
+   "stage": "L1",
+   "trial_stage": "W-L1-canary-20261103",
+   "run": "01M6H5TX7R4ZWV8W3NTH0QN6HF",
+   "release": "1.6.0",
+   "commit": "56f078efce4df3b40165dbeafcfe49e6c6f581eb",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "5a70e4616c8a37875103787323e99943a74237024bcf58ee2322c17a1da1febd",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.0.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 17:03:16.151012+00:00",
+   "started_at": "2026-11-03 17:03:16.567191+00:00",
+   "finished_at": "2026-11-03 17:04:55.681690+00:00",
+   "active_seconds": 99.0,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 4,
+   "collector_ledger_by_outcome": {
+    "ok": 4
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 1,
+    "product_detail": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.0060",
+   "shared_ledger_reservations_by_state": {
+    "settled": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 1,
+    "product_detail": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 32,
+    "fresh_rows_exported": 32,
+    "export_rows": 709,
+    "carried_from_earlier_runs": 677,
+    "records_by_status": {
+     "valid": 32,
+     "excluded": 8,
+     "historical": 677
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 1
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L1_01M6H5TX7R4ZWV8W3NTH0QN6HF",
+   "exports": "evidence/live/1.6.x/runs/L1_01M6H5TX7R4ZWV8W3NTH0QN6HF/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L2",
+   "trial_stage": "W-L2-highvalue-demo-20261103",
+   "run": "01M6H72J86K5TF7A1874N7BJ2R",
+   "release": "1.6.0",
+   "commit": "56f078efce4df3b40165dbeafcfe49e6c6f581eb",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "5a70e4616c8a37875103787323e99943a74237024bcf58ee2322c17a1da1febd",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.0.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 17:24:55.662510+00:00",
+   "started_at": "2026-11-03 17:24:55.824115+00:00",
+   "finished_at": "2026-11-03 18:07:51.788340+00:00",
+   "active_seconds": 2188.7,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3",
+   "segments": 3,
+   "segment_stop_codes": {
+    "TERMINATED": 1,
+    "(none)": 2
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 524,
+   "collector_ledger_by_outcome": {
+    "abandoned": 2,
+    "cancelled": 2,
+    "ok": 514,
+    "provider_failed_free": 6
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 19,
+    "product_detail": 263,
+    "product_page": 230,
+    "robots": 6,
+    "store_page": 6
+   },
+   "usd_at_reserve_rate_0_0015": "0.7770",
+   "shared_ledger_reservations_by_state": {
+    "settled": 520,
+    "unknown": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.7710",
+    "unknown": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 18,
+    "product_detail": 254,
+    "product_page": 230,
+    "robots": 6,
+    "store_page": 6
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 707,
+    "fresh_rows_exported": 707,
+    "export_rows": 806,
+    "carried_from_earlier_runs": 99,
+    "records_by_status": {
+     "valid": 707,
+     "excluded": 62,
+     "historical": 99
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 6
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L2_01M6H72J86K5TF7A1874N7BJ2R",
+   "exports": "evidence/live/1.6.x/runs/L2_01M6H72J86K5TF7A1874N7BJ2R/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L3",
+   "trial_stage": "W-L3-final-demo-161-20261103",
+   "run": "01M6HA74X4QYMW45SVD62JQDSQ",
+   "release": "1.6.1",
+   "commit": "1780349e522d771a3642fe88bfb7b542044ec844",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "805f69211a2bb456c2e30741a9c2d3aa1d8f5125b87549d03e7fc360a61bdf68",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.1.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 18:19:51.563155+00:00",
+   "started_at": "2026-11-03 18:19:51.778320+00:00",
+   "finished_at": "2026-11-03 18:29:39.753313+00:00",
+   "active_seconds": 388.5,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3",
+   "segments": 3,
+   "segment_stop_codes": {
+    "TERMINATED": 1,
+    "(none)": 2
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 48,
+   "collector_ledger_by_outcome": {
+    "cancelled": 2,
+    "ok": 42,
+    "provider_failed_free": 2,
+    "reserved": 2
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 20,
+    "product_detail": 16,
+    "robots": 6,
+    "store_page": 6
+   },
+   "usd_at_reserve_rate_0_0015": "0.0690",
+   "shared_ledger_reservations_by_state": {
+    "settled": 44,
+    "unknown": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0630",
+    "unknown": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 18,
+    "product_detail": 12,
+    "robots": 6,
+    "store_page": 6
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 676,
+    "fresh_rows_exported": 676,
+    "export_rows": 808,
+    "carried_from_earlier_runs": 132,
+    "records_by_status": {
+     "valid": 676,
+     "excluded": 40,
+     "historical": 132
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 6
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L3_01M6HA74X4QYMW45SVD62JQDSQ",
+   "exports": "evidence/live/1.6.x/runs/L3_01M6HA74X4QYMW45SVD62JQDSQ/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L2b",
+   "trial_stage": "W-L2b-queue-seeds-161-20261103",
+   "run": "01M6HAXEP6495EGWT91JQS09SS",
+   "release": "1.6.1",
+   "commit": "1780349e522d771a3642fe88bfb7b542044ec844",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "805f69211a2bb456c2e30741a9c2d3aa1d8f5125b87549d03e7fc360a61bdf68",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.1.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 18:32:02.479623+00:00",
+   "started_at": "2026-11-03 18:32:02.632331+00:00",
+   "finished_at": "2026-11-03 18:56:45.687340+00:00",
+   "active_seconds": 1483.0,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 125,
+   "collector_ledger_by_outcome": {
+    "ok": 120,
+    "provider_failed_free": 5
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 2,
+    "product_page": 121,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.1800",
+   "shared_ledger_reservations_by_state": {
+    "settled": 125
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.1800"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 2,
+    "product_page": 116,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 120,
+    "fresh_rows_exported": 120,
+    "export_rows": 928,
+    "carried_from_earlier_runs": 808,
+    "records_by_status": {
+     "valid": 120,
+     "excluded": 32,
+     "historical": 808
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 2
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L2b_01M6HAXEP6495EGWT91JQS09SS",
+   "exports": "evidence/live/1.6.x/runs/L2b_01M6HAXEP6495EGWT91JQS09SS/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L4r",
+   "trial_stage": "W-L4r-capped-revisits-161-20261103",
+   "run": "01M6HCF2YSD7N18W7JMH6EHK23",
+   "release": "1.6.1",
+   "commit": "1780349e522d771a3642fe88bfb7b542044ec844",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "805f69211a2bb456c2e30741a9c2d3aa1d8f5125b87549d03e7fc360a61bdf68",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.1.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 18:59:08.871569+00:00",
+   "started_at": "2026-11-03 18:59:09.123390+00:00",
+   "finished_at": "2026-11-03 19:04:08.867495+00:00",
+   "active_seconds": 299.8,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 52,
+   "collector_ledger_by_outcome": {
+    "ok": 52
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 48,
+    "robots": 2,
+    "store_page": 2
+   },
+   "usd_at_reserve_rate_0_0015": "0.0780",
+   "shared_ledger_reservations_by_state": {
+    "settled": 52
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0780"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 48,
+    "robots": 2,
+    "store_page": 2
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 1600,
+    "fresh_rows_exported": 1601,
+    "export_rows": 1754,
+    "carried_from_earlier_runs": 153,
+    "records_by_status": {
+     "valid": 1600,
+     "excluded": 46,
+     "historical": 153,
+     "exported_not_valid": 1
+    }
+   },
+   "coverage_by_status": {
+    "DONE": 1,
+    "INCOMPLETE": 6
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L4r_01M6HCF2YSD7N18W7JMH6EHK23",
+   "exports": "evidence/live/1.6.x/runs/L4r_01M6HCF2YSD7N18W7JMH6EHK23/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L4",
+   "trial_stage": "W-L4-census-161-20261103",
+   "run": "01M6HCZXM0WGMRCFDTCNZ7218K",
+   "release": "1.6.1",
+   "commit": "1780349e522d771a3642fe88bfb7b542044ec844",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "805f69211a2bb456c2e30741a9c2d3aa1d8f5125b87549d03e7fc360a61bdf68",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.1.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-03 19:08:20.454348+00:00",
+   "started_at": "2026-11-03 19:08:20.698014+00:00",
+   "finished_at": "2026-11-03 19:11:15.083689+00:00",
+   "active_seconds": 174.3,
+   "status": "rejected",
+   "stop_code": "ABNORMAL_RESULT",
+   "gates_failed": "",
+   "segments": 1,
+   "segment_stop_codes": {
+    "ABNORMAL_RESULT": 1
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 35,
+   "collector_ledger_by_outcome": {
+    "ok": 35
+   },
+   "collector_ledger_by_purpose": {
+    "category_page": 2,
+    "listing": 29,
+    "robots": 2,
+    "store_page": 2
+   },
+   "usd_at_reserve_rate_0_0015": "0.0525",
+   "shared_ledger_reservations_by_state": {
+    "settled": 35
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0525"
+   },
+   "page_fetches_by_purpose": {
+    "category_page": 2,
+    "listing": 29,
+    "robots": 2,
+    "store_page": 2
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": null,
+    "fresh_rows_exported": 865,
+    "export_rows": 865,
+    "carried_from_earlier_runs": 0,
+    "records_by_status": {}
+   },
+   "coverage_by_status": {
+    "CAPPED": 20,
+    "DONE": 8
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L4_01M6HCZXM0WGMRCFDTCNZ7218K",
+   "exports": "evidence/live/1.6.x/runs/L4_01M6HCZXM0WGMRCFDTCNZ7218K/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L5",
+   "trial_stage": "W-L5-final-demo-162-20261104",
+   "run": "01M6K1HG154683NAAFXQZX33C6",
+   "release": "1.6.2",
+   "commit": "12740567afc1499d1eb850c9faa306439b0798d2",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "91230d32052a0ab1fb30e98159078c6d2d99cae65c05e8c6930a202c6c2ef97c",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.2.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 10:26:42.255214+00:00",
+   "started_at": "2026-11-04 10:26:42.465568+00:00",
+   "finished_at": "2026-11-04 10:35:30.646207+00:00",
+   "active_seconds": 360.3,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4",
+   "segments": 3,
+   "segment_stop_codes": {
+    "TERMINATED": 1,
+    "(none)": 2
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 68,
+   "collector_ledger_by_outcome": {
+    "cancelled": 2,
+    "ok": 64,
+    "reserved": 2
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 20,
+    "product_detail": 36,
+    "robots": 6,
+    "store_page": 6
+   },
+   "usd_at_reserve_rate_0_0015": "0.1020",
+   "shared_ledger_reservations_by_state": {
+    "settled": 64,
+    "unknown": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0960",
+    "unknown": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 18,
+    "product_detail": 34,
+    "robots": 6,
+    "store_page": 6
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 679,
+    "fresh_rows_exported": 679,
+    "export_rows": 2274,
+    "carried_from_earlier_runs": 1595,
+    "records_by_status": {
+     "valid": 679,
+     "excluded": 39,
+     "historical": 1595
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 6
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L5_01M6K1HG154683NAAFXQZX33C6",
+   "exports": "evidence/live/1.6.x/runs/L5_01M6K1HG154683NAAFXQZX33C6/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L6",
+   "trial_stage": "W-L6-partition-check-162-20261104",
+   "run": "01M6K25T57WW4BJBJ3RQGWN26G",
+   "release": "1.6.2",
+   "commit": "12740567afc1499d1eb850c9faa306439b0798d2",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "91230d32052a0ab1fb30e98159078c6d2d99cae65c05e8c6930a202c6c2ef97c",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.2.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 10:37:47.988477+00:00",
+   "started_at": "2026-11-04 10:37:48.173422+00:00",
+   "finished_at": "2026-11-04 10:43:05.265817+00:00",
+   "active_seconds": 317.0,
+   "status": "rejected",
+   "stop_code": "SITE_REFUSAL",
+   "gates_failed": "",
+   "segments": 1,
+   "segment_stop_codes": {
+    "SITE_REFUSAL": 1
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 69,
+   "collector_ledger_by_outcome": {
+    "ok": 69
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 65,
+    "robots": 2,
+    "store_page": 2
+   },
+   "usd_at_reserve_rate_0_0015": "0.1035",
+   "shared_ledger_reservations_by_state": {
+    "settled": 69
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.1035"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 65,
+    "robots": 2,
+    "store_page": 2
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 1,
+   "products": {
+    "valid_fresh": null,
+    "fresh_rows_exported": 1101,
+    "export_rows": 1101,
+    "carried_from_earlier_runs": 0,
+    "records_by_status": {}
+   },
+   "coverage_by_status": {
+    "DONE": 7,
+    "INCOMPLETE": 11,
+    "PARTITIONED": 2
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L6_01M6K25T57WW4BJBJ3RQGWN26G",
+   "exports": "evidence/live/1.6.x/runs/L6_01M6K25T57WW4BJBJ3RQGWN26G/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L8",
+   "trial_stage": "W-L8-final-demo-163-20261104",
+   "run": "01M6K6P21BW509BMRTN1FSB9H7",
+   "release": "1.6.3",
+   "commit": "def55e5c5f69fc60053f52fe49d077ec7648a513",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "9fa0124f69aa4b2e019847ea0f7dd2247bfa40a01b4aba25cb3edd6e8fee898b",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.3.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 11:56:34.614254+00:00",
+   "started_at": "2026-11-04 11:56:34.878738+00:00",
+   "finished_at": "2026-11-04 12:04:55.795839+00:00",
+   "active_seconds": 371.5,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4",
+   "segments": 3,
+   "segment_stop_codes": {
+    "TERMINATED": 1,
+    "(none)": 2
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 41,
+   "collector_ledger_by_outcome": {
+    "abandoned": 2,
+    "cancelled": 2,
+    "ok": 36,
+    "provider_failed_free": 1
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 20,
+    "product_detail": 9,
+    "robots": 6,
+    "store_page": 6
+   },
+   "usd_at_reserve_rate_0_0015": "0.0600",
+   "shared_ledger_reservations_by_state": {
+    "settled": 37,
+    "unknown": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0540",
+    "unknown": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 18,
+    "product_detail": 6,
+    "robots": 6,
+    "store_page": 6
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 675,
+    "fresh_rows_exported": 675,
+    "export_rows": 2515,
+    "carried_from_earlier_runs": 1840,
+    "records_by_status": {
+     "valid": 675,
+     "excluded": 39,
+     "historical": 1840
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 6
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L8_01M6K6P21BW509BMRTN1FSB9H7",
+   "exports": "evidence/live/1.6.x/runs/L8_01M6K6P21BW509BMRTN1FSB9H7/exports",
+   "delivered_files": {
+    "data/L8-1.6.3/products_fresh.json": {
+     "copied_from_export": "products_fresh.json",
+     "sha256": "d29c6cab80e245efaf68b7cd00d1fb68887cebe2519b2610483355466e2ff563",
+     "rows": 675
+    },
+    "data/L8-1.6.3/products_fresh.csv": {
+     "copied_from_export": "products_fresh.csv",
+     "sha256": "96f7f36d4f44d5ed0cb0a80fa9cf4a09e545687a2fe8e57b8a8be01581569931",
+     "rows": 675
+    },
+    "data/L8-1.6.3/products_retained.json": {
+     "copied_from_export": "products.json",
+     "sha256": "2151eec2711bfb211812a365e112eb01596b666bee3c796ba982db27ae5d17d9",
+     "rows": 2515
+    },
+    "data/L8-1.6.3/products_retained.csv": {
+     "copied_from_export": "products.csv",
+     "sha256": "b67179bef36d7479b36f373c98eaad58b844fb45f996ddd1007392a727c90e07",
+     "rows": 2515
+    }
    }
+  },
+  {
+   "stage": "L9",
+   "trial_stage": "W-L9-unread-children-163-20261104",
+   "run": "01M6K7AB85824HHKD17VNEHASS",
+   "release": "1.6.3",
+   "commit": "def55e5c5f69fc60053f52fe49d077ec7648a513",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "9fa0124f69aa4b2e019847ea0f7dd2247bfa40a01b4aba25cb3edd6e8fee898b",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.3.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 12:07:39.441504+00:00",
+   "started_at": "2026-11-04 12:07:39.639283+00:00",
+   "finished_at": "2026-11-04 12:09:31.119731+00:00",
+   "active_seconds": 111.5,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 4,
+   "collector_ledger_by_outcome": {
+    "ok": 4
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 2,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.0060",
+   "shared_ledger_reservations_by_state": {
+    "settled": 4
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0060"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 2,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 2,
+    "fresh_rows_exported": 2,
+    "export_rows": 2515,
+    "carried_from_earlier_runs": 2513,
+    "records_by_status": {
+     "valid": 2,
+     "historical": 2513
+    }
+   },
+   "coverage_by_status": {
+    "DONE": 1,
+    "INCOMPLETE": 1
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L9_01M6K7AB85824HHKD17VNEHASS",
+   "exports": "evidence/live/1.6.x/runs/L9_01M6K7AB85824HHKD17VNEHASS/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L7",
+   "trial_stage": "W-L7-census-163-20261104",
+   "run": "01M6K7HT3XVV8R8CX79P31KMB4",
+   "release": "1.6.3",
+   "commit": "def55e5c5f69fc60053f52fe49d077ec7648a513",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "9fa0124f69aa4b2e019847ea0f7dd2247bfa40a01b4aba25cb3edd6e8fee898b",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.3.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 12:11:43.970990+00:00",
+   "started_at": "2026-11-04 12:11:44.318270+00:00",
+   "finished_at": "2026-11-04 12:19:13.577334+00:00",
+   "active_seconds": 449.1,
+   "status": "rejected",
+   "stop_code": "ABNORMAL_RESULT",
+   "gates_failed": "",
+   "segments": 1,
+   "segment_stop_codes": {
+    "ABNORMAL_RESULT": 1
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 82,
+   "collector_ledger_by_outcome": {
+    "ok": 82
+   },
+   "collector_ledger_by_purpose": {
+    "category_page": 2,
+    "listing": 76,
+    "robots": 2,
+    "store_page": 2
+   },
+   "usd_at_reserve_rate_0_0015": "0.1230",
+   "shared_ledger_reservations_by_state": {
+    "settled": 82
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.1230"
+   },
+   "page_fetches_by_purpose": {
+    "category_page": 2,
+    "listing": 76,
+    "robots": 2,
+    "store_page": 2
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": null,
+    "fresh_rows_exported": 2019,
+    "export_rows": 2019,
+    "carried_from_earlier_runs": 0,
+    "records_by_status": {}
+   },
+   "coverage_by_status": {
+    "CAPPED": 51,
+    "DONE": 18,
+    "EMPTY": 1,
+    "INCOMPLETE": 2,
+    "PARTITIONED": 2
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L7_01M6K7HT3XVV8R8CX79P31KMB4",
+   "exports": "evidence/live/1.6.x/runs/L7_01M6K7HT3XVV8R8CX79P31KMB4/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L10",
+   "trial_stage": "W-L10-census-continued-164-20261104",
+   "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+   "release": "1.6.4",
+   "commit": "28ac7d3b6b7c5fc8aee38cf15cb597d51f465cf2",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "8d226b2f1271a55083f6eab54600e98d0841c9d28940d63e1427f4b800593a6c",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.4.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 12:56:17.172598+00:00",
+   "started_at": "2026-11-04 12:56:17.402679+00:00",
+   "finished_at": "2026-11-04 13:42:46.493270+00:00",
+   "active_seconds": 2596.6,
+   "status": "rejected",
+   "stop_code": "RUN_CREDIT_LIMIT",
+   "gates_failed": "G3; G4",
+   "segments": 1,
+   "segment_stop_codes": {
+    "RUN_CREDIT_LIMIT": 1
+   },
+   "workers": [
+    2
+   ],
+   "collector_ledger_rows": 441,
+   "collector_ledger_by_outcome": {
+    "ok": 441
+   },
+   "collector_ledger_by_purpose": {
+    "category_page": 8,
+    "listing": 429,
+    "robots": 2,
+    "store_page": 2
+   },
+   "usd_at_reserve_rate_0_0015": "0.6615",
+   "shared_ledger_reservations_by_state": {
+    "settled": 441
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.6615"
+   },
+   "page_fetches_by_purpose": {
+    "category_page": 8,
+    "listing": 429,
+    "robots": 2,
+    "store_page": 2
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 7055,
+    "fresh_rows_exported": 7057,
+    "export_rows": 10301,
+    "carried_from_earlier_runs": 3244,
+    "records_by_status": {
+     "valid": 7055,
+     "excluded": 23,
+     "historical": 3244,
+     "exported_not_valid": 2
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 185,
+    "DONE": 197,
+    "EMPTY": 34,
+    "INCOMPLETE": 7,
+    "PARTITIONED": 1,
+    "SKIPPED": 155
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L10_01M6KA3CKYJSD6WDY4TDAAV73Y",
+   "exports": "evidence/live/1.6.x/runs/L10_01M6KA3CKYJSD6WDY4TDAAV73Y/exports",
+   "delivered_files": {
+    "data/L10-1.6.4/products_fresh.json": {
+     "copied_from_export": "products_fresh.json",
+     "sha256": "e62fb576e181e884ef396b689ab804ae7880d79ba348daf51f4eb39e9a840da0",
+     "rows": 7057
+    },
+    "data/L10-1.6.4/products_fresh.csv": {
+     "copied_from_export": "products_fresh.csv",
+     "sha256": "bde7ab28f3a49dc58cf05d9803d87f218e3f8882d334e0cc2377462a5caa6f36",
+     "rows": 7057
+    },
+    "data/L10-1.6.4/products_retained.json": {
+     "copied_from_export": "products.json",
+     "sha256": "563f1edd2ed3d0d6657220bf8371289275bd13f0404255ccd77645b859fce505",
+     "rows": 10301
+    },
+    "data/L10-1.6.4/products_retained.csv": {
+     "copied_from_export": "products.csv",
+     "sha256": "8ba7bebfd359516dcb9374fba9e956503f724dee48bcfe295879dc234c5b7a46",
+     "rows": 10301
+    }
+   }
+  },
+  {
+   "stage": "L11",
+   "trial_stage": "W-L11-canary-165-20261104",
+   "run": "01M6KF4RDC2MKR5Q26ZY5D727P",
+   "release": "1.6.5",
+   "commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "edd60bb8435e7abd8293d7c2b5b76eaaaff0051d18c053d715afc2533070ba6b",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.5.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 14:24:24.924216+00:00",
+   "started_at": "2026-11-04 14:24:25.123189+00:00",
+   "finished_at": "2026-11-04 14:30:07.660585+00:00",
+   "active_seconds": 342.6,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4; G8; G12; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 3,
+   "collector_ledger_by_outcome": {
+    "ok": 3
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.0045",
+   "shared_ledger_reservations_by_state": {
+    "settled": 3
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0045"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 0,
+    "fresh_rows_exported": 0,
+    "export_rows": 10301,
+    "carried_from_earlier_runs": 10301,
+    "records_by_status": {
+     "historical": 10301
+    }
+   },
+   "coverage_by_status": {
+    "INCOMPLETE": 1
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L11_01M6KF4RDC2MKR5Q26ZY5D727P",
+   "exports": "evidence/live/1.6.x/runs/L11_01M6KF4RDC2MKR5Q26ZY5D727P/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L11b",
+   "trial_stage": "W-L11b-canary-165-20261104",
+   "run": "01M6KFRFEX31W014SW9ZTT4Y54",
+   "release": "1.6.5",
+   "commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "edd60bb8435e7abd8293d7c2b5b76eaaaff0051d18c053d715afc2533070ba6b",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.5.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 14:35:11.120907+00:00",
+   "started_at": "2026-11-04 14:35:11.298303+00:00",
+   "finished_at": "2026-11-04 14:40:22.561911+00:00",
+   "active_seconds": 311.3,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G4; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 3,
+   "collector_ledger_by_outcome": {
+    "ok": 3
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.0045",
+   "shared_ledger_reservations_by_state": {
+    "settled": 3
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0045"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 1,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 35,
+    "fresh_rows_exported": 35,
+    "export_rows": 10301,
+    "carried_from_earlier_runs": 10266,
+    "records_by_status": {
+     "valid": 35,
+     "excluded": 5,
+     "historical": 10266
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 1
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54",
+   "exports": "evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54/exports",
+   "delivered_files": {}
   }
  ]
 }

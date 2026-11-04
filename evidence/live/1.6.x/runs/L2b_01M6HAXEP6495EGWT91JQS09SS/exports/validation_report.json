@@ -1,0 +1,139 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "gates": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "FAIL",
+      "G4": "PASS",
+      "G5": "PASS",
+      "G6": "PASS",
+      "G7": "PASS",
+      "G8": "PASS",
+      "G9": "PASS",
+      "G10": "PASS",
+      "G11": "PASS",
+      "G12": "PASS",
+      "G13": "PASS",
+      "G14": "FAIL"
+    },
+    "nodes": {
+      "INCOMPLETE": 2
+    },
+    "canary": {
+      "at": "2026-11-03T18:32:21.920840Z",
+      "url": "https://www.walmart.com/browse/personal-care/1005862_1071969",
+      "page": "01M6HAXQZ0BYSB0BC7WJFDRZM8",
+      "valid": 40,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 1.0,
+      "source_check": {
+        "checked": 40,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "outcome": "rejected",
+    "contract": {
+      "pages": 2,
+      "problems": []
+    },
+    "verified": 120,
+    "follow_up": {
+      "variants": {
+        "kind": "variant",
+        "excluded": 66,
+        "included": 34,
+        "candidates": 261,
+        "from_queue": 0,
+        "pages_read": 100,
+        "named_by_run": 261,
+        "not_attempted": 161,
+        "queue_pending_after": 788
+      },
+      "sponsored": {
+        "kind": "sponsored",
+        "excluded": 10,
+        "included": 6,
+        "duplicate": 3,
+        "candidates": 19,
+        "from_queue": 0,
+        "pages_read": 16,
+        "named_by_run": 19,
+        "queue_pending_after": 23
+      }
+    },
+    "historical": {
+      "not_valid_now": 0,
+      "carried_forward": 808,
+      "refused_sources": 0,
+      "not_verified_by_current_rules": 0
+    },
+    "upc_detail": {
+      "extracted": 40,
+      "not_attempted": 80
+    },
+    "completeness": {
+      "ppm": 0.9333333333333333,
+      "upc": 0.3333333333333333,
+      "url": 1.0,
+      "gupc": 0.0,
+      "weight": 0.975,
+      "zipcode": 1.0,
+      "category": 1.0,
+      "image_url": 1.0,
+      "crawl_date": 1.0,
+      "sale_price": 0.10833333333333334,
+      "store_logo": 1.0,
+      "store_name": 1.0,
+      "unit_price": 0.0,
+      "store_brand": 1.0,
+      "sub_category": 1.0,
+      "product_title": 1.0,
+      "regular_price": 1.0,
+      "store_location": 1.0,
+      "volume_deals_price": 0.0,
+      "digital_deals_price": 0.0,
+      "volume_deals_description": 0.0,
+      "digital_deals_description": 0.0
+    },
+    "yield_baseline": null,
+    "records_by_status": {
+      "valid": 120,
+      "excluded": 32,
+      "historical": 808
+    },
+    "field_dispositions": {
+      "upc": {
+        "not_attempted": 80,
+        "fetched_detail": 88,
+        "absent_in_source": 3,
+        "identity_mismatch": 2,
+        "recovered_from_saved_detail": 689,
+        "budget_deadline_interruption": 66
+      },
+      "weight": {
+        "not_attempted": 3,
+        "fetched_detail": 4,
+        "absent_in_source": 7,
+        "present_in_listing": 879,
+        "unresolved_conflict": 5,
+        "recovered_from_saved_detail": 26,
+        "budget_deadline_interruption": 4
+      }
+    },
+    "collection_complete": false
+  },
+  "excluded_by_reason": {
+    "ASSORTMENT_UNRESOLVED": 32,
+    "CARRIED_FORWARD": 808,
+    "LOCATION_UNATTESTED": 32,
+    "MARKETPLACE_OFFER": 8
+  },
+  "duplicates": 0
+}

@@ -1,0 +1,14 @@
+release 1.6.5, commit 67d216eb8ee2ec839a437b0b5bf2d594324b6982, 2026-11-04T14:55:16Z, development tree (clean: 0 changed files)
+$ uv run --frozen python -m ruff check src tests deploy
+   Building walmart-azure-headless @ file:///C:/w9/wt/headless/walmart-azure-headless
+      Built walmart-azure-headless @ file:///C:/w9/wt/headless/walmart-azure-headless
+Uninstalled 1 package in 8ms
+Installed 1 package in 24ms
+All checks passed!
+exit=0
+$ uv run --frozen python -m ruff format --check src tests deploy
+165 files already formatted
+exit=0
+$ uv run --frozen python -m mypy
+Success: no issues found in 87 source files
+exit=0

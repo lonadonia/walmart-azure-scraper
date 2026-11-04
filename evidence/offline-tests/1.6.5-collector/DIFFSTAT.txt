@@ -1,0 +1,24 @@
+git diff 28ac7d3..67d216e (development monorepo), relative to the collector's folder
+1.6.4 = 28ac7d3b6b7c5fc8aee38cf15cb597d51f465cf2; 1.6.5 = 67d216eb8ee2ec839a437b0b5bf2d594324b6982
+
+ Dockerfile                                                          |   4 +-
+ README.md                                                           |   7 +-
+ azure/main.parameters.example.json                                  |   2 +-
+ docs/CLI.md                                                         |   4 +-
+ docs/OPERATIONS.md                                                  |   2 +-
+ docs/VERIFICATION.md                                                |  15 ++-
+ pyproject.toml                                                      |   2 +-
+ src/walmart_headless/__init__.py                                    |   2 +-
+ src/walmart_headless/checks/source_check.py                         |  35 ++++++-
+ src/walmart_headless/core/paths.py                                  |   2 +-
+ tests/captures/listing_pages_20261104_flat/MANIFEST.json            |  28 ++++++
+ tests/captures/listing_pages_20261104_flat/README.md                |  22 +++++
+ tests/captures/listing_pages_20261104_flat/flat_layout_page.html.gz | Bin 0 -> 130596 bytes
+ tests/captures/listing_pages_20261104_flat/l10_records.json         | 626 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/captures/listing_pages_20261104_flat/price_lines_page.html.gz | Bin 0 -> 163119 bytes
+ tests/unit/test_flat_price_layout.py                                | 138 ++++++++++++++++++++++++++++
+ uv.lock                                                             |   2 +-
+ 17 files changed, 874 insertions(+), 17 deletions(-)
+
+tests only:
+ 6 files changed, 814 insertions(+)

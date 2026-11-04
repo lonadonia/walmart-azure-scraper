@@ -1,0 +1,2726 @@
+{
+ "stage": "L6",
+ "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+  "record_count": 1101,
+  "fresh_record_count": 1101,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 1101,
+ "fresh_distinct_items": 1101,
+ "export_rows_with_carried": 1101,
+ "by_category": {
+  "Household Essentials": 564,
+  "Beauty": 537
+ },
+ "by_sub_category": {
+  "Bleach": 8,
+  "Dryer Sheets": 21,
+  "Fabric Softener": 19,
+  "Fabric Spray": 5,
+  "Laundry": 394,
+  "Laundry Additives": 26,
+  "Laundry Detergents": 49,
+  "Laundry Scent Boosters": 26,
+  "Stain Removers": 16,
+  "Curly Hair Shampoo": 5,
+  "Dry Shampoo": 18,
+  "Hair Repair Shampoo": 61,
+  "Natural Shampoo": 3,
+  "Scalp Shampoo": 53,
+  "Shampoo": 396,
+  "Sulfate Free Shampoo": 1
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 1101,
+  "crawl_dates_fresh": {
+   "2026-11-04": 1101
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 1101
+  },
+  "store_name": {
+   "Waukegan Supercenter": 1101
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 1101
+  },
+  "store_logo_filled": 1101
+ },
+ "filled_fresh": {
+  "zipcode": 1101,
+  "store_name": 1101,
+  "store_location": 1101,
+  "store_logo": 1101,
+  "store_brand": 1101,
+  "category": 1101,
+  "sub_category": 1101,
+  "product_title": 1101,
+  "weight": 1082,
+  "regular_price": 1101,
+  "sale_price": 45,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 1101,
+  "url": 1101,
+  "upc": 0,
+  "gupc": 0,
+  "ppm": 1089,
+  "unit_price": 0,
+  "crawl_date": 1101
+ },
+ "store_brand_fresh": {
+  "no": 1032,
+  "yes": 69
+ },
+ "upc_outcomes_fresh": {
+  "not_attempted": 1101
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 1082,
+  "not_attempted": 19
+ },
+ "upc_outcomes_all_rows": {
+  "not_attempted": 1101
+ },
+ "weight_outcomes_all_rows": {
+  "present_in_listing": 1082,
+  "not_attempted": 19
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {},
+ "run": {
+  "status": "rejected",
+  "stop_code": "SITE_REFUSAL",
+  "stop_detail": "challenge on https://www.walmart.com/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405: missing_initial_state",
+  "started_at": "2026-11-04 10:37:48.173422+00:00",
+  "finished_at": "2026-11-04 10:43:05.265817+00:00",
+  "parser_version": "1.6.2",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 69,
+   "credits": 69.0,
+   "usd": "0.10350000000000006",
+   "first": "2026-11-04 10:37:49.058962+00:00",
+   "last": "2026-11-04 10:42:59.018491+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 65
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 2
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 65,
+   "distinct_urls": 65
+  },
+  {
+   "purpose": "robots",
+   "fetches": 2,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 2,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6K25T9ZB1VNZG94E3V5GQCC",
+   "started": "2026-11-04 10:37:48.218852+00:00",
+   "ended": "2026-11-04 10:43:05.210153+00:00",
+   "active_s": 316.98399999999674,
+   "stop_code": "SITE_REFUSAL",
+   "stop_detail": "challenge on https://www.walmart.com/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405: missing_initial_state",
+   "credits_estimated": 69.0,
+   "workers": 2
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967",
+   "status": "PARTITIONED",
+   "total_count": 612,
+   "organic_upcs": 394,
+   "coverage_ratio": 0.6470588235294118,
+   "partition": {
+    "end": "RESULT_WINDOW",
+    "url": "https://www.walmart.com/browse/laundry/1115193_1071967",
+    "via": "configured",
+    "depth": 0,
+    "pages": 10,
+    "parent": "",
+    "reason": "accessible pages exhausted; coverage incomplete: the site served 10 result pages, 394 organic and 2 sponsored-only identities and no more (result page 11 shows no products and reports 0 results, while page 10 reported 612 and the listing links 16 pages), while the listing reported between 612 and 615 results (the total changed while it was read: [615, 614, 612]); not reconciled; partitioned into 12 child categories its own Departments facet names",
+    "max_page": 16,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K261HKKS8H7WETRFM5W1Z4",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6K26QE86MCN0CC5YMMN652S",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6K26ZADD4ZF0SCG1PT0CM1V",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6K277H0SCVZ9YFN0AFRWYYZ",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 5,
+      "organic": 39,
+      "fetch_id": "01M6K27FG3FZXM2QDNZHP62Q42",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 614
+     },
+     {
+      "page": 6,
+      "organic": 40,
+      "fetch_id": "01M6K27QN26DBPCARBQC85FDZZ",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 7,
+      "organic": 40,
+      "fetch_id": "01M6K27ZR01X7HANB91PNKM68G",
+      "max_page": 16,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 615
+     },
+     {
+      "page": 8,
+      "organic": 39,
+      "fetch_id": "01M6K288QYSASCFTSS8602SMXZ",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 614
+     },
+     {
+      "page": 9,
+      "organic": 39,
+      "fetch_id": "01M6K28GZ3PSQ1843TYJFSS76D",
+      "max_page": 16,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 614
+     },
+     {
+      "page": 10,
+      "organic": 37,
+      "fetch_id": "01M6K29058PRVNQTFJXM8X6CGH",
+      "max_page": 16,
+      "products": 47,
+      "sponsored": 10,
+      "page_count": 48,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 37,
+      "reported_total": 612
+     },
+     {
+      "page": 11,
+      "organic": 0,
+      "fetch_id": "01M6K29C6W2XSQ32WJQPCV3013",
+      "max_page": 16,
+      "products": 0,
+      "sponsored": 0,
+      "page_count": 0,
+      "grid_filter": "no result grid",
+      "other_modules": [],
+      "result_stacks": [],
+      "new_identities": 0,
+      "reported_total": 0
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149379",
+     "1115193_1071967_1630538",
+     "1115193_1071967_9527386",
+     "1115193_1071967_1149381",
+     "1115193_1071967_1149382",
+     "1115193_1071967_5244758",
+     "1115193_1071967_1149380",
+     "1115193_1071967_9242841",
+     "1115193_1071967_4824233",
+     "1115193_1071967_4670672",
+     "1115193_1071967_9155789",
+     "1115193_1071967_8953745"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 396,
+     "organic": 394,
+     "difference": 216,
+     "placements": 493,
+     "total_stable": false,
+     "reported_total": 612,
+     "sponsored_only": 2,
+     "totals_reported": [
+      615,
+      614,
+      612
+     ],
+     "repeat_placements": 97,
+     "unresolved_difference": 216
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434",
+   "status": "PARTITIONED",
+   "total_count": 607,
+   "organic_upcs": 398,
+   "coverage_ratio": 0.657331136738056,
+   "partition": {
+    "end": "RESULT_WINDOW",
+    "url": "https://www.walmart.com/browse/hair-care/shampoo/1085666_3147628_5752434",
+    "via": "configured",
+    "depth": 0,
+    "pages": 11,
+    "parent": "",
+    "reason": "accessible pages exhausted; coverage incomplete: the site served 11 result pages, 398 organic and 1 sponsored-only identities and no more (result page 12 shows no products and reports 0 results, while page 11 reported 607 and the listing links 15 pages), while the listing reported between 606 and 607 results (the total changed while it was read: [607, 606]); not reconciled; partitioned into 8 child categories its own Departments facet names",
+    "max_page": 15,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K269FVAWQTV8RHFZCXYV4J",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6K26W2Z96P5MVHJAXVPEWWP",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6K2743C4JY6TTJP0GH90MXC",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 4,
+      "organic": 39,
+      "fetch_id": "01M6K27C4J97F198C6QAK27KCT",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 606
+     },
+     {
+      "page": 5,
+      "organic": 39,
+      "fetch_id": "01M6K27KQ5X06EZ1XKTTBXE1SR",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 606
+     },
+     {
+      "page": 6,
+      "organic": 40,
+      "fetch_id": "01M6K27VDED9EAVGGBCSZKW5S2",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 7,
+      "organic": 40,
+      "fetch_id": "01M6K285E1VX1KDG6SS8216AA0",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 8,
+      "organic": 40,
+      "fetch_id": "01M6K28DJ8X3426J856Z3Y1HJ5",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 9,
+      "organic": 39,
+      "fetch_id": "01M6K28VWEQ3EB3TX2280VAY2T",
+      "max_page": 15,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 606
+     },
+     {
+      "page": 10,
+      "organic": 40,
+      "fetch_id": "01M6K296G1Q5CNKSQX1NBZNQSA",
+      "max_page": 15,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 607
+     },
+     {
+      "page": 11,
+      "organic": 1,
+      "fetch_id": "01M6K29NR6NC4DN8YFN8JFRV8D",
+      "max_page": 15,
+      "products": 11,
+      "sponsored": 10,
+      "page_count": 11,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 1,
+      "reported_total": 607
+     },
+     {
+      "page": 12,
+      "organic": 0,
+      "fetch_id": "01M6K29X0BQPX2FWYNN5MG5Z00",
+      "max_page": 15,
+      "products": 0,
+      "sponsored": 0,
+      "page_count": 0,
+      "grid_filter": "no result grid",
+      "other_modules": [],
+      "result_stacks": [],
+      "new_identities": 0,
+      "reported_total": 0
+     }
+    ],
+    "children_named": [
+     "1085666_3147628_5752434_2927912",
+     "1085666_3147628_5752434_9290117",
+     "1085666_3147628_5752434_5345451",
+     "1085666_3147628_5752434_6013811",
+     "1085666_3147628_5752434_8999798",
+     "1085666_3147628_5752434_6015425",
+     "1085666_3147628_5752434_3936937",
+     "1085666_3147628_5752434_9323405"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 399,
+     "organic": 398,
+     "difference": 208,
+     "placements": 507,
+     "total_stable": false,
+     "reported_total": 607,
+     "sponsored_only": 1,
+     "totals_reported": [
+      607,
+      606
+     ],
+     "repeat_placements": 108,
+     "unresolved_difference": 208
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149379",
+   "status": "INCOMPLETE",
+   "total_count": 253,
+   "organic_upcs": 235,
+   "coverage_ratio": 0.9288537549407114,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-detergents/1115193_1071967_1149379",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 7,
+    "parent": "1115193_1071967",
+    "reason": "the reported total changed while the listing was read ([274, 273, 267, 253]): 7 result pages, 235 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K29KS6E30G184NTAB9A7JJ",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 274
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6K29Z0R5R2BR5PNQYVMP2AX",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 274
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6K2A74KWA5QV0MMQAH12CTX",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 274
+     },
+     {
+      "page": 4,
+      "organic": 40,
+      "fetch_id": "01M6K2AH8JQ6YN7BVPFA1EQ4YW",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 274
+     },
+     {
+      "page": 5,
+      "organic": 39,
+      "fetch_id": "01M6K2AT8Q5XAKG3VCXV28R0TS",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 273
+     },
+     {
+      "page": 6,
+      "organic": 33,
+      "fetch_id": "01M6K2B4E9C4NTGR9W5QXJQ7CK",
+      "max_page": 7,
+      "products": 43,
+      "sponsored": 10,
+      "page_count": 44,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 33,
+      "reported_total": 267
+     },
+     {
+      "page": 7,
+      "organic": 3,
+      "fetch_id": "01M6K2BEJJQAAFGYQWPNZ8JNHE",
+      "max_page": 7,
+      "products": 13,
+      "sponsored": 10,
+      "page_count": 14,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 3,
+      "reported_total": 253
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149379_9609981",
+     "1115193_1071967_1149379_5250095",
+     "1115193_1071967_1149379_8361277",
+     "1115193_1071967_1149379_9053212",
+     "1115193_1071967_1149379_3978991",
+     "1115193_1071967_1149379_2590354",
+     "1115193_1071967_1149379_8908643",
+     "1115193_1071967_1149379_6149853",
+     "1115193_1071967_1149379_2675803",
+     "1115193_1071967_1149379_5771678",
+     "1115193_1071967_1149379_7814273"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 235,
+     "organic": 235,
+     "difference": 18,
+     "placements": 304,
+     "total_stable": false,
+     "reported_total": 253,
+     "sponsored_only": 0,
+     "totals_reported": [
+      274,
+      273,
+      267,
+      253
+     ],
+     "repeat_placements": 69,
+     "unresolved_difference": 18
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_2927912",
+   "status": "INCOMPLETE",
+   "total_count": 161,
+   "organic_upcs": 150,
+   "coverage_ratio": 0.9316770186335404,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/scalp-shampoo/1085666_3147628_5752434_2927912",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 4,
+    "parent": "1085666_3147628_5752434",
+    "reason": "the reported total changed while the listing was read ([164, 163, 161]): 4 result pages, 150 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2A1Q58NG4DHFP75FFT89E",
+      "max_page": 4,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 164
+     },
+     {
+      "page": 2,
+      "organic": 39,
+      "fetch_id": "01M6K2ADA12CPBA67A6FMDHB3B",
+      "max_page": 4,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 163
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6K2APQ1PTEA2STSNZEPZ5AC",
+      "max_page": 4,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 164
+     },
+     {
+      "page": 4,
+      "organic": 31,
+      "fetch_id": "01M6K2AY8P64KGAV100BJ224HA",
+      "max_page": 4,
+      "products": 41,
+      "sponsored": 10,
+      "page_count": 42,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 31,
+      "reported_total": 161
+     }
+    ],
+    "children_named": [
+     "1085666_3147628_5752434_2927912_4339403",
+     "1085666_3147628_5752434_2927912_7869826",
+     "1085666_3147628_5752434_2927912_4958478"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 150,
+     "organic": 150,
+     "difference": 11,
+     "placements": 189,
+     "total_stable": false,
+     "reported_total": 161,
+     "sponsored_only": 0,
+     "totals_reported": [
+      164,
+      163,
+      161
+     ],
+     "repeat_placements": 39,
+     "unresolved_difference": 11
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_9290117",
+   "status": "INCOMPLETE",
+   "total_count": 253,
+   "organic_upcs": 239,
+   "coverage_ratio": 0.9446640316205533,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/hair-repair-shampoo/1085666_3147628_5752434_9290117",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 7,
+    "parent": "1085666_3147628_5752434",
+    "reason": "the reported total changed while the listing was read ([256, 255, 254, 253]): 7 result pages, 239 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 7,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2B9J2JB7XX3N2K2B6XZQY",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 65,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 256
+     },
+     {
+      "page": 2,
+      "organic": 40,
+      "fetch_id": "01M6K2BK1JSQJRX5N1361JHYY0",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 256
+     },
+     {
+      "page": 3,
+      "organic": 40,
+      "fetch_id": "01M6K2BV4WH01MRYR6JQ32DA2Q",
+      "max_page": 7,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 51,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 256
+     },
+     {
+      "page": 4,
+      "organic": 39,
+      "fetch_id": "01M6K2C3QR7JNYBPJNBZ207K8V",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 255
+     },
+     {
+      "page": 5,
+      "organic": 39,
+      "fetch_id": "01M6K2CDAWDWN8EZBYTYBAFBY0",
+      "max_page": 7,
+      "products": 49,
+      "sponsored": 10,
+      "page_count": 50,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 255
+     },
+     {
+      "page": 6,
+      "organic": 38,
+      "fetch_id": "01M6K2CPYQX3FNH5PEGZE1564Q",
+      "max_page": 7,
+      "products": 48,
+      "sponsored": 10,
+      "page_count": 49,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 38,
+      "reported_total": 254
+     },
+     {
+      "page": 7,
+      "organic": 3,
+      "fetch_id": "01M6K2D0N3B0MGC3HXMQ3CAGJ3",
+      "max_page": 7,
+      "products": 13,
+      "sponsored": 10,
+      "page_count": 14,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 3,
+      "reported_total": 253
+     }
+    ],
+    "children_named": [
+     "1085666_3147628_5752434_9290117_7169658",
+     "1085666_3147628_5752434_9290117_2745203",
+     "1085666_3147628_5752434_9290117_3925968",
+     "1085666_3147628_5752434_9290117_6848330",
+     "1085666_3147628_5752434_9290117_3207035",
+     "1085666_3147628_5752434_9290117_7724941",
+     "1085666_3147628_5752434_9290117_1782301"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 239,
+     "organic": 239,
+     "difference": 14,
+     "placements": 309,
+     "total_stable": false,
+     "reported_total": 253,
+     "sponsored_only": 0,
+     "totals_reported": [
+      256,
+      255,
+      254,
+      253
+     ],
+     "repeat_placements": 70,
+     "unresolved_difference": 14
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1630538",
+   "status": "INCOMPLETE",
+   "total_count": 75,
+   "organic_upcs": 65,
+   "coverage_ratio": 0.8666666666666667,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1115193_1071967",
+    "reason": "the reported total changed while the listing was read ([79, 75]): 2 result pages, 65 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2BN1NB8ZY6M4GANNG53XW",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 79
+     },
+     {
+      "page": 2,
+      "organic": 25,
+      "fetch_id": "01M6K2BY4Q2P32HRNWH80KZMH8",
+      "max_page": 2,
+      "products": 35,
+      "sponsored": 10,
+      "page_count": 36,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 25,
+      "reported_total": 75
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1630538_8226415",
+     "1115193_1071967_1630538_3142904",
+     "1115193_1071967_1630538_3222723",
+     "1115193_1071967_1630538_8030109"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 65,
+     "organic": 65,
+     "difference": 10,
+     "placements": 85,
+     "total_stable": false,
+     "reported_total": 75,
+     "sponsored_only": 0,
+     "totals_reported": [
+      79,
+      75
+     ],
+     "repeat_placements": 20,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_9527386",
+   "status": "INCOMPLETE",
+   "total_count": 51,
+   "organic_upcs": 47,
+   "coverage_ratio": 0.9215686274509803,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/dryer-sheets/1115193_1071967_9527386",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1115193_1071967",
+    "reason": "the reported total changed while the listing was read ([52, 51]): 2 result pages, 47 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2C7DWFG0AA5PG23JGG7GD",
+      "max_page": 2,
+      "products": 44,
+      "sponsored": 4,
+      "page_count": 58,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 52
+     },
+     {
+      "page": 2,
+      "organic": 7,
+      "fetch_id": "01M6K2CJ0FJ0MTG472BZNVE4D0",
+      "max_page": 2,
+      "products": 11,
+      "sponsored": 4,
+      "page_count": 11,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 7,
+      "reported_total": 51
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_9527386_6173021",
+     "1115193_1071967_9527386_3445410",
+     "1115193_1071967_9527386_3332264",
+     "1115193_1071967_9527386_6541219"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 47,
+     "organic": 47,
+     "difference": 4,
+     "placements": 55,
+     "total_stable": false,
+     "reported_total": 51,
+     "sponsored_only": 0,
+     "totals_reported": [
+      52,
+      51
+     ],
+     "repeat_placements": 8,
+     "unresolved_difference": 4
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149381",
+   "status": "INCOMPLETE",
+   "total_count": 70,
+   "organic_upcs": 62,
+   "coverage_ratio": 0.8857142857142857,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/stain-removers/1115193_1071967_1149381",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1115193_1071967",
+    "reason": "unreconciled: 2 result pages, 62 organic and 0 sponsored-only identities in 78 tiles, 70 reported; reconciliation required",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2CSV81DTRKSMJ395WAFVQ",
+      "max_page": 2,
+      "products": 48,
+      "sponsored": 8,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 70
+     },
+     {
+      "page": 2,
+      "organic": 22,
+      "fetch_id": "01M6K2D3E8T1YRE173CAVBQGZ9",
+      "max_page": 2,
+      "products": 30,
+      "sponsored": 8,
+      "page_count": 31,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 22,
+      "reported_total": 70
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149381_4121325",
+     "1115193_1071967_1149381_6303360",
+     "1115193_1071967_1149381_1971090",
+     "1115193_1071967_1149381_3728605",
+     "1115193_1071967_1149381_6501593"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 62,
+     "organic": 62,
+     "difference": 8,
+     "placements": 78,
+     "total_stable": true,
+     "reported_total": 70,
+     "sponsored_only": 0,
+     "totals_reported": [
+      70
+     ],
+     "repeat_placements": 16,
+     "unresolved_difference": 8
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_5345451",
+   "status": "INCOMPLETE",
+   "total_count": 82,
+   "organic_upcs": 72,
+   "coverage_ratio": 0.8780487804878049,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/natural-shampoo/1085666_3147628_5752434_5345451",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1085666_3147628_5752434",
+    "reason": "the reported total changed while the listing was read ([86, 82]): 2 result pages, 72 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2D81P1W5XAMF6AXGBFW8Z",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 86
+     },
+     {
+      "page": 2,
+      "organic": 32,
+      "fetch_id": "01M6K2DH9FZ30V1ZVSNDGRTGV2",
+      "max_page": 2,
+      "products": 42,
+      "sponsored": 10,
+      "page_count": 43,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 32,
+      "reported_total": 82
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 72,
+     "organic": 72,
+     "difference": 10,
+     "placements": 92,
+     "total_stable": false,
+     "reported_total": 82,
+     "sponsored_only": 0,
+     "totals_reported": [
+      86,
+      82
+     ],
+     "repeat_placements": 20,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149382",
+   "status": "INCOMPLETE",
+   "total_count": 59,
+   "organic_upcs": 49,
+   "coverage_ratio": 0.8305084745762712,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-additives/1115193_1071967_1149382",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1115193_1071967",
+    "reason": "unreconciled: 2 result pages, 49 organic and 0 sponsored-only identities in 69 tiles, 59 reported; reconciliation required",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2DBSCSV3DYBZ5GP7TQ41G",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 61,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 59
+     },
+     {
+      "page": 2,
+      "organic": 9,
+      "fetch_id": "01M6K2DN6EX23FMQXMY6QMMACS",
+      "max_page": 2,
+      "products": 19,
+      "sponsored": 10,
+      "page_count": 20,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 9,
+      "reported_total": 59
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149382_9155789",
+     "1115193_1071967_1149382_8276232",
+     "1115193_1071967_1149382_9484616",
+     "1115193_1071967_1149382_5396865",
+     "1115193_1071967_1149382_3881211",
+     "1115193_1071967_1149382_3313589",
+     "1115193_1071967_1149382_6501593"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 49,
+     "organic": 49,
+     "difference": 10,
+     "placements": 69,
+     "total_stable": true,
+     "reported_total": 59,
+     "sponsored_only": 0,
+     "totals_reported": [
+      59
+     ],
+     "repeat_placements": 20,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_6013811",
+   "status": "INCOMPLETE",
+   "total_count": 64,
+   "organic_upcs": 54,
+   "coverage_ratio": 0.84375,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/dry-shampoo/1085666_3147628_5752434_6013811",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1085666_3147628_5752434",
+    "reason": "the reported total changed while the listing was read ([65, 64]): 2 result pages, 54 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2DS1XRHDVT90NXNZRAK88",
+      "max_page": 2,
+      "products": 50,
+      "sponsored": 10,
+      "page_count": 60,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 65
+     },
+     {
+      "page": 2,
+      "organic": 14,
+      "fetch_id": "01M6K2E12JAS487R4HRZAY9RWB",
+      "max_page": 2,
+      "products": 24,
+      "sponsored": 10,
+      "page_count": 25,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 14,
+      "reported_total": 64
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 54,
+     "organic": 54,
+     "difference": 10,
+     "placements": 74,
+     "total_stable": false,
+     "reported_total": 64,
+     "sponsored_only": 0,
+     "totals_reported": [
+      65,
+      64
+     ],
+     "repeat_placements": 20,
+     "unresolved_difference": 10
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_5244758",
+   "status": "INCOMPLETE",
+   "total_count": 80,
+   "organic_upcs": 72,
+   "coverage_ratio": 0.9,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-scent-boosters/1115193_1071967_5244758",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1115193_1071967",
+    "reason": "the reported total changed while the listing was read ([85, 80]): 2 result pages, 72 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2DW6PWC4296A0VP2P48BJ",
+      "max_page": 2,
+      "products": 48,
+      "sponsored": 8,
+      "page_count": 63,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 85
+     },
+     {
+      "page": 2,
+      "organic": 32,
+      "fetch_id": "01M6K2E5A7ZGBZ5WPV0TF6ZKS3",
+      "max_page": 2,
+      "products": 40,
+      "sponsored": 8,
+      "page_count": 41,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 32,
+      "reported_total": 80
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_5244758_9447243",
+     "1115193_1071967_5244758_6324977",
+     "1115193_1071967_5244758_8548219",
+     "1115193_1071967_5244758_8947560",
+     "1115193_1071967_5244758_9366181",
+     "1115193_1071967_5244758_4628687",
+     "1115193_1071967_5244758_6166490"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 72,
+     "organic": 72,
+     "difference": 8,
+     "placements": 88,
+     "total_stable": false,
+     "reported_total": 80,
+     "sponsored_only": 0,
+     "totals_reported": [
+      85,
+      80
+     ],
+     "repeat_placements": 16,
+     "unresolved_difference": 8
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_8999798",
+   "status": "INCOMPLETE",
+   "total_count": 72,
+   "organic_upcs": 63,
+   "coverage_ratio": 0.875,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/curly-hair-shampoo/1085666_3147628_5752434_8999798",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 2,
+    "parent": "1085666_3147628_5752434",
+    "reason": "the reported total changed while the listing was read ([73, 72]): 2 result pages, 63 organic and 0 sponsored-only identities; not reconciled",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6K2E7ASXDE0J3GMQY33JA6B",
+      "max_page": 2,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 73
+     },
+     {
+      "page": 2,
+      "organic": 23,
+      "fetch_id": "01M6K2EGNY0FHXP2TX5GC7WAV3",
+      "max_page": 2,
+      "products": 32,
+      "sponsored": 9,
+      "page_count": 33,
+      "grid_filter": "Pickup",
+      "other_modules": [],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 23,
+      "reported_total": 72
+     }
+    ],
+    "children_named": [
+     "1085666_3147628_5752434_8999798_2875957",
+     "1085666_3147628_5752434_8999798_1508041",
+     "1085666_3147628_5752434_8999798_4693386",
+     "1085666_3147628_5752434_8999798_5045647"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 63,
+     "organic": 63,
+     "difference": 9,
+     "placements": 81,
+     "total_stable": false,
+     "reported_total": 72,
+     "sponsored_only": 0,
+     "totals_reported": [
+      73,
+      72
+     ],
+     "repeat_placements": 18,
+     "unresolved_difference": 9
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1149380",
+   "status": "DONE",
+   "total_count": 43,
+   "organic_upcs": 39,
+   "coverage_ratio": 0.9069767441860465,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/bleach/1115193_1071967_1149380",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1115193_1071967",
+    "reason": "reconciled at the last page: 1 result pages, 39 organic and 0 sponsored-only identities; 43 reported; the 43 tiles served equal the total (4 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 39,
+      "fetch_id": "01M6K2ECDZBG23ZQ4ME09KYG13",
+      "max_page": 1,
+      "products": 43,
+      "sponsored": 4,
+      "page_count": 57,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 39,
+      "reported_total": 43
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1149380_6794236",
+     "1115193_1071967_1149380_2289877",
+     "1115193_1071967_1149380_4879305"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 39,
+     "organic": 39,
+     "difference": 4,
+     "placements": 43,
+     "total_stable": true,
+     "reported_total": 43,
+     "sponsored_only": 0,
+     "totals_reported": [
+      43
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_9242841",
+   "status": "DONE",
+   "total_count": 28,
+   "organic_upcs": 24,
+   "coverage_ratio": 0.8571428571428571,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/fabric-spray/1115193_1071967_9242841",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1115193_1071967",
+    "reason": "reconciled at the last page: 1 result pages, 24 organic and 0 sponsored-only identities; 28 reported; the 28 tiles served equal the total (4 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 24,
+      "fetch_id": "01M6K2EM2SWBE1Q3BWCG7H694D",
+      "max_page": 1,
+      "products": 28,
+      "sponsored": 4,
+      "page_count": 39,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 24,
+      "reported_total": 28
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_9242841_4733007",
+     "1115193_1071967_9242841_5849719"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 24,
+     "organic": 24,
+     "difference": 4,
+     "placements": 28,
+     "total_stable": true,
+     "reported_total": 28,
+     "sponsored_only": 0,
+     "totals_reported": [
+      28
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_6015425",
+   "status": "DONE",
+   "total_count": 47,
+   "organic_upcs": 37,
+   "coverage_ratio": 0.7872340425531915,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/sulfate-free-shampoo/1085666_3147628_5752434_6015425",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1085666_3147628_5752434",
+    "reason": "reconciled at the last page: 1 result pages, 37 organic and 0 sponsored-only identities; 47 reported; the 47 tiles served equal the total (10 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 37,
+      "fetch_id": "01M6K2EQZX6HDEJMZNPJ2ZPVW6",
+      "max_page": 1,
+      "products": 47,
+      "sponsored": 10,
+      "page_count": 57,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 37,
+      "reported_total": 47
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 37,
+     "organic": 37,
+     "difference": 10,
+     "placements": 47,
+     "total_stable": true,
+     "reported_total": 47,
+     "sponsored_only": 0,
+     "totals_reported": [
+      47
+     ],
+     "repeat_placements": 10,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_4824233",
+   "status": "DONE",
+   "total_count": 16,
+   "organic_upcs": 15,
+   "coverage_ratio": 0.9375,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/all-laundry-care/1115193_1071967_4824233",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1115193_1071967",
+    "reason": "reconciled at the last page: 1 result pages, 15 organic and 0 sponsored-only identities; 16 reported; the 16 tiles served equal the total (1 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 15,
+      "fetch_id": "01M6K2ETZ9KWMVFGBM9T2WNHX0",
+      "max_page": 1,
+      "products": 16,
+      "sponsored": 1,
+      "page_count": 29,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 15,
+      "reported_total": 16
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 15,
+     "organic": 15,
+     "difference": 1,
+     "placements": 16,
+     "total_stable": true,
+     "reported_total": 16,
+     "sponsored_only": 0,
+     "totals_reported": [
+      16
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_3936937",
+   "status": "DONE",
+   "total_count": 14,
+   "organic_upcs": 9,
+   "coverage_ratio": 0.6428571428571429,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/beauty/tea-tree-shampoo/1085666_3147628_5752434_3936937",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1085666_3147628_5752434",
+    "reason": "reconciled at the last page: 1 result pages, 9 organic and 0 sponsored-only identities; 14 reported; the 14 tiles served equal the total (5 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 9,
+      "fetch_id": "01M6K2F1E43G7C5WENRGTNPWH0",
+      "max_page": 1,
+      "products": 14,
+      "sponsored": 5,
+      "page_count": 25,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 9,
+      "reported_total": 14
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 9,
+     "organic": 9,
+     "difference": 5,
+     "placements": 14,
+     "total_stable": true,
+     "reported_total": 14,
+     "sponsored_only": 0,
+     "totals_reported": [
+      14
+     ],
+     "repeat_placements": 5,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_4670672",
+   "status": "DONE",
+   "total_count": 19,
+   "organic_upcs": 15,
+   "coverage_ratio": 0.7894736842105263,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-odor-remover/1115193_1071967_4670672",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1115193_1071967",
+    "reason": "reconciled at the last page: 1 result pages, 15 organic and 0 sponsored-only identities; 19 reported; the 19 tiles served equal the total (4 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 15,
+      "fetch_id": "01M6K2F2SCY1QCMB2AQMBZ51FV",
+      "max_page": 1,
+      "products": 19,
+      "sponsored": 4,
+      "page_count": 31,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 15,
+      "reported_total": 19
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 15,
+     "organic": 15,
+     "difference": 4,
+     "placements": 19,
+     "total_stable": true,
+     "reported_total": 19,
+     "sponsored_only": 0,
+     "totals_reported": [
+      19
+     ],
+     "repeat_placements": 4,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_9155789",
+   "status": "DONE",
+   "total_count": 15,
+   "organic_upcs": 13,
+   "coverage_ratio": 0.8666666666666667,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/laundry-sanitizers/1115193_1071967_9155789",
+    "via": "departments_facet",
+    "depth": 1,
+    "pages": 1,
+    "parent": "1115193_1071967",
+    "reason": "reconciled at the last page: 1 result pages, 13 organic and 0 sponsored-only identities; 15 reported; the 15 tiles served equal the total (2 sponsored tiles repeat organic products)",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 13,
+      "fetch_id": "01M6K2F9T8GRR4GM9ZDYMFA2MV",
+      "max_page": 1,
+      "products": 15,
+      "sponsored": 2,
+      "page_count": 27,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 9
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 13,
+      "reported_total": 15
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_9155789_2116888"
+    ],
+    "reconciliation": {
+     "basis": "placements",
+     "placed": 13,
+     "organic": 13,
+     "difference": 2,
+     "placements": 15,
+     "total_stable": true,
+     "reported_total": 15,
+     "sponsored_only": 0,
+     "totals_reported": [
+      15
+     ],
+     "repeat_placements": 2,
+     "unresolved_difference": 0
+    }
+   }
+  }
+ ],
+ "gate_findings": [],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "periodic",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L6-partition-check-162-20261104",
+  "rows": 69,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 69,
+    "worst_usd": 0.1035,
+    "settled_usd": 0.1035,
+    "settled_results": 69
+   }
+  }
+ }
+}

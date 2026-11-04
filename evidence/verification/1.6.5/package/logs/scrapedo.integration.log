@@ -1,0 +1,6 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/integration --junitxml=C:\w9\v165\junit\scrapedo.integration.xml
+(cwd walmart-scrapedo-1.6.5; offline=True)
+........................................................................ [ 36%]
+........................................................................ [ 72%]
+........................................................                 [100%]
+200 passed in 1344.97s (0:22:24)

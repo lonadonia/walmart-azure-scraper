@@ -1,0 +1,203 @@
+{
+  "run_id": "01M6K7AB85824HHKD17VNEHASS",
+  "store": {
+    "key": "walmart-3891-pickup",
+    "name": "Walmart #3891 Waukegan",
+    "modality": "PICKUP",
+    "retailer": "walmart",
+    "location_id": "3891"
+  },
+  "provider": "oxylabs",
+  "pilot": true,
+  "scope_units": 2,
+  "status_counts": {
+    "DONE": 1,
+    "INCOMPLETE": 1
+  },
+  "status_counts_rule_1_3_1": {
+    "DONE": 1,
+    "INCOMPLETE": 1
+  },
+  "result_window_units": 0,
+  "csv_rows_not_planned": [
+    {
+      "csv_row": 0,
+      "category": "Food",
+      "url": "https://www.walmart.com/cp/food/976759?povid=GlobalNav_rWeb_Grocery_GroceryShopAll",
+      "enabled": true
+    },
+    {
+      "csv_row": 2,
+      "category": "Personal Care",
+      "url": "https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19",
+      "enabled": true
+    },
+    {
+      "csv_row": 4,
+      "category": "Diapering",
+      "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+      "enabled": true
+    },
+    {
+      "csv_row": 5,
+      "category": "Feeding",
+      "url": "https://www.walmart.com/cp/feeding/133283?povid=GlobalNav_mWeb_BabyKids_babyformula_babyfood",
+      "enabled": true
+    },
+    {
+      "csv_row": 6,
+      "category": "Health & Wellness",
+      "url": "https://www.walmart.com/cp/health/976760",
+      "enabled": true
+    },
+    {
+      "csv_row": 7,
+      "category": "Pets",
+      "url": "https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 8,
+      "category": "Balloons",
+      "url": "https://www.walmart.com/browse/party-occasions/balloons/2637_1042319_1212898_3956207?povid=GlobalNav_rWeb_ETS_partysupplies_balloons",
+      "enabled": true
+    },
+    {
+      "csv_row": 9,
+      "category": "Art Supplies",
+      "url": "https://www.walmart.com/cp/art-supplies/5899871?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_ArtsCraftsSewing_ArtSupplies",
+      "enabled": true
+    },
+    {
+      "csv_row": 10,
+      "category": "Office Supplies",
+      "url": "https://www.walmart.com/cp/office-supplies/1229749?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_Department_ShopAllOfficeSupplies",
+      "enabled": true
+    }
+  ],
+  "coverage_complete": false,
+  "rows": [
+    {
+      "csv_row": 1,
+      "category": "Household Essentials",
+      "listing_id": "1115193_1071967_8953745",
+      "listing_name": "Seventh Generation Laundry Care",
+      "url": "https://www.walmart.com/browse/household-essentials/seventh-generation-laundry-care/1115193_1071967_8953745",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 1,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [
+        "Pickup"
+      ],
+      "reported_total": 2,
+      "totals_reported": [
+        2
+      ],
+      "total_observed_at": "2026-11-04T12:07:53.214532Z",
+      "pages_visited": [
+        1
+      ],
+      "page_fetches": [
+        "01M6K7ARKYC769TSC9C07KK319"
+      ],
+      "raw_placements": 2,
+      "organic_placements": 2,
+      "distinct_identities": 2,
+      "sponsored_only_in_listing": 0,
+      "placed_identities": 2,
+      "distinct_with_children": 2,
+      "duplicate_placements": 0,
+      "sponsored_placements": 0,
+      "sponsored_only_products": 0,
+      "other_module_products": 10,
+      "variant_identities_named": 1,
+      "variant_identities_not_own_tile": 1,
+      "follow_up_outcomes": {
+        "variant:not_attempted": 1
+      },
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 0,
+      "difference_organic": 0,
+      "difference_placed": 0,
+      "reconciliation_basis": "organic",
+      "unresolved_difference": 0,
+      "status": "DONE",
+      "status_rule_1_3_1": "DONE",
+      "end": "LAST_PAGE",
+      "stop_reason": "reconciled at the last page: 1 result pages, 2 organic and 0 sponsored-only identities; 2 reported; the organic identities equal the total"
+    },
+    {
+      "csv_row": 3,
+      "category": "Beauty",
+      "listing_id": "1085666_3147628_5752434_9323405",
+      "listing_name": "",
+      "url": "https://www.walmart.com/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405",
+      "found_via": "configured",
+      "parent_listing": null,
+      "navigation_evidence": "configured subcategory listing (its id extends the row's category id)",
+      "store_id": "3891",
+      "fulfillment": "PICKUP",
+      "store_checks_passed": 0,
+      "store_checks_failed": 0,
+      "grid_fulfillment_filter": [],
+      "reported_total": null,
+      "totals_reported": [],
+      "total_observed_at": null,
+      "pages_visited": [],
+      "page_fetches": [],
+      "raw_placements": 0,
+      "organic_placements": 0,
+      "distinct_identities": 0,
+      "sponsored_only_in_listing": 0,
+      "placed_identities": 0,
+      "distinct_with_children": 0,
+      "duplicate_placements": 0,
+      "sponsored_placements": 0,
+      "sponsored_only_products": 0,
+      "other_module_products": 0,
+      "variant_identities_named": 0,
+      "variant_identities_not_own_tile": 0,
+      "follow_up_outcomes": {},
+      "approx_weight_exclusions": 0,
+      "other_exclusions": {},
+      "retained_unavailable": 0,
+      "carried_forward": 0,
+      "difference_organic": null,
+      "difference_placed": null,
+      "reconciliation_basis": "",
+      "unresolved_difference": null,
+      "status": "INCOMPLETE",
+      "status_rule_1_3_1": "INCOMPLETE",
+      "end": "NOT_FOUND",
+      "stop_reason": "not read: the site answered this listing link with its not-found page (page data route /404, HTTP 200)"
+    }
+  ],
+  "follow_ups": [
+    {
+      "at": "2026-11-04T12:08:17.792319Z",
+      "key": "wm:19807559962",
+      "url": "https://www.walmart.com/ip/Seventh-Generation-Liquid-Laundry-Detergent-Liquid-Floral-Lavender-90-fl-oz-60-Loads/19807559962?fulfillmentIntent=Pickup&filters=%5B%7B%22intent%22%3A%22fulfillmentIntent%22%2C%22values%22%3A%5B%22Pickup%22%5D%7D%5D&classType=undefined",
+      "kind": "variant",
+      "seed": null,
+      "option": {
+        "value": "2 Pack",
+        "criterion": "multipack_quantity"
+      },
+      "reason": "the run's follow-up page limit (0 pages per kind), a pilot budget, was reached; the candidate stays in the store's follow-up queue for the next run",
+      "status": "not_attempted",
+      "item_id": "19807559962",
+      "listing": "1115193_1071967_8953745",
+      "seen_on": "01M6K7ARKYC769TSC9C07KK319",
+      "category": "Household Essentials",
+      "named_by": "775073499",
+      "queued_from": null,
+      "listing_name": "Seventh Generation Laundry Care"
+    }
+  ]
+}

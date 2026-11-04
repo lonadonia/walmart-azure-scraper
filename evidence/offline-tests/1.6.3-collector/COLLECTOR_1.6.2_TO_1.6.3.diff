@@ -1,0 +1,1047 @@
+diff --git a/Dockerfile b/Dockerfile
+index 367addb..f212e0c 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.2 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.6.2 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.3 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.3 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 5b1d1a8..76d606c 100644
+--- a/README.md
++++ b/README.md
+@@ -78,7 +78,7 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
+-## What releases 1.6.0, 1.6.1 and 1.6.2 change
++## What releases 1.6.0 to 1.6.3 change
+ 
+ Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
+ `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
+@@ -90,7 +90,12 @@ page established when the run ended before its detail pass, as the pass would ha
+ defects the live runs of 2026-11-03 found: a listing whose total moved a little while the site served far fewer
+ results is now a result-window end and is read through its child categories (it was left "not reconciled"), and a
+ listing link that serves a category page is recorded as not read, with the listings that page links, instead of
+-stopping the run and holding the store. See `docs/VERIFICATION.md`.
++stopping the run and holding the store. Release 1.6.3 corrects three defects the live runs of 2026-11-04 found: a
++run with product detail reading off now still uses what earlier reads of a product's own page established (it
++exported those products blank); a carried row whose UPC or size is empty now gets them from such a read, naming
++that read, and never when the value would clash with another row; and a listing link the site answers with its
++own not-found page is recorded `NOT_FOUND` while the run goes on (release 1.6.2 did not recognize that page's
++data, called it a challenge, stopped the run and held the store). See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 9178b3e..6af96e4 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.2" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.3" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index 645ad04..5798b8b 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -36,7 +36,7 @@ indented instead of that line. A key value is never written: keys appear only as
+ | 2 | Configuration: invalid file, missing database URL, schema not current, unknown store or run; a provider the edition does not list (`COMMAND_REFUSED`, release 1.4.0: nothing is sent) | fix the configuration; `db-upgrade`; run the edition of that provider (EDITIONS.md) |
+ | 3 | Credentials: no key for the run's provider, or the provider refused it | set or replace the key (OPERATIONS.md) |
+ | 4 | Credits: the key's credits, the credit ceiling or a credit budget ran out; or the next request could cross a provider's spending ceiling or the task's money budget (`SPENDING_CEILING`, also when no Oxylabs ceiling is set) | add credits or raise the budget; after `SPENDING_CEILING` the run stays interrupted: raise the ceiling (`set-ceiling`, `set-budget`) and `resume` it |
+-| 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge) | the store is held; investigate, then `release-hold` |
++| 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge). The site's own not-found page is not a refusal: its listing is recorded `NOT_FOUND` and the run goes on (release 1.6.3) | the store is held; investigate, then `release-hold` |
+ | 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page, release 1.6.2), which also holds the store | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold` |
+ | 7 | Store or source checks failed: a page was not for store/Pickup, or the canary's records differ from the page | the store is held; investigate, then `release-hold` |
+ | 8 | Held: the store's collection is held after an earlier stop | `status` shows why; `release-hold` |
+@@ -76,7 +76,7 @@ follow-up or detail reading switched off in the configuration):
+ | `--max-subcategories-per-category N` | subcategory listings read per category page |
+ | `--subcategory ROW:LISTING` | narrow a category row to one subcategory listing its category page names, by path or URL (repeatable), e.g. `0:/browse/food/fresh-fruits/976759_976793_9756351` |
+ | `--pilot-detail-pages N` | at most N product pages read for missing fields, once the listings have named every product, in the store's queue order (never-read first). What an earlier read established is reused first and counts against nothing (release 1.5.1). The rest stay empty with the disposition `budget_deadline_interruption` and stay queued. A pilot's budget only: production has none |
+-| `--pilot-no-detail` | read no product page for missing fields in this pilot (disposition `not_attempted`; not a statement about the source) |
++| `--pilot-no-detail` | read no product page for missing fields in this pilot (disposition `not_attempted`; not a statement about the source). What earlier reads of a product's page established within `detail.reuse_days` is still used, at no request (release 1.6.3) |
+ | `--follow-up-pages N` | at most N product pages per follow-up kind (below); the rest are recorded as not attempted and stay pending in the store's follow-up queue |
+ 
+ Budgets, not scope limits (the run is not a pilot; one that reaches its budget ends incomplete: a
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index ddd2ed9..bd7edcf 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.6.2 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.3 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+@@ -124,7 +124,10 @@ while the listing was read and the site served less than its smallest total by m
+ 1.6.2: Laundry, 2026-11-03); an overcount or an unreconciled difference; `REPEATED_PAGE`; `SAFETY_LIMIT`, a
+ listing still serving pages past 50 when Walmart links at most 25; `CATEGORY_PAGE`, a listing link that served
+ a category page instead of a listing, recorded with the listings that page links while the run goes on (release
+-1.6.2; any other page without a result grid stops the run, exit 6, and holds the store); a limit; robots.txt),
++1.6.2); `NOT_FOUND`, a listing link the site answered with its own not-found page (its data is the page `/404`),
++recorded while the run goes on (release 1.6.3; 1.6.2 called that page a challenge, stopped the run, exit 5, and
++held the store); any other page without a result grid stops the run, exit 6, and holds the store; a limit;
++robots.txt),
+ and the run's coverage check (G3, which reads the difference no
+ exact balance explains) fails, so it is never published. `coverage-report --run ID` reconciles every scope unit of a run (CLI.md). The reported total
+ can include offers that are not the store's (marketplace, shipping): a gap is reported, never taken as
+@@ -209,6 +212,10 @@ published, and the last good dataset stays. One refused page does not cost the r
+ stays empty with `blocked` (or `request_failed`) and a later run reads it again.
+ 
+ A pilot's budget is explicit (`run --pilot-detail-pages N`, `--pilot-no-detail`) and makes the run a pilot.
++`--pilot-no-detail` (or `detail.enabled: false`) stops product-page requests only: what earlier reads of a
++product's own page established within `detail.reuse_days` is still used, at no request, with that read's own
++time, run, revision and page (release 1.6.3; `detail.reuse_days: 0` turns reuse off). A carried row whose UPC
++or size is empty gets them from such a read too, never forced (release 1.6.3, `docs/VERIFICATION.md`).
+ `detail.max_per_run: 0` and `--pdp-sample` are refused, and a scheduled run refuses any budget.
+ 
+ Saved pages are loaded with `import-detail-captures --store KEY --index FILE`. The index is a JSON list next to the
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 2b85b4d..3b486bc 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,5 +1,29 @@
+ # Verification report: walmart-azure-headless 1.6.2
+ 
++## Release 1.6.3
++
++Release 1.6.3 corrects three defects that this delivery's live runs of 2026-11-04 found with release 1.6.2: two in
++what a run publishes for a product's UPC and size, found by the delivery's field-by-field reconciliation of the
++live run L5, and one that stopped the live run L6. Offline tests show each defect and its correction: each new test
++of a change fails on 1.6.2 and passes on 1.6.3, and the tests that show what did not change pass on both. Live
++results are not recorded here: the delivery's review documents give each live stage, the frozen build it ran on and
++its result.
++
++| Change | Until 1.6.2 | Where |
++|---|---|---|
++| A run with product detail reading off (`detail.enabled: false`, `--pilot-no-detail`) still uses what an earlier read of a product's own page established within `detail.reuse_days`, at no request, with that read's own time, run, revision and page. Reading off turns off requests only; `detail.reuse_days: 0` turns reuse off | Such a run reused nothing: it exported these products blank, "product detail reading is off" (release 1.6.1 stated this: "With detail reading switched off, nothing is reused"). Live on 2026-11-03/04 the census and partition checks, all run with reading off, exported blank UPCs that 1.5.1's S6 had read | `collection/walmart.py` (`reuse_saved_details`); `tests/integration/test_detail_path.py::test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established` (fails on 1.6.2); `tests/integration/test_detail_path.py::test_a_page_nobody_requested_is_never_called_absent_in_any_evidence_file` (no saved read: still `not_attempted`, "product detail reading is off"; passes on both); `tests/integration/test_detail_path.py::test_every_outcome_of_an_empty_field_is_told_apart` (changed: its reading-off part expected every product "not attempted"; it now expects that of the products whose earlier read was refused or failed, which are never reused, and the earlier read's own outcome, `absent_in_source` with that read's run and time, for the product whose page that read inspected; the changed test fails on 1.6.2, the earlier version passed on 1.6.2); `tests/integration/test_operations.py::test_a_pilot_budget_is_named_on_the_run_and_never_published` (changed: its second pilot, with reading off, expected all four products "not attempted" and pending in the store's queue; it now expects no product page requested, the UPC the first pilot read kept as that read (`recovered_from_saved_detail`, its run) with its queue entry resolved, and the three others "not attempted", "product detail reading is off", and pending; the changed test fails on 1.6.2) |
++| A carried row whose UPC or size is empty gets what a saved read of the item's own page establishes, as a product of the run does: the value names that read (`provenance.upc_detail.reused_from`, `provenance.historical.recovered_fields`: its time, run, revision and page), the row's listing observation (crawl date, prices, page) stays the earlier run's, and `historical.record_as_carried_sha256` keeps the hash of the record as carried. Never forced: when the read states a UPC another exported row of the run has (one product), an approximate size, conflicting sizes or another UPC than the row has, or when the record would fail the record checks, the row stays as carried and `historical.recovery_withheld` says why. The evidence files (`field_dispositions`, `provenance.json`, `record_map.json`) name the carried row's own outcome when it has one | A carried row kept the empty fields of the run it came from, although a saved read answered for them (release 1.6.1 stated this: "an earlier run's blank stays that run's blank"). Live L5 of 2026-11-04 exported carried rows with blank UPCs that 1.5.1's S6 had read | `collection/walmart.py` (`recover_carried_details`, called by `h_assemble` after `retention.carry_forward`), `publishing/supporting_log.py` (`_detail_of`); `tests/integration/test_detail_path.py::test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names` and `::test_a_carried_row_never_takes_a_upc_another_exported_row_has` (both fail on 1.6.2); `::test_a_carried_row_names_the_sources_of_its_own_earlier_run` and `::test_a_carried_row_names_the_run_that_read_its_fields` (unchanged; pass on both) |
++| Walmart's own not-found page is recognized: its page data is found whether the script's id is quoted or not (`id=__NEXT_DATA__`, as the minified not-found page writes it), by the challenge check, the page parser and the sanitizer, which now keeps that page data redacted in the stored copy. A listing link the site answers with that page (its data is the Next.js page `/404`) is recorded `INCOMPLETE` with the end `NOT_FOUND`, the page and its HTTP status, and the event `LISTING_NOT_FOUND`; the run goes on and the store is not held. It is never an empty listing, and no product is taken from it. A real challenge (the bot manager's markers or wording) is still a refusal, and a page without the page data script is still "missing_initial_state" | The check looked only for `id="__NEXT_DATA__"`: it read "missing_initial_state", called the page a challenge, stopped the run (`SITE_REFUSAL`, exit 5, not resumable) and held the store, and the sanitizer dropped that page data. Live L6 of 2026-11-04: the Shampoo child listing "nexxus-shampoo" (`/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405`, a link the Shampoo listing's Departments facet named) answered with HTTP 200 and "Uh-oh... This page could not be found." | `acquisition/challenge.py` (`has_state`), `sites/walmart/page_data.py` (`_NEXT_DATA`, `not_found_page`), `sites/walmart/sanitize.py` (`_NEXT_DATA`), `collection/walmart.py` (`_page`); `tests/unit/test_not_found_page.py` (the not-found page and its page data: fail on 1.6.2; a challenge and a page without the page data script: still refused, pass on both) and `tests/integration/test_coverage_and_assortment.py::test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on` (fails on 1.6.2) |
++
++A product's own page is read with the page-data check off, as before, so the not-found page never stopped a product
++read: it was recorded as a page without page data (`parse_failed` for a product's UPC and size, "parsing failed" for
++a sponsored-only or variant product's page). Release 1.6.3 records it as what it is: `request_failed`, "the site
++answered with its not-found page", for the UPC and size (the product stays in the store's queue, to be read again;
++`tests/integration/test_detail_path.py::test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure`,
++fails on 1.6.2), and "access failed: the site answered with its not-found page" for a sponsored-only or variant
++product's page. A not-found page after a listing's first result page also ends the listing `INCOMPLETE`
++(`NOT_FOUND`, with the page number), never `DONE`.
++
+ ## Release 1.6.2
+ 
+ Release 1.6.2 corrects two defects that this delivery's live runs of 2026-11-03 found with release 1.6.1. Offline
+diff --git a/pyproject.toml b/pyproject.toml
+index 8b03d12..d40044f 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.6.2"
++version = "1.6.3"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 3d0f91e..6e910a4 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.6.2"
++__version__ = "1.6.3"
+diff --git a/src/walmart_headless/acquisition/challenge.py b/src/walmart_headless/acquisition/challenge.py
+index d2f9abe..88feaa8 100644
+--- a/src/walmart_headless/acquisition/challenge.py
++++ b/src/walmart_headless/acquisition/challenge.py
+@@ -53,6 +53,21 @@ _BLOCKED_PAGE_DATA = re.compile(r'"page"\s*:\s*"/blocked"')
+ # The data every content page of a site embeds: a page without it is a shell or an interstitial.
+ MARIANOS_STATE_MARKER = "window.__INITIAL_STATE__"
+ WALMART_STATE_MARKER = 'id="__NEXT_DATA__"'
++# The same script as the site may write it: its id quoted or not. Release 1.6.3: Walmart's own not-found page
++# (live 2026-11-04, the listing link "nexxus-shampoo", fetch 01M6K2F80M1AFY26P6BMN56F4C) is minified and
++# writes ``<script id=__NEXT_DATA__ type="application/json">``; release 1.6.2 looked only for the quoted
++# form, read "missing_initial_state", called the page a challenge, stopped the run and held the store.
++_STATE_SCRIPT = {
++    WALMART_STATE_MARKER: re.compile(r"<script\b[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\1(?=[\s/>])", re.I),
++}
++
++
++def has_state(html: str, state_marker: str) -> bool:
++    """Whether the document embeds the site's page data (``state_marker``, or its script written so)."""
++    if state_marker in html:
++        return True
++    rx = _STATE_SCRIPT.get(state_marker)
++    return bool(rx is not None and rx.search(html))
+ 
+ 
+ @dataclass(frozen=True)
+@@ -88,7 +103,7 @@ def detect_document_challenge(
+     strong.extend(name for rx, name in _STRUCTURE if rx.search(markup))
+     if _BLOCKED_PAGE_DATA.search(html):
+         strong.append("blocked_page_data")
+-    has_data = state_marker in html
++    has_data = has_state(html, state_marker)
+     wording = [name for rx, name in _WORDING if rx.search(markup)]
+     if wording:
+         if strong or not has_data:
+diff --git a/src/walmart_headless/collection/walmart.py b/src/walmart_headless/collection/walmart.py
+index f53af9c..4dd62ac 100644
+--- a/src/walmart_headless/collection/walmart.py
++++ b/src/walmart_headless/collection/walmart.py
+@@ -39,8 +39,9 @@ applied); each listing is read with Walmart's own ``page=N`` links. Products are
+ every placement is kept. The task's checkpoint keeps the listing and the next page to read, so a resumed
+ task continues there. A listing link that serves a category page instead of a listing (its data is the
+ page ``/cp/[...categoryParams]``: links, no result grid) is ``INCOMPLETE`` (``CATEGORY_PAGE``) with the
+-listings that page links, and the run goes on (release 1.6.2); any other page without a result grid stops
+-the run (``ABNORMAL_RESULT``).
++listings that page links, and the run goes on (release 1.6.2); so is a link the site answers with its own
++not-found page (its data is the page ``/404``: ``NOT_FOUND``, release 1.6.3); any other page without a result
++grid stops the run (``ABNORMAL_RESULT``).
+ 
+ Completion is decided from evidence, never from the last page reached. Every result page is recorded (its
+ products, new identities, the listing's reported total and page count); only its result grid is the listing's
+@@ -229,7 +230,8 @@ class Listing:
+     seen: list[str] = field(default_factory=list)
+     reason: str = ""
+     # Why reading stopped: LAST_PAGE | EMPTY_PAGE | RESULT_WINDOW | REPEATED_PAGE | PAGE_LIMIT |
+-    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT | CATEGORY_PAGE ("" while reading).
++    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT | CATEGORY_PAGE | NOT_FOUND ("" while
++    # reading).
+     end: str = ""
+     # How the listing was found: csv (the row itself), category_page, configured, departments_facet.
+     via: str = ""
+@@ -664,6 +666,14 @@ def category_verified(s: Session, run_id: str, category: str) -> int:
+ # -- the collector ------------------------------------------------------------------------------------
+ 
+ 
++def _same_read(detail: Mapping[str, Any], hit: Mapping[str, Any]) -> bool:
++    """Whether a product's detail outcome comes from the saved read ``hit`` (the same page fetch)."""
++    reused = detail.get("reused_from")
++    source = reused if isinstance(reused, Mapping) else detail
++    fetch = source.get("page_fetch_id")
++    return bool(fetch) and fetch == hit.get("page_fetch_id")
++
++
+ class WalmartCollector(BaseCollector):
+     LISTING_SETTLE_MS = 0
+     CAPTURE_KINDS: tuple[str, ...] = ("walmart_location",)
+@@ -1865,6 +1875,18 @@ class WalmartCollector(BaseCollector):
+                         status="identity_mismatch",
+                         reason=f"the page is for item {ident.page_item}, not {item_id}",
+                     )
++                elif (
++                    not ident.matched
++                    and not ident.page_item
++                    and (missing := wpd.not_found_page(wpd.next_data(html)))
++                ):
++                    # Release 1.6.3: the site's own not-found page, no usable answer (until then its page data
++                    # was not found: "parse_failed", "the page carries no Walmart page data").
++                    detail.update(
++                        status="request_failed",
++                        reason=f"the site answered with its not-found page (page data route {missing}, "
++                        f"HTTP {fetch.status})",
++                    )
+                 elif not ident.matched and not ident.page_item:
+                     detail.update(
+                         status="identity_mismatch",
+@@ -2057,9 +2079,12 @@ class WalmartCollector(BaseCollector):
+         only the detail pass reused, so a run that ended before it (a stop, a deadline, a credit limit) left
+         these products blank as "the run stopped before this product's page was read", saving no request: the
+         live S7 of 2026-10-31 (release 1.5.1) left 32 products blank that S6's saved reads answered for.
+-        Detail reading switched off reuses nothing, as the detail pass does. Returns the products answered."""
+-        if not self.cfg.detail.enabled:
+-            return 0
++        Release 1.6.3: also with product detail reading off (``detail.enabled: false``,
++        ``--pilot-no-detail``), which turns off requests, not what earlier reads established: until then
++        such a run exported these products blank, "product detail reading is off", although a saved read
++        answered for them at no request (the live runs of 2026-11-03/04 left UPCs blank that 1.5.1's S6 had
++        read).
++        ``detail.reuse_days: 0`` turns reuse off. Returns the products answered."""
+         with self.factory() as s:
+             saved = self.saved_details(s)
+             todo = [
+@@ -2072,6 +2097,154 @@ class WalmartCollector(BaseCollector):
+             self._set_detail(ctx, row_id, self._reused_detail(item, hit, title_size))
+         return len(todo)
+ 
++    def recover_carried_details(self, s: Session) -> dict[str, Any]:
++        """When the run is assembled, after ``retention.carry_forward``: a carried row whose UPC or size is
++        empty gets what a saved read of the item's own page establishes (:meth:`saved_details`, the reuse
++        window), as a product of this run does (:meth:`reuse_saved_details`). The value names that read (its
++        time, run, revision and page) in ``provenance.upc_detail.reused_from`` and
++        ``provenance.historical.recovered_fields``; the listing observation stays the earlier run's (its crawl
++        date, prices and page), and ``historical.record_as_carried_sha256`` is the record as carried. Release
++        1.6.3: until then a carried row kept the empty fields of the run it came from, although a saved read
++        answered for them at no request (the live runs of 2026-11-03/04 carried rows with blank UPCs that
++        1.5.1's S6 had read).
++
++        Never forced: the row stays as it was, with the reason in ``historical.recovery_withheld``, when the
++        read states a UPC another exported row of the run has (one product: a row of this run would be
++        excluded as ``DUPLICATE_UPC``), an approximate size, sizes that conflict, or another UPC than the row
++        has, or when the record would fail the record checks. A read the row's earlier outcome already names
++        adds nothing."""
++        out: dict[str, Any] = {
++            "rows_with_empty_fields": 0,
++            "answered_by_saved_read": 0,
++            "upc_filled": 0,
++            "weight_filled": 0,
++            "already_from_that_read": 0,
++            "withheld": 0,
++        }
++        rows = list(
++            s.scalars(
++                select(RecordRow)
++                .where(
++                    RecordRow.run_id == self.run_id,
++                    RecordRow.status == retention.CARRIED_STATUS,
++                    or_(RecordRow.record["upc"].astext == "", RecordRow.record["weight"].astext == ""),
++                )
++                .order_by(RecordRow.upc)
++            )
++        )
++        if not rows:
++            return out
++        saved = self.saved_details(s)
++        exported = (RecordStatus.VALID.value, RecordStatus.EXPORTED_NOT_VALID.value, retention.CARRIED_STATUS)
++        taken = {
++            str(u)
++            for u in s.scalars(
++                select(RecordRow.record["upc"].astext).where(
++                    RecordRow.run_id == self.run_id, RecordRow.status.in_(exported)
++                )
++            )
++            if u
++        }
++        for row in rows:
++            out["rows_with_empty_fields"] += 1
++            item = self._detail_item(row)
++            hit = self._reusable(row, saved) if item else None
++            if hit is None:
++                continue
++            hist = dict((row.provenance or {}).get("historical") or {})
++            earlier = s.scalar(
++                select(RecordRow).where(
++                    RecordRow.run_id == str(hist.get("run_id") or ""), RecordRow.upc == row.upc
++                )
++            )
++            before: Mapping[str, Any] = (
++                ((earlier.provenance or {}).get("upc_detail") or {}) if earlier is not None else {}
++            )
++            if _same_read(before, hit):
++                out["already_from_that_read"] += 1
++                continue
++            record = dict(row.record)
++            detail = self._reused_detail(item, hit, str(record.get("weight") or ""))
++            value = str(detail.get("value") or "") if detail["status"] == "extracted" else ""
++            size = detail.get("size") or {}
++            from_listing = bool(
++                before.get("listing_upc") or before.get("source") == dispositions.LISTING_SOURCE
++            )
++            why = ""
++            if record.get("upc"):
++                if value and value != record["upc"]:
++                    why = f"the read states UPC {value}, the carried row {record['upc']}"
++                elif not value and not from_listing:
++                    why = "the read states no UPC, the carried row's UPC comes from another read"
++                elif from_listing:
++                    detail["listing_upc"] = True
++            elif value and value in taken:
++                why = f"the read states UPC {value}, which another exported row of the run has (one product)"
++            if not why and any(
++                o["measures"] == wps.PACK and wrec.approx_weight_text(o["value"])
++                for o in size.get("observations") or []
++            ):
++                why = (
++                    "the read states an approximate size (a row of this run would be excluded: APPROX_WEIGHT)"
++                )
++            if not why and (size.get("conflicts") or size.get("outcome") == "conflict"):
++                why = "the read's statements about size conflict"
++            read = {
++                k: hit.get(k)
++                for k in (
++                    "run_id",
++                    "page_fetch_id",
++                    "requested_at",
++                    "source_revision",
++                    "body_sha256",
++                    "origin",
++                )
++            }
++            filled: dict[str, Any] = {}
++            if not why and value and not record.get("upc"):
++                record["upc"] = value
++                detail["upc_observed_at"] = hit["requested_at"]
++                filled["upc"] = {"value": value, "path": hit.get("path"), **read}
++            shown = str(size.get("value") or "")
++            if not why and shown and not record.get("weight"):
++                record["weight"] = shown
++                detail["size_filled"] = True
++                detail["weight_observed_at"] = hit["requested_at"]
++                filled["weight"] = {
++                    "value": shown,
++                    "path": size.get("path"),
++                    "rule": size.get("rule"),
++                    **read,
++                }
++            problems = retention.record_problems(record) if filled else []
++            if problems:
++                why = "the record with the read's values would fail the record checks: " + "; ".join(problems)
++                filled = {}
++            if why:
++                hist["recovery_withheld"] = {"reason": why[:300], "read": read}
++                row.provenance = {**(row.provenance or {}), "historical": hist}
++                out["withheld"] += 1
++                continue
++            detail["for_carried_row"] = {"run_id": self.run_id, "earlier_run": hist.get("run_id")}
++            if filled:
++                taken.add(str(record.get("upc") or ""))
++                hist["recovered_fields"] = filled
++                hist["record_as_carried_sha256"] = row.record_sha256
++                hist["note"] = (
++                    "an earlier run's verified local observation, carried forward: its prices are the ones "
++                    "observed on its crawl date, not verified by this run; its empty "
++                    + " and ".join(sorted(filled))
++                    + " filled from a saved read of the item's own page (recovered_fields: that read's run, "
++                    "time, revision and page)"
++                )
++                row.record = record
++                row.record_sha256 = record_sha256(ordered_record(record))
++            row.provenance = {**(row.provenance or {}), "historical": hist, "upc_detail": detail}
++            out["answered_by_saved_read"] += 1
++            out["upc_filled"] += int("upc" in filled)
++            out["weight_filled"] += int("weight" in filled)
++        return out
++
+     def close_details(self, s: Session) -> dict[str, int]:
+         """When the run is assembled: every exported product gets a UPC outcome. A UPC the result page stated
+         is ``extracted`` from the listing; a product whose page was not read says why, and stays waiting in
+@@ -2343,6 +2516,30 @@ class WalmartCollector(BaseCollector):
+                 self._contract(s, f"{fetch.url}: {exc}")
+                 s.commit()
+             raise AbnormalPage(f"{fetch.url}: {exc}") from None
++        if missing := wpd.not_found_page(nd):
++            # The site's own not-found page for this link (its data is the page /404): the listing is not
++            # read, says so, and the run goes on (release 1.6.3). Never an empty listing, never a refusal:
++            # release 1.6.2 called the page a challenge (its minified page data was not recognized), stopped
++            # the run and held the store, on the Shampoo child "nexxus-shampoo" on 2026-11-04.
++            lst.status, lst.end = "INCOMPLETE", "NOT_FOUND"
++            lst.reason = (
++                "not read: the site answered "
++                + ("this listing link" if page == 1 else f"result page {page} of this listing")
++                + f" with its not-found page (page data route {missing}, HTTP {fetch.status})"
++            )[:500]
++            with self.factory() as s:
++                self.persist(s, ctx)
++                self._coverage(s, node, lst)
++                event(
++                    s,
++                    self.run_id,
++                    "WARN",
++                    "LISTING_NOT_FOUND",
++                    f"{lst.name or lst.id}: {lst.reason}",
++                    {"listing": lst.id, "page": page, "page_fetch_id": fetch.fetch_id, "url": fetch.url},
++                )
++                s.commit()
++            return None
+         if wpd.search_result(nd) is None:
+             served = wpd.category_page(nd) if page == 1 else ""
+             if served:
+@@ -3531,11 +3728,19 @@ class WalmartCollector(BaseCollector):
+             }
+         html = self.html(fetch)
+         try:
+-            pp = wpd.product_page(wpd.next_data(html), self._origin(fetch))
++            nd = wpd.next_data(html)
+         except wpd.PageDataMissing as exc:
+             self._persist_now(ctx)
+             self._follow_failed(f"parsing failed: {exc}")
+             return {**self._follow_out(cand, where, "inaccessible", f"parsing failed: {exc}"), **base}
++        if missing := wpd.not_found_page(nd):
++            # Release 1.6.3: the site's own not-found page (until then its page data was not found: "parsing
++            # failed: no __NEXT_DATA__ script in the page").
++            self._persist_now(ctx)
++            self._follow_failed(f"the site's not-found page ({missing})")
++            reason = f"access failed: the site answered with its not-found page (page data route {missing})"
++            return {**self._follow_out(cand, where, "inaccessible", reason), **base}
++        pp = wpd.product_page(nd, self._origin(fetch))
+         if pp is None or pp.item is None:
+             self._persist_now(ctx)
+             self._follow_failed("parsing failed: no product in the page data")
+@@ -3960,12 +4165,26 @@ class WalmartCollector(BaseCollector):
+                 }
+             )
+             s.flush()
++            recovered = self.recover_carried_details(s)  # release 1.6.3
++            s.flush()
+             run.counts = {
+                 **(run.counts or {}),
+                 "historical": kept,
+                 "upc_detail": details,
++                "carried_details": recovered,
+                 "field_dispositions": dispositions.counts(field_dispositions(s, self.run_id)),
+             }
++            if recovered["answered_by_saved_read"] or recovered["withheld"]:
++                event(
++                    s,
++                    self.run_id,
++                    "INFO",
++                    "CARRIED_DETAILS_RECOVERED",
++                    f"{recovered['upc_filled']} UPCs and {recovered['weight_filled']} sizes of carried rows "
++                    "filled from saved reads of the items' own pages (each with that read's time, run, "
++                    f"revision and page); {recovered['withheld']} left as carried, with the reason",
++                    recovered,
++                )
+             event(
+                 s,
+                 self.run_id,
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index ab0ab9b..6d1b217 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.6.2"
++PARSER_VERSION = "1.6.3"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/src/walmart_headless/publishing/supporting_log.py b/src/walmart_headless/publishing/supporting_log.py
+index 8a35abf..e5f95f1 100644
+--- a/src/walmart_headless/publishing/supporting_log.py
++++ b/src/walmart_headless/publishing/supporting_log.py
+@@ -170,6 +170,16 @@ def _origin(s: Session, r: RecordRow, run_id: str) -> tuple[str, RecordRow | Non
+     return origin, record, obs
+ 
+ 
++def _detail_of(r: RecordRow, origin_record: RecordRow | None) -> Any:
++    """The UPC and size outcome a row's fields come from: its own, also on a carried row a saved read answered
++    for in this run (release 1.6.3: ``upc_detail.reused_from`` names that read); else, for a carried row, the
++    outcome of its earlier run's record."""
++    own = (r.provenance or {}).get("upc_detail")
++    if own is not None:
++        return own
++    return ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++
++
+ def _stored_hashes(s: Session, fetch_ids: set[str]) -> dict[str, str]:
+     """The SHA-256 of each page's stored copy, as ``record_map`` names it (``stored_page_sha256``)."""
+     known = sorted(f for f in fetch_ids if f)
+@@ -227,7 +237,9 @@ def field_dispositions(s: Session, run_id: str) -> list[dict[str, Any]]:
+         hist = prov.get("historical") or {}
+         origin = str(hist.get("run_id") or run_id)
+         detail = prov.get("upc_detail")
+-        if hist:
++        if hist and detail is None:
++            # A carried row's own outcome when a saved read answered for it in this run (release 1.6.3), else
++            # its earlier run's.
+             first = s.scalar(select(RecordRow).where(RecordRow.run_id == origin, RecordRow.upc == r.upc))
+             detail = ((first.provenance or {}) if first is not None else {}).get("upc_detail")
+         fields = _dispositions(
+@@ -310,7 +322,7 @@ def record_map(s: Session, run_id: str) -> dict[str, Any]:
+         origin, origin_record, obs = _origin(s, r, run_id)
+         first_read = _first_read(s, origin, hist, replay_source)
+         prov = dict(obs.provenance or {}) if obs is not None else {}
+-        detail = ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++        detail = _detail_of(r, origin_record)
+         fields = _dispositions(
+             r,
+             detail,
+@@ -435,7 +447,7 @@ def supporting_log(s: Session, run_id: str) -> dict[str, Any]:
+         extra = dict(r.provenance or {})
+         historical = extra.get("historical")
+         origin, origin_record, source_obs = _origin(s, r, run_id) if historical else (run_id, r, o)
+-        detail = ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++        detail = _detail_of(r, origin_record)
+         named[r.upc] = _sources(
+             dict(source_obs.provenance or {}) if source_obs is not None else {},
+             _dispositions(
+diff --git a/src/walmart_headless/sites/walmart/page_data.py b/src/walmart_headless/sites/walmart/page_data.py
+index d00f743..b830c95 100644
+--- a/src/walmart_headless/sites/walmart/page_data.py
++++ b/src/walmart_headless/sites/walmart/page_data.py
+@@ -28,7 +28,12 @@ from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
+ from selectolax.lexbor import LexborHTMLParser
+ 
+ BASE_URL = "https://www.walmart.com"
+-_NEXT_DATA = re.compile(r"<script[^>]*\bid=[\"']__NEXT_DATA__[\"'][^>]*>(?P<json>.*?)</script>", re.S | re.I)
++# Its id quoted or not (release 1.6.3: Walmart's minified not-found page writes ``id=__NEXT_DATA__``).
++_NEXT_DATA = re.compile(
++    r"<script[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\1(?=[\s/>])[^>]*>(?P<json>.*?)</script>", re.S | re.I
++)
++# The route of the site's own not-found page (Next.js ``/404``).
++NOT_FOUND_ROUTE = "/404"
+ _PRODUCT_PATH = re.compile(r"^/ip/(?:[^/?#]+/)?(?P<id>\d+)")
+ _DIGITS = re.compile(r"^\d{8,14}$")
+ SEARCH_RESULT_PATH = "props.pageProps.initialData.searchResult"
+@@ -105,6 +110,15 @@ def category_page(nd: Mapping[str, Any]) -> str:
+     return served if served.startswith("/cp/") else route
+ 
+ 
++def not_found_page(nd: Mapping[str, Any]) -> str:
++    """The route of the site's own not-found page when the document is one (its data is the Next.js page
++    ``/404``), else "". On 2026-11-04 the Beauty listing link "nexxus-shampoo"
++    (``/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405``, a child category its parent's
++    Departments facet named) served it with HTTP 200: "Uh-oh... This page could not be found."."""
++    route = text(nd.get("page"))
++    return route if route == NOT_FOUND_ROUTE else ""
++
++
+ def listing_identity(nd: Mapping[str, Any]) -> tuple[str, list[str]]:
+     """A listing page's own name (``searchResult.catInfo.name``) and the category ids of its breadcrumb
+     (``searchResult.breadCrumb[].id``, e.g. ``1115193`` then ``1115193_1071967``), as the page states them."""
+diff --git a/src/walmart_headless/sites/walmart/sanitize.py b/src/walmart_headless/sites/walmart/sanitize.py
+index 9e955f3..ca3b984 100644
+--- a/src/walmart_headless/sites/walmart/sanitize.py
++++ b/src/walmart_headless/sites/walmart/sanitize.py
+@@ -39,8 +39,10 @@ _IPV4 = re.compile(r"^\d{1,3}(?:\.\d{1,3}){3}$")
+ # parser and not to be redistributed in evidence.
+ API_KEY_VALUE = re.compile(r"\bAIza[0-9A-Za-z_-]{35}\b")
+ _IPV6 = re.compile(r"^(?=(?:[^:]*:){3})[0-9a-fA-F:]{6,39}$|^[0-9a-fA-F]*::[0-9a-fA-F:]*$")
++# Its id quoted or not (release 1.6.3: Walmart's minified not-found page writes ``id=__NEXT_DATA__``; release
++# 1.6.2 did not find that page data, so it dropped it, never keeping it unredacted).
+ _NEXT_DATA = re.compile(
+-    r"(<script[^>]*\bid=[\"']__NEXT_DATA__[\"'][^>]*>)(?P<json>.*?)(</script>)", re.S | re.I
++    r"(<script[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\2(?=[\s/>])[^>]*>)(?P<json>.*?)(</script>)", re.S | re.I
+ )
+ _DATA_URI_ATTRS = ("src", "srcset", "href", "poster", "data-src", "data-srcset")
+ _CSS_DATA_URI = re.compile(r"url\((['\"]?)data:[^)]*\1\)")
+diff --git a/tests/integration/test_coverage_and_assortment.py b/tests/integration/test_coverage_and_assortment.py
+index cad2404..3068eef 100644
+--- a/tests/integration/test_coverage_and_assortment.py
++++ b/tests/integration/test_coverage_and_assortment.py
+@@ -35,6 +35,7 @@ from walmart_headless.core.settings import load_private_label, load_settings, lo
+ from walmart_headless.core.timeutil import iso
+ from walmart_headless.db.models import (
+     CategorySource,
++    Event,
+     NodeCoverage,
+     OfferObservationRow,
+     PageFetch,
+@@ -974,6 +975,36 @@ def test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_r
+         assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
+ 
+ 
++def test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on(
++    env: dict[str, Any],
++) -> None:
++    """Release 1.6.3. Release 1.6.2 did not recognize the page data of Walmart's minified not-found page
++    (its id unquoted), called the page a challenge, stopped the run (SITE_REFUSAL) and held the store: live L6
++    of 2026-11-04, the Shampoo child listing "nexxus-shampoo"."""
++    serve(env, {MILK: lambda n: syn.not_found_page()})
++    run_id, _ = run_food(env)
++    cov = coverage(env, run_id)
++    milk = cov["976759_9176907"]
++    assert milk.status == "INCOMPLETE" and milk.partition["end"] == "NOT_FOUND"
++    assert milk.partition["reason"] == (
++        "not read: the site answered this listing link with its not-found page "
++        "(page data route /404, HTTP 200)"
++    )
++    assert milk.total_count is None and milk.organic_upcs == 0  # never an empty listing, no product from it
++    assert cov["976759_976787"].status == "DONE"  # the row's other listing is still read
++    assert any(r.status == "valid" for r in records(env, run_id).values())
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
++        codes = [
++            (e.code, (e.data or {}).get("listing"))
++            for e in s.scalars(select(Event).where(Event.run_id == run_id))
++        ]
++    assert ("LISTING_NOT_FOUND", "976759_9176907") in codes
++    assert not [c for c, _ in codes if c == "CHALLENGE_DETECTED"]  # never called a refusal
++
++
+ @pytest.mark.parametrize(
+     ("route", "first_page_listing"),
+     [("/browse/[...slug]", False), ("/cp/[...categoryParams]", True)],
+diff --git a/tests/integration/test_detail_path.py b/tests/integration/test_detail_path.py
+index e17a7cd..800f54c 100644
+--- a/tests/integration/test_detail_path.py
++++ b/tests/integration/test_detail_path.py
+@@ -25,9 +25,11 @@ from tests.integration.test_scrapedo_walmart import _detail_calls, _records, _ru
+ from walmart_headless.collection import detail_captures, follow_queue
+ from walmart_headless.collection.config import DetailConfig, Limits
+ from walmart_headless.collection.walmart import WalmartCollector
++from walmart_headless.core.schema import ordered_record
+ from walmart_headless.core.timeutil import iso, utcnow
+ from walmart_headless.db.models import DetailObservation, FollowUpItem, RecordRow, Run, Store
+ from walmart_headless.publishing import dispositions as disp
++from walmart_headless.publishing.exports import record_sha256
+ 
+ pytestmark = [pytest.mark.postgres]
+ 
+@@ -438,6 +440,156 @@ def test_a_run_that_ends_before_its_detail_pass_still_uses_what_earlier_reads_es
+     assert rows["wm:7102"]["upc"]["reason"] == "the run stopped before this product's page was read"
+ 
+ 
++def test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. Product detail reading off (``detail.enabled: false``, ``--pilot-no-detail``: the census
++    and the partition checks of 2026-11-03/04) turned reuse off too: such a run exported its products blank,
++    "product detail reading is off", although a saved read answered for them at no request. Reading off turns
++    off requests only; a product no earlier read answers for still says why it is blank."""
++    milk = syn.Item("7101", "Whole Milk", "$3.12")
++    one_product(monkeypatch, milk)
++    env["mock"].page_override = pages(
++        {"7101": product_page("7101", upc=PINNED_UPC, specs={"Size": "1 Gallon"})}
++    )
++    first, _ = _run(env)
++    read_at = _records(env, first)["wm:7101"].provenance["upc_detail"]["requested_at"]
++    monkeypatch.setitem(mock.PAGES, mock.MILK, [[milk, syn.Item("7102", "Oat Milk", "$4.10")]])
++    env["mock"].calls.clear()
++    second, _ = _run(env, detail=DetailConfig(enabled=False))
++    assert _detail_calls(env) == []  # reading off: no product page is requested
++    rec = _records(env, second)["wm:7101"]
++    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
++    d = rec.provenance["upc_detail"]
++    assert d["fresh"] is False and d["reused_from"]["run_id"] == first
++    rows = field_rows(env, second)
++    for field in ("upc", "weight"):
++        assert rows["wm:7101"][field]["disposition"] == disp.RECOVERED
++        assert rows["wm:7101"][field]["source_run"] == first
++        assert rows["wm:7101"][field]["observed_at"] == read_at
++    assert rows["wm:7102"]["upc"]["disposition"] == disp.NOT_ATTEMPTED
++    assert rows["wm:7102"]["upc"]["reason"] == "product detail reading is off"
++
++
++def _carried_blank(
++    e: dict[str, Any], monkeypatch: pytest.MonkeyPatch, *, later: list[syn.Item]
++) -> tuple[str, str]:
++    """A product whose own page a first run read (UPC and size), then observed again blank by a run that
++    reused nothing (``reuse_days: 0``, as releases before 1.6.3 did with reading off); a third run's listing
++    shows ``later`` instead, so it carries the product from the second run. Returns (first, second)."""
++    one_product(monkeypatch, syn.Item("7101", "Whole Milk", "$3.12"))
++    e["mock"].page_override = pages(
++        {"7101": product_page("7101", upc=PINNED_UPC, specs={"Size": "1 Gallon"})}
++    )
++    first, _ = _run(e)
++    second, _ = _run(e, detail=DetailConfig(enabled=False, reuse_days=0))
++    blank = _records(e, second)["wm:7101"]
++    assert blank.status == "valid" and blank.record["upc"] == "" and blank.record["weight"] == ""
++    monkeypatch.setitem(mock.PAGES, mock.MILK, [later])
++    return first, second
++
++
++def test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. A carried row kept the empty fields of the run it came from, although a saved read of
++    the item's own page answered for them at no request: the live L5 of 2026-11-04 (release 1.6.2) carried
++    rows with a blank UPC that 1.5.1's S6 had read. The row now gets them, each naming that read (its time,
++    run, revision and page); its listing observation (crawl date, prices, page) stays the earlier run's, and
++    the record as it was carried keeps its hash."""
++    first, second = _carried_blank(
++        env, monkeypatch, later=[syn.Item("7201", "Skim Milk, 1 gal", "$3.00", upc="028400090896")]
++    )
++    read = _records(env, first)["wm:7101"].provenance["upc_detail"]
++    blank = _records(env, second)["wm:7101"]
++    env["mock"].calls.clear()
++    third, _ = _run(env)
++    assert "7101" not in [item for _, item in _detail_calls(env)]  # nothing is requested for it
++    rec = _records(env, third)["wm:7101"]
++    assert rec.status == "historical"
++    hist = rec.provenance["historical"]
++    assert hist["run_id"] == second
++    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
++    unchanged = {k: v for k, v in rec.record.items() if k not in ("upc", "weight")}
++    assert unchanged == {k: v for k, v in blank.record.items() if k not in ("upc", "weight")}
++    assert hist["record_as_carried_sha256"] == blank.record_sha256 != rec.record_sha256
++    assert rec.record_sha256 == record_sha256(ordered_record(rec.record))
++    for field, value in (("upc", PINNED_UPC), ("weight", "1 Gallon")):
++        got = hist["recovered_fields"][field]
++        assert got["value"] == value and got["run_id"] == first
++        assert got["page_fetch_id"] == read["page_fetch_id"]
++    d = rec.provenance["upc_detail"]
++    assert d["fresh"] is False and d["reused_from"]["run_id"] == first
++    assert d["for_carried_row"] == {"run_id": third, "earlier_run": second}
++    files = _evidence_of(env, third, "wm:7101")
++    row = files["field_dispositions"]
++    assert row["observation_kind"] == "carried_forward"
++    for field in ("upc", "weight"):
++        assert row[field]["disposition"] == disp.RECOVERED
++        assert row[field]["source_run"] == first and row[field]["page_fetch_id"] == read["page_fetch_id"]
++        assert row[field]["source_revision"]  # the read's, or its run's when the read named none
++        assert files["provenance"]["fields"][field]["source_run"] == first
++        assert field not in files["provenance"]["missing"]
++    assert files["record_map"]["upc"]["reused_from_run"] == first
++    assert files["record_map"]["observed_by_run"] == second  # the listing observation stays the earlier run's
++    with env["factory"]() as s:
++        run = s.get(Run, third)
++        assert run is not None
++        assert run.counts["carried_details"]["upc_filled"] == 1
++        assert run.counts["carried_details"]["weight_filled"] == 1
++    products = json.loads((exports(env, third) / "products.json").read_text("utf-8"))
++    assert [p["upc"] for p in products if p["url"].endswith("/7101")] == [PINNED_UPC]
++
++
++def test_a_carried_row_never_takes_a_upc_another_exported_row_has(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3: the saved read's UPC is the one a row of this run states (one product). A row of this
++    run would be excluded as a duplicate; the carried row is left as it was carried, and says why."""
++    first, second = _carried_blank(
++        env, monkeypatch, later=[syn.Item("7301", "Whole Milk Again, 1 gal", "$3.12", upc=PINNED_UPC)]
++    )
++    blank = _records(env, second)["wm:7101"]
++    third, _ = _run(env)
++    rec = _records(env, third)["wm:7101"]
++    assert rec.status == "historical" and rec.record == blank.record
++    assert rec.record_sha256 == blank.record_sha256
++    withheld = rec.provenance["historical"]["recovery_withheld"]
++    assert PINNED_UPC in withheld["reason"] and "another exported row" in withheld["reason"]
++    assert withheld["read"]["run_id"] == first
++    assert "upc_detail" not in rec.provenance and "recovered_fields" not in rec.provenance["historical"]
++    row = field_rows(env, third)["wm:7101"]
++    assert row["upc"]["disposition"] == disp.NOT_ATTEMPTED  # the earlier run's outcome, unchanged
++    with env["factory"]() as s:
++        run = s.get(Run, third)
++        assert run is not None and run.counts["carried_details"]["withheld"] == 1
++
++
++def test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. Release 1.6.2 did not find the page data of Walmart's minified not-found page (its id
++    unquoted) and recorded "parse_failed", "the page carries no Walmart page data"."""
++    one_product(monkeypatch, syn.Item("7101", "Whole Milk", "$3.12"))
++    env["mock"].page_override = pages({"7101": syn.not_found_page()})
++    run_id, _ = _run(env)
++    d = _records(env, run_id)["wm:7101"].provenance["upc_detail"]
++    assert d["status"] == "request_failed"
++    assert d["reason"] == "the site answered with its not-found page (page data route /404, HTTP 200)"
++    row = field_rows(env, run_id)["wm:7101"]
++    assert (
++        row["upc"]["disposition"] == disp.REQUEST_FAILED
++        and row["weight"]["disposition"] == disp.REQUEST_FAILED
++    )
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None  # never a refusal
++
++
+ def test_two_workers_never_read_past_a_page_budget(env: dict[str, Any]) -> None:  # noqa: F811
+     """The budget counts the other worker's page still on its way: both workers checking at once could read
+     one page each past it."""
+@@ -469,12 +621,25 @@ def test_every_outcome_of_an_empty_field_is_told_apart(env: dict[str, Any]) -> N
+     assert rows["wm:7203"]["upc"]["disposition"] == disp.IDENTITY_MISMATCH
+     assert rows["wm:7301"]["upc"]["disposition"] == disp.ABSENT
+     assert all(r["upc"]["value"] == "" for r in rows.values())
+-    # Reading off (a pilot): the field was not attempted, and nothing claims the source lacks it.
++    # Reading off (a pilot): no page is requested. A product whose earlier read was refused or failed is not
++    # attempted, and nothing claims the source lacks it. Release 1.6.3: the product whose page an earlier read
++    # did inspect (7301: it states no UPC) keeps that read's outcome, named as that read (its run and time),
++    # never as read now; until 1.6.2 reading off reused nothing, so 7301 was "not attempted" too.
+     env["mock"].page_override = None
++    env["mock"].calls.clear()
+     off, _ = _run(env, detail=DetailConfig(enabled=False))
++    assert _detail_calls(env) == []
+     rows = field_rows(env, off)
+-    assert {r["upc"]["disposition"] for r in rows.values()} == {disp.NOT_ATTEMPTED}
+-    assert {r["upc"]["reason"] for r in rows.values()} == {"product detail reading is off"}
++    failed = {k: r for k, r in rows.items() if k != "wm:7301"}
++    assert {"wm:7101", "wm:7201", "wm:7203"} <= set(failed)
++    assert {r["upc"]["disposition"] for r in failed.values()} == {disp.NOT_ATTEMPTED}
++    assert {r["upc"]["reason"] for r in failed.values()} == {"product detail reading is off"}
++    inspected = rows["wm:7301"]["upc"]
++    assert inspected["disposition"] == disp.ABSENT and inspected["value"] == ""
++    assert inspected["source_run"] == run_id
++    assert (
++        inspected["observed_at"] == _records(env, run_id)["wm:7301"].provenance["upc_detail"]["requested_at"]
++    )
+ 
+ 
+ def test_a_failed_page_stays_in_the_queue_and_is_read_again(env: dict[str, Any]) -> None:  # noqa: F811
+diff --git a/tests/integration/test_operations.py b/tests/integration/test_operations.py
+index 6aa0973..d45fa82 100644
+--- a/tests/integration/test_operations.py
++++ b/tests/integration/test_operations.py
+@@ -814,12 +814,25 @@ def test_a_pilot_budget_is_named_on_the_run_and_never_published(env: Env) -> Non
+     assert run.config_snapshot["pilot_budgets"] == {"detail.max_per_run": 1}
+     code, table = env.result("field-dispositions", "--run", run.id)
+     assert code == 0 and table["counts"]["upc"] == {"budget_deadline_interruption": 3, "fetched_detail": 1}
++    [read] = [r for r in table["rows"] if r["upc"]["disposition"] == "fetched_detail"]
++    calls = len(env.mock.calls)
+     code, _ = env.result("run", "--store", STORE_KEY, "--pilot-no-detail")
+     assert code == 0
+     last = env.runs()[-1]
+     assert last.config_snapshot["pilot_budgets"] == {"detail.enabled": "off"}
++    assert [c for c in env.mock.calls[calls:] if "/ip/" in c[-1]] == []  # no product page: (role, path, url)
+     code, table = env.result("field-dispositions", "--run", last.id)
+-    assert code == 0 and table["counts"]["upc"] == {"not_attempted": 4}
+-    assert {r["upc"]["reason"] for r in table["rows"]} == {"product detail reading is off"}
++    # Release 1.6.3: reading off requests no product page, but the product whose page the first run read keeps
++    # that read's UPC, named as that read (its run); the three that no read answers for are not attempted, and
++    # say why. Until 1.6.2 all four were "not attempted": the UPC the first run read was exported blank.
++    assert code == 0 and table["counts"]["upc"] == {"not_attempted": 3, "recovered_from_saved_detail": 1}
++    unread = [r for r in table["rows"] if r["upc"]["disposition"] == "not_attempted"]
++    assert {r["upc"]["reason"] for r in unread} == {"product detail reading is off"}
++    [kept] = [r for r in table["rows"] if r["upc"]["disposition"] == "recovered_from_saved_detail"]
++    assert kept["key"] == read["key"] and kept["upc"]["value"] == read["upc"]["value"] != ""
++    assert kept["upc"]["source_run"] == run.id
++    # The store's queue: the three unread products wait for a run that reads product pages; the product the
++    # saved read answers for is resolved by it, as production's reuse resolves it (until 1.6.2 the reading-off
++    # run put it back to pending, having set its read aside).
+     code, res = env.result("follow-ups", "--store", STORE_KEY, "--kind", "detail")
+-    assert code == 0 and res["by_kind_and_state"] == {"detail:pending": 4}
++    assert code == 0 and res["by_kind_and_state"] == {"detail:pending": 3, "detail:resolved": 1}
+diff --git a/tests/synthetic_walmart.py b/tests/synthetic_walmart.py
+index 2fbec3f..13ce08d 100644
+--- a/tests/synthetic_walmart.py
++++ b/tests/synthetic_walmart.py
+@@ -295,3 +295,20 @@ CHALLENGE_PAGE = (
+     "<h1>Robot or human?</h1><p>Activate and hold the button to confirm that you're human.</p>"
+     '<div id="px-captcha"></div></body></html>'
+ )
++
++
++def not_found_page() -> str:
++    """Walmart's own not-found page, as the Beauty listing link "nexxus-shampoo" served it with HTTP 200 on
++    2026-11-04 (live L6, run 01M6K25T57WW4BJBJ3RQGWN26G, fetch 01M6K2F80M1AFY26P6BMN56F4C): minified, its page
++    data written with the id unquoted (``<script id=__NEXT_DATA__ type="application/json">``), its route the
++    Next.js page ``/404``, an error section and "Uh-oh... This page could not be found." A SYNTHETIC copy with
++    those markers; its page data is cut to the route and an empty ``pageProps``."""
++    script = next_data_script({"page": "/404", "query": {}, "props": {"pageProps": {}}}).replace(
++        'id="__NEXT_DATA__"', "id=__NEXT_DATA__"
++    )
++    return (
++        "<!DOCTYPE html><html lang=en-US><head><meta charset=utf-8 /></head><body>"
++        '<section data-dca-id="404" data-dca-type="error"><h1>Uh-oh...</h1>'
++        "<p>This page could not be found.</p><a href=/>Return to home</a></section>"
++        f"{script}</body></html>"
++    )
+diff --git a/tests/unit/test_not_found_page.py b/tests/unit/test_not_found_page.py
+new file mode 100644
+index 0000000..7bd795d
+--- /dev/null
++++ b/tests/unit/test_not_found_page.py
+@@ -0,0 +1,96 @@
++"""Release 1.6.3: Walmart's own not-found page is neither a challenge nor an empty listing.
++
++On 2026-11-04 (live L6, release 1.6.2) the Shampoo child listing "nexxus-shampoo", a link its parent's
++Departments facet named, answered with Walmart's not-found page, HTTP 200. That page is minified: its page
++data is written ``<script id=__NEXT_DATA__ type="application/json">``, the id unquoted, and its route is
++``/404``. Release 1.6.2 looked only for ``id="__NEXT_DATA__"``: it read "missing_initial_state", called the
++page a challenge, stopped the run (``SITE_REFUSAL``) and held the store, and its sanitizer dropped that page
++data from the stored copy. The page here is SYNTHETIC, with the live page's markers
++(``tests/synthetic_walmart.py``).
++
++The names this release adds are read from their modules inside the tests, so that the tests of what did not
++change also run on release 1.6.2.
++"""
++
++from __future__ import annotations
++
++import pytest
++
++from tests import synthetic_walmart as syn
++from walmart_headless.acquisition import challenge
++from walmart_headless.acquisition.challenge import (
++    WALMART_STATE_MARKER,
++    ChallengeVerdict,
++    detect_document_challenge,
++    signals,
++)
++from walmart_headless.sites.walmart import page_data as wpd
++from walmart_headless.sites.walmart.sanitize import sanitize_html
++
++STORE = "3891"
++
++
++def judge(html: str, *, expect: bool = True) -> ChallengeVerdict:
++    return detect_document_challenge(
++        200, html, expect_initial_state=expect, state_marker=WALMART_STATE_MARKER
++    )
++
++
++def test_the_site_not_found_page_is_no_challenge() -> None:
++    page = syn.not_found_page()
++    assert WALMART_STATE_MARKER not in page  # the quoted form release 1.6.2 looked for
++    v = judge(page)
++    assert not v.is_challenge and v.reasons == ()
++    assert challenge.has_state(page, WALMART_STATE_MARKER)
++
++
++def test_its_page_data_is_read_and_says_it_is_the_not_found_page() -> None:
++    nd = wpd.next_data(syn.not_found_page())
++    assert wpd.search_result(nd) is None and wpd.category_page(nd) == ""
++    assert wpd.not_found_page(nd) == "/404"
++
++
++def test_the_stored_copy_keeps_that_page_data_redacted_and_readable() -> None:
++    out, report = sanitize_html(syn.not_found_page())
++    assert report.page_data_kept
++    assert not judge(out).is_challenge
++    assert wpd.next_data(out)["page"] == "/404"
++
++
++@pytest.mark.parametrize("quote", ['"', "'", ""], ids=["double-quoted", "single-quoted", "unquoted"])
++def test_the_page_data_script_is_found_however_its_id_is_quoted(quote: str) -> None:
++    data = {"page": "/browse/[...slug]", "props": {"pageProps": {}}}
++    page = syn.next_data_script(data).replace('id="__NEXT_DATA__"', f"id={quote}__NEXT_DATA__{quote}")
++    assert not judge(page).is_challenge
++    assert wpd.next_data(page)["page"] == "/browse/[...slug]"
++    assert sanitize_html(page)[1].page_data_kept
++
++
++def test_a_listing_page_and_a_category_page_are_not_the_not_found_page() -> None:
++    listing = wpd.next_data(syn.listing_page([syn.Item("7101", "Whole Milk", "$3.12")], store=STORE))
++    assert wpd.not_found_page(listing) == ""
++    hub = wpd.next_data(syn.next_data_script({"page": "/cp/[...categoryParams]", "props": {"pageProps": {}}}))
++    assert wpd.not_found_page(hub) == ""
++
++
++def test_a_challenge_is_still_a_challenge_with_unquoted_page_data() -> None:
++    page = syn.not_found_page().replace("</body>", f"{syn.CHALLENGE_DIALOG}</body>")
++    v = judge(page)
++    assert v.is_challenge
++    assert {"perimeterx_captcha", "perimeterx_robot_or_human"} <= set(signals(v))
++
++
++@pytest.mark.parametrize(
++    "page",
++    [
++        "<!doctype html><html><body><p>Uh-oh... This page could not be found.</p></body></html>",
++        # The name in text or in another script's code is not the page data's script.
++        "<html><body><p>id=__NEXT_DATA__</p><script>var x='__NEXT_DATA__'</script></body></html>",
++        '<html><body><script id=__NEXT_DATA__X type="application/json">{}</script></body></html>',
++    ],
++    ids=["no-page-data", "the-name-elsewhere", "another-id"],
++)
++def test_a_page_without_the_page_data_script_is_still_refused_as_before(page: str) -> None:
++    v = judge(page)
++    assert v.is_challenge and signals(v) == ("missing_initial_state",)
++    assert not judge(page, expect=False).is_challenge
+diff --git a/uv.lock b/uv.lock
+index 83d0419..87d2bb0 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.6.2"
++version = "1.6.3"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

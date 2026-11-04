@@ -1,0 +1,1064 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-11-03T18:56:45.551864Z",
+  "record_count": 928,
+  "fresh_record_count": 120,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/products.json",
+      "sha256": "9e2842b1d1518532048485e16023e92bab3ebbff6479c9276c86faedc99c399a",
+      "size": 1174421
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/products.csv",
+      "sha256": "75babdc471a11d10422276481125f4a92cd4831a884dd15c6e6ca59489d39446",
+      "size": 722832
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/memberships.json",
+      "sha256": "f6edea4d0866628e323f3367ec9fc5b1f94d8d42ee07218c7f75578fe3d2d1e5",
+      "size": 17831
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/provenance.json",
+      "sha256": "7ff6f6138f389044cc37cce864fc0ec7d23d74949e219a8d719a41140d49ef26",
+      "size": 8858975
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/validation_report.json",
+      "sha256": "6aca86a55dd3581bbc0cc29dff711396b8324e894915813b35c8902b0f270c28",
+      "size": 3306
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/products_fresh.json",
+      "sha256": "de5343b257e487b03709ad7a36970785666579670f58efb411a4af89f91ff1ca",
+      "size": 150595
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/products_fresh.csv",
+      "sha256": "785f1281ff231eb3dfb2058bf45c27ef70c955f16cd0d4dae1081de908308bf0",
+      "size": 92440
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/record_map.json",
+      "sha256": "ed7c056e0c12d63b36a38495065e31860070e898e3c270f77d756c95af141384",
+      "size": 10909767
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/field_dispositions.json",
+      "sha256": "fdd1cfedc2808a856a6117057375b61faf130aabe2acabb899bc425e9d49711f",
+      "size": 1200585
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M6HAXEP6495EGWT91JQS09SS/exports/field_dispositions.csv",
+      "sha256": "02fa96d8393b9eb6309e6543e6d904542ae1d8b68fccab87ca61967fc371a229",
+      "size": 713064
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "1780349e522d771a3642fe88bfb7b542044ec844",
+      "source": "build_info",
+      "version": "1.6.1",
+      "built_at": "2026-11-03T18:18:22+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19",
+          "kind": "landing",
+          "only": [
+            "/browse/personal-care/1005862_1071969"
+          ],
+          "category": "Personal Care",
+          "excluded": [],
+          "row_index": 2,
+          "taxonomy_id": "1005862",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRC"
+        },
+        {
+          "url": "https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes",
+          "kind": "listing",
+          "only": [],
+          "category": "Diapering",
+          "excluded": [],
+          "row_index": 4,
+          "taxonomy_id": "5427_486190",
+          "sub_category": "Diapering",
+          "category_source_id": "01M69X5MFSV96W96VH69JVZCRE"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w9\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        2,
+        4
+      ],
+      "subcategories": {
+        "2": [
+          "/browse/personal-care/1005862_1071969"
+        ]
+      },
+      "follow_up_pages": 100,
+      "max_run_minutes": 120,
+      "pilot_no_detail": true,
+      "max_credits_per_run": 130,
+      "max_pages_per_listing": 1
+    },
+    "collection": {
+      "detail": {
+        "enabled": false,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": null,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 120,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 130,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 1,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [
+          {
+            "url": "https://www.walmart.com/ip/Jergens-Ultra-Healing-Extra-Dry-Skin-Moisturizer-3-fl-oz/10295443",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 2 (variant); link from the queue's identity link",
+            "item_id": "10295443",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Jergens-Ultra-Healing-Moisterizer-for-Extra-Dry-Skin-21oz/10295445",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 3 (variant); link from the queue's identity link",
+            "item_id": "10295445",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Jergens-Ultra-Healing-Extra-Dry-Skin-Moisturizer-32-fl-oz/10295446",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 4 (variant); link from the queue's identity link",
+            "item_id": "10295446",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/NoseFrida-Snotsucker-Saline-Kit/54772213",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 17 (variant); link from the queue's identity link",
+            "item_id": "54772213",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Goodnites-Nighttime-Bedwetting-Underwear-for-Girls-XS-44-Ct-Select-for-More-Options/119073462",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 18 (variant); link from the queue's identity link",
+            "item_id": "119073462",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Goodnites-Nighttime-Bedwetting-Underwear-for-Boys-S-M-99-Ct-Select-for-More-Options/134604649",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 23 (variant); link from the queue's identity link",
+            "item_id": "134604649",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Goodnites-Nighttime-Bedwetting-Underwear-for-Boys-S-M-60-Ct-Select-for-More-Options/181374256",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 26 (variant); link from the queue's identity link",
+            "item_id": "181374256",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Aqua-Pure-Baby-Wipes-112-ct-Pack/214430153",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 30 (variant); link from the queue's identity link",
+            "item_id": "214430153",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Cruisers-360-Diapers-Size-3-168-Count-Select-for-More-Options/283399865",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 34 (variant); link from the queue's identity link",
+            "item_id": "283399865",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Cruisers-Diapers-360-Size-5-128-Count-Select-for-More-Options/297702421",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 35 (variant); link from the queue's identity link",
+            "item_id": "297702421",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Parent-s-Choice-Paw-Patrol-Training-Pants-for-Girls-4T-5T-70-Count-Select-for-More-Options/313620854",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 37 (variant); link from the queue's identity link",
+            "item_id": "313620854",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Simply-Clean-Unscented-Baby-Wipes-1-Pack-64-Total-Ct-Select-for-More-Options/316406060",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 39 (variant); link from the queue's identity link",
+            "item_id": "316406060",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Parent-s-Choice-Unisex-Nighttime-Bedwetting-Underwear-Large-Extra-Large-12-Count-Select-for-More-Options/541396379",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 48 (variant); link from the queue's identity link",
+            "item_id": "541396379",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Aqua-Pure-Baby-Wipes-99-water-Unscented-1-Pack-56-Wipes-Select-for-More-Options/559185339",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 49 (variant); link from the queue's identity link",
+            "item_id": "559185339",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Wipes-Sc-Ff-3x64ct-3x-Rft/599689702",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 53 (variant); link from the queue's identity link",
+            "item_id": "599689702",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Goodnites-Nighttime-Bedwetting-Underwear-for-Girls-L-34-Ct-Select-for-More-Options/642808444",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 55 (variant); link from the queue's identity link",
+            "item_id": "642808444",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Parent-s-Choice-Unisex-Nighttime-Bedwetting-Underwear-Small-Medium-44-Count-Select-for-More-Options/760452411",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 63 (variant); link from the queue's identity link",
+            "item_id": "760452411",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Olay-Moisture-Ribbons-Plus-Shea-Notes-of-Peony-Blossom-Body-Wash-18-fl-oz-Pack-of-4/764375234",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 64 (variant); link from the queue's identity link",
+            "item_id": "764375234",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/CeraVe-Baby-Moisturizing-Cream-Gentle-Hydrating-Moisturizer-for-Baby-and-Toddler-5-oz/835921204",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 70 (variant); link from the queue's identity link",
+            "item_id": "835921204",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Safety-1-Nursery-Care-Health-Grooming-Kit-Seafoam/991196912",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 80 (variant); link from the queue's identity link",
+            "item_id": "991196912",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Rascal-Friends-Sensitive-Baby-Wipes-648-Count-Bag-with-3-Inner-Packs-Select-for-More-Options/1234505923",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 81 (variant); link from the queue's identity link",
+            "item_id": "1234505923",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dove-Advanced-Care-Daily-Use-Deep-Moisture-Women-s-Hand-Soap-12-fl-oz/1413441276",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 83 (variant); link from the queue's identity link",
+            "item_id": "1413441276",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Aqua-Pure-Baby-Wipes-99-water-Unscented-12-Pack-672-Wipes-Select-for-More-Options/1663952587",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 84 (variant); link from the queue's identity link",
+            "item_id": "1663952587",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Little-Swimmers-Disposable-Swim-Diapers-Size-4-24-34-lbs-13-Ct/2490915628",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 89 (variant); link from the queue's identity link",
+            "item_id": "2490915628",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Little-Swimmers-Disposable-Swim-Diapers-Size-5-6-32-lbs-12-Ct/2747156871",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 90 (variant); link from the queue's identity link",
+            "item_id": "2747156871",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Summer-by-Ingenuity-My-Size-Potty-Chair-Toddler-White/3924903152",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 91 (variant); link from the queue's identity link",
+            "item_id": "3924903152",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/SENSITIVE-WIPES/5020034552",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 92 (variant); link from the queue's identity link",
+            "item_id": "5020034552",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Sundae-Whipped-Shower-Foam-Very-Vanilla-for-All-Adult-Skin-Types/5146183916",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 100 (variant); link from the queue's identity link",
+            "item_id": "5146183916",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Goodnites-Nighttime-Bedwetting-Underwear-for-Girls-XL-28-Ct-Select-for-More-Options/5161423881",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 101 (variant); link from the queue's identity link",
+            "item_id": "5161423881",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Skin-Essentials-Baby-Wipes-6-Pack-336-Total-Ct-Select-for-More-Options/5163775056",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 102 (variant); link from the queue's identity link",
+            "item_id": "5163775056",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Aqua-Pure-Baby-Wipes-99-water-Unscented-16-Pack-896-Wipes-Select-for-More-Options/5172829053",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 103 (variant); link from the queue's identity link",
+            "item_id": "5172829053",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Sundae-Whipped-Shower-Foam-Passionfruit-Pop-8-9-oz-Body-Wash-for-All-Adult-Skin-Types/5181611974",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 104 (variant); link from the queue's identity link",
+            "item_id": "5181611974",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Sundae-Whipped-Shower-Foam-Pomegranate-Fizz-8-9-oz-Body-Wash-for-All-Adult-Skin-Types/5182572599",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 105 (variant); link from the queue's identity link",
+            "item_id": "5182572599",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Huggies-Skin-Essentials-Baby-Wipes-2-Pack-112-Total-Ct-Select-for-More-Options/5196545920",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 106 (variant); link from the queue's identity link",
+            "item_id": "5196545920",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Swaddlers-360-Pull-On-Diapers-Size-3-156-Count-for-up-to-100-Leakproof-Skin-Protection-and-Easy-Changes/5296844319",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 111 (variant); link from the queue's identity link",
+            "item_id": "5296844319",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Swaddlers-360-Pull-On-Diapers-Size-4-132-Count-for-up-to-100-Leakproof-Skin-Protection-and-Easy-Changes/5298877762",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 112 (variant); link from the queue's identity link",
+            "item_id": "5298877762",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-Swaddlers-360-Pull-On-Diapers-Size-6-92-Count-for-up-to-100-Leakproof-Skin-Protection-and-Easy-Changes/5392216832",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 114 (variant); link from the queue's identity link",
+            "item_id": "5392216832",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/10Packs-20-packs-Cloth-Diapers-Burp-Cloth-Thick-Washable-Absorbent-Cotton-Diaper-for-Babies-and-Toddlers-Multi-Use/6428221130",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 119 (variant); link from the queue's identity link",
+            "item_id": "6428221130",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pampers-SWADDLERS-360-Diapers-Base-Version-4-5X-7-Giant-Plus/12767253496",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 123 (variant); link from the queue's identity link",
+            "item_id": "12767253496",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Diaper-Size-6-36CT/13875116416",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 127 (variant); link from the queue's identity link",
+            "item_id": "13875116416",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Diaper-Size-NB-56CT/13911911502",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 128 (variant); link from the queue's identity link",
+            "item_id": "13911911502",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Diaper-Size-3-56CT/13912013809",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 129 (variant); link from the queue's identity link",
+            "item_id": "13912013809",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Diaper-Size-1-68CT/13932710597",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 130 (variant); link from the queue's identity link",
+            "item_id": "13932710597",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Secret-Roll-on-Antiperspirant-Deodorant-for-Women-Powder-Fresh-1-8-fl-oz/14089917357",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 131 (variant); link from the queue's identity link",
+            "item_id": "14089917357",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/GOODNITES-GIGAPK-YOUTHPNT-SZ7-G-24/14335954591",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 132 (variant); link from the queue's identity link",
+            "item_id": "14335954591",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Baby-Wipe-Warmer-Deluxe-Warmer-Wet-Wipes-Dispenser-Smart-Precise-Temperature-Control-Multiple-Heating-Modes-Large-Capacity-Diaper/14406159320",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 133 (variant); link from the queue's identity link",
+            "item_id": "14406159320",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/RSCL-SEN-WIPES-1152P/14836653055",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 136 (variant); link from the queue's identity link",
+            "item_id": "14836653055",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/eos-Shea-Better-Women-s-Shave-Cream-Vanilla-Bliss-7-fl-oz/14944066061",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 137 (variant); link from the queue's identity link",
+            "item_id": "14944066061",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-LITL-MOVR-HUGGFIT-COLOSSALX-DIAPERPNT-SZ7-66/15026472162",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 138 (variant); link from the queue's identity link",
+            "item_id": "15026472162",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/RSCL-PANTSGIRL-S9-34/15073413103",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 139 (variant); link from the queue's identity link",
+            "item_id": "15073413103",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/RSCL-PANTSGIRLS10-28/15073413116",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 140 (variant); link from the queue's identity link",
+            "item_id": "15073413116",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-LITL-MOVR-HUGGFIT-ECON-DIAPERPNT-SZ3-168/15093807189",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 141 (variant); link from the queue's identity link",
+            "item_id": "15093807189",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-LITL-MOVR-HUGGFIT-ECON-DIAPERPNT-SZ6-104/15094952471",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 142 (variant); link from the queue's identity link",
+            "item_id": "15094952471",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-SKIN-ESSENTIALS-BABYWIPE-RGD-FLPTP-56/15131063369",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 143 (variant); link from the queue's identity link",
+            "item_id": "15131063369",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Equate-Milk-and-Honey-Liquid-Hand-Soap-50-oz/15263914177",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 148 (variant); link from the queue's identity link",
+            "item_id": "15263914177",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Parent-s-Choice-Infants-Pain-and-Fever-Acetaminophen-160-mg-Grape-2-fl-oz/15332573944",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 149 (variant); link from the queue's identity link",
+            "item_id": "15332573944",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/JERG-UH-LTN-33-8OZ/15559070810",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 161 (variant); link from the queue's identity link",
+            "item_id": "15559070810",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/CeraVe-Baby-Moisturizing-Cream-Gentle-Hydrating-Moisturizer-for-Baby-and-Toddler-5-oz/16255565968",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 163 (variant); link from the queue's identity link",
+            "item_id": "16255565968",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Jergens-Ultra-Healing-Hand-and-Body-Lotion-Dry-Skin-Moisturizer-Vitamins-C-E-B5-32-oz/16262355604",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 164 (variant); link from the queue's identity link",
+            "item_id": "16262355604",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-LITL-MOVR-HUGGFIT-JMBOPK-DIAPERPNT-SZ4-21/16356660706",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 165 (variant); link from the queue's identity link",
+            "item_id": "16356660706",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Degree-Women-Sexy-Intrigue-MotionSense-Antiperspirant-Deodorant-2-6-oz/16938463360",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 167 (variant); link from the queue's identity link",
+            "item_id": "16938463360",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Ingenuity-My-Size-Potty-Pro-Green/17068256493",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 171 (variant); link from the queue's identity link",
+            "item_id": "17068256493",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Ingenuity-My-Size-Potty-Pro-Blue/17068414842",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 172 (variant); link from the queue's identity link",
+            "item_id": "17068414842",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-SIMP-CLN-FF-BABYWIPE-RGD-FLPTP-864/17615710998",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 182 (variant); link from the queue's identity link",
+            "item_id": "17615710998",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Hyper-Absorbent-Ultra-Soft-TCF-Baby-Diapers-Size-2-56-Count-Select-for-More/17982271412",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 183 (variant); link from the queue's identity link",
+            "item_id": "17982271412",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Freestyle-Hyper-Absorbent-Ultra-Soft-TCF-Baby-Diapers-Size-5-44-Count-Select-for-More/18020852730",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 184 (variant); link from the queue's identity link",
+            "item_id": "18020852730",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/A-D-Diaper-Rash-Value-Bundle/18129812951",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 186 (variant); link from the queue's identity link",
+            "item_id": "18129812951",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/A-D-Diaper-Rash-Bundle/18145018954",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 187 (variant); link from the queue's identity link",
+            "item_id": "18145018954",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-SKIN-ESSENTIALS-BABYWIPE-RGD-FLPTP-840/18211901219",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 188 (variant); link from the queue's identity link",
+            "item_id": "18211901219",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/MILM-TPANTS-4T5T18P/18259508463",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 189 (variant); link from the queue's identity link",
+            "item_id": "18259508463",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/MILM-TPANTS-2T3T25P/18283968493",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 190 (variant); link from the queue's identity link",
+            "item_id": "18283968493",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/HUGGIES-LITL-MOVR360-GIGAJR-DIAPER-SZ5-48/18693612873",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 200 (variant); link from the queue's identity link",
+            "item_id": "18693612873",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Q-tips-Cotton-Swabs-Original-For-Home-First-Aid-and-Beauty-100-Cotton-750-Count/18907022301",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 206 (variant); link from the queue's identity link",
+            "item_id": "18907022301",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/NIGHT-PANTS-GIRL/18919801423",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 207 (variant); link from the queue's identity link",
+            "item_id": "18919801423",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/MILM-TPANTS-3T4T22P/18961513177",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 209 (variant); link from the queue's identity link",
+            "item_id": "18961513177",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/MILM-TPANTS-5T6T50P/18986210172",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 210 (variant); link from the queue's identity link",
+            "item_id": "18986210172",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/QunYou-5-in-1-Shampoo-Bar-Soap-with-Natural-Plant-Extracts-for-Scalp-Care-Targeting-Oily-Scalp-Dandruff-Itchiness-Hair-Loss-and-Flat-Hair/19145909003",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 211 (variant); link from the queue's identity link",
+            "item_id": "19145909003",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/QunYou-5-in-1-Shampoo-Bar-Soap-with-Natural-Plant-Extracts-for-Scalp-Care-Targeting-Oily-Scalp-Dandruff-Itchiness-Hair-Loss-and-Flat-Hair/19155074567",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 212 (variant); link from the queue's identity link",
+            "item_id": "19155074567",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/QunYou-5-in-1-Shampoo-Bar-Soap-with-Natural-Plant-Extracts-for-Scalp-Care-Targeting-Oily-Scalp-Dandruff-Itchiness-Hair-Loss-and-Flat-Hair/19164751260",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 213 (variant); link from the queue's identity link",
+            "item_id": "19164751260",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/QunYou-5-in-1-Shampoo-Bar-Soap-with-Natural-Plant-Extracts-for-Scalp-Care-Targeting-Oily-Scalp-Dandruff-Itchiness-Hair-Loss-and-Flat-Hair/19175319133",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 214 (variant); link from the queue's identity link",
+            "item_id": "19175319133",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Parent-s-Choice-Diaper-Pail-Refills-Holds-up-to-810-Newborn-Diapers-3-Count/19367001028",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 215 (variant); link from the queue's identity link",
+            "item_id": "19367001028",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pull-Ups-Boys-Potty-Training-Pants-3T-4T-70-Count/20077662535",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 227 (variant); link from the queue's identity link",
+            "item_id": "20077662535",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Dove-Beauty-Bar-Soap-for-Women-Original-with-1-4-Moisturizing-Cream-All-Skin-2-6-oz/20189920946",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 229 (variant); link from the queue's identity link",
+            "item_id": "20189920946",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Infants-Mylicon-Gas-Relief-Drops-Syringe-Dye-Free-0-5-fl-oz/20425924355",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 232 (variant); link from the queue's identity link",
+            "item_id": "20425924355",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Baby-Changing-Pad-Cover-Soft-Breathable-Muslin-Cotton-Table-Elastic-Straps-Washable-Nursery-Diaper-Station-Protector-32-x-16/20556466851",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 241 (variant); link from the queue's identity link",
+            "item_id": "20556466851",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Baby-Changing-Pad-Cover-Soft-Breathable-Muslin-Cotton-Table-Elastic-Straps-Washable-Nursery-Diaper-Station-Protector-32-x-16/20568559338",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 242 (variant); link from the queue's identity link",
+            "item_id": "20568559338",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Baby-Changing-Pad-Cover-Soft-Breathable-Muslin-Cotton-Table-Elastic-Straps-Washable-Nursery-Diaper-Station-Protector-32-x-16/20579672334",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 243 (variant); link from the queue's identity link",
+            "item_id": "20579672334",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Utopia-Home-Folding-Step-Stool-9-Inch-Anti-Slip-White-1-Pack/20652273873",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 255 (variant); link from the queue's identity link",
+            "item_id": "20652273873",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Equate-Milk-and-Honey-Liquid-Hand-Soap-50-fl-oz/20659872488",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 257 (variant); link from the queue's identity link",
+            "item_id": "20659872488",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Softsoap-Limited-Edition-Liquid-Hand-Soap-Pumpkin-Scent-7-5-fl-oz/20672521936",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 260 (variant); link from the queue's identity link",
+            "item_id": "20672521936",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Utopia-Home-Folding-Step-Stool-9-Inch-Anti-Slip-Grey-1-Pack-9-inch-foldable-step-stool-anti-slip-surface-built-in-handle-300-lbs-support-safe-home-us/20677008903",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 262 (variant); link from the queue's identity link",
+            "item_id": "20677008903",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Ingenuity-Full-Comfort-Toddler-Training-Potty/20685910133",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 266 (variant); link from the queue's identity link",
+            "item_id": "20685910133",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Equate-Milk-and-Honey-Liquid-Hand-Soap-50-fl-oz/20691215540",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 267 (variant); link from the queue's identity link",
+            "item_id": "20691215540",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Softsoap-Limited-Edition-Liquid-Hand-Soap-Pumpkin-Scent-7-5-fl-oz/20700402565",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 270 (variant); link from the queue's identity link",
+            "item_id": "20700402565",
+            "named_by": "",
+            "listing_id": "1005862_1071969"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Utopia-Home-Folding-Step-Stool-9-Inch-Anti-Slip-Teal-1-Pack/20700454874",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 271 (variant); link from the queue's identity link",
+            "item_id": "20700454874",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Utopia-Home-Folding-Step-Stool-9-Inch-Anti-Slip-Purple-1-Pack-9-inch-foldable-step-stool-anti-slip-surface-built-in-handle-300-lbs-support-safe-home/20714506327",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 272 (variant); link from the queue's identity link",
+            "item_id": "20714506327",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Utopia-Home-Folding-Step-Stool-Handle-9-Inch-Anti-Slip-Collapsible-Holds-Up-300-lbs-Sturdy-Plastic-Foldable-Kitchen-Bathroom-Use-1-Pack-Blue/20802305003",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 273 (variant); link from the queue's identity link",
+            "item_id": "20802305003",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          },
+          {
+            "url": "https://www.walmart.com/ip/Pull-Ups-Boys-Potty-Training-Pants-Disney-Special-Edition-4T-5T-60-Count/20959222993",
+            "kind": "variant",
+            "source": "EXACT_LIVE_READ_QUEUE_1_5_2.csv line 275 (variant); link from the queue's identity link",
+            "item_id": "20959222993",
+            "named_by": "",
+            "listing_id": "5427_486190"
+          }
+        ],
+        "variants": true,
+        "max_pages": 100,
+        "sponsored": true
+      },
+      "categories": [
+        2,
+        4
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "2": [
+          "/browse/personal-care/1005862_1071969"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.enabled": "off",
+      "follow_up.max_pages": 100,
+      "limits.max_pages_per_listing": 1
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.6.1"
+  },
+  "site_version": "walmart-next"
+}

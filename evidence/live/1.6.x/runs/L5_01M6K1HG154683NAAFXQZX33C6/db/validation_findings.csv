@@ -1,0 +1,11 @@
+id,run_id,scope,ref,gate,severity,code,message,metrics,created_at
+01M6K20G7KJNP5CHNGBSVVDKV6,01M6K1HG154683NAAFXQZX33C6,category,Food,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKV7,01M6K1HG154683NAAFXQZX33C6,category,Household Essentials,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKV8,01M6K1HG154683NAAFXQZX33C6,category,Beauty,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKV9,01M6K1HG154683NAAFXQZX33C6,category,Health & Wellness,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVA,01M6K1HG154683NAAFXQZX33C6,category,Pets,G3,FAIL,NODE_INCOMPLETE,status INCOMPLETE,{},2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVB,01M6K1HG154683NAAFXQZX33C6,category,Food,G4,WARN,RETAINED_MASKS_YIELD,"38% of the published products are retained from earlier runs (124 retained, 201 fresh valid)","{""fresh_valid"": 201, ""retained"": 124, ""retained_share"": 0.3815}",2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVC,01M6K1HG154683NAAFXQZX33C6,category,Household Essentials,G4,FAIL,RETAINED_MASKS_YIELD,"59% of the published products are retained from earlier runs (175 retained, 120 fresh valid)","{""fresh_valid"": 120, ""retained"": 175, ""retained_share"": 0.5932}",2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVD,01M6K1HG154683NAAFXQZX33C6,category,Beauty,G4,FAIL,RETAINED_MASKS_YIELD,"70% of the published products are retained from earlier runs (281 retained, 120 fresh valid)","{""fresh_valid"": 120, ""retained"": 281, ""retained_share"": 0.7007}",2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVE,01M6K1HG154683NAAFXQZX33C6,category,Health & Wellness,G4,FAIL,RETAINED_MASKS_YIELD,"64% of the published products are retained from earlier runs (213 retained, 120 fresh valid)","{""fresh_valid"": 120, ""retained"": 213, ""retained_share"": 0.6396}",2026-11-04 10:34:52.057617+00:00
+01M6K20G7KJNP5CHNGBSVVDKVF,01M6K1HG154683NAAFXQZX33C6,run,,G4,FAIL,RETAINED_MASKS_YIELD,"54% of the published products are retained from earlier runs (805 retained, 679 fresh valid)","{""fresh_valid"": 679, ""retained"": 805, ""retained_share"": 0.5425}",2026-11-04 10:34:52.057617+00:00

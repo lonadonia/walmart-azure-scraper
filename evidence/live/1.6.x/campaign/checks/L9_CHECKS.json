@@ -1,0 +1,364 @@
+{
+ "stage": "L9",
+ "run_id": "01M6K7AB85824HHKD17VNEHASS",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6K7AB85824HHKD17VNEHASS",
+  "record_count": 2515,
+  "fresh_record_count": 2,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 2,
+ "fresh_distinct_items": 2,
+ "export_rows_with_carried": 2515,
+ "by_category": {
+  "Household Essentials": 2
+ },
+ "by_sub_category": {
+  "Seventh Generation Laundry Care": 2
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 2515,
+  "crawl_dates_fresh": {
+   "2026-11-04": 2
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 2
+  },
+  "store_name": {
+   "Waukegan Supercenter": 2
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 2
+  },
+  "store_logo_filled": 2
+ },
+ "filled_fresh": {
+  "zipcode": 2,
+  "store_name": 2,
+  "store_location": 2,
+  "store_logo": 2,
+  "store_brand": 2,
+  "category": 2,
+  "sub_category": 2,
+  "product_title": 2,
+  "weight": 2,
+  "regular_price": 2,
+  "sale_price": 0,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 2,
+  "url": 2,
+  "upc": 2,
+  "gupc": 0,
+  "ppm": 2,
+  "unit_price": 0,
+  "crawl_date": 2
+ },
+ "store_brand_fresh": {
+  "no": 2
+ },
+ "upc_outcomes_fresh": {
+  "recovered_from_saved_detail": 2
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 2
+ },
+ "upc_outcomes_all_rows": {
+  "recovered_from_saved_detail": 830,
+  "not_attempted": 1618,
+  "fetched_detail": 61,
+  "absent_in_source": 4,
+  "budget_deadline_interruption": 1,
+  "identity_mismatch": 1
+ },
+ "weight_outcomes_all_rows": {
+  "present_in_listing": 2397,
+  "not_attempted": 71,
+  "recovered_from_saved_detail": 31,
+  "unresolved_conflict": 4,
+  "fetched_detail": 4,
+  "absent_in_source": 8
+ },
+ "carried_rows_1_6_3": {
+  "carried_rows": 2513,
+  "rows_with_recovered_fields": 154,
+  "recovered_by_field": {
+   "upc": 154,
+   "weight": 5
+  },
+  "recovery_withheld": {
+   "the read's statements about size conflict": 4
+  },
+  "carried_upc_blank": 1624,
+  "carried_weight_blank": 83
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {
+  "variant | not_attempted": 1
+ },
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-04 12:07:39.639283+00:00",
+  "finished_at": "2026-11-04 12:09:31.119731+00:00",
+  "parser_version": "1.6.3",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 4,
+   "credits": 4.0,
+   "usd": "0.006",
+   "first": "2026-11-04 12:07:40.707340+00:00",
+   "last": "2026-11-04 12:08:13.452681+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 2
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 1
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 2,
+   "distinct_urls": 2
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6K7ABCYR52D962H1NYFSAZD",
+   "started": "2026-11-04 12:07:39.675454+00:00",
+   "ended": "2026-11-04 12:09:31.203649+00:00",
+   "active_s": 111.5,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 4.0,
+   "workers": 1
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_8953745",
+   "status": "DONE",
+   "total_count": 2,
+   "organic_upcs": 2,
+   "coverage_ratio": 1.0,
+   "partition": {
+    "end": "LAST_PAGE",
+    "url": "https://www.walmart.com/browse/household-essentials/seventh-generation-laundry-care/1115193_1071967_8953745",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "reconciled at the last page: 1 result pages, 2 organic and 0 sponsored-only identities; 2 reported; the organic identities equal the total",
+    "max_page": 1,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 2,
+      "fetch_id": "01M6K7ARKYC769TSC9C07KK319",
+      "max_page": 1,
+      "products": 2,
+      "sponsored": 0,
+      "page_count": 12,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 2,
+      "reported_total": 2
+     }
+    ],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "organic",
+     "placed": 2,
+     "organic": 2,
+     "difference": 0,
+     "placements": 2,
+     "total_stable": true,
+     "reported_total": 2,
+     "sponsored_only": 0,
+     "totals_reported": [
+      2
+     ],
+     "repeat_placements": 0,
+     "unresolved_difference": 0
+    }
+   }
+  },
+  {
+   "category_source_id": "01M69X5MFSV96W96VH69JVZCRD",
+   "taxonomy_id": "1085666_3147628_5752434_9323405",
+   "status": "INCOMPLETE",
+   "total_count": null,
+   "organic_upcs": 0,
+   "coverage_ratio": null,
+   "partition": {
+    "end": "NOT_FOUND",
+    "url": "https://www.walmart.com/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405",
+    "via": "configured",
+    "depth": 0,
+    "pages": 0,
+    "parent": "",
+    "reason": "not read: the site answered this listing link with its not-found page (page data route /404, HTTP 200)",
+    "max_page": null,
+    "result_pages": [],
+    "children_named": [],
+    "reconciliation": {
+     "basis": "",
+     "placed": 0,
+     "organic": 0,
+     "difference": null,
+     "placements": 0,
+     "total_stable": true,
+     "reported_total": null,
+     "sponsored_only": 0,
+     "totals_reported": [],
+     "repeat_placements": 0,
+     "unresolved_difference": null
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "2 valid records"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "1 categories"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "ZERO_YIELD_SUSPECT",
+   "scope": "category",
+   "ref": "Beauty",
+   "message": "0 records"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L9-unread-children-163-20261104",
+  "rows": 4,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 4,
+    "worst_usd": 0.006,
+    "settled_usd": 0.006,
+    "settled_results": 4
+   }
+  }
+ }
+}

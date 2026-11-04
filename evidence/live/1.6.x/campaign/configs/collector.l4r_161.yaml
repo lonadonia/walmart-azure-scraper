@@ -1,0 +1,85 @@
+# walmart-azure-headless: the collector's configuration (no secrets: the Scrape.do key and the database
+# connection come from environment variables, which are Azure Key Vault secret references in Azure).
+# Relative paths are read from this file's folder. `walmart-collector validate-config` checks everything.
+retailer: walmart
+# The edition (release 1.4.0; docs/EDITIONS.md): this collector serves both providers; an edition is it built
+# for one (deploy/build_edition.py changes this line and each store's provider line). A run, a resumed run or
+# a provider command naming a provider the edition does not list is refused before any request.
+edition: { name: oxylabs, providers: [oxylabs] }
+settings_file: C:/w9/live/ed/walmart-oxylabs-1.6.1/config/settings.yaml
+stores_file: C:/w9/live/ed/walmart-oxylabs-1.6.1/config/stores.yaml
+categories_csv: C:/w9/live/ed/walmart-oxylabs-1.6.1/config/Walmart_Category_URLs.csv            # the client's category list (Retailer,Category (Auto),URL,Scope,Notes)
+private_label_file: C:/w9/live/ed/walmart-oxylabs-1.6.1/config/walmart_private_label_brands.yaml
+
+# One entry per store key of stores.yaml.
+collections:
+  walmart-3891-pickup:
+    categories: []                 # CSV row numbers counted from 0 (Food = 0); empty = every row
+    timezone: America/Chicago      # the store's local time: schedule, crawl_date and daily limits
+    limits:                        # empty = no limit (the full configured scope)
+      max_products_per_run: null
+      max_products_per_day: null
+      max_run_minutes: null        # the whole run over all its executions; null: no time limit, so a
+                                   # full-scope run is never cut short (spending stops at the provider
+                                   # ceiling and the credit budgets). A number here is a budget: a run that
+                                   # reaches it ends incomplete and is never published
+      max_segment_minutes: 300     # one execution (segment); below the Azure replica timeout (360 min);
+                                   # reaching it pauses the run resumably, the next execution continues it
+      max_credits_per_run: null    # Scrape.do credits: 10 per Walmart page through the store endpoint
+      max_credits_per_day: null
+      min_credit_reserve: 0
+      max_products_per_category: null
+      max_pages_per_listing: null
+      max_subcategories_per_category: null
+    detail:                        # each exported product's own page, for a UPC or size the result pages do not show
+      enabled: true
+      endpoint: general            # Scrape.do general API, 1 credit (a UPC is a product attribute); "store": 10
+      max_per_run: null            # production: null, every product missing a field (a number makes a pilot; 0 is refused)
+      reuse_days: 30               # an earlier read of the same item is reused, with its original time and run
+      pause_after_failures: 3      # consecutive refused/failed pages before the path stops (the run is then not published)
+    schedule:
+      enabled: false               # OFF until the client approves; read by `run --scheduled` (Azure starts the job)
+      weekdays: [1, 4]             # 0 = Monday ... 6 = Sunday: Tuesday and Friday
+      start_time: "06:00"          # store-local; daylight-saving changes are handled (see docs/AZURE.md)
+      window_start: "00:00"        # the daily window in which scheduled executions collect: the whole day
+      window_end: null             # (null: midnight). A narrower window only lengthens a run (never its scope)
+      continue_unfinished: true    # later firings continue an unfinished scheduled run inside the daily window
+      on_overlap: continue         # an occurrence that finds the previous scheduled run unfinished lets it go on
+                                   # and starts none (supersede: close it as partial and start anew)
+    max_auto_resumes: 3            # transient provider failures resumed within one execution
+    start_tolerance_minutes: 45    # how late a scheduled execution may start and still collect
+    provider: oxylabs              # the run's page provider: scrapedo | oxylabs (the Oxylabs Web API, Bearer key;
+                                   # nothing is sent to it before `set-ceiling --provider oxylabs`); one per run
+    oxylabs:                       # sent with every store-scoped Oxylabs request; never taken as proof of the store
+      fulfillment_type: pickup
+      delivery_zip: null
+    parallel:                      # workers of one execution: each leases its own tasks and opens its own session
+      workers: 1
+      max_in_flight: 2             # provider requests at once in the process
+      min_interval_s: 0.5          # seconds between request starts
+    follow_up:                     # after the listings: the product pages of sponsored-only products and of the
+      sponsored: true              # variant siblings result tiles name; added only when their own page shows the
+      variants: true               # item for the store under the listing's category
+      max_pages: null              # per kind and run (null = every candidate); the rest are recorded as not attempted
+      seeds: []                    # items an earlier report named, read first: {kind, item_id, url, listing_id}
+
+# The automated canary: the first recorded result page of every run is checked before collection goes
+# on. A failure stops the run (CANARY_CHECK_FAILED) and holds the store until `release-hold`.
+canary:
+  enabled: true
+  min_valid_records: 1
+  min_valid_ratio: 0.05
+  source_check: true               # every valid record equal to the page's own item data
+
+# The store's verified products are kept indefinitely (collection/retention.py): one shown later only with a
+# shipping or marketplace offer, or without a line for the store, keeps its identity with empty prices (never
+# that price); one a run does not observe is carried forward unchanged from its last verified observation,
+# with its own crawl date, its age and the reason. There is no age limit (max_age_days must stay null).
+historical:
+  enabled: true
+  max_age_days: null
+
+# A complete, validated, non-pilot run becomes the store's published dataset (published/<store>/latest.json).
+publish:
+  auto: true
+  accept_warnings_reason: null     # publish runs with WARN findings only with a recorded reason

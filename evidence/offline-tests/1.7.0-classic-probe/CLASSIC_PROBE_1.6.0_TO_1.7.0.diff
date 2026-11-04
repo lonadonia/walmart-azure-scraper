@@ -1,0 +1,2977 @@
+diff --git a/CLASSIC_TEST_PLAN.md b/CLASSIC_TEST_PLAN.md
+index b4c112a..c184059 100644
+--- a/CLASSIC_TEST_PLAN.md
++++ b/CLASSIC_TEST_PLAN.md
+@@ -2,7 +2,7 @@
+ 
+ This is how a small Classic campaign could be run for Walmart and for Mariano's, once the account's owner has approved it.
+ 
+-This build (1.6.0) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2.
++This build (1.7.0) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrects the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5); the stages and their limits are unchanged.
+ 
+ None of it has been run. This build's live mode is disabled, and no request has been made to Oxylabs Classic. The limits below are the proposal sent to the client: they are a proposal, not an approval.
+ 
+diff --git a/README.md b/README.md
+index 9c53469..ff54417 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# oxylabs-classic-probe 1.6.0
++# oxylabs-classic-probe 1.7.0
+ 
+ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper API (Realtime method). It holds three things:
+ 
+@@ -8,7 +8,9 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
+-Version 1.6.0 adds the **Mariano's** steps (Mariano's Vernon Hills, store 53100502, 1720 N Milwaukee Ave, Vernon Hills, IL 60061, Pickup) to the Walmart steps of 1.5.2. The Walmart steps, the response checks of the Walmart steps and the campaign limits are unchanged: both retailers run on the one shared ledger, with the same limits as the separately versioned Walmart probe 1.5.2 that ships in the Walmart package. That Walmart package is not modified by this release.
++Version 1.7.0 corrects the five findings of the client's second review (C1 to C5) in the shared layer: no redirect is followed and the credentials go only to the documented endpoint (C1); each exchange runs in its own worker process, killed and reaped at its deadline, with every body, header block and decompression bounded (C2); the ledger reads the clock under its write lock and checks the time and every stop again just before sending (C3); each answer is written to disk and indexed before the next paid step (C4); a backoff is a real wait, bounded by the deadline, and `Retry-After` is honoured up to 60 s (C5). The steps, the response checks and the limits are those of 1.6.0, and the Mariano's adapter is byte-for-byte unchanged.
++
++Version 1.6.0 added the **Mariano's** steps (Mariano's Vernon Hills, store 53100502, 1720 N Milwaukee Ave, Vernon Hills, IL 60061, Pickup) to the Walmart steps of 1.5.2. The Walmart steps, the response checks of the Walmart steps and the campaign limits are unchanged: both retailers run on the one shared ledger, with the same limits as the separately versioned Walmart probe 1.5.2 that ships in the Walmart package. That Walmart package is not modified by this release.
+ 
+ This package is separate from both collectors. It does not use their Oxylabs Web API, Scrape.do or Scrapfly accounts, and nothing here is evidence of what Classic returns.
+ 
+@@ -23,7 +25,7 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ 
+ ## What this build will not do
+ 
+-- Send a request. `HttpTransport` refuses to be built while `gates.LIVE_ENABLED` is `False`. Changing that takes a code change, a new version and the owner's approval.
++- Send a request. `IsolatedHttpTransport` refuses to be built for any target but a loopback test stub while `gates.LIVE_ENABLED` is `False`, and its worker (`networker.py`) refuses again. Changing that takes a code change, a new version and the owner's approval.
+ - Read a credential. `live` lists what a campaign still lacks, and it refuses before any credential is looked at.
+ - Probe an account. There are no automatic balance, usage, entitlement, authentication or qualification calls. The documented usage endpoint is never called.
+ - Use another service's results to qualify Classic. Results of the collectors' providers (the Oxylabs Web API included) say nothing about Classic.
+diff --git a/docs/DOCUMENTED_CONTRACT.md b/docs/DOCUMENTED_CONTRACT.md
+index 1fd8a67..f24a958 100644
+--- a/docs/DOCUMENTED_CONTRACT.md
++++ b/docs/DOCUMENTED_CONTRACT.md
+@@ -51,7 +51,7 @@ The saved pages end with a section addressed to automated readers. It invites HT
+ 
+ The Realtime page shows `POST https://realtime.oxylabs.io/v1/queries`. Its examples authenticate with HTTP Basic (`"Authorization", "Basic " + ...`, `request.SetBasicAuth(Username, Password)`).
+ 
+-What the probe does: `contract.ENDPOINT`. The disabled `HttpTransport` would send `POST`, JSON and Basic authentication, and nothing else.
++What the probe does: `contract.ENDPOINT`. The disabled `IsolatedHttpTransport` (1.7.0) would send `POST`, JSON and Basic authentication from a worker process through `http.client`, which follows no redirect, to `https://realtime.oxylabs.io:443/v1/queries` only (`contract.ENDPOINT_PARTS`), and nothing else.
+ 
+ ## Result types
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 28ec1c3..9b52edd 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "oxylabs-classic-probe"
+-version = "1.6.0"
++version = "1.7.0"
+ description = "A small offline probe and request plan for the Oxylabs Classic Web Scraper API (Realtime): documented payloads, response checks and a durable shared campaign ledger. Its live mode is disabled."
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/classic_probe/__init__.py b/src/classic_probe/__init__.py
+index 96d2c7a..c57e015 100644
+--- a/src/classic_probe/__init__.py
++++ b/src/classic_probe/__init__.py
+@@ -3,4 +3,4 @@
+ Importing this package opens no connection and reads no credential.
+ """
+ 
+-__version__ = "1.6.0"
++__version__ = "1.7.0"
+diff --git a/src/classic_probe/campaign.py b/src/classic_probe/campaign.py
+index 5c33e28..44f368a 100644
+--- a/src/classic_probe/campaign.py
++++ b/src/classic_probe/campaign.py
+@@ -16,14 +16,25 @@ quota ends only that retailer's part) and nothing more is sent. A documented tem
+ within every limit, and each retry is a new dispatch with its own reservation. Evidence is exported whatever
+ happened, and an export or cleanup error never sends anything, never touches the ledger's history and never
+ replaces the reason the campaign stopped.
++
++1.7.0 (the client's second review):
++
++- C2/C3: one session clock bounds every wait (the ledger's lock, the request, a backoff), on the monotonic
++  clock as well as the wall clock; the reservation and the last check before sending read the time under the
++  ledger's lock, and a request refused at that check is recorded as never sent;
++- C4: each answer is kept on disk and indexed in the ledger before the next paid step (captures.py); the
++  evidence is exported from that index, never from memory, and says whether every capture was checked;
++- C5: a backoff is a real wait (``time.sleep``) unless a test injects another, bounded by the deadline;
++  a ``Retry-After`` the provider sends is honoured, and a longer wait than :data:`MAX_RETRY_AFTER_S` ends the
++  step.
+ """
+ 
+ from __future__ import annotations
+ 
+-import gzip
+ import hashlib
+ import json
+-import re
++import os
++import time
+ from collections.abc import Callable, Mapping
+ from dataclasses import dataclass, field
+ from datetime import datetime
+@@ -32,22 +43,31 @@ from pathlib import Path
+ from typing import Any
+ 
+ from classic_probe import checks, contract
++from classic_probe.captures import CaptureStore, kept_response, sanitize
++from classic_probe.deadline import SessionClock, parse_retry_after
+ from classic_probe.ledger import BILLABLE, NOT_BILLED, Ledger, LimitReached
+ from classic_probe.money import RateCard, UnknownRate
+ from classic_probe.stops import Stop
+ from classic_probe.targets import Target
+ from classic_probe.transport import (
+     ProviderRequest,
+-    ProviderResponse,
+     Transport,
+     TransportFailed,
+-    bounded_send,
+ )
+ 
++__all__ = ["Campaign", "CampaignResult", "StepPlan", "kept_response", "sanitize", "write_json"]
++
+ Sleep = Callable[[float], None]
+ 
+ RETRY_WAIT_S = {429: 2.0}  # the documented low-success-rate limit is 1 request a second
+ DEFAULT_RETRY_WAIT_S = 5.0  # "Please try again a bit later"
++MAX_RETRY_AFTER_S = (
++    60.0  # 1.7.0 (C5): a provider asking for a longer wait ends the step; nothing waits longer
++)
++LOCK_WAIT_S = (
++    10.0  # 1.7.0 (C3): the most a reservation waits for the ledger's lock (less if less time is left)
++)
++EXPORT_CHECK_MIN_S = 5.0  # 1.7.0 (C4): captures are checked while at least this much of the session is left
+ 
+ 
+ @dataclass(frozen=True)
+@@ -133,18 +153,6 @@ def planned_steps(target: Target) -> list[StepPlan]:
+     return steps
+ 
+ 
+-_SECRET_KEYS = re.compile(r"(?i)authori[sz]ation|cookie|password|token|secret|session")
+-
+-
+-def sanitize(value: Any) -> Any:
+-    """A response as it may be kept: values under credential-like keys are replaced."""
+-    if isinstance(value, Mapping):
+-        return {k: "[REMOVED]" if _SECRET_KEYS.search(str(k)) else sanitize(v) for k, v in value.items()}
+-    if isinstance(value, list):
+-        return [sanitize(v) for v in value]
+-    return value
+-
+-
+ class Campaign:
+     adapter = "walmart"  # the adapter this class implements (1.6.0 adds marianos.MarianosCampaign)
+ 
+@@ -170,18 +178,34 @@ class Campaign:
+         self.out_dir = out_dir
+         self.request_timeout_s = request_timeout_s
+         self.max_attempts = max_attempts
+-        self.sleep = sleep or (lambda _s: None)
++        # 1.7.0 (C5): a real wait unless a test injects another; every wait is bounded by the deadline first.
++        self.sleep: Sleep = sleep or time.sleep
+         self.clock = clock or ledger.clock
+         self.result = CampaignResult(ledger.campaign_id, target.retailer, out_dir=str(out_dir))
+-        self._responses: list[tuple[int, ProviderResponse]] = []
++        self.captures = CaptureStore(out_dir, target.retailer)
++        self._session: SessionClock | None = None
+ 
+     # -- one step --------------------------------------------------------------------------------------
+ 
++    def session_clock(self) -> SessionClock | None:
++        """The session's clock, once the campaign has started (its start is durable in the ledger)."""
++        if self._session is None:
++            ends = self.ledger.deadlines()
++            if ends is None:
++                return None
++            self._session = SessionClock(
++                ends[0],
++                export_reserve_s=float(self.ledger.limits.export_reserve_seconds),
++                wall=self.clock,
++                sleeper=self.sleep,
++            )
++        return self._session
++
+     def _seconds_left(self) -> float | None:
+-        ends = self.ledger.deadlines()
+-        if ends is None:
+-            return None
+-        return (ends[1] - self.clock()).total_seconds()
++        """Seconds a request or a wait may still use: the lesser of the wall clock's and the monotonic
++        clock's reading (a wall-clock jump never extends it)."""
++        session = self.session_clock()
++        return None if session is None else session.dispatch_remaining()
+ 
+     def _dispatch(
+         self, plan: StepPlan, inspect: Callable[[checks.Inspection], checks.Inspection]
+@@ -202,8 +226,7 @@ class Campaign:
+             except UnknownRate as exc:
+                 self._stop(Stop.FUNDS, f"no reliable upper bound: {exc}")
+                 return None
+-            left = self._seconds_left()
+-            timeout = self.request_timeout_s if left is None else min(self.request_timeout_s, left)
++            timeout = self._allowance()
+             if timeout <= 0:
+                 self._stop(Stop.DEADLINE, "no time is left before the time kept for export and cleanup")
+                 return None
+@@ -217,15 +240,35 @@ class Campaign:
+                     payload_sha256=sha,
+                     amount_usd=amount,
+                     request_timeout_s=timeout,
++                    lock_wait_s=min(LOCK_WAIT_S, timeout),
+                 )
+             except LimitReached as exc:
+                 self._stop(exc.stop, exc.detail)
+                 return None
+-            self.ledger.mark_sent(seq)
+             sent: dict[str, Any] = {"seq": seq, "attempt": attempt, "reserved_usd": str(amount)}
+             record["attempts"].append(sent)
++            preflight = getattr(self.transport, "preflight", None)
++            if preflight is not None:
++                try:
++                    preflight(request)
++                except TransportFailed as exc:
++                    self.ledger.release_unsent(seq, str(exc))
++                    sent["outcome"] = f"not sent: {exc}"
++                    self._stop(Stop.OPERATOR, f"{plan.step}: {exc}")
++                    return None
++            # The allowance again, after any wait for the ledger's lock, checked under the lock (C3).
++            allowance = self._allowance()
++            try:
++                if allowance <= 0:
++                    self.ledger.release_unsent(seq, "no time was left at dispatch")
++                    raise LimitReached(Stop.DEADLINE, "at dispatch, no time was left for the request")
++                self.ledger.mark_sent(seq, allowance_s=allowance, lock_wait_s=min(LOCK_WAIT_S, allowance))
++            except LimitReached as exc:
++                sent["outcome"] = f"not sent: {exc.detail}"
++                self._stop(exc.stop, f"{plan.step}: {exc.detail}")
++                return None
+             try:
+-                response = bounded_send(self.transport, request, timeout)
++                response = self.transport.send(request, allowance)
+             except TransportFailed as exc:
+                 self.ledger.mark_unknown(seq, f"no answer: {exc}")
+                 sent["outcome"] = (
+@@ -233,7 +276,27 @@ class Campaign:
+                 )
+                 self._stop(Stop.IN_FLIGHT_UNKNOWN, f"{plan.step}: {exc}; its reservation stays")
+                 return None
+-            self._responses.append((seq, response))
++            # C4: the answer is kept on disk and indexed before anything else happens.
++            try:
++                self.ledger.record_capture(seq, self.captures.persist(seq, plan.step, response))
++            except Exception as exc:  # noqa: BLE001 - recorded; nothing more is sent
++                self.ledger.settle(
++                    seq,
++                    billing=checks.provider(response).billing,
++                    estimated_usd=None,
++                    provider_status=response.http_status,
++                    retailer_status=None,
++                    parser_status=None,
++                    job_id=None,
++                    note=f"answered, but the answer could not be kept: {type(exc).__name__}",
++                )
++                sent["outcome"] = "answered, but the answer could not be kept"
++                self._stop(
++                    Stop.EVIDENCE,
++                    f"{plan.step}: the answer could not be kept ({type(exc).__name__}: {exc}); nothing more "
++                    "is sent",
++                )
++                return None
+             ins = checks.provider(response)
+             if not ins.stop:
+                 ins = inspect(ins)
+@@ -261,6 +324,17 @@ class Campaign:
+             )
+             if ins.transient and attempt < self.max_attempts:
+                 wait = RETRY_WAIT_S.get(ins.provider_status, DEFAULT_RETRY_WAIT_S)
++                headers = {k.lower(): v for k, v in response.headers.items()}
++                asked = parse_retry_after(headers.get("retry-after"), self.clock())
++                if asked is not None and asked > MAX_RETRY_AFTER_S:
++                    self._stop(
++                        Stop.RETRIES_EXHAUSTED,
++                        f"{plan.step}: HTTP {ins.provider_status} asks to wait {asked:.0f} s, more than the "
++                        f"{MAX_RETRY_AFTER_S:.0f} s this campaign waits: not retried",
++                    )
++                    return None
++                if asked is not None:
++                    wait = max(wait, asked)
+                 left = self._seconds_left()
+                 if left is not None and wait + 1.0 > left:
+                     self._stop(
+@@ -268,7 +342,9 @@ class Campaign:
+                     )
+                     return None
+                 self.ledger.event(
+-                    "RETRY", f"{plan.step}: HTTP {ins.provider_status}, attempt {attempt + 1} in {wait} s"
++                    "RETRY",
++                    f"{plan.step}: HTTP {ins.provider_status}, attempt {attempt + 1} in {wait} s"
++                    + (f" (Retry-After {asked:.0f} s)" if asked is not None else ""),
+                 )
+                 self.sleep(wait)
+                 continue
+@@ -278,6 +354,11 @@ class Campaign:
+             return ins
+         return None  # pragma: no cover - the loop always returns
+ 
++    def _allowance(self) -> float:
++        """A request's whole allowance now: its own limit, clamped to the time left before the reserve."""
++        left = self._seconds_left()
++        return self.request_timeout_s if left is None else min(self.request_timeout_s, left)
++
+     def _estimate(self, plan: StepPlan, ins: checks.Inspection) -> Decimal | None:
+         """The charge the documented rules suggest, with a confirmed rate: never an invoice."""
+         if ins.billing == NOT_BILLED:
+@@ -368,26 +449,20 @@ class Campaign:
+     # -- evidence --------------------------------------------------------------------------------------
+ 
+     def _export(self) -> None:
+-        """Write the evidence. A failure here is recorded beside the campaign's own stop and sends nothing."""
++        """Write the evidence from the durable capture index (C4), never from memory. A failure here is
++        recorded beside the campaign's own stop and sends nothing. Captures are checked against their files
++        while the session has time; the manifest says whether every one was (``complete``)."""
+         try:
+             self.out_dir.mkdir(parents=True, exist_ok=True)
+-            hashes = []
+-            for seq, response in self._responses:
+-                original = response.body
+-                kept, pages = kept_response(original, self.target.retailer)
+-                name = f"response_{seq:03d}.json.gz"
+-                (self.out_dir / name).write_bytes(gzip.compress(kept, mtime=0))
+-                hashes.append(
+-                    {
+-                        "seq": seq,
+-                        "file": name,
+-                        "original_sha256": hashlib.sha256(original).hexdigest(),
+-                        "kept_sha256": hashlib.sha256(kept).hexdigest(),
+-                        "sanitized": kept != original,
+-                        "raw_pages": pages,
+-                        "headers": sanitize(dict(response.headers)),
+-                    }
+-                )
++            recovery = self.captures.recover(self.ledger)
++            session = self.session_clock()
++
++            def time_left() -> float:
++                return float("inf") if session is None else session.remaining()
++
++            responses, checked = self.captures.verify(
++                self.ledger, time_left=time_left, min_left_s=EXPORT_CHECK_MIN_S
++            )
+             export = {
+                 "campaign_id": self.ledger.campaign_id,
+                 "ledger_genesis_id": self.ledger.genesis_id,
+@@ -397,7 +472,9 @@ class Campaign:
+                 "dispatches": self.ledger.rows(),
+                 "events": self.ledger.events(),
+                 "result": self.result.as_dict(),
+-                "responses": hashes,
++                "responses": responses,
++                "complete": checked,
++                "capture_recovery": recovery,
+             }
+             write_json(self.out_dir / "campaign_evidence.json", export)
+         except Exception as exc:  # noqa: BLE001 - recorded; the campaign's own outcome stands
+@@ -410,55 +487,8 @@ class Campaign:
+             self.result.cleanup_errors.append(f"{type(exc).__name__}: {exc}")
+ 
+ 
+-def kept_response(original: bytes, retailer: str = "walmart") -> tuple[bytes, list[dict[str, Any]]]:
+-    """A response as it may be kept as evidence: values under credential-like keys replaced, and each raw page
+-    passed through the Walmart collector's sanitizer (vendor/walmart_sanitize.py: session and trace
+-    identifiers, tokens, other scripts and inlined data removed; product, price, store and fulfillment data
+-    untouched). A body that is not JSON is kept only as its hash and length: it was not the documented
+-    structure."""
+-    from classic_probe.vendor import marianos_sanitize, walmart_sanitize
+-
+-    try:
+-        body = json.loads(original)
+-    except ValueError:
+-        note = {"not_json": True, "bytes": len(original), "sha256": hashlib.sha256(original).hexdigest()}
+-        return json.dumps(note, sort_keys=True).encode("utf-8"), []
+-    pages: list[dict[str, Any]] = []
+-    if isinstance(body, Mapping) and isinstance(body.get("results"), list):
+-        for i, result in enumerate(body["results"]):
+-            if isinstance(result, dict) and isinstance(result.get("content"), str) and retailer == "marianos":
+-                # 1.6.0: a Mariano's page through the Mariano's collector's own sanitizer (scripts other
+-                # than the
+-                # page state removed, styles emptied, inlined data URIs replaced).
+-                kept_page, mreport = marianos_sanitize.sanitize_html(result["content"])
+-                result["content"] = kept_page
+-                pages.append(
+-                    {
+-                        "result": i,
+-                        "state_script_kept": mreport.state_script_kept,
+-                        "scripts_removed": mreport.scripts_removed,
+-                        "styles_emptied": mreport.styles_emptied,
+-                        "data_uris_replaced": mreport.data_uris_replaced,
+-                        "input_sha256": mreport.input_sha256,
+-                        "output_sha256": mreport.output_sha256,
+-                    }
+-                )
+-            elif isinstance(result, dict) and isinstance(result.get("content"), str):
+-                clean, report = walmart_sanitize.sanitize_html(result["content"])
+-                result["content"] = clean
+-                pages.append(
+-                    {
+-                        "result": i,
+-                        "page_data_kept": report.page_data_kept,
+-                        "page_data_values_redacted": report.page_data_values_redacted,
+-                        "other_values_redacted": report.other_values_redacted,
+-                        "scripts_removed": report.scripts_removed,
+-                        "input_sha256": report.input_sha256,
+-                        "output_sha256": report.output_sha256,
+-                    }
+-                )
+-    return json.dumps(sanitize(body), sort_keys=True).encode("utf-8"), pages
+-
+-
+ def write_json(path: Path, data: Any) -> None:
+-    path.write_text(json.dumps(data, indent=1, sort_keys=True, default=str) + "\n", encoding="utf-8")
++    """``path`` holds the JSON whole or not at all (a ``.part`` file renamed into place; 1.7.0)."""
++    part = path.with_name(path.name + ".part")
++    part.write_bytes((json.dumps(data, indent=1, sort_keys=True, default=str) + "\n").encode("utf-8"))
++    os.replace(part, path)
+diff --git a/src/classic_probe/captures.py b/src/classic_probe/captures.py
+new file mode 100644
+index 0000000..e5cf068
+--- /dev/null
++++ b/src/classic_probe/captures.py
+@@ -0,0 +1,228 @@
++"""Each answer kept on disk, durably, before the next paid step (1.7.0, finding C4).
++
++A capture is written in three moves: the kept copy and its metadata to ``.part`` files (flushed and synced),
++each renamed into place (an atomic rename on the same disk), then indexed in the ledger's ``capture`` table.
++A crash leaves at worst ``.part`` files (removed on recovery: never indexed, never evidence) or a complete
++pair not yet indexed (indexed on recovery once its hash checks out). The evidence export reads this index and
++these files only, never the memory of a process, so it can be rebuilt after any crash.
++
++The copy kept is sanitized: values under credential-like keys are replaced, and each raw page goes through the
++retailer collector's own sanitizer. The response as received is never written; only its SHA-256 is kept
++(private: it cannot be checked by a reader), beside the SHA-256 of the copy kept (public: anyone can check it
++against the file), so the two are matched without publishing the original.
++"""
++
++from __future__ import annotations
++
++import gzip
++import hashlib
++import json
++import os
++import re
++import urllib.parse
++from collections.abc import Callable, Mapping
++from pathlib import Path
++from typing import TYPE_CHECKING, Any
++
++from classic_probe.transport import ProviderResponse
++
++if TYPE_CHECKING:
++    from classic_probe.ledger import Ledger
++
++_SECRET_KEYS = re.compile(r"(?i)authori[sz]ation|cookie|password|token|secret|session")
++
++
++def sanitize(value: Any) -> Any:
++    """A response as it may be kept: values under credential-like keys are replaced."""
++    if isinstance(value, Mapping):
++        return {k: "[REMOVED]" if _SECRET_KEYS.search(str(k)) else sanitize(v) for k, v in value.items()}
++    if isinstance(value, list):
++        return [sanitize(v) for v in value]
++    return value
++
++
++def kept_response(original: bytes, retailer: str = "walmart") -> tuple[bytes, list[dict[str, Any]]]:
++    """A response as it may be kept as evidence: values under credential-like keys replaced, and each raw page
++    passed through the retailer collector's sanitizer (vendor/walmart_sanitize.py: session and trace
++    identifiers, tokens, other scripts and inlined data removed; product, price, store and fulfillment data
++    untouched; vendor/marianos_sanitize.py for Mariano's). A body that is not JSON is kept only as its hash
++    and length: it was not the documented structure."""
++    from classic_probe.vendor import marianos_sanitize, walmart_sanitize
++
++    try:
++        body = json.loads(original)
++    except ValueError:
++        note = {"not_json": True, "bytes": len(original), "sha256": hashlib.sha256(original).hexdigest()}
++        return json.dumps(note, sort_keys=True).encode("utf-8"), []
++    pages: list[dict[str, Any]] = []
++    if isinstance(body, Mapping) and isinstance(body.get("results"), list):
++        for i, result in enumerate(body["results"]):
++            if isinstance(result, dict) and isinstance(result.get("content"), str) and retailer == "marianos":
++                # 1.6.0: a Mariano's page through the Mariano's collector's own sanitizer (scripts other than
++                # the page state removed, styles emptied, inlined data URIs replaced).
++                kept_page, mreport = marianos_sanitize.sanitize_html(result["content"])
++                result["content"] = kept_page
++                pages.append(
++                    {
++                        "result": i,
++                        "state_script_kept": mreport.state_script_kept,
++                        "scripts_removed": mreport.scripts_removed,
++                        "styles_emptied": mreport.styles_emptied,
++                        "data_uris_replaced": mreport.data_uris_replaced,
++                        "input_sha256": mreport.input_sha256,
++                        "output_sha256": mreport.output_sha256,
++                    }
++                )
++            elif isinstance(result, dict) and isinstance(result.get("content"), str):
++                clean, report = walmart_sanitize.sanitize_html(result["content"])
++                result["content"] = clean
++                pages.append(
++                    {
++                        "result": i,
++                        "page_data_kept": report.page_data_kept,
++                        "page_data_values_redacted": report.page_data_values_redacted,
++                        "other_values_redacted": report.other_values_redacted,
++                        "scripts_removed": report.scripts_removed,
++                        "input_sha256": report.input_sha256,
++                        "output_sha256": report.output_sha256,
++                    }
++                )
++    return json.dumps(sanitize(body), sort_keys=True).encode("utf-8"), pages
++
++
++def sha256(data: bytes) -> str:
++    return hashlib.sha256(data).hexdigest()
++
++
++def atomic_write(path: Path, data: bytes) -> None:
++    """``path`` holds ``data`` whole or not at all: a ``.part`` file, flushed, synced, renamed into place."""
++    part = path.with_name(path.name + ".part")
++    with open(part, "wb") as fh:
++        fh.write(data)
++        fh.flush()
++        os.fsync(fh.fileno())
++    os.replace(part, path)
++    if os.name == "posix":  # the rename itself made durable (a directory cannot be synced on Windows)
++        fd = os.open(path.parent, os.O_RDONLY)
++        try:
++            os.fsync(fd)
++        finally:
++            os.close(fd)
++
++
++def _location(value: str | None) -> str | None:
++    """A redirect's target as it may be kept: scheme, host and path only (a query could carry a token)."""
++    if not value:
++        return None
++    u = urllib.parse.urlsplit(value)
++    return urllib.parse.urlunsplit((u.scheme, u.netloc.rpartition("@")[2], u.path, "", ""))
++
++
++class CaptureStore:
++    """The kept answers of one retailer's part of a campaign, in ``directory``."""
++
++    def __init__(self, directory: Path, retailer: str) -> None:
++        self.directory = directory
++        self.retailer = retailer
++
++    def data_name(self, seq: int) -> str:
++        return f"response_{seq:03d}.json.gz"
++
++    def meta_name(self, seq: int) -> str:
++        return f"response_{seq:03d}.meta.json"
++
++    def persist(self, seq: int, step: str, response: ProviderResponse) -> dict[str, Any]:
++        """Write one answer's kept copy and metadata durably; returns the record to index."""
++        self.directory.mkdir(parents=True, exist_ok=True)
++        kept, pages = kept_response(response.body, self.retailer)
++        data = gzip.compress(kept, mtime=0)
++        record: dict[str, Any] = {
++            "seq": seq,
++            "file": self.data_name(seq),
++            "http_status": response.http_status,
++            "body_bytes": len(response.body),
++            "truncated": response.truncated,
++            "original_sha256": sha256(response.body),
++            "kept_sha256": sha256(kept),
++            "sanitized": kept != response.body,
++            "detail": {
++                "step": step,
++                "file_sha256": sha256(data),
++                "raw_pages": pages,
++                "headers": sanitize(dict(response.headers)),
++                "redirect_location": _location(response.redirect_location),
++                "elapsed_s": response.elapsed_s,
++            },
++        }
++        atomic_write(self.directory / self.data_name(seq), data)
++        atomic_write(
++            self.directory / self.meta_name(seq),
++            (json.dumps(record, sort_keys=True, indent=1) + "\n").encode("utf-8"),
++        )
++        return record
++
++    def recover(self, ledger: Ledger) -> dict[str, Any]:
++        """After a crash: ``.part`` files are removed (never indexed, never evidence), and a complete pair the
++        index lacks is indexed when its file matches its recorded hash."""
++        if not self.directory.is_dir():
++            return {"part_files_removed": [], "indexed_on_recovery": [], "refused": []}
++        removed = []
++        for part in sorted(self.directory.glob("response_*.part")):
++            part.unlink()
++            removed.append(part.name)
++        indexed = {int(c["seq"]) for c in ledger.captures()}
++        known = {int(r["seq"]) for r in ledger.rows()}
++        added: list[int] = []
++        refused: list[dict[str, Any]] = []
++        for meta in sorted(self.directory.glob("response_*.meta.json")):
++            record = json.loads(meta.read_text(encoding="utf-8"))
++            seq = int(record["seq"])
++            if seq in indexed:
++                continue
++            path = self.directory / str(record["file"])
++            if seq not in known:
++                refused.append({"file": meta.name, "why": "no dispatch of this number in the ledger"})
++            elif not path.is_file() or sha256(path.read_bytes()) != record["detail"]["file_sha256"]:
++                refused.append({"file": meta.name, "why": "its data file is missing or does not match"})
++            else:
++                ledger.record_capture(seq, record)
++                added.append(seq)
++        return {"part_files_removed": removed, "indexed_on_recovery": added, "refused": refused}
++
++    def verify(
++        self, ledger: Ledger, *, time_left: Callable[[], float], min_left_s: float
++    ) -> tuple[list[dict[str, Any]], bool]:
++        """Each indexed capture against its file, while time is left. Returns the entries and whether every
++        capture was checked; one not checked in time is listed as unverified, never as good."""
++        entries: list[dict[str, Any]] = []
++        complete = True
++        for c in ledger.captures():
++            entry = {
++                "seq": c["seq"],
++                "file": c["file"],
++                "step": c["detail"].get("step"),
++                "http_status": c["http_status"],
++                "body_bytes": c["body_bytes"],
++                "truncated": bool(c["truncated"]),
++                "original_sha256": c["original_sha256"],
++                "kept_sha256": c["kept_sha256"],
++                "sanitized": bool(c["sanitized"]),
++                "raw_pages": c["detail"].get("raw_pages", []),
++                "headers": c["detail"].get("headers", {}),
++                "redirect_location": c["detail"].get("redirect_location"),
++            }
++            if time_left() < min_left_s:
++                entry["verified"] = None
++                entry["why"] = "not checked: the session's time ran out"
++                complete = False
++            else:
++                path = self.directory / str(c["file"])
++                try:
++                    ok = sha256(gzip.decompress(path.read_bytes())) == c["kept_sha256"]
++                except (OSError, EOFError, gzip.BadGzipFile):
++                    ok = False
++                entry["verified"] = ok
++                if not ok:
++                    complete = False
++            entries.append(entry)
++        return entries, complete
+diff --git a/src/classic_probe/checks.py b/src/classic_probe/checks.py
+index b7e736e..9b1d0f4 100644
+--- a/src/classic_probe/checks.py
++++ b/src/classic_probe/checks.py
+@@ -10,12 +10,13 @@ validated readers (``vendor/``), and the parsed result has to agree with them.
+ from __future__ import annotations
+ 
+ import json
++import urllib.parse
+ from collections.abc import Mapping, Sequence
+ from dataclasses import dataclass, field
+ from typing import Any
+ 
+ from classic_probe.stops import Stop
+-from classic_probe.transport import ProviderResponse
++from classic_probe.transport import BodyTooLarge, ProviderResponse, ResponseLimits, decode_body
+ from classic_probe.vendor import walmart_challenge as wch
+ from classic_probe.vendor import walmart_page_data as wpd
+ 
+@@ -73,10 +74,21 @@ def provider(response: ProviderResponse) -> Inspection:
+         return ins.fail(Stop.ENTITLEMENT, "HTTP 403: the account does not have access to this resource")
+     if status in CALLER_FAULT_HTTP:
+         return ins.fail(Stop.BAD_REQUEST, f"HTTP {status}: the request was refused (documented as billed)")
++    if 300 <= status < 400:
++        # 1.7.0 (C1): nothing follows a redirect; the credentials went to the documented endpoint only.
++        where = urllib.parse.urlsplit(response.redirect_location or "").hostname or "no location"
++        return ins.fail(
++            Stop.UNSUPPORTED_RESPONSE,
++            f"HTTP {status}: a redirect (to {where}) is never followed; the request went to the documented "
++            "endpoint only",
++        )
+     if status != 200:
+         return ins.fail(Stop.UNSUPPORTED_RESPONSE, f"HTTP {status} is not a documented Realtime answer here")
+     try:
+-        body = json.loads(response.body)
++        body = json.loads(decode_body(response, ResponseLimits()))
++    except BodyTooLarge as exc:
++        # 1.7.0 (C2): a body cut at its byte limit, or one that decodes past its limit, is never read.
++        return ins.fail(Stop.UNSUPPORTED_RESPONSE, f"the body is not read whole: {exc}")
+     except ValueError:
+         return ins.fail(Stop.UNSUPPORTED_RESPONSE, "the body is not JSON")
+     results = body.get("results") if isinstance(body, Mapping) else None
+diff --git a/src/classic_probe/contract.py b/src/classic_probe/contract.py
+index 5f58e6d..aa6ac87 100644
+--- a/src/classic_probe/contract.py
++++ b/src/classic_probe/contract.py
+@@ -13,6 +13,9 @@ from collections.abc import Mapping
+ from typing import Any
+ 
+ ENDPOINT = "https://realtime.oxylabs.io/v1/queries"
++# 1.7.0 (finding C1): the only place the credentials may go: this scheme, host and port, nothing else.
++ENDPOINT_PARTS = ("https", "realtime.oxylabs.io", 443)
++ENDPOINT_PATH = "/v1/queries"
+ RAW_AND_PARSED = "type=raw,parsed"  # each requested type is a separate entry of ``results``
+ 
+ WALMART_SEARCH = "walmart_search"
+diff --git a/src/classic_probe/deadline.py b/src/classic_probe/deadline.py
+new file mode 100644
+index 0000000..10314d8
+--- /dev/null
++++ b/src/classic_probe/deadline.py
+@@ -0,0 +1,78 @@
++"""One session deadline for everything a campaign does (1.7.0, findings C2, C3 and C5).
++
++The deadline is durable: it is derived from the campaign's start recorded once in the ledger, so a restart
++never grants a new window. Inside a process it is held on the monotonic clock (a wall-clock jump cannot
++extend it), and the ledger checks the wall clock again under its write lock. Every wait (lock, request,
++backoff) is clamped to the time left before the reserve kept for export and cleanup.
++"""
++
++from __future__ import annotations
++
++import time
++from collections.abc import Callable
++from datetime import UTC, datetime
++
++
++class DeadlinePassed(RuntimeError):
++    """No time is left for this step: nothing was started."""
++
++
++class SessionClock:
++    def __init__(
++        self,
++        end_wall: datetime,
++        *,
++        export_reserve_s: float,
++        wall: Callable[[], datetime] | None = None,
++        monotonic: Callable[[], float] = time.monotonic,
++        sleeper: Callable[[float], None] = time.sleep,
++    ) -> None:
++        self.wall = wall or (lambda: datetime.now(UTC))
++        self.monotonic = monotonic
++        self.sleeper = sleeper  # the real sleep unless a test injects a fake one (C5)
++        self.export_reserve_s = export_reserve_s
++        self.end_wall = end_wall
++        self._end_mono = monotonic() + (end_wall - self.wall()).total_seconds()
++
++    def remaining(self) -> float:
++        """Seconds until the session's end (export and cleanup included)."""
++        return min(self._end_mono - self.monotonic(), (self.end_wall - self.wall()).total_seconds())
++
++    def dispatch_remaining(self) -> float:
++        """Seconds a request, a lock wait or a backoff may still use: the end less the export reserve."""
++        return self.remaining() - self.export_reserve_s
++
++    def allowance(self, cap_s: float) -> float:
++        """A request's whole allowance (connect, read and decode), clamped; raises when none is left."""
++        left = min(cap_s, self.dispatch_remaining())
++        if left <= 0:
++            raise DeadlinePassed("no time is left before the reserve kept for export and cleanup")
++        return left
++
++    def sleep(self, seconds: float, *, then_needs_s: float = 0.0) -> bool:
++        """A real, bounded backoff. False (and no sleep) when the wait plus what must follow it would end
++        past the dispatch deadline: the caller then stops instead of retrying late."""
++        if seconds < 0:
++            seconds = 0.0
++        if seconds + then_needs_s > self.dispatch_remaining():
++            return False
++        self.sleeper(seconds)
++        return self.dispatch_remaining() > then_needs_s
++
++
++def parse_retry_after(value: str | None, now: datetime) -> float | None:
++    """Seconds from a ``Retry-After`` header (delta-seconds or an HTTP-date); None when absent or invalid."""
++    if not value:
++        return None
++    v = value.strip()
++    if v.isdigit():
++        return float(v)
++    from email.utils import parsedate_to_datetime
++
++    try:
++        when = parsedate_to_datetime(v)
++    except (TypeError, ValueError):
++        return None
++    if when.tzinfo is None:
++        when = when.replace(tzinfo=UTC)
++    return max(0.0, (when - now).total_seconds())
+diff --git a/src/classic_probe/ledger.py b/src/classic_probe/ledger.py
+index f13d12f..4329e61 100644
+--- a/src/classic_probe/ledger.py
++++ b/src/classic_probe/ledger.py
+@@ -17,6 +17,20 @@ ledger
+   made for the same campaign is not the approved one;
+ * the ledger is bound to its host, and a path on a network share is refused, because SQLite's locks are only
+   reliable on a local disk. Both retailers' invocations therefore run on one host against one file.
++
++1.7.0 (the client's second review, finding C3; schema version 2):
++
++* the time is read after the write lock is obtained, never before it, and the wait for the lock is bounded by
++  the caller's allowance (``lock_wait_s``): a request that waited for the lock is checked against the time
++  that is left when it gets it;
++* :meth:`mark_sent` checks the deadline and the stops again, under the lock, just before the request is
++  handed to the transport. A request refused there was never sent: its row becomes ``not_sent`` (only from
++  ``reserved``, never again sent) and no longer counts against the quotas or the money. A row a process left
++  ``reserved`` or ``sent`` is still recovered as unknown, as before: only the process itself can prove that
++  it never handed a request over;
++* each answer is indexed in the ``capture`` table (finding C4) before the next paid step: the kept file, the
++  hash of the response as received (private) and of the copy kept (public). A capture row is never changed or
++  deleted.
+ """
+ 
+ from __future__ import annotations
+@@ -55,6 +69,11 @@ CONFIRMED = "confirmed"  # an operator recorded the charge with its basis
+ 
+ # Where a dispatch is. "reserved" and "sent" rows of a process that ended stay counted, as unknown.
+ RESERVED, SENT, ANSWERED, IN_FLIGHT_UNKNOWN = "reserved", "sent", "answered", "in_flight_unknown"
++# 1.7.0: refused under the lock before it was handed to the transport. It was never sent and costs nothing.
++NOT_SENT = "not_sent"
++
++SCHEMA_VERSION = 2
++DEFAULT_LOCK_WAIT_S = 30.0
+ 
+ 
+ @dataclass(frozen=True)
+@@ -108,6 +127,10 @@ class LedgerRefused(RuntimeError):
+     """This execution is not connected to the campaign's ledger."""
+ 
+ 
++class LockNotObtained(RuntimeError):
++    """The ledger's write lock was not obtained within the time allowed; nothing was written."""
++
++
+ class LimitReached(RuntimeError):
+     """The request was not reserved, and so cannot be dispatched."""
+ 
+@@ -127,6 +150,7 @@ class Totals:
+     estimated_usd: Decimal  # from documented rules and confirmed rates: never an invoice
+     unknown_billing: int  # dispatches whose remote outcome is unknown
+     other_units: dict[str, str]  # confirmed charges in another unit: never added to dollars
++    not_sent: int = 0  # 1.7.0: reserved, then refused before the transport: never counted as a dispatch
+ 
+     def as_dict(self) -> dict[str, Any]:
+         out = asdict(self)
+@@ -193,6 +217,36 @@ BEGIN SELECT RAISE(ABORT, 'the campaign row is never deleted'); END;
+ CREATE TRIGGER campaign_start_never_reset BEFORE UPDATE OF started_at ON campaign
+ WHEN OLD.started_at IS NOT NULL AND NEW.started_at IS NOT OLD.started_at
+ BEGIN SELECT RAISE(ABORT, 'the start of the campaign is never reset'); END;
++CREATE TABLE meta (
++    key TEXT PRIMARY KEY,
++    value TEXT NOT NULL
++);
++CREATE TRIGGER meta_never_changed BEFORE UPDATE ON meta
++BEGIN SELECT RAISE(ABORT, 'the ledger metadata is never changed'); END;
++CREATE TRIGGER meta_never_deleted BEFORE DELETE ON meta
++BEGIN SELECT RAISE(ABORT, 'the ledger metadata is never deleted'); END;
++CREATE TRIGGER not_sent_only_before_sending BEFORE UPDATE OF state ON dispatch
++WHEN NEW.state = 'not_sent' AND OLD.state IS NOT 'reserved'
++BEGIN SELECT RAISE(ABORT, 'only a request never handed to the transport is not sent'); END;
++CREATE TRIGGER not_sent_is_final BEFORE UPDATE OF state ON dispatch
++WHEN OLD.state = 'not_sent' AND NEW.state IS NOT 'not_sent'
++BEGIN SELECT RAISE(ABORT, 'a request recorded as not sent is never sent'); END;
++CREATE TABLE capture (
++    seq INTEGER PRIMARY KEY REFERENCES dispatch (seq),
++    file TEXT NOT NULL,
++    http_status INTEGER NOT NULL,
++    body_bytes INTEGER NOT NULL,
++    truncated INTEGER NOT NULL,
++    original_sha256 TEXT NOT NULL,
++    kept_sha256 TEXT NOT NULL,
++    sanitized INTEGER NOT NULL,
++    detail TEXT NOT NULL,
++    recorded_at TEXT NOT NULL
++);
++CREATE TRIGGER capture_never_changed BEFORE UPDATE ON capture
++BEGIN SELECT RAISE(ABORT, 'a capture is evidence and is never changed'); END;
++CREATE TRIGGER capture_never_deleted BEFORE DELETE ON capture
++BEGIN SELECT RAISE(ABORT, 'a capture is evidence and is never deleted'); END;
+ """
+ 
+ 
+@@ -238,6 +292,7 @@ class Ledger:
+             "VALUES (1, ?, ?, ?, ?, ?, ?)",
+             (campaign_id, uuid.uuid4().hex, host_id(), int(offline), clock().isoformat(), limits.as_json()),
+         )
++        conn.execute("INSERT INTO meta (key, value) VALUES ('schema_version', ?)", (str(SCHEMA_VERSION),))
+         return cls(path, conn, clock)
+ 
+     @classmethod
+@@ -267,6 +322,18 @@ class Ledger:
+             problem = f"{path} has another genesis id: it is not the ledger the manifest names"
+         elif row[2] != host_id():
+             problem = f"{path} belongs to another host: a copied ledger would spend the budget twice"
++        else:
++            try:
++                version = ledger.conn.execute(
++                    "SELECT value FROM meta WHERE key = 'schema_version'"
++                ).fetchone()
++            except sqlite3.DatabaseError:
++                version = None
++            if version is None or version[0] != str(SCHEMA_VERSION):
++                problem = (
++                    f"{path} is a ledger of an earlier schema (no capture index, no not-sent state): this "
++                    f"version opens schema {SCHEMA_VERSION} only"
++                )
+         if problem:
+             ledger.close()  # nothing was written; the file is left as it was
+             raise LedgerRefused(problem)
+@@ -282,8 +349,19 @@ class Ledger:
+         self.conn.close()
+ 
+     @contextmanager
+-    def _write(self) -> Iterator[None]:
+-        self.conn.execute("BEGIN IMMEDIATE")
++    def _write(self, lock_wait_s: float | None = None) -> Iterator[None]:
++        """One write transaction. The wait for the lock is bounded by ``lock_wait_s`` (1.7.0, C3): a lock
++        not obtained in time raises :class:`LockNotObtained` and nothing was written."""
++        wait = DEFAULT_LOCK_WAIT_S if lock_wait_s is None else max(0.0, min(lock_wait_s, DEFAULT_LOCK_WAIT_S))
++        self.conn.execute(f"PRAGMA busy_timeout = {int(wait * 1000)}")
++        try:
++            self.conn.execute("BEGIN IMMEDIATE")
++        except sqlite3.OperationalError as exc:
++            if "locked" in str(exc) or "busy" in str(exc):
++                raise LockNotObtained(
++                    f"the ledger's write lock was not obtained within {wait:.1f} s"
++                ) from None
++            raise
+         try:
+             yield
+         except BaseException:
+@@ -348,8 +426,11 @@ class Ledger:
+         by_retailer: dict[str, int] = {}
+         reserved = confirmed = estimated = Decimal(0)
+         other: dict[str, Decimal] = {}
+-        unknown = 0
++        unknown = not_sent = 0
+         for r in rows:
++            if r["state"] == NOT_SENT:
++                not_sent += 1
++                continue
+             by_retailer[r["retailer"]] = by_retailer.get(r["retailer"], 0) + 1
+             if r["confirmed_unit"] == "usd":
+                 confirmed += usd(r["confirmed_value"])
+@@ -364,7 +445,7 @@ class Ledger:
+             if r["billing"] == UNKNOWN and r["state"] != ANSWERED:
+                 unknown += 1
+         return Totals(
+-            dispatched_total=len(rows),
++            dispatched_total=len(rows) - not_sent,
+             dispatched_by_retailer=by_retailer,
+             committed_usd=reserved + confirmed,
+             reserved_unconfirmed_usd=reserved,
+@@ -372,12 +453,13 @@ class Ledger:
+             estimated_usd=estimated,
+             unknown_billing=unknown,
+             other_units={k: str(v) for k, v in other.items()},
++            not_sent=not_sent,
+         )
+ 
+     def _committed_by(self, retailer: str) -> Decimal:
+         total = Decimal(0)
+         for r in self.rows():
+-            if r["retailer"] != retailer:
++            if r["retailer"] != retailer or r["state"] == NOT_SENT:
+                 continue
+             total += usd(r["confirmed_value"]) if r["confirmed_unit"] == "usd" else usd(r["reserved_usd"])
+         return total
+@@ -395,90 +477,210 @@ class Ledger:
+         payload_sha256: str,
+         amount_usd: Decimal,
+         request_timeout_s: float,
++        lock_wait_s: float | None = None,
+     ) -> int:
+         """Count the request and reserve its upper bound, or raise :class:`LimitReached`. Whatever is sent
+-        later has a row here first: setup, authentication, qualification and every retry alike."""
+-        now = self.clock()
+-        with self._write():
+-            campaign_stop = self.stopped()
+-            if campaign_stop:
+-                raise LimitReached(Stop(campaign_stop[0]), f"the campaign has stopped: {campaign_stop[1]}")
+-            own_stop = self.retailer_stopped(retailer)
+-            if own_stop:
+-                raise LimitReached(Stop(own_stop[0]), f"{retailer} has stopped: {own_stop[1]}")
+-            limits = self.limits
+-            if retailer not in limits.retailers:
+-                raise LedgerRefused(f"{retailer} is not a retailer of this campaign")
+-            total = int(self.conn.execute("SELECT COUNT(*) FROM dispatch").fetchone()[0])
+-            if total >= limits.total_requests:
+-                raise LimitReached(
+-                    Stop.TOTAL_REQUESTS, f"{total} of {limits.total_requests} requests dispatched"
++        later has a row here first: setup, authentication, qualification and every retry alike.
++
++        1.7.0 (C3): the time is read once the write lock is held, and the wait for the lock is bounded by
++        ``lock_wait_s``; a lock not obtained in time is a deadline stop, with nothing reserved."""
++        try:
++            with self._write(lock_wait_s):
++                return self._reserve_locked(
++                    retailer=retailer,
++                    step=step,
++                    purpose=purpose,
++                    request_class=request_class,
++                    attempt=attempt,
++                    payload_sha256=payload_sha256,
++                    amount_usd=amount_usd,
++                    request_timeout_s=request_timeout_s,
+                 )
+-            own = int(
+-                self.conn.execute("SELECT COUNT(*) FROM dispatch WHERE retailer = ?", (retailer,)).fetchone()[
+-                    0
+-                ]
++        except LockNotObtained as exc:
++            raise LimitReached(Stop.DEADLINE, f"{exc}: nothing was reserved") from None
++
++    def _reserve_locked(
++        self,
++        *,
++        retailer: str,
++        step: str,
++        purpose: str,
++        request_class: str,
++        attempt: int,
++        payload_sha256: str,
++        amount_usd: Decimal,
++        request_timeout_s: float,
++    ) -> int:
++        now = self.clock()  # under the lock: a wait for the lock is never time the request still has
++        campaign_stop = self.stopped()
++        if campaign_stop:
++            raise LimitReached(Stop(campaign_stop[0]), f"the campaign has stopped: {campaign_stop[1]}")
++        own_stop = self.retailer_stopped(retailer)
++        if own_stop:
++            raise LimitReached(Stop(own_stop[0]), f"{retailer} has stopped: {own_stop[1]}")
++        limits = self.limits
++        if retailer not in limits.retailers:
++            raise LedgerRefused(f"{retailer} is not a retailer of this campaign")
++        total = int(
++            self.conn.execute("SELECT COUNT(*) FROM dispatch WHERE state != ?", (NOT_SENT,)).fetchone()[0]
++        )
++        if total >= limits.total_requests:
++            raise LimitReached(Stop.TOTAL_REQUESTS, f"{total} of {limits.total_requests} requests dispatched")
++        own = int(
++            self.conn.execute(
++                "SELECT COUNT(*) FROM dispatch WHERE retailer = ? AND state != ?", (retailer, NOT_SENT)
++            ).fetchone()[0]
++        )
++        if own >= limits.per_retailer_requests:
++            raise LimitReached(
++                Stop.RETAILER_QUOTA,
++                f"{retailer}: {own} of {limits.per_retailer_requests} requests dispatched; the other "
++                "retailer's share is not borrowed",
+             )
+-            if own >= limits.per_retailer_requests:
+-                raise LimitReached(
+-                    Stop.RETAILER_QUOTA,
+-                    f"{retailer}: {own} of {limits.per_retailer_requests} requests dispatched; the other "
+-                    "retailer's share is not borrowed",
+-                )
+-            totals = self.totals()
+-            committed = totals.committed_usd
+-            own_committed = self._committed_by(retailer)
+-            share = limits.retailer_share_usd()
+-            if own_committed + amount_usd > share:
+-                raise LimitReached(
+-                    Stop.RETAILER_FUNDS,
+-                    f"{retailer}: {own_committed} committed + {amount_usd} is above its share {share}; the "
+-                    "other retailer's share is not borrowed",
+-                )
+-            spendable = limits.total_usd - limits.billing_headroom_usd
+-            if committed + amount_usd > spendable:
+-                raise LimitReached(
+-                    Stop.FUNDS,
+-                    f"{committed} committed + {amount_usd} for this request is above {spendable} "
+-                    f"(USD {limits.total_usd} less {limits.billing_headroom_usd} of headroom)",
+-                )
+-            started = self._campaign("started_at")[0]
+-            start = datetime.fromisoformat(str(started)) if started else now
+-            end = start + timedelta(minutes=limits.campaign_minutes)
+-            last = end - timedelta(seconds=limits.export_reserve_seconds)
+-            if now + timedelta(seconds=request_timeout_s) > last:
+-                raise LimitReached(
+-                    Stop.DEADLINE,
+-                    f"a request of up to {request_timeout_s} s would end after {last.isoformat()}, the time "
+-                    "kept for evidence export and cleanup",
+-                )
+-            if not started:
+-                self.conn.execute("UPDATE campaign SET started_at = ?", (now.isoformat(),))
+-            cur = self.conn.execute(
+-                "INSERT INTO dispatch (retailer, step, purpose, request_class, attempt, payload_sha256, "
+-                "reserved_at, reserved_usd, state, billing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+-                (
+-                    retailer,
+-                    step,
+-                    purpose,
+-                    request_class,
+-                    attempt,
+-                    payload_sha256,
+-                    now.isoformat(),
+-                    str(amount_usd),
+-                    RESERVED,
+-                    UNKNOWN,
+-                ),
++        totals = self.totals()
++        committed = totals.committed_usd
++        own_committed = self._committed_by(retailer)
++        share = limits.retailer_share_usd()
++        if own_committed + amount_usd > share:
++            raise LimitReached(
++                Stop.RETAILER_FUNDS,
++                f"{retailer}: {own_committed} committed + {amount_usd} is above its share {share}; the "
++                "other retailer's share is not borrowed",
++            )
++        spendable = limits.total_usd - limits.billing_headroom_usd
++        if committed + amount_usd > spendable:
++            raise LimitReached(
++                Stop.FUNDS,
++                f"{committed} committed + {amount_usd} for this request is above {spendable} "
++                f"(USD {limits.total_usd} less {limits.billing_headroom_usd} of headroom)",
++            )
++        started = self._campaign("started_at")[0]
++        start = datetime.fromisoformat(str(started)) if started else now
++        end = start + timedelta(minutes=limits.campaign_minutes)
++        last = end - timedelta(seconds=limits.export_reserve_seconds)
++        if now + timedelta(seconds=request_timeout_s) > last:
++            raise LimitReached(
++                Stop.DEADLINE,
++                f"a request of up to {request_timeout_s} s would end after {last.isoformat()}, the time "
++                "kept for evidence export and cleanup",
+             )
+-            seq = cur.lastrowid
++        if not started:
++            self.conn.execute("UPDATE campaign SET started_at = ?", (now.isoformat(),))
++        cur = self.conn.execute(
++            "INSERT INTO dispatch (retailer, step, purpose, request_class, attempt, payload_sha256, "
++            "reserved_at, reserved_usd, state, billing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
++            (
++                retailer,
++                step,
++                purpose,
++                request_class,
++                attempt,
++                payload_sha256,
++                now.isoformat(),
++                str(amount_usd),
++                RESERVED,
++                UNKNOWN,
++            ),
++        )
++        seq = cur.lastrowid
+         assert seq is not None
+         return int(seq)
+ 
+     # -- after the reservation -------------------------------------------------------------------------
+ 
+-    def mark_sent(self, seq: int) -> None:
++    def mark_sent(
++        self, seq: int, *, allowance_s: float | None = None, lock_wait_s: float | None = None
++    ) -> None:
++        """The last check before a request is handed to the transport (1.7.0, C3), under the lock: the
++        campaign and the retailer have not stopped, and a request of up to ``allowance_s`` still ends before
++        the time kept for export and cleanup. Otherwise the row becomes ``not_sent`` (it was never sent and
++        costs nothing) and :class:`LimitReached` is raised."""
++        refusal: LimitReached | None = None
++        try:
++            with self._write(lock_wait_s):
++                now = self.clock()
++                row = self.conn.execute(
++                    "SELECT state, retailer FROM dispatch WHERE seq = ?", (seq,)
++                ).fetchone()
++                if row is None or row[0] != RESERVED:
++                    raise LedgerRefused(f"dispatch {seq} is not a reservation waiting to be sent")
++                campaign_stop = self.stopped()
++                own_stop = self.retailer_stopped(str(row[1]))
++                ends = self.deadlines()
++                if campaign_stop:
++                    refusal = LimitReached(
++                        Stop(campaign_stop[0]), f"the campaign has stopped: {campaign_stop[1]}"
++                    )
++                elif own_stop:
++                    refusal = LimitReached(Stop(own_stop[0]), f"{row[1]} has stopped: {own_stop[1]}")
++                elif (
++                    ends is not None
++                    and allowance_s is not None
++                    and now + timedelta(seconds=allowance_s) > ends[1]
++                ):
++                    refusal = LimitReached(
++                        Stop.DEADLINE,
++                        f"at dispatch, a request of up to {allowance_s:.1f} s would end after "
++                        f"{ends[1].isoformat()}, the time kept for evidence export and cleanup",
++                    )
++                elif ends is not None and now >= ends[1]:
++                    refusal = LimitReached(Stop.DEADLINE, "at dispatch, the time for requests had ended")
++                if refusal is not None:
++                    self.conn.execute(
++                        "UPDATE dispatch SET state = ?, billing = ?, finished_at = ?, note = ? WHERE seq = ?",
++                        (NOT_SENT, NOT_BILLED, now.isoformat(), f"not sent: {refusal.detail}", seq),
++                    )
++                else:
++                    self.conn.execute("UPDATE dispatch SET state = ? WHERE seq = ?", (SENT, seq))
++        except LockNotObtained as exc:
++            # Nothing was written: the row stays reserved, never sent, and is recovered as unknown at the
++            # next restart (the conservative reading); the caller does not send it.
++            raise LimitReached(Stop.DEADLINE, f"{exc}: the request was not sent") from None
++        if refusal is not None:
++            raise refusal
++
++    def release_unsent(self, seq: int, note: str) -> None:
++        """A reservation this process never handed to the transport (refused before sending): not sent."""
+         with self._write():
+-            self.conn.execute("UPDATE dispatch SET state = ? WHERE seq = ?", (SENT, seq))
++            cur = self.conn.execute(
++                "UPDATE dispatch SET state = ?, billing = ?, finished_at = ?, note = ? "
++                "WHERE seq = ? AND state = ?",
++                (NOT_SENT, NOT_BILLED, self.clock().isoformat(), f"not sent: {note}", seq, RESERVED),
++            )
++            if cur.rowcount != 1:
++                raise LedgerRefused(f"dispatch {seq} is not a reservation waiting to be sent")
++
++    # -- captures (1.7.0, C4) --------------------------------------------------------------------------
++
++    def record_capture(self, seq: int, capture: dict[str, Any]) -> None:
++        """Index a kept answer. Called once its file is durable, before the next paid step."""
++        with self._write():
++            self.conn.execute(
++                "INSERT INTO capture (seq, file, http_status, body_bytes, truncated, original_sha256, "
++                "kept_sha256, sanitized, detail, recorded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
++                (
++                    seq,
++                    capture["file"],
++                    int(capture["http_status"]),
++                    int(capture["body_bytes"]),
++                    int(bool(capture["truncated"])),
++                    capture["original_sha256"],
++                    capture["kept_sha256"],
++                    int(bool(capture["sanitized"])),
++                    json.dumps(capture.get("detail") or {}, sort_keys=True),
++                    self.clock().isoformat(),
++                ),
++            )
++
++    def captures(self) -> list[dict[str, Any]]:
++        cur = self.conn.execute("SELECT * FROM capture ORDER BY seq")
++        names = [d[0] for d in cur.description]
++        out = []
++        for row in cur.fetchall():
++            item = dict(zip(names, row, strict=True))
++            item["detail"] = json.loads(item["detail"])
++            out.append(item)
++        return out
+ 
+     def settle(
+         self,
+diff --git a/src/classic_probe/networker.py b/src/classic_probe/networker.py
+new file mode 100644
+index 0000000..59a72ab
+--- /dev/null
++++ b/src/classic_probe/networker.py
+@@ -0,0 +1,141 @@
++"""The isolated network worker (1.7.0, findings C1 and C2): one HTTP exchange in a child process.
++
++The supervising process (transport.IsolatedHttpTransport) starts ``python -I -m classic_probe.networker``,
++writes one JSON specification to its standard input (the Authorization header travels there, never in an
++argument or the environment) and kills and reaps it at the request's deadline. This worker:
++
++- connects only to the documented endpoint over HTTPS (and only in a build with live mode enabled), or to a
++  loopback test stub when the specification says so;
++- never follows a redirect: ``http.client`` has no redirect handling, and a 3xx answer is reported as it is;
++- reads the body in chunks, each socket wait clamped to the time left, and stops at ``max_body_bytes`` on
++  every status (success and error alike): a large or endless body is cut, reported as truncated, never kept
++  whole;
++- writes the bytes it read to a private ``.part`` file, flushed and synced, and prints one JSON status line.
++"""
++
++from __future__ import annotations
++
++import base64
++import hashlib
++import http.client
++import json
++import os
++import ssl
++import sys
++import time
++from typing import Any
++
++from classic_probe import contract, gates
++
++CHUNK = 65536
++
++
++def _allowed(spec: dict[str, Any]) -> str | None:
++    """None if this worker may connect; else why not."""
++    scheme, host, port = spec["scheme"], spec["host"], int(spec["port"])
++    if spec.get("loopback_stub"):
++        if scheme == "http" and host == "127.0.0.1":
++            return None
++        return "a loopback stub must be http://127.0.0.1"
++    endpoint = contract.ENDPOINT_PARTS
++    if (scheme, host, port) != endpoint:
++        return f"{scheme}://{host}:{port} is not the documented endpoint"
++    if not gates.LIVE_ENABLED:
++        return "live mode is disabled in this build"
++    return None
++
++
++def exchange(spec: dict[str, Any]) -> dict[str, Any]:
++    t0 = time.monotonic()
++    deadline = t0 + float(spec["allowance_s"])
++    refused = _allowed(spec)
++    if refused:
++        return {"ok": False, "error": "Refused", "detail": refused, "sent": False}
++
++    def left() -> float:
++        return deadline - time.monotonic()
++
++    if left() <= 0:
++        return {"ok": False, "error": "DeadlinePassed", "sent": False}
++    conn: http.client.HTTPConnection
++    if spec["scheme"] == "https":
++        conn = http.client.HTTPSConnection(
++            spec["host"],
++            int(spec["port"]),
++            timeout=max(0.05, min(30.0, left())),
++            context=ssl.create_default_context(),
++        )
++    else:
++        conn = http.client.HTTPConnection(
++            spec["host"], int(spec["port"]), timeout=max(0.05, min(30.0, left()))
++        )
++    # Whether the request left: False while nothing of it was written, None (unknown) once writing began,
++    # True when it was written whole. Only False lets the supervisor treat the request as never sent.
++    sent: bool | None = False
++    out_path = spec["out_path"]
++    max_body = int(spec["max_body_bytes"])
++    try:
++        body = base64.b64decode(spec["body_b64"]) if spec.get("body_b64") else None
++        conn.connect()
++        if left() <= 0:
++            return {"ok": False, "error": "DeadlinePassed", "sent": False}
++        sent = None
++        conn.request(spec["method"], spec["path"], body=body, headers=spec["headers"])
++        sent = True
++        if conn.sock is not None:
++            conn.sock.settimeout(max(0.05, left()))
++        resp = conn.getresponse()
++        headers = [(k, v) for k, v in resp.getheaders() if k.lower() != "set-cookie"]
++        header_bytes = sum(len(k) + len(v) for k, v in headers)
++        total, truncated = 0, False
++        digest = hashlib.sha256()
++        with open(out_path, "wb") as fh:
++            while True:
++                if left() <= 0:
++                    return {"ok": False, "error": "DeadlinePassed", "sent": True, "partial_bytes": total}
++                if conn.sock is not None:
++                    conn.sock.settimeout(max(0.05, left()))
++                chunk = resp.read(min(CHUNK, max_body + 1 - total))
++                if not chunk:
++                    break
++                if total + len(chunk) > max_body:
++                    chunk = chunk[: max_body - total]
++                    truncated = True
++                fh.write(chunk)
++                digest.update(chunk)
++                total += len(chunk)
++                if truncated:
++                    break
++            fh.flush()
++            os.fsync(fh.fileno())
++        return {
++            "ok": True,
++            "status": resp.status,
++            "reason": resp.reason,
++            "headers": headers if header_bytes <= int(spec["max_header_bytes"]) else [],
++            "headers_truncated": header_bytes > int(spec["max_header_bytes"]),
++            "body_bytes": total,
++            "truncated": truncated,
++            "sha256": digest.hexdigest(),
++            "elapsed_s": round(time.monotonic() - t0, 3),
++            "redirect_location": next((v for k, v in headers if k.lower() == "location"), None)
++            if 300 <= resp.status < 400
++            else None,
++        }
++    except Exception as exc:  # noqa: BLE001 - reported to the supervisor; no credential is in the message
++        return {"ok": False, "error": type(exc).__name__, "sent": sent}
++    finally:
++        conn.close()
++
++
++def main() -> int:
++    raw = sys.stdin.buffer.read(1_000_000)
++    spec = json.loads(raw)
++    result = exchange(spec)
++    sys.stdout.write(json.dumps(result) + "\n")
++    sys.stdout.flush()
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/src/classic_probe/stops.py b/src/classic_probe/stops.py
+index 5172376..2fbb96b 100644
+--- a/src/classic_probe/stops.py
++++ b/src/classic_probe/stops.py
+@@ -31,6 +31,8 @@ class Stop(StrEnum):
+         "STOP_IN_FLIGHT_UNKNOWN"  # no answer in time: its remote outcome and charge are unknown
+     )
+     OPERATOR = "STOP_OPERATOR"
++    # 1.7.0 (C4): an answer that could not be kept on disk; nothing more is sent
++    EVIDENCE = "STOP_EVIDENCE"
+ 
+ 
+ # A retailer's own request quota ends that retailer's part: the other retailer's share is still reserved for
+diff --git a/src/classic_probe/supervisor.py b/src/classic_probe/supervisor.py
+new file mode 100644
+index 0000000..9741f1c
+--- /dev/null
++++ b/src/classic_probe/supervisor.py
+@@ -0,0 +1,130 @@
++"""The outer bound of a whole session (1.7.0, finding C2).
++
++A request's worker is killed and reaped at the request's own deadline (transport.py). This module bounds the
++rest: a campaign session runs in its own process, and the supervisor kills it, with every process it started,
++at the session's hard end, reaps it, and then recovers in its own process. Rows the session left reserved or
++sent are kept as unknown (``Ledger.recover``: their reservations stay held), capture files are indexed or
++removed (``CaptureStore.recover``), and an evidence manifest marked incomplete is written from the durable
++index. A wedged lock, a hung export or a stuck worker therefore cannot hold a session open past its end.
++"""
++
++from __future__ import annotations
++
++import os
++import signal
++import subprocess
++import sys
++import time
++from collections.abc import Mapping, Sequence
++from dataclasses import dataclass, field
++from pathlib import Path
++from typing import Any
++
++from classic_probe import ledger as ledger_mod
++from classic_probe.campaign import write_json
++from classic_probe.captures import CaptureStore
++
++REAP_TIMEOUT_S = 10.0
++
++
++@dataclass
++class SupervisedSession:
++    returncode: int | None
++    killed: bool
++    elapsed_s: float
++    stdout_tail: str = ""
++    recovery: dict[str, Any] = field(default_factory=dict)
++
++
++def _kill_tree(proc: subprocess.Popen[bytes]) -> None:
++    """The session and everything it started: a request worker must not outlive its session."""
++    if sys.platform == "win32":
++        subprocess.run(
++            ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
++            capture_output=True,
++            timeout=REAP_TIMEOUT_S,
++            check=False,
++        )
++        if proc.poll() is None:
++            proc.kill()
++    else:
++        try:
++            os.killpg(proc.pid, signal.SIGKILL)  # the session leads its own process group
++        except ProcessLookupError:
++            pass
++
++
++def run_session(
++    command: Sequence[str],
++    *,
++    hard_end_s: float,
++    manifest: Path,
++    out_dir: Path,
++    retailer: str,
++    cwd: Path | None = None,
++    env: Mapping[str, str] | None = None,
++) -> SupervisedSession:
++    """Run one session's command and kill it, with its children, ``hard_end_s`` seconds after it starts."""
++    t0 = time.monotonic()
++    proc = subprocess.Popen(
++        list(command),
++        cwd=cwd,
++        env=None if env is None else dict(env),
++        stdout=subprocess.PIPE,
++        stderr=subprocess.STDOUT,
++        start_new_session=sys.platform != "win32",
++    )
++    killed = False
++    try:
++        out, _ = proc.communicate(timeout=max(0.0, hard_end_s))
++    except subprocess.TimeoutExpired:
++        killed = True
++        _kill_tree(proc)
++        out, _ = proc.communicate(timeout=REAP_TIMEOUT_S)
++    session = SupervisedSession(
++        returncode=proc.returncode,
++        killed=killed,
++        elapsed_s=round(time.monotonic() - t0, 3),
++        stdout_tail=out.decode("utf-8", "replace")[-4000:],
++    )
++    if killed or proc.returncode not in (0, None):
++        reason = (
++            f"killed by the supervisor at the session's hard end ({hard_end_s:.1f} s)"
++            if killed
++            else f"the session ended with exit code {proc.returncode}"
++        )
++        session.recovery = recover_session(manifest, out_dir, retailer, reason=reason)
++    return session
++
++
++def recover_session(manifest: Path, out_dir: Path, retailer: str, *, reason: str) -> dict[str, Any]:
++    """After a session that did not end by itself: what it left, made safe and written down."""
++    led = ledger_mod.open_from_manifest(manifest)
++    try:
++        unfinished = led.recover()
++        store = CaptureStore(out_dir, retailer)
++        captures = store.recover(led)
++        responses, checked = store.verify(led, time_left=lambda: float("inf"), min_left_s=0.0)
++        data = {
++            "campaign_id": led.campaign_id,
++            "ledger_genesis_id": led.genesis_id,
++            "offline": led.offline,
++            "complete": False,
++            "ended_by": reason,
++            "captures_checked": checked,
++            "rows_recovered_as_unknown": unfinished,
++            "capture_recovery": captures,
++            "totals": led.totals().as_dict(),
++            "dispatches": led.rows(),
++            "events": led.events(),
++            "responses": responses,
++        }
++        out_dir.mkdir(parents=True, exist_ok=True)
++        write_json(out_dir / "campaign_evidence.recovered.json", data)
++        return {
++            "rows_recovered_as_unknown": unfinished,
++            "capture_recovery": captures,
++            "manifest": "campaign_evidence.recovered.json",
++        }
++    finally:
++        led.close()
+diff --git a/src/classic_probe/transport.py b/src/classic_probe/transport.py
+index e4be189..be90ff3 100644
+--- a/src/classic_probe/transport.py
++++ b/src/classic_probe/transport.py
+@@ -1,24 +1,41 @@
+ """How a request leaves the probe, if it ever does.
+ 
+ :class:`ReplayTransport` answers from saved responses and has no way to reach a network.
+-:class:`HttpTransport` is the only code that can reach Oxylabs, and it refuses to exist unless the build
+-enables live mode (gates.py). Importing this module opens nothing.
++:class:`IsolatedHttpTransport` is the only code that can reach Oxylabs. In this build it reaches only a
++loopback test stub: the documented endpoint is refused while live mode is disabled (gates.py), here and again
++in the worker. Importing this module opens nothing.
++
++1.7.0 corrections (the client's second review):
++
++- C1, redirects: nothing follows a redirect. The worker uses ``http.client``, which has no redirect handling,
++  and a 3xx answer comes back as the answer (the campaign then stops, checks.py). The credentials go only to
++  the documented scheme, host and port; a request naming any other URL is refused before a worker starts.
++- C2, cancellation and bounds: each exchange runs in a child process that the transport kills and reaps at the
++  request's deadline (a queue timeout and a daemon thread are not cancellation; a killed process is). The
++  body is bounded on success and error alike, decompression is bounded, and every socket wait is clamped to
++  the time left. A killed exchange may still have reached the provider: its reservation stays held as unknown.
+ """
+ 
+ from __future__ import annotations
+ 
+ import base64
+ import json
+-import queue
+-import threading
+-import urllib.error
+-import urllib.request
++import os
++import subprocess
++import sys
++import tempfile
++import time
++import urllib.parse
++import zlib
+ from collections.abc import Mapping, Sequence
+ from dataclasses import dataclass, field
++from pathlib import Path
+ from typing import Any, Protocol
+ 
+ from classic_probe import contract, gates
+ 
++REAP_TIMEOUT_S = 10.0
++
+ 
+ @dataclass(frozen=True)
+ class ProviderRequest:
+@@ -36,15 +53,33 @@ class ProviderResponse:
+     http_status: int
+     body: bytes
+     headers: Mapping[str, str] = field(default_factory=dict)
++    truncated: bool = False  # the body was cut at the byte limit: never a complete capture
++    redirect_location: str | None = None  # recorded, never followed (C1)
++    elapsed_s: float = 0.0
++
++
++@dataclass(frozen=True)
++class ResponseLimits:
++    max_body_bytes: int = 8_000_000
++    max_header_bytes: int = 64_000
++    max_decoded_bytes: int = 32_000_000
+ 
+ 
+ class Transport(Protocol):
+-    def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse: ...
++    def send(self, request: ProviderRequest, allowance_s: float) -> ProviderResponse: ...
+ 
+ 
+ class TransportFailed(RuntimeError):
+     """No HTTP answer. The request may have reached the provider: the remote outcome is unknown."""
+ 
++    def __init__(self, message: str, *, sent: bool | None = None) -> None:
++        super().__init__(message)
++        self.sent = sent  # False only when the worker proves it never sent the request
++
++
++class BodyTooLarge(ValueError):
++    """A body (or its decoding) is above its limit: it is evidence of a truncation, never parsed whole."""
++
+ 
+ class ReplayTransport:
+     """Saved responses, by step, in order. A step with nothing left is an error, never a request."""
+@@ -53,60 +88,156 @@ class ReplayTransport:
+         self.responses = {k: list(v) for k, v in responses.items()}
+         self.dispatched: list[ProviderRequest] = []
+ 
+-    def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
++    def send(self, request: ProviderRequest, allowance_s: float) -> ProviderResponse:
+         self.dispatched.append(request)
+         left = self.responses.get(request.step)
+         if not left:
+-            raise TransportFailed(f"the replay holds no response for {request.step}")
++            raise TransportFailed(f"the replay holds no response for {request.step}", sent=False)
+         return left.pop(0)
+ 
+ 
+-class HttpTransport:  # pragma: no cover - never constructed in this build (a test proves it refuses)
+-    """HTTP Basic authentication over the documented endpoint. No redirect to another host is followed with
+-    the credentials, and the credentials are never logged or stored."""
+-
+-    def __init__(self, credentials: gates.Credentials) -> None:
+-        if not gates.LIVE_ENABLED:
++def decode_body(response: ProviderResponse, limits: ResponseLimits) -> bytes:
++    """The body as bytes to parse, decompressed within ``max_decoded_bytes`` (a compression bomb is refused).
++    A truncated body is refused: half a response is never read as a whole one."""
++    if response.truncated:
++        raise BodyTooLarge("the body was truncated at the byte limit")
++    enc = {k.lower(): v for k, v in response.headers.items()}.get("content-encoding", "").strip().lower()
++    if enc in ("", "identity"):
++        return response.body
++    if enc not in ("gzip", "deflate"):
++        raise BodyTooLarge(f"unsupported content encoding {enc!r}")
++    d = zlib.decompressobj(zlib.MAX_WBITS | 32 if enc == "gzip" else zlib.MAX_WBITS)
++    out = d.decompress(response.body, limits.max_decoded_bytes + 1)
++    if len(out) > limits.max_decoded_bytes or d.unconsumed_tail:
++        raise BodyTooLarge(f"the decoded body is above {limits.max_decoded_bytes} bytes")
++    return out
++
++
++class IsolatedHttpTransport:
++    """HTTP Basic authentication over the documented endpoint, one supervised child process per exchange.
++
++    ``loopback_port`` points every request at ``http://127.0.0.1:<port>`` instead (offline tests of the live
++    path's mechanics); it is the only target this build allows."""
++
++    def __init__(
++        self,
++        credentials: gates.Credentials,
++        *,
++        work_dir: Path,
++        limits: ResponseLimits | None = None,
++        loopback_port: int | None = None,
++        python: str = sys.executable,
++    ) -> None:
++        if loopback_port is None and not gates.LIVE_ENABLED:
+             raise gates.LiveDisabled("live mode is disabled in this build")
+         token = f"{credentials.username}:{credentials.password}".encode()
+         self._authorization = "Basic " + base64.b64encode(token).decode("ascii")
+-
+-    def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
+-        http = urllib.request.Request(
+-            request.url,
+-            data=json.dumps(request.payload).encode("utf-8"),
+-            method="POST",
+-            headers={"Content-Type": "application/json", "Authorization": self._authorization},
++        self.work_dir = work_dir
++        self.limits = limits or ResponseLimits()
++        self.loopback_port = loopback_port
++        self.python = python
++        self.workers_started = 0
++        self.workers_killed = 0
++        self.last_pid: int | None = None
++        self.last_returncode: int | None = None
++
++    def preflight(self, request: ProviderRequest) -> None:
++        """Refuse, before anything is sent or marked sent, a request this transport would never send."""
++        self._target(request)
++
++    def _target(self, request: ProviderRequest) -> tuple[str, str, int, str]:
++        u = urllib.parse.urlsplit(request.url)
++        if (
++            u.scheme,
++            u.hostname,
++            u.port or 443,
++        ) != contract.ENDPOINT_PARTS or u.path != contract.ENDPOINT_PATH:
++            raise TransportFailed(f"refused: {request.url} is not the documented endpoint", sent=False)
++        path = u.path + (f"?{u.query}" if u.query else "")
++        if self.loopback_port is not None:
++            return "http", "127.0.0.1", self.loopback_port, path
++        return u.scheme, str(u.hostname), 443, path
++
++    def send(self, request: ProviderRequest, allowance_s: float) -> ProviderResponse:
++        if allowance_s <= 0:
++            raise TransportFailed("no time is left for this request", sent=False)
++        scheme, host, port, path = self._target(request)
++        self.work_dir.mkdir(parents=True, exist_ok=True)
++        fd, part = tempfile.mkstemp(prefix=f"{request.step}-", suffix=".part", dir=self.work_dir)
++        os.close(fd)
++        spec = {
++            "method": "POST",
++            "scheme": scheme,
++            "host": host,
++            "port": port,
++            "path": path,
++            "headers": {
++                "Content-Type": "application/json",
++                "Accept-Encoding": "identity",
++                "Authorization": self._authorization,
++            },
++            "body_b64": base64.b64encode(json.dumps(request.payload).encode("utf-8")).decode("ascii"),
++            "allowance_s": max(0.05, allowance_s - 0.25),  # the worker stops itself a little before its kill
++            "max_body_bytes": self.limits.max_body_bytes,
++            "max_header_bytes": self.limits.max_header_bytes,
++            "out_path": part,
++            "loopback_stub": self.loopback_port is not None,
++        }
++        t0 = time.monotonic()
++        proc = subprocess.Popen(
++            [self.python, "-I", "-m", "classic_probe.networker"],
++            stdin=subprocess.PIPE,
++            stdout=subprocess.PIPE,
++            stderr=subprocess.PIPE,
+         )
++        self.workers_started += 1
++        self.last_pid = proc.pid
+         try:
+-            with urllib.request.urlopen(http, timeout=timeout_s) as res:
+-                return ProviderResponse(res.status, res.read(), dict(res.headers.items()))
+-        except urllib.error.HTTPError as exc:
+-            return ProviderResponse(exc.code, exc.read(), dict(exc.headers.items()))
+-        except OSError as exc:
+-            # The message names no credential; the type and text are enough to report it.
+-            raise TransportFailed(f"{type(exc).__name__}: {exc}") from None
+-
+-
+-def bounded_send(transport: Transport, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
+-    """Send with a hard limit on the whole exchange. On expiry the caller gets :class:`TransportFailed` and
+-    stops waiting. That proves nothing about the provider: the request may still finish and be charged."""
+-    box: queue.Queue[tuple[bool, Any]] = queue.Queue(maxsize=1)
+-
+-    def work() -> None:
++            out, _err = proc.communicate(json.dumps(spec).encode("utf-8"), timeout=allowance_s)
++        except subprocess.TimeoutExpired:
++            proc.kill()
++            self.workers_killed += 1
++            try:
++                proc.communicate(timeout=REAP_TIMEOUT_S)
++            except subprocess.TimeoutExpired:  # pragma: no cover - a killed process that cannot be reaped
++                pass
++            _unlink(part)
++            raise TransportFailed(
++                f"no answer within {allowance_s:.1f} s: the worker was killed and reaped (the provider may "
++                "still run and charge the request)",
++                sent=None,
++            ) from None
++        finally:
++            if proc.poll() is None:  # pragma: no cover - communicate returned, so the worker has exited
++                proc.kill()
++                proc.wait(REAP_TIMEOUT_S)
++            self.last_returncode = proc.returncode
+         try:
+-            box.put((True, transport.send(request, timeout_s)))
+-        except Exception as exc:  # noqa: BLE001 - carried to the caller, which stops the campaign
+-            box.put((False, exc))
++            status = json.loads(out.decode("utf-8").strip().splitlines()[-1])
++        except (ValueError, IndexError):
++            _unlink(part)
++            raise TransportFailed("the worker gave no readable status", sent=None) from None
++        if not status.get("ok"):
++            _unlink(part)
++            sent = status.get("sent")
++            raise TransportFailed(
++                f"{status.get('error')}: {status.get('detail', '')}".strip(": "),
++                sent=False if sent is False else None,
++            )
++        data = Path(part).read_bytes()[: self.limits.max_body_bytes]
++        _unlink(part)
++        return ProviderResponse(
++            int(status["status"]),
++            data,
++            {str(k): str(v) for k, v in status.get("headers") or []},
++            truncated=bool(status.get("truncated")),
++            redirect_location=status.get("redirect_location"),
++            elapsed_s=round(time.monotonic() - t0, 3),
++        )
++
+ 
+-    threading.Thread(target=work, daemon=True, name="classic-probe-request").start()
++def _unlink(path: str) -> None:
+     try:
+-        ok, value = box.get(timeout=timeout_s)
+-    except queue.Empty:
+-        raise TransportFailed(f"no answer within {timeout_s} s") from None
+-    if ok:
+-        response: ProviderResponse = value
+-        return response
+-    if isinstance(value, TransportFailed):
+-        raise value
+-    raise TransportFailed(f"{type(value).__name__}: {value}") from None
++        os.unlink(path)
++    except OSError:
++        pass
+diff --git a/tests/loopback_stub.py b/tests/loopback_stub.py
+new file mode 100644
+index 0000000..4f3054c
+--- /dev/null
++++ b/tests/loopback_stub.py
+@@ -0,0 +1,190 @@
++"""A scripted HTTP stub on 127.0.0.1 for the loopback tests of the live path's mechanics (1.7.0).
++
++OFFLINE: the stub listens on the loopback interface only, and the request worker it talks to refuses every
++other target while live mode is disabled. The test process itself never connects (tests/conftest.py still
++refuses it): only the isolated worker, a child process, does.
++"""
++
++from __future__ import annotations
++
++import gzip
++import socket
++import threading
++import time
++from collections.abc import Callable
++from dataclasses import dataclass, field
++
++Behaviour = Callable[["Connection"], None]
++
++
++@dataclass
++class Connection:
++    sock: socket.socket
++    head: bytes = b""
++    body: bytes = b""
++    opened_at: float = 0.0
++    closed_at: float | None = None
++    stop: threading.Event = field(default_factory=threading.Event)
++
++    def send(self, data: bytes) -> bool:
++        try:
++            self.sock.sendall(data)
++            return True
++        except OSError:
++            self.closed_at = self.closed_at or time.monotonic()
++            return False
++
++    def wait_closed(self, limit_s: float = 60.0) -> None:
++        """Hold the connection open until the client closes it (or the stub stops)."""
++        self.sock.settimeout(0.05)
++        end = time.monotonic() + limit_s
++        while time.monotonic() < end and not self.stop.is_set():
++            try:
++                if self.sock.recv(4096) == b"":
++                    break
++            except TimeoutError:
++                continue
++            except OSError:
++                break
++        self.closed_at = self.closed_at or time.monotonic()
++
++
++def _read_request(sock: socket.socket) -> tuple[bytes, bytes]:
++    sock.settimeout(10.0)
++    data = b""
++    while b"\r\n\r\n" not in data and len(data) < 1_000_000:
++        chunk = sock.recv(65536)
++        if not chunk:
++            break
++        data += chunk
++    head, _, rest = data.partition(b"\r\n\r\n")
++    length = 0
++    for line in head.split(b"\r\n")[1:]:
++        name, _, value = line.partition(b":")
++        if name.strip().lower() == b"content-length":
++            length = int(value.strip())
++    while len(rest) < length:
++        chunk = sock.recv(65536)
++        if not chunk:
++            break
++        rest += chunk
++    return head, rest
++
++
++class Stub:
++    """Answers each connection with the next behaviour (the last one repeats)."""
++
++    def __init__(self, *behaviours: Behaviour) -> None:
++        assert behaviours
++        self.behaviours = list(behaviours)
++        self.connections: list[Connection] = []
++        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
++        self._sock.bind(("127.0.0.1", 0))
++        self._sock.listen(16)
++        self._sock.settimeout(0.05)
++        self.port = int(self._sock.getsockname()[1])
++        self._stop = threading.Event()
++        self._threads: list[threading.Thread] = []
++        self._accept = threading.Thread(target=self._serve, daemon=True)
++
++    def __enter__(self) -> Stub:
++        self._accept.start()
++        return self
++
++    def __exit__(self, *_exc: object) -> None:
++        self._stop.set()
++        for c in self.connections:
++            c.stop.set()
++        self._accept.join(5)
++        for t in self._threads:
++            t.join(5)
++        self._sock.close()
++
++    def _serve(self) -> None:
++        n = 0
++        while not self._stop.is_set():
++            try:
++                sock, _ = self._sock.accept()
++            except TimeoutError:
++                continue
++            except OSError:
++                return
++            behaviour = self.behaviours[min(n, len(self.behaviours) - 1)]
++            n += 1
++            conn = Connection(sock, opened_at=time.monotonic())
++            self.connections.append(conn)
++            t = threading.Thread(target=self._handle, args=(conn, behaviour), daemon=True)
++            self._threads.append(t)
++            t.start()
++
++    def _handle(self, conn: Connection, behaviour: Behaviour) -> None:
++        try:
++            conn.head, conn.body = _read_request(conn.sock)
++            behaviour(conn)
++        except OSError:
++            pass
++        finally:
++            conn.closed_at = conn.closed_at or time.monotonic()
++            try:
++                conn.sock.close()
++            except OSError:
++                pass
++
++    def authorizations(self) -> list[str]:
++        """How many times the Authorization header arrived (its value is never shown)."""
++        out = []
++        for c in self.connections:
++            for line in c.head.split(b"\r\n")[1:]:
++                if line.lower().startswith(b"authorization:"):
++                    out.append("present")
++        return out
++
++
++def respond(status: int, body: bytes = b"{}", headers: dict[str, str] | None = None) -> Behaviour:
++    def run(conn: Connection) -> None:
++        lines = [f"HTTP/1.1 {status} Stub", f"Content-Length: {len(body)}", "Connection: close"]
++        lines += [f"{k}: {v}" for k, v in (headers or {}).items()]
++        conn.send(("\r\n".join(lines) + "\r\n\r\n").encode("latin-1") + body)
++
++    return run
++
++
++def redirect(status: int, location: str) -> Behaviour:
++    return respond(status, b"", {"Location": location})
++
++
++def hang(conn: Connection) -> None:
++    """Read the request and never answer."""
++    conn.wait_closed()
++
++
++def drip(total: int, every_s: float) -> Behaviour:
++    """A body announced whole and sent one byte at a time."""
++
++    def run(conn: Connection) -> None:
++        if not conn.send(f"HTTP/1.1 200 OK\r\nContent-Length: {total}\r\nConnection: close\r\n\r\n".encode()):
++            return
++        for _ in range(total):
++            if conn.stop.is_set() or not conn.send(b"{"):
++                return
++            time.sleep(every_s)
++
++    return run
++
++
++def endless(status: int = 200) -> Behaviour:
++    """A body without a length that never ends (until the client goes away)."""
++
++    def run(conn: Connection) -> None:
++        if not conn.send(f"HTTP/1.1 {status} Stub\r\nConnection: close\r\n\r\n".encode()):
++            return
++        block = b"x" * 65536
++        while not conn.stop.is_set() and conn.send(block):
++            pass
++
++    return run
++
++
++def gzip_bomb(decoded_bytes: int) -> Behaviour:
++    data = gzip.compress(b"\0" * decoded_bytes, compresslevel=9)
++    return respond(200, data, {"Content-Encoding": "gzip", "Content-Type": "application/json"})
+diff --git a/tests/session_drill.py b/tests/session_drill.py
+new file mode 100644
+index 0000000..d4e4587
+--- /dev/null
++++ b/tests/session_drill.py
+@@ -0,0 +1,71 @@
++"""A campaign session in its own process, for the supervisor and crash tests (OFFLINE).
++
++    python -m tests.session_drill <manifest> <out> <mode> [<port>]
++
++``loopback``: the isolated worker against a stub on 127.0.0.1:<port>, with a 20 s request allowance.
++``crash-after-reserve`` | ``crash-after-send`` | ``crash-after-capture-file`` | ``crash-after-index``: a
++replay of saved answers whose process dies at that point, as a killed process would (exit 23, no cleanup).
++"""
++
++from __future__ import annotations
++
++import json
++import os
++import sys
++from pathlib import Path
++from typing import Any
++
++from classic_probe import campaign, captures, checks, gates, ledger, money
++from classic_probe.targets import Target
++from classic_probe.transport import IsolatedHttpTransport, ProviderResponse, ReplayTransport, Transport
++from tests import fixture_builder as fb
++from tests.conftest import SYNTHETIC_RATES
++
++WALMART = Target(
++    retailer="walmart",
++    store_id="3891",
++    store_address="3900 Fountain Square Pl, Waukegan, IL 60085",
++    fulfillment="PICKUP",
++    store_id_verified=True,
++    store_id_evidence="test",
++    adapter="walmart",
++    search_query="milk",
++    category_probe_url="https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
++)
++
++
++def die(*_a: Any, **_k: Any) -> Any:
++    os._exit(23)
++
++
++def main() -> None:
++    manifest, out, mode = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3]
++    led = ledger.open_from_manifest(manifest)
++    card = money.RateCard.load(SYNTHETIC_RATES)
++    tr: Transport
++    if mode == "loopback":
++        tr = IsolatedHttpTransport(
++            gates.Credentials("loopback-user", "loopback-password"),
++            work_dir=out / "work",
++            loopback_port=int(sys.argv[4]),
++        )
++        timeout = 20.0
++    else:
++        tr = ReplayTransport({k: [ProviderResponse(s, b) for s, b in v] for k, v in fb.complete().items()})
++        timeout = 60.0
++        if mode == "crash-after-reserve":
++            led.mark_sent = die  # type: ignore[method-assign]
++        elif mode == "crash-after-send":
++            captures.CaptureStore.persist = die  # type: ignore[method-assign]
++        elif mode == "crash-after-capture-file":
++            led.record_capture = die  # type: ignore[method-assign]
++        elif mode == "crash-after-index":
++            checks.provider = die
++        else:
++            raise SystemExit(f"unknown mode {mode}")
++    result = campaign.Campaign(led, tr, WALMART, card, out_dir=out, request_timeout_s=timeout).run()
++    print(json.dumps(result.as_dict()))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tests/test_campaign.py b/tests/test_campaign.py
+index 5484f86..63a6f51 100644
+--- a/tests/test_campaign.py
++++ b/tests/test_campaign.py
+@@ -318,16 +318,25 @@ def test_a_retry_that_would_end_after_the_deadline_is_not_sent(
+ def test_a_request_still_open_at_its_deadline_keeps_its_reservation_and_its_outcome_stays_unknown(
+     make_ledger: Any, tmp_path: Path, card: money.RateCard
+ ) -> None:
+-    class Hanging(ReplayTransport):
+-        def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
+-            time.sleep(2.0)
+-            return super().send(request, timeout_s)
++    # 1.7.0 (C2): the request goes through the isolated worker to a loopback stub that never answers, and
++    # the worker is killed at the request's deadline. An in-process transport is no longer bounded by a
++    # thread: only a process that can be killed is.
++    from classic_probe import gates
++    from classic_probe.transport import IsolatedHttpTransport
++    from tests import loopback_stub
+ 
+     led = make_ledger()
+-    tr = Hanging({})
+-    started = time.monotonic()
+-    result = campaign.Campaign(led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=0.3).run()
+-    assert time.monotonic() - started < 1.9  # the wait was bounded, not the request's own time
++    with loopback_stub.Stub(loopback_stub.hang) as stub:
++        tr = IsolatedHttpTransport(
++            gates.Credentials("loopback-user", "loopback-password"),
++            work_dir=tmp_path / "work",
++            loopback_port=stub.port,
++        )
++        started = time.monotonic()
++        result = campaign.Campaign(
++            led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=0.3
++        ).run()
++        assert time.monotonic() - started < 1.9  # the wait was bounded, not the request's own time
+     assert result.stop == Stop.IN_FLIGHT_UNKNOWN.value
+     [row] = led.rows()
+     assert row["state"] == ledger.IN_FLIGHT_UNKNOWN and row["billing"] == ledger.UNKNOWN
+@@ -439,3 +448,147 @@ def test_the_replay_command_runs_the_steps_from_saved_files(
+     )
+     body = json.loads(capsys.readouterr().out)
+     assert code == 0 and body["OFFLINE REPLAY"] is True and body["dispatched"] == 4 and body["stop"] is None
++
++
++# -- 1.7.0 (the client's second review: C3, C4, C5) -------------------------------------------------------
++
++
++def replay(steps: dict[str, list[tuple[int, bytes]]]) -> ReplayTransport:
++    return ReplayTransport({k: [ProviderResponse(s, b) for s, b in v] for k, v in steps.items()})
++
++
++def test_a_backoff_is_a_real_wait_by_default(make_ledger: Any, tmp_path: Path, card: money.RateCard) -> None:
++    run_ = campaign.Campaign(make_ledger(), ReplayTransport({}), WALMART, card, out_dir=tmp_path / "out")
++    assert run_.sleep is time.sleep  # no silent no-op: an injected sleep is a test's own choice
++    steps = fb.complete()
++    steps["walmart-search-p1"] = [(429, b"{}"), *steps["walmart-search-p1"]]
++    t0 = time.monotonic()
++    result = campaign.Campaign(
++        make_ledger("real.sqlite3"), replay(steps), WALMART, card, out_dir=tmp_path / "o2"
++    ).run()
++    assert result.stop is None and time.monotonic() - t0 >= 1.9  # the documented 2 s for HTTP 429
++
++
++def test_retry_after_is_honoured_and_a_longer_wait_ends_the_step(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard
++) -> None:
++    steps = fb.complete()
++    waits: list[float] = []
++    responses = {k: [ProviderResponse(s, b) for s, b in v] for k, v in steps.items()}
++    responses["walmart-search-p1"].insert(0, ProviderResponse(429, b"{}", {"Retry-After": "7"}))
++    result = campaign.Campaign(
++        make_ledger(), ReplayTransport(responses), WALMART, card, out_dir=tmp_path / "a", sleep=waits.append
++    ).run()
++    assert result.stop is None and waits == [7.0]  # more than the documented 2 s, as the provider asked
++    status, body = steps["walmart-search-p1"][0]
++    tr = ReplayTransport(
++        {
++            "walmart-search-p1": [
++                ProviderResponse(429, b"{}", {"Retry-After": "600"}),
++                ProviderResponse(status, body),
++            ]
++        }
++    )
++    result = campaign.Campaign(
++        make_ledger("long.sqlite3"), tr, WALMART, card, out_dir=tmp_path / "b", sleep=waits.append
++    ).run()
++    assert result.stop == Stop.RETRIES_EXHAUSTED.value and "600 s" in result.detail
++    assert len(tr.dispatched) == 1 and waits == [7.0]  # nothing waited, nothing more sent
++
++
++def test_retry_after_past_the_deadline_is_not_waited_for(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard, clock: FakeClock
++) -> None:
++    class Late(ReplayTransport):
++        def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
++            clock.advance(30 * 60 - 180 - 40)  # 40 s before the reserve when the answer comes
++            return super().send(request, timeout_s)
++
++    waits: list[float] = []
++    tr = Late({"walmart-search-p1": [ProviderResponse(429, b"{}", {"Retry-After": "45"})]})
++    result = campaign.Campaign(
++        make_ledger(), tr, WALMART, card, out_dir=tmp_path / "out", sleep=waits.append
++    ).run()
++    assert result.stop == Stop.DEADLINE.value and waits == [] and len(tr.dispatched) == 1
++
++
++def test_each_answer_is_kept_and_indexed_before_the_next_paid_step(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard
++) -> None:
++    led = make_ledger()
++    out = tmp_path / "out"
++    seen: list[tuple[str, list[int], list[str]]] = []
++
++    class Watching(ReplayTransport):
++        def send(self, request: ProviderRequest, timeout_s: float) -> ProviderResponse:
++            files = sorted(p.name for p in out.glob("*.json.gz"))
++            seen.append((request.step, [c["seq"] for c in led.captures()], files))
++            return super().send(request, timeout_s)
++
++    steps = fb.complete()
++    tr = Watching({k: [ProviderResponse(s, b) for s, b in v] for k, v in steps.items()})
++    result = campaign.Campaign(led, tr, WALMART, card, out_dir=out).run()
++    assert result.stop is None
++    assert [(step, idx) for step, idx, _ in seen] == [
++        ("walmart-search-p1", []),
++        ("walmart-search-p2", [1]),
++        ("walmart-product", [1, 2]),
++        ("walmart-category-url", [1, 2, 3]),
++    ]
++    assert seen[-1][2] == ["response_001.json.gz", "response_002.json.gz", "response_003.json.gz"]
++    evidence = json.loads((out / "campaign_evidence.json").read_text("utf-8"))
++    assert evidence["complete"] is True and [r["verified"] for r in evidence["responses"]] == [True] * 4
++    assert all(len(r["original_sha256"]) == 64 and len(r["kept_sha256"]) == 64 for r in evidence["responses"])
++
++
++def test_an_answer_that_cannot_be_kept_stops_the_campaign_before_another_request(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    from classic_probe import captures
++
++    def full(*_a: Any, **_k: Any) -> None:
++        raise OSError("disk full (test)")
++
++    monkeypatch.setattr(captures, "atomic_write", full)
++    led = make_ledger()
++    tr = replay(fb.complete())
++    result = campaign.Campaign(led, tr, WALMART, card, out_dir=tmp_path / "out").run()
++    assert result.stop == Stop.EVIDENCE.value and len(tr.dispatched) == 1
++    [row] = led.rows()
++    assert row["state"] == ledger.ANSWERED and row["reserved_usd"] == "0.0040" and led.captures() == []
++
++
++def test_the_export_says_when_a_capture_was_not_checked_in_time(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard, clock: FakeClock, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    led = make_ledger()
++    run_ = campaign.Campaign(led, replay(fb.complete()), WALMART, card, out_dir=tmp_path / "out")
++    real_export = run_._export
++
++    def late_export() -> None:
++        clock.advance(30 * 60 - 2)  # the export starts 2 s before the session ends
++        real_export()
++
++    monkeypatch.setattr(run_, "_export", late_export)
++    result = run_.run()
++    evidence = json.loads((tmp_path / "out" / "campaign_evidence.json").read_text("utf-8"))
++    assert result.stop is None and evidence["complete"] is False
++    assert {r["verified"] for r in evidence["responses"]} == {None}  # unverified, never "good"
++    assert len(evidence["dispatches"]) == 4  # the manifest is still written, from the durable index
++
++
++def test_a_refused_target_is_never_marked_sent(
++    make_ledger: Any, tmp_path: Path, card: money.RateCard
++) -> None:
++    from classic_probe.transport import TransportFailed
++
++    class Refusing(ReplayTransport):
++        def preflight(self, request: ProviderRequest) -> None:
++            raise TransportFailed("refused: not the documented endpoint (test)", sent=False)
++
++    led = make_ledger()
++    tr = Refusing({k: [ProviderResponse(s, b) for s, b in v] for k, v in fb.complete().items()})
++    result = campaign.Campaign(led, tr, WALMART, card, out_dir=tmp_path / "out").run()
++    assert result.stop == Stop.OPERATOR.value and tr.dispatched == []
++    [row] = led.rows()
++    assert row["state"] == ledger.NOT_SENT and led.totals().committed_usd == Decimal(0)
+diff --git a/tests/test_deadline.py b/tests/test_deadline.py
+new file mode 100644
+index 0000000..eb4fcd9
+--- /dev/null
++++ b/tests/test_deadline.py
+@@ -0,0 +1,94 @@
++"""The session clock and Retry-After (1.7.0, findings C3 and C5). OFFLINE."""
++
++from __future__ import annotations
++
++from datetime import UTC, datetime, timedelta
++
++import pytest
++
++from classic_probe.deadline import DeadlinePassed, SessionClock, parse_retry_after
++from tests.conftest import FakeClock
++
++
++class Mono:
++    def __init__(self) -> None:
++        self.t = 1000.0
++
++    def __call__(self) -> float:
++        return self.t
++
++
++def make(
++    wall: FakeClock, mono: Mono, minutes: float = 10, reserve_s: float = 60
++) -> tuple[SessionClock, list[float]]:
++    slept: list[float] = []
++
++    def sleeper(s: float) -> None:
++        slept.append(s)
++        mono.t += s
++        wall.advance(s)
++
++    clock = SessionClock(
++        wall() + timedelta(minutes=minutes),
++        export_reserve_s=reserve_s,
++        wall=wall,
++        monotonic=mono,
++        sleeper=sleeper,
++    )
++    return clock, slept
++
++
++def test_a_wall_clock_jump_backwards_never_extends_the_session(clock: FakeClock) -> None:
++    mono = Mono()
++    session, _ = make(clock, mono)
++    mono.t += 300  # five minutes really pass ...
++    clock.advance(-3600)  # ... while the wall clock is set back an hour
++    assert session.remaining() == pytest.approx(300)  # the monotonic reading bounds it
++    assert session.dispatch_remaining() == pytest.approx(240)
++
++
++def test_a_wall_clock_jump_forwards_ends_the_session_early(clock: FakeClock) -> None:
++    mono = Mono()
++    session, _ = make(clock, mono)
++    clock.advance(570)  # the wall clock says the end is 30 s away
++    assert session.remaining() == pytest.approx(30)
++    with pytest.raises(DeadlinePassed):
++        session.allowance(120)  # 30 s left is inside the 60 s kept for export and cleanup
++
++
++def test_an_allowance_is_clamped_to_the_time_before_the_reserve(clock: FakeClock) -> None:
++    mono = Mono()
++    session, _ = make(clock, mono)
++    assert session.allowance(120) == 120
++    mono.t += 480
++    clock.advance(480)
++    assert session.allowance(120) == pytest.approx(60)
++
++
++def test_a_backoff_really_waits_and_never_past_the_deadline(clock: FakeClock) -> None:
++    mono = Mono()
++    session, slept = make(clock, mono)
++    assert session.sleep(5, then_needs_s=1) is True and slept == [5]
++    mono.t += 525
++    clock.advance(525)  # 10 s left before the reserve
++    assert session.sleep(9.5, then_needs_s=1) is False and slept == [5]  # not slept at all
++    assert session.sleep(-3) is True and slept == [5, 0.0]
++
++
++def test_the_default_sleeper_is_the_real_one() -> None:
++    import time
++
++    session = SessionClock(datetime.now(UTC) + timedelta(minutes=5), export_reserve_s=10)
++    assert session.sleeper is time.sleep
++    t0 = time.monotonic()
++    assert session.sleep(0.3) is True
++    assert time.monotonic() - t0 >= 0.29
++
++
++def test_retry_after_is_read_in_both_documented_forms() -> None:
++    now = datetime(2026, 11, 3, 12, 0, tzinfo=UTC)
++    assert parse_retry_after("7", now) == 7.0
++    assert parse_retry_after("Tue, 03 Nov 2026 12:00:30 GMT", now) == 30.0
++    assert parse_retry_after("Tue, 03 Nov 2026 11:59:00 GMT", now) == 0.0  # already past
++    for bad in (None, "", "soon", "-5", "1.5e9x"):
++        assert parse_retry_after(bad, now) is None
+diff --git a/tests/test_gates.py b/tests/test_gates.py
+index cc87896..dc498b6 100644
+--- a/tests/test_gates.py
++++ b/tests/test_gates.py
+@@ -77,10 +77,13 @@ def test_an_offline_ledger_never_authorizes_a_request(make_ledger: Any) -> None:
+     assert any("offline test ledger" in m for m in _evaluate(led))
+ 
+ 
+-def test_this_build_cannot_construct_its_http_transport() -> None:
++def test_this_build_cannot_construct_its_http_transport(tmp_path: Path) -> None:
+     assert gates.LIVE_ENABLED is False
+-    with pytest.raises(gates.LiveDisabled):
+-        transport.HttpTransport(gates.Credentials("placeholder-user", "placeholder-password"))
++    with pytest.raises(gates.LiveDisabled):  # 1.7.0: the isolated transport, without a loopback stub
++        transport.IsolatedHttpTransport(
++            gates.Credentials("placeholder-user", "placeholder-password"), work_dir=tmp_path
++        )
++    assert not hasattr(transport, "HttpTransport") and not hasattr(transport, "bounded_send")
+     assert "placeholder" not in repr(gates.Credentials("placeholder-user", "placeholder-password"))
+ 
+ 
+diff --git a/tests/test_isolated_transport.py b/tests/test_isolated_transport.py
+new file mode 100644
+index 0000000..902cded
+--- /dev/null
++++ b/tests/test_isolated_transport.py
+@@ -0,0 +1,223 @@
++"""The isolated request worker (1.7.0, findings C1 and C2), against a scripted stub on 127.0.0.1.
++
++OFFLINE: only the worker, a child process, connects, and only to the loopback stub this test runs. The test
++process keeps its network closed (tests/conftest.py).
++"""
++
++from __future__ import annotations
++
++import gzip
++import json
++import subprocess
++import sys
++import time
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import campaign, contract, gates, ledger, money, networker, transport
++from classic_probe.stops import Stop
++from classic_probe.transport import (
++    BodyTooLarge,
++    IsolatedHttpTransport,
++    ProviderRequest,
++    ProviderResponse,
++    ResponseLimits,
++    TransportFailed,
++    decode_body,
++)
++from tests import loopback_stub as stub
++from tests.test_campaign import WALMART
++
++CREDS = gates.Credentials("loopback-user", "loopback-password")
++REQUEST = ProviderRequest(
++    "walmart-search-p1", {"source": "walmart_search", "query": "milk"}, "type=raw,parsed"
++)
++GOOD = json.dumps({"results": [{"status_code": 200, "content": {}}]}).encode()
++
++
++def isolated(tmp_path: Path, port: int, **kw: Any) -> IsolatedHttpTransport:
++    return IsolatedHttpTransport(CREDS, work_dir=tmp_path / "work", loopback_port=port, **kw)
++
++
++def test_an_answer_comes_back_whole_without_its_cookies(tmp_path: Path) -> None:
++    with stub.Stub(stub.respond(200, GOOD, {"Set-Cookie": "sid=abc", "X-Thing": "1"})) as s:
++        tr = isolated(tmp_path, s.port)
++        r = tr.send(REQUEST, 20.0)
++    assert (r.http_status, r.body, r.truncated) == (200, GOOD, False)
++    assert {k.lower() for k in r.headers} >= {"x-thing"} and "set-cookie" not in {
++        k.lower() for k in r.headers
++    }
++    assert tr.workers_started == 1 and tr.workers_killed == 0 and tr.last_returncode == 0
++    assert s.authorizations() == ["present"]
++    assert list((tmp_path / "work").glob("*.part")) == []  # the worker's file is removed once read
++
++
++@pytest.mark.parametrize("status", [301, 302, 303, 307, 308])
++@pytest.mark.parametrize(
++    "location",
++    [
++        "https://realtime.oxylabs.io/v1/queries?again=1",  # the same host
++        "https://elsewhere.example/collect",  # another host
++        "http://realtime.oxylabs.io/v1/queries",  # a downgrade to plain HTTP
++        "/v1/queries",  # a relative location (a loop back to itself)
++    ],
++)
++def test_a_redirect_is_reported_and_never_followed(tmp_path: Path, status: int, location: str) -> None:
++    with stub.Stub(stub.redirect(status, location)) as s:
++        r = isolated(tmp_path, s.port).send(REQUEST, 20.0)
++        time.sleep(0.2)
++        connections = len(s.connections)
++    assert r.http_status == status and r.redirect_location == location
++    assert connections == 1 and s.authorizations() == ["present"]  # one request: the credentials went once
++
++
++def test_a_redirect_chain_stops_the_campaign_after_one_request(
++    tmp_path: Path, make_ledger: Any, card: money.RateCard
++) -> None:
++    hops = [stub.redirect(302, f"https://hop{i}.example/next") for i in range(5)]
++    with stub.Stub(*hops) as s:
++        led = make_ledger()
++        result = campaign.Campaign(
++            led, isolated(tmp_path, s.port), WALMART, card, out_dir=tmp_path / "out", request_timeout_s=20
++        ).run()
++        connections = len(s.connections)
++    assert result.stop == Stop.UNSUPPORTED_RESPONSE.value and "never followed" in result.detail
++    assert connections == 1
++    [row] = led.rows()
++    assert (
++        row["provider_status"] == 302 and row["billing"] == ledger.UNKNOWN and row["reserved_usd"] == "0.0040"
++    )
++
++
++def test_a_server_that_never_answers_is_killed_and_reaped_at_the_deadline(tmp_path: Path) -> None:
++    with stub.Stub(stub.hang) as s:
++        tr = isolated(tmp_path, s.port)
++        t0 = time.monotonic()
++        with pytest.raises(TransportFailed) as exc:
++            tr.send(REQUEST, 1.5)
++        took = time.monotonic() - t0
++    assert took < 4.0 and exc.value.sent is None  # bounded by the allowance; the outcome is unknown
++    assert tr.last_returncode is not None  # the worker has exited and was reaped
++
++
++def test_a_body_dripped_past_the_deadline_is_cut_off(tmp_path: Path) -> None:
++    with stub.Stub(stub.drip(10_000, 0.05)) as s:
++        tr = isolated(tmp_path, s.port)
++        t0 = time.monotonic()
++        with pytest.raises(TransportFailed) as exc:
++            tr.send(REQUEST, 1.5)
++    # Each byte comes within the socket's timeout, so only the kill bounds this exchange.
++    assert time.monotonic() - t0 < 4.0 and exc.value.sent is None
++    assert tr.workers_killed == 1 and tr.last_returncode is not None  # killed, then reaped
++
++
++@pytest.mark.parametrize("status", [200, 500])
++def test_a_body_above_its_limit_is_truncated_on_success_and_error_alike(tmp_path: Path, status: int) -> None:
++    limits = ResponseLimits(max_body_bytes=100_000)
++    with stub.Stub(stub.endless(status)) as s:
++        r = isolated(tmp_path, s.port, limits=limits).send(REQUEST, 20.0)
++    assert r.http_status == status and r.truncated is True and len(r.body) == 100_000
++    with pytest.raises(BodyTooLarge):
++        decode_body(r, limits)
++
++
++def test_a_truncated_answer_stops_the_campaign_and_is_never_read(
++    tmp_path: Path, make_ledger: Any, card: money.RateCard
++) -> None:
++    with stub.Stub(stub.endless(200)) as s:
++        tr = isolated(tmp_path, s.port, limits=ResponseLimits(max_body_bytes=50_000))
++        led = make_ledger()
++        result = campaign.Campaign(
++            led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=20
++        ).run()
++    assert result.stop == Stop.UNSUPPORTED_RESPONSE.value and "not read whole" in result.detail
++    [cap] = led.captures()
++    assert cap["truncated"] == 1 and cap["body_bytes"] == 50_000
++
++
++def test_a_compression_bomb_is_refused_within_its_decoded_limit(tmp_path: Path) -> None:
++    limits = ResponseLimits(max_body_bytes=8_000_000, max_decoded_bytes=1_000_000)
++    with stub.Stub(stub.gzip_bomb(50_000_000)) as s:
++        r = isolated(tmp_path, s.port, limits=limits).send(REQUEST, 20.0)
++    assert len(r.body) < 200_000  # what came over the wire is small
++    with pytest.raises(BodyTooLarge):
++        decode_body(r, limits)
++    small = ProviderResponse(200, gzip.compress(GOOD), {"Content-Encoding": "gzip"})
++    assert decode_body(small, limits) == GOOD
++
++
++def request_to(url: str) -> ProviderRequest:
++    class Elsewhere(ProviderRequest):
++        @property
++        def url(self) -> str:
++            return url
++
++    return Elsewhere("x", {"url": "u"})
++
++
++@pytest.mark.parametrize(
++    "url",
++    [
++        "https://realtime.oxylabs.io.evil.example/v1/queries",
++        "http://realtime.oxylabs.io/v1/queries",
++        "https://realtime.oxylabs.io:8443/v1/queries",
++        "https://realtime.oxylabs.io/v1/other",
++        "https://user@elsewhere.example/v1/queries",
++    ],
++)
++def test_a_request_for_any_other_url_is_refused_before_a_worker_starts(tmp_path: Path, url: str) -> None:
++    tr = isolated(tmp_path, 9)  # nothing listens there, and nothing is started
++    with pytest.raises(TransportFailed) as exc:
++        tr.preflight(request_to(url))
++    assert exc.value.sent is False
++    with pytest.raises(TransportFailed):
++        tr.send(request_to(url), 5.0)
++    assert tr.workers_started == 0
++
++
++def test_without_a_loopback_stub_this_build_refuses_to_build_the_transport(tmp_path: Path) -> None:
++    assert gates.LIVE_ENABLED is False
++    with pytest.raises(gates.LiveDisabled):
++        IsolatedHttpTransport(CREDS, work_dir=tmp_path)
++
++
++def test_the_worker_itself_refuses_the_real_endpoint_and_any_other_target(tmp_path: Path) -> None:
++    base = {
++        "method": "POST",
++        "path": contract.ENDPOINT_PATH,
++        "headers": {},
++        "body_b64": "",
++        "allowance_s": 5,
++        "max_body_bytes": 10,
++        "max_header_bytes": 10,
++        "out_path": str(tmp_path / "x.part"),
++    }
++    refused = [
++        {"scheme": "https", "host": "realtime.oxylabs.io", "port": 443},  # live mode is disabled
++        {"scheme": "https", "host": "elsewhere.example", "port": 443},
++        {"scheme": "http", "host": "10.0.0.1", "port": 80, "loopback_stub": True},  # not the loopback
++        {"scheme": "https", "host": "127.0.0.1", "port": 443, "loopback_stub": True},
++    ]
++    for target in refused:
++        out = networker.exchange({**base, **target})
++        assert out["ok"] is False and out["error"] == "Refused" and out["sent"] is False, target
++
++
++def test_the_credentials_never_appear_in_the_workers_arguments_or_environment(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    seen: dict[str, Any] = {}
++    real = subprocess.Popen
++
++    def spy(args: Any, **kw: Any) -> Any:
++        seen["args"], seen["env"] = list(args), kw.get("env")
++        return real(args, **kw)
++
++    monkeypatch.setattr(transport.subprocess, "Popen", spy)
++    with stub.Stub(stub.respond(200, GOOD)) as s:
++        isolated(tmp_path, s.port).send(REQUEST, 20.0)
++    assert seen["args"] == [sys.executable, "-I", "-m", "classic_probe.networker"]
++    assert seen["env"] is None  # the environment is inherited untouched: nothing is added to it
++    assert "loopback-password" not in " ".join(seen["args"])
+diff --git a/tests/test_ledger.py b/tests/test_ledger.py
+index 8e88405..acf3e78 100644
+--- a/tests/test_ledger.py
++++ b/tests/test_ledger.py
+@@ -5,6 +5,7 @@ from __future__ import annotations
+ import sqlite3
+ import subprocess
+ import sys
++import time
+ from decimal import Decimal
+ from pathlib import Path
+ from typing import Any
+@@ -262,3 +263,173 @@ def test_the_proposed_ceilings_cannot_be_raised() -> None:
+         ledger.Limits(campaign_minutes=31)
+     with pytest.raises(ValueError):
+         ledger.Limits(total_usd=Decimal("5.01"))
++
++
++# -- 1.7.0 (the client's second review, finding C3 and the capture index of C4) ---------------------------
++
++
++def test_the_time_is_read_only_while_the_write_lock_is_held(tmp_path: Path, clock: FakeClock) -> None:
++    reads: list[bool] = []
++    holder: dict[str, ledger.Ledger] = {}
++
++    def watched() -> Any:
++        led_ = holder.get("led")
++        reads.append(bool(led_ and led_.conn.in_transaction))
++        return clock()
++
++    led = ledger.Ledger.create(tmp_path / "t.sqlite3", "c", ledger.Limits(), offline=True, clock=watched)
++    holder["led"] = led
++    try:
++        reads.clear()
++        reserve(led, "walmart")
++        assert reads and all(reads)  # every reading of the time by reserve() was under the lock
++    finally:
++        led.close()
++
++
++def test_a_reservation_that_waited_for_the_lock_is_checked_against_the_time_left_when_it_gets_it(
++    tmp_path: Path, clock: FakeClock
++) -> None:
++    import threading
++
++    path = tmp_path / "wait.sqlite3"
++    led = ledger.Ledger.create(path, "c", ledger.Limits(), offline=True, clock=clock)
++    try:
++        reserve(led, "walmart", timeout=60)  # starts the campaign
++        other = sqlite3.connect(path, timeout=5, isolation_level=None, check_same_thread=False)
++        locked = threading.Event()
++
++        def hold() -> None:
++            other.execute("BEGIN IMMEDIATE")
++            locked.set()
++            time.sleep(0.6)
++            clock.advance(30 * 60 - 180 - 30)  # while the lock is held, the time runs out
++            other.execute("COMMIT")
++
++        t = threading.Thread(target=hold)
++        t.start()
++        assert locked.wait(5)
++        with pytest.raises(ledger.LimitReached) as exc:
++            led.reserve(
++                retailer="walmart",
++                step="waited",
++                purpose="t",
++                request_class="walmart_search",
++                attempt=1,
++                payload_sha256="0" * 64,
++                amount_usd=money.usd("0.003"),
++                request_timeout_s=60.0,
++                lock_wait_s=5.0,
++            )
++        t.join()
++        other.close()
++        assert exc.value.stop is Stop.DEADLINE and len(led.rows()) == 1  # a time read before the lock is gone
++    finally:
++        led.close()
++
++
++def test_the_wait_for_the_lock_is_bounded_and_reserves_nothing(tmp_path: Path) -> None:
++    path = tmp_path / "busy.sqlite3"
++    led = ledger.Ledger.create(path, "c", ledger.Limits(), offline=True)
++    other = sqlite3.connect(path, timeout=5, isolation_level=None)
++    try:
++        other.execute("BEGIN IMMEDIATE")
++        t0 = time.monotonic()
++        with pytest.raises(ledger.LimitReached) as exc:
++            led.reserve(
++                retailer="walmart",
++                step="s",
++                purpose="t",
++                request_class="walmart_search",
++                attempt=1,
++                payload_sha256="0" * 64,
++                amount_usd=money.usd("0.003"),
++                request_timeout_s=60.0,
++                lock_wait_s=0.4,
++            )
++        assert time.monotonic() - t0 < 3.0  # not the connection's 30 s
++        assert exc.value.stop is Stop.DEADLINE and "nothing was reserved" in exc.value.detail
++        other.execute("COMMIT")
++        assert led.rows() == []
++    finally:
++        other.close()
++        led.close()
++
++
++def test_the_last_check_before_sending_refuses_a_late_request_and_records_it_as_never_sent(
++    make_ledger: Any, clock: FakeClock
++) -> None:
++    led = make_ledger()
++    early = reserve(led, "walmart", timeout=60)
++    led.mark_sent(early, allowance_s=60)
++    late = reserve(led, "walmart", step="late", timeout=60)
++    clock.advance(30 * 60 - 180 - 30)  # the time between reserving and sending ran out
++    with pytest.raises(ledger.LimitReached) as exc:
++        led.mark_sent(late, allowance_s=60)
++    assert exc.value.stop is Stop.DEADLINE
++    rows = {r["seq"]: r for r in led.rows()}
++    assert rows[late]["state"] == ledger.NOT_SENT and rows[early]["state"] == ledger.SENT
++    totals = led.totals()
++    assert totals.not_sent == 1 and totals.dispatched_total == 1
++    assert totals.committed_usd == Decimal("0.003")  # the request never sent holds no money
++    with pytest.raises(sqlite3.DatabaseError):  # and it can never be sent afterwards
++        led.conn.execute("UPDATE dispatch SET state = 'sent' WHERE seq = ?", (late,))
++    with pytest.raises(sqlite3.DatabaseError):  # only a reservation never handed over can become not sent
++        led.conn.execute("UPDATE dispatch SET state = 'not_sent' WHERE seq = ?", (early,))
++    with pytest.raises(ledger.LedgerRefused):
++        led.mark_sent(late, allowance_s=1)
++
++
++def test_a_stop_recorded_by_another_invocation_is_seen_at_the_last_check(make_ledger: Any) -> None:
++    led = make_ledger()
++    seq = reserve(led, "walmart")
++    led.stop(Stop.BLOCKED, "the other invocation saw a challenge")
++    with pytest.raises(ledger.LimitReached) as exc:
++        led.mark_sent(seq, allowance_s=10)
++    assert exc.value.stop is Stop.BLOCKED and led.rows()[0]["state"] == ledger.NOT_SENT
++
++
++def test_requests_never_sent_do_not_use_the_quotas(make_ledger: Any) -> None:
++    led = make_ledger()
++    for i in range(3):
++        led.release_unsent(reserve(led, "walmart", step=f"refused{i}"), "refused before sending (test)")
++    for i in range(10):
++        reserve(led, "walmart", step=f"w{i}")
++    with pytest.raises(ledger.LimitReached):
++        reserve(led, "walmart", step="w10")
++    assert led.totals().dispatched_by_retailer == {"walmart": 10} and led.totals().not_sent == 3
++
++
++def test_a_capture_index_row_is_never_changed_or_deleted(make_ledger: Any) -> None:
++    led = make_ledger()
++    seq = reserve(led, "walmart")
++    record = {
++        "file": "response_001.json.gz",
++        "http_status": 200,
++        "body_bytes": 10,
++        "truncated": False,
++        "original_sha256": "a" * 64,
++        "kept_sha256": "b" * 64,
++        "sanitized": True,
++        "detail": {"step": "s"},
++    }
++    led.record_capture(seq, record)
++    assert led.captures()[0]["kept_sha256"] == "b" * 64
++    with pytest.raises(sqlite3.DatabaseError):
++        led.conn.execute("UPDATE capture SET kept_sha256 = 'c' WHERE seq = ?", (seq,))
++    with pytest.raises(sqlite3.DatabaseError):
++        led.conn.execute("DELETE FROM capture")
++    with pytest.raises(sqlite3.IntegrityError):
++        led.record_capture(seq, record)  # one capture per dispatch
++
++
++def test_a_ledger_of_the_earlier_schema_is_refused(tmp_path: Path) -> None:
++    path = tmp_path / "old.sqlite3"
++    led = ledger.Ledger.create(path, "c", ledger.Limits(), offline=True)
++    genesis = led.genesis_id
++    led.conn.execute("DROP TRIGGER meta_never_deleted")
++    led.conn.execute("DELETE FROM meta")  # as a 1.6.0 ledger: no schema version
++    led.close()
++    with pytest.raises(ledger.LedgerRefused) as exc:
++        ledger.Ledger.open(path, campaign_id="c", genesis_id=genesis)
++    assert "earlier schema" in str(exc.value)
+diff --git a/tests/test_supervisor.py b/tests/test_supervisor.py
+new file mode 100644
+index 0000000..fa3ffe9
+--- /dev/null
++++ b/tests/test_supervisor.py
+@@ -0,0 +1,111 @@
++"""The session supervisor and crash recovery (1.7.0, findings C2 and C4). OFFLINE: the sessions are separate
++processes; the only connection any of them makes is the isolated worker's, to a stub on 127.0.0.1."""
++
++from __future__ import annotations
++
++import json
++import subprocess
++import sys
++import time
++from decimal import Decimal
++from pathlib import Path
++
++import pytest
++
++from classic_probe import ledger, supervisor
++from tests import loopback_stub as stub
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++def campaign_files(tmp_path: Path) -> tuple[Path, Path]:
++    led = ledger.Ledger.create(tmp_path / "ledger.sqlite3", "drill", ledger.Limits(), offline=True)
++    ledger.write_manifest(tmp_path / "manifest.json", led)
++    led.close()
++    return tmp_path / "manifest.json", tmp_path / "out"
++
++
++def drill(manifest: Path, out: Path, mode: str, *extra: str) -> list[str]:
++    return [sys.executable, "-m", "tests.session_drill", str(manifest), str(out), mode, *extra]
++
++
++def test_a_session_past_its_hard_end_is_killed_with_its_worker_and_recovered(tmp_path: Path) -> None:
++    manifest, out = campaign_files(tmp_path)
++    with stub.Stub(stub.hang) as s:
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=6.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        ended = time.monotonic()
++        while s.connections and s.connections[0].closed_at is None and time.monotonic() - ended < 5:
++            time.sleep(0.05)
++        assert len(s.connections) == 1, session.stdout_tail
++        closed_at = s.connections[0].closed_at
++    assert session.killed and session.elapsed_s < 6.0 + 10
++    # The worker (the session's child) went with it: its connection closed at the kill, not when the worker's
++    # own 20 s allowance would have ended.
++    assert closed_at is not None and closed_at - ended < 2.0
++    assert session.recovery["rows_recovered_as_unknown"] == 1
++    led = ledger.open_from_manifest(manifest)
++    try:
++        [row] = led.rows()
++        assert row["state"] == ledger.IN_FLIGHT_UNKNOWN and row["reserved_usd"] == "0.0040"
++    finally:
++        led.close()
++    recovered = json.loads((out / "campaign_evidence.recovered.json").read_text("utf-8"))
++    assert recovered["complete"] is False and "hard end" in recovered["ended_by"]
++
++
++def test_a_session_that_ends_by_itself_needs_no_recovery(tmp_path: Path) -> None:
++    manifest, out = campaign_files(tmp_path)
++    good = json.dumps({"results": [{"status_code": 200, "content": {}}]}).encode()
++    with stub.Stub(stub.respond(200, good)) as s:
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=60.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++    assert not session.killed and session.returncode == 0 and session.recovery == {}, session.stdout_tail
++    assert not (out / "campaign_evidence.recovered.json").exists()
++    assert (out / "campaign_evidence.json").is_file()
++
++
++@pytest.mark.parametrize(
++    ("mode", "captured", "indexed_on_recovery"),
++    [
++        ("crash-after-reserve", 0, []),
++        ("crash-after-send", 0, []),
++        ("crash-after-capture-file", 1, [1]),
++        ("crash-after-index", 1, []),
++    ],
++)
++def test_a_crash_at_each_point_leaves_the_money_held_and_the_evidence_recoverable(
++    tmp_path: Path, mode: str, captured: int, indexed_on_recovery: list[int]
++) -> None:
++    manifest, out = campaign_files(tmp_path)
++    done = subprocess.run(drill(manifest, out, mode), cwd=ROOT, capture_output=True, timeout=120, check=False)
++    assert done.returncode == 23, done.stderr[-2000:]
++    out.mkdir(parents=True, exist_ok=True)
++    (out / "response_009.json.gz.part").write_bytes(b"half a file")  # a write the crash cut short
++    recovery = supervisor.recover_session(manifest, out, "walmart", reason=f"test: {mode}")
++    assert recovery["rows_recovered_as_unknown"] == 1
++    assert recovery["capture_recovery"]["indexed_on_recovery"] == indexed_on_recovery
++    assert "response_009.json.gz.part" in recovery["capture_recovery"]["part_files_removed"]
++    led = ledger.open_from_manifest(manifest)
++    try:
++        [row] = led.rows()
++        assert row["state"] == ledger.IN_FLIGHT_UNKNOWN  # never assumed free: the reservation stays held
++        assert led.totals().committed_usd == Decimal("0.0040")
++        assert len(led.captures()) == captured
++    finally:
++        led.close()
++    recovered = json.loads((out / "campaign_evidence.recovered.json").read_text("utf-8"))
++    assert [r["verified"] for r in recovered["responses"]] == [True] * captured
++    assert not list(out.glob("*.part"))
+diff --git a/uv.lock b/uv.lock
+index b34526e..3c7b2fc 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -120,7 +120,7 @@ wheels = [
+ 
+ [[package]]
+ name = "oxylabs-classic-probe"
+-version = "1.6.0"
++version = "1.7.0"
+ source = { editable = "." }
+ dependencies = [
+     { name = "selectolax" },

@@ -1,0 +1,81 @@
+{
+ "release": "1.6.4",
+ "records_read_from_the_flat_page": 26,
+ "reported_by_1_6_4": 21,
+ "not_reported": {
+  "18081862879": {
+   "placements": 2,
+   "all_fields_equal_on": [
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2A1Q58NG4DHFP75FFT89E",
+     "json_path": "itemStacks[0].items[40]",
+     "flat_layout_page": false
+    }
+   ]
+  },
+  "20121364952": {
+   "placements": 4,
+   "all_fields_equal_on": [
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2BK1JSQJRX5N1361JHYY0",
+     "json_path": "itemStacks[0].items[29]",
+     "flat_layout_page": false
+    },
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2DH9FZ30V1ZVSNDGRTGV2",
+     "json_path": "itemStacks[0].items[20]",
+     "flat_layout_page": false
+    },
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2EGNY0FHXP2TX5GC7WAV3",
+     "json_path": "itemStacks[0].items[28]",
+     "flat_layout_page": false
+    }
+   ]
+  },
+  "20285108840": {
+   "placements": 4,
+   "all_fields_equal_on": [
+    {
+     "run": "L10",
+     "run_id": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+     "fetch": "01M6KB90WYBWM9DGXHAA561MTQ",
+     "json_path": "itemStacks[0].items[18]",
+     "flat_layout_page": false
+    }
+   ]
+  },
+  "20509901213": {
+   "placements": 37,
+   "all_fields_equal_on": [
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2A1Q58NG4DHFP75FFT89E",
+     "json_path": "itemStacks[0].items[39]",
+     "flat_layout_page": false
+    }
+   ]
+  },
+  "20526512097": {
+   "placements": 11,
+   "all_fields_equal_on": [
+    {
+     "run": "L6",
+     "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+     "fetch": "01M6K2A1Q58NG4DHFP75FFT89E",
+     "json_path": "itemStacks[0].items[45]",
+     "flat_layout_page": false
+    }
+   ]
+  }
+ }
+}

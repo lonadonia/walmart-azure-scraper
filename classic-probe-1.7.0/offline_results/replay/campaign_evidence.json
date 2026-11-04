@@ -1,0 +1,420 @@
+{
+ "campaign_id": "offline-replay",
+ "capture_recovery": {
+  "indexed_on_recovery": [],
+  "part_files_removed": [],
+  "refused": []
+ },
+ "complete": true,
+ "dispatches": [
+  {
+   "attempt": 1,
+   "billing": "documented_billable",
+   "confirmed_basis": null,
+   "confirmed_unit": null,
+   "confirmed_value": null,
+   "estimated_usd": "0.0030",
+   "finished_at": "2026-11-03T18:26:17.856966+00:00",
+   "job_id": "job-1",
+   "note": "ok",
+   "parser_status": 12000,
+   "payload_sha256": "771d9e2fa3780f76cf59fbb8225c5be99873e1b24e9e7a79ee1b20fd634b3d1c",
+   "provider_status": 200,
+   "purpose": "result page 1 of the store's Pickup search: store, fulfillment, seller, parsing",
+   "request_class": "walmart_search",
+   "reserved_at": "2026-11-03T18:26:17.825704+00:00",
+   "reserved_usd": "0.0040",
+   "retailer": "walmart",
+   "retailer_status": 200,
+   "seq": 1,
+   "state": "answered",
+   "step": "walmart-search-p1"
+  },
+  {
+   "attempt": 1,
+   "billing": "documented_billable",
+   "confirmed_basis": null,
+   "confirmed_unit": null,
+   "confirmed_value": null,
+   "estimated_usd": "0.0030",
+   "finished_at": "2026-11-03T18:26:17.885391+00:00",
+   "job_id": "job-1",
+   "note": "ok",
+   "parser_status": 12000,
+   "payload_sha256": "86841cfa20e5692e38904b90797dd2c41935acce762477e18ad6553af960bd75",
+   "provider_status": 200,
+   "purpose": "result page 2 of the store's Pickup search: store, fulfillment, seller, parsing; does the page advance",
+   "request_class": "walmart_search",
+   "reserved_at": "2026-11-03T18:26:17.862483+00:00",
+   "reserved_usd": "0.0040",
+   "retailer": "walmart",
+   "retailer_status": 200,
+   "seq": 2,
+   "state": "answered",
+   "step": "walmart-search-p2"
+  },
+  {
+   "attempt": 1,
+   "billing": "documented_billable",
+   "confirmed_basis": null,
+   "confirmed_unit": null,
+   "confirmed_value": null,
+   "estimated_usd": "0.0030",
+   "finished_at": "2026-11-03T18:26:17.910207+00:00",
+   "job_id": "job-1",
+   "note": "ok",
+   "parser_status": 12000,
+   "payload_sha256": "18477879ace9f20b853ef817127207a5a6e115047179afdd1467ef23a6703814",
+   "provider_status": 200,
+   "purpose": "the product's own page for the store's Pickup: identity, UPC, store, seller",
+   "request_class": "walmart_product",
+   "reserved_at": "2026-11-03T18:26:17.889348+00:00",
+   "reserved_usd": "0.0040",
+   "retailer": "walmart",
+   "retailer_status": 200,
+   "seq": 3,
+   "state": "answered",
+   "step": "walmart-product"
+  },
+  {
+   "attempt": 1,
+   "billing": "documented_billable",
+   "confirmed_basis": null,
+   "confirmed_unit": null,
+   "confirmed_value": null,
+   "estimated_usd": "0.0010",
+   "finished_at": "2026-11-03T18:26:17.935414+00:00",
+   "job_id": "job-1",
+   "note": "ok",
+   "parser_status": null,
+   "payload_sha256": "61ce92822df5453dbe9622c069bb9b04f21e0ff8383ffc561e2c272458a67396",
+   "provider_status": 200,
+   "purpose": "a required category page by its URL alone: is it served for the store at all (undocumented)",
+   "request_class": "url_only",
+   "reserved_at": "2026-11-03T18:26:17.914212+00:00",
+   "reserved_usd": "0.0015",
+   "retailer": "walmart",
+   "retailer_status": 200,
+   "seq": 4,
+   "state": "answered",
+   "step": "walmart-category-url"
+  }
+ ],
+ "events": [],
+ "ledger_genesis_id": "c4ba635ed6074e608cddb5e7639be32a",
+ "limits": {
+  "billing_headroom_usd": "0.50",
+  "campaign_minutes": 30,
+  "export_reserve_seconds": 180,
+  "per_retailer_requests": 10,
+  "retailers": [
+   "walmart",
+   "marianos"
+  ],
+  "total_requests": 20,
+  "total_usd": "5.00"
+ },
+ "offline": true,
+ "responses": [
+  {
+   "body_bytes": 3499,
+   "file": "response_001.json.gz",
+   "headers": {},
+   "http_status": 200,
+   "kept_sha256": "f1412f69efafa887e37a5f8b468a290372c3902d7fd3c58ac1398c17e339bc5f",
+   "original_sha256": "e14b39886d5e022f7816ee8734c96cbcf224309d3f387ec7d3b6dbfb848af408",
+   "raw_pages": [
+    {
+     "input_sha256": "a9a3da5ad03a7fa0ef8017f0f6a53d943d7bbcf92212b78aba98146e5907dca6",
+     "other_values_redacted": 0,
+     "output_sha256": "7fdf325b037a37b7dcde760891d0b372f94e0dcb5cb9747ae699ffcc8c56aacc",
+     "page_data_kept": true,
+     "page_data_values_redacted": 0,
+     "result": 0,
+     "scripts_removed": 0
+    }
+   ],
+   "redirect_location": null,
+   "sanitized": true,
+   "seq": 1,
+   "step": "walmart-search-p1",
+   "truncated": false,
+   "verified": true
+  },
+  {
+   "body_bytes": 2658,
+   "file": "response_002.json.gz",
+   "headers": {},
+   "http_status": 200,
+   "kept_sha256": "da6a6464c9d95009c65dfe4f966e25b2557665f509b0bb631150a3ca257ef458",
+   "original_sha256": "c123bf1329c5963cb734ffb8d403cab202b7668763d0cf55cef666a9c79978e1",
+   "raw_pages": [
+    {
+     "input_sha256": "f38dde598d3e2fa2e25878342c58fa8961d8ff86259344149a593dfe84ab5594",
+     "other_values_redacted": 0,
+     "output_sha256": "085b73e058683fcb2c8acf32b57a539f18c450e7ac6ab62ec5b29e9175c1d182",
+     "page_data_kept": true,
+     "page_data_values_redacted": 0,
+     "result": 0,
+     "scripts_removed": 0
+    }
+   ],
+   "redirect_location": null,
+   "sanitized": true,
+   "seq": 2,
+   "step": "walmart-search-p2",
+   "truncated": false,
+   "verified": true
+  },
+  {
+   "body_bytes": 1630,
+   "file": "response_003.json.gz",
+   "headers": {},
+   "http_status": 200,
+   "kept_sha256": "971dfade1a4d4e9c7c39dd7dc6c32df904a9f569e06f586faf3af8bfc7ff325c",
+   "original_sha256": "55bbc2b40816e522fa73c2e02373295e8706e5e6453f7fd8473d7a77370f02c4",
+   "raw_pages": [
+    {
+     "input_sha256": "b4a673e1f445fd022d8ffdffc35dd576475d969198721c16b894118b663dacf4",
+     "other_values_redacted": 0,
+     "output_sha256": "cfa582e059c166bba4fbd7153fba40e20e4e5e1d416b0ea8ad2773c63f81b595",
+     "page_data_kept": true,
+     "page_data_values_redacted": 0,
+     "result": 0,
+     "scripts_removed": 0
+    }
+   ],
+   "redirect_location": null,
+   "sanitized": true,
+   "seq": 3,
+   "step": "walmart-product",
+   "truncated": false,
+   "verified": true
+  },
+  {
+   "body_bytes": 2272,
+   "file": "response_004.json.gz",
+   "headers": {},
+   "http_status": 200,
+   "kept_sha256": "54561bdd48bbc8d254d557cc855e0a439d3b088080791cd8e3edfca4709ab38e",
+   "original_sha256": "fb2ce574029bd44e8dcbdd4fd2efe18b6b979588e6cfd41ee41a355a317487d7",
+   "raw_pages": [
+    {
+     "input_sha256": "a9a3da5ad03a7fa0ef8017f0f6a53d943d7bbcf92212b78aba98146e5907dca6",
+     "other_values_redacted": 0,
+     "output_sha256": "7fdf325b037a37b7dcde760891d0b372f94e0dcb5cb9747ae699ffcc8c56aacc",
+     "page_data_kept": true,
+     "page_data_values_redacted": 0,
+     "result": 0,
+     "scripts_removed": 0
+    }
+   ],
+   "redirect_location": null,
+   "sanitized": true,
+   "seq": 4,
+   "step": "walmart-category-url",
+   "truncated": false,
+   "verified": true
+  }
+ ],
+ "result": {
+  "campaign_id": "offline-replay",
+  "cleanup_errors": [],
+  "detail": "",
+  "export_errors": [],
+  "out_dir": "offline_out\\replay",
+  "retailer": "walmart",
+  "steps": [
+   {
+    "attempts": [
+     {
+      "attempt": 1,
+      "billing": "documented_billable",
+      "detail": "",
+      "estimated_usd": "0.0030",
+      "facts": {
+       "challenge_notes": [],
+       "challenge_signals": [],
+       "item_ids": [
+        "7101",
+        "7102",
+        "7103"
+       ],
+       "items": 3,
+       "last_visible_page": 3,
+       "page_data_max_page": 3,
+       "page_data_page": 1,
+       "page_intent": "PICKUP",
+       "page_reported": 1,
+       "page_store": "3891",
+       "parsed_items": 3,
+       "parsed_store": "3891",
+       "sponsored": 1,
+       "total_results": 120,
+       "walmart_seller": 2,
+       "with_pickup_line": 2
+      },
+      "outcome": "ok",
+      "parser_status": 12000,
+      "provider_status": 200,
+      "reserved_usd": "0.0040",
+      "retailer_statuses": [
+       200,
+       200
+      ],
+      "seq": 1
+     }
+    ],
+    "payload": {
+     "fulfillment_type": "pickup",
+     "parse": true,
+     "query": "milk",
+     "source": "walmart_search",
+     "store_id": "3891"
+    },
+    "purpose": "result page 1 of the store's Pickup search: store, fulfillment, seller, parsing",
+    "query_string": "type=raw,parsed",
+    "step": "walmart-search-p1"
+   },
+   {
+    "attempts": [
+     {
+      "attempt": 1,
+      "billing": "documented_billable",
+      "detail": "",
+      "estimated_usd": "0.0030",
+      "facts": {
+       "challenge_notes": [],
+       "challenge_signals": [],
+       "item_ids": [
+        "7201",
+        "7202"
+       ],
+       "items": 2,
+       "last_visible_page": 3,
+       "page_data_max_page": 3,
+       "page_data_page": 2,
+       "page_intent": "PICKUP",
+       "page_reported": 2,
+       "page_store": "3891",
+       "parsed_items": 2,
+       "parsed_store": "3891",
+       "sponsored": 0,
+       "total_results": 120,
+       "walmart_seller": 2,
+       "with_pickup_line": 2
+      },
+      "outcome": "ok",
+      "parser_status": 12000,
+      "provider_status": 200,
+      "reserved_usd": "0.0040",
+      "retailer_statuses": [
+       200,
+       200
+      ],
+      "seq": 2
+     }
+    ],
+    "payload": {
+     "fulfillment_type": "pickup",
+     "parse": true,
+     "query": "milk",
+     "source": "walmart_search",
+     "start_page": 2,
+     "store_id": "3891"
+    },
+    "purpose": "result page 2 of the store's Pickup search: store, fulfillment, seller, parsing; does the page advance",
+    "query_string": "type=raw,parsed",
+    "step": "walmart-search-p2"
+   },
+   {
+    "attempts": [
+     {
+      "attempt": 1,
+      "billing": "documented_billable",
+      "detail": "",
+      "estimated_usd": "0.0030",
+      "facts": {
+       "challenge_notes": [],
+       "challenge_signals": [],
+       "page_intent": "PICKUP",
+       "page_item": "7101",
+       "page_store": "3891",
+       "parsed_gtin": "012345678905",
+       "parsed_store": "3891",
+       "parsed_url_item": "7101",
+       "seller": "Walmart.com",
+       "upc": "012345678905",
+       "upc_path": "props.pageProps.initialData.data.product.upc"
+      },
+      "outcome": "ok",
+      "parser_status": 12000,
+      "provider_status": 200,
+      "reserved_usd": "0.0040",
+      "retailer_statuses": [
+       200,
+       200
+      ],
+      "seq": 3
+     }
+    ],
+    "payload": {
+     "fulfillment_type": "pickup",
+     "parse": true,
+     "product_id": "7101",
+     "source": "walmart_product",
+     "store_id": "3891"
+    },
+    "purpose": "the product's own page for the store's Pickup: identity, UPC, store, seller",
+    "query_string": "type=raw,parsed",
+    "step": "walmart-product"
+   },
+   {
+    "attempts": [
+     {
+      "attempt": 1,
+      "billing": "documented_billable",
+      "detail": "",
+      "estimated_usd": "0.0010",
+      "facts": {
+       "challenge_notes": [],
+       "challenge_signals": [],
+       "items": 3,
+       "page_intent": "PICKUP",
+       "page_store": "3891",
+       "parsed_store": ""
+      },
+      "outcome": "ok",
+      "parser_status": null,
+      "provider_status": 200,
+      "reserved_usd": "0.0015",
+      "retailer_statuses": [
+       200
+      ],
+      "seq": 4
+     }
+    ],
+    "payload": {
+     "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351"
+    },
+    "purpose": "a required category page by its URL alone: is it served for the store at all (undocumented)",
+    "query_string": "",
+    "step": "walmart-category-url"
+   }
+  ],
+  "stop": null
+ },
+ "totals": {
+  "committed_usd": "0.0135",
+  "confirmed_usd": "0",
+  "dispatched_by_retailer": {
+   "walmart": 4
+  },
+  "dispatched_total": 4,
+  "estimated_usd": "0.0100",
+  "not_sent": 0,
+  "other_units": {},
+  "reserved_unconfirmed_usd": "0.0135",
+  "unknown_billing": 0
+ }
+}

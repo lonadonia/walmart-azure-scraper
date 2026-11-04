@@ -1,0 +1,28 @@
+[
+ {
+  "file": "flat_layout_page.html.gz",
+  "fetch_id": "01M6KB69AJA2N65MDQP4V1QWTE",
+  "url": "https://www.walmart.com/browse/beauty/new-arrivals/1085666_4427759?povid=Beauty_BeautyCP_LHN_NewArrivals",
+  "fetched_at": "2026-11-04 13:15:20.786313+00:00",
+  "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+  "release": "1.6.4",
+  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB69AJA2N65MDQP4V1QWTE.html.gz",
+  "source_sha256": "07ddcabc1c57e0016f28abf37687e16606dd5a3cf41acecb2f8892515b140458",
+  "content_sha256": "67bfd781b04e1c946ed2e32ff8eff90ecbda9c5b2cba097f554f8fe4787b857e",
+  "raw_original_body_sha256": "e38c690f859c9462cb49a9152c35872fdd5773dd426e8898df256517cd48f743",
+  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.4), not recompressed"
+ },
+ {
+  "file": "price_lines_page.html.gz",
+  "fetch_id": "01M6KB1YNCARK7HQ80N2KNCE23",
+  "url": "https://www.walmart.com/browse/personal-care/men-s-hair-beard-care/1005862_1056884_2965909?povid=PersonalCare_PCCP_LHN_HAIRCARE_MensHairAndBeardCare_5.12_PCXSELL",
+  "fetched_at": "2026-11-04 13:12:58.797274+00:00",
+  "run": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+  "release": "1.6.4",
+  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6KA3CKYJSD6WDY4TDAAV73Y/live/dom/01M6KB1YNCARK7HQ80N2KNCE23.html.gz",
+  "source_sha256": "a55702c968a5f17fa8f65dd3b4cd7ca2d45dc2c1a54da2407d620908ab13d1c3",
+  "content_sha256": "7cd4883d8fb54a86f49a7f58eabc0ce65583a8fcbcbd7ca2258519123ff2c8e1",
+  "raw_original_body_sha256": "302804868c4fba2e922cd142c564f8d9c99ccde32f9557538e553d893d3f5260",
+  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.4), not recompressed"
+ }
+]

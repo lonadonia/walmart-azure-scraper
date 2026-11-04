@@ -1,0 +1,144 @@
+{
+ "OFFLINE REPLAY": true,
+ "campaign_id": "offline-replay",
+ "cleanup_errors": [],
+ "detail": "",
+ "dispatched": 3,
+ "export_errors": [],
+ "out_dir": "offline_out\\replay_marianos",
+ "retailer": "marianos",
+ "steps": [
+  {
+   "attempts": [
+    {
+     "attempt": 1,
+     "billing": "documented_billable",
+     "detail": "",
+     "estimated_usd": "0.0015",
+     "facts": {
+      "available": 250,
+      "page": 1,
+      "product_stores": [
+       "53100502"
+      ],
+      "ranked_upcs": [
+       "0001600012254",
+       "0001600012479",
+       "0088491212971",
+       "0001600012399",
+       "0088491212951",
+       "0088491235915",
+       "0088491248176",
+       "0088491235916",
+       "0001600015163",
+       "0001600027532",
+       "0001111086705",
+       "0003000057322",
+       "0003000006322",
+       "0001111013876",
+       "0004240026521",
+       "0088491211762",
+       "0088491200672",
+       "0088491235948",
+       "0004240040758",
+       "0088491227310",
+       "0001600012685",
+       "0003000057331",
+       "0001600012025",
+       "0004240093978"
+      ],
+      "request_location_id": "53100502",
+      "request_modality": "PICKUP",
+      "selected_location_id": "53100502",
+      "selected_modality": "PICKUP",
+      "sponsored_upcs": [],
+      "total": 511
+     },
+     "outcome": "ok",
+     "parser_status": null,
+     "provider_status": 200,
+     "reserved_usd": "0.0020",
+     "retailer_statuses": [
+      200
+     ],
+     "seq": 1
+    }
+   ],
+   "payload": {
+    "fulfillment_type": "pickup",
+    "query": "cereal",
+    "source": "marianos_search",
+    "store_id": "53100502"
+   },
+   "purpose": "result page 1 of the store's Pickup search: store, fulfillment, products and their store prices",
+   "query_string": "",
+   "step": "marianos-search-p1"
+  },
+  {
+   "attempts": [
+    {
+     "attempt": 1,
+     "billing": "documented_billable",
+     "detail": "",
+     "estimated_usd": "0.0020",
+     "facts": {
+      "product_price_location_id": "53100502",
+      "products_in_state": [
+       "0001600012254"
+      ],
+      "selected_location_id": "53100502",
+      "selected_modality": "PICKUP"
+     },
+     "outcome": "ok",
+     "parser_status": null,
+     "provider_status": 200,
+     "reserved_usd": "0.0020",
+     "retailer_statuses": [
+      200
+     ],
+     "seq": 2
+    }
+   ],
+   "payload": {
+    "fulfillment_type": "pickup",
+    "product_id": "0001600012254",
+    "source": "marianos_product",
+    "store_id": "53100502"
+   },
+   "purpose": "the product's own page for the store's Pickup: identity, store of its prices, fulfillment",
+   "query_string": "",
+   "step": "marianos-product"
+  },
+  {
+   "attempts": [
+    {
+     "attempt": 1,
+     "billing": "documented_billable",
+     "detail": "",
+     "estimated_usd": "0.0015",
+     "facts": {
+      "products": 31,
+      "selected_location_id": "53100502",
+      "selected_modality": "PICKUP",
+      "total": null
+     },
+     "outcome": "ok",
+     "parser_status": null,
+     "provider_status": 200,
+     "reserved_usd": "0.0015",
+     "retailer_statuses": [
+      200
+     ],
+     "seq": 3
+    }
+   ],
+   "payload": {
+    "url": "https://www.marianos.com/pl/cereal-granola/03001"
+   },
+   "purpose": "a required category page by its URL alone: is it served for the store and Pickup at all (undocumented)",
+   "query_string": "",
+   "step": "marianos-category-url"
+  }
+ ],
+ "stop": null
+}

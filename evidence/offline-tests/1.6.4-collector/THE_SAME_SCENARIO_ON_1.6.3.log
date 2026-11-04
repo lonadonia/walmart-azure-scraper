@@ -1,0 +1,11 @@
+2026-11-04T12:31:27Z
+release 1.6.3, the same clean copy: the 1.6.4 integration test's scenario, asserting that 1.6.3 stops the run
+$ uv run --frozen python -m pytest -q -p no:cacheprovider -rA -s --show-capture=no tests/integration/test_on_1_6_3_the_same_scenario_stops.py
+STATUS rejected STOP ABNORMAL_RESULT DETAIL https://www.walmart.com/browse/food/milk/976759_9176907: the page reports results but shows no product
+.
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/integration/test_on_1_6_3_the_same_scenario_stops.py::test_on_1_6_3_an_empty_pickup_grid_beside_a_carousel_stops_the_run
+1 passed in 17.70s
+exit=0
+2026-11-04T12:31:48Z

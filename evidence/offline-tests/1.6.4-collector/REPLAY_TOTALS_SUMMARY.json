@@ -1,0 +1,53 @@
+{
+ "what": "every stored listing page of the campaign data folder (C:/w9/live/data/runs: the 1.5.x and 1.6.x live runs on the workstation) read offline by the installed 1.6.3 and 1.6.4 editions' own page reader (tools/replay_totals.py); no request",
+ "listing_pages": 343,
+ "runs": 20,
+ "pages_per_run": {
+  "01M69X9XHZR83KZ2FNWBJYJKA7": 1,
+  "01M69XM9RZN3C8D0K7W2NSXR3D": 6,
+  "01M69Y1J6YWFEZ1DJHAC2MT17M": 4,
+  "01M69Y882GTVYRJZM0CXQ44MXN": 19,
+  "01M69YPZTFCP7AWJ5B78AXEA2N": 2,
+  "01M69YS2X0YG5JSEMCGKK8BHE5": 2,
+  "01M6A0JWYHTVK7XFH34P235F9Q": 2,
+  "01M6A2VQAA5VXJHJHMZPCTZTD4": 15,
+  "01M6A52HA6XYCEDS6DBE5N5RQ7": 1,
+  "L1": 1,
+  "L2": 18,
+  "L2b": 2,
+  "L3": 18,
+  "L4": 28,
+  "L4r": 48,
+  "L5": 18,
+  "L6": 64,
+  "L7": 75,
+  "L8": 18,
+  "L9": 1
+ },
+ "same_reading": 342,
+ "different_reading": 1,
+ "different": [
+  {
+   "run": "01M6K7HT3XVV8R8CX79P31KMB4",
+   "stage": "L7",
+   "page_fetch_id": "01M6K7Z4E1EMC2ZYJW0F7VA458",
+   "1.6.3": {
+    "total": 10,
+    "branch": "stop"
+   },
+   "1.6.4": {
+    "total": 0,
+    "branch": "empty"
+   }
+  }
+ ],
+ "branches_1_6_3": {
+  "products": 336,
+  "empty": 6,
+  "stop": 1
+ },
+ "branches_1_6_4": {
+  "products": 336,
+  "empty": 7
+ }
+}

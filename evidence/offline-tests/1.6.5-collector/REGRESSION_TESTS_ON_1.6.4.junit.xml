@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="8" time="1.274" timestamp="2026-11-04T14:56:50.534668+00:00" hostname="(workstation)"><testcase classname="tests.unit.test_flat_price_layout" name="test_the_fixture_matches_its_manifest" time="0.025" /><testcase classname="tests.unit.test_flat_price_layout" name="test_the_live_page_gives_its_prices_as_flat_strings_only" time="0.137" /><testcase classname="tests.unit.test_flat_price_layout" name="test_the_prices_read_are_those_the_page_displays" time="0.066"><failure message="AssertionError: assert ('', '', '') == ('$5.00', '', '')&#10;  &#10;  At index 0 diff: '' != '$5.00'&#10;  Use -v to get more diff">tests\unit\test_flat_price_layout.py:84: in test_the_prices_read_are_those_the_page_displays
+    assert source_check.expected_prices(item(FLAT, "20585873588")) == ("$5.00", "", "")
+E   AssertionError: assert ('', '', '') == ('$5.00', '', '')
+E     
+E     At index 0 diff: '' != '$5.00'
+E     Use -v to get more diff</failure></testcase><testcase classname="tests.unit.test_flat_price_layout" name="test_the_records_the_run_read_from_the_page_are_verified_against_it" time="0.077"><failure message="AssertionError: assert {'records': 2...nverified': 0} == {'records': 2...nverified': 0}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'mismatch': 26} != {'mismatch': 0}&#10;  {'verified': 0} != {'verified': 26}&#10;  Use -v to get more diff">tests\unit\test_flat_price_layout.py:93: in test_the_records_the_run_read_from_the_page_are_verified_against_it
+    assert res["summary"] == {"records": 26, "verified": 26, "mismatch": 0, "unverified": 0}
+E   AssertionError: assert {'records': 2...nverified': 0} == {'records': 2...nverified': 0}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'mismatch': 26} != {'mismatch': 0}
+E     {'verified': 0} != {'verified': 26}
+E     Use -v to get more diff</failure></testcase><testcase classname="tests.unit.test_flat_price_layout" name="test_a_record_seen_on_two_pages_is_judged_on_the_page_it_was_read_from" time="0.152"><failure message="AssertionError: assert ('mismatch' == 'verified'&#10;  &#10;  - verified&#10;  + mismatch)">tests\unit\test_flat_price_layout.py:104: in test_a_record_seen_on_two_pages_is_judged_on_the_page_it_was_read_from
+    assert res["result"] == "verified" and res["mismatched_fields"] == []
+E   AssertionError: assert ('mismatch' == 'verified'
+E     
+E     - verified
+E     + mismatch)</failure></testcase><testcase classname="tests.unit.test_flat_price_layout" name="test_the_canary_comparison_accepts_the_page" time="0.064"><failure message="AssertionError: ('https://www.walmart.com/ip/Better-Fragrance-Pistachio-Kiwi-2-Pc-Set/20585873588?fulfillmentIntent=Pickup&amp;filters=%5B...p%22%5D%7D%5D&amp;classType=REGULAR', {'product_title': True, 'url': True, 'image_url': True, 'regular_price': False, ...})&#10;assert False&#10; +  where False = all(dict_values([True, True, True, False, True, True]))&#10; +    where dict_values([True, True, True, False, True, True]) = &lt;built-in method values of dict object at 0x0000028E7E99A940&gt;()&#10; +      where &lt;built-in method values of dict object at 0x0000028E7E99A940&gt; = {'product_title': True, 'url': True, 'image_url': True, 'regular_price': False, ...}.values">tests\unit\test_flat_price_layout.py:118: in test_the_canary_comparison_accepts_the_page
+    assert all(best.values()), (rec["url"], best)
+E   AssertionError: ('https://www.walmart.com/ip/Better-Fragrance-Pistachio-Kiwi-2-Pc-Set/20585873588?fulfillmentIntent=Pickup&amp;filters=%5B...p%22%5D%7D%5D&amp;classType=REGULAR', {'product_title': True, 'url': True, 'image_url': True, 'regular_price': False, ...})
+E   assert False
+E    +  where False = all(dict_values([True, True, True, False, True, True]))
+E    +    where dict_values([True, True, True, False, True, True]) = &lt;built-in method values of dict object at 0x0000028E7E99A940&gt;()
+E    +      where &lt;built-in method values of dict object at 0x0000028E7E99A940&gt; = {'product_title': True, 'url': True, 'image_url': True, 'regular_price': False, ...}.values</failure></testcase><testcase classname="tests.unit.test_flat_price_layout" name="test_a_wrong_price_or_unit_price_is_still_a_mismatch" time="0.072"><failure message="AssertionError: assert {'records': 3...nverified': 0} == {'records': 3...nverified': 0}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'mismatch': 2} != {'mismatch': 3}&#10;  {'verified': 1} != {'verified': 0}&#10;  Use -v to get more diff">tests\unit\test_flat_price_layout.py:125: in test_a_wrong_price_or_unit_price_is_still_a_mismatch
+    assert res["summary"] == {"records": 3, "verified": 0, "mismatch": 3, "unverified": 0}
+E   AssertionError: assert {'records': 3...nverified': 0} == {'records': 3...nverified': 0}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'mismatch': 2} != {'mismatch': 3}
+E     {'verified': 1} != {'verified': 0}
+E     Use -v to get more diff</failure></testcase><testcase classname="tests.unit.test_flat_price_layout" name="test_a_flat_was_price_above_the_current_price_is_a_sale" time="0.061"><failure message="AssertionError: assert ('', '', '') == ('$19.97', '$...', '$1.06/oz')&#10;  &#10;  At index 0 diff: '' != '$19.97'&#10;  Use -v to get more diff">tests\unit\test_flat_price_layout.py:136: in test_a_flat_was_price_above_the_current_price_is_a_sale
+    assert source_check.expected_prices(it) == ("$19.97", "$16.97", "$1.06/oz")
+E   AssertionError: assert ('', '', '') == ('$19.97', '$...', '$1.06/oz')
+E     
+E     At index 0 diff: '' != '$19.97'
+E     Use -v to get more diff</failure></testcase></testsuite></testsuites>

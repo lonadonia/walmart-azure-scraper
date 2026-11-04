@@ -1,0 +1,35 @@
+git diff 5454e9c..1780349 (development monorepo), relative to the probe's folder
+1.6.0 probe tree 28ae360373e2670888db99d36d0956a02ab272fe (published as 33c2d786fa793e2e588746f219eb9118cc789c38 with CLASSIC_PROBE.md added)
+1.7.0 probe tree 8305ffe25665b404347954dad38d501cbba70640 (code from 2c08585, tree 0ac0bdb1f8afd79066ee60c0311f00a7552d8780; 48307cf then changed three documents only)
+
+ CLASSIC_TEST_PLAN.md             |   2 +-
+ README.md                        |   8 ++--
+ docs/DOCUMENTED_CONTRACT.md      |   2 +-
+ pyproject.toml                   |   2 +-
+ src/classic_probe/__init__.py    |   2 +-
+ src/classic_probe/campaign.py    | 226 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------
+ src/classic_probe/captures.py    | 228 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/classic_probe/checks.py      |  16 +++++++-
+ src/classic_probe/contract.py    |   3 ++
+ src/classic_probe/deadline.py    |  78 +++++++++++++++++++++++++++++++++++
+ src/classic_probe/ledger.py      | 358 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------
+ src/classic_probe/networker.py   | 141 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/classic_probe/stops.py       |   2 +
+ src/classic_probe/supervisor.py  | 130 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/classic_probe/transport.py   | 231 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------
+ tests/loopback_stub.py           | 190 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/session_drill.py           |  71 ++++++++++++++++++++++++++++++++
+ tests/test_campaign.py           | 169 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ tests/test_deadline.py           |  94 ++++++++++++++++++++++++++++++++++++++++++
+ tests/test_gates.py              |   9 ++--
+ tests/test_isolated_transport.py | 223 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/test_ledger.py             | 171 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/test_supervisor.py         | 111 +++++++++++++++++++++++++++++++++++++++++++++++++
+ uv.lock                          |   2 +-
+ 24 files changed, 2222 insertions(+), 247 deletions(-)
+source only:
+ 11 files changed, 1186 insertions(+), 229 deletions(-)
+tests only:
+ 8 files changed, 1027 insertions(+), 11 deletions(-)
+documents only:
+ 3 files changed, 7 insertions(+), 5 deletions(-)

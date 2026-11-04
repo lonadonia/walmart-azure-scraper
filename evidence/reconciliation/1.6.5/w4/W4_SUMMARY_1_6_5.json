@@ -1,0 +1,243 @@
+{
+ "inputs": {
+  "historical": {
+   "path": "C:\\w9\\repo\\data\\COVERAGE_RECONCILIATION.csv",
+   "sha256": "1414670dede11451d771741d73b67a22b14a927430a89d72416e2598cabc8431"
+  },
+  "L1": {
+   "run_id": "01M6H5TX7R4ZWV8W3NTH0QN6HF",
+   "release": "1.6.0",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L1\\coverage\\coverage_reconciliation_01M6H5TX7R4ZWV8W3NTH0QN6HF.json",
+   "sha256": "538b30cec9ac27cdd7e6702d4af9927fca267073b78f770840eda2e63872d99d"
+  },
+  "L2": {
+   "run_id": "01M6H72J86K5TF7A1874N7BJ2R",
+   "release": "1.6.0",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L2\\coverage\\coverage_reconciliation_01M6H72J86K5TF7A1874N7BJ2R.json",
+   "sha256": "87a075d62410b008dd00abace1e847218997884ce088aaca70f1ab9291ca4763"
+  },
+  "L3": {
+   "run_id": "01M6HA74X4QYMW45SVD62JQDSQ",
+   "release": "1.6.1",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L3\\coverage\\coverage_reconciliation_01M6HA74X4QYMW45SVD62JQDSQ.json",
+   "sha256": "c7f687de4fb0789f22740e16e4be2253ba6ecae21223a540acd9b4c0d16bcedb"
+  },
+  "L2b": {
+   "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+   "release": "1.6.1",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L2b\\coverage\\coverage_reconciliation_01M6HAXEP6495EGWT91JQS09SS.json",
+   "sha256": "2c1f8e3b01d3cb38ad6b6ad0c454bd1d9a01ddbcc35c70599693ad8e5484aa26"
+  },
+  "L4r": {
+   "run_id": "01M6HCF2YSD7N18W7JMH6EHK23",
+   "release": "1.6.1",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L4r\\coverage\\coverage_reconciliation_01M6HCF2YSD7N18W7JMH6EHK23.json",
+   "sha256": "c708767fb151145e342fec5853b20d1cd8e345c171bc4e89ed94c1af3e2bfa7d"
+  },
+  "L4": {
+   "run_id": "01M6HCZXM0WGMRCFDTCNZ7218K",
+   "release": "1.6.1",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L4\\coverage\\coverage_reconciliation_01M6HCZXM0WGMRCFDTCNZ7218K.json",
+   "sha256": "79fa2f48bdb373e568abc99d6a51b7dc6cbca1bf79f6bc1f71b6b3990ce2b26e"
+  },
+  "L5": {
+   "run_id": "01M6K1HG154683NAAFXQZX33C6",
+   "release": "1.6.2",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L5\\coverage\\coverage_reconciliation_01M6K1HG154683NAAFXQZX33C6.json",
+   "sha256": "bf765b0506a0b9c2239e2406ae8deb2951ccd6bf2b542ef8ceea773812bf8d75"
+  },
+  "L6": {
+   "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+   "release": "1.6.2",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L6\\coverage\\coverage_reconciliation_01M6K25T57WW4BJBJ3RQGWN26G.json",
+   "sha256": "dfd915028ecf96fc1e72ee5c8a88ab7c5fbc3cbe5c12cbeede0a181d67762745"
+  },
+  "L8": {
+   "run_id": "01M6K6P21BW509BMRTN1FSB9H7",
+   "release": "1.6.3",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L8\\coverage\\coverage_reconciliation_01M6K6P21BW509BMRTN1FSB9H7.json",
+   "sha256": "5e0724b60ead0b3ef55f87eb223af7994d364f9f355615ce1300d64804ffd5c9"
+  },
+  "L9": {
+   "run_id": "01M6K7AB85824HHKD17VNEHASS",
+   "release": "1.6.3",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L9\\coverage\\coverage_reconciliation_01M6K7AB85824HHKD17VNEHASS.json",
+   "sha256": "e1d6b640dcd41ec32e85da0b55c21f9a85f7545f38f90ff863e8218f8b8ffdeb"
+  },
+  "L7": {
+   "run_id": "01M6K7HT3XVV8R8CX79P31KMB4",
+   "release": "1.6.3",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L7\\coverage\\coverage_reconciliation_01M6K7HT3XVV8R8CX79P31KMB4.json",
+   "sha256": "93f7baed105a10d9806b6aea38f165e659d5b48e51d607e92f9d9bea3278b473"
+  },
+  "L10": {
+   "run_id": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+   "release": "1.6.4",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L10\\coverage\\coverage_reconciliation_01M6KA3CKYJSD6WDY4TDAAV73Y.json",
+   "sha256": "7a34e8accc9c88a9839d558276f876b8b158c051ffe9ddc4dc7d6cd3266e1b91"
+  },
+  "L11": {
+   "run_id": "01M6KF4RDC2MKR5Q26ZY5D727P",
+   "release": "1.6.5",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L11\\coverage\\coverage_reconciliation_01M6KF4RDC2MKR5Q26ZY5D727P.json",
+   "sha256": "19c472333f9a06b85ba5c1a0dd67cfb79912094cac680064ec4188bd919ac69d"
+  },
+  "L11b": {
+   "run_id": "01M6KFRFEX31W014SW9ZTT4Y54",
+   "release": "1.6.5",
+   "coverage_report": "C:\\w9\\evidence\\live160\\runs\\L11b\\coverage\\coverage_reconciliation_01M6KFRFEX31W014SW9ZTT4Y54.json",
+   "sha256": "e33705c7051042919581755dbf31829bea789b55f279ba7a3983103d508bfac5"
+  }
+ },
+ "listings": 1104,
+ "states": {
+  "NOT_ATTEMPTED": 407,
+  "OUT_OF_SCOPE": 230,
+  "CATEGORY_PAGE": 1,
+  "PARTIAL": 203,
+  "COMPLETE": 244,
+  "INCOMPLETE": 9,
+  "RESULT_WINDOW": 9,
+  "NOT_FOUND": 1
+ },
+ "rows": {
+  "0": {
+   "state_complete": 7,
+   "state_partial": 29,
+   "state_result_window": 0,
+   "state_incomplete": 2,
+   "state_category_page": 1,
+   "state_not_found": 0,
+   "state_not_attempted": 124,
+   "state_out_of_scope": 52,
+   "row_complete": "no"
+  },
+  "1": {
+   "state_complete": 6,
+   "state_partial": 0,
+   "state_result_window": 0,
+   "state_incomplete": 1,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 8,
+   "state_out_of_scope": 99,
+   "row_complete": "no"
+  },
+  "2": {
+   "state_complete": 47,
+   "state_partial": 54,
+   "state_result_window": 4,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 1,
+   "state_out_of_scope": 17,
+   "row_complete": "no"
+  },
+  "3": {
+   "state_complete": 45,
+   "state_partial": 42,
+   "state_result_window": 3,
+   "state_incomplete": 5,
+   "state_category_page": 0,
+   "state_not_found": 1,
+   "state_not_attempted": 10,
+   "state_out_of_scope": 17,
+   "row_complete": "no"
+  },
+  "4": {
+   "state_complete": 0,
+   "state_partial": 1,
+   "state_result_window": 0,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 0,
+   "state_out_of_scope": 0,
+   "row_complete": "no"
+  },
+  "5": {
+   "state_complete": 72,
+   "state_partial": 37,
+   "state_result_window": 1,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 7,
+   "state_out_of_scope": 10,
+   "row_complete": "no"
+  },
+  "6": {
+   "state_complete": 5,
+   "state_partial": 5,
+   "state_result_window": 1,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 0,
+   "state_out_of_scope": 0,
+   "row_complete": "no"
+  },
+  "7": {
+   "state_complete": 43,
+   "state_partial": 26,
+   "state_result_window": 0,
+   "state_incomplete": 1,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 1,
+   "state_out_of_scope": 16,
+   "row_complete": "no"
+  },
+  "8": {
+   "state_complete": 0,
+   "state_partial": 1,
+   "state_result_window": 0,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 0,
+   "state_out_of_scope": 0,
+   "row_complete": "no"
+  },
+  "9": {
+   "state_complete": 2,
+   "state_partial": 6,
+   "state_result_window": 0,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 0,
+   "state_out_of_scope": 0,
+   "row_complete": "no"
+  },
+  "10": {
+   "state_complete": 17,
+   "state_partial": 2,
+   "state_result_window": 0,
+   "state_incomplete": 0,
+   "state_category_page": 0,
+   "state_not_found": 0,
+   "state_not_attempted": 256,
+   "state_out_of_scope": 19,
+   "row_complete": "no"
+  }
+ },
+ "pages": 714,
+ "pages_by_run": {
+  "L1": 1,
+  "L2": 18,
+  "L3": 18,
+  "L2b": 2,
+  "L4r": 48,
+  "L4": 28,
+  "L5": 18,
+  "L6": 64,
+  "L8": 18,
+  "L9": 1,
+  "L7": 73,
+  "L10": 424,
+  "L11b": 1
+ },
+ "full_scope_complete": false
+}

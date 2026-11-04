@@ -1,12 +1,15 @@
-"""Check that source/ and classic-probe/ are the frozen release 1.5.2 trees, file for file (offline, standard library).
+"""Check that source/, classic-probe/ and classic-probe-1.7.0/ are the frozen trees they say they are, file for file
+(offline, standard library).
 
 Run from the root of a clone, before any environment is created inside it:  python3 manifests/check_frozen_trees.py
 
-source/          each edition against its own EDITION.json (every file's SHA-256 and the tree's) and against
-                 source/BUILD_MANIFEST.json (file count and tree SHA-256 of commit 627c804);
-classic-probe/   the probe tree against FILE_SHA256.txt, PACKAGE_MANIFEST.json's count and file-list SHA-256;
-both             every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
-                 delivered archive (source ZIP 1100aa16..., probe ZIP d4785ccb...).
+source/               collector release 1.6.5: each edition against its own EDITION.json (every file's SHA-256 and
+                      the tree's) and against source/BUILD_MANIFEST.json (file count and tree SHA-256 of its commit);
+classic-probe/        the Walmart probe 1.5.2 the client reviewed (frozen with collector 627c804), unchanged;
+classic-probe-1.7.0/  the shared probe 1.7.0 (C1 to C5 corrected; frozen with collector 1.6.1, 1780349);
+                      each probe tree against its FILE_SHA256.txt and PACKAGE_MANIFEST.json (count and file-list SHA-256);
+all three             every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
+                      delivered archive.
 Prints each finding and ends with PASS or FAIL (exit status 0 or 1).
 """
 from __future__ import annotations
@@ -18,7 +21,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-COMMIT = "627c804d66aa33fc423fd2296c8896c5d5c2c3d4"
+SOURCE_RELEASE, SOURCE_COMMIT = "1.6.5", "67d216eb8ee2ec839a437b0b5bf2d594324b6982"
+PROBES = {
+    "classic-probe": ("1.5.2", "627c804d66aa33fc423fd2296c8896c5d5c2c3d4"),
+    "classic-probe-1.7.0": ("1.7.0", "1780349e522d771a3642fe88bfb7b542044ec844"),
+}
 problems: list[str] = []
 
 
@@ -42,7 +49,7 @@ def check(ok: bool, what: str) -> None:
 
 
 build = json.loads((ROOT / "source/BUILD_MANIFEST.json").read_text("utf-8"))
-check(build.get("commit") == COMMIT and build.get("release") == "1.5.2",
+check(build.get("commit") == SOURCE_COMMIT and build.get("release") == SOURCE_RELEASE,
       f"source/BUILD_MANIFEST.json: release {build.get('release')}, commit {build.get('commit')}")
 for name, ed in build["editions"].items():
     top = ROOT / "source" / ed["top_folder"]
@@ -62,24 +69,25 @@ between = sorted(p for p in set(a) | set(b) if a.get(p) != b.get(p))
 check(between == sorted(build["files_that_differ_between_the_editions"]),
       f"the editions differ in exactly: {', '.join(between)}")
 
-probe = ROOT / "classic-probe"
-pkg = json.loads((probe / "PACKAGE_MANIFEST.json").read_text("utf-8"))
-listing = (probe / "FILE_SHA256.txt").read_bytes()
-check(pkg.get("frozen_revision") == COMMIT and pkg.get("probe_version") == "1.5.2" and pkg.get("live_enabled") is False
-      and pkg.get("requests_sent") == 0,
-      f"classic-probe/PACKAGE_MANIFEST.json: probe {pkg.get('probe_version')}, revision {pkg.get('frozen_revision')}, "
-      f"live_enabled {pkg.get('live_enabled')}, requests_sent {pkg.get('requests_sent')}")
-check(sha(listing) == pkg["file_list_sha256"], "classic-probe/FILE_SHA256.txt has the SHA-256 PACKAGE_MANIFEST.json records")
-listed = dict(reversed(line.split("  ", 1)) for line in listing.decode("utf-8").splitlines())
-tree = files_under(probe / "oxylabs-classic-probe")
-actual = {"oxylabs-classic-probe/" + p: h for p, h in tree.items()}
-check(actual == listed and len(actual) == pkg["files_of_the_probe_tree"],
-      f"classic-probe/oxylabs-classic-probe: {len(actual)} files, each as FILE_SHA256.txt lists it "
-      f"(manifest: {pkg['files_of_the_probe_tree']})")
+for folder, (version, revision) in PROBES.items():
+    probe = ROOT / folder
+    pkg = json.loads((probe / "PACKAGE_MANIFEST.json").read_text("utf-8"))
+    listing = (probe / "FILE_SHA256.txt").read_bytes()
+    check(pkg.get("frozen_revision") == revision and pkg.get("probe_version") == version
+          and pkg.get("live_enabled") is False and pkg.get("requests_sent") == 0,
+          f"{folder}/PACKAGE_MANIFEST.json: probe {pkg.get('probe_version')}, revision {pkg.get('frozen_revision')}, "
+          f"live_enabled {pkg.get('live_enabled')}, requests_sent {pkg.get('requests_sent')}")
+    check(sha(listing) == pkg["file_list_sha256"], f"{folder}/FILE_SHA256.txt has the SHA-256 PACKAGE_MANIFEST.json records")
+    listed = dict(reversed(line.split("  ", 1)) for line in listing.decode("utf-8").splitlines())
+    tree = files_under(probe / "oxylabs-classic-probe")
+    actual = {"oxylabs-classic-probe/" + p: h for p, h in tree.items()}
+    check(actual == listed and len(actual) == pkg["files_of_the_probe_tree"],
+          f"{folder}/oxylabs-classic-probe: {len(actual)} files, each as FILE_SHA256.txt lists it "
+          f"(manifest: {pkg['files_of_the_probe_tree']})")
 
 with (ROOT / "manifests/FILE_MAP.csv").open(encoding="utf-8", newline="") as f:
     fmap = {r["path"]: r for r in csv.DictReader(f)}
-for folder in ("source", "classic-probe"):
+for folder in ("source", *PROBES):
     here = {f"{folder}/{p}": h for p, h in files_under(ROOT / folder).items()}
     mapped = {p: r for p, r in fmap.items() if p.startswith(folder + "/")}
     bad = sorted(p for p in set(here) | set(mapped)

@@ -1,0 +1,419 @@
+{
+ "tool": "flat_layout_scan_165.py",
+ "store": "walmart-3891-pickup",
+ "before_1_6_5": {
+  "runs": 21,
+  "pages": 1527,
+  "placements": {
+   "price_lines": 32736,
+   "nested": 675,
+   "no_price": 275,
+   "flat_only": 50,
+   "all": 33736
+  },
+  "pages_with_flat_only": 1,
+  "releases": [
+   "1.5.0",
+   "1.5.1",
+   "1.6.0",
+   "1.6.1",
+   "1.6.2",
+   "1.6.3",
+   "1.6.4"
+  ]
+ },
+ "on_1_6_5": {
+  "runs": 2,
+  "pages": 4,
+  "placements": {
+   "flat_only": 50,
+   "price_lines": 53,
+   "no_price": 1,
+   "all": 104
+  },
+  "pages_with_flat_only": 1,
+  "releases": [
+   "1.6.5"
+  ]
+ },
+ "runs": [
+  {
+   "label": "",
+   "run_id": "01M69X9XHZR83KZ2FNWBJYJKA7",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:19:30.070427+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 1,
+    "product": 1
+   },
+   "placements": {
+    "price_lines": 57,
+    "nested": 1
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M69XM9RZN3C8D0K7W2NSXR3D",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:25:10.198228+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 6,
+    "product": 20
+   },
+   "placements": {
+    "price_lines": 297,
+    "nested": 19,
+    "no_price": 1
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M69Y1J6YWFEZ1DJHAC2MT17M",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:32:24.818554+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 4,
+    "product": 3
+   },
+   "placements": {
+    "price_lines": 165,
+    "no_price": 10,
+    "nested": 3
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M69Y882GTVYRJZM0CXQ44MXN",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:36:03.820773+00:00",
+   "pages": {
+    "other": 4,
+    "listing": 19,
+    "product": 10
+   },
+   "placements": {
+    "price_lines": 926,
+    "no_price": 3,
+    "nested": 10
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M69YPZTFCP7AWJ5B78AXEA2N",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:44:06.903695+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 2
+   },
+   "placements": {
+    "price_lines": 106,
+    "no_price": 3
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M69YS2X0YG5JSEMCGKK8BHE5",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T21:45:15.583803+00:00",
+   "pages": {
+    "other": 2,
+    "listing": 2
+   },
+   "placements": {
+    "price_lines": 115,
+    "no_price": 3
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M6A0JWYHTVK7XFH34P235F9Q",
+   "release": "1.5.0",
+   "started_at": "2026-10-31T22:16:50.070617+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 2
+   },
+   "placements": {
+    "price_lines": 109
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M6A2VQAA5VXJHJHMZPCTZTD4",
+   "release": "1.5.1",
+   "started_at": "2026-10-31T22:56:36.332520+00:00",
+   "pages": {
+    "other": 2,
+    "listing": 15,
+    "product": 1
+   },
+   "placements": {
+    "price_lines": 775,
+    "no_price": 3,
+    "nested": 1
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "",
+   "run_id": "01M6A52HA6XYCEDS6DBE5N5RQ7",
+   "release": "1.5.1",
+   "started_at": "2026-10-31T23:35:16.690230+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 1
+   },
+   "placements": {
+    "price_lines": 52
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L1",
+   "run_id": "01M6H5TX7R4ZWV8W3NTH0QN6HF",
+   "release": "1.6.0",
+   "started_at": "2026-11-03T17:03:16.567191+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 1,
+    "product": 1
+   },
+   "placements": {
+    "price_lines": 56,
+    "no_price": 1,
+    "nested": 1
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L2",
+   "run_id": "01M6H72J86K5TF7A1874N7BJ2R",
+   "release": "1.6.0",
+   "started_at": "2026-11-03T17:24:55.824115+00:00",
+   "pages": {
+    "other": 7,
+    "listing": 18,
+    "product": 483
+   },
+   "placements": {
+    "price_lines": 935,
+    "no_price": 13,
+    "nested": 475
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L3",
+   "run_id": "01M6HA74X4QYMW45SVD62JQDSQ",
+   "release": "1.6.1",
+   "started_at": "2026-11-03T18:19:51.778320+00:00",
+   "pages": {
+    "other": 7,
+    "listing": 18,
+    "product": 11
+   },
+   "placements": {
+    "price_lines": 936,
+    "no_price": 6,
+    "nested": 11
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L2b",
+   "run_id": "01M6HAXEP6495EGWT91JQS09SS",
+   "release": "1.6.1",
+   "started_at": "2026-11-03T18:32:02.632331+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 2,
+    "product": 116
+   },
+   "placements": {
+    "price_lines": 116,
+    "no_price": 2,
+    "nested": 115
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L4r",
+   "run_id": "01M6HCF2YSD7N18W7JMH6EHK23",
+   "release": "1.6.1",
+   "started_at": "2026-11-03T18:59:09.123390+00:00",
+   "pages": {
+    "other": 2,
+    "listing": 48
+   },
+   "placements": {
+    "price_lines": 2133,
+    "no_price": 6
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L4",
+   "run_id": "01M6HCZXM0WGMRCFDTCNZ7218K",
+   "release": "1.6.1",
+   "started_at": "2026-11-03T19:08:20.698014+00:00",
+   "pages": {
+    "other": 5,
+    "listing": 28
+   },
+   "placements": {
+    "price_lines": 1310,
+    "no_price": 38
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L5",
+   "run_id": "01M6K1HG154683NAAFXQZX33C6",
+   "release": "1.6.2",
+   "started_at": "2026-11-04T10:26:42.465568+00:00",
+   "pages": {
+    "other": 7,
+    "listing": 18,
+    "product": 33
+   },
+   "placements": {
+    "price_lines": 945,
+    "no_price": 6,
+    "nested": 33
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L6",
+   "run_id": "01M6K25T57WW4BJBJ3RQGWN26G",
+   "release": "1.6.2",
+   "started_at": "2026-11-04T10:37:48.173422+00:00",
+   "pages": {
+    "other": 2,
+    "listing": 64,
+    "no_page_data": 1
+   },
+   "placements": {
+    "price_lines": 2778,
+    "no_price": 22
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L8",
+   "run_id": "01M6K6P21BW509BMRTN1FSB9H7",
+   "release": "1.6.3",
+   "started_at": "2026-11-04T11:56:34.878738+00:00",
+   "pages": {
+    "other": 6,
+    "listing": 18,
+    "product": 6
+   },
+   "placements": {
+    "price_lines": 951,
+    "no_price": 5,
+    "nested": 6
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L9",
+   "run_id": "01M6K7AB85824HHKD17VNEHASS",
+   "release": "1.6.3",
+   "started_at": "2026-11-04T12:07:39.639283+00:00",
+   "pages": {
+    "other": 2,
+    "listing": 1
+   },
+   "placements": {
+    "price_lines": 12
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L7",
+   "run_id": "01M6K7HT3XVV8R8CX79P31KMB4",
+   "release": "1.6.3",
+   "started_at": "2026-11-04T12:11:44.318270+00:00",
+   "pages": {
+    "other": 5,
+    "listing": 75
+   },
+   "placements": {
+    "price_lines": 3645,
+    "no_price": 81
+   },
+   "pages_with_flat_only": []
+  },
+  {
+   "label": "L10",
+   "run_id": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+   "release": "1.6.4",
+   "started_at": "2026-11-04T12:56:17.402679+00:00",
+   "pages": {
+    "other": 10,
+    "listing": 429
+   },
+   "placements": {
+    "price_lines": 16317,
+    "no_price": 72,
+    "flat_only": 50
+   },
+   "pages_with_flat_only": [
+    {
+     "fetch": "01M6KB69AJA2N65MDQP4V1QWTE",
+     "page_kind": "listing",
+     "flat_only": 50,
+     "placements": 50
+    }
+   ]
+  },
+  {
+   "label": "L11",
+   "run_id": "01M6KF4RDC2MKR5Q26ZY5D727P",
+   "release": "1.6.5",
+   "started_at": "2026-11-04T14:24:25.123189+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 1
+   },
+   "placements": {
+    "flat_only": 50
+   },
+   "pages_with_flat_only": [
+    {
+     "fetch": "01M6KF57Y6BX9SC99YYE2GDXAK",
+     "page_kind": "listing",
+     "flat_only": 50,
+     "placements": 50
+    }
+   ]
+  },
+  {
+   "label": "L11b",
+   "run_id": "01M6KFRFEX31W014SW9ZTT4Y54",
+   "release": "1.6.5",
+   "started_at": "2026-11-04T14:35:11.298303+00:00",
+   "pages": {
+    "other": 1,
+    "listing": 1
+   },
+   "placements": {
+    "price_lines": 53,
+    "no_price": 1
+   },
+   "pages_with_flat_only": []
+  }
+ ]
+}

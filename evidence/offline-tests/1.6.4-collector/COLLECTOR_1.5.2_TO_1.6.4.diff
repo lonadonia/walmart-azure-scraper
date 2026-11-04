@@ -1,0 +1,2816 @@
+diff --git a/Dockerfile b/Dockerfile
+index 01d7757..ae6fe53 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.5.2 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.5.2 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.4 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.4 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 2c4ba1c..9b893f2 100644
+--- a/README.md
++++ b/README.md
+@@ -78,6 +78,29 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
++## What releases 1.6.0 to 1.6.4 change
++
++Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
++`digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
++took (fresh, carried, legacy, replayed, re-exported or published), and an export that would break this is refused.
++What a page showed stays in the row's provenance and in `offers.json`. It also adds an optional account-wide gate for
++Oxylabs, so that several collectors can share one allowance: each submission is reserved before it is sent, and an
++unanswered one stays unknown, never free. Release 1.6.1 makes the assembly reuse what earlier reads of a product's own
++page established when the run ended before its detail pass, as the pass would have. Release 1.6.2 corrects two
++defects the live runs of 2026-11-03 found: a listing whose total moved a little while the site served far fewer
++results is now a result-window end and is read through its child categories (it was left "not reconciled"), and a
++listing link that serves a category page is recorded as not read, with the listings that page links, instead of
++stopping the run and holding the store. Release 1.6.3 corrects three defects the live runs of 2026-11-04 found: a
++run with product detail reading off now still uses what earlier reads of a product's own page established (it
++exported those products blank); a carried row whose UPC or size is empty now gets them from such a read, naming
++that read, and never when the value would clash with another row; and a listing link the site answers with its
++own not-found page is recorded `NOT_FOUND` while the run goes on (release 1.6.2 did not recognize that page's
++data, called it a challenge, stopped the run and held the store). Release 1.6.4 corrects the defect that stopped
++the census of 2026-11-04: a listing whose Pickup grid the page reports empty (0 results) is an empty listing
++once the page names the store and Pickup, even when the page also shows an "Available for shipping" carousel
++(release 1.6.3 took the reported 0 for a missing total, read the carousel's products as results it could not
++show, stopped the run and held the store). See `docs/VERIFICATION.md`.
++
+ ## What release 1.5.2 changes
+ 
+ Release 1.5.2 corrects the known defects of release 1.5.1 and changes what is exported in two ways: six more brands
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 4cb6ad5..5b474bd 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.5.2" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.4" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index 95692aa..2c32aba 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -36,8 +36,8 @@ indented instead of that line. A key value is never written: keys appear only as
+ | 2 | Configuration: invalid file, missing database URL, schema not current, unknown store or run; a provider the edition does not list (`COMMAND_REFUSED`, release 1.4.0: nothing is sent) | fix the configuration; `db-upgrade`; run the edition of that provider (EDITIONS.md) |
+ | 3 | Credentials: no key for the run's provider, or the provider refused it | set or replace the key (OPERATIONS.md) |
+ | 4 | Credits: the key's credits, the credit ceiling or a credit budget ran out; or the next request could cross a provider's spending ceiling or the task's money budget (`SPENDING_CEILING`, also when no Oxylabs ceiling is set) | add credits or raise the budget; after `SPENDING_CEILING` the run stays interrupted: raise the ceiling (`set-ceiling`, `set-budget`) and `resume` it |
+-| 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge) | the store is held; investigate, then `release-hold` |
+-| 6 | Rejected: the run's checks rejected it, or an export did not verify | read `status --run`; nothing was published |
++| 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge). The site's own not-found page is not a refusal: its listing is recorded `NOT_FOUND` and the run goes on (release 1.6.3) | the store is held; investigate, then `release-hold` |
++| 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page or the site's not-found page, releases 1.6.2 and 1.6.3; a first result page that reports results and shows none; a first page that reports 0 results is an empty listing, release 1.6.4), which also holds the store | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold` |
+ | 7 | Store or source checks failed: a page was not for store/Pickup, or the canary's records differ from the page | the store is held; investigate, then `release-hold` |
+ | 8 | Held: the store's collection is held after an earlier stop | `status` shows why; `release-hold` |
+ | 9 | Busy: another execution holds the store, or an unfinished run must be resumed or finalized first | wait, or `resume` / `finalize` |
+@@ -76,7 +76,7 @@ follow-up or detail reading switched off in the configuration):
+ | `--max-subcategories-per-category N` | subcategory listings read per category page |
+ | `--subcategory ROW:LISTING` | narrow a category row to one subcategory listing its category page names, by path or URL (repeatable), e.g. `0:/browse/food/fresh-fruits/976759_976793_9756351` |
+ | `--pilot-detail-pages N` | at most N product pages read for missing fields, once the listings have named every product, in the store's queue order (never-read first). What an earlier read established is reused first and counts against nothing (release 1.5.1). The rest stay empty with the disposition `budget_deadline_interruption` and stay queued. A pilot's budget only: production has none |
+-| `--pilot-no-detail` | read no product page for missing fields in this pilot (disposition `not_attempted`; not a statement about the source) |
++| `--pilot-no-detail` | read no product page for missing fields in this pilot (disposition `not_attempted`; not a statement about the source). What earlier reads of a product's page established within `detail.reuse_days` is still used, at no request (release 1.6.3) |
+ | `--follow-up-pages N` | at most N product pages per follow-up kind (below); the rest are recorded as not attempted and stay pending in the store's follow-up queue |
+ 
+ Budgets, not scope limits (the run is not a pilot; one that reaches its budget ends incomplete: a
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index c1195bd..cc3742f 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.5.2 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.4 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+@@ -117,11 +117,23 @@ tiles (sponsored tiles repeating organic products). There is no tolerance thresh
+ (`coverage.node_min_coverage_ratio` is fixed at 1.0), reaching the last page proves nothing by itself, and
+ more identities than the listing reports is an overcount, never done (sponsored products, scope, variants or
+ a stale total must explain it). An empty later page counts as an end only when its own data still names
+-store 3891 and Pickup (otherwise the run stops: exit 7). Otherwise the listing is `INCOMPLETE` with the
++store 3891 and Pickup (otherwise the run stops: exit 7). A listing whose first page shows 0 results is `EMPTY`
++on the same condition, whatever other modules the page shows: a 0 the page reports is a total of 0 (release
++1.6.4: on 2026-11-04 Walmart's "Bidets" listing reported 0 Pickup results for store 3891 beside an "Available
++for shipping" carousel of 10 products; release 1.6.3 took the 0 for a missing total, read the carousel's 10 as
++the total, stopped the run, exit 6, and held the store). A first page that reports results and shows none
++still stops the run (exit 6). Otherwise the listing is `INCOMPLETE` with the
+ reason (`RESULT_WINDOW`, written "accessible pages exhausted; coverage incomplete": the site stopped serving
+-results while it reports more, as Walmart's listings did at page 11 on 2026-10-23; an overcount or an
+-unreconciled difference; `REPEATED_PAGE`; `SAFETY_LIMIT`, a listing still serving pages past 50 when Walmart
+-links at most 25; a limit; robots.txt), and the run's coverage check (G3, which reads the difference no
++results while it reports more, as Walmart's listings did at page 11 on 2026-10-23, also when the total moved
++while the listing was read and the site served less than its smallest total by more than it moved (release
++1.6.2: Laundry, 2026-11-03); an overcount or an unreconciled difference; `REPEATED_PAGE`; `SAFETY_LIMIT`, a
++listing still serving pages past 50 when Walmart links at most 25; `CATEGORY_PAGE`, a listing link that served
++a category page instead of a listing, recorded with the listings that page links while the run goes on (release
++1.6.2); `NOT_FOUND`, a listing link the site answered with its own not-found page (its data is the page `/404`),
++recorded while the run goes on (release 1.6.3; 1.6.2 called that page a challenge, stopped the run, exit 5, and
++held the store); any other page without a result grid stops the run, exit 6, and holds the store; a limit;
++robots.txt),
++and the run's coverage check (G3, which reads the difference no
+ exact balance explains) fails, so it is never published. `coverage-report --run ID` reconciles every scope unit of a run (CLI.md). The reported total
+ can include offers that are not the store's (marketplace, shipping): a gap is reported, never taken as
+ proof either way. What it counts depends on the grid Walmart served, which each result page records from
+@@ -205,6 +217,10 @@ published, and the last good dataset stays. One refused page does not cost the r
+ stays empty with `blocked` (or `request_failed`) and a later run reads it again.
+ 
+ A pilot's budget is explicit (`run --pilot-detail-pages N`, `--pilot-no-detail`) and makes the run a pilot.
++`--pilot-no-detail` (or `detail.enabled: false`) stops product-page requests only: what earlier reads of a
++product's own page established within `detail.reuse_days` is still used, at no request, with that read's own
++time, run, revision and page (release 1.6.3; `detail.reuse_days: 0` turns reuse off). A carried row whose UPC
++or size is empty gets them from such a read too, never forced (release 1.6.3, `docs/VERIFICATION.md`).
+ `detail.max_per_run: 0` and `--pdp-sample` are refused, and a scheduled run refuses any budget.
+ 
+ Saved pages are loaded with `import-detail-captures --store KEY --index FILE`. The index is a JSON list next to the
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 9a7ffd5..924a817 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,4 +1,85 @@
+-# Verification report: walmart-azure-headless 1.5.2
++# Verification report: walmart-azure-headless 1.6.4
++
++## Release 1.6.4
++
++Release 1.6.4 corrects the defect that stopped this delivery's live census L7 of 2026-11-04 on release 1.6.3. An
++offline test on the page that census stored shows the defect and its correction; each new test of the change
++fails on 1.6.3 and passes on 1.6.4, and the tests that show what did not change pass on both. Live results are
++not recorded here: the delivery's review documents give each live stage, the frozen build it ran on and its
++result. (Until this release the title of this report still named release 1.6.2; its sections were current.)
++
++| Change | Until 1.6.3 | Where |
++|---|---|---|
++| The listing's total is the `aggregatedCount` its page reports, and a reported 0 is a total of 0; the page's `count` (the products the page shows, other modules' too) is read only when the page reports no `aggregatedCount`. A listing whose first page reports 0 results and shows none is `EMPTY` ("the listing shows 0 results") once that page's own data names the store and the fulfillment, whatever other modules the page shows; their products are not the listing's and none is recorded. The run goes on. A first page that reports results and shows none still stops the run (`ABNORMAL_RESULT`) | The total was read as `aggregatedCount or count`, so a reported 0 counted as missing and the page's `count` took its place. Live L7 of 2026-11-04 (run `01M6K7HT3XVV8R8CX79P31KMB4`): the Household Essentials link "Bidets" (`/browse/home-improvement/bidets/1072864_1045879_5533759_6108305`) reported 0 Pickup results for store 3891 (`aggregatedCount` 0, its result grid empty) beside an "Available for shipping" carousel of 10 products (`count` 10); 1.6.3 read a total of 10, stopped the run ("the page reports results but shows no product", `ABNORMAL_RESULT`, exit 6, not resumable) and held the store. Of the 343 listing pages stored by this delivery's live runs, it is the only one the change reads differently | `sites/walmart/page_data.py` (`pagination`); `tests/unit/test_empty_pickup_grid.py` (the authentic page `tests/captures/listing_pages_20261104/bidets_page1.html.gz`, the collector's stored copy, and a reported 0 beside other products: fail on 1.6.3; a total above 0, no or a null `aggregatedCount`, 0 and no product, and the synthetic copy's shape: pass on both); `tests/integration/test_coverage_and_assortment.py::test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on` (fails on 1.6.3); `::test_a_page_that_reports_results_it_does_not_show_still_stops_the_run` (unchanged; passes on both) |
++
++## Release 1.6.3
++
++Release 1.6.3 corrects three defects that this delivery's live runs of 2026-11-04 found with release 1.6.2: two in
++what a run publishes for a product's UPC and size, found by the delivery's field-by-field reconciliation of the
++live run L5, and one that stopped the live run L6. Offline tests show each defect and its correction: each new test
++of a change fails on 1.6.2 and passes on 1.6.3, and the tests that show what did not change pass on both. Live
++results are not recorded here: the delivery's review documents give each live stage, the frozen build it ran on and
++its result.
++
++| Change | Until 1.6.2 | Where |
++|---|---|---|
++| A run with product detail reading off (`detail.enabled: false`, `--pilot-no-detail`) still uses what an earlier read of a product's own page established within `detail.reuse_days`, at no request, with that read's own time, run, revision and page. Reading off turns off requests only; `detail.reuse_days: 0` turns reuse off | Such a run reused nothing: it exported these products blank, "product detail reading is off" (release 1.6.1 stated this: "With detail reading switched off, nothing is reused"). Live on 2026-11-03/04 the census and partition checks, all run with reading off, exported blank UPCs that 1.5.1's S6 had read | `collection/walmart.py` (`reuse_saved_details`); `tests/integration/test_detail_path.py::test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established` (fails on 1.6.2); `tests/integration/test_detail_path.py::test_a_page_nobody_requested_is_never_called_absent_in_any_evidence_file` (no saved read: still `not_attempted`, "product detail reading is off"; passes on both); `tests/integration/test_detail_path.py::test_every_outcome_of_an_empty_field_is_told_apart` (changed: its reading-off part expected every product "not attempted"; it now expects that of the products whose earlier read was refused or failed, which are never reused, and the earlier read's own outcome, `absent_in_source` with that read's run and time, for the product whose page that read inspected; the changed test fails on 1.6.2, the earlier version passed on 1.6.2); `tests/integration/test_operations.py::test_a_pilot_budget_is_named_on_the_run_and_never_published` (changed: its second pilot, with reading off, expected all four products "not attempted" and pending in the store's queue; it now expects no product page requested, the UPC the first pilot read kept as that read (`recovered_from_saved_detail`, its run) with its queue entry resolved, and the three others "not attempted", "product detail reading is off", and pending; the changed test fails on 1.6.2) |
++| A carried row whose UPC or size is empty gets what a saved read of the item's own page establishes, as a product of the run does: the value names that read (`provenance.upc_detail.reused_from`, `provenance.historical.recovered_fields`: its time, run, revision and page), the row's listing observation (crawl date, prices, page) stays the earlier run's, and `historical.record_as_carried_sha256` keeps the hash of the record as carried. Never forced: when the read states a UPC another exported row of the run has (one product), an approximate size, conflicting sizes or another UPC than the row has, or when the record would fail the record checks, the row stays as carried and `historical.recovery_withheld` says why. The evidence files (`field_dispositions`, `provenance.json`, `record_map.json`) name the carried row's own outcome when it has one | A carried row kept the empty fields of the run it came from, although a saved read answered for them (release 1.6.1 stated this: "an earlier run's blank stays that run's blank"). Live L5 of 2026-11-04 exported carried rows with blank UPCs that 1.5.1's S6 had read | `collection/walmart.py` (`recover_carried_details`, called by `h_assemble` after `retention.carry_forward`), `publishing/supporting_log.py` (`_detail_of`); `tests/integration/test_detail_path.py::test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names` and `::test_a_carried_row_never_takes_a_upc_another_exported_row_has` (both fail on 1.6.2); `::test_a_carried_row_names_the_sources_of_its_own_earlier_run` and `::test_a_carried_row_names_the_run_that_read_its_fields` (unchanged; pass on both) |
++| Walmart's own not-found page is recognized: its page data is found whether the script's id is quoted or not (`id=__NEXT_DATA__`, as the minified not-found page writes it), by the challenge check, the page parser and the sanitizer, which now keeps that page data redacted in the stored copy. A listing link the site answers with that page (its data is the Next.js page `/404`) is recorded `INCOMPLETE` with the end `NOT_FOUND`, the page and its HTTP status, and the event `LISTING_NOT_FOUND`; the run goes on and the store is not held. It is never an empty listing, and no product is taken from it. A real challenge (the bot manager's markers or wording) is still a refusal, and a page without the page data script is still "missing_initial_state" | The check looked only for `id="__NEXT_DATA__"`: it read "missing_initial_state", called the page a challenge, stopped the run (`SITE_REFUSAL`, exit 5, not resumable) and held the store, and the sanitizer dropped that page data. Live L6 of 2026-11-04: the Shampoo child listing "nexxus-shampoo" (`/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405`, a link the Shampoo listing's Departments facet named) answered with HTTP 200 and "Uh-oh... This page could not be found." | `acquisition/challenge.py` (`has_state`), `sites/walmart/page_data.py` (`_NEXT_DATA`, `not_found_page`), `sites/walmart/sanitize.py` (`_NEXT_DATA`), `collection/walmart.py` (`_page`); `tests/unit/test_not_found_page.py` (the not-found page and its page data: fail on 1.6.2; a challenge and a page without the page data script: still refused, pass on both) and `tests/integration/test_coverage_and_assortment.py::test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on` (fails on 1.6.2) |
++
++A product's own page is read with the page-data check off, as before, so the not-found page never stopped a product
++read: it was recorded as a page without page data (`parse_failed` for a product's UPC and size, "parsing failed" for
++a sponsored-only or variant product's page). Release 1.6.3 records it as what it is: `request_failed`, "the site
++answered with its not-found page", for the UPC and size (the product stays in the store's queue, to be read again;
++`tests/integration/test_detail_path.py::test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure`,
++fails on 1.6.2), and "access failed: the site answered with its not-found page" for a sponsored-only or variant
++product's page. A not-found page after a listing's first result page also ends the listing `INCOMPLETE`
++(`NOT_FOUND`, with the page number), never `DONE`.
++
++## Release 1.6.2
++
++Release 1.6.2 corrects two defects that this delivery's live runs of 2026-11-03 found with release 1.6.1. Offline
++tests show each defect and its correction: each new test of a change fails on 1.6.1 and passes on 1.6.2, and the
++tests that show what did not change pass on both. Live results are not recorded here: the delivery's review
++documents give each live stage, the frozen build it ran on and its result.
++
++| Change | Until 1.6.1 | Where |
++|---|---|---|
++| A listing whose total moved while it was read, and whose served results fall short of its smallest reported total by more than the total moved (however they are counted: placed identities or tiles), ends at the site's result window (`RESULT_WINDOW`, "accessible pages exhausted; coverage incomplete", with the range of totals reported) and is partitioned through its child categories like any listing past its window. It is never `DONE`: its own total moved, so nothing can reconcile it | The listing ended "not reconciled" without a window end, and was not partitioned. Live on 2026-11-03: Laundry reported 615, 613, 614 and 611 results while it was read, the site served 393, and page 11 of the 16 it linked was empty; Shampoo reported 608 and 607, the site served 399, and page 12 was empty | `collection/walmart.py` (`close_listing`, `_short_whatever_the_count`); `tests/unit/test_listing_reconciliation.py::test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done` and `tests/integration/test_coverage_and_assortment.py::test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children` (both fail on 1.6.1); `tests/unit/test_listing_reconciliation.py::test_a_shortfall_no_larger_than_the_totals_moved_stays_unreconciled_not_a_window` (unchanged; passes on both) |
++| A listing link that serves a category page (a page of links without a result grid: its data is the page `/cp/[...categoryParams]`) is recorded `INCOMPLETE` with the end `CATEGORY_PAGE`, the category page it served and the listings that page links. The run goes on and the store is not held. It is never an empty listing, and no product is taken from that page | The run stopped (`ABNORMAL_RESULT`, exit 6, not resumable) and the store was held until `release-hold`, as for a page of unknown shape. Live on 2026-11-03: the Food navigation's link "Fresh Flowers" (`/browse/food/flowers/976759_1089004_2424807`) served the category page "Flower Shop" (`/cp/flower-shop/5098771`), and the census stopped after 29 listing pages | `sites/walmart/page_data.py` (`category_page`), `collection/walmart.py` (`_page`); `tests/unit/test_walmart.py::test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one` and `tests/integration/test_coverage_and_assortment.py::test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on` (both fail on 1.6.1); `tests/integration/test_coverage_and_assortment.py::test_any_other_page_without_a_result_grid_still_stops_the_run` (a page of unknown shape, or a category page after a listing's first result page: still `ABNORMAL_RESULT`; passes on both) |
++
++The listings such a category page links are named, not read: whether they belong to the row's scope is the client's
++decision. The "Flower Shop" page links Food listings (Roses, Tulips, Mixed bouquets and others) and listings under
++Home and Patio & Garden (artificial flowers, indoor plants, orchids). Any other page without a result grid still
++stops the run and holds the store.
++
++## Release 1.6.1
++
++Release 1.6.1 corrects one defect that this delivery's own field-by-field reconciliation found after release 1.6.0
++was frozen. An offline test shows the defect and its correction. Live results are not recorded here: the delivery's
++review documents give each live stage, the frozen build it ran on and its result.
++
++| Change | Until 1.6.0 | Where |
++|---|---|---|
++| A product whose own page the run did not read gets, when the run is assembled, what an earlier read of that page established (the 30-day reuse window), as the detail pass would have given it: that read's own time, run, revision and page, never "fetched now" | Only the detail pass reused saved reads. A run that ended before that pass (a stop, a deadline, a credit limit) exported such products blank, "the run stopped before this product's page was read", although the reuse costs no request. The live S7 of 2026-10-31 (release 1.5.1) left 32 products blank that S6's saved reads answered for, and later runs carried them blank | `collection/walmart.py` (`reuse_saved_details`, called by `h_assemble` before `close_details`); `tests/integration/test_detail_path.py::test_a_run_that_ends_before_its_detail_pass_still_uses_what_earlier_reads_established` (it fails on 1.6.0 and passes on 1.6.1) |
++
++With detail reading switched off, nothing is reused, as before. A product that no earlier read answers for still says
++why it is blank. A carried row is still carried unchanged: an earlier run's blank stays that run's blank, with its
++reason.
++
++## Release 1.6.0
++
++Release 1.6.0 answers the client's latest clarification and adds a spending gate that several collectors can share.
++Every change is shown by offline tests on synthetic pages. A test does not establish live access or coverage.
++
++| Change | Until 1.5.2 | Where |
++|---|---|---|
++| `volume_deals_description`, `volume_deals_price`, `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, from every path: fresh, carried, legacy, replayed, re-exported, published. What a page showed stays in the row's provenance and in `offers.json`, never in the four fields | the volume-offer rule filled them from the page | `core/schema.py` (`DEAL_FIELDS`, `apply_output_policy`), `assembly/record_builder.py`, `collection/retention.py`, `publishing/exports.py` (a nonconforming row is refused at the last step), `checks/contract.py`; `tests/unit/test_exports_policy.py`, `tests/integration/test_deal_fields_policy.py` |
++| A carried or legacy row that holds a deal value is carried with the four fields empty, and its provenance names what was withheld and the source row's hash | carried unchanged | `collection/retention.py`; the same tests |
++| An optional account-wide gate (`OxylabsTransport.account_gate_factory`) reserves each submission's worst case before it is sent, is told just before it leaves, and learns its outcome. A refusal sends nothing and stops the run as a spending ceiling does. An unanswered submission is reported as unknown, never as free | each collector knew only its own ceiling | `acquisition/oxylabs.py`; `tests/integration/test_account_gate.py` |
++
++Test expectations changed deliberately, because the behaviour they described changed: the assertions that a deal
++value reached a record now look for it in the record's provenance.
+ 
+ ## Release 1.5.2
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index 38a2f22..02664e2 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.5.2"
++version = "1.6.4"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 19c2435..0f434f6 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.5.2"
++__version__ = "1.6.4"
+diff --git a/src/walmart_headless/acquisition/challenge.py b/src/walmart_headless/acquisition/challenge.py
+index d2f9abe..88feaa8 100644
+--- a/src/walmart_headless/acquisition/challenge.py
++++ b/src/walmart_headless/acquisition/challenge.py
+@@ -53,6 +53,21 @@ _BLOCKED_PAGE_DATA = re.compile(r'"page"\s*:\s*"/blocked"')
+ # The data every content page of a site embeds: a page without it is a shell or an interstitial.
+ MARIANOS_STATE_MARKER = "window.__INITIAL_STATE__"
+ WALMART_STATE_MARKER = 'id="__NEXT_DATA__"'
++# The same script as the site may write it: its id quoted or not. Release 1.6.3: Walmart's own not-found page
++# (live 2026-11-04, the listing link "nexxus-shampoo", fetch 01M6K2F80M1AFY26P6BMN56F4C) is minified and
++# writes ``<script id=__NEXT_DATA__ type="application/json">``; release 1.6.2 looked only for the quoted
++# form, read "missing_initial_state", called the page a challenge, stopped the run and held the store.
++_STATE_SCRIPT = {
++    WALMART_STATE_MARKER: re.compile(r"<script\b[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\1(?=[\s/>])", re.I),
++}
++
++
++def has_state(html: str, state_marker: str) -> bool:
++    """Whether the document embeds the site's page data (``state_marker``, or its script written so)."""
++    if state_marker in html:
++        return True
++    rx = _STATE_SCRIPT.get(state_marker)
++    return bool(rx is not None and rx.search(html))
+ 
+ 
+ @dataclass(frozen=True)
+@@ -88,7 +103,7 @@ def detect_document_challenge(
+     strong.extend(name for rx, name in _STRUCTURE if rx.search(markup))
+     if _BLOCKED_PAGE_DATA.search(html):
+         strong.append("blocked_page_data")
+-    has_data = state_marker in html
++    has_data = has_state(html, state_marker)
+     wording = [name for rx, name in _WORDING if rx.search(markup)]
+     if wording:
+         if strong or not has_data:
+diff --git a/src/walmart_headless/acquisition/oxylabs.py b/src/walmart_headless/acquisition/oxylabs.py
+index e1bab05..2cfff71 100644
+--- a/src/walmart_headless/acquisition/oxylabs.py
++++ b/src/walmart_headless/acquisition/oxylabs.py
+@@ -25,6 +25,14 @@ request is sent. A 200 answer is settled as one charged result; the documented f
+ REQUEST_FAILED_AFTER_TOO_MANY_RETRIES) and an authentication refusal (no account was reached) as not
+ charged; any other answer, and a request cancelled or cut after it was sent, keeps its reserved cost as
+ possibly charged (``cost_source`` "unknown").
++
++Account gate (1.6.0). When several collectors share one provider account and one allowance, an operator's
++harness can set :attr:`OxylabsTransport.account_gate_factory` to an account-wide controller outside this
++collector (:class:`AccountGate`). It is consulted for every submission after this collector's own ledger has
++reserved it: the gate reserves the submission's worst case before anything is sent, is told just before the
++request leaves, and then learns the outcome. A refusal sends nothing and stops the run as a spending ceiling
++does. A submission sent without a usable answer is reported to the gate as unknown, never as free. Without a
++gate (the default) nothing changes.
+ """
+ 
+ from __future__ import annotations
+@@ -40,7 +48,7 @@ from dataclasses import dataclass
+ from datetime import datetime, timedelta
+ from pathlib import Path
+ from time import monotonic
+-from typing import Any, ClassVar
++from typing import Any, ClassVar, Protocol
+ 
+ import httpx
+ from pydantic import SecretStr
+@@ -343,6 +351,37 @@ class OxylabsLedger:
+             s.commit()
+ 
+ 
++# -- an account-wide gate (1.6.0) ----------------------------------------------------------------------------
++
++
++class GateRefused(RuntimeError):
++    """The account-wide gate refused this submission: nothing is sent."""
++
++
++class AccountGate(Protocol):
++    """An optional spending controller outside this collector, shared with the other collectors that use the
++    same provider account. For one submission, in order: :meth:`reserve` (a refusal raises
++    :class:`GateRefused`: nothing is sent), :meth:`dispatched` just before the request leaves (a refusal:
++    :meth:`unsent`, nothing is sent), then exactly one of :meth:`settled` (an answer came), :meth:`unknown`
++    (sent, no answer: its reservation stays held)."""
++
++    def reserve(
++        self, *, purpose: str, endpoint: str, target_url: str, attempt: int, usd: float, key: str
++    ) -> str:
++        """Reserve one submission's worst case; returns the gate's own reference for it."""
++        ...
++
++    def dispatched(self, ref: str) -> None: ...
++
++    def unsent(self, ref: str, reason: str) -> None: ...
++
++    def settled(
++        self, ref: str, *, status: int, kind: str | None, charged: bool | None, usd: float
++    ) -> None: ...
++
++    def unknown(self, ref: str, reason: str) -> None: ...
++
++
+ # -- answers ----------------------------------------------------------------------------------------------
+ 
+ 
+@@ -414,6 +453,9 @@ class OxylabsTransport:
+ 
+     # Tests point this at an in-memory mock of the Web API (never at the real API).
+     client_factory: ClassVar[Callable[[], httpx.AsyncClient] | None] = None
++    # 1.6.0: an account-wide spending gate, set by an operator's harness (None: this collector's own ceiling
++    # and budget apply alone).
++    account_gate_factory: ClassVar[Callable[[], AccountGate] | None] = None
+ 
+     def __init__(
+         self,
+@@ -428,8 +470,12 @@ class OxylabsTransport:
+         segment_id: str | None = None,
+         worker: str | None = None,
+         sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
++        account_gate: AccountGate | None = None,
+     ):
+         self.ledger, self.run_id, self.retailer, self.actor = ledger, run_id, retailer, actor
++        gate_factory = OxylabsTransport.account_gate_factory
++        self.gate: AccountGate | None = account_gate or (gate_factory() if gate_factory else None)
++        self.gate_errors: list[str] = []
+         self.max_attempts = max_attempts
+         self.segment_id, self.worker = segment_id, worker
+         self.sleep = sleep
+@@ -452,6 +498,47 @@ class OxylabsTransport:
+             "Content-Type": "application/json",
+         }
+ 
++    def _gate_open(self, row_id: str, req: OxyRequest, attempt: int, rate: float) -> str | None:
++        """The account-wide gate's reservation and dispatch mark, or a CEILING error with nothing sent."""
++        if self.gate is None:
++            return None
++        ref: str | None = None
++        try:
++            ref = self.gate.reserve(
++                purpose=req.purpose,
++                endpoint=req.endpoint,
++                target_url=req.url[:2000],
++                attempt=attempt,
++                usd=rate,
++                key=row_id,
++            )
++            self.gate.dispatched(ref)
++        except Exception as exc:  # any failure of the gate is a refusal: nothing is sent
++            if ref is not None:
++                try:
++                    self.gate.unsent(ref, f"refused at dispatch: {type(exc).__name__}")
++                except Exception as exc2:  # recorded; the reservation stays held there
++                    self.gate_errors.append(f"unsent: {type(exc2).__name__}: {exc2}"[:300])
++            self.ledger.release(row_id, "gate_refused", charged_unknown=False)
++            raise ProviderError(
++                ProviderErrorKind.CEILING,
++                redact(f"the account-wide spending gate refused the submission: {exc}", self.key)[:300],
++            ) from None
++        return ref
++
++    def _gate_close(self, ref: str | None, outcome: str, **detail: Any) -> None:
++        """Report an outcome (``settled`` or ``unknown``) to the gate. A failure there is recorded and never
++        loses the answer: the gate keeps that submission's reservation held."""
++        if self.gate is None or ref is None:
++            return
++        try:
++            if outcome == "settled":
++                self.gate.settled(ref, **detail)
++            else:
++                self.gate.unknown(ref, str(detail.get("reason") or ""))
++        except Exception as exc:
++            self.gate_errors.append(redact(f"{type(exc).__name__}: {exc}", self.key)[:300])
++
+     async def fetch(self, req: OxyRequest) -> Answer:
+         attempts: list[dict[str, Any]] = []
+         t_all = monotonic()
+@@ -468,6 +555,7 @@ class OxylabsTransport:
+                 segment_id=self.segment_id,
+                 worker=self.worker,
+             )
++            gate_ref = self._gate_open(row_id, req, attempt, rate)
+             t0 = monotonic()
+             try:
+                 r = await self.http.post(f"{API_BASE}{req.endpoint}", json=req.body, headers=self._headers())
+@@ -475,6 +563,8 @@ class OxylabsTransport:
+                 # Not connected: the provider never saw it. Otherwise it may have run (and charged) it.
+                 unsent = isinstance(exc, (httpx.ConnectError, httpx.ConnectTimeout))
+                 self.ledger.release(row_id, "network", charged_unknown=not unsent)
++                # The account-wide gate keeps even an unconnected submission held: it was marked dispatched.
++                self._gate_close(gate_ref, "unknown", reason=f"no answer: {type(exc).__name__}")
+                 attempts.append(
+                     {
+                         "attempt": attempt,
+@@ -496,6 +586,7 @@ class OxylabsTransport:
+             except BaseException:
+                 # Cancelled in flight (the collector is stopping): it may still run and be charged.
+                 self.ledger.release(row_id, "cancelled", charged_unknown=True)
++                self._gate_close(gate_ref, "unknown", reason="cancelled in flight")
+                 raise
+             elapsed = int((monotonic() - t0) * 1000)
+             html, meta = envelope(r.content)
+@@ -523,6 +614,14 @@ class OxylabsTransport:
+                 cost_usd=0.0 if charged is False else rate,
+             )
+             self.ledger.settle(row_id, answer, charged, rate)
++            self._gate_close(
++                gate_ref,
++                "settled",
++                status=r.status_code,
++                kind=kind,
++                charged=charged,
++                usd=float(answer.cost_usd or 0.0),
++            )
+             attempts.append(
+                 {
+                     "attempt": attempt,
+diff --git a/src/walmart_headless/assembly/record_builder.py b/src/walmart_headless/assembly/record_builder.py
+index c47018b..01631e6 100644
+--- a/src/walmart_headless/assembly/record_builder.py
++++ b/src/walmart_headless/assembly/record_builder.py
+@@ -25,7 +25,14 @@ from walmart_headless.assembly.offers import (
+ from walmart_headless.assembly.prices import PriceDisplay, PriceDisplayKind
+ from walmart_headless.assembly.private_label import PrivateLabelDetector
+ from walmart_headless.core.findings import RecordFlag
+-from walmart_headless.core.schema import ALWAYS_EMPTY, build_record, format_violations, shape_violations
++from walmart_headless.core.schema import (
++    ALWAYS_EMPTY,
++    POLICY_EMPTY,
++    POLICY_EMPTY_REASON,
++    build_record,
++    format_violations,
++    shape_violations,
++)
+ from walmart_headless.core.settings import RecordSettings
+ from walmart_headless.core.text import collapse_ws
+ 
+@@ -243,6 +250,8 @@ def missing_reasons(
+             continue
+         if name in ALWAYS_EMPTY:
+             reason = "always empty (client rule)"
++        elif name in POLICY_EMPTY:
++            reason = POLICY_EMPTY_REASON
+         elif name == "weight":
+             if size_problem:
+                 reason = size_problem
+@@ -384,10 +393,12 @@ def build_product_record(
+             "weight": weight,
+             "regular_price": price.regular_price,
+             "sale_price": price.sale_price,
+-            "volume_deals_description": deals.volume_deals_description,
+-            "volume_deals_price": deals.volume_deals_price,
+-            "digital_deals_description": deals.digital_deals_description,
+-            "digital_deals_price": deals.digital_deals_price,
++            # Release 1.6.0: never filled for Walmart (core/schema.DEAL_FIELDS); the classified offers stay in
++            # ``deals`` and reach offers.json and the provenance, never the exported record.
++            "volume_deals_description": "",
++            "volume_deals_price": "",
++            "digital_deals_description": "",
++            "digital_deals_price": "",
+             "image_url": evidence.image_url,
+             "url": evidence.url,
+             "upc": evidence.upc or "",
+@@ -430,6 +441,15 @@ def build_product_record(
+         provenance["_schema_problems"] = {"problems": problems}
+     if evidence.offer_notes:
+         provenance["_offers_left_out"] = {"notes": list(evidence.offer_notes)}
++    derived = {
++        "volume_deals_description": deals.volume_deals_description,
++        "volume_deals_price": deals.volume_deals_price,
++        "digital_deals_description": deals.digital_deals_description,
++        "digital_deals_price": deals.digital_deals_price,
++    }
++    if any(derived.values()):
++        # What the 1.5.x rules would have exported from the displayed offers: evidence only (release 1.6.0).
++        provenance["_deal_fields_not_exported"] = {"rule": POLICY_EMPTY_REASON, "derived": derived}
+     # Every approximate-weight exclusion names the wording that qualifies it and where it was read.
+     weight_wording = approx_weight_match(weight, settings)
+     if evidence.approx_weight_source:
+diff --git a/src/walmart_headless/checks/contract.py b/src/walmart_headless/checks/contract.py
+index e90dcb0..e36d390 100644
+--- a/src/walmart_headless/checks/contract.py
++++ b/src/walmart_headless/checks/contract.py
+@@ -1,8 +1,9 @@
+ """The 22-field contract of an exported products file (offline): field order, string values, no nulls,
+-gupc and unit_price empty, UPC empty unless shown (12 to 14 digits, leading zeros kept), walmart.com product
+-URLs and walmartimages.com pictures, price format, PPM with its unit, crawl_date format, duplicates (by UPC,
+-URL and Walmart item id), approximate-weight wording (in the weight, or in a weight expression of the
+-title: the whole product is excluded then). ``walmart-collector validate-export`` runs it."""
++gupc and unit_price empty, the four deal fields empty (release 1.6.0), UPC empty unless shown (12 to 14
++digits, leading zeros kept), walmart.com product URLs and walmartimages.com pictures, price format, PPM
++with its unit, crawl_date format, duplicates (by UPC, URL and Walmart item id), approximate-weight wording
++(in the weight, or in a weight expression of the title: the whole product is excluded then).
++``walmart-collector validate-export`` runs it."""
+ 
+ from __future__ import annotations
+ 
+@@ -12,7 +13,7 @@ from collections import Counter
+ from pathlib import Path
+ from typing import Any
+ 
+-from walmart_headless.core.schema import OUTPUT_FIELDS
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS
+ from walmart_headless.sites.walmart.records import approx_weight_text
+ 
+ PRICE = re.compile(r"^\d+\.\d{2}$")
+@@ -36,6 +37,8 @@ def check(path: Path) -> dict[str, Any]:
+                 problems[f"not a string {k}"] += 1
+         if r.get("gupc") or r.get("unit_price"):
+             problems["gupc or unit_price not empty"] += 1
++        if any(r.get(f) for f in DEAL_FIELDS):
++            problems["a deal field not empty (client rule: always empty for Walmart)"] += 1
+         if not WALMART_UPC.match(r.get("upc", "")):
+             problems["upc not empty or 12-14 digits"] += 1
+         if not WALMART_ITEM.match(r.get("url", "")):
+diff --git a/src/walmart_headless/collection/retention.py b/src/walmart_headless/collection/retention.py
+index 6747faf..9a9f330 100644
+--- a/src/walmart_headless/collection/retention.py
++++ b/src/walmart_headless/collection/retention.py
+@@ -54,7 +54,13 @@ from walmart_headless.acquisition import lineage
+ from walmart_headless.core import jsonvalues as jv
+ from walmart_headless.core.findings import DataMode, RecordFlag
+ from walmart_headless.core.ids import new_id
+-from walmart_headless.core.schema import OUTPUT_FIELDS, format_violations, ordered_record, shape_violations
++from walmart_headless.core.schema import (
++    OUTPUT_FIELDS,
++    apply_output_policy,
++    format_violations,
++    ordered_record,
++    shape_violations,
++)
+ from walmart_headless.core.timeutil import iso
+ from walmart_headless.db.models import (
+     NodeCoverage,
+@@ -505,7 +511,12 @@ def carry_forward(
+     for key, v in registry.items():
+         if key in present:
+             continue
+-        if record_problems(v.record):
++        # Release 1.6.0: an earlier release's row may hold deal values; the carried row never does. The values
++        # stay in the carried row's lineage (``withheld_by_policy``), with the source record's own hash.
++        kept_record, withheld = (
++            apply_output_policy(v.record) if set(v.record) == set(OUTPUT_FIELDS) else (dict(v.record), {})
++        )
++        if record_problems(kept_record):
+             counts["not_valid_now"] += 1  # never carried past the record checks it would now fail
+             continue
+         if v.run_id not in source_lineage:
+@@ -520,6 +531,12 @@ def carry_forward(
+             "the ones observed on its crawl date, not verified by this run",
+             "kept": True,
+         }
++        if withheld:
++            info["withheld_by_policy"] = {
++                "fields": withheld,
++                "rule": "release 1.6.0: Walmart's four deal fields are always empty strings",
++                "source_record_sha256": record_sha256(ordered_record(v.record)),
++            }
+         flags = [
+             *(f for f in v.flags if f != RecordFlag.CARRIED_FORWARD.value),
+             RecordFlag.CARRIED_FORWARD.value,
+@@ -530,8 +547,8 @@ def carry_forward(
+                 run_id=run_id,
+                 mode=mode,
+                 upc=key,
+-                record=dict(v.record),
+-                record_sha256=record_sha256(ordered_record(v.record)),
++                record=kept_record,
++                record_sha256=record_sha256(ordered_record(kept_record)),
+                 primary_category_source_id=v.category_source_id,
+                 status=CARRIED_STATUS,
+                 reasons=[RecordFlag.CARRIED_FORWARD.value],
+diff --git a/src/walmart_headless/collection/walmart.py b/src/walmart_headless/collection/walmart.py
+index db83db0..d9861a9 100644
+--- a/src/walmart_headless/collection/walmart.py
++++ b/src/walmart_headless/collection/walmart.py
+@@ -37,7 +37,13 @@ once (its data names its subcategory listings; the CSV's exclusions and the run'
+ applied); each listing is read with Walmart's own ``page=N`` links. Products are de-duplicated by identity
+ (the UPC when shown, else Walmart's item ID ``wm:<id>``; each size, pack and variant is its own item), and
+ every placement is kept. The task's checkpoint keeps the listing and the next page to read, so a resumed
+-task continues there.
++task continues there. A listing link that serves a category page instead of a listing (its data is the
++page ``/cp/[...categoryParams]``: links, no result grid) is ``INCOMPLETE`` (``CATEGORY_PAGE``) with the
++listings that page links, and the run goes on (release 1.6.2); so is a link the site answers with its own
++not-found page (its data is the page ``/404``: ``NOT_FOUND``, release 1.6.3); any other page without a result
++grid stops the run (``ABNORMAL_RESULT``). A listing whose first page reports 0 results (``aggregatedCount``)
++and shows none is ``EMPTY`` once the page's own data names the store and the fulfillment, whatever other
++modules it shows (release 1.6.4); a first page that reports results and shows none stops the run.
+ 
+ Completion is decided from evidence, never from the last page reached. Every result page is recorded (its
+ products, new identities, the listing's reported total and page count); only its result grid is the listing's
+@@ -226,7 +232,8 @@ class Listing:
+     seen: list[str] = field(default_factory=list)
+     reason: str = ""
+     # Why reading stopped: LAST_PAGE | EMPTY_PAGE | RESULT_WINDOW | REPEATED_PAGE | PAGE_LIMIT |
+-    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT ("" while reading).
++    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT | CATEGORY_PAGE | NOT_FOUND ("" while
++    # reading).
+     end: str = ""
+     # How the listing was found: csv (the row itself), category_page, configured, departments_facet.
+     via: str = ""
+@@ -429,23 +436,47 @@ def listing_outcomes(listings: list[Listing]) -> list[dict[str, Any]]:
+     return out
+ 
+ 
++def _short_whatever_the_count(r: Mapping[str, Any], reported: list[int]) -> bool:
++    """The results served fall short of the smallest total the listing reported by more than its totals
++    moved while it was read: short of the listing however the count is taken (release 1.6.2)."""
++    low = min(reported)
++    margin = max(reported) - low
++    return bool(r["placed"] < low - margin and r["placements"] < low - margin)
++
++
+ def close_listing(lst: Listing, end: str, page: int, detail: str = "") -> None:
+     """The listing stopped at ``page`` (``end``: why). ``DONE`` only at the last page the site serves, with
+     a total that stayed the same on every page, and when what its results placed balances that total
+     exactly (:func:`reconcile_listing`). Otherwise ``INCOMPLETE`` with the signed difference: fewer tiles
+     than reported at the last page is a result-window end ("accessible pages exhausted"); more identities
+     than reported is an overcount, and any other imbalance is unreconciled (both need reconciling:
+-    sponsored placements, scope, variants or a stale total)."""
++    sponsored placements, scope, variants or a stale total).
++
++    A total that changed while the listing was read is never reconciled. Release 1.6.2: when the site still
++    served fewer results than the smallest total it reported, by more than the total moved, the pages ended
++    short of the listing whatever its exact count, so that is a result-window end too and the listing is read
++    through its child categories. Until 1.6.1 a total that moved by a few products hid such a shortfall (live
++    2026-11-03, Laundry: 615, 613, 614 and 611 reported, page 11 of 16 empty, 393 served) and the listing was
++    left unpartitioned."""
+     totals = reported_totals(lst.pages)
+     r = reconcile_listing((set(lst.seen), set(lst.sponsored)), totals, lst.total, page_placements(lst.pages))
+     lst.reconciliation, lst.end = r, end
+     served = f"{lst.pages_read} result pages, {_served(r)}"
+     total = lst.total
+     lst.status = "INCOMPLETE"
++    reported = [t for t in r["totals_reported"] if isinstance(t, int)]
+     if total is None:
+         lst.reason = f"result page {page}: the listing reports no result count"
+     elif end not in FINAL_ENDS:
+         lst.reason = f"{detail or end}: {served}; {total} reported (difference {r['difference']})"
++    elif not r["total_stable"] and reported and _short_whatever_the_count(r, reported):
++        low, high = min(reported), max(reported)
++        lst.end = "RESULT_WINDOW"
++        lst.reason = (
++            f"accessible pages exhausted; coverage incomplete: the site served {served} and no more "
++            f"({detail or end.lower().replace('_', ' ')}), while the listing reported between {low} and "
++            f"{high} results (the total changed while it was read: {r['totals_reported']}); not reconciled"
++        )
+     elif not r["total_stable"]:
+         lst.reason = (
+             f"the reported total changed while the listing was read ({r['totals_reported']}): {served}; "
+@@ -637,6 +668,14 @@ def category_verified(s: Session, run_id: str, category: str) -> int:
+ # -- the collector ------------------------------------------------------------------------------------
+ 
+ 
++def _same_read(detail: Mapping[str, Any], hit: Mapping[str, Any]) -> bool:
++    """Whether a product's detail outcome comes from the saved read ``hit`` (the same page fetch)."""
++    reused = detail.get("reused_from")
++    source = reused if isinstance(reused, Mapping) else detail
++    fetch = source.get("page_fetch_id")
++    return bool(fetch) and fetch == hit.get("page_fetch_id")
++
++
+ class WalmartCollector(BaseCollector):
+     LISTING_SETTLE_MS = 0
+     CAPTURE_KINDS: tuple[str, ...] = ("walmart_location",)
+@@ -1838,6 +1877,18 @@ class WalmartCollector(BaseCollector):
+                         status="identity_mismatch",
+                         reason=f"the page is for item {ident.page_item}, not {item_id}",
+                     )
++                elif (
++                    not ident.matched
++                    and not ident.page_item
++                    and (missing := wpd.not_found_page(wpd.next_data(html)))
++                ):
++                    # Release 1.6.3: the site's own not-found page, no usable answer (until then its page data
++                    # was not found: "parse_failed", "the page carries no Walmart page data").
++                    detail.update(
++                        status="request_failed",
++                        reason=f"the site answered with its not-found page (page data route {missing}, "
++                        f"HTTP {fetch.status})",
++                    )
+                 elif not ident.matched and not ident.page_item:
+                     detail.update(
+                         status="identity_mismatch",
+@@ -2022,6 +2073,180 @@ class WalmartCollector(BaseCollector):
+             )
+             s.commit()
+ 
++    def reuse_saved_details(self, ctx: TaskContext) -> int:
++        """When the run is assembled, before :meth:`close_details`: each exported product whose own page this
++        run did not read, and for which an earlier read answers (:meth:`saved_details`, the reuse window),
++        gets that read's outcome exactly as the detail pass would have given it (:meth:`_reused_detail`: the
++        read's own time, run, revision and page; nothing says it was fetched now). Release 1.6.1: until then
++        only the detail pass reused, so a run that ended before it (a stop, a deadline, a credit limit) left
++        these products blank as "the run stopped before this product's page was read", saving no request: the
++        live S7 of 2026-10-31 (release 1.5.1) left 32 products blank that S6's saved reads answered for.
++        Release 1.6.3: also with product detail reading off (``detail.enabled: false``,
++        ``--pilot-no-detail``), which turns off requests, not what earlier reads established: until then
++        such a run exported these products blank, "product detail reading is off", although a saved read
++        answered for them at no request (the live runs of 2026-11-03/04 left UPCs blank that 1.5.1's S6 had
++        read).
++        ``detail.reuse_days: 0`` turns reuse off. Returns the products answered."""
++        with self.factory() as s:
++            saved = self.saved_details(s)
++            todo = [
++                (row.id, item, str(row.record.get("weight") or ""), hit)
++                for row in self._detail_pending(s)
++                if (item := self._detail_item(row)) and (hit := self._reusable(row, saved)) is not None
++            ]
++            s.commit()
++        for row_id, item, title_size, hit in todo:
++            self._set_detail(ctx, row_id, self._reused_detail(item, hit, title_size))
++        return len(todo)
++
++    def recover_carried_details(self, s: Session) -> dict[str, Any]:
++        """When the run is assembled, after ``retention.carry_forward``: a carried row whose UPC or size is
++        empty gets what a saved read of the item's own page establishes (:meth:`saved_details`, the reuse
++        window), as a product of this run does (:meth:`reuse_saved_details`). The value names that read (its
++        time, run, revision and page) in ``provenance.upc_detail.reused_from`` and
++        ``provenance.historical.recovered_fields``; the listing observation stays the earlier run's (its crawl
++        date, prices and page), and ``historical.record_as_carried_sha256`` is the record as carried. Release
++        1.6.3: until then a carried row kept the empty fields of the run it came from, although a saved read
++        answered for them at no request (the live runs of 2026-11-03/04 carried rows with blank UPCs that
++        1.5.1's S6 had read).
++
++        Never forced: the row stays as it was, with the reason in ``historical.recovery_withheld``, when the
++        read states a UPC another exported row of the run has (one product: a row of this run would be
++        excluded as ``DUPLICATE_UPC``), an approximate size, sizes that conflict, or another UPC than the row
++        has, or when the record would fail the record checks. A read the row's earlier outcome already names
++        adds nothing."""
++        out: dict[str, Any] = {
++            "rows_with_empty_fields": 0,
++            "answered_by_saved_read": 0,
++            "upc_filled": 0,
++            "weight_filled": 0,
++            "already_from_that_read": 0,
++            "withheld": 0,
++        }
++        rows = list(
++            s.scalars(
++                select(RecordRow)
++                .where(
++                    RecordRow.run_id == self.run_id,
++                    RecordRow.status == retention.CARRIED_STATUS,
++                    or_(RecordRow.record["upc"].astext == "", RecordRow.record["weight"].astext == ""),
++                )
++                .order_by(RecordRow.upc)
++            )
++        )
++        if not rows:
++            return out
++        saved = self.saved_details(s)
++        exported = (RecordStatus.VALID.value, RecordStatus.EXPORTED_NOT_VALID.value, retention.CARRIED_STATUS)
++        taken = {
++            str(u)
++            for u in s.scalars(
++                select(RecordRow.record["upc"].astext).where(
++                    RecordRow.run_id == self.run_id, RecordRow.status.in_(exported)
++                )
++            )
++            if u
++        }
++        for row in rows:
++            out["rows_with_empty_fields"] += 1
++            item = self._detail_item(row)
++            hit = self._reusable(row, saved) if item else None
++            if hit is None:
++                continue
++            hist = dict((row.provenance or {}).get("historical") or {})
++            earlier = s.scalar(
++                select(RecordRow).where(
++                    RecordRow.run_id == str(hist.get("run_id") or ""), RecordRow.upc == row.upc
++                )
++            )
++            before: Mapping[str, Any] = (
++                ((earlier.provenance or {}).get("upc_detail") or {}) if earlier is not None else {}
++            )
++            if _same_read(before, hit):
++                out["already_from_that_read"] += 1
++                continue
++            record = dict(row.record)
++            detail = self._reused_detail(item, hit, str(record.get("weight") or ""))
++            value = str(detail.get("value") or "") if detail["status"] == "extracted" else ""
++            size = detail.get("size") or {}
++            from_listing = bool(
++                before.get("listing_upc") or before.get("source") == dispositions.LISTING_SOURCE
++            )
++            why = ""
++            if record.get("upc"):
++                if value and value != record["upc"]:
++                    why = f"the read states UPC {value}, the carried row {record['upc']}"
++                elif not value and not from_listing:
++                    why = "the read states no UPC, the carried row's UPC comes from another read"
++                elif from_listing:
++                    detail["listing_upc"] = True
++            elif value and value in taken:
++                why = f"the read states UPC {value}, which another exported row of the run has (one product)"
++            if not why and any(
++                o["measures"] == wps.PACK and wrec.approx_weight_text(o["value"])
++                for o in size.get("observations") or []
++            ):
++                why = (
++                    "the read states an approximate size (a row of this run would be excluded: APPROX_WEIGHT)"
++                )
++            if not why and (size.get("conflicts") or size.get("outcome") == "conflict"):
++                why = "the read's statements about size conflict"
++            read = {
++                k: hit.get(k)
++                for k in (
++                    "run_id",
++                    "page_fetch_id",
++                    "requested_at",
++                    "source_revision",
++                    "body_sha256",
++                    "origin",
++                )
++            }
++            filled: dict[str, Any] = {}
++            if not why and value and not record.get("upc"):
++                record["upc"] = value
++                detail["upc_observed_at"] = hit["requested_at"]
++                filled["upc"] = {"value": value, "path": hit.get("path"), **read}
++            shown = str(size.get("value") or "")
++            if not why and shown and not record.get("weight"):
++                record["weight"] = shown
++                detail["size_filled"] = True
++                detail["weight_observed_at"] = hit["requested_at"]
++                filled["weight"] = {
++                    "value": shown,
++                    "path": size.get("path"),
++                    "rule": size.get("rule"),
++                    **read,
++                }
++            problems = retention.record_problems(record) if filled else []
++            if problems:
++                why = "the record with the read's values would fail the record checks: " + "; ".join(problems)
++                filled = {}
++            if why:
++                hist["recovery_withheld"] = {"reason": why[:300], "read": read}
++                row.provenance = {**(row.provenance or {}), "historical": hist}
++                out["withheld"] += 1
++                continue
++            detail["for_carried_row"] = {"run_id": self.run_id, "earlier_run": hist.get("run_id")}
++            if filled:
++                taken.add(str(record.get("upc") or ""))
++                hist["recovered_fields"] = filled
++                hist["record_as_carried_sha256"] = row.record_sha256
++                hist["note"] = (
++                    "an earlier run's verified local observation, carried forward: its prices are the ones "
++                    "observed on its crawl date, not verified by this run; its empty "
++                    + " and ".join(sorted(filled))
++                    + " filled from a saved read of the item's own page (recovered_fields: that read's run, "
++                    "time, revision and page)"
++                )
++                row.record = record
++                row.record_sha256 = record_sha256(ordered_record(record))
++            row.provenance = {**(row.provenance or {}), "historical": hist, "upc_detail": detail}
++            out["answered_by_saved_read"] += 1
++            out["upc_filled"] += int("upc" in filled)
++            out["weight_filled"] += int("weight" in filled)
++        return out
++
+     def close_details(self, s: Session) -> dict[str, int]:
+         """When the run is assembled: every exported product gets a UPC outcome. A UPC the result page stated
+         is ``extracted`` from the listing; a product whose page was not read says why, and stays waiting in
+@@ -2293,7 +2518,49 @@ class WalmartCollector(BaseCollector):
+                 self._contract(s, f"{fetch.url}: {exc}")
+                 s.commit()
+             raise AbnormalPage(f"{fetch.url}: {exc}") from None
++        if missing := wpd.not_found_page(nd):
++            # The site's own not-found page for this link (its data is the page /404): the listing is not
++            # read, says so, and the run goes on (release 1.6.3). Never an empty listing, never a refusal:
++            # release 1.6.2 called the page a challenge (its minified page data was not recognized), stopped
++            # the run and held the store, on the Shampoo child "nexxus-shampoo" on 2026-11-04.
++            lst.status, lst.end = "INCOMPLETE", "NOT_FOUND"
++            lst.reason = (
++                "not read: the site answered "
++                + ("this listing link" if page == 1 else f"result page {page} of this listing")
++                + f" with its not-found page (page data route {missing}, HTTP {fetch.status})"
++            )[:500]
++            with self.factory() as s:
++                self.persist(s, ctx)
++                self._coverage(s, node, lst)
++                event(
++                    s,
++                    self.run_id,
++                    "WARN",
++                    "LISTING_NOT_FOUND",
++                    f"{lst.name or lst.id}: {lst.reason}",
++                    {"listing": lst.id, "page": page, "page_fetch_id": fetch.fetch_id, "url": fetch.url},
++                )
++                s.commit()
++            return None
+         if wpd.search_result(nd) is None:
++            served = wpd.category_page(nd) if page == 1 else ""
++            if served:
++                # The site served a category page (links to other listings, no result grid) for this listing
++                # link: the listing is not read, says so with the listings that page links, and the run goes
++                # on (release 1.6.2; release 1.6.1 stopped the run and held the store, as for an unknown
++                # page, when "Fresh Flowers" served "Flower Shop" on 2026-11-03). Never an empty listing.
++                links = wpd.subcategory_links(nd, self._origin(fetch))
++                lst.status, lst.end = "INCOMPLETE", "CATEGORY_PAGE"
++                lst.reason = (
++                    f"not read: the site served the category page {served} for this listing link (links to "
++                    f"other listings, no result grid); that page links {len(links)} listings"
++                    + (": " + "; ".join(x.name for x in links) if links else "")
++                )[:500]
++                with self.factory() as s:
++                    self.persist(s, ctx)
++                    self._coverage(s, node, lst)
++                    s.commit()
++                return None
+             # A page without its search result is not an empty listing: a new layout or a cut response.
+             with self.factory() as s:
+                 self.persist(s, ctx)
+@@ -3463,11 +3730,19 @@ class WalmartCollector(BaseCollector):
+             }
+         html = self.html(fetch)
+         try:
+-            pp = wpd.product_page(wpd.next_data(html), self._origin(fetch))
++            nd = wpd.next_data(html)
+         except wpd.PageDataMissing as exc:
+             self._persist_now(ctx)
+             self._follow_failed(f"parsing failed: {exc}")
+             return {**self._follow_out(cand, where, "inaccessible", f"parsing failed: {exc}"), **base}
++        if missing := wpd.not_found_page(nd):
++            # Release 1.6.3: the site's own not-found page (until then its page data was not found: "parsing
++            # failed: no __NEXT_DATA__ script in the page").
++            self._persist_now(ctx)
++            self._follow_failed(f"the site's not-found page ({missing})")
++            reason = f"access failed: the site answered with its not-found page (page data route {missing})"
++            return {**self._follow_out(cand, where, "inaccessible", reason), **base}
++        pp = wpd.product_page(nd, self._origin(fetch))
+         if pp is None or pp.item is None:
+             self._persist_now(ctx)
+             self._follow_failed("parsing failed: no product in the page data")
+@@ -3862,6 +4137,7 @@ class WalmartCollector(BaseCollector):
+     async def h_assemble(self, ctx: TaskContext) -> dict[str, Any]:
+         """Every exported product gets its UPC outcome; products verified by earlier runs of the store and not
+         observed by this run are carried forward unchanged (``retention.py``); then the shared assembly."""
++        self.reuse_saved_details(ctx)  # release 1.6.1: what earlier reads established, even after a stop
+         with ctx.session() as s:
+             details = self.close_details(s)
+             run = s.get(Run, self.run_id)
+@@ -3891,12 +4167,26 @@ class WalmartCollector(BaseCollector):
+                 }
+             )
+             s.flush()
++            recovered = self.recover_carried_details(s)  # release 1.6.3
++            s.flush()
+             run.counts = {
+                 **(run.counts or {}),
+                 "historical": kept,
+                 "upc_detail": details,
++                "carried_details": recovered,
+                 "field_dispositions": dispositions.counts(field_dispositions(s, self.run_id)),
+             }
++            if recovered["answered_by_saved_read"] or recovered["withheld"]:
++                event(
++                    s,
++                    self.run_id,
++                    "INFO",
++                    "CARRIED_DETAILS_RECOVERED",
++                    f"{recovered['upc_filled']} UPCs and {recovered['weight_filled']} sizes of carried rows "
++                    "filled from saved reads of the items' own pages (each with that read's time, run, "
++                    f"revision and page); {recovered['withheld']} left as carried, with the reason",
++                    recovered,
++                )
+             event(
+                 s,
+                 self.run_id,
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index 268e525..78743a3 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.5.2"
++PARSER_VERSION = "1.6.4"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/src/walmart_headless/core/schema.py b/src/walmart_headless/core/schema.py
+index 7804ed4..9c2ecc5 100644
+--- a/src/walmart_headless/core/schema.py
++++ b/src/walmart_headless/core/schema.py
+@@ -1,7 +1,8 @@
+ """The canonical 22-field output record (brief §6.1, docx §4).
+ 
+ Every exported item has exactly these keys, in this order, and every value is a ``str``. Missing
+-values are ``""``; ``gupc`` and ``unit_price`` are always ``""`` at the scraper stage.
++values are ``""``; ``gupc`` and ``unit_price`` are always ``""`` at the scraper stage, and so are the four
++deal fields for Walmart (release 1.6.0, the client's clarification).
+ """
+ 
+ from __future__ import annotations
+@@ -36,6 +37,21 @@ OUTPUT_FIELDS: Final[tuple[str, ...]] = (
+ )
+ 
+ ALWAYS_EMPTY: Final[frozenset[str]] = frozenset({"gupc", "unit_price"})
++# Release 1.6.0, the client's clarification for Walmart (handoff of 2026-11-03): the four deal fields are
++# ALWAYS empty strings, unconditionally. Coupon and multi-buy evidence stays in the sidecars (offers.json,
++# provenance); a value is never exported in these fields, from any path (fresh, carried, replayed, either
++# edition).
++DEAL_FIELDS: Final[tuple[str, ...]] = (
++    "volume_deals_description",
++    "volume_deals_price",
++    "digital_deals_description",
++    "digital_deals_price",
++)
++POLICY_EMPTY: Final[frozenset[str]] = frozenset(DEAL_FIELDS)
++POLICY_EMPTY_REASON: Final = (
++    "always empty (client rule for Walmart: the four deal fields are empty strings; any offer evidence is "
++    "kept in offers.json and the provenance, never in these fields)"
++)
+ PRICE_FIELDS: Final[tuple[str, ...]] = (
+     "regular_price",
+     "sale_price",
+@@ -73,6 +89,9 @@ def build_record(values: Mapping[str, str]) -> dict[str, str]:
+     for key in ALWAYS_EMPTY:
+         if values.get(key, ""):
+             raise RecordShapeError(f"{key} must be empty at the scraper stage")
++    for key in DEAL_FIELDS:
++        if values.get(key, ""):
++            raise RecordShapeError(f"{key} must be empty (client rule for Walmart's deal fields)")
+     record: dict[str, str] = {}
+     for key in OUTPUT_FIELDS:
+         value = values.get(key, "")
+@@ -94,6 +113,17 @@ def ordered_record(stored: Mapping[str, str]) -> dict[str, str]:
+     return {key: stored.get(key, "") for key in OUTPUT_FIELDS}
+ 
+ 
++def apply_output_policy(stored: Mapping[str, str]) -> tuple[dict[str, str], dict[str, str]]:
++    """A record in output order with the policy-empty fields set to ``""``, and the non-empty values it held
++    there (kept by the caller as lineage, never exported). Used where an earlier record (an older release's
++    carried row) becomes a row of a new run."""
++    record = ordered_record(stored)
++    withheld = {k: record[k] for k in DEAL_FIELDS if record[k]}
++    for k in DEAL_FIELDS:
++        record[k] = ""
++    return record, withheld
++
++
+ def shape_violations(item: Mapping[str, object]) -> list[str]:
+     """G5: key order, string types, forbidden keys and always-empty fields."""
+     problems: list[str] = []
+@@ -108,6 +138,9 @@ def shape_violations(item: Mapping[str, object]) -> list[str]:
+     for key in ALWAYS_EMPTY:
+         if item.get(key, "") != "":
+             problems.append(f"{key} must be empty")
++    for key in DEAL_FIELDS:
++        if item.get(key, "") != "":
++            problems.append(f"{key} must be empty (client rule for Walmart's deal fields)")
+     return problems
+ 
+ 
+diff --git a/src/walmart_headless/publishing/exports.py b/src/walmart_headless/publishing/exports.py
+index cb9c7e3..eab2706 100644
+--- a/src/walmart_headless/publishing/exports.py
++++ b/src/walmart_headless/publishing/exports.py
+@@ -63,18 +63,27 @@ def sort_records(records: Sequence[Mapping[str, str]], csv_order: Mapping[str, i
+     )
+ 
+ 
+-def canonical_products_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
++def refuse_nonconforming(records: Sequence[Mapping[str, str]]) -> None:
++    """The final output boundary of every products file (JSON and CSV, all records and the fresh ones): the 22
++    string fields in order, ``gupc``/``unit_price`` and Walmart's four deal fields empty (release 1.6.0). A
++    record that breaks it is refused, never repaired here: a repaired row would no longer match the hash the
++    run recorded for it."""
+     for r in records:
+-        if shape_violations(r):
+-            raise ValueError(f"record {r.get('upc')!r} violates the output schema")
++        if problems := shape_violations(r):
++            raise ValueError(f"record {r.get('upc')!r} violates the output schema: {'; '.join(problems)}")
+         if list(r) != list(OUTPUT_FIELDS):
+             raise ValueError("record keys out of order")
++
++
++def canonical_products_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
++    refuse_nonconforming(records)
+     return dumps_bytes(list(records))
+ 
+ 
+ def products_csv_bytes(records: Sequence[Mapping[str, str]]) -> bytes:
+     """The same records as CSV: the 22 fields as columns in order, every value a string (UTF-8 with a byte
+     order mark, so spreadsheet programs read the text as written, leading zeros included)."""
++    refuse_nonconforming(records)
+     buf = io.StringIO()
+     w = csv.writer(buf, lineterminator="\r\n")
+     w.writerow(OUTPUT_FIELDS)
+diff --git a/src/walmart_headless/publishing/supporting_log.py b/src/walmart_headless/publishing/supporting_log.py
+index 8a35abf..e5f95f1 100644
+--- a/src/walmart_headless/publishing/supporting_log.py
++++ b/src/walmart_headless/publishing/supporting_log.py
+@@ -170,6 +170,16 @@ def _origin(s: Session, r: RecordRow, run_id: str) -> tuple[str, RecordRow | Non
+     return origin, record, obs
+ 
+ 
++def _detail_of(r: RecordRow, origin_record: RecordRow | None) -> Any:
++    """The UPC and size outcome a row's fields come from: its own, also on a carried row a saved read answered
++    for in this run (release 1.6.3: ``upc_detail.reused_from`` names that read); else, for a carried row, the
++    outcome of its earlier run's record."""
++    own = (r.provenance or {}).get("upc_detail")
++    if own is not None:
++        return own
++    return ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++
++
+ def _stored_hashes(s: Session, fetch_ids: set[str]) -> dict[str, str]:
+     """The SHA-256 of each page's stored copy, as ``record_map`` names it (``stored_page_sha256``)."""
+     known = sorted(f for f in fetch_ids if f)
+@@ -227,7 +237,9 @@ def field_dispositions(s: Session, run_id: str) -> list[dict[str, Any]]:
+         hist = prov.get("historical") or {}
+         origin = str(hist.get("run_id") or run_id)
+         detail = prov.get("upc_detail")
+-        if hist:
++        if hist and detail is None:
++            # A carried row's own outcome when a saved read answered for it in this run (release 1.6.3), else
++            # its earlier run's.
+             first = s.scalar(select(RecordRow).where(RecordRow.run_id == origin, RecordRow.upc == r.upc))
+             detail = ((first.provenance or {}) if first is not None else {}).get("upc_detail")
+         fields = _dispositions(
+@@ -310,7 +322,7 @@ def record_map(s: Session, run_id: str) -> dict[str, Any]:
+         origin, origin_record, obs = _origin(s, r, run_id)
+         first_read = _first_read(s, origin, hist, replay_source)
+         prov = dict(obs.provenance or {}) if obs is not None else {}
+-        detail = ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++        detail = _detail_of(r, origin_record)
+         fields = _dispositions(
+             r,
+             detail,
+@@ -435,7 +447,7 @@ def supporting_log(s: Session, run_id: str) -> dict[str, Any]:
+         extra = dict(r.provenance or {})
+         historical = extra.get("historical")
+         origin, origin_record, source_obs = _origin(s, r, run_id) if historical else (run_id, r, o)
+-        detail = ((origin_record.provenance or {}) if origin_record is not None else {}).get("upc_detail")
++        detail = _detail_of(r, origin_record)
+         named[r.upc] = _sources(
+             dict(source_obs.provenance or {}) if source_obs is not None else {},
+             _dispositions(
+diff --git a/src/walmart_headless/sites/walmart/page_data.py b/src/walmart_headless/sites/walmart/page_data.py
+index 4f9bd5f..bac7682 100644
+--- a/src/walmart_headless/sites/walmart/page_data.py
++++ b/src/walmart_headless/sites/walmart/page_data.py
+@@ -28,7 +28,12 @@ from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
+ from selectolax.lexbor import LexborHTMLParser
+ 
+ BASE_URL = "https://www.walmart.com"
+-_NEXT_DATA = re.compile(r"<script[^>]*\bid=[\"']__NEXT_DATA__[\"'][^>]*>(?P<json>.*?)</script>", re.S | re.I)
++# Its id quoted or not (release 1.6.3: Walmart's minified not-found page writes ``id=__NEXT_DATA__``).
++_NEXT_DATA = re.compile(
++    r"<script[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\1(?=[\s/>])[^>]*>(?P<json>.*?)</script>", re.S | re.I
++)
++# The route of the site's own not-found page (Next.js ``/404``).
++NOT_FOUND_ROUTE = "/404"
+ _PRODUCT_PATH = re.compile(r"^/ip/(?:[^/?#]+/)?(?P<id>\d+)")
+ _DIGITS = re.compile(r"^\d{8,14}$")
+ SEARCH_RESULT_PATH = "props.pageProps.initialData.searchResult"
+@@ -91,6 +96,29 @@ def search_result(nd: Mapping[str, Any]) -> Mapping[str, Any] | None:
+     return sr if isinstance(sr, Mapping) else None
+ 
+ 
++def category_page(nd: Mapping[str, Any]) -> str:
++    """The address of the category page the document is, as its own data states it, or "" when it is not one.
++
++    A Walmart category page is the Next.js page ``/cp/[...categoryParams]``; its ``props.pageProps.pageUrl``
++    is the address it was served as (``/cp/flower-shop/5098771``, without the query). On 2026-11-03 the Food
++    navigation's listing link "Fresh Flowers" (``/browse/food/flowers/976759_1089004_2424807``) served the
++    category page "Flower Shop" (``/cp/flower-shop/5098771``): links to other listings, no result grid."""
++    route = text(nd.get("page"))
++    if not route.startswith("/cp/"):
++        return ""
++    served = text(get(nd, "props", "pageProps", "pageUrl")).split("?", 1)[0]
++    return served if served.startswith("/cp/") else route
++
++
++def not_found_page(nd: Mapping[str, Any]) -> str:
++    """The route of the site's own not-found page when the document is one (its data is the Next.js page
++    ``/404``), else "". On 2026-11-04 the Beauty listing link "nexxus-shampoo"
++    (``/browse/beauty/nexxus-shampoo/1085666_3147628_5752434_9323405``, a child category its parent's
++    Departments facet named) served it with HTTP 200: "Uh-oh... This page could not be found."."""
++    route = text(nd.get("page"))
++    return route if route == NOT_FOUND_ROUTE else ""
++
++
+ def listing_identity(nd: Mapping[str, Any]) -> tuple[str, list[str]]:
+     """A listing page's own name (``searchResult.catInfo.name``) and the category ids of its breadcrumb
+     (``searchResult.breadCrumb[].id``, e.g. ``1115193`` then ``1115193_1071967``), as the page states them."""
+@@ -700,7 +728,14 @@ def pagination(nd: Mapping[str, Any]) -> Pagination:
+     p2: Mapping[str, Any] = raw_p2 if isinstance(raw_p2, Mapping) else {}
+     raw_props = p2.get("pageProperties")
+     props: Mapping[str, Any] = raw_props if isinstance(raw_props, Mapping) else {}
+-    count = _num(sr.get("aggregatedCount")) or _num(sr.get("count"))
++    # The listing's total is ``aggregatedCount``, and a reported 0 is a total of 0, not a missing total
++    # (release 1.6.4). ``count`` counts the page's own products, other modules' too: live on 2026-11-04,
++    # Walmart's "Bidets" listing for store 3891 reported aggregatedCount 0 with an empty Pickup grid next to
++    # an "Available for shipping" carousel of 10 products, and count 10. ``count`` is read only when the
++    # page reports no aggregatedCount.
++    count = _num(sr.get("aggregatedCount"))
++    if count is None:
++        count = _num(sr.get("count"))
+     if count is None:
+         try:
+             results = [s for s in item_stacks(nd) if s.primary]
+diff --git a/src/walmart_headless/sites/walmart/sanitize.py b/src/walmart_headless/sites/walmart/sanitize.py
+index 9e955f3..ca3b984 100644
+--- a/src/walmart_headless/sites/walmart/sanitize.py
++++ b/src/walmart_headless/sites/walmart/sanitize.py
+@@ -39,8 +39,10 @@ _IPV4 = re.compile(r"^\d{1,3}(?:\.\d{1,3}){3}$")
+ # parser and not to be redistributed in evidence.
+ API_KEY_VALUE = re.compile(r"\bAIza[0-9A-Za-z_-]{35}\b")
+ _IPV6 = re.compile(r"^(?=(?:[^:]*:){3})[0-9a-fA-F:]{6,39}$|^[0-9a-fA-F]*::[0-9a-fA-F:]*$")
++# Its id quoted or not (release 1.6.3: Walmart's minified not-found page writes ``id=__NEXT_DATA__``; release
++# 1.6.2 did not find that page data, so it dropped it, never keeping it unredacted).
+ _NEXT_DATA = re.compile(
+-    r"(<script[^>]*\bid=[\"']__NEXT_DATA__[\"'][^>]*>)(?P<json>.*?)(</script>)", re.S | re.I
++    r"(<script[^>]*\bid\s*=\s*([\"']?)__NEXT_DATA__\2(?=[\s/>])[^>]*>)(?P<json>.*?)(</script>)", re.S | re.I
+ )
+ _DATA_URI_ATTRS = ("src", "srcset", "href", "poster", "data-src", "data-srcset")
+ _CSS_DATA_URI = re.compile(r"url\((['\"]?)data:[^)]*\1\)")
+diff --git a/tests/captures/listing_pages_20261104/MANIFEST.json b/tests/captures/listing_pages_20261104/MANIFEST.json
+new file mode 100644
+index 0000000..52878e5
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104/MANIFEST.json
+@@ -0,0 +1,15 @@
++[
++ {
++  "file": "bidets_page1.html.gz",
++  "fetch_id": "01M6K7Z4E1EMC2ZYJW0F7VA458",
++  "url": "https://www.walmart.com/browse/home-improvement/bidets/1072864_1045879_5533759_6108305?povid=HDL_D12DIY_Nup_DSK_HouseholdEssentials_Bidets_week22",
++  "fetched_at": "2026-11-04 12:19:00.673078+00",
++  "run": "01M6K7HT3XVV8R8CX79P31KMB4",
++  "release": "1.6.3",
++  "source": "campaign evidence store: runs/walmart-3891-pickup/01M6K7HT3XVV8R8CX79P31KMB4/live/dom/01M6K7Z4E1EMC2ZYJW0F7VA458.html.gz",
++  "source_sha256": "20f482eaf05e8addb61b4b438bf32be72a163a268705f354148b5e74fb6a9c67",
++  "content_sha256": "8cd52779434ea43f88025b5608c2e2c869dcce9ac7626b76f498e11c64a446d3",
++  "raw_original_body_sha256": "aed1f0588a3213f5fe9f0b0be298ab5b2e9eebefcee61a3502311b2088111774",
++  "copied": "byte for byte: the collector's stored copy (sanitized at capture by release 1.6.3), not recompressed"
++ }
++]
+diff --git a/tests/captures/listing_pages_20261104/README.md b/tests/captures/listing_pages_20261104/README.md
+new file mode 100644
+index 0000000..e3cacff
+--- /dev/null
++++ b/tests/captures/listing_pages_20261104/README.md
+@@ -0,0 +1,15 @@
++# An authentic listing page of live run L7, replayed offline
++
++One result page saved by run `01M6K7HT3XVV8R8CX79P31KMB4` (stage L7, the census on release 1.6.3, Oxylabs Web API,
++store #3891 Pickup) on 2026-11-04. It is the collector's stored copy of the page, byte for byte (sanitized at
++capture by release 1.6.3: scripts other than the page data removed, session, trace and key values in the page data
++replaced with `[REDACTED]`); it is not the raw answer. `MANIFEST.json` gives its fetch id, URL, fetch time, the
++SHA-256 of the stored copy and of its content, and the SHA-256 of the raw answer kept privately with the run's
++other raw answers.
++
++| File | Listing | What the page data shows |
++|---|---|---|
++| `bidets_page1.html.gz` | Bidets, `1072864_1045879_5533759_6108305`, a link of the Household Essentials category page | `aggregatedCount` 0 and an empty result grid (stack 0, "Results for \"bidets\"", count 0, fulfillment Pickup, named the results by `primaryStacksToMatch`), next to an "Available for shipping" carousel (stack 1, fulfillment Shipping) with 10 products of its 838; `searchResult.count` 10 (the carousel's products), `maxPage` 0; the page location names store 3891, ZIP 60085 and PICKUP. Release 1.6.3 read the listing's total as `aggregatedCount or count`, took the 0 for a missing value and the 10 for the total, and stopped the run: "the page reports results but shows no product" (ABNORMAL_RESULT, store held). Release 1.6.4 reads the 0 |
++
++`tests/unit/test_empty_pickup_grid.py` reads it with the 1.6.4 parser. It is an earlier capture, not new
++evidence: no test reaches Walmart or a provider.
+diff --git a/tests/captures/listing_pages_20261104/bidets_page1.html.gz b/tests/captures/listing_pages_20261104/bidets_page1.html.gz
+new file mode 100644
+index 0000000..9fdd44a
+Binary files /dev/null and b/tests/captures/listing_pages_20261104/bidets_page1.html.gz differ
+diff --git a/tests/integration/test_account_gate.py b/tests/integration/test_account_gate.py
+new file mode 100644
+index 0000000..86227d9
+--- /dev/null
++++ b/tests/integration/test_account_gate.py
+@@ -0,0 +1,175 @@
++"""The account-wide spending gate around every Oxylabs submission (1.6.0). SYNTHETIC: the Web API is an
++in-memory mock (tests/mock_oxylabs.py) and the gate a recording fake; nothing reaches Oxylabs."""
++
++from __future__ import annotations
++
++from typing import Any
++
++import httpx
++import pytest
++from sqlalchemy import select
++from sqlalchemy.orm import sessionmaker
++
++from tests.integration.test_operations import STORE_KEY, Env, env  # noqa: F401
++from tests.mock_oxylabs import OXY_KEY, MockOxylabs
++from walmart_headless.acquisition import oxylabs
++from walmart_headless.db.models import ProviderUsage
++
++
++class FakeGate:
++    """Refuses once ``cap`` submissions are held or spent; records every call in order."""
++
++    def __init__(self, cap: int, *, fail_settle: bool = False) -> None:
++        self.cap = cap
++        self.fail_settle = fail_settle
++        self.calls: list[tuple[str, str]] = []
++        self.state: dict[str, str] = {}
++        self.keys: set[str] = set()
++        self.calls_at_dispatch: list[int] = []
++        self.mock: MockOxylabs | None = None
++
++    def reserve(
++        self, *, purpose: str, endpoint: str, target_url: str, attempt: int, usd: float, key: str
++    ) -> str:
++        held = sum(1 for v in self.state.values() if v != "unsent")
++        if held >= self.cap:
++            raise oxylabs.GateRefused(f"account allowance: {held} of {self.cap} submissions held (test)")
++        assert usd == 0.0015 and key not in self.keys  # one reservation per collector row
++        self.keys.add(key)
++        ref = f"g{len(self.state) + 1}"
++        self.state[ref] = "reserved"
++        self.calls.append(("reserve", ref))
++        return ref
++
++    def dispatched(self, ref: str) -> None:
++        assert self.state[ref] == "reserved"
++        self.state[ref] = "dispatched"
++        self.calls.append(("dispatched", ref))
++        assert self.mock is not None
++        self.calls_at_dispatch.append(len(self.mock.calls))
++
++    def unsent(self, ref: str, reason: str) -> None:
++        self.state[ref] = "unsent"
++        self.calls.append(("unsent", ref))
++
++    def settled(self, ref: str, *, status: int, kind: str | None, charged: bool | None, usd: float) -> None:
++        assert self.state[ref] == "dispatched"
++        if self.fail_settle:
++            raise OSError("the gate's disk is full (test)")
++        self.state[ref] = "settled" if charged is not None else "unknown"
++        self.calls.append(("settled", ref))
++
++    def unknown(self, ref: str, reason: str) -> None:
++        self.state[ref] = "unknown"
++        self.calls.append(("unknown", ref))
++
++
++@pytest.fixture
++def oxy(env: Env, monkeypatch: pytest.MonkeyPatch) -> MockOxylabs:  # noqa: F811
++    monkeypatch.setenv(oxylabs.ENV_KEY, OXY_KEY)
++    mock = MockOxylabs(env.mock)
++    monkeypatch.setattr(
++        oxylabs.OxylabsTransport,
++        "client_factory",
++        lambda: httpx.AsyncClient(transport=httpx.MockTransport(mock.handler)),
++    )
++    return mock
++
++
++def use_gate(monkeypatch: pytest.MonkeyPatch, gate: FakeGate, mock: MockOxylabs) -> None:
++    gate.mock = mock
++    monkeypatch.setattr(oxylabs.OxylabsTransport, "account_gate_factory", lambda: gate)
++
++
++def ceiling(e: Env) -> None:
++    code, _ = e.result(
++        "set-ceiling",
++        "--provider",
++        "oxylabs",
++        "--submissions",
++        "200",
++        "--usd-per-result",
++        "0.0015",
++        "--basis",
++        "test ceiling",
++    )
++    assert code == 0
++
++
++def usage(e: Env) -> list[ProviderUsage]:
++    with sessionmaker(e.engine, expire_on_commit=False)() as s:
++        return list(s.scalars(select(ProviderUsage).where(ProviderUsage.provider == "oxylabs")))
++
++
++def test_every_submission_is_reserved_and_marked_dispatched_by_the_gate_before_it_is_sent(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 0
++    sent = len(oxy.calls)
++    assert sent > 0 and len(gate.state) == sent == len(usage(env))
++    # Each request left after its own reservation and dispatch mark, and before the next one's.
++    assert gate.calls_at_dispatch == list(range(sent))
++    order = [c for c, _ in gate.calls]
++    assert order == ["reserve", "dispatched", "settled"] * sent
++    assert set(gate.state.values()) == {"settled"}
++
++
++def test_a_refusal_of_the_gate_sends_nothing_more_and_stops_the_run_as_a_ceiling(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=3)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 4
++    [run] = env.runs()
++    assert run.status == "interrupted" and run.stop_code == "SPENDING_CEILING"
++    assert "account-wide spending gate" in (run.stop_detail or "")
++    assert len(oxy.calls) == 3 == len(gate.state)  # the fourth was refused before anything was sent
++    rows = usage(env)
++    refused = [r for r in rows if r.outcome == "gate_refused"]
++    assert len(refused) == 1 and refused[0].cost_usd == 0.0  # the collector's own row, never sent
++    assert OXY_KEY not in (run.stop_detail or "")
++
++
++def test_a_failure_to_record_an_outcome_keeps_the_answer_and_the_gate_holds_its_reservation(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000, fail_settle=True)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    code, _ = env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert code == 0  # the answers were kept and used
++    assert set(gate.state.values()) == {"dispatched"}  # held at the gate: never released as free
++
++
++def test_an_unanswered_submission_is_reported_to_the_gate_as_unknown(
++    env: Env,  # noqa: F811
++    oxy: MockOxylabs,
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    gate = FakeGate(cap=10_000)
++    use_gate(monkeypatch, gate, oxy)
++    ceiling(env)
++    n = {"calls": 0}
++
++    def cut(endpoint: str, body: dict[str, Any]) -> httpx.Response | None:
++        n["calls"] += 1
++        if n["calls"] == 1:
++            raise httpx.ReadTimeout("no answer (test)")
++        return None
++
++    oxy.answer_override = cut
++    env.result("run", "--store", STORE_KEY, "--provider", "oxylabs")
++    assert gate.state["g1"] == "unknown"  # sent, no answer: held, never assumed free
++    assert ("unknown", "g1") in gate.calls
+diff --git a/tests/integration/test_coverage_and_assortment.py b/tests/integration/test_coverage_and_assortment.py
+index fb7e310..0e4310e 100644
+--- a/tests/integration/test_coverage_and_assortment.py
++++ b/tests/integration/test_coverage_and_assortment.py
+@@ -25,7 +25,7 @@ from sqlalchemy import Engine, select
+ from tests import synthetic_walmart as syn
+ from tests.conftest import CONFIG, STORE_KEY
+ from tests.integration.helpers import seed
+-from tests.mock_scrapedo import DIAPERING, PRIMARY, MockScrapeDo, listing
++from tests.mock_scrapedo import DIAPERING, MILK, PRIMARY, MockScrapeDo, listing
+ from walmart_headless.acquisition import scrapedo as sd
+ from walmart_headless.collection import reconcile
+ from walmart_headless.collection.config import CollectionConfig, DetailConfig, Limits
+@@ -35,12 +35,14 @@ from walmart_headless.core.settings import load_private_label, load_settings, lo
+ from walmart_headless.core.timeutil import iso
+ from walmart_headless.db.models import (
+     CategorySource,
++    Event,
+     NodeCoverage,
+     OfferObservationRow,
+     PageFetch,
+     ProductObservation,
+     RecordRow,
+     Run,
++    StoreAttestation,
+     Task,
+ )
+ from walmart_headless.publishing import supporting_log
+@@ -212,6 +214,52 @@ def test_a_listing_larger_than_its_window_is_read_through_its_own_child_categori
+     assert any(u.startswith(DIAPERS) for u in calls) and any(u.startswith(WIPES) for u in calls)
+ 
+ 
++def moving_window_parent(n: int) -> str:
++    """The parent listing of ``window_parent`` with a total that moved while it was read (12 on page 1, 10 on
++    page 2): 6 served, then page 3 of the 25 linked empty, as live Laundry on 2026-11-03 (615, 613, 614, 611
++    reported; 393 served; page 11 of 16 empty)."""
++    served = {1: items(1, 2, 3), 2: items(4, 5, 6)}
++    if n in served:
++        return listing(
++            served[n], page=n, max_page=25, total=12 if n == 1 else 10, cat=("Diapering", CRUMBS),
++            departments=DEPARTMENTS,
++        )  # fmt: skip
++    return listing([], page=n, max_page=25, total=0, cat=("Diapering", CRUMBS))
++
++
++def test_a_moving_total_does_not_hide_a_window_end_and_the_listing_is_read_through_its_children(
++    env: dict[str, Any],
++) -> None:
++    # Release 1.6.2. Until 1.6.1 the moved total ended the listing "not reconciled" and unpartitioned.
++    serve(
++        env,
++        {
++            DIAPERING: moving_window_parent,
++            DIAPERS: lambda n: listing(
++                items(1, 7, 8), page=n, max_page=1, total=3, cat=("Diapers", [*CRUMBS, "5427_486190_1"])
++            ),
++            WIPES: lambda n: listing(
++                items(9, 10), page=n, max_page=1, total=2, cat=("Wipes", [*CRUMBS, "5427_486190_2"])
++            ),
++        },
++    )
++    run_id, _ = run_diapering(env)
++    cov = coverage(env, run_id)
++    parent = cov["5427_486190"]
++    assert parent.status == "PARTITIONED" and parent.partition["end"] == "RESULT_WINDOW"
++    assert parent.partition["reason"].startswith("accessible pages exhausted; coverage incomplete")
++    assert "between 10 and 12 results" in parent.partition["reason"]
++    assert cov["5427_486190_1"].partition["parent"] == "5427_486190"
++    calls = [u for _, path, u in env["mock"].calls if path == "/plugin/walmart/store"]
++    assert any(u.startswith(DIAPERS) for u in calls) and any(u.startswith(WIPES) for u in calls)
++    # Its own total moved, so the partition can never reconcile it: the row stays incomplete, never published.
++    assert cursor(env, run_id)["status"] != "DONE"
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.counts["collection_complete"] is False
++        assert run.counts["gates"]["G3"] == "FAIL"
++
++
+ SIZE_5 = "https://www.walmart.com/browse/diapering/size-5/5427_486190_1_9"
+ SIZE_4 = "https://www.walmart.com/browse/diapering/size-4/5427_486190_1_8"
+ OVERNIGHT = "https://www.walmart.com/browse/diapering/size-5-overnight/5427_486190_1_9_1"
+@@ -660,9 +708,13 @@ def test_the_offers_exported_are_those_of_the_tile_the_record_is_kept_from(env:
+     run_id, _ = run_diapering(env)
+     rec = records(env, run_id)["wm:9001"]
+     assert rec.record["regular_price"] == "2.49"
+-    assert "3 for $6.00" in rec.record["volume_deals_description"]
+-    assert "2 for $3.00" not in rec.record["volume_deals_description"]
++    # Release 1.6.0: the deal fields are always "" for Walmart; the later tile's offer is the one kept as
++    # evidence (what the 1.5.x rules would have exported), the earlier tile's is not.
++    assert rec.record["volume_deals_description"] == "" and rec.record["volume_deals_price"] == ""
+     obs = card(env, run_id, "wm:9001")
++    derived = obs.provenance["fields"]["_deal_fields_not_exported"]["derived"]
++    assert "3 for $6.00" in derived["volume_deals_description"]
++    assert "2 for $3.00" not in derived["volume_deals_description"]
+     offers = json.loads(env["storage"].get_bytes(f"runs/{STORE_KEY}/{run_id}/exports/offers.json"))
+     mine = [o for o in offers if o["upc"] == "wm:9001"]
+     assert [o["text"] for o in mine] == ["3 for $6.00"]
+@@ -861,6 +913,170 @@ def test_the_category_page_is_read_through_the_general_api_never_the_store_plugi
+     assert any(r.status == "valid" for r in records(env, run_id).values())
+ 
+ 
++HUB = "/cp/dairy-shop/9176900"
++
++
++def no_grid(route: str, *, links: bool = True) -> str:
++    """A page without a result grid: with ``route`` "/cp/[...categoryParams]", what the listing link
++    "Fresh Flowers" served on 2026-11-03 (the category page "Flower Shop": modules linking other listings;
++    a SYNTHETIC copy with invented names); with another route, a page of an unknown shape."""
++    modules = [
++        {
++            "configs": {
++                "categories": [
++                    {
++                        "image": {
++                            "alt": "Whole Milk",
++                            "clickThrough": {"value": "/browse/food/whole/976759_9176907_1"},
++                        }
++                    },
++                    {
++                        "image": {
++                            "alt": "Oat Milk",
++                            "clickThrough": {"value": "/browse/food/oat/976759_9176907_2"},
++                        }
++                    },
++                ]
++            }
++        }
++    ]
++    data = {
++        "page": route,
++        "props": {
++            "pageProps": {
++                "pageUrl": f"{HUB}?povid=synthetic",
++                "initialData": {},
++                "initialTempoData": {"contentLayout": {"modules": modules if links else []}},
++            }
++        },
++    }
++    return f"<!doctype html><html><body>{syn.next_data_script(data)}</body></html>"
++
++
++def test_a_listing_link_that_serves_a_category_page_is_recorded_unread_and_the_run_goes_on(
++    env: dict[str, Any],
++) -> None:
++    # Release 1.6.2. Release 1.6.1 stopped the run (ABNORMAL_RESULT, not resumable) and the store was held.
++    serve(env, {MILK: lambda n: no_grid("/cp/[...categoryParams]")})
++    run_id, _ = run_food(env)
++    cov = coverage(env, run_id)
++    milk = cov["976759_9176907"]
++    assert milk.status == "INCOMPLETE" and milk.partition["end"] == "CATEGORY_PAGE"
++    assert milk.partition["reason"] == (
++        f"not read: the site served the category page {HUB} for this listing link (links to other listings, "
++        "no result grid); that page links 2 listings: Whole Milk; Oat Milk"
++    )
++    assert milk.total_count is None and milk.organic_upcs == 0  # never an empty listing, no product from it
++    # The row's other listing is still read: the run went on past the category page.
++    assert cov["976759_976787"].status == "DONE"
++    assert any(r.status == "valid" for r in records(env, run_id).values())
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
++
++
++def test_a_listing_link_the_site_answers_with_its_not_found_page_is_recorded_unread_and_the_run_goes_on(
++    env: dict[str, Any],
++) -> None:
++    """Release 1.6.3. Release 1.6.2 did not recognize the page data of Walmart's minified not-found page
++    (its id unquoted), called the page a challenge, stopped the run (SITE_REFUSAL) and held the store: live L6
++    of 2026-11-04, the Shampoo child listing "nexxus-shampoo"."""
++    serve(env, {MILK: lambda n: syn.not_found_page()})
++    run_id, _ = run_food(env)
++    cov = coverage(env, run_id)
++    milk = cov["976759_9176907"]
++    assert milk.status == "INCOMPLETE" and milk.partition["end"] == "NOT_FOUND"
++    assert milk.partition["reason"] == (
++        "not read: the site answered this listing link with its not-found page "
++        "(page data route /404, HTTP 200)"
++    )
++    assert milk.total_count is None and milk.organic_upcs == 0  # never an empty listing, no product from it
++    assert cov["976759_976787"].status == "DONE"  # the row's other listing is still read
++    assert any(r.status == "valid" for r in records(env, run_id).values())
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
++        codes = [
++            (e.code, (e.data or {}).get("listing"))
++            for e in s.scalars(select(Event).where(Event.run_id == run_id))
++        ]
++    assert ("LISTING_NOT_FOUND", "976759_9176907") in codes
++    assert not [c for c, _ in codes if c == "CHALLENGE_DETECTED"]  # never called a refusal
++
++
++SHIPPING_ONLY = items(51, 52, 53, lines=(("SHIPPING", "0"),))
++
++
++def test_a_listing_whose_pickup_grid_is_empty_beside_a_shipping_carousel_is_empty_and_the_run_goes_on(
++    env: dict[str, Any],
++) -> None:
++    """Release 1.6.4. Release 1.6.3 took the listing's reported 0 for a missing total, read the number of the
++    carousel's products as the total and stopped the run ("the page reports results but shows no product",
++    ABNORMAL_RESULT, store held): live L7 of 2026-11-04, the Household Essentials link "Bidets"
++    (tests/captures/listing_pages_20261104)."""
++    serve(env, {MILK: lambda n: syn.empty_pickup_grid_page(SHIPPING_ONLY, store="3891", title="Milk")})
++    run_id, _ = run_food(env)
++    cov = coverage(env, run_id)
++    milk = cov["976759_9176907"]
++    assert milk.status == "EMPTY" and milk.partition["end"] == "EMPTY_PAGE"
++    assert milk.partition["reason"] == "the listing shows 0 results"
++    assert milk.total_count == 0 and milk.organic_upcs == 0
++    assert cov["976759_976787"].status == "DONE"  # the row's other listing is still read
++    recs = records(env, run_id).values()
++    assert any(r.status == "valid" for r in recs)
++    carousel = {i.item_id for i in SHIPPING_ONLY}
++    assert not [r for r in recs if str(r.record.get("url", "")).rsplit("/", 1)[-1] in carousel]  # not results
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        milk_fetches = [
++            f.id
++            for f in s.scalars(select(PageFetch).where(PageFetch.run_id == run_id))
++            if f.url.startswith(MILK)
++        ]
++        assert len(milk_fetches) == 1  # one page: the listing ends at its empty first page
++        # The empty page ended the listing only after its own store check (the page location names the store
++        # and PICKUP); every check of the run passed.
++        attested = {
++            (a.phase, a.result)
++            for a in s.scalars(select(StoreAttestation).where(StoreAttestation.run_id == run_id))
++        }
++        assert ("task_start", "PASS") in attested and {r for _, r in attested} == {"PASS"}
++
++
++def test_a_page_that_reports_results_it_does_not_show_still_stops_the_run(env: dict[str, Any]) -> None:
++    # Unchanged in release 1.6.4: the same page reporting 5 results, its result grid empty.
++    serve(env, {MILK: lambda n: syn.empty_pickup_grid_page(SHIPPING_ONLY, store="3891", reported=5)})
++    run_id, _ = run_food(env)
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code == "ABNORMAL_RESULT"
++        assert "the page reports results but shows no product" in (run.stop_detail or "")
++
++
++@pytest.mark.parametrize(
++    ("route", "first_page_listing"),
++    [("/browse/[...slug]", False), ("/cp/[...categoryParams]", True)],
++    ids=["an-unknown-page-without-a-grid", "a-category-page-after-the-first-result-page"],
++)
++def test_any_other_page_without_a_result_grid_still_stops_the_run(
++    env: dict[str, Any], route: str, first_page_listing: bool
++) -> None:
++    def pages(n: int) -> str:
++        if n == 1 and first_page_listing:
++            return listing(items(1, 2, 3), page=1, max_page=3, total=9, cat=("Diapering", CRUMBS))
++        return no_grid(route)
++
++    serve(env, {DIAPERING: pages})
++    run_id, _ = run_diapering(env)
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code == "ABNORMAL_RESULT"
++        assert "the page data has no search result (unexpected shape)" in (run.stop_detail or "")
++
++
+ def test_a_provider_store_header_naming_another_store_fails_the_page(env: dict[str, Any]) -> None:
+     env["mock"].store_header = "1234"
+     serve(
+diff --git a/tests/integration/test_deal_fields_policy.py b/tests/integration/test_deal_fields_policy.py
+new file mode 100644
+index 0000000..f650924
+--- /dev/null
++++ b/tests/integration/test_deal_fields_policy.py
+@@ -0,0 +1,198 @@
++"""Release 1.6.0, the client's clarification: Walmart's four deal fields are ALWAYS empty strings.
++
++Each test starts from pages that DISPLAY multi-unit and coupon offers (SYNTHETIC tiles through the Scrape.do
++mock, tests/mock_scrapedo.py; nothing reaches Scrape.do or Walmart) and proves the final files hold "" in the
++four fields, with exactly the 22 string fields in order: the fresh rows (products and products_fresh, JSON
++and CSV), a carried row of an earlier release that held deal values (its values kept as lineage only), an
++offline replay and its export, the store's published dataset and the ``export`` command's copy. The offers
++themselves stay as evidence in offers.json and the provenance. The exporters refuse a row that breaks the rule
++(tests/unit/test_exports_policy.py)."""
++
++from __future__ import annotations
++
++import csv
++import io
++import json
++from pathlib import Path
++from typing import Any
++from urllib.parse import parse_qs, urlsplit
++
++import httpx
++import pytest
++from sqlalchemy import select
++from sqlalchemy.orm import sessionmaker
++
++from tests import synthetic_walmart as syn
++from tests.integration.test_followups import CAT, product_page
++from tests.integration.test_operations import Env, env  # noqa: F401  (the CLI fixture)
++from tests.mock_scrapedo import DIAPERING, listing
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, ordered_record
++from walmart_headless.db.models import RecordRow
++from walmart_headless.publishing.exports import record_sha256
++
++pytestmark = [pytest.mark.postgres]
++
++STORE = "walmart-3891-pickup"
++OFFERS = (
++    ("ROLLBACK", "Rollback"),
++    ("MULTI", "2 for $5.00"),
++    ("CPN", "Clip coupon: $3.99"),
++    ("CASH", "Earn $2 Walmart Cash"),
++)
++DEAL_TILES = [
++    syn.Item("9001", "Diapers A, Size 1, 84 Count", "$9.97", unit="11.9 ¢/ea", badges=OFFERS),
++    syn.Item("9002", "Wipes B, 3 Pack", "$5.97", badges=(("MULTI", "3 for $15.00"),)),
++    syn.Item("9003", "Diapers C, Size 4, 60 Count", "$10.97", was="$12.97", badges=(("CPN", "Save $1.00"),)),
++]
++
++UPCS = {"9001": "036000451293", "9002": "000123456789", "9003": "078742000000"}
++
++
++def serve_tiles(e: Env, tiles: list[syn.Item]) -> None:
++    organic = len({t.item_id for t in tiles})
++
++    def override(url: str) -> httpx.Response | None:
++        u = urlsplit(url)
++        headers = {"Scrape.do-Request-Cost": "10", "Scrape.do-Walmart-Store-Id": "3891"}
++        if f"{u.scheme}://{u.netloc}{u.path}" == DIAPERING:
++            n = int(parse_qs(u.query).get("page", ["1"])[0])
++            html = listing(tiles if n == 1 else [], page=n, max_page=1, total=organic, cat=CAT)
++            return httpx.Response(200, text=html, headers=headers)
++        if u.path.startswith("/ip/"):
++            item = u.path.rstrip("/").rsplit("/", 1)[-1]
++            tile = next((t for t in tiles if t.item_id == item), None)
++            if tile is None:
++                return httpx.Response(404, text="not found", headers=headers)
++            return httpx.Response(200, text=product_page(tile, upc=UPCS[item]), headers=headers)
++        return None
++
++    e.mock.page_override = override
++
++
++def products_files(exports: Path) -> dict[str, list[dict[str, str]]]:
++    """Every products file of an export folder, each row checked: 22 string fields in order, deals empty."""
++    out: dict[str, list[dict[str, str]]] = {}
++    for name in ("products.json", "products_fresh.json"):
++        if not (exports / name).is_file():
++            continue
++        rows = json.loads((exports / name).read_text("utf-8"))
++        for r in rows:
++            assert list(r) == list(OUTPUT_FIELDS), name
++            assert all(isinstance(v, str) for v in r.values()), name
++            assert [r[f] for f in DEAL_FIELDS] == ["", "", "", ""], (name, r["url"])
++        out[name] = rows
++    for name in ("products.csv", "products_fresh.csv"):
++        if not (exports / name).is_file():
++            continue
++        table = list(csv.reader(io.StringIO((exports / name).read_bytes().decode("utf-8-sig"))))
++        assert table[0] == list(OUTPUT_FIELDS), name
++        rows = [dict(zip(table[0], line, strict=True)) for line in table[1:]]
++        assert all(r[f] == "" for r in rows for f in DEAL_FIELDS), name
++        out[name] = rows
++    # The JSON and CSV forms hold the same rows.
++    for stem in ("products", "products_fresh"):
++        if f"{stem}.json" in out:
++            assert out[f"{stem}.json"] == out[f"{stem}.csv"]
++    return out
++
++
++def exports_of(e: Env, run_id: str) -> Path:
++    return e.data / "runs" / STORE / run_id / "exports"
++
++
++def test_fresh_rows_never_carry_a_deal_value_and_the_offers_stay_as_evidence(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    env.edit(categories=[4])  # the configured scope: a complete run, published (narrowing makes a pilot)
++    assert env.result("run", "--store", STORE)[0] == 0
++    [run] = env.runs()
++    assert run.status == "published"
++    files = products_files(exports_of(env, run.id))
++    fresh = {r["url"].rsplit("/", 1)[-1]: r for r in files["products_fresh.json"]}
++    assert {"9001", "9002", "9003"} <= set(fresh)
++    assert fresh["9003"]["sale_price"] == "10.97" and fresh["9003"]["regular_price"] == "12.97"  # own rules
++    offers = json.loads((exports_of(env, run.id) / "offers.json").read_text("utf-8"))
++    texts = {o["text"] for o in offers}
++    assert {"2 for $5.00", "3 for $15.00"} <= texts  # the displayed offers, kept as evidence
++    log = json.loads((exports_of(env, run.id) / "provenance.json").read_text("utf-8"))
++    kept = [v for v in log["records"].values() if "_deal_fields_not_exported" in json.dumps(v)]
++    assert kept, "the offers the 1.5.x rules would have exported are kept in the provenance"
++    # The store's published dataset (the pointer names this run's manifest) and the export command's copy.
++    latest = json.loads((env.data / "published" / STORE / "latest.json").read_text("utf-8"))
++    assert latest["run_id"] == run.id
++    products_files(exports_of(env, run.id))
++    out = env.data.parent / "exported"
++    code, res = env.result("export", "--store", STORE, "--out", str(out))  # the published dataset
++    assert code == 0 and res["run_id"] == run.id
++    assert products_files(out)["products.json"] == files["products.json"]
++
++
++def test_a_carried_row_of_an_earlier_release_is_exported_without_its_deal_values(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    [first] = env.runs()
++    # As release 1.5.2 stored it: the same row with deal values (and its own consistent hash).
++    with sessionmaker(env.engine, expire_on_commit=False)() as s:
++        row = s.scalars(
++            select(RecordRow).where(
++                RecordRow.run_id == first.id, RecordRow.record["url"].astext.like("%/9002")
++            )
++        ).one()
++        legacy = {
++            **ordered_record(row.record),
++            "volume_deals_description": "3 for $15.00",
++            "volume_deals_price": "15.00",
++        }
++        row.record = legacy
++        row.record_sha256 = record_sha256(ordered_record(legacy))
++        legacy_sha = row.record_sha256
++        s.commit()
++    serve_tiles(env, [t for t in DEAL_TILES if t.item_id != "9002"])  # 9002 is not observed again
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    second = next(r for r in env.runs() if r.id != first.id)
++    files = products_files(exports_of(env, second.id))
++    carried = next(r for r in files["products.json"] if r["url"].endswith("/9002"))
++    assert carried["regular_price"] == "5.97" and carried["crawl_date"]  # its own observation, unchanged
++    assert all(not r["url"].endswith("/9002") for r in files["products_fresh.json"])  # carried, not fresh
++    with sessionmaker(env.engine, expire_on_commit=False)() as s:
++        crow = s.scalars(
++            select(RecordRow).where(
++                RecordRow.run_id == second.id, RecordRow.record["url"].astext.like("%/9002")
++            )
++        ).one()
++    hist = crow.provenance["historical"]
++    assert hist["run_id"] == first.id
++    assert hist["withheld_by_policy"]["fields"] == {
++        "volume_deals_description": "3 for $15.00",
++        "volume_deals_price": "15.00",
++    }
++    assert hist["withheld_by_policy"]["source_record_sha256"] == legacy_sha
++    assert crow.record_sha256 == record_sha256(ordered_record(crow.record))
++
++
++def test_a_replay_and_its_export_keep_the_deal_fields_empty(env: Env) -> None:  # noqa: F811
++    serve_tiles(env, DEAL_TILES)
++    assert env.result("run", "--store", STORE, "--categories", "4")[0] == 0
++    [source] = env.runs()
++    calls = len(env.mock.calls)
++    assert env.result("replay", "--run", source.id)[0] == 0
++    assert len(env.mock.calls) == calls  # offline
++    replay = next(r for r in env.runs() if r.id != source.id)
++    rows = products_files(exports_of(env, replay.id))["products_fresh.json"]
++    assert {r["url"].rsplit("/", 1)[-1] for r in rows} >= {"9001", "9002", "9003"}
++    out = env.data.parent / "replay_export"
++    assert env.result("export", "--run", replay.id, "--out", str(out))[0] == 0
++    products_files(out)
++
++
++def test_the_export_contract_check_reports_a_deal_value(tmp_path: Path) -> None:
++    from walmart_headless.checks.contract import check
++
++    row: dict[str, Any] = {f: "" for f in OUTPUT_FIELDS}
++    row.update(url="https://www.walmart.com/ip/x/9001", crawl_date="2026-11-03", regular_price="1.00")
++    good, bad = tmp_path / "good.json", tmp_path / "bad.json"
++    good.write_text(json.dumps([row]), "utf-8")
++    bad.write_text(json.dumps([{**row, "digital_deals_description": "Clip coupon"}]), "utf-8")
++    assert check(good)["passed"] is True
++    res = check(bad)
++    assert res["passed"] is False
++    assert res["problems"] == {"a deal field not empty (client rule: always empty for Walmart)": 1}
+diff --git a/tests/integration/test_detail_path.py b/tests/integration/test_detail_path.py
+index aa91922..800f54c 100644
+--- a/tests/integration/test_detail_path.py
++++ b/tests/integration/test_detail_path.py
+@@ -24,9 +24,12 @@ from tests.conftest import STORE_KEY
+ from tests.integration.test_scrapedo_walmart import _detail_calls, _records, _run, env  # noqa: F401
+ from walmart_headless.collection import detail_captures, follow_queue
+ from walmart_headless.collection.config import DetailConfig, Limits
++from walmart_headless.collection.walmart import WalmartCollector
++from walmart_headless.core.schema import ordered_record
+ from walmart_headless.core.timeutil import iso, utcnow
+ from walmart_headless.db.models import DetailObservation, FollowUpItem, RecordRow, Run, Store
+ from walmart_headless.publishing import dispositions as disp
++from walmart_headless.publishing.exports import record_sha256
+ 
+ pytestmark = [pytest.mark.postgres]
+ 
+@@ -398,6 +401,195 @@ def test_a_page_budget_never_stops_what_earlier_reads_already_established(
+     assert all("detail limit (1 pages)" in rows[f"wm:{i}"]["upc"]["reason"] for i in left)
+ 
+ 
++def test_a_run_that_ends_before_its_detail_pass_still_uses_what_earlier_reads_established(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.1. Saved reads were used only by the detail pass, so a run that ended before it (a stop, a
++    deadline, a credit limit) exported its products blank, "the run stopped before this product's page was
++    read", although an earlier read answered for them at no request: the live S7 of 2026-10-31 (release 1.5.1)
++    left 32 products blank that S6's saved reads answered for, and later runs carried them blank. The assembly
++    now gives each one that read, as the pass would have; a product no earlier read answers for still says why
++    it is blank."""
++    milk = syn.Item("7101", "Whole Milk", "$3.12")
++    one_product(monkeypatch, milk)
++    env["mock"].page_override = pages(
++        {"7101": product_page("7101", upc=PINNED_UPC, specs={"Size": "1 Gallon"})}
++    )
++    first, _ = _run(env)
++    read_at = _records(env, first)["wm:7101"].provenance["upc_detail"]["requested_at"]
++    monkeypatch.setitem(mock.PAGES, mock.MILK, [[milk, syn.Item("7102", "Oat Milk", "$4.10")]])
++
++    async def never(self: WalmartCollector, ctx: Any, **_kw: Any) -> None:
++        return None  # the run ends before its detail pass
++
++    monkeypatch.setattr(WalmartCollector, "read_details", never)
++    env["mock"].calls.clear()
++    second, _ = _run(env)
++    assert _detail_calls(env) == []  # nothing is requested for it
++    rec = _records(env, second)["wm:7101"]
++    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
++    d = rec.provenance["upc_detail"]
++    assert d["fresh"] is False and d["reused_from"]["run_id"] == first
++    rows = field_rows(env, second)
++    for field in ("upc", "weight"):
++        assert rows["wm:7101"][field]["disposition"] == disp.RECOVERED
++        assert rows["wm:7101"][field]["source_run"] == first
++        assert rows["wm:7101"][field]["observed_at"] == read_at
++    assert rows["wm:7102"]["upc"]["disposition"] == disp.INTERRUPTED
++    assert rows["wm:7102"]["upc"]["reason"] == "the run stopped before this product's page was read"
++
++
++def test_a_run_with_detail_reading_off_still_uses_what_earlier_reads_established(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. Product detail reading off (``detail.enabled: false``, ``--pilot-no-detail``: the census
++    and the partition checks of 2026-11-03/04) turned reuse off too: such a run exported its products blank,
++    "product detail reading is off", although a saved read answered for them at no request. Reading off turns
++    off requests only; a product no earlier read answers for still says why it is blank."""
++    milk = syn.Item("7101", "Whole Milk", "$3.12")
++    one_product(monkeypatch, milk)
++    env["mock"].page_override = pages(
++        {"7101": product_page("7101", upc=PINNED_UPC, specs={"Size": "1 Gallon"})}
++    )
++    first, _ = _run(env)
++    read_at = _records(env, first)["wm:7101"].provenance["upc_detail"]["requested_at"]
++    monkeypatch.setitem(mock.PAGES, mock.MILK, [[milk, syn.Item("7102", "Oat Milk", "$4.10")]])
++    env["mock"].calls.clear()
++    second, _ = _run(env, detail=DetailConfig(enabled=False))
++    assert _detail_calls(env) == []  # reading off: no product page is requested
++    rec = _records(env, second)["wm:7101"]
++    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
++    d = rec.provenance["upc_detail"]
++    assert d["fresh"] is False and d["reused_from"]["run_id"] == first
++    rows = field_rows(env, second)
++    for field in ("upc", "weight"):
++        assert rows["wm:7101"][field]["disposition"] == disp.RECOVERED
++        assert rows["wm:7101"][field]["source_run"] == first
++        assert rows["wm:7101"][field]["observed_at"] == read_at
++    assert rows["wm:7102"]["upc"]["disposition"] == disp.NOT_ATTEMPTED
++    assert rows["wm:7102"]["upc"]["reason"] == "product detail reading is off"
++
++
++def _carried_blank(
++    e: dict[str, Any], monkeypatch: pytest.MonkeyPatch, *, later: list[syn.Item]
++) -> tuple[str, str]:
++    """A product whose own page a first run read (UPC and size), then observed again blank by a run that
++    reused nothing (``reuse_days: 0``, as releases before 1.6.3 did with reading off); a third run's listing
++    shows ``later`` instead, so it carries the product from the second run. Returns (first, second)."""
++    one_product(monkeypatch, syn.Item("7101", "Whole Milk", "$3.12"))
++    e["mock"].page_override = pages(
++        {"7101": product_page("7101", upc=PINNED_UPC, specs={"Size": "1 Gallon"})}
++    )
++    first, _ = _run(e)
++    second, _ = _run(e, detail=DetailConfig(enabled=False, reuse_days=0))
++    blank = _records(e, second)["wm:7101"]
++    assert blank.status == "valid" and blank.record["upc"] == "" and blank.record["weight"] == ""
++    monkeypatch.setitem(mock.PAGES, mock.MILK, [later])
++    return first, second
++
++
++def test_a_carried_row_gets_its_empty_upc_and_size_from_a_saved_read_that_it_names(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. A carried row kept the empty fields of the run it came from, although a saved read of
++    the item's own page answered for them at no request: the live L5 of 2026-11-04 (release 1.6.2) carried
++    rows with a blank UPC that 1.5.1's S6 had read. The row now gets them, each naming that read (its time,
++    run, revision and page); its listing observation (crawl date, prices, page) stays the earlier run's, and
++    the record as it was carried keeps its hash."""
++    first, second = _carried_blank(
++        env, monkeypatch, later=[syn.Item("7201", "Skim Milk, 1 gal", "$3.00", upc="028400090896")]
++    )
++    read = _records(env, first)["wm:7101"].provenance["upc_detail"]
++    blank = _records(env, second)["wm:7101"]
++    env["mock"].calls.clear()
++    third, _ = _run(env)
++    assert "7101" not in [item for _, item in _detail_calls(env)]  # nothing is requested for it
++    rec = _records(env, third)["wm:7101"]
++    assert rec.status == "historical"
++    hist = rec.provenance["historical"]
++    assert hist["run_id"] == second
++    assert rec.record["upc"] == PINNED_UPC and rec.record["weight"] == "1 Gallon"
++    unchanged = {k: v for k, v in rec.record.items() if k not in ("upc", "weight")}
++    assert unchanged == {k: v for k, v in blank.record.items() if k not in ("upc", "weight")}
++    assert hist["record_as_carried_sha256"] == blank.record_sha256 != rec.record_sha256
++    assert rec.record_sha256 == record_sha256(ordered_record(rec.record))
++    for field, value in (("upc", PINNED_UPC), ("weight", "1 Gallon")):
++        got = hist["recovered_fields"][field]
++        assert got["value"] == value and got["run_id"] == first
++        assert got["page_fetch_id"] == read["page_fetch_id"]
++    d = rec.provenance["upc_detail"]
++    assert d["fresh"] is False and d["reused_from"]["run_id"] == first
++    assert d["for_carried_row"] == {"run_id": third, "earlier_run": second}
++    files = _evidence_of(env, third, "wm:7101")
++    row = files["field_dispositions"]
++    assert row["observation_kind"] == "carried_forward"
++    for field in ("upc", "weight"):
++        assert row[field]["disposition"] == disp.RECOVERED
++        assert row[field]["source_run"] == first and row[field]["page_fetch_id"] == read["page_fetch_id"]
++        assert row[field]["source_revision"]  # the read's, or its run's when the read named none
++        assert files["provenance"]["fields"][field]["source_run"] == first
++        assert field not in files["provenance"]["missing"]
++    assert files["record_map"]["upc"]["reused_from_run"] == first
++    assert files["record_map"]["observed_by_run"] == second  # the listing observation stays the earlier run's
++    with env["factory"]() as s:
++        run = s.get(Run, third)
++        assert run is not None
++        assert run.counts["carried_details"]["upc_filled"] == 1
++        assert run.counts["carried_details"]["weight_filled"] == 1
++    products = json.loads((exports(env, third) / "products.json").read_text("utf-8"))
++    assert [p["upc"] for p in products if p["url"].endswith("/7101")] == [PINNED_UPC]
++
++
++def test_a_carried_row_never_takes_a_upc_another_exported_row_has(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3: the saved read's UPC is the one a row of this run states (one product). A row of this
++    run would be excluded as a duplicate; the carried row is left as it was carried, and says why."""
++    first, second = _carried_blank(
++        env, monkeypatch, later=[syn.Item("7301", "Whole Milk Again, 1 gal", "$3.12", upc=PINNED_UPC)]
++    )
++    blank = _records(env, second)["wm:7101"]
++    third, _ = _run(env)
++    rec = _records(env, third)["wm:7101"]
++    assert rec.status == "historical" and rec.record == blank.record
++    assert rec.record_sha256 == blank.record_sha256
++    withheld = rec.provenance["historical"]["recovery_withheld"]
++    assert PINNED_UPC in withheld["reason"] and "another exported row" in withheld["reason"]
++    assert withheld["read"]["run_id"] == first
++    assert "upc_detail" not in rec.provenance and "recovered_fields" not in rec.provenance["historical"]
++    row = field_rows(env, third)["wm:7101"]
++    assert row["upc"]["disposition"] == disp.NOT_ATTEMPTED  # the earlier run's outcome, unchanged
++    with env["factory"]() as s:
++        run = s.get(Run, third)
++        assert run is not None and run.counts["carried_details"]["withheld"] == 1
++
++
++def test_a_product_page_that_is_the_site_not_found_page_is_a_failed_request_never_a_parse_failure(
++    env: dict[str, Any],  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Release 1.6.3. Release 1.6.2 did not find the page data of Walmart's minified not-found page (its id
++    unquoted) and recorded "parse_failed", "the page carries no Walmart page data"."""
++    one_product(monkeypatch, syn.Item("7101", "Whole Milk", "$3.12"))
++    env["mock"].page_override = pages({"7101": syn.not_found_page()})
++    run_id, _ = _run(env)
++    d = _records(env, run_id)["wm:7101"].provenance["upc_detail"]
++    assert d["status"] == "request_failed"
++    assert d["reason"] == "the site answered with its not-found page (page data route /404, HTTP 200)"
++    row = field_rows(env, run_id)["wm:7101"]
++    assert (
++        row["upc"]["disposition"] == disp.REQUEST_FAILED
++        and row["weight"]["disposition"] == disp.REQUEST_FAILED
++    )
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None  # never a refusal
++
++
+ def test_two_workers_never_read_past_a_page_budget(env: dict[str, Any]) -> None:  # noqa: F811
+     """The budget counts the other worker's page still on its way: both workers checking at once could read
+     one page each past it."""
+@@ -429,12 +621,25 @@ def test_every_outcome_of_an_empty_field_is_told_apart(env: dict[str, Any]) -> N
+     assert rows["wm:7203"]["upc"]["disposition"] == disp.IDENTITY_MISMATCH
+     assert rows["wm:7301"]["upc"]["disposition"] == disp.ABSENT
+     assert all(r["upc"]["value"] == "" for r in rows.values())
+-    # Reading off (a pilot): the field was not attempted, and nothing claims the source lacks it.
++    # Reading off (a pilot): no page is requested. A product whose earlier read was refused or failed is not
++    # attempted, and nothing claims the source lacks it. Release 1.6.3: the product whose page an earlier read
++    # did inspect (7301: it states no UPC) keeps that read's outcome, named as that read (its run and time),
++    # never as read now; until 1.6.2 reading off reused nothing, so 7301 was "not attempted" too.
+     env["mock"].page_override = None
++    env["mock"].calls.clear()
+     off, _ = _run(env, detail=DetailConfig(enabled=False))
++    assert _detail_calls(env) == []
+     rows = field_rows(env, off)
+-    assert {r["upc"]["disposition"] for r in rows.values()} == {disp.NOT_ATTEMPTED}
+-    assert {r["upc"]["reason"] for r in rows.values()} == {"product detail reading is off"}
++    failed = {k: r for k, r in rows.items() if k != "wm:7301"}
++    assert {"wm:7101", "wm:7201", "wm:7203"} <= set(failed)
++    assert {r["upc"]["disposition"] for r in failed.values()} == {disp.NOT_ATTEMPTED}
++    assert {r["upc"]["reason"] for r in failed.values()} == {"product detail reading is off"}
++    inspected = rows["wm:7301"]["upc"]
++    assert inspected["disposition"] == disp.ABSENT and inspected["value"] == ""
++    assert inspected["source_run"] == run_id
++    assert (
++        inspected["observed_at"] == _records(env, run_id)["wm:7301"].provenance["upc_detail"]["requested_at"]
++    )
+ 
+ 
+ def test_a_failed_page_stays_in_the_queue_and_is_read_again(env: dict[str, Any]) -> None:  # noqa: F811
+diff --git a/tests/integration/test_operations.py b/tests/integration/test_operations.py
+index 6aa0973..d45fa82 100644
+--- a/tests/integration/test_operations.py
++++ b/tests/integration/test_operations.py
+@@ -814,12 +814,25 @@ def test_a_pilot_budget_is_named_on_the_run_and_never_published(env: Env) -> Non
+     assert run.config_snapshot["pilot_budgets"] == {"detail.max_per_run": 1}
+     code, table = env.result("field-dispositions", "--run", run.id)
+     assert code == 0 and table["counts"]["upc"] == {"budget_deadline_interruption": 3, "fetched_detail": 1}
++    [read] = [r for r in table["rows"] if r["upc"]["disposition"] == "fetched_detail"]
++    calls = len(env.mock.calls)
+     code, _ = env.result("run", "--store", STORE_KEY, "--pilot-no-detail")
+     assert code == 0
+     last = env.runs()[-1]
+     assert last.config_snapshot["pilot_budgets"] == {"detail.enabled": "off"}
++    assert [c for c in env.mock.calls[calls:] if "/ip/" in c[-1]] == []  # no product page: (role, path, url)
+     code, table = env.result("field-dispositions", "--run", last.id)
+-    assert code == 0 and table["counts"]["upc"] == {"not_attempted": 4}
+-    assert {r["upc"]["reason"] for r in table["rows"]} == {"product detail reading is off"}
++    # Release 1.6.3: reading off requests no product page, but the product whose page the first run read keeps
++    # that read's UPC, named as that read (its run); the three that no read answers for are not attempted, and
++    # say why. Until 1.6.2 all four were "not attempted": the UPC the first run read was exported blank.
++    assert code == 0 and table["counts"]["upc"] == {"not_attempted": 3, "recovered_from_saved_detail": 1}
++    unread = [r for r in table["rows"] if r["upc"]["disposition"] == "not_attempted"]
++    assert {r["upc"]["reason"] for r in unread} == {"product detail reading is off"}
++    [kept] = [r for r in table["rows"] if r["upc"]["disposition"] == "recovered_from_saved_detail"]
++    assert kept["key"] == read["key"] and kept["upc"]["value"] == read["upc"]["value"] != ""
++    assert kept["upc"]["source_run"] == run.id
++    # The store's queue: the three unread products wait for a run that reads product pages; the product the
++    # saved read answers for is resolved by it, as production's reuse resolves it (until 1.6.2 the reading-off
++    # run put it back to pending, having set its read aside).
+     code, res = env.result("follow-ups", "--store", STORE_KEY, "--kind", "detail")
+-    assert code == 0 and res["by_kind_and_state"] == {"detail:pending": 4}
++    assert code == 0 and res["by_kind_and_state"] == {"detail:pending": 3, "detail:resolved": 1}
+diff --git a/tests/synthetic_walmart.py b/tests/synthetic_walmart.py
+index 2fbec3f..dc84256 100644
+--- a/tests/synthetic_walmart.py
++++ b/tests/synthetic_walmart.py
+@@ -179,6 +179,72 @@ def listing_page(
+     )
+ 
+ 
++def empty_pickup_grid_page(
++    carousel: list[Item],
++    *,
++    store: str,
++    reported: int = 0,
++    title: str = "Bidets",
++    cat: tuple[str, list[str]] | None = None,
++) -> str:
++    """A listing page whose Pickup result grid is empty beside an "Available for shipping" carousel: the shape
++    Walmart's "Bidets" listing served for store 3891 on 2026-11-04 (live L7, run 01M6K7HT3XVV8R8CX79P31KMB4,
++    fetch 01M6K7Z4E1EMC2ZYJW0F7VA458): ``aggregatedCount`` 0, an empty GRID stack named the results by
++    ``primaryStacksToMatch`` (its fulfillment "Pickup"), a CAROUSEL stack of shipping products (fulfillment
++    "Shipping"), ``count`` the number of the carousel's products, ``maxPage`` 0, and the page location naming
++    the store and PICKUP. A SYNTHETIC copy with invented products. ``reported``: the ``aggregatedCount`` the
++    page states (0 as on that page; above 0 for a page that reports results it does not show)."""
++    data = {
++        "props": {
++            "pageProps": {
++                "initialData": {
++                    "pageMetadata": {
++                        "location": {"storeId": store, "postalCode": "60085", "intent": "PICKUP"}
++                    },
++                    "searchResult": {
++                        "title": f'Results for "{title}"',
++                        "aggregatedCount": reported,
++                        "count": len(carousel),
++                        "itemStacks": [
++                            {
++                                "title": f'Results for "{title.lower()}"',
++                                "count": reported,
++                                "items": [],
++                                "layoutEnum": "GRID",
++                                "meta": {"fulfillmentIntent": "Pickup"},
++                            },
++                            {
++                                "title": "Available for shipping",
++                                "count": 838,
++                                "items": [item_json(i, store) for i in carousel],
++                                "layoutEnum": "CAROUSEL",
++                                "meta": {"fulfillmentIntent": "Shipping"},
++                            },
++                        ],
++                        "paginationV2": {
++                            "maxPage": 0,
++                            "pageProperties": {
++                                "page": 1,
++                                "stores": store,
++                                "facet": "fulfillment_method:Pickup",
++                                "primaryStacksToMatch": [{"isPrimaryStack": True, "matchIndex": 0}],
++                            },
++                        },
++                        "breadCrumb": [{"id": c, "name": f"Synthetic {c}"} for c in cat[1]] if cat else [],
++                        **({"catInfo": {"catId": cat[1][-1], "name": cat[0]}} if cat else {}),
++                    },
++                }
++            }
++        },
++        "page": "/browse/[...seo]",
++        "query": {"page": "1"},
++    }
++    return (
++        "<!doctype html><html><head><title>SYNTHETIC listing</title></head>"
++        f'<body><div id="__next"><h1>{title}</h1></div>{next_data_script(data)}</body></html>'
++    )
++
++
+ def category_page(links: list[tuple[str, str]], *, title: str = "Synthetic category") -> str:
+     data = {
+         "props": {
+@@ -295,3 +361,20 @@ CHALLENGE_PAGE = (
+     "<h1>Robot or human?</h1><p>Activate and hold the button to confirm that you're human.</p>"
+     '<div id="px-captcha"></div></body></html>'
+ )
++
++
++def not_found_page() -> str:
++    """Walmart's own not-found page, as the Beauty listing link "nexxus-shampoo" served it with HTTP 200 on
++    2026-11-04 (live L6, run 01M6K25T57WW4BJBJ3RQGWN26G, fetch 01M6K2F80M1AFY26P6BMN56F4C): minified, its page
++    data written with the id unquoted (``<script id=__NEXT_DATA__ type="application/json">``), its route the
++    Next.js page ``/404``, an error section and "Uh-oh... This page could not be found." A SYNTHETIC copy with
++    those markers; its page data is cut to the route and an empty ``pageProps``."""
++    script = next_data_script({"page": "/404", "query": {}, "props": {"pageProps": {}}}).replace(
++        'id="__NEXT_DATA__"', "id=__NEXT_DATA__"
++    )
++    return (
++        "<!DOCTYPE html><html lang=en-US><head><meta charset=utf-8 /></head><body>"
++        '<section data-dca-id="404" data-dca-type="error"><h1>Uh-oh...</h1>'
++        "<p>This page could not be found.</p><a href=/>Return to home</a></section>"
++        f"{script}</body></html>"
++    )
+diff --git a/tests/unit/test_empty_pickup_grid.py b/tests/unit/test_empty_pickup_grid.py
+new file mode 100644
+index 0000000..4b2e5d2
+--- /dev/null
++++ b/tests/unit/test_empty_pickup_grid.py
+@@ -0,0 +1,97 @@
++"""Release 1.6.4: a listing total the page reports as 0 is a total of 0.
++
++Live L7 of 2026-11-04 (run 01M6K7HT3XVV8R8CX79P31KMB4, release 1.6.3): Walmart's "Bidets" listing for store
++3891 answered with an empty Pickup result grid (``aggregatedCount`` 0) next to an "Available for shipping"
++carousel of 10 products (``searchResult.count`` 10). Release 1.6.3 read the listing's total as
++``aggregatedCount or count``: it took the 0 for a missing value and the carousel's 10 for the total, and
++stopped the run ("the page reports results but shows no product"). The authentic page is
++``tests/captures/listing_pages_20261104``; the other pages here are SYNTHETIC."""
++
++from __future__ import annotations
++
++import gzip
++import hashlib
++import json
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from tests import synthetic_walmart as syn
++from walmart_headless.sites.walmart import page_data as wpd
++
++PAGES = Path(__file__).resolve().parents[1] / "captures" / "listing_pages_20261104"
++
++
++def page(name: str) -> dict[str, Any]:
++    return wpd.next_data(gzip.decompress((PAGES / name).read_bytes()).decode("utf-8"))
++
++
++def shape(nd: dict[str, Any]) -> tuple[Any, ...]:
++    pag = wpd.pagination(nd)
++    loc = wpd.page_location(nd)
++    return (
++        (pag.total_count, pag.page_count, pag.max_page),
++        [(s.layout, s.products, s.primary, s.fulfillment_filter) for s in wpd.item_stacks(nd)],
++        len(wpd.page_items(nd)),
++        wpd.placements(nd),
++        (loc.store_id, loc.intent) if loc else None,
++    )
++
++
++def test_the_fixture_matches_its_manifest() -> None:
++    for entry in json.loads((PAGES / "MANIFEST.json").read_text("utf-8")):
++        data = (PAGES / entry["file"]).read_bytes()
++        assert hashlib.sha256(data).hexdigest() == entry["source_sha256"], entry["file"]
++        assert hashlib.sha256(gzip.decompress(data)).hexdigest() == entry["content_sha256"], entry["file"]
++
++
++def test_the_live_bidets_page_reports_a_total_of_zero_not_the_count_of_its_carousel() -> None:
++    nd = page("bidets_page1.html.gz")
++    pag = wpd.pagination(nd)
++    assert (pag.total_count, pag.page_count, pag.max_page) == (0, 10, 0)
++    assert [
++        (s.layout, s.title, s.count, s.products, s.primary, s.fulfillment_filter) for s in wpd.item_stacks(nd)
++    ] == [
++        ("GRID", 'Results for "bidets"', 0, 0, True, "Pickup"),
++        ("CAROUSEL", "Available for shipping", 838, 10, False, "Shipping"),
++    ]
++    assert wpd.page_items(nd) == [] and wpd.placements(nd) == 0  # the carousel's products are not results
++    loc = wpd.page_location(nd)
++    assert loc is not None and (loc.store_id, loc.postal_code, loc.intent) == ("3891", "60085", "PICKUP")
++
++
++@pytest.mark.parametrize(
++    ("search_result", "total"),
++    [
++        ({"aggregatedCount": 0, "count": 10}, 0),
++        ({"aggregatedCount": "0", "count": 10}, 0),
++        ({"aggregatedCount": 25, "count": 10}, 25),
++        ({"count": 10}, 10),
++        ({"aggregatedCount": None, "count": 10}, 10),
++        ({"aggregatedCount": 0, "count": 0}, 0),
++    ],
++    ids=[
++        "zero-beside-a-carousel",
++        "zero-written-as-text",
++        "a-total-above-zero",
++        "no-aggregated-count",
++        "a-null-aggregated-count",
++        "zero-and-no-product",
++    ],
++)
++def test_a_reported_zero_is_the_total_and_count_is_read_only_without_one(
++    search_result: dict[str, Any], total: int
++) -> None:
++    nd = {"props": {"pageProps": {"initialData": {"searchResult": search_result}}}}
++    assert wpd.pagination(nd).total_count == total
++
++
++def test_the_synthetic_copy_has_the_shape_of_the_live_page() -> None:
++    carousel = [
++        syn.Item(str(7000 + i), f"Synthetic Shipping Product {i}", "$9.99", lines=(("SHIPPING", "0"),))
++        for i in range(10)
++    ]
++    assert shape(wpd.next_data(syn.empty_pickup_grid_page(carousel, store="3891"))) == shape(
++        page("bidets_page1.html.gz")
++    )
+diff --git a/tests/unit/test_exports_policy.py b/tests/unit/test_exports_policy.py
+new file mode 100644
+index 0000000..2d5b506
+--- /dev/null
++++ b/tests/unit/test_exports_policy.py
+@@ -0,0 +1,49 @@
++"""Release 1.6.0: the final output boundary. Both products writers (JSON and CSV, used for products.* and
++products_fresh.* of every run, replay and edition) refuse a row holding a Walmart deal value, a 23rd field,
++a wrong order or a non-string, so no branch can reintroduce one into a file."""
++
++from __future__ import annotations
++
++import pytest
++
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, build_record
++from walmart_headless.publishing.exports import canonical_products_bytes, products_csv_bytes
++
++
++def row() -> dict[str, str]:
++    return build_record(
++        {
++            "product_title": "Synthetic, 12 oz",
++            "url": "https://www.walmart.com/ip/x/9001",
++            "category": "Food",
++            "regular_price": "1.99",
++            "crawl_date": "2026-11-03",
++        }
++    )
++
++
++@pytest.mark.parametrize("writer", [canonical_products_bytes, products_csv_bytes])
++@pytest.mark.parametrize("field", DEAL_FIELDS)
++def test_a_deal_value_is_refused_by_both_writers(writer: object, field: str) -> None:
++    bad = {**row(), field: "2 for $5.00" if field.endswith("description") else "5.00"}
++    with pytest.raises(ValueError, match="client rule for Walmart's deal fields"):
++        writer([row(), bad])  # type: ignore[operator]
++
++
++@pytest.mark.parametrize("writer", [canonical_products_bytes, products_csv_bytes])
++def test_order_extra_fields_and_types_are_refused(writer: object) -> None:
++    good = row()
++    with pytest.raises(ValueError):
++        writer([{**good, "points": ""}])  # type: ignore[operator]
++    with pytest.raises(ValueError):
++        writer([dict(reversed(list(good.items())))])  # type: ignore[operator]
++    with pytest.raises(ValueError):
++        writer([{**good, "upc": 12345}])  # type: ignore[operator, dict-item]
++
++
++def test_conforming_rows_are_written_in_the_22_field_order() -> None:
++    body = products_csv_bytes([row()]).decode("utf-8-sig").splitlines()
++    assert body[0].split(",") == list(OUTPUT_FIELDS)
++    assert b'"volume_deals_description": ""' in canonical_products_bytes(
++        [row()]
++    ) or b'"volume_deals_description":""' in canonical_products_bytes([row()])
+diff --git a/tests/unit/test_gates.py b/tests/unit/test_gates.py
+index 0137773..79cae89 100644
+--- a/tests/unit/test_gates.py
++++ b/tests/unit/test_gates.py
+@@ -1,7 +1,9 @@
+ from __future__ import annotations
+ 
++import pytest
++
+ from walmart_headless.core.findings import DataMode, Severity
+-from walmart_headless.core.schema import build_record
++from walmart_headless.core.schema import OUTPUT_FIELDS, RecordShapeError, build_record
+ from walmart_headless.core.settings import Settings
+ from walmart_headless.validation.gates import (
+     AttestationSummary,
+@@ -143,10 +145,20 @@ def test_promotion_sanity() -> None:
+     assert deal_price_supported("4/$10 when you buy 4 or more", "10.00")
+     assert not deal_price_supported("Buy 1, Get 1 Free", "2.50")
+     ev = good_evidence(10)
+-    ev.exported_records = [
++    # Release 1.6.0: build_record refuses a Walmart deal value, so a record carrying one can only reach the
++    # gates from some other path; it is the same 22 keys in order, with the deal values set afterwards.
++    with pytest.raises(RecordShapeError, match="volume_deals_description must be empty"):
+         rec("0000000000001", volume_deals_description="Buy 1, Get 1 Free", volume_deals_price="2.50")
+-    ]
+-    assert status(ev)["G11"] is GateStatus.FAIL
++    bad = {
++        **rec("0000000000001"),
++        "volume_deals_description": "Buy 1, Get 1 Free",
++        "volume_deals_price": "2.50",
++    }
++    assert list(bad) == list(OUTPUT_FIELDS)
++    ev.exported_records = [bad]
++    st = status(ev)
++    assert st["G11"] is GateStatus.FAIL  # the price is not in its description
++    assert st["G5"] is GateStatus.FAIL  # and the deal fields must be empty at all (client rule)
+ 
+ 
+ def test_missing_integrity_and_contract_fail() -> None:
+diff --git a/tests/unit/test_listing_reconciliation.py b/tests/unit/test_listing_reconciliation.py
+index 250a735..d97b06e 100644
+--- a/tests/unit/test_listing_reconciliation.py
++++ b/tests/unit/test_listing_reconciliation.py
+@@ -218,6 +218,31 @@ def test_a_listing_is_done_only_at_a_final_end_with_a_stable_total() -> None:
+     assert lst.status == "INCOMPLETE" and "no result count" in lst.reason
+ 
+ 
++def test_a_moving_total_far_above_what_the_site_served_is_a_result_window_never_done() -> None:
++    # Live 2026-11-03, Laundry (release 1.6.1 left it unpartitioned): 615, 613, 614 and 611 reported while it
++    # was read, page 11 of the 16 linked empty, 393 served.
++    lst = _listing(393, 611, totals=[615, 613, 614, 611])
++    close_listing(lst, "EMPTY_PAGE", 11, "result page 11 shows no products")
++    assert lst.status == "INCOMPLETE" and lst.end == "RESULT_WINDOW"
++    assert lst.reason.startswith("accessible pages exhausted; coverage incomplete")
++    assert "between 611 and 615 results" in lst.reason and lst.reason.endswith("not reconciled")
++    assert lst.reconciliation["total_stable"] is False and lst.reconciliation["basis"] == ""
++    # Live 2026-11-03, Fresh Vegetables: the last linked page reached, 289, 288 and 287 reported, 277 served.
++    lst = _listing(277, 287, totals=[289, 288, 287])
++    close_listing(lst, "LAST_PAGE", 7)
++    assert lst.status == "INCOMPLETE" and lst.end == "RESULT_WINDOW"
++
++
++def test_a_shortfall_no_larger_than_the_totals_moved_stays_unreconciled_not_a_window() -> None:
++    lst = _listing(616, 617, totals=[618, 617])  # 1 short of the smallest total, which moved by 1
++    close_listing(lst, "LAST_PAGE", 16)
++    assert lst.status == "INCOMPLETE" and lst.end == "LAST_PAGE"
++    assert "reported total changed" in lst.reason and "accessible pages" not in lst.reason
++    lst = _listing(130, 134, totals=[134, 130])  # the smallest total reached: nothing says it is short
++    close_listing(lst, "LAST_PAGE", 4)
++    assert lst.status == "INCOMPLETE" and lst.end == "LAST_PAGE"
++
++
+ def test_more_identities_than_reported_is_an_overcount_whatever_the_sponsored_tiles() -> None:
+     lst = _listing(21, 21, sponsored=2)  # organic balances: the sponsored-only extras are outside the total
+     close_listing(lst, "LAST_PAGE", 1)
+diff --git a/tests/unit/test_not_found_page.py b/tests/unit/test_not_found_page.py
+new file mode 100644
+index 0000000..7bd795d
+--- /dev/null
++++ b/tests/unit/test_not_found_page.py
+@@ -0,0 +1,96 @@
++"""Release 1.6.3: Walmart's own not-found page is neither a challenge nor an empty listing.
++
++On 2026-11-04 (live L6, release 1.6.2) the Shampoo child listing "nexxus-shampoo", a link its parent's
++Departments facet named, answered with Walmart's not-found page, HTTP 200. That page is minified: its page
++data is written ``<script id=__NEXT_DATA__ type="application/json">``, the id unquoted, and its route is
++``/404``. Release 1.6.2 looked only for ``id="__NEXT_DATA__"``: it read "missing_initial_state", called the
++page a challenge, stopped the run (``SITE_REFUSAL``) and held the store, and its sanitizer dropped that page
++data from the stored copy. The page here is SYNTHETIC, with the live page's markers
++(``tests/synthetic_walmart.py``).
++
++The names this release adds are read from their modules inside the tests, so that the tests of what did not
++change also run on release 1.6.2.
++"""
++
++from __future__ import annotations
++
++import pytest
++
++from tests import synthetic_walmart as syn
++from walmart_headless.acquisition import challenge
++from walmart_headless.acquisition.challenge import (
++    WALMART_STATE_MARKER,
++    ChallengeVerdict,
++    detect_document_challenge,
++    signals,
++)
++from walmart_headless.sites.walmart import page_data as wpd
++from walmart_headless.sites.walmart.sanitize import sanitize_html
++
++STORE = "3891"
++
++
++def judge(html: str, *, expect: bool = True) -> ChallengeVerdict:
++    return detect_document_challenge(
++        200, html, expect_initial_state=expect, state_marker=WALMART_STATE_MARKER
++    )
++
++
++def test_the_site_not_found_page_is_no_challenge() -> None:
++    page = syn.not_found_page()
++    assert WALMART_STATE_MARKER not in page  # the quoted form release 1.6.2 looked for
++    v = judge(page)
++    assert not v.is_challenge and v.reasons == ()
++    assert challenge.has_state(page, WALMART_STATE_MARKER)
++
++
++def test_its_page_data_is_read_and_says_it_is_the_not_found_page() -> None:
++    nd = wpd.next_data(syn.not_found_page())
++    assert wpd.search_result(nd) is None and wpd.category_page(nd) == ""
++    assert wpd.not_found_page(nd) == "/404"
++
++
++def test_the_stored_copy_keeps_that_page_data_redacted_and_readable() -> None:
++    out, report = sanitize_html(syn.not_found_page())
++    assert report.page_data_kept
++    assert not judge(out).is_challenge
++    assert wpd.next_data(out)["page"] == "/404"
++
++
++@pytest.mark.parametrize("quote", ['"', "'", ""], ids=["double-quoted", "single-quoted", "unquoted"])
++def test_the_page_data_script_is_found_however_its_id_is_quoted(quote: str) -> None:
++    data = {"page": "/browse/[...slug]", "props": {"pageProps": {}}}
++    page = syn.next_data_script(data).replace('id="__NEXT_DATA__"', f"id={quote}__NEXT_DATA__{quote}")
++    assert not judge(page).is_challenge
++    assert wpd.next_data(page)["page"] == "/browse/[...slug]"
++    assert sanitize_html(page)[1].page_data_kept
++
++
++def test_a_listing_page_and_a_category_page_are_not_the_not_found_page() -> None:
++    listing = wpd.next_data(syn.listing_page([syn.Item("7101", "Whole Milk", "$3.12")], store=STORE))
++    assert wpd.not_found_page(listing) == ""
++    hub = wpd.next_data(syn.next_data_script({"page": "/cp/[...categoryParams]", "props": {"pageProps": {}}}))
++    assert wpd.not_found_page(hub) == ""
++
++
++def test_a_challenge_is_still_a_challenge_with_unquoted_page_data() -> None:
++    page = syn.not_found_page().replace("</body>", f"{syn.CHALLENGE_DIALOG}</body>")
++    v = judge(page)
++    assert v.is_challenge
++    assert {"perimeterx_captcha", "perimeterx_robot_or_human"} <= set(signals(v))
++
++
++@pytest.mark.parametrize(
++    "page",
++    [
++        "<!doctype html><html><body><p>Uh-oh... This page could not be found.</p></body></html>",
++        # The name in text or in another script's code is not the page data's script.
++        "<html><body><p>id=__NEXT_DATA__</p><script>var x='__NEXT_DATA__'</script></body></html>",
++        '<html><body><script id=__NEXT_DATA__X type="application/json">{}</script></body></html>',
++    ],
++    ids=["no-page-data", "the-name-elsewhere", "another-id"],
++)
++def test_a_page_without_the_page_data_script_is_still_refused_as_before(page: str) -> None:
++    v = judge(page)
++    assert v.is_challenge and signals(v) == ("missing_initial_state",)
++    assert not judge(page, expect=False).is_challenge
+diff --git a/tests/unit/test_retention_rules.py b/tests/unit/test_retention_rules.py
+index c56a82c..139d930 100644
+--- a/tests/unit/test_retention_rules.py
++++ b/tests/unit/test_retention_rules.py
+@@ -40,7 +40,12 @@ def test_formats_types_and_deal_prices_are_checked() -> None:
+     ]
+     assert "upc is int, not str" in record_problems(stored({**good(), "upc": 78742000000}))
+     bad_deal = {**good(), "volume_deals_description": "Buy 1, Get 1 Free", "volume_deals_price": "2.50"}
+-    assert record_problems(bad_deal) == ["volume_deals_price not in volume_deals_description"]
++    # Release 1.6.0: a deal value is itself a problem (client rule), besides the unsupported price.
++    assert record_problems(bad_deal) == [
++        "volume_deals_description must be empty (client rule for Walmart's deal fields)",
++        "volume_deals_price must be empty (client rule for Walmart's deal fields)",
++        "volume_deals_price not in volume_deals_description",
++    ]
+     assert record_problems({**good(), "gupc": "078742000000"}) == ["gupc must be empty"]
+ 
+ 
+diff --git a/tests/unit/test_schema.py b/tests/unit/test_schema.py
+index f86016e..2bb6db2 100644
+--- a/tests/unit/test_schema.py
++++ b/tests/unit/test_schema.py
+@@ -5,8 +5,10 @@ from hypothesis import given
+ from hypothesis import strategies as st
+ 
+ from walmart_headless.core.schema import (
++    DEAL_FIELDS,
+     OUTPUT_FIELDS,
+     RecordShapeError,
++    apply_output_policy,
+     build_record,
+     format_violations,
+     shape_violations,
+@@ -105,10 +107,32 @@ def test_format_violations(field: str, value: str, ok: bool) -> None:
+ 
+ @given(
+     st.dictionaries(
+-        st.sampled_from([f for f in OUTPUT_FIELDS if f not in ("gupc", "unit_price")]), st.text(max_size=20)
++        st.sampled_from([f for f in OUTPUT_FIELDS if f not in ("gupc", "unit_price", *DEAL_FIELDS)]),
++        st.text(max_size=20),
+     )
+ )
+ def test_build_record_property_all_strings_in_order(values: dict[str, str]) -> None:
+     rec = build_record(values)
+     assert list(rec) == list(OUTPUT_FIELDS)
+     assert all(isinstance(v, str) for v in rec.values())
++    assert all(rec[f] == "" for f in DEAL_FIELDS)
++
++
++@given(st.sampled_from(DEAL_FIELDS), st.text(min_size=1, max_size=20))
++def test_build_record_refuses_any_walmart_deal_value(field: str, value: str) -> None:
++    """Release 1.6.0, the client's clarification: the four deal fields are always "" for Walmart."""
++    with pytest.raises(RecordShapeError, match="client rule for Walmart's deal fields"):
++        build_record({field: value})
++    full = {**build_record({}), field: value}
++    assert f"{field} must be empty (client rule for Walmart's deal fields)" in shape_violations(full)
++
++
++def test_apply_output_policy_blanks_the_deal_fields_and_returns_what_it_held() -> None:
++    legacy = {k: "" for k in reversed(OUTPUT_FIELDS)}  # stored order, as JSONB returns it
++    legacy.update(volume_deals_description="2 for $5.00", volume_deals_price="5.00", regular_price="2.50")
++    kept, withheld = apply_output_policy(legacy)
++    assert list(kept) == list(OUTPUT_FIELDS)
++    assert [kept[f] for f in DEAL_FIELDS] == ["", "", "", ""]
++    assert kept["regular_price"] == "2.50"  # the other fields keep their own rules
++    assert withheld == {"volume_deals_description": "2 for $5.00", "volume_deals_price": "5.00"}
++    assert shape_violations(kept) == []
+diff --git a/tests/unit/test_walmart.py b/tests/unit/test_walmart.py
+index eead863..d985e47 100644
+--- a/tests/unit/test_walmart.py
++++ b/tests/unit/test_walmart.py
+@@ -22,7 +22,7 @@ from walmart_headless.assembly.record_builder import (
+     build_product_record,
+ )
+ from walmart_headless.core.findings import RecordFlag
+-from walmart_headless.core.schema import OUTPUT_FIELDS, format_violations
++from walmart_headless.core.schema import DEAL_FIELDS, OUTPUT_FIELDS, format_violations
+ from walmart_headless.core.settings import RecordSettings, load_private_label
+ from walmart_headless.sites.walmart import page_data as wpd
+ from walmart_headless.sites.walmart import records as wrec
+@@ -421,10 +421,17 @@ def test_deal_wording_is_separated_from_sale_merchandising_and_rewards() -> None
+     assert {"Rollback", "Best seller", "Save with W+", "Free shipping"} <= set(other)
+     built, _ = _record(it)
+     rec = built.record  # type: ignore[attr-defined]
+-    assert (rec["volume_deals_description"], rec["volume_deals_price"]) == ("2 for $5.00", "5.00")
+-    assert rec["digital_deals_description"] == "Coupon: Clip coupon: Save $1.00"
+-    assert rec["digital_deals_price"] == ""  # "Save $1" states no final price
+-    assert "Walmart Cash" not in rec["digital_deals_description"]  # a reward paid later, not a price
++    # Release 1.6.0 (the client's clarification): the four deal fields are always "" for Walmart, whatever
++    # the page shows. The classification is still made, and kept as evidence only.
++    assert [rec[f] for f in DEAL_FIELDS] == ["", "", "", ""]
++    deals = built.deals  # type: ignore[attr-defined]
++    assert (deals.volume_deals_description, deals.volume_deals_price) == ("2 for $5.00", "5.00")
++    assert deals.digital_deals_description == "Coupon: Clip coupon: Save $1.00"
++    assert deals.digital_deals_price == ""  # "Save $1" states no final price
++    assert "Walmart Cash" not in deals.digital_deals_description  # a reward paid later, not a price
++    kept = built.provenance["_deal_fields_not_exported"]  # type: ignore[attr-defined]
++    assert kept["derived"]["volume_deals_description"] == "2 for $5.00"
++    assert built.missing["volume_deals_description"].startswith("always empty (client rule for Walmart")  # type: ignore[attr-defined]
+     assert RecordFlag.CASHBACK_OFFER_EXCLUDED in built.flags  # type: ignore[attr-defined]
+ 
+ 
+@@ -464,6 +471,28 @@ def test_category_page_links_pagination_and_store_page() -> None:
+     assert details is not None and details.location_text == "4650 W North Ave, Chicago, IL 60639"
+ 
+ 
++def test_a_category_page_is_told_from_its_own_data_and_no_other_page_is_one() -> None:
++    # Release 1.6.2. The shape of the "Flower Shop" page the listing link "Fresh Flowers" served on 2026-11-03
++    # (a SYNTHETIC copy of its route, its address and an empty initialData).
++    hub = {
++        "page": "/cp/[...categoryParams]",
++        "query": {"categoryParams": ["flower-shop", "5098771"]},
++        "props": {"pageProps": {"pageUrl": "/cp/flower-shop/5098771?povid=x", "initialData": {}}},
++    }
++    assert wpd.category_page(hub) == "/cp/flower-shop/5098771" and wpd.search_result(hub) is None
++    assert wpd.category_page({"page": "/cp/[...categoryParams]", "props": {}}) == "/cp/[...categoryParams]"
++    assert (
++        wpd.category_page(wpd.next_data(syn.listing_page([MILK], store=STORE, page=1, max_page=1, total=1)))
++        == ""
++    )
++    # A page without a route (a new layout, a cut response) or with another route is not a category page.
++    assert wpd.category_page({"props": {"pageProps": {"initialData": {}}}}) == ""
++    assert (
++        wpd.category_page({"page": "/browse/[...slug]", "props": {"pageProps": {"pageUrl": "/cp/x/1"}}}) == ""
++    )
++    assert wpd.category_page({"page": "/ip/[...itemParams]", "props": {"pageProps": {}}}) == ""
++
++
+ def test_the_sanitizer_keeps_the_page_data_and_removes_session_identifiers() -> None:
+     page = syn.store_page(
+         STORE,
+diff --git a/uv.lock b/uv.lock
+index fa6cb88..dfcdbef 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.5.2"
++version = "1.6.4"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

@@ -1,0 +1,52 @@
+git diff 627c804..67d216e (development monorepo), relative to the collector's folder: every collector change since the reviewed release 1.5.2
+1.5.2 = 627c804d66aa33fc423fd2296c8896c5d5c2c3d4; 1.6.5 = 67d216eb8ee2ec839a437b0b5bf2d594324b6982 (through 1.6.0 = 56f078e, 1.6.1 = 1780349, 1.6.2 = 1274056, 1.6.3 = def55e5 and 1.6.4 = 28ac7d3)
+
+ Dockerfile                                                          |   4 +-
+ README.md                                                           |  26 ++++++
+ azure/main.parameters.example.json                                  |   2 +-
+ docs/CLI.md                                                         |  10 +-
+ docs/OPERATIONS.md                                                  |  26 +++++-
+ docs/VERIFICATION.md                                                |  96 ++++++++++++++++++-
+ pyproject.toml                                                      |   2 +-
+ src/walmart_headless/__init__.py                                    |   2 +-
+ src/walmart_headless/acquisition/challenge.py                       |  17 +++-
+ src/walmart_headless/acquisition/oxylabs.py                         | 101 +++++++++++++++++++-
+ src/walmart_headless/assembly/record_builder.py                     |  30 +++++-
+ src/walmart_headless/checks/contract.py                             |  13 ++-
+ src/walmart_headless/checks/source_check.py                         |  35 ++++++-
+ src/walmart_headless/collection/retention.py                        |  25 ++++-
+ src/walmart_headless/collection/walmart.py                          | 298 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ src/walmart_headless/core/paths.py                                  |   2 +-
+ src/walmart_headless/core/schema.py                                 |  35 ++++++-
+ src/walmart_headless/publishing/exports.py                          |  15 ++-
+ src/walmart_headless/publishing/supporting_log.py                   |  18 +++-
+ src/walmart_headless/sites/walmart/page_data.py                     |  39 +++++++-
+ src/walmart_headless/sites/walmart/sanitize.py                      |   4 +-
+ tests/captures/listing_pages_20261104/MANIFEST.json                 |  15 +++
+ tests/captures/listing_pages_20261104/README.md                     |  15 +++
+ tests/captures/listing_pages_20261104/bidets_page1.html.gz          | Bin 0 -> 94855 bytes
+ tests/captures/listing_pages_20261104_flat/MANIFEST.json            |  28 ++++++
+ tests/captures/listing_pages_20261104_flat/README.md                |  22 +++++
+ tests/captures/listing_pages_20261104_flat/flat_layout_page.html.gz | Bin 0 -> 130596 bytes
+ tests/captures/listing_pages_20261104_flat/l10_records.json         | 626 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/captures/listing_pages_20261104_flat/price_lines_page.html.gz | Bin 0 -> 163119 bytes
+ tests/integration/test_account_gate.py                              | 175 +++++++++++++++++++++++++++++++++++
+ tests/integration/test_coverage_and_assortment.py                   | 222 +++++++++++++++++++++++++++++++++++++++++++-
+ tests/integration/test_deal_fields_policy.py                        | 198 +++++++++++++++++++++++++++++++++++++++
+ tests/integration/test_detail_path.py                               | 211 +++++++++++++++++++++++++++++++++++++++++-
+ tests/integration/test_operations.py                                |  19 +++-
+ tests/synthetic_walmart.py                                          |  83 +++++++++++++++++
+ tests/unit/test_empty_pickup_grid.py                                |  97 ++++++++++++++++++++
+ tests/unit/test_exports_policy.py                                   |  49 ++++++++++
+ tests/unit/test_flat_price_layout.py                                | 138 ++++++++++++++++++++++++++++
+ tests/unit/test_gates.py                                            |  20 +++-
+ tests/unit/test_listing_reconciliation.py                           |  25 +++++
+ tests/unit/test_not_found_page.py                                   |  96 +++++++++++++++++++
+ tests/unit/test_retention_rules.py                                  |   7 +-
+ tests/unit/test_schema.py                                           |  26 +++++-
+ tests/unit/test_walmart.py                                          |  39 +++++++-
+ uv.lock                                                             |   2 +-
+ 45 files changed, 2841 insertions(+), 72 deletions(-)
+
+tests only:
+ 23 files changed, 2091 insertions(+), 20 deletions(-)

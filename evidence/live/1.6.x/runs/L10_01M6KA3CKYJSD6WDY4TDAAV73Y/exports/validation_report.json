@@ -1,0 +1,126 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6KA3CKYJSD6WDY4TDAAV73Y",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "gates": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "FAIL",
+      "G4": "FAIL",
+      "G5": "PASS",
+      "G6": "PASS",
+      "G7": "PASS",
+      "G8": "PASS",
+      "G9": "PASS",
+      "G10": "PASS",
+      "G11": "PASS",
+      "G12": "PASS",
+      "G13": "PASS",
+      "G14": "PASS"
+    },
+    "nodes": {
+      "EMPTY": 1,
+      "INCOMPLETE": 7,
+      "NOT_COLLECTED": 2
+    },
+    "canary": {
+      "at": "2026-11-04T12:57:02.933597Z",
+      "url": "https://www.walmart.com/browse/personal-care/1005862_1071969?povid=PersonalCare_PCCP_LHN_BB_Shop_All_2.9",
+      "page": "01M6KA4FCHQFZXVN6VSG2WAVJR",
+      "valid": 40,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 1.0,
+      "source_check": {
+        "checked": 40,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "outcome": "rejected",
+    "contract": {
+      "pages": 437,
+      "problems": []
+    },
+    "verified": 7055,
+    "historical": {
+      "not_valid_now": 0,
+      "carried_forward": 3244,
+      "refused_sources": 0,
+      "not_verified_by_current_rules": 0
+    },
+    "upc_detail": {
+      "not_attempted": 6688,
+      "absent_in_source": 2,
+      "extracted_reused": 367
+    },
+    "completeness": {
+      "ppm": 0.7085163667280714,
+      "upc": 0.05200510131784044,
+      "url": 1.0,
+      "gupc": 0.0,
+      "weight": 0.7405413065041803,
+      "zipcode": 1.0,
+      "category": 1.0,
+      "image_url": 1.0,
+      "crawl_date": 1.0,
+      "sale_price": 0.06815927447924047,
+      "store_logo": 1.0,
+      "store_name": 1.0,
+      "unit_price": 0.0,
+      "store_brand": 1.0,
+      "sub_category": 1.0,
+      "product_title": 1.0,
+      "regular_price": 0.9997165934533088,
+      "store_location": 1.0,
+      "volume_deals_price": 0.0,
+      "digital_deals_price": 0.0,
+      "volume_deals_description": 0.0,
+      "digital_deals_description": 0.0
+    },
+    "yield_baseline": null,
+    "carried_details": {
+      "withheld": 12,
+      "upc_filled": 267,
+      "weight_filled": 15,
+      "already_from_that_read": 6,
+      "answered_by_saved_read": 268,
+      "rows_with_empty_fields": 2915
+    },
+    "records_by_status": {
+      "valid": 7055,
+      "excluded": 23,
+      "historical": 3244,
+      "exported_not_valid": 2
+    },
+    "field_dispositions": {
+      "upc": {
+        "not_attempted": 9327,
+        "fetched_detail": 57,
+        "absent_in_source": 4,
+        "identity_mismatch": 1,
+        "recovered_from_saved_detail": 911,
+        "budget_deadline_interruption": 1
+      },
+      "weight": {
+        "not_attempted": 2039,
+        "fetched_detail": 3,
+        "absent_in_source": 19,
+        "present_in_listing": 8202,
+        "unresolved_conflict": 3,
+        "recovered_from_saved_detail": 35
+      }
+    },
+    "collection_complete": false
+  },
+  "excluded_by_reason": {
+    "ASSORTMENT_UNRESOLVED": 21,
+    "CARRIED_FORWARD": 3244,
+    "LOCATION_UNATTESTED": 21,
+    "SCHEMA_INVALID": 2
+  },
+  "duplicates": 0
+}

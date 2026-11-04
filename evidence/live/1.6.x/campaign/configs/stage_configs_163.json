@@ -1,0 +1,14 @@
+{
+ "l8_163": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l8_163.yaml",
+  "sha256": "b25a5d13b6a51503aee4d10bfab10ee8599c1489f319ac13edd1081e7eff54ec",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0
+ },
+ "census_163": {
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.census_163.yaml",
+  "sha256": "b25a5d13b6a51503aee4d10bfab10ee8599c1489f319ac13edd1081e7eff54ec",
+  "edition_config_sha256": "76da03229b56fc258ed9d1883331dc62bd984e3319f8ed50827188727b930bde",
+  "seeds": 0
+ }
+}

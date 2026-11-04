@@ -1,0 +1,35 @@
+git diff 627c804..1274056 (development monorepo), relative to the collector's folder: every collector change since the reviewed release 1.5.2
+1.5.2 = 627c804d66aa33fc423fd2296c8896c5d5c2c3d4; 1.6.2 = 12740567afc1499d1eb850c9faa306439b0798d2 (through 1.6.0 = 56f078e and 1.6.1 = 1780349)
+
+ Dockerfile                                        |   4 +-
+ README.md                                         |  14 +++++
+ azure/main.parameters.example.json                |   2 +-
+ docs/CLI.md                                       |   2 +-
+ docs/OPERATIONS.md                                |  12 ++--
+ docs/VERIFICATION.md                              |  47 ++++++++++++++-
+ pyproject.toml                                    |   2 +-
+ src/walmart_headless/__init__.py                  |   2 +-
+ src/walmart_headless/acquisition/oxylabs.py       | 101 +++++++++++++++++++++++++++++++-
+ src/walmart_headless/assembly/record_builder.py   |  30 ++++++++--
+ src/walmart_headless/checks/contract.py           |  13 +++--
+ src/walmart_headless/collection/retention.py      |  25 ++++++--
+ src/walmart_headless/collection/walmart.py        |  75 +++++++++++++++++++++++-
+ src/walmart_headless/core/paths.py                |   2 +-
+ src/walmart_headless/core/schema.py               |  35 ++++++++++-
+ src/walmart_headless/publishing/exports.py        |  15 ++++-
+ src/walmart_headless/sites/walmart/page_data.py   |  14 +++++
+ tests/integration/test_account_gate.py            | 175 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/integration/test_coverage_and_assortment.py | 140 +++++++++++++++++++++++++++++++++++++++++++-
+ tests/integration/test_deal_fields_policy.py      | 198 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/integration/test_detail_path.py             |  40 +++++++++++++
+ tests/unit/test_exports_policy.py                 |  49 ++++++++++++++++
+ tests/unit/test_gates.py                          |  20 +++++--
+ tests/unit/test_listing_reconciliation.py         |  25 ++++++++
+ tests/unit/test_retention_rules.py                |   7 ++-
+ tests/unit/test_schema.py                         |  26 ++++++++-
+ tests/unit/test_walmart.py                        |  39 +++++++++++--
+ uv.lock                                           |   2 +-
+ 28 files changed, 1067 insertions(+), 49 deletions(-)
+
+tests only:
+ 10 files changed, 705 insertions(+), 14 deletions(-)

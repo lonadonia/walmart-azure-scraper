@@ -1,0 +1,4 @@
+live160_run.before_163.py was rebuilt on 2026-11-04 about 12:40Z: the 1.6.4 patch script, a copy of the 1.6.3 one, kept the backup name live160_run.before_163.py and overwrote that file with the harness before the 1.6.4 patch (now live160_run.before_164.py). The 1.6.3 patch added one line only (the 1.6.3 entry of EDITIONS) and the files have LF line ends, so the harness before the 1.6.3 patch is live160_run.before_164.py without that line:
+before_164 sha256 4a0aed636ae174efaa1b3dbbf64ec36260d482201e594f5575d8fd8118bd8a66
+before_163 (rebuilt) sha256 0d5cd558d6727ff9d7466fc6c06286691376ec5dfe8aa9cea5a908f7de002da4
+current sha256 69dd71bfc306b85bc0b59acea529d4b9e8dad273feaa85dbc6cc6cfcb7ae0c7d

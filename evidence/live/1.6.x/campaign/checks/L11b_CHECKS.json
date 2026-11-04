@@ -1,0 +1,360 @@
+{
+ "stage": "L11b",
+ "run_id": "01M6KFRFEX31W014SW9ZTT4Y54",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6KFRFEX31W014SW9ZTT4Y54",
+  "record_count": 10301,
+  "fresh_record_count": 35,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 35,
+ "fresh_distinct_items": 35,
+ "export_rows_with_carried": 10301,
+ "by_category": {
+  "Food": 35
+ },
+ "by_sub_category": {
+  "Fresh Fruits": 35
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 10301,
+  "crawl_dates_fresh": {
+   "2026-11-04": 35
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 35
+  },
+  "store_name": {
+   "Waukegan Supercenter": 35
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 35
+  },
+  "store_logo_filled": 35
+ },
+ "filled_fresh": {
+  "zipcode": 35,
+  "store_name": 35,
+  "store_location": 35,
+  "store_logo": 35,
+  "store_brand": 35,
+  "category": 35,
+  "sub_category": 35,
+  "product_title": 35,
+  "weight": 28,
+  "regular_price": 35,
+  "sale_price": 7,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 35,
+  "url": 35,
+  "upc": 35,
+  "gupc": 0,
+  "ppm": 23,
+  "unit_price": 0,
+  "crawl_date": 35
+ },
+ "store_brand_fresh": {
+  "no": 31,
+  "yes": 4
+ },
+ "upc_outcomes_fresh": {
+  "recovered_from_saved_detail": 35
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 23,
+  "unresolved_conflict": 3,
+  "absent_in_source": 4,
+  "recovered_from_saved_detail": 5
+ },
+ "upc_outcomes_all_rows": {
+  "not_attempted": 9324,
+  "recovered_from_saved_detail": 914,
+  "fetched_detail": 57,
+  "absent_in_source": 4,
+  "budget_deadline_interruption": 1,
+  "identity_mismatch": 1
+ },
+ "weight_outcomes_all_rows": {
+  "not_attempted": 2037,
+  "present_in_listing": 8202,
+  "recovered_from_saved_detail": 35,
+  "absent_in_source": 19,
+  "unresolved_conflict": 5,
+  "fetched_detail": 3
+ },
+ "carried_rows_1_6_3": {
+  "carried_rows": 10266,
+  "rows_with_recovered_fields": 236,
+  "recovered_by_field": {
+   "upc": 236,
+   "weight": 10
+  },
+  "recovery_withheld": {
+   "the read's statements about size conflict": 9
+  },
+  "carried_upc_blank": 9330,
+  "carried_weight_blank": 2054
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {
+  "sponsored | not_attempted": 6,
+  "sponsored | duplicate": 1
+ },
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-04 14:35:11.298303+00:00",
+  "finished_at": "2026-11-04 14:40:22.561911+00:00",
+  "parser_version": "1.6.5",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 3,
+   "credits": 3.0,
+   "usd": "0.0045000000000000005",
+   "first": "2026-11-04 14:35:14.135637+00:00",
+   "last": "2026-11-04 14:35:28.170413+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 1
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [],
+ "segments": [
+  {
+   "id": "01M6KFRFJYAZ9XNRNNFJ0HSSP6",
+   "started": "2026-11-04 14:35:11.326293+00:00",
+   "ended": "2026-11-04 14:40:22.639790+00:00",
+   "active_s": 311.2969999999623,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 3.0,
+   "workers": 1
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90T",
+   "taxonomy_id": "976759_976793_9756351",
+   "status": "CAPPED",
+   "total_count": 136,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.3382352941176471,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/food/fresh-fruits/976759_976793_9756351",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 4,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6KFS0188NCZ67GJ0JBMYR3W",
+      "max_page": 4,
+      "products": 47,
+      "sponsored": 7,
+      "page_count": 57,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 7
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 136
+     }
+    ],
+    "children_named": [
+     "976759_976793_9756351_2787146",
+     "976759_976793_9756351_4914029",
+     "976759_976793_9756351_1643058",
+     "976759_976793_9756351_7796396",
+     "976759_976793_9756351_3666751",
+     "976759_976793_9756351_2098775",
+     "976759_976793_9756351_5526945",
+     "976759_976793_9756351_1815247",
+     "976759_976793_9756351_9043545",
+     "976759_976793_9756351_6537775",
+     "976759_976793_9756351_3521037",
+     "976759_976793_9756351_9015203",
+     "976759_976793_9756351_4446268",
+     "976759_976793_9756351_9855664",
+     "976759_976793_9756351_7288972"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 46,
+     "organic": 40,
+     "difference": 90,
+     "placements": 47,
+     "total_stable": true,
+     "reported_total": 136,
+     "sponsored_only": 6,
+     "totals_reported": [
+      136
+     ],
+     "repeat_placements": 1,
+     "unresolved_difference": 90
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "35 valid records"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "1 categories"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Food",
+   "message": "status INCOMPLETE"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "category",
+   "ref": "Food",
+   "message": "60% of the published products are retained from earlier runs (53 retained, 35 fresh valid)"
+  },
+  {
+   "gate": "G4",
+   "severity": "FAIL",
+   "code": "RETAINED_MASKS_YIELD",
+   "scope": "run",
+   "ref": null,
+   "message": "60% of the published products are retained from earlier runs (53 retained, 35 fresh valid)"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L11b-canary-165-20261104",
+  "rows": 3,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 3,
+    "worst_usd": 0.0045,
+    "settled_usd": 0.0045,
+    "settled_results": 3
+   }
+  }
+ }
+}

@@ -1,0 +1,3 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen ruff format --check src tests
+(cwd walmart-oxylabs-1.6.5; offline=True)
+164 files already formatted
