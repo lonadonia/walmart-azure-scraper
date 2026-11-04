@@ -4,8 +4,10 @@ The client's second review found five defects in the frozen Walmart Classic prob
 defect was, that the newer shared probe 1.6.0 (published with Mariano's) inherited all five, and how release 1.7.0
 corrects them. It also lists the offline tests that prove each correction.
 
-**Live mode stays disabled.** No Classic request has ever been sent. The credential on file is an Oxylabs **Web
-API** Bearer key, not a Classic username and password, so no live Classic test is possible with it.
+**Live mode stays disabled.** No Classic scraping request has ever been sent. The only request made with Classic-style
+credentials was W0: one usage-statistics query that sent the Web API key as Basic credentials and was refused (HTTP
+401, [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8). The credential on file is an Oxylabs **Web API**
+Bearer key, not a Classic username and password, so no live Classic test is possible with it.
 
 ## The three probes and their identities
 
@@ -78,7 +80,8 @@ which named the old transport; the contract itself (endpoint, payloads, prices) 
 
 ## What this does not establish
 
-- No Classic request has been sent, by any release. Each correction is proven on a loopback stub, not on Oxylabs.
+- No Classic scraping request has been sent, by any release; the only request with Classic-style credentials was W0,
+  refused. Each correction is proven on a loopback stub, not on Oxylabs.
 - A future live-enabled build needs:
   - its own version;
   - the exact documented route;

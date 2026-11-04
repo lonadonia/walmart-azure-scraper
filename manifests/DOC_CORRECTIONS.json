@@ -1,5 +1,5 @@
 {
- "about": "The corrections of each publication of this repository, newest first. This publication's: the errata in files that are not edited (each quoted from its file), the files of the 1.5.2 publication replaced with their text kept (with the exact text replaced, where a passage was), and the corrections made to this publication's own records before it was pushed. The 1.5.2 publication's record follows, unchanged.",
+ "about": "The corrections of each publication of this repository, newest first. This publication's: the errata in files that are not edited (each quoted from its file), the files of the 1.5.2 publication replaced with their text kept (with the exact text replaced, where a passage was), and the corrections made to this publication's own records before its review tag was set. The 1.5.2 publication's record follows, unchanged.",
  "review-1.6.5-20261104": {
   "errata_not_edited": [
    {
@@ -144,6 +144,10 @@
    {
     "what": "the shared ledger's folder",
     "correction": "24 files of the live campaign record (evidence/live/1.6.x/campaign/: commands.csv, stage_steps.json, the harness and its five earlier versions, and 16 logs) and two review documents (COST_AND_RUNTIME_REPORT.md and TECHNICAL_REPORT.md) named the shared ledger's folder by its path from the workstation's projects folder. The campaign files are redacted (REDACTIONS.csv, rule \"workstation projects folder, relative\"); the two documents now give the folder's own name."
+   },
+   {
+    "what": "review/CLASSIC_PROBE_CORRECTIONS.md (twice) and review/REQUIREMENT_MATRIX.md: the Classic request claim",
+    "correction": "The publication's first commit, d2ce076f23ac2787b4b38269de6f8ba8942f520c (pushed on 2026-11-04 at 19:17Z, before the review tag was set), said that no Classic request had ever been sent. W0 (TECHNICAL_REPORT.md, section 8) was one usage-statistics query that sent the Web API key as Basic credentials, refused with HTTP 401. The tagged commit says that no Classic scraping request has been sent, and names W0. Nothing else changed in the two documents."
    }
   ]
  },

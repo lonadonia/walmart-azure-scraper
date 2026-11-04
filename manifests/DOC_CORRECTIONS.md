@@ -4,7 +4,7 @@ Two records follow: this publication's (tag `review-1.6.5-20261104`), then that 
 
 ## This publication: release 1.6.5 (tag `review-1.6.5-20261104`)
 
-The review documents of 1.6.5 were written for this publication, so no delivered document was corrected. What follows is everything else: errors found in files that are not edited, the files of the 1.5.2 publication that this one replaces while keeping their text, and the corrections made to this publication's own records before it was pushed.
+The review documents of 1.6.5 were written for this publication, so no delivered document was corrected. What follows is everything else: errors found in files that are not edited, the files of the 1.5.2 publication that this one replaces while keeping their text, and the corrections made to this publication's own records before its review tag was set.
 
 `source/`, `classic-probe/` and `classic-probe-1.7.0/` are the delivered archives' files, unchanged ([`check_frozen_trees.py`](check_frozen_trees.py)). Historical evidence is not rewritten either: its only changes are the redactions in [`REDACTIONS.csv`](REDACTIONS.csv). [`FILE_MAP.csv`](FILE_MAP.csv) gives every file's origin and its original and published SHA-256.
 
@@ -33,7 +33,7 @@ The review documents of 1.6.5 were written for this publication, so no delivered
 
 The other files of the 1.5.2 publication are either carried unchanged (its evidence, its data folders and `data/COVERAGE_RECONCILIATION.csv`, `classic-probe/`, `walkthrough/`, `.gitattributes`, `.gitignore`, `review/LINKED_EXAMPLES.csv`, `review/THIRD_PARTY_LICENSES.csv` and `manifests/SOURCE_AND_RUN_MANIFEST.json`, which is release 1.5.2's record) or replaced by this delivery's file of the same name (`README.md`, the review documents and the manifests: `check_data.py`, `check_frozen_trees.py`, `PUBLICATION.json`, `FILE_MAP.csv`, `REDACTIONS.csv`, `EXCLUDED.csv` and `SHA256SUMS.txt`). Each replaced file's earlier version is at the tag `review-1.5.2-20261103`, and [`FILE_MAP.csv`](FILE_MAP.csv) names it.
 
-### 3. Corrections made to this publication's own records before it was pushed
+### 3. Corrections made to this publication's own records before its review tag was set
 
 | What | Correction |
 |---|---|
@@ -48,6 +48,7 @@ The other files of the 1.5.2 publication are either carried unchanged (its evide
 | data/README.md: the 1.5.x entries of RUN_SUMMARY.json | A draft said they keep the paths the 1.5.2 publication gave them. Their delivered files now have repository paths, and two fields were added (see the replaced files above). |
 | review/MILESTONES.md, DELIVERY_INDEX.md, REQUIREMENT_MATRIX.md and ACCEPTANCE_MATRIX.csv: the client's VM | Drafts named the client's VM, and MILESTONES.md also its login and folders. The 1.5.2 publication named none of them, and the disclosure scan made before the commit flagged the login. The documents now say "the client's VM"; nothing else in them changed. |
 | the shared ledger's folder | 24 files of the live campaign record (evidence/live/1.6.x/campaign/: commands.csv, stage_steps.json, the harness and its five earlier versions, and 16 logs) and two review documents (COST_AND_RUNTIME_REPORT.md and TECHNICAL_REPORT.md) named the shared ledger's folder by its path from the workstation's projects folder. The campaign files are redacted (REDACTIONS.csv, rule "workstation projects folder, relative"); the two documents now give the folder's own name. |
+| review/CLASSIC_PROBE_CORRECTIONS.md (twice) and review/REQUIREMENT_MATRIX.md: the Classic request claim | The publication's first commit, d2ce076f23ac2787b4b38269de6f8ba8942f520c (pushed on 2026-11-04 at 19:17Z, before the review tag was set), said that no Classic request had ever been sent. W0 (TECHNICAL_REPORT.md, section 8) was one usage-statistics query that sent the Web API key as Basic credentials, refused with HTTP 401. The tagged commit says that no Classic scraping request has been sent, and names W0. Nothing else changed in the two documents. |
 
 ## The 1.5.2 publication (tag `review-1.5.2-20261103`), as published
 

@@ -58,9 +58,11 @@ BLOCKED_SOURCE 0.
 | C4 Responses only in memory | PASS_OFFLINE | Each answer is written atomically and indexed before the next paid step, and recovered after a crash. |
 | C5 The default retry sleep is a no-op | PASS_OFFLINE | A real bounded backoff that never runs past the deadline, with `Retry-After` honoured up to 60 s. |
 
-Tests and the pinned diff are in [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md). No Classic request
-has ever been sent. A live successor needs its own version, a Classic username and password with an entitlement, and
-the account owner's authorization. The probe's tree is unchanged from 1.6.4 to 1.6.5.
+Tests and the pinned diff are in [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md). No Classic scraping
+request has ever been sent; the only request with Classic-style credentials was W0, refused with HTTP 401
+([`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8). A live successor needs its own version, a Classic username
+and password with an entitlement, and the account owner's authorization. The probe's tree is unchanged from 1.6.4 to
+1.6.5.
 
 ## The earlier 24-item audit (W01 to W24)
 
