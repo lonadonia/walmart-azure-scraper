@@ -1,0 +1,6 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/integration --junitxml=C:\w9\v166\junit\oxylabs.integration.xml
+(cwd walmart-oxylabs-1.6.6; offline=True)
+........................................................................ [ 35%]
+........................................................................ [ 71%]
+..........................................................               [100%]
+202 passed in 1320.12s (0:22:00)

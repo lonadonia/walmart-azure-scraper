@@ -1,0 +1,18 @@
+release 1.6.6, commit cbea802891d4e66b74a0abc33e0af0af74c89708, 2026-11-04T22:59:46Z, development tree (clean: 0 changed files)
+$ uv run --frozen python -m pytest -p no:cacheprovider -rA --tb=short tests/integration/test_operations.py -k refused or a_complete_run_is_published_and_a_partial_run_never_replaces_it
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.1.1, pluggy-1.7.0
+rootdir: C:\w9\wt\headless\walmart-azure-headless
+configfile: pyproject.toml
+plugins: anyio-4.15.1, hypothesis-6.170.5, platformdirs-4.13.5
+collected 32 items / 29 deselected / 3 selected
+
+tests\integration\test_operations.py ...                                 [100%]
+
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/integration/test_operations.py::test_a_complete_run_is_published_and_a_partial_run_never_replaces_it
+PASSED tests/integration/test_operations.py::test_a_refused_automatic_publication_is_an_error_with_a_non_zero_exit
+PASSED tests/integration/test_operations.py::test_a_scheduled_run_whose_publication_was_refused_exits_6_also_on_azures_retry
+====================== 3 passed, 29 deselected in 33.92s ======================
+exit=0

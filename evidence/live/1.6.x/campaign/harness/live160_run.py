@@ -53,6 +53,7 @@ EDITIONS = {  # a step names its edition ("edition"); 1.6.0 when it names none (
     "1.6.3": Path(r"C:\w9\live\ed\walmart-oxylabs-1.6.3"),
     "1.6.4": Path(r"C:\w9\live\ed\walmart-oxylabs-1.6.4"),
     "1.6.5": Path(r"C:\w9\live\ed\walmart-oxylabs-1.6.5"),
+    "1.6.6": Path(r"C:\w9\live\ed\walmart-oxylabs-1.6.6"),
 }
 PROJECT = EDITIONS["1.6.0"]
 PYTHON = PROJECT / ".venv" / "Scripts" / "python.exe"

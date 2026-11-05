@@ -1,27 +1,31 @@
 {
  "repository": "https://github.com/lonadonia/walmart-azure-scraper",
- "review_tag": "review-1.6.5-20261104",
- "publication_commit": "the commit the review tag names; a file cannot hold the id of the commit that adds it. The publication was first pushed as d2ce076f23ac2787b4b38269de6f8ba8942f520c, whose parent is c4e665c4a89a5e8fcbae3e2797ba6527957e2c28, the 1.5.2 publication. The tagged commit is its child: it corrects three sentences of review/CLASSIC_PROBE_CORRECTIONS.md and REQUIREMENT_MATRIX.md (DOC_CORRECTIONS.md, section 3, last row), and changes nothing else but this file, DOC_CORRECTIONS.md and .json, FILE_MAP.csv and SHA256SUMS.txt",
- "earlier_review_tag": "review-1.5.2-20261103 (c4e665c4a89a5e8fcbae3e2797ba6527957e2c28), not moved",
+ "review_tag": "review-1.6.6-20261105",
+ "publication_commit": "the commit the review tag names; a file cannot hold the id of the commit that adds it. Its parent is bcb53e81ff412e629ebf4a58b400be62e2fa8327, the 1.6.5 publication (tag review-1.6.5-20261104)",
+ "earlier_review_tags": {
+  "review-1.6.5-20261104": "bcb53e81ff412e629ebf4a58b400be62e2fa8327, not moved",
+  "review-1.5.2-20261103": "c4e665c4a89a5e8fcbae3e2797ba6527957e2c28, not moved"
+ },
  "status": "corrections verified; named milestones still pending. A correction delivery for review: not a final release and not accepted by the client; a successful package verification is not client acceptance, and nothing ran in the client's environment",
  "prepared_by": "Hamza",
- "prepared_on": "2026-11-04",
+ "prepared_on": "2026-11-05",
  "store": "Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085, PICKUP",
  "collector": {
   "name": "walmart-azure-headless",
-  "version": "1.6.5",
-  "original_commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",
-  "committed_at": "2026-11-04T14:15:19Z",
+  "version": "1.6.6",
+  "release_commit": "39cc61f61ee694c0659a611310605bee6ed42d6b",
+  "committed_at": "2026-11-04T22:34:53Z",
+  "build_commit": "cbea802891d4e66b74a0abc33e0af0af74c89708: the archives were built here; it adds the builder (scripts/build_walmart_166_delivery.py) and changes no collector file (the collector folder's Git tree is 95243882208f232242816afdad68aac4848dc7d0 at both commits)",
   "editions": {
    "oxylabs": {
-    "folder": "source/walmart-oxylabs-1.6.5",
+    "folder": "source/walmart-oxylabs-1.6.6",
     "files": 230,
-    "tree_sha256": "877f36afbf46531777575717d794e58f38b162512b01a35720022d37f7ca4f04"
+    "tree_sha256": "938045b09316f2585f637137d0ea5038af6124e8596a8e67baadca1749253741"
    },
    "scrapedo": {
-    "folder": "source/walmart-scrapedo-1.6.5",
+    "folder": "source/walmart-scrapedo-1.6.6",
     "files": 230,
-    "tree_sha256": "b771dcb5e876c80f9f96ff62efa1d937e6686fb1fd7f958afe5176f86476108f"
+    "tree_sha256": "d7d43d3e3ae0f1a2b3524d12b9a51dc2ddcd98ec2e3eab4fe64ab3d1f1c11c97"
    }
   },
   "files_that_differ_between_the_editions": [
@@ -30,7 +34,7 @@
    "EDITION.json",
    "config/collector.yaml"
   ],
-  "published_at": "source/: every member of WALMART_SOURCE_1.6.5.zip, unchanged (manifests/check_frozen_trees.py)",
+  "published_at": "source/: every member of WALMART_SOURCE_1.6.6.zip, unchanged (manifests/check_frozen_trees.py)",
   "releases_of_this_delivery": {
    "1.6.0": {
     "commit": "56f078efce4df3b40165dbeafcfe49e6c6f581eb",
@@ -55,53 +59,60 @@
    "1.6.5": {
     "commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",
     "committed_at": "2026-11-04T14:15:19Z"
+   },
+   "1.6.6": {
+    "commit": "39cc61f61ee694c0659a611310605bee6ed42d6b",
+    "committed_at": "2026-11-04T22:34:53Z"
    }
   },
-  "change_from_the_reviewed_release": "1.5.2 (627c804) to 1.6.5 (67d216e): 45 files, 2,841 insertions, 72 deletions; tests 23 files, 2,091 insertions, 20 deletions (evidence/offline-tests/1.6.5-collector/DIFFSTAT_1.5.2_TO_1.6.5.txt)",
-  "change_from_1_6_4": "checks/source_check.py only (evidence/offline-tests/1.6.5-collector/COLLECTOR_1.6.4_TO_1.6.5.diff)",
-  "development_branch": "walmart-1.6 (local; its history is not published). Its one later commit, 6b9be92aa4fb8f5d18e1085316c20dd787690a86, adds the delivery builders (scripts/build_walmart_164_delivery.py, scripts/build_walmart_165_delivery.py) and changes no collector file",
-  "live_runs_of_this_version": "L11 (2026-11-04T14:24:22Z to 14:30:08Z: its listing was rejected for its identity, so there was no canary page) and L11b (14:35:08Z to 14:40:23Z: canary passed, 35 of 35 records verified); 3 submissions each"
+  "change_from_the_reviewed_release": "1.5.2 (627c804) to 1.6.6 (39cc61f): 46 files, 2,973 insertions, 82 deletions; tests 23 files, 2,144 insertions, 20 deletions (evidence/offline-tests/1.6.6-collector/DIFFSTAT_1.5.2_TO_1.6.6.txt)",
+  "change_from_1_6_5": "12 files, 144 insertions, 22 deletions: a refused automatic publication (PUBLICATION_REFUSED) is an ERROR and the execution exits 6, also on Azure's retry of the same occurrence (operations.py); two new integration tests; the alert advice (docs/OPERATIONS.md), the exit codes (docs/CLI.md), README.md and docs/VERIFICATION.md; the release number elsewhere (evidence/offline-tests/1.6.6-collector/COLLECTOR_1.6.5_TO_1.6.6.diff)",
+  "development_branch": "walmart-1.6.6 (local; its history is not published)",
+  "live_runs_of_this_version": "L12 (run 01M6MC7YE4PBXV88G3PJ5ENW4B, 2026-11-04T22:52:58Z to 22:59:45Z, built as cbea802): one worker, page 1 of Household Essentials' Fabric Softeners listing, detail reading on; the canary passed, 40 of 40 records verified against the page; 10 product pages read live; 13 submissions, all settled. A capped pilot, rejected by G3 (and G14, non-blocking): nothing was published"
  },
  "classic_probe": {
-  "classic-probe-1.7.0/": {
+  "classic-probe-1.7.1/": {
    "name": "oxylabs-classic-probe",
-   "version": "1.7.0",
-   "frozen_revision": "1780349e522d771a3642fe88bfb7b542044ec844",
-   "probe_tree": "8305ffe25665b404347954dad38d501cbba70640: the Git tree of headless/oxylabs-classic-probe, the same at 1780349 (where its archive was built), at 67d216e (collector 1.6.5) and at 6b9be92",
-   "marianos_adapter_blob": "9de6510bddbb0cae7fd86e09dac5ed32fc3487a4, unchanged from the shared probe 1.6.0 published with Mariano's (lonadonia/marianos-azure-scraper at 1f568b8)",
-   "corrections": "the client's findings C1 to C5 (review/CLASSIC_PROBE_CORRECTIONS.md)",
+   "version": "1.7.1",
+   "code_commit": "68ff3d8518b38a3792792ed6ffb8e73c2756245f",
+   "frozen_revision": "cbea802891d4e66b74a0abc33e0af0af74c89708",
+   "probe_tree": "7adfea8fbd8e562fd72444891e62e3029d544a5f: the Git tree of headless/oxylabs-classic-probe, the same at 68ff3d8 (its code), 39cc61f (collector 1.6.6) and cbea802 (where its archive was built)",
+   "marianos_adapter_blob": "9de6510bddbb0cae7fd86e09dac5ed32fc3487a4, unchanged from the shared probe 1.6.0 published with Mariano's (lonadonia/marianos-azure-scraper at 1f568b8) and from 1.7.0",
+   "corrections": "C2 and C4 completed: the deadline holds through recovery, export and cleanup, and each answer is kept durably across a crash. C1, C3 and C5 as corrected in 1.7.0 (review/CLASSIC_PROBE_CORRECTIONS.md)",
    "live_enabled": false,
    "requests_sent": 0,
-   "published_at": "classic-probe-1.7.0/: every member of OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip, unchanged"
+   "published_at": "classic-probe-1.7.1/: every member of OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.1.zip, unchanged"
   },
-  "classic-probe/": "the Walmart probe 1.5.2 the client reviewed, carried unchanged from review-1.5.2-20261103"
+  "classic-probe-1.7.0/": "the shared probe 1.7.0 of the 1.6.5 delivery, carried unchanged from review-1.6.5-20261104 and superseded by 1.7.1: it corrects C1, C3 and C5, and C2 and C4 only in part. The 1.6.5 publication said that it corrects C1 to C5; that was inaccurate (manifests/DOC_CORRECTIONS.md, section 1)",
+  "classic-probe/": "the Walmart probe 1.5.2 the client reviewed, carried unchanged"
  },
  "live_data": {
   "provider": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API), the user's trial account, from the preparation workstation",
-  "runs": "fourteen, 2026-11-03 and 2026-11-04, each attributed to the release that ran it: L1 and L2 on 1.6.0; L3, L2b, L4r and L4 on 1.6.1; L5 and L6 on 1.6.2; L8, L9 and L7 on 1.6.3; L10 on 1.6.4; L11 and L11b on 1.6.5 (data/RUN_SUMMARY.json). Every run is a capped pilot, rejected by G3 at least; nothing was published",
+  "runs": "fifteen, 2026-11-03 and 2026-11-04, each attributed to the release that ran it: L1 and L2 on 1.6.0; L3, L2b, L4r and L4 on 1.6.1; L5 and L6 on 1.6.2; L8, L9 and L7 on 1.6.3; L10 on 1.6.4; L11 and L11b on 1.6.5; L12 on 1.6.6 (data/RUN_SUMMARY.json). Every run is a capped pilot, rejected by G3 at least; nothing was published",
   "delivered_product_files": {
    "data/L10-1.6.4/": "L10, 01M6KA3CKYJSD6WDY4TDAAV73Y, release 1.6.4: the census, detail reading off; 7,057 fresh rows (7,055 valid), 10,301 retained",
    "data/L8-1.6.3/": "L8, 01M6K6P21BW509BMRTN1FSB9H7, release 1.6.3: a demonstration, detail reading on; 675 fresh valid, 2,515 retained"
   },
-  "release_1_6_5": "the export checks of L10 and L8 pass its validate-export --run (10,301 and 2,515 records verified against their stored pages); live: the canaries L11 and L11b",
+  "release_1_6_6": "L12's export (10,301 rows: its 40 fresh and 10,261 carried) passes its validate-export --run: 10,301 of 10,301 records verified against 1,494 stored pages of 15 runs, 0 mismatches (evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B/)",
+  "demonstration_of_500_products_with_detail_on_the_final_release": "not run: BLOCKED_BUDGET. It needs about 28 to 45 submissions, at most about USD 0.07; Walmart's envelope keeps USD 0.003000, and Mariano's envelope may be reassigned only after Mariano's smallest essential tests are done or shown unable to proceed, which is not the case (review/TEST_PLAN.md)",
   "full_catalogue": "not read: no CSV row is complete (review/TEST_PLAN.md, stage 2)"
  },
  "shared_trial_ledger": {
   "campaign": "oxylabs-trial-20261103",
-  "read_at": "2026-11-04T19:21:22Z",
+  "read_at": "2026-11-05T03:17:25Z",
   "authorization": "USD 5 in total across Walmart and Mariano's, on the trial account; no top-up, overage, subscription, other paid provider or client-account charge",
   "cap_usd": "5.000000",
   "headroom_usd": "0.500000",
   "allocatable_usd": "4.500000",
   "walmart": {
    "envelope_usd": "2.250000",
-   "settled_usd": "2.203500",
-   "settled_results": "1469",
+   "settled_usd": "2.223000",
+   "settled_results": "1482",
    "unknown_usd": "0.024000",
    "unknown_reservations": "16",
-   "committed_usd": "2.227500",
-   "reservations": "1500",
-   "spendable_in_envelope_usd": "0.022500"
+   "committed_usd": "2.247000",
+   "reservations": "1513",
+   "spendable_in_envelope_usd": "0.003000"
   },
   "marianos": {
    "envelope_usd": "2.250000",
@@ -109,54 +120,57 @@
    "committed_usd": "0"
   },
   "active_lease": null,
-  "oxylabs_ceiling": "0 submissions and USD 0 since 2026-11-04T14:43:43Z (evidence/live/1.6.x/campaign/commands.csv, step 195)",
+  "oxylabs_ceiling": "0 submissions and USD 0 since 2026-11-04T23:03:52Z (evidence/live/1.6.x/campaign/commands.csv, step 210)",
   "rate": "USD 0.0015 per result, the reserve rate: a list price reserved before each submission, not an invoice",
-  "extract": "evidence/live/1.6.x/campaign/shared_ledger/"
+  "extract": "evidence/live/1.6.x/campaign/shared_ledger/ (refreshed after L12)"
  },
  "original_delivery": {
   "archives_published_as_trees": {
-   "WALMART_SOURCE_1.6.5.zip": "1c032d87a2cc95a2c9da7b8e9d0bd29666ffcd23f3c6cd435130ce45795c2c90",
-   "OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip": "2a19e8d856356e8cbd5a783f57b9565927e52291b59f12ce38fa7255462e1a6a"
+   "WALMART_SOURCE_1.6.6.zip": "d514cc6cff170e61416fad9a6a79a076191f6b2882adf47c336769b0e534756f",
+   "OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.1.zip": "89558e533d3d5b9c2fc2981a6caf168c481ba637a02eb5cb46eec3bce467c4f9"
   },
   "member_accounting": {
-   "WALMART_SOURCE_1.6.5.zip": {
+   "WALMART_SOURCE_1.6.6.zip": {
     "members": 462,
     "published_unchanged": 462,
     "excluded": 0
    },
-   "OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip": {
-    "members": 181,
-    "published_unchanged": 181,
+   "OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.1.zip": {
+    "members": 187,
+    "published_unchanged": 187,
     "excluded": 0
    }
   },
   "edition_zips": {
-   "WALMART_OXYLABS_SOURCE_1.6.5.zip": "edd60bb8435e7abd8293d7c2b5b76eaaaff0051d18c053d715afc2533070ba6b: published as built, evidence/live/1.6.x/builds/",
-   "WALMART_SCRAPEDO_SOURCE_1.6.5.zip": "3551ee0ece09d3609a2504d4f60c3adef714eb424d79185587f7ef574bb25e94: not published; its 230 files are source/walmart-scrapedo-1.6.5/ (manifests/EXCLUDED.csv)"
+   "WALMART_OXYLABS_SOURCE_1.6.6.zip": "0859a2f693527bab073252edf941928bb4f118ea4a63d581078d96ddd2324e22: published as built, evidence/live/1.6.x/builds/ (the build L12 ran)",
+   "WALMART_SCRAPEDO_SOURCE_1.6.6.zip": "d96ef6409c0094b40094b605687c8b72efdfc2414568a020965fc31a5c0e68e2: not published; its 230 files are source/walmart-scrapedo-1.6.6/ (manifests/EXCLUDED.csv)"
   }
  },
- "carried_from_the_1_5_2_publication": "every file of that publication that this one does not replace, byte for byte (FILE_MAP.csv keeps its origin and state). manifests/SOURCE_AND_RUN_MANIFEST.json is release 1.5.2's record, cited by the 1.5.2 columns of review/ACCEPTANCE_MATRIX.csv; this publication's equivalents are source/BUILD_MANIFEST.json, data/RUN_SUMMARY.json and this file",
+ "carried_from_the_1_6_5_publication": "every file of that publication that this one does not replace, byte for byte (FILE_MAP.csv keeps the origin and state that publication recorded). source/ is replaced: the 1.6.5 trees stay at the tag review-1.6.5-20261104, and the 1.6.5 columns of review/ACCEPTANCE_MATRIX.csv that cite them are checked there",
  "files": {
-  "published": 4781,
+  "published": 5126,
   "by_origin_and_state": {
-   "carried unchanged from review-1.5.2-20261103 (its state then: added)": 3,
-   "carried unchanged from review-1.5.2-20261103 (its state then: corrected)": 1,
-   "carried unchanged from review-1.5.2-20261103 (its state then: redacted)": 45,
-   "carried unchanged from review-1.5.2-20261103 (its state then: unchanged)": 1610,
-   "classic-probe-1.7.0/: members of OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip, unchanged": 181,
-   "source/: members of WALMART_SOURCE_1.6.5.zip, unchanged": 462,
-   "this publication: added": 2333,
-   "this publication: added; redacted": 124,
-   "this publication: replaced": 22
+   "carried unchanged from review-1.6.5-20261104 (its state there: added)": 2327,
+   "carried unchanged from review-1.6.5-20261104 (its state there: added; redacted)": 120,
+   "carried unchanged from review-1.6.5-20261104 (its state there: corrected)": 1,
+   "carried unchanged from review-1.6.5-20261104 (its state there: redacted)": 45,
+   "carried unchanged from review-1.6.5-20261104 (its state there: replaced)": 2,
+   "carried unchanged from review-1.6.5-20261104 (its state there: unchanged)": 1791,
+   "classic-probe-1.7.1/: members of OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.1.zip, unchanged": 187,
+   "source/: members of WALMART_SOURCE_1.6.6.zip, unchanged": 462,
+   "this publication: added": 126,
+   "this publication: added; redacted": 32,
+   "this publication: replaced": 29,
+   "this publication: replaced; redacted": 4
   },
   "map": "manifests/FILE_MAP.csv",
-  "corrections": "manifests/DOC_CORRECTIONS.md",
+  "corrections": "manifests/DOC_CORRECTIONS.md (the 1.6.5 statements this publication corrects, then the earlier publications' corrections)",
   "redactions": "manifests/REDACTIONS.csv",
-  "excluded": "manifests/EXCLUDED.csv (this publication's rows: the 1,469 raw originals of the 1.6.x runs, the redundant Scrape.do edition ZIP and the shared ledger's database)",
+  "excluded": "manifests/EXCLUDED.csv (this publication's rows: the 13 raw originals of L12, the redundant Scrape.do edition ZIP of 1.6.6 and the shared ledger's database as it is after L12)",
   "checksums": "manifests/SHA256SUMS.txt (written last; covers every file but itself)"
  },
  "checks_before_commit": {
-  "where": "the staged tree, on the preparation workstation, offline, 2026-11-04 (UTC)",
+  "where": "the staged tree, on the preparation workstation, offline, 2026-11-05 (UTC)",
   "frozen_trees": "PASS",
   "data": [
    "ok    data/S4-1.5.0/products_fresh.csv: 677 rows, S4 run 01M69Y882GTVYRJZM0CXQ44MXN release 1.5.0 (7b6f325); fresh 677",
@@ -193,40 +207,44 @@
    "ok    evidence/live/1.6.x/runs/L10_01M6KA3CKYJSD6WDY4TDAAV73Y/exports: L10 release 1.6.4: products_fresh.json 7057, products_fresh.csv 7057, products.json 10301, products.csv 10301; 22 fields, strings, deal fields \"\"",
    "ok    evidence/live/1.6.x/runs/L11_01M6KF4RDC2MKR5Q26ZY5D727P/exports: L11 release 1.6.5: products_fresh.json 0, products_fresh.csv 0, products.json 10301, products.csv 10301; 22 fields, strings, deal fields \"\"",
    "ok    evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54/exports: L11b release 1.6.5: products_fresh.json 35, products_fresh.csv 35, products.json 10301, products.csv 10301; 22 fields, strings, deal fields \"\"",
-   "20 delivered files and the exports of 14 1.6.x runs checked",
+   "ok    evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B/exports: L12 release 1.6.6: products_fresh.json 40, products_fresh.csv 40, products.json 10301, products.csv 10301; 22 fields, strings, deal fields \"\"",
+   "20 delivered files and the exports of 15 1.6.x runs checked",
    "PASS"
   ],
-  "checksums": "sha256sum -c manifests/SHA256SUMS.txt: 4780 files, OK",
+  "checksums": "sha256sum -c manifests/SHA256SUMS.txt: 5125 files, OK",
   "links_and_references": [
-   "51 distinct paths of the 1.5.2 source tree resolved at the tag review-1.5.2-20261103",
-   "27 documents: 301 relative links, 199 backticked paths; 1073 paths in CSV cells; LINKED_EXAMPLES: 39 page hashes checked, 6 of content before the 1.5.1 packaging sanitizer (file present, hash not recomputable here); problems: 0",
-   "scope: every Markdown document outside the frozen trees, except 12 saved copies of Oxylabs' documentation pages (evidence/historical/classic_documentation_recheck/pages/, carried from 1.5.2), whose links are the provider site's; a path of the 1.5.2 source tree (cited by the 1.5.2 columns of the acceptance matrix) is checked at the tag review-1.5.2-20261103; data/README.md and evidence/README.md map the delivery's archive paths to this repository's on purpose"
+   "50 distinct paths of an earlier source tree resolved at the tag review-1.5.2-20261103",
+   "2 distinct paths of an earlier source tree resolved at the tag review-1.6.5-20261104",
+   "28 documents: 351 relative links, 266 backticked paths; 1555 paths in CSV cells; LINKED_EXAMPLES: 39 page hashes checked, 6 of content before the 1.5.1 packaging sanitizer (file present, hash not recomputable here); problems: 0",
+   "scope: every Markdown document outside the frozen trees, except 12 saved copies of Oxylabs' documentation pages (evidence/historical/classic_documentation_recheck/pages/, carried from 1.5.2), whose links are the provider site's; a path of an earlier source tree (cited by the 1.5.2 or 1.6.5 columns of the acceptance matrix) is checked at the tag of the publication that published it; data/README.md and evidence/README.md map the delivery's archive paths to this repository's on purpose"
   ],
   "scans": {
-   "where": "four scans of the first staging, every file and every gzip and ZIP member; the fixes they led to (disclosure_patterns, below) changed 36 files, scanned again with all four after a second staging, in which every other file was byte for byte the same (SHA-256), and the names scan was run again over the whole second staging with its added patterns. The files of the final staging that differ from the second (this file, README.md, DOC_CORRECTIONS.md and .json, FILE_MAP.csv, SHA256SUMS.txt, and review/CLASSIC_PROBE_CORRECTIONS.md and REQUIREMENT_MATRIX.md, corrected after the first push) were scanned with all four in their final form before the tagged commit",
-   "exact_credential_values": "keyscan: every file and every gzip and ZIP member (7,933), against the 17 credential forms of the preparation workstation's local credential files, raw and URL-encoded: 0 hits. Prints labels only, never a value",
-   "secret_scan": "the tree with its .git folder, 4,810 files and 7,855 blobs (1,331 archive entries, 1,714 gzip members opened), against the 17 local secret values and 7 generic patterns: 0 secret values. 30 generic matches, all in the two frozen Classic probe trees and all placeholders, the same in both: 28 Authorization forms in Oxylabs' saved public documentation (YOUR_API_KEY, {YOUR_API_KEY} and an environment-variable reference; 14 in each probe) and 2 environment-variable names (src/classic_probe/gates.py, line 25, in each probe). The 1.5.2 publication recorded the same 15 in classic-probe/",
-   "names_and_markers": "the second staging, every file and every gzip and ZIP member (7,826 blobs): no workstation user name or host name, no user-folder path, no path through the workstation's projects folder (absolute or relative), no assistant temporary folder, no client-message draft name, nothing of the client's VM (name, login, folders, address); the current Oxylabs key's fingerprint in neither its full nor its shortened form; the earlier key's full fingerprint nowhere. The earlier key's fingerprint shortened to six characters after an ellipsis appears 15 times, in 5 files carried unchanged from the 1.5.2 publication (one historical manifest and four validate-config logs), as they are at its tag: DOC_CORRECTIONS.md, section 1, records it. Every file this publication adds or replaces had that form redacted (REDACTIONS.csv)",
-   "disclosure_patterns": "the public-disclosure scanner of the earlier publications (21 patterns: workstation, work-folder and Python paths, host names, the client's VM, the owner's test VM, IPv4 addresses, draft markers, Azure subscriptions, identities, key fingerprints, assistant names, internal document names, Arabic script, authorization and cookie headers, private keys, connection strings, Azure secrets and credential-file references) over every file and every gzip and ZIP member of the first staging (6,204 text blobs); the seven gzip members over its 64 MiB text limit (the provenance and record maps of L10, L11 and L11b, and the 1.5.2 owner-VM export archive) were scanned line by line with the same patterns: 664 MiB of text, whose only hits are 3 of the assistant pattern (product names). Two findings were fixed before the commit, and the 36 files the fixes changed were scanned again: the client's VM name, login and folders in three review documents and the acceptance matrix's generator (removed: the documents now say \"the client's VM\"), and the workstation projects folder named relative to its parent in 24 files of the live campaign record (redacted: REDACTIONS.csv, rule \"workstation projects folder, relative\") and in two review documents (reworded). Every other hit is kept by policy (below) or is not a disclosure: Walmart page text (layout and category words that begin with desktop and a hyphen, a product title, a customer review that names an AI tool), Oxylabs' saved public documentation (AI-tool names, example addresses, Authorization placeholders), the words Authorization and Bearer in code and docstrings, cookie headers handled in code and tests (with made-up test cookies), the ledger states \"unsent\" and \"not sent\" in code and logs, documentation and loopback addresses and version numbers, placeholder or masked connection strings (user:password, ***), the word \"authorization\" in prose, a key of Mariano's page data in the probe's fixtures that matches the home-folder pattern, and the binary data of the 1.5.2 walkthrough video read as text",
+   "where": "four scans of the first staging, every file and every gzip and ZIP member, before PUBLICATION.json was written, one scan at a time; the names and disclosure scans read every blob in windows of 8 MiB (streamed), so none was too large to scan. The files of the final staging that differ from the first (this file, DOC_CORRECTIONS.md and .json, review/RECOVERY_AND_OPERATIONS.md, the test log redacted after the names scan's finding (below) and REDACTIONS.csv, FILE_MAP.csv and SHA256SUMS.txt, and EXCLUDED.csv if the ledger's hash moved) were scanned with all four in their final form before the commit, and every other file was byte for byte the same (SHA-256)",
+   "exact_credential_values": "keyscan: every file and every gzip and ZIP member (8,594), against the 17 credential forms of the preparation workstation's local credential files, raw and URL-encoded: 0 hits. Prints labels only, never a value",
+   "secret_scan": "the tree with its .git folder, 5,164 files and 8,487 blobs (1,561 archive entries, 1,762 gzip members opened), against the 17 local secret values and 7 generic patterns: 0 secret values. 45 generic matches, all in the three frozen Classic probe trees and all placeholders, the same in each: 14 Authorization forms in Oxylabs' saved public documentation (YOUR_API_KEY, {YOUR_API_KEY} and an environment-variable reference) and 1 environment-variable name (src/classic_probe/gates.py, line 25) per probe. The 1.6.5 publication recorded the same 30 in classic-probe/ and classic-probe-1.7.0/",
+   "names_and_markers": "the first staging, every file and every gzip, ZIP and tar member (8,557 blobs, streamed). One finding, fixed before the commit: the Windows user folder and the pytest temporary folder of the workstation's user (3 matches each) in one test log new in 1.6.6, evidence/offline-tests/1.6.6-collector/RETRY_GAP_BEFORE_THE_FULL_FIX.log, which the redaction step had skipped without a word because 4 of its bytes are not UTF-8 (the Windows console wrote the collector's breadcrumb separator as cp1252 0x9B). The step now reads such a file losslessly and refuses, never skips, a file with a text suffix that it cannot read; the log was redacted (REDACTIONS.csv, rules \"Windows user folder\" and \"pytest temporary folder user\"; its 4 bytes kept as they were), and its final form passed all four scans. No other text file or gzip member that this publication adds was skipped by that step. Otherwise: no workstation user name or host name, no other user-folder path, no path through the workstation's projects folder (absolute or relative), no assistant temporary folder, no client-message draft name, nothing of the client's VM (name, login, folders, address), no account e-mail address, and not the owner's family name; the current Oxylabs key's fingerprint in neither its full nor its shortened form; the earlier key's full fingerprint nowhere. The earlier key's fingerprint shortened to six characters after an ellipsis appears 15 times, in 5 files carried unchanged from the 1.5.2 publication (one historical manifest and four validate-config logs), as they are at its tag: the 1.6.5 publication's record in DOC_CORRECTIONS.md (its section 1) gives them. Every file the 1.6.5 and 1.6.6 publications add or replace had that form redacted (REDACTIONS.csv)",
+   "disclosure_patterns": "the public-disclosure scanner of the earlier publications (the same 21 patterns: workstation, work-folder and Python paths, host names, the client's VM, the owner's test VM, IPv4 addresses, draft markers, Azure subscriptions, identities, key fingerprints, assistant names, internal document names, Arabic script, authorization and cookie headers, private keys, connection strings, Azure secrets and credential-file references), now reading every blob in windows of 8 MiB, over every file and every gzip, ZIP and tar member of the first staging (6,661 text blobs, none unreadable). The 9 blobs over the earlier scanner's 64 MiB text limit (the provenance and record maps of L10, L11, L11b and L12, and the 1.5.2 owner-VM export archive) were scanned in full in the same pass: 840 MiB of text, whose only hits are 4 of the assistant pattern (a toy's name in the URL of one product page, the same in each record map). One finding, the names scan's (above), fixed before the commit: in the test log it names, the home-folder pattern matched the workstation's user folder 3 times and its application-data folder 3 times; in the log's final form the user name is redacted, and only the 3 application-data folders, under the redacted user folder, still match. Of the 839 files this publication adds or replaces, 592 have content byte for byte the same as a file of the 1.6.5 publication (SHA-256), whose hits that publication's scans reviewed. In the other 247, every distinct string matched in the 110 with a hit was read: the repository owner's GitHub account in the repository's own links; the C:\\w6, C:\\w7 and C:\\w9 working folders; the C:\\w6 Python installation path; the ledger states unsent and not sent; the loopback address, a documentation address and a version number; a cookie header handled in code; a placeholder connection string; Azure's default admin user name in the deployment documentation; Authorization and Bearer in docstrings and the word authorization in prose; three Walmart words that begin with desktop and a hyphen (two of page layout, one in a category URL); the credential file's location under a redacted folder; a toy's name in one product's title and URL; application-data folders under a redacted user folder; and the word handover in the acceptance matrix. Every other hit, in those 592 files and the 4,287 unchanged ones, is kept by policy (below) or is not a disclosure, as the 1.6.5 publication recorded: Walmart page text (layout and category words that begin with desktop and a hyphen, a product title, a customer review that names an AI tool), Oxylabs' saved public documentation (AI-tool names, example addresses, Authorization placeholders), the words Authorization and Bearer in code and docstrings, cookie headers handled in code and tests (with made-up test cookies), the ledger states \"unsent\" and \"not sent\" in code and logs, documentation and loopback addresses and version numbers, placeholder or masked connection strings (user:password, ***), the word \"authorization\" in prose, a key of Mariano's page data in the probe's fixtures that matches the home-folder pattern, and the binary data of the 1.5.2 walkthrough video read as text",
    "kept_by_policy": "the C:\\w6 to C:\\w9 working-folder paths (and C:\\m5 in carried evidence) in evidence, tools and FILE_MAP.csv origins; the C:\\w6 Python installation path; the repository owner's GitHub account in the repository's own links; the owner's test VM name and admin user (also a placeholder in the deployment documentation); the credential file's location, a path under a redacted folder, never its contents; user-folder paths with the user name redacted; loopback and documentation addresses; documented placeholders; mentions that drafts exist, without their content; the word \"handover\" as a requirement's source in the acceptance matrix, as published in 1.5.2; the 1.5.2 publication's carried files, as they are at its tag (DOC_CORRECTIONS.md, section 1, for the shortened fingerprint form)",
    "gitignore": "no published file is ignored by .gitignore (git status --ignored: 0)"
   }
  },
  "test_claims": {
-  "collector 1.6.5 (67d216e), both editions from clean extractions of WALMART_SOURCE_1.6.5.zip: 533 unit and 200 integration tests each, 0 failed, 0 skipped; ruff, format and mypy clean; uv lock --check; --version, --help, validate-config; 23 steps, 0 not ok": "evidence/verification/1.6.5/package/",
-  "the Azure templates of both editions: Bicep build and lint, no deployment, exit 0": "evidence/verification/1.6.5/package/BICEP_CHECKS.txt",
-  "the last-good publication on a clean 1.6.5, SYNTHETIC faults: 19 passed": "evidence/verification/1.6.5/last_good_publication/",
-  "the 1.6.5 source-check tests run on the unchanged 1.6.4: 6 fail and 2 pass, as intended; on 1.6.5 all 8 pass with the unit suite": "evidence/offline-tests/1.6.5-collector/",
-  "each release 1.6.0 to 1.6.4: its diff, its new tests against the release before, its suites on its commit": "evidence/offline-tests/1.6.0-collector/ to 1.6.4-collector/",
-  "L10's and L8's exports pass validate-export --run on 1.6.5: 10,301 and 2,515 records verified against their stored pages": "evidence/verification/1.6.5/source_check_l10/",
+  "collector 1.6.6 (39cc61f, built as cbea802), both editions from clean extractions of WALMART_SOURCE_1.6.6.zip: 533 unit and 202 integration tests each, 0 failed, 0 skipped; ruff, format and mypy clean; uv lock --check; --version, --help, validate-config; 23 steps, 0 not ok": "evidence/verification/1.6.6/package/",
+  "the Azure templates of both editions: Bicep build and lint, no deployment, exit 0": "evidence/verification/1.6.6/package/BICEP_CHECKS.txt",
+  "the last-good publication on a clean 1.6.6, SYNTHETIC faults: 19 passed (a first attempt ran no test: uv could not fetch the build backend offline; it was run again with uv's cache only)": "evidence/verification/1.6.6/last_good_publication/",
+  "the two new publication tests against 1.6.5's code: they fail (PUBLICATION_REFUSED at WARN; exit 0, not 6); on 1.6.6 they pass, with the unchanged publication test": "evidence/offline-tests/1.6.6-collector/",
+  "each release 1.6.0 to 1.6.5: its diff, its new tests against the release before, its suites on its commit": "evidence/offline-tests/1.6.0-collector/ to 1.6.5-collector/",
+  "live, 1.6.6: L12's canary passed, 40 of 40 records verified; its export passes validate-export --run, 10,301 of 10,301 records verified against their stored pages": "evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B/; evidence/live/1.6.x/campaign/checks/L12_close_outcome.txt",
   "live, 1.6.5: L11b's canary passed, 35 of 35 records verified; L11 had no canary page": "evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54/; evidence/live/1.6.x/runs/L11_01M6KF4RDC2MKR5Q26ZY5D727P/",
   "live, 1.6.4: the census L10, 7,055 fresh valid, detail reading off": "data/L10-1.6.4/; data/RUN_SUMMARY.json",
   "live, 1.6.3: the demonstration L8, 675 fresh valid, detail reading on": "data/L8-1.6.3/; data/RUN_SUMMARY.json",
-  "Classic probe 1.7.0 from its ZIP: 158 tests (2 skipped: the vendored sources are not beside it), ruff, format, mypy, the offline commands; live refused (exit 3)": "classic-probe-1.7.0/offline_results/; evidence/offline-tests/1.7.0-classic-probe/"
+  "Classic probe 1.7.1 from its ZIP: 173 tests, 171 passed and 2 skipped (the vendored sources are not beside it), 0 failed; ruff, format, mypy, the offline commands; live refused (exit 3); the C2 and C4 reproductions fail on 1.7.0's source (exit 1, as expected) and pass on 1.7.1": "classic-probe-1.7.1/offline_results/; evidence/offline-tests/1.7.1-classic-probe/"
  },
- "checks_run_for_this_publication": "those of checks_before_commit, and a comparison of the 1.5.2 columns of review/ACCEPTANCE_MATRIX.csv with that publication's (unchanged in all 206 rows). No test of the collector or the probe was rerun for it; the results above are the delivery's records",
+ "checks_run_for_this_publication": "those of checks_before_commit, and a comparison of the earlier columns of review/ACCEPTANCE_MATRIX.csv (20) with the 1.6.5 publication's: unchanged in all 206 rows. No test of the collector or the probe was rerun for it; the results above are the delivery's records",
  "not_done": [
-  "no live or paid request for this publication: the Oxylabs ceiling is 0 since 2026-11-04T14:43:43Z",
+  "no live or paid request for this publication: the Oxylabs ceiling is 0 since 2026-11-04T23:03:52Z",
+  "the demonstration of 500 or more products with detail reading on, on 1.6.6: BLOCKED_BUDGET",
+  "no container image built or run for 1.6.6: no container runtime on the preparation workstation",
   "nothing deployed to Azure, and nothing run in the client's environment",
   "no SSH attempt to the client's VM",
   "no schedule enabled",

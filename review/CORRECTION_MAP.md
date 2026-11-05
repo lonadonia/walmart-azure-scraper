@@ -1,27 +1,31 @@
-# Correction map: releases 1.6.0 to 1.6.5
+# Correction map: releases 1.6.0 to 1.6.6
 
-This page maps every point of the client's two latest reviews, and every defect this delivery found, to its
-correction, its tests and its evidence. The baseline is what the client reviewed: the publication
+This page maps every point of the client's reviews, and every defect this delivery found, to its correction, its tests
+and its evidence. Release 1.6.6 and probe 1.7.1 answer the client's review of 1.6.5; the 1.6.5 statements they
+correct are listed in [`../manifests/DOC_CORRECTIONS.md`](../manifests/DOC_CORRECTIONS.md). The baseline is what the client reviewed: the publication
 `c4e665c4a89a5e8fcbae3e2797ba6527957e2c28` (tag `review-1.5.2-20261103`), collector 1.5.2
 (`627c804d66aa33fc423fd2296c8896c5d5c2c3d4`) and the Walmart Classic probe 1.5.2. The final release of this delivery
-is collector **1.6.5**, commit `67d216eb8ee2ec839a437b0b5bf2d594324b6982`, with the shared Classic probe **1.7.0**.
+is collector **1.6.6**, commit `39cc61f61ee694c0659a611310605bee6ed42d6b` (built as `cbea802`), with the shared
+Classic probe **1.7.1**.
 Store: Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085, PICKUP.
 
 Each state is defined in [`REQUIREMENT_MATRIX.md`](REQUIREMENT_MATRIX.md). Source paths start at
-[`source/walmart-oxylabs-1.6.5/`](../source/walmart-oxylabs-1.6.5/). The Scrape.do edition has the same code and
+[`source/walmart-oxylabs-1.6.6/`](../source/walmart-oxylabs-1.6.6/). The Scrape.do edition has the same code and
 differs only in its four edition files.
 
 ## The pinned correction diff
 
 | From, to | Diff | Size |
 |---|---|---|
-| Collector 1.5.2 to 1.6.5, the whole correction | [`COLLECTOR_1.5.2_TO_1.6.5.diff`](../evidence/offline-tests/1.6.5-collector/COLLECTOR_1.5.2_TO_1.6.5.diff), [`DIFFSTAT_1.5.2_TO_1.6.5.txt`](../evidence/offline-tests/1.6.5-collector/DIFFSTAT_1.5.2_TO_1.6.5.txt) | 45 files, 2,841 lines added and 72 removed; of them, tests: 23 files, 2,091 added and 20 removed |
-| One release at a time | [`1.6.0`](../evidence/offline-tests/1.6.0-collector/COLLECTOR_1.5.2_TO_1.6.0.diff), [`1.6.1`](../evidence/offline-tests/1.6.1-collector/COLLECTOR_1.6.0_TO_1.6.1.diff), [`1.6.2`](../evidence/offline-tests/1.6.2-collector/COLLECTOR_1.6.1_TO_1.6.2.diff), [`1.6.3`](../evidence/offline-tests/1.6.3-collector/COLLECTOR_1.6.2_TO_1.6.3.diff), [`1.6.4`](../evidence/offline-tests/1.6.4-collector/COLLECTOR_1.6.3_TO_1.6.4.diff), [`1.6.5`](../evidence/offline-tests/1.6.5-collector/COLLECTOR_1.6.4_TO_1.6.5.diff) | each folder's `DIFFSTAT.txt` |
+| Collector 1.5.2 to 1.6.6, the whole correction | [`COLLECTOR_1.5.2_TO_1.6.6.diff`](../evidence/offline-tests/1.6.6-collector/COLLECTOR_1.5.2_TO_1.6.6.diff), [`DIFFSTAT_1.5.2_TO_1.6.6.txt`](../evidence/offline-tests/1.6.6-collector/DIFFSTAT_1.5.2_TO_1.6.6.txt) | 46 files, 2,973 lines added and 82 removed; of them, tests: 23 files, 2,144 added and 20 removed |
+| One release at a time | [`1.6.0`](../evidence/offline-tests/1.6.0-collector/COLLECTOR_1.5.2_TO_1.6.0.diff), [`1.6.1`](../evidence/offline-tests/1.6.1-collector/COLLECTOR_1.6.0_TO_1.6.1.diff), [`1.6.2`](../evidence/offline-tests/1.6.2-collector/COLLECTOR_1.6.1_TO_1.6.2.diff), [`1.6.3`](../evidence/offline-tests/1.6.3-collector/COLLECTOR_1.6.2_TO_1.6.3.diff), [`1.6.4`](../evidence/offline-tests/1.6.4-collector/COLLECTOR_1.6.3_TO_1.6.4.diff), [`1.6.5`](../evidence/offline-tests/1.6.5-collector/COLLECTOR_1.6.4_TO_1.6.5.diff), [`1.6.6`](../evidence/offline-tests/1.6.6-collector/COLLECTOR_1.6.5_TO_1.6.6.diff) | each folder's `DIFFSTAT.txt` |
 | Classic probe 1.6.0 (shared, as published with Mariano's) to 1.7.0 | [`CLASSIC_PROBE_1.6.0_TO_1.7.0.diff`](../evidence/offline-tests/1.7.0-classic-probe/CLASSIC_PROBE_1.6.0_TO_1.7.0.diff) | 24 files; [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |
+| Classic probe 1.7.0 to 1.7.1 | [`CLASSIC_PROBE_1.7.0_TO_1.7.1.diff`](../evidence/offline-tests/1.7.1-classic-probe/CLASSIC_PROBE_1.7.0_TO_1.7.1.diff), [`DIFFSTAT.txt`](../evidence/offline-tests/1.7.1-classic-probe/DIFFSTAT.txt) | 16 files, 1,492 lines added and 167 removed |
 
 The diffs are of the development repository, relative to each product's folder. Releases 1.6.0 and 1.6.1 answer the
 review and this delivery's own reconciliation. Releases 1.6.2 to 1.6.5 each correct a defect that a live run of
-this delivery met, and each was frozen before the next live stage ran on it.
+this delivery met, and each was frozen before the next live stage ran on it. Release 1.6.6 and probe 1.7.1 correct
+what the client's review of 1.6.5 found.
 
 ## What each release corrected
 
@@ -37,13 +41,14 @@ this delivery met, and each was frozen before the next live stage ran on it.
 | | Walmart's own not-found page is recognized (its page data id unquoted): a listing link that answers with it is `INCOMPLETE` (`NOT_FOUND`) and the run goes on; a product page that is the not-found page is `request_failed` | live L6 on 1.6.2: "nexxus-shampoo" stopped the run as a site refusal and held the store | `tests/unit/test_not_found_page.py`, 2 integration tests (8 fail on 1.6.2, 5 controls) | L9 (the same link, recorded `NOT_FOUND` live) |
 | **1.6.4** `28ac7d3`, 2026-11-04T12:32:58Z | A listing total the page reports as 0 is a total of 0; the page's `count` (other modules' products too) is read only when no total is reported | live L7 on 1.6.3: "Bidets" reported 0 Pickup results beside an "Available for shipping" carousel of 10, was read as 10, and stopped the census | `tests/unit/test_empty_pickup_grid.py` (on the authentic stored page), 2 integration tests (4 fail on 1.6.3, 7 controls) | L10 (the same link, recorded `EMPTY` live) |
 | **1.6.5** `67d216e`, 2026-11-04T14:15:19Z | The independent source check (`checks/source_check.py`, used by `validate-export --run` and by the automated canary on a run's first recorded page) reads the three layouts in which the page reader reads prices: price lines, nested price objects, and flat display strings. A was-price above the current price is a sale in each layout; a wrong price or unit price is still a mismatch. Nothing a run collects or exports changes | live L10 on 1.6.4: `validate-export --run` exited 6, reporting 21 of 10,301 records as mismatches. All 21 were read from Beauty's "New Arrivals" page, whose 50 placements give their prices as flat strings, and each equals that page | `tests/unit/test_flat_price_layout.py`, on two authentic stored pages and L10's 26 records from the flat page (6 fail on 1.6.4, 2 controls) | L11, L11b (the canary passed, 35 of 35); L10's and L8's exports checked again offline |
+| **1.6.6** `39cc61f`, 2026-11-04T22:34:53Z | A complete validated run whose automatic publication is refused is an error: `PUBLICATION_REFUSED` is an `ERROR` line and an `ERROR` event recorded on the run, with its reason, and the execution exits 6. Azure's retry of a scheduled execution whose run is done exits 6 too (`OCCURRENCE_DONE`). The alert advice of `docs/OPERATIONS.md` names the case. Nothing a run collects, checks or exports changes | the client's review of 1.6.5: 1.6.5 logged the refusal at `WARN` and exited 0, so no documented alert fired | `tests/integration/test_operations.py`: 2 new tests (both fail on 1.6.5; an intermediate fix that missed the retry path failed the second), 1 control unchanged | L12 (canary with detail on: 40 fresh valid, 10 product pages; a rejected pilot, never published) |
 
 Each release's tests, logs and regression runs against the release before it are in
 `evidence/offline-tests/<release>-collector/`; the source's `docs/VERIFICATION.md` describes every change and test.
 The final release's suites, on its commit: unit 533 passed, ruff, ruff format and mypy (strict) clean
-([`evidence/offline-tests/1.6.5-collector/`](../evidence/offline-tests/1.6.5-collector/)). From the delivered source
-ZIP, in a clean extraction of each edition: unit 533 and integration 200 passed, with the same static checks
-([`evidence/verification/1.6.5/package/`](../evidence/verification/1.6.5/package/)).
+([`evidence/offline-tests/1.6.6-collector/`](../evidence/offline-tests/1.6.6-collector/)). From the delivered source
+ZIP, in a clean extraction of each edition: unit 533 and integration 202 passed, with the same static checks
+([`evidence/verification/1.6.6/package/`](../evidence/verification/1.6.6/package/)).
 
 **Replay of the 1.6.4 change.** 1.6.4 reads 342 of the 343 listing pages stored by 20 live runs exactly as 1.6.3
 does; the one it reads differently is L7's Bidets page
@@ -68,7 +73,7 @@ attributed to the releases that collected them.
   `collection/retention.py`, `publishing/exports.py` (the final boundary), `checks/contract.py`.
 - **Tests:** they start from nonempty deal data. Fresh JSON and CSV, a carried legacy row, a replay and a re-export,
   the publication, the contract check, and both editions (from the delivered source ZIP).
-- **Live:** `""` in all four fields of every row of every export of the fourteen 1.6.x runs. The published files
+- **Live:** `""` in all four fields of every row of every export of the fifteen 1.6.x runs. The published files
   are checked by [`manifests/check_data.py`](../manifests/check_data.py).
 - **History kept:** the 1.5.x exports in `data/S6-1.5.1/`, `data/S7-1.5.1/` and `data/S4-1.5.0/` are not edited.
   They were made under the earlier rule.
@@ -92,7 +97,12 @@ attributed to the releases that collected them.
 - **Limit, disclosed:** carried rows left as carried, their blank fields unfilled, although a saved read of their
   page exists, because that read's statements about the size conflict (`recovery_withheld`): 4 in L8, 12 in L10.
   Nothing is guessed.
-- **State:** PASS_DEVELOPER_LIVE for the reads made; BLOCKED_BUDGET for the 48 UPCs never read.
+- **1.6.6, live:** L12 read 10 product pages on 1.6.6. Three of them are of the 48 never read: item `14561172064`
+  (UPC `072613474844`), `1398092439` (`827854009580`) and `14620357163` (`072613474912`), in L12's fresh export with
+  their leading zeros. The fourth of those items on the Fabric Softeners listing, `20242472444`, was not on page 1.
+  45 UPCs of S6's rows remain never read. The table above stays against L8's export; L12's own reads are in its run
+  folder (`field_dispositions.csv`, `exports/`).
+- **State:** PASS_DEVELOPER_LIVE for the reads made; BLOCKED_BUDGET for the 45 UPCs never read.
 
 ### Sponsored and variant products (W3)
 - **The queue:** the 275 distinct products of
@@ -107,10 +117,11 @@ attributed to the releases that collected them.
 - **State:** PASS_DEVELOPER_LIVE.
 
 ### Coverage, partitions and the census (W4)
-- **Tables:** [`evidence/reconciliation/1.6.5/w4/`](../evidence/reconciliation/1.6.5/w4/) gives row, root, child and
-  page, every 1.6.x read, and the exact outstanding queue ([`TEST_PLAN.md`](TEST_PLAN.md) prices it).
+- **Tables:** [`evidence/reconciliation/1.6.6/w4/`](../evidence/reconciliation/1.6.6/w4/) gives row, root, child and
+  page, every 1.6.x read, and the exact outstanding queue ([`TEST_PLAN.md`](TEST_PLAN.md) prices it). They are the
+  1.6.5 tables with L12's one page added; no listing's state changed.
 - **The revisits the review asked for:** the five listings S6 left capped, Strawberries, Dry Dog Food (139/137/138)
-  and Fresh Fruits were read again in L4r on 1.6.1 (`W4_REVISITS_1_6_5.csv`).
+  and Fresh Fruits were read again in L4r on 1.6.1 (`W4_REVISITS_1_6_6.csv`).
 - **The census:** L7 on 1.6.3 (rows 0 and 1) and L10 on 1.6.4 (rows 2 to 10, and Household Essentials' Bidets
   listing) read page 1 of 451 listings that their category pages name today, in the 11 CSV rows, with the client's
   exclusions applied. 395 more listings those pages name were not reached before L10's credit limit.
@@ -122,7 +133,8 @@ attributed to the releases that collected them.
 - **Live, on the release each ran:**
   - pause, overlap refusal, forced kill and resume on 1.6.1 (L3), 1.6.2 (L5) and 1.6.3 (L8);
   - unavailable and later-missing products carried with their own dates (every demonstration run).
-- **Synthetic, on a clean extraction of 1.6.5:** the last-good publication against every listed fault, 19 passed.
+- **Synthetic, on a clean extraction of 1.6.6:** the last-good publication against every listed fault, 19 passed (2026-11-04T23:40:08Z to 23:43:12Z); the three corrupt-evidence cases now exit 6.
+  A refused automatic publication is an `ERROR` with exit 6 since 1.6.6 (1.6.5: `WARN`, exit 0).
 - **Where:** [`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md).
 - **Not observed:** no natural available-to-unavailable transition: PENDING_OBSERVATION (A34, B17).
 
@@ -137,24 +149,31 @@ attributed to the releases that collected them.
   Each was one logical run, store 3891 Pickup, with detail on.
 - **The census L10 on 1.6.4:** detail off, 7,055 fresh valid. Its export was checked again with 1.6.5's source
   check: 10,301 of 10,301 records verified.
-- **On the final release 1.6.5:** the live canary L11b passed on its first recorded page, 35 of 35 records verified.
-  L11, the first 1.6.5 canary, recorded no product (its listing was rejected for its identity; see
-  [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8). A detail-on run of 1.6.5 is BLOCKED_BUDGET.
+- **On release 1.6.5:** the live canary L11b passed on its first recorded page, 35 of 35 records verified. L11, the
+  first 1.6.5 canary, recorded no product (its listing was rejected for its identity; see
+  [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8).
+- **On the final release 1.6.6:** the canary L12, with product-page collection on, passed on its first recorded page
+  (40 of 40 verified): 40 fresh valid, 10 product pages read, UPC 27 of 40, size 39 of 40, its export of 10,301
+  records verified. A run of 500 or more with detail on, on 1.6.6, is BLOCKED_BUDGET (at most about USD 0.07; USD
+  0.003 is left).
 - **S6 (1.5.1):** 580 fresh valid and 706 retained, as delivered in 1.5.2. It is not relabelled.
 - **Where:** [`data/RUN_SUMMARY.json`](../data/RUN_SUMMARY.json) and
   [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md).
 
 ### Classic (W7)
-- C1 to C5 are corrected in the shared probe 1.7.0, offline, with live mode disabled
-  ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)).
+- C1, C3 and C5 are corrected in the shared probe 1.7.0, and C2 and C4 are completed in 1.7.1, offline, with live
+  mode disabled ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)). The 1.6.5 delivery gave all five as
+  corrected in 1.7.0; seven tests that fail on 1.7.0 and pass on 1.7.1 show what was left open.
 - The Mariano's adapter is the published blob `9de6510b`, unchanged.
 - **State:** PASS_OFFLINE; a live Classic probe is PENDING_CLIENT_DECISION.
 
 ### Azure, container, schedule, Scrape.do (W6, W8)
-- **Container:** not rebuilt for 1.6.5, because this workstation has no container runtime. Since the 1.5.2 image
+- **Container:** not rebuilt for 1.6.6, because this workstation has no container runtime. Since the 1.5.2 image
   built on the owner's VM, the Dockerfile changed only in two comment lines that give the version.
-- **Azure templates:** the Bicep build and lint of both editions pass, with no deployment
-  ([`BICEP_CHECKS.txt`](../evidence/verification/1.6.5/package/BICEP_CHECKS.txt)).
+- **Azure templates:** the Bicep build and lint of both 1.6.6 editions pass, with no deployment
+  ([`BICEP_CHECKS.txt`](../evidence/verification/1.6.6/package/BICEP_CHECKS.txt)).
+- **Monitoring:** a refused automatic publication is an `ERROR` with exit 6 since 1.6.6, and the alert advice names
+  it ([`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md), section 3).
 - **Client VM:** deallocated, as the client confirmed. No SSH attempt was made.
 - **Schedule:** stays disabled.
 - **Scrape.do:** no credits are authorized in this delivery.

@@ -1,0 +1,351 @@
+{
+ "stage": "L12",
+ "run_id": "01M6MC7YE4PBXV88G3PJ5ENW4B",
+ "evidence_class": "LIVE VERIFIED",
+ "manifest_keys": [
+  "config_snapshot",
+  "created_at",
+  "dataset",
+  "files",
+  "fresh_record_count",
+  "mode",
+  "record_count",
+  "run_id",
+  "site_version",
+  "store_key",
+  "versions"
+ ],
+ "manifest": {
+  "mode": "LIVE",
+  "run_id": "01M6MC7YE4PBXV88G3PJ5ENW4B",
+  "record_count": 10301,
+  "fresh_record_count": 40,
+  "dataset": "pilot",
+  "site_version": "walmart-next"
+ },
+ "fresh_rows": 40,
+ "fresh_distinct_items": 40,
+ "export_rows_with_carried": 10301,
+ "by_category": {
+  "Household Essentials": 40
+ },
+ "by_sub_category": {
+  "Fabric Softener": 40
+ },
+ "contract": {
+  "field_order_ok": true,
+  "all_strings": true,
+  "gupc_empty": true,
+  "unit_price_empty": true,
+  "deal_fields_empty_in_every_row": true,
+  "rows_checked_for_deal_fields": 10301,
+  "crawl_dates_fresh": {
+   "2026-11-04": 40
+  },
+  "regular_price_format_ok": true,
+  "sale_price_format_ok": true,
+  "sale_below_regular": true
+ },
+ "store_context_fresh": {
+  "zipcode": {
+   "60085": 40
+  },
+  "store_name": {
+   "Waukegan Supercenter": 40
+  },
+  "store_location": {
+   "3900 Fountain Square Pl, Waukegan, IL 60085": 40
+  },
+  "store_logo_filled": 40
+ },
+ "filled_fresh": {
+  "zipcode": 40,
+  "store_name": 40,
+  "store_location": 40,
+  "store_logo": 40,
+  "store_brand": 40,
+  "category": 40,
+  "sub_category": 40,
+  "product_title": 40,
+  "weight": 39,
+  "regular_price": 40,
+  "sale_price": 3,
+  "volume_deals_description": 0,
+  "volume_deals_price": 0,
+  "digital_deals_description": 0,
+  "digital_deals_price": 0,
+  "image_url": 40,
+  "url": 40,
+  "upc": 27,
+  "gupc": 0,
+  "ppm": 39,
+  "unit_price": 0,
+  "crawl_date": 40
+ },
+ "store_brand_fresh": {
+  "no": 37,
+  "yes": 3
+ },
+ "upc_outcomes_fresh": {
+  "budget_deadline_interruption": 13,
+  "recovered_from_saved_detail": 17,
+  "fetched_detail": 10
+ },
+ "weight_outcomes_fresh": {
+  "present_in_listing": 39,
+  "budget_deadline_interruption": 1
+ },
+ "upc_outcomes_all_rows": {
+  "not_attempted": 9301,
+  "recovered_from_saved_detail": 914,
+  "budget_deadline_interruption": 14,
+  "fetched_detail": 67,
+  "absent_in_source": 4,
+  "identity_mismatch": 1
+ },
+ "weight_outcomes_all_rows": {
+  "not_attempted": 2036,
+  "present_in_listing": 8202,
+  "recovered_from_saved_detail": 35,
+  "absent_in_source": 19,
+  "unresolved_conflict": 5,
+  "budget_deadline_interruption": 1,
+  "fetched_detail": 3
+ },
+ "carried_rows_1_6_3": {
+  "carried_rows": 10261,
+  "rows_with_recovered_fields": 219,
+  "recovered_by_field": {
+   "upc": 219,
+   "weight": 10
+  },
+  "recovery_withheld": {
+   "the read's statements about size conflict": 9
+  },
+  "carried_upc_blank": 9307,
+  "carried_weight_blank": 2060
+ },
+ "offers": {
+  "entries": 0,
+  "kinds": {},
+  "note": "offers.json lists the deal offers the run observed; by the W1 output policy none reaches the four deal fields, which are empty in every row"
+ },
+ "follow_up_outcomes": {
+  "sponsored | duplicate": 9,
+  "variant | not_attempted": 42
+ },
+ "run": {
+  "status": "rejected",
+  "stop_code": "None",
+  "stop_detail": "None",
+  "started_at": "2026-11-04 22:52:58.292232+00:00",
+  "finished_at": "2026-11-04 22:59:45.331519+00:00",
+  "parser_version": "1.6.6",
+  "site_version": "walmart-next",
+  "attempt": "1"
+ },
+ "ledger_run": [
+  {
+   "outcome": "ok",
+   "submissions": 13,
+   "credits": 13.0,
+   "usd": "0.0195",
+   "first": "2026-11-04 22:53:01.809864+00:00",
+   "last": "2026-11-04 22:55:13.492091+00:00"
+  }
+ ],
+ "ledger_run_by_purpose": [
+  {
+   "purpose": "listing",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "product_detail",
+   "outcome": "ok",
+   "submissions": 10
+  },
+  {
+   "purpose": "robots",
+   "outcome": "ok",
+   "submissions": 1
+  },
+  {
+   "purpose": "store_page",
+   "outcome": "ok",
+   "submissions": 1
+  }
+ ],
+ "pages": [
+  {
+   "purpose": "listing",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "product_detail",
+   "fetches": 10,
+   "distinct_urls": 10
+  },
+  {
+   "purpose": "robots",
+   "fetches": 1,
+   "distinct_urls": 1
+  },
+  {
+   "purpose": "store_page",
+   "fetches": 1,
+   "distinct_urls": 1
+  }
+ ],
+ "detail_observations_this_run": [
+  {
+   "origin": "fetched",
+   "status": "extracted",
+   "rows": 10,
+   "with_upc": 10
+  }
+ ],
+ "segments": [
+  {
+   "id": "01M6MC7YK7JETYC3CWRFS6ZTX4",
+   "started": "2026-11-04 22:52:58.343657+00:00",
+   "ended": "2026-11-04 22:59:45.406489+00:00",
+   "active_s": 407.0320000000065,
+   "stop_code": null,
+   "stop_detail": null,
+   "credits_estimated": 13.0,
+   "workers": 1
+  }
+ ],
+ "coverage": [
+  {
+   "category_source_id": "01M69X5MFRVHSV96JV91SAN90V",
+   "taxonomy_id": "1115193_1071967_1630538",
+   "status": "CAPPED",
+   "total_count": 77,
+   "organic_upcs": 40,
+   "coverage_ratio": 0.5194805194805194,
+   "partition": {
+    "end": "PAGE_LIMIT",
+    "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538",
+    "via": "configured",
+    "depth": 0,
+    "pages": 1,
+    "parent": "",
+    "reason": "page limit of this run (1) reached",
+    "max_page": 2,
+    "result_pages": [
+     {
+      "page": 1,
+      "organic": 40,
+      "fetch_id": "01M6MC89YM3V22ZJAH0NYW46CS",
+      "max_page": 2,
+      "products": 49,
+      "sponsored": 9,
+      "page_count": 64,
+      "grid_filter": "Pickup",
+      "other_modules": [
+       {
+        "stack": 1,
+        "title": "Available for shipping",
+        "layout": "CAROUSEL",
+        "products": 10
+       }
+      ],
+      "result_stacks": [
+       0
+      ],
+      "new_identities": 40,
+      "reported_total": 77
+     }
+    ],
+    "children_named": [
+     "1115193_1071967_1630538_8226415",
+     "1115193_1071967_1630538_3142904",
+     "1115193_1071967_1630538_3222723",
+     "1115193_1071967_1630538_8030109"
+    ],
+    "reconciliation": {
+     "basis": "",
+     "placed": 40,
+     "organic": 40,
+     "difference": 37,
+     "placements": 49,
+     "total_stable": true,
+     "reported_total": 77,
+     "sponsored_only": 0,
+     "totals_reported": [
+      77
+     ],
+     "repeat_placements": 9,
+     "unresolved_difference": 37
+    }
+   }
+  }
+ ],
+ "gate_findings": [
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "40 valid records"
+  },
+  {
+   "gate": "G14",
+   "severity": "FAIL",
+   "code": "CONTEST_NOT_READY",
+   "scope": "run",
+   "ref": null,
+   "message": "1 categories"
+  },
+  {
+   "gate": "G3",
+   "severity": "FAIL",
+   "code": "NODE_INCOMPLETE",
+   "scope": "category",
+   "ref": "Household Essentials",
+   "message": "status INCOMPLETE"
+  }
+ ],
+ "store_attestations": [
+  {
+   "phase": "preflight",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "None",
+   "result": "PASS"
+  },
+  {
+   "phase": "task_start",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  },
+  {
+   "phase": "final",
+   "observed_location_id": "3891",
+   "observed_name": "Waukegan Supercenter",
+   "observed_postal_code": "60085",
+   "modality": "PICKUP",
+   "result": "PASS"
+  }
+ ],
+ "shared_ledger_stage": {
+  "stage_id": "W-L12-detail-canary-166-20261104",
+  "rows": 13,
+  "by_state_and_settlement": {
+   "settled | rule_estimate": {
+    "rows": 13,
+    "worst_usd": 0.0195,
+    "settled_usd": 0.0195,
+    "settled_results": 13
+   }
+  }
+ }
+}

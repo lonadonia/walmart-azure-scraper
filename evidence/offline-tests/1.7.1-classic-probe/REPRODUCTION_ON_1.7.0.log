@@ -1,0 +1,105 @@
+Release 1.7.0's code (src tree da055ccd663dde368de24780d94ee54067412bdb, restored from commit 6b9be92 for this run) against the final reproduction tests of 1.7.1 (tests/test_c2_c4_reproduction.py, sha256 8ec6cca9b3c914b6140e2db946c98d5751b32e7836e9bbd82b5ad3a9e35dcec0) and the drill mode added for them (tests/session_drill.py, sha256 47d4504b69b2b7268c3d5ef758f290b7cd1f28b891c97af7a3cc601fb9388824).
+started 2026-11-04T22:22:46Z
+FFFFFFF                                                                  [100%]
+================================== FAILURES ===================================
+_ test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked _
+tests\test_c2_c4_reproduction.py:106: in test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+    session = supervisor.run_session(
+src\classic_probe\supervisor.py:96: in run_session
+    session.recovery = recover_session(manifest, out_dir, retailer, reason=reason)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\classic_probe\supervisor.py:104: in recover_session
+    unfinished = led.recover()
+                 ^^^^^^^^^^^^^
+src\classic_probe\ledger.py:728: in recover
+    with self._write():
+         ^^^^^^^^^^^^^
+C:\w6\py312\pkg\tools\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src\classic_probe\ledger.py:361: in _write
+    raise LockNotObtained(
+E   classic_probe.ledger.LockNotObtained: the ledger's write lock was not obtained within 30.0 s
+_ test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows _
+tests\test_c2_c4_reproduction.py:160: in test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+    result = run.run()
+             ^^^^^^^^^
+src\classic_probe\campaign.py:382: in run
+    self._run()
+src\classic_probe\campaign.py:392: in _run
+    first = self._dispatch(
+src\classic_probe\campaign.py:283: in _dispatch
+    self.ledger.settle(
+src\classic_probe\ledger.py:698: in settle
+    with self._write():
+         ^^^^^^^^^^^^^
+C:\w6\py312\pkg\tools\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src\classic_probe\ledger.py:361: in _write
+    raise LockNotObtained(
+E   classic_probe.ledger.LockNotObtained: the ledger's write lock was not obtained within 30.0 s
+__ test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered __
+tests\test_c2_c4_reproduction.py:198: in communicate
+    return real(self, input, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\w6\py312\pkg\tools\Lib\subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\w6\py312\pkg\tools\Lib\subprocess.py:1630: in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+E   subprocess.TimeoutExpired: Command '['C:\\w9\\wt\\headless\\oxylabs-classic-probe\\.venv\\Scripts\\python.exe', '-c', 'import time; time.sleep(60)']' timed out after 6.0 seconds
+
+During handling of the above exception, another exception occurred:
+tests\test_c2_c4_reproduction.py:201: in test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+    session = supervisor.run_session(
+src\classic_probe\supervisor.py:83: in run_session
+    out, _ = proc.communicate(timeout=REAP_TIMEOUT_S)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_c2_c4_reproduction.py:197: in communicate
+    raise subprocess.TimeoutExpired(self.args, timeout or 0.0)
+E   subprocess.TimeoutExpired: Command '['C:\\w9\\wt\\headless\\oxylabs-classic-probe\\.venv\\Scripts\\python.exe', '-c', 'import time; time.sleep(60)']' timed out after 10.0 seconds
+__ test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch ___
+tests\test_c2_c4_reproduction.py:228: in test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+    assert recovery["capture_recovery"]["indexed_on_recovery"] == [1], recovery
+E   AssertionError: {'rows_recovered_as_unknown': 1, 'capture_recovery': {'part_files_removed': [], 'indexed_on_recovery': [], 'refused': []}, 'manifest': 'campaign_evidence.recovered.json'}
+E   assert [] == [1]
+E     
+E     Right contains one more item: 1
+E     Use -v to get more diff
+___ test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place ___
+tests\test_c2_c4_reproduction.py:253: in test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place
+    assert order, "the evidence manifest was renamed into place without ever being synced"
+E   AssertionError: the evidence manifest was renamed into place without ever being synced
+E   assert []
+________ test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk ________
+tests\test_c2_c4_reproduction.py:277: in test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk
+    assert (
+E   assert ([])
+_ test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer _
+tests\test_c2_c4_reproduction.py:295: in test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+    assert len(partial) == 1, led.events()
+E   AssertionError: [{'seq': 1, 'at': '2026-11-01T10:00:00+00:00', 'kind': 'STOP_IN_FLIGHT_UNKNOWN', 'detail': 'walmart: walmart-search-p1...n 3.0 s: the worker was killed and reaped (the provider may still run and charge the request); its reservation stays'}]
+E   assert 0 == 1
+E    +  where 0 = len([])
+============================== slowest durations ==============================
+98.54s call     tests/test_c2_c4_reproduction.py::test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+45.28s call     tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+6.38s call     tests/test_c2_c4_reproduction.py::test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+3.15s call     tests/test_c2_c4_reproduction.py::test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+1.07s call     tests/test_c2_c4_reproduction.py::test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+0.01s setup    tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+0.01s setup    tests/test_c2_c4_reproduction.py::test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk
+
+(14 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ===========================
+FAILED tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+FAILED tests/test_c2_c4_reproduction.py::test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+FAILED tests/test_c2_c4_reproduction.py::test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+FAILED tests/test_c2_c4_reproduction.py::test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+FAILED tests/test_c2_c4_reproduction.py::test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place
+FAILED tests/test_c2_c4_reproduction.py::test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk
+FAILED tests/test_c2_c4_reproduction.py::test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+7 failed in 155.15s (0:02:35)
+exit 1
+ended 2026-11-04T22:25:22Z

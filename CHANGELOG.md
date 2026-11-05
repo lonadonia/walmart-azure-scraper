@@ -2,7 +2,7 @@
 
 There is one entry for each delivery to the client's review, newest first. Each delivery keeps its own review tag,
 and a tag is never moved. The collector's change history by release is in
-[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.6.5/docs/VERIFICATION.md).
+[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.6.6/docs/VERIFICATION.md).
 
 ## How this repository is updated
 
@@ -16,6 +16,34 @@ and a tag is never moved. The collector's change history by release is in
   - an entry here;
   - its own tag, `review-<release>-<YYYYMMDD>`, with the UTC date the tag was made;
   - freshly written manifests, with `SHA256SUMS.txt` written last.
+
+## 1.6.6: correction delivery, published 2026-11-05 (tag `review-1.6.6-20261105`)
+
+- **Collector:** release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b`, 2026-11-04T22:34:53Z. The
+  archives were built at `cbea802`, which adds only their builder. The shared Classic probe is 1.7.1
+  ([`classic-probe-1.7.1/`](classic-probe-1.7.1/)). The probe 1.7.0 stays in
+  [`classic-probe-1.7.0/`](classic-probe-1.7.0/), unchanged, and the Walmart probe 1.5.2 in
+  [`classic-probe/`](classic-probe/).
+- **Corrections** (the client's review of 1.6.5; see [`review/CORRECTION_MAP.md`](review/CORRECTION_MAP.md)):
+  - Classic C2 and C4 are completed in probe 1.7.1. The deadline holds through recovery, export and cleanup. Each
+    answer is kept durably, across a crash, before the next paid step, and a body cut at its deadline is recorded.
+    Seven reproduction tests fail on 1.7.0 and pass on 1.7.1.
+  - A refused automatic publication is an `ERROR` and exits 6, also on Azure's retry (collector 1.6.6). The
+    operations guide's alert advice names it.
+  - The 1.6.5 statements that were not accurate are corrected, among them "C1 to C5 corrected (probe 1.7.0)" and the
+    pass given to the operating documentation's monitoring. See
+    [`manifests/DOC_CORRECTIONS.md`](manifests/DOC_CORRECTIONS.md).
+- **Live data:** one new run, L12 on 1.6.6 (2026-11-04T22:52Z to 22:59Z). It is a canary with product-page
+  collection on: 40 fresh valid products, 10 product pages read, UPC 27 of 40, three UPCs read that had never been
+  read. It is a rejected pilot. Its evidence is in `evidence/live/1.6.x/runs/`, and it adds no `data/` folder.
+  `data/RUN_SUMMARY.json` gains its entry; every other file of `data/` is unchanged. The demonstration of 500 or more
+  with detail on, on 1.6.6, was not funded: USD 0.003 of Walmart's share is left.
+- **Verification:** both 1.6.6 edition ZIPs from clean extractions
+  ([`evidence/verification/1.6.6/`](evidence/verification/1.6.6/)); the probe 1.7.1 from its own export
+  ([`classic-probe-1.7.1/offline_results/`](classic-probe-1.7.1/offline_results/)). Nothing ran in the client's
+  environment.
+- **States:** [`review/REQUIREMENT_MATRIX.md`](review/REQUIREMENT_MATRIX.md) and the four 1.6.6 columns of
+  [`review/ACCEPTANCE_MATRIX.csv`](review/ACCEPTANCE_MATRIX.csv).
 
 ## 1.6.5: correction delivery, published 2026-11-04 (tag `review-1.6.5-20261104`)
 
@@ -32,7 +60,8 @@ and a tag is never moved. The collector's change history by release is in
   - Walmart's not-found page is recognized (1.6.3);
   - a listing total of 0 is a total (1.6.4);
   - the independent source check reads the flat price strings some pages use (1.6.5);
-  - the Classic findings C1 to C5 are corrected offline (probe 1.7.0).
+  - the Classic findings C1 to C5 are corrected offline (probe 1.7.0). (Corrected in 1.6.6: C1, C3 and C5 were;
+    C2 and C4 were corrected only in part, and are completed in probe 1.7.1.)
 - **Live data:** fourteen runs of the user's Oxylabs Web API trial, 2026-11-03 and 2026-11-04, each on the release
   that ran it. [`data/L10-1.6.4/`](data/L10-1.6.4/) is the census of release 1.6.4 (7,055 fresh valid, detail
   reading off); its export passes the final release's check. [`data/L8-1.6.3/`](data/L8-1.6.3/) is the last
@@ -40,8 +69,8 @@ and a tag is never moved. The collector's change history by release is in
   of `data/` are unchanged. The full catalogue was not read.
 - **Verification:** the suites of every release on its commit, and both 1.6.5 edition ZIPs from clean extractions
   ([`evidence/verification/1.6.5/`](evidence/verification/1.6.5/)). Nothing ran in the client's environment.
-- **States:** [`review/REQUIREMENT_MATRIX.md`](review/REQUIREMENT_MATRIX.md) and the four new columns of
-  [`review/ACCEPTANCE_MATRIX.csv`](review/ACCEPTANCE_MATRIX.csv).
+- **States:** `review/REQUIREMENT_MATRIX.md` and the four 1.6.5 columns of `review/ACCEPTANCE_MATRIX.csv`, as
+  published at the tag `review-1.6.5-20261104`.
 
 ## 1.5.2: correction delivery, published 2026-11-03 (tag `review-1.5.2-20261103`)
 

@@ -1,0 +1,23 @@
+{"step": "extract", "exit": 0, "seconds": 0.5, "note": "ok: 462 entries; zip sha256 d514cc6cff170e61416fad9a6a79a076191f6b2882adf47c336769b0e534756f", "command": "extract", "at": "2026-11-04T22:48:48+00:00"}
+{"step": "oxylabs.tree", "exit": 0, "seconds": 0.0, "note": "ok: 230 files, tree 938045b09316f258..., commit cbea802891d4", "command": "tree check", "at": "2026-11-04T22:48:48+00:00"}
+{"step": "oxylabs.lock", "exit": 0, "seconds": 0.1, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe lock --check --offline", "at": "2026-11-04T22:48:48+00:00"}
+{"step": "oxylabs.install", "exit": 0, "seconds": 4.6, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe sync --frozen", "at": "2026-11-04T22:48:53+00:00"}
+{"step": "oxylabs.ruff", "exit": 0, "seconds": 0.6, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen ruff check src tests", "at": "2026-11-04T22:48:53+00:00"}
+{"step": "oxylabs.format", "exit": 0, "seconds": 0.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen ruff format --check src tests", "at": "2026-11-04T22:48:53+00:00"}
+{"step": "oxylabs.mypy", "exit": 0, "seconds": 26.1, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen mypy", "at": "2026-11-04T22:49:19+00:00"}
+{"step": "oxylabs.version", "exit": 0, "seconds": 7.4, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector --version", "at": "2026-11-04T22:49:27+00:00"}
+{"step": "oxylabs.help", "exit": 0, "seconds": 2.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector --help", "at": "2026-11-04T22:49:29+00:00"}
+{"step": "oxylabs.validate-config", "exit": 0, "seconds": 2.4, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector validate-config", "at": "2026-11-04T22:49:32+00:00"}
+{"step": "oxylabs.unit", "exit": 0, "seconds": 28.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/unit --junitxml=C:\\w9\\v166\\junit\\oxylabs.unit.xml", "at": "2026-11-04T22:50:00+00:00"}
+{"step": "oxylabs.integration", "exit": 0, "seconds": 1327.5, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/integration --junitxml=C:\\w9\\v166\\junit\\oxylabs.integration.xml", "at": "2026-11-04T23:12:07+00:00"}
+{"step": "scrapedo.tree", "exit": 0, "seconds": 0.0, "note": "ok: 230 files, tree d7d43d3e3ae0f1a2..., commit cbea802891d4", "command": "tree check", "at": "2026-11-04T23:12:07+00:00"}
+{"step": "scrapedo.lock", "exit": 0, "seconds": 0.1, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe lock --check --offline", "at": "2026-11-04T23:12:08+00:00"}
+{"step": "scrapedo.install", "exit": 0, "seconds": 7.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe sync --frozen", "at": "2026-11-04T23:12:15+00:00"}
+{"step": "scrapedo.ruff", "exit": 0, "seconds": 0.7, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen ruff check src tests", "at": "2026-11-04T23:12:16+00:00"}
+{"step": "scrapedo.format", "exit": 0, "seconds": 0.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen ruff format --check src tests", "at": "2026-11-04T23:12:16+00:00"}
+{"step": "scrapedo.mypy", "exit": 0, "seconds": 27.2, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen mypy", "at": "2026-11-04T23:12:43+00:00"}
+{"step": "scrapedo.version", "exit": 0, "seconds": 7.7, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector --version", "at": "2026-11-04T23:12:51+00:00"}
+{"step": "scrapedo.help", "exit": 0, "seconds": 2.6, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector --help", "at": "2026-11-04T23:12:53+00:00"}
+{"step": "scrapedo.validate-config", "exit": 0, "seconds": 2.7, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen walmart-collector validate-config", "at": "2026-11-04T23:12:56+00:00"}
+{"step": "scrapedo.unit", "exit": 0, "seconds": 37.8, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/unit --junitxml=C:\\w9\\v166\\junit\\scrapedo.unit.xml", "at": "2026-11-04T23:13:34+00:00"}
+{"step": "scrapedo.integration", "exit": 0, "seconds": 1330.3, "note": "ok", "command": "C:\\Users\\<user>\\.local\\bin\\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/integration --junitxml=C:\\w9\\v166\\junit\\scrapedo.integration.xml", "at": "2026-11-04T23:35:44+00:00"}

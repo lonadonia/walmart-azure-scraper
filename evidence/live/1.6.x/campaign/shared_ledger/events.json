@@ -61006,5 +61006,576 @@
   },
   "prev_hash": "d522b8c08552c46de1786775d8053dc4786dbe7927240987b8f05fda69e3a1be",
   "hash": "92385ac4cc377cb38653ff819051ccd58e090ce49c17880a76c11b1c052a23bb"
+ },
+ {
+  "seq": 4587,
+  "at": "2026-11-04T22:52:53.195916Z",
+  "kind": "stage_opened",
+  "ref": "W-L12-detail-canary-166-20261104",
+  "detail": {
+   "deadline_utc": "2026-11-04T23:52:15+00:00",
+   "max_requests": 15,
+   "max_results": 15,
+   "max_usd": "0.022500",
+   "project": "walmart",
+   "source_revision": "cbea802891d4e66b74a0abc33e0af0af74c89708"
+  },
+  "prev_hash": "92385ac4cc377cb38653ff819051ccd58e090ce49c17880a76c11b1c052a23bb",
+  "hash": "75bf3d23cf202ea56908d2590343a7457eefc7082559179f30fca4d338abd476"
+ },
+ {
+  "seq": 4588,
+  "at": "2026-11-04T22:52:55.933989Z",
+  "kind": "lease_acquired",
+  "ref": "27",
+  "detail": {
+   "holder": "live160:l12_run:11408",
+   "project": "walmart",
+   "ttl_s": 120.0
+  },
+  "prev_hash": "75bf3d23cf202ea56908d2590343a7457eefc7082559179f30fca4d338abd476",
+  "hash": "7c94540568fea5f3c3119e10cba9f2cc620762bb5865e3008888ee61d4844f24"
+ },
+ {
+  "seq": 4589,
+  "at": "2026-11-04T22:53:01.861564Z",
+  "kind": "reserved",
+  "ref": "b8072f3d4f5a4eb5a413ec05f2a3107b",
+  "detail": {
+   "purpose": "robots (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "7c94540568fea5f3c3119e10cba9f2cc620762bb5865e3008888ee61d4844f24",
+  "hash": "10845e5a19c3d20f6f0498ff16a54a6d4f447c74f897036a1d6ef111eeddbfc1"
+ },
+ {
+  "seq": 4590,
+  "at": "2026-11-04T22:53:01.873646Z",
+  "kind": "dispatched",
+  "ref": "b8072f3d4f5a4eb5a413ec05f2a3107b",
+  "detail": {},
+  "prev_hash": "10845e5a19c3d20f6f0498ff16a54a6d4f447c74f897036a1d6ef111eeddbfc1",
+  "hash": "8763ee987e82d048a0c72769ec8258c6cb2af26fc0a0a9b449d16e434423a8e7"
+ },
+ {
+  "seq": 4591,
+  "at": "2026-11-04T22:53:04.135803Z",
+  "kind": "settled",
+  "ref": "b8072f3d4f5a4eb5a413ec05f2a3107b",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "8763ee987e82d048a0c72769ec8258c6cb2af26fc0a0a9b449d16e434423a8e7",
+  "hash": "2087e9feb5ea1db8981cf7458f3ac6dae88f059b663c42d4577c77806081aade"
+ },
+ {
+  "seq": 4592,
+  "at": "2026-11-04T22:53:04.635953Z",
+  "kind": "reserved",
+  "ref": "d0775e393691444eab5af4a9a1c1629b",
+  "detail": {
+   "purpose": "store_page (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "2087e9feb5ea1db8981cf7458f3ac6dae88f059b663c42d4577c77806081aade",
+  "hash": "e1168ab1f1b40e0f5bebd95557e583fe7766e81bcf0b97c218ae9304e8128572"
+ },
+ {
+  "seq": 4593,
+  "at": "2026-11-04T22:53:04.654058Z",
+  "kind": "dispatched",
+  "ref": "d0775e393691444eab5af4a9a1c1629b",
+  "detail": {},
+  "prev_hash": "e1168ab1f1b40e0f5bebd95557e583fe7766e81bcf0b97c218ae9304e8128572",
+  "hash": "d1725b8b0af0de31db95e60c0dbcd52bbb388575402e8a8d567ada73b2bb7328"
+ },
+ {
+  "seq": 4594,
+  "at": "2026-11-04T22:53:08.735109Z",
+  "kind": "settled",
+  "ref": "d0775e393691444eab5af4a9a1c1629b",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "d1725b8b0af0de31db95e60c0dbcd52bbb388575402e8a8d567ada73b2bb7328",
+  "hash": "65c6a256988144258fdd72b7ec682cf1cfb842b0ada08d7efe3c80150849ee58"
+ },
+ {
+  "seq": 4595,
+  "at": "2026-11-04T22:53:10.038007Z",
+  "kind": "reserved",
+  "ref": "e148483b3caa431bb194d2b37fb28ab4",
+  "detail": {
+   "purpose": "listing (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "65c6a256988144258fdd72b7ec682cf1cfb842b0ada08d7efe3c80150849ee58",
+  "hash": "79e35d74943983830d8fcae9626f0d609c78ba76aec5bb1caa5a3c45753fa96d"
+ },
+ {
+  "seq": 4596,
+  "at": "2026-11-04T22:53:10.051279Z",
+  "kind": "dispatched",
+  "ref": "e148483b3caa431bb194d2b37fb28ab4",
+  "detail": {},
+  "prev_hash": "79e35d74943983830d8fcae9626f0d609c78ba76aec5bb1caa5a3c45753fa96d",
+  "hash": "f6482def6313aa71ab10192791fe6cd8da7649b42ec1843b578e65a02c233e7f"
+ },
+ {
+  "seq": 4597,
+  "at": "2026-11-04T22:53:31.920924Z",
+  "kind": "settled",
+  "ref": "e148483b3caa431bb194d2b37fb28ab4",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "f6482def6313aa71ab10192791fe6cd8da7649b42ec1843b578e65a02c233e7f",
+  "hash": "590550d33cf590ca01ec0c9be4f8726f5359e85b56b94fa1119dc5492f5744e8"
+ },
+ {
+  "seq": 4598,
+  "at": "2026-11-04T22:53:36.946041Z",
+  "kind": "reserved",
+  "ref": "e6f177afaf464db6a49dacc896b0aaf1",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "590550d33cf590ca01ec0c9be4f8726f5359e85b56b94fa1119dc5492f5744e8",
+  "hash": "a402412229f22850593d9cfc4e852363ae4da22dde2d4bf0ce44e270151c288c"
+ },
+ {
+  "seq": 4599,
+  "at": "2026-11-04T22:53:36.959341Z",
+  "kind": "dispatched",
+  "ref": "e6f177afaf464db6a49dacc896b0aaf1",
+  "detail": {},
+  "prev_hash": "a402412229f22850593d9cfc4e852363ae4da22dde2d4bf0ce44e270151c288c",
+  "hash": "de2a46cac6a4897e8e85b005b8d222814fbe13058406b9fc1c38fe8303765fbb"
+ },
+ {
+  "seq": 4600,
+  "at": "2026-11-04T22:54:35.277763Z",
+  "kind": "settled",
+  "ref": "e6f177afaf464db6a49dacc896b0aaf1",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "de2a46cac6a4897e8e85b005b8d222814fbe13058406b9fc1c38fe8303765fbb",
+  "hash": "9b2a9d5219996e4bd6ee3747455768dad54f7c07675c16d99a69647b3843e7cd"
+ },
+ {
+  "seq": 4601,
+  "at": "2026-11-04T22:54:36.316110Z",
+  "kind": "reserved",
+  "ref": "fac62ada22ac47059b8567777406f53a",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "9b2a9d5219996e4bd6ee3747455768dad54f7c07675c16d99a69647b3843e7cd",
+  "hash": "8807e655cc87a8041592b824257ae7401369e99ef0ff7bc7ecccfeeb57c8d2c7"
+ },
+ {
+  "seq": 4602,
+  "at": "2026-11-04T22:54:36.339712Z",
+  "kind": "dispatched",
+  "ref": "fac62ada22ac47059b8567777406f53a",
+  "detail": {},
+  "prev_hash": "8807e655cc87a8041592b824257ae7401369e99ef0ff7bc7ecccfeeb57c8d2c7",
+  "hash": "2bcfbcbe8d9a4eaeb871b9d809cbb3f080b33d9ad2f595a990f2dc7e014ca09b"
+ },
+ {
+  "seq": 4603,
+  "at": "2026-11-04T22:54:39.248977Z",
+  "kind": "settled",
+  "ref": "fac62ada22ac47059b8567777406f53a",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "2bcfbcbe8d9a4eaeb871b9d809cbb3f080b33d9ad2f595a990f2dc7e014ca09b",
+  "hash": "e1bcfe58c7fe7b44de871c60e4a256f3fa9b3012605f8ea681bea6e0f69b6599"
+ },
+ {
+  "seq": 4604,
+  "at": "2026-11-04T22:54:40.403187Z",
+  "kind": "reserved",
+  "ref": "827996f80cab4f73ad147dab7a8affc5",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "e1bcfe58c7fe7b44de871c60e4a256f3fa9b3012605f8ea681bea6e0f69b6599",
+  "hash": "dc96691b7c04816cdbbc6a134d19165044de02337bc6cac1b00bf0aa1f2a8576"
+ },
+ {
+  "seq": 4605,
+  "at": "2026-11-04T22:54:40.416693Z",
+  "kind": "dispatched",
+  "ref": "827996f80cab4f73ad147dab7a8affc5",
+  "detail": {},
+  "prev_hash": "dc96691b7c04816cdbbc6a134d19165044de02337bc6cac1b00bf0aa1f2a8576",
+  "hash": "b3b9d195155b713a36a92160f8a56d8432b7022e5ce1fed6d49060cd587afeab"
+ },
+ {
+  "seq": 4606,
+  "at": "2026-11-04T22:54:45.565412Z",
+  "kind": "settled",
+  "ref": "827996f80cab4f73ad147dab7a8affc5",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "b3b9d195155b713a36a92160f8a56d8432b7022e5ce1fed6d49060cd587afeab",
+  "hash": "cec1e2fbeba924132de29b81e31b8754c07113b30863119ea1c8bf0b9d3b3520"
+ },
+ {
+  "seq": 4607,
+  "at": "2026-11-04T22:54:46.444327Z",
+  "kind": "reserved",
+  "ref": "d33d8063ba294ea29e2c8c14dcc8eb27",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "cec1e2fbeba924132de29b81e31b8754c07113b30863119ea1c8bf0b9d3b3520",
+  "hash": "8776e0d30063bd6450b11936cd7e713951fbaaee566504ee1b93a7c68e738661"
+ },
+ {
+  "seq": 4608,
+  "at": "2026-11-04T22:54:46.463092Z",
+  "kind": "dispatched",
+  "ref": "d33d8063ba294ea29e2c8c14dcc8eb27",
+  "detail": {},
+  "prev_hash": "8776e0d30063bd6450b11936cd7e713951fbaaee566504ee1b93a7c68e738661",
+  "hash": "cbd950be62d14f30cc682fad887eac45b05aa06587900c6db878b2deb7c3e763"
+ },
+ {
+  "seq": 4609,
+  "at": "2026-11-04T22:54:50.393833Z",
+  "kind": "settled",
+  "ref": "d33d8063ba294ea29e2c8c14dcc8eb27",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "cbd950be62d14f30cc682fad887eac45b05aa06587900c6db878b2deb7c3e763",
+  "hash": "f495744da0771da35ce298dcc905bf4820dbf35629b373865694f21226b7eceb"
+ },
+ {
+  "seq": 4610,
+  "at": "2026-11-04T22:54:51.379437Z",
+  "kind": "reserved",
+  "ref": "1906f6e4cbd148d38d3e22e1c76f1c96",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "f495744da0771da35ce298dcc905bf4820dbf35629b373865694f21226b7eceb",
+  "hash": "ea5f4103fc28d0cfb17d7676c1983f3ce6cf2e4b953ba93b5ec41836b02f5767"
+ },
+ {
+  "seq": 4611,
+  "at": "2026-11-04T22:54:51.390441Z",
+  "kind": "dispatched",
+  "ref": "1906f6e4cbd148d38d3e22e1c76f1c96",
+  "detail": {},
+  "prev_hash": "ea5f4103fc28d0cfb17d7676c1983f3ce6cf2e4b953ba93b5ec41836b02f5767",
+  "hash": "7a94a007cd84d03e3e06ced87a98201967fad95b9346ea13edfca6215e9c325e"
+ },
+ {
+  "seq": 4612,
+  "at": "2026-11-04T22:54:54.760043Z",
+  "kind": "settled",
+  "ref": "1906f6e4cbd148d38d3e22e1c76f1c96",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "7a94a007cd84d03e3e06ced87a98201967fad95b9346ea13edfca6215e9c325e",
+  "hash": "aabe9631f6638a3fa66d7914319a09dd2ecf63cdc8a407db3da20ee77a7e9a3a"
+ },
+ {
+  "seq": 4613,
+  "at": "2026-11-04T22:54:55.781658Z",
+  "kind": "reserved",
+  "ref": "6cd8da91ef844766a00c15171a7a0213",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "aabe9631f6638a3fa66d7914319a09dd2ecf63cdc8a407db3da20ee77a7e9a3a",
+  "hash": "1a69adfca0516611ae367881c346578a5cc45997a7c5f6ce6773670477d35b5e"
+ },
+ {
+  "seq": 4614,
+  "at": "2026-11-04T22:54:55.795893Z",
+  "kind": "dispatched",
+  "ref": "6cd8da91ef844766a00c15171a7a0213",
+  "detail": {},
+  "prev_hash": "1a69adfca0516611ae367881c346578a5cc45997a7c5f6ce6773670477d35b5e",
+  "hash": "8607d19541525f124588b83395825b53fca80fb7c3b80b45a4064fe118d96296"
+ },
+ {
+  "seq": 4615,
+  "at": "2026-11-04T22:54:58.900489Z",
+  "kind": "settled",
+  "ref": "6cd8da91ef844766a00c15171a7a0213",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "8607d19541525f124588b83395825b53fca80fb7c3b80b45a4064fe118d96296",
+  "hash": "786c5b3c1a07316ed6c72e3e7e24477afbda6a913861b88b24e963d1a3144198"
+ },
+ {
+  "seq": 4616,
+  "at": "2026-11-04T22:54:59.995590Z",
+  "kind": "reserved",
+  "ref": "57c62d25671845aabf0e80a1f6d06d9b",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "786c5b3c1a07316ed6c72e3e7e24477afbda6a913861b88b24e963d1a3144198",
+  "hash": "064605f9d9fca2e3c88c64d1d04c80affeebad444457d7486470108d3bdb32db"
+ },
+ {
+  "seq": 4617,
+  "at": "2026-11-04T22:55:00.008761Z",
+  "kind": "dispatched",
+  "ref": "57c62d25671845aabf0e80a1f6d06d9b",
+  "detail": {},
+  "prev_hash": "064605f9d9fca2e3c88c64d1d04c80affeebad444457d7486470108d3bdb32db",
+  "hash": "5a178d62c889eaeb85e7c37e843d9a2eafcc3e7021e7462ee5093e219284a7a2"
+ },
+ {
+  "seq": 4618,
+  "at": "2026-11-04T22:55:03.945587Z",
+  "kind": "settled",
+  "ref": "57c62d25671845aabf0e80a1f6d06d9b",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "5a178d62c889eaeb85e7c37e843d9a2eafcc3e7021e7462ee5093e219284a7a2",
+  "hash": "3e92f0e76f259391be56ec45ecc7744f6a154c7b08c76ea53e8094dda271907e"
+ },
+ {
+  "seq": 4619,
+  "at": "2026-11-04T22:55:04.898371Z",
+  "kind": "reserved",
+  "ref": "0c42d2d551324a13bb43c9ef64033b31",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "3e92f0e76f259391be56ec45ecc7744f6a154c7b08c76ea53e8094dda271907e",
+  "hash": "adaccc589a753c95852ade4562fff10685de7d07520e3bb038b927af0b26f11b"
+ },
+ {
+  "seq": 4620,
+  "at": "2026-11-04T22:55:04.921669Z",
+  "kind": "dispatched",
+  "ref": "0c42d2d551324a13bb43c9ef64033b31",
+  "detail": {},
+  "prev_hash": "adaccc589a753c95852ade4562fff10685de7d07520e3bb038b927af0b26f11b",
+  "hash": "161f7e71dcb635da6f98d3f10832074a54b18e1af1e5058e23ff9739e2c00c84"
+ },
+ {
+  "seq": 4621,
+  "at": "2026-11-04T22:55:07.899753Z",
+  "kind": "settled",
+  "ref": "0c42d2d551324a13bb43c9ef64033b31",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "161f7e71dcb635da6f98d3f10832074a54b18e1af1e5058e23ff9739e2c00c84",
+  "hash": "5d2fa5903e1fff66b802faef6ab50f55966edd080a13b267d7732ff44803c7ee"
+ },
+ {
+  "seq": 4622,
+  "at": "2026-11-04T22:55:08.880937Z",
+  "kind": "reserved",
+  "ref": "d624fb37ff8b4964bb63ec007244da03",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "5d2fa5903e1fff66b802faef6ab50f55966edd080a13b267d7732ff44803c7ee",
+  "hash": "45dde4c661d96c41989e2852478186e64288feb6f3cd1474a80d30f49e38366c"
+ },
+ {
+  "seq": 4623,
+  "at": "2026-11-04T22:55:08.896641Z",
+  "kind": "dispatched",
+  "ref": "d624fb37ff8b4964bb63ec007244da03",
+  "detail": {},
+  "prev_hash": "45dde4c661d96c41989e2852478186e64288feb6f3cd1474a80d30f49e38366c",
+  "hash": "4472794a0bf8b2f5f83bb5af9c0d55c9b78fd6be8d52943f34d7f0102608eaa1"
+ },
+ {
+  "seq": 4624,
+  "at": "2026-11-04T22:55:12.575993Z",
+  "kind": "settled",
+  "ref": "d624fb37ff8b4964bb63ec007244da03",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "4472794a0bf8b2f5f83bb5af9c0d55c9b78fd6be8d52943f34d7f0102608eaa1",
+  "hash": "4afaafa174c6ca25682fb07df48a92616f7b92a0ee2d7ed37ca8de645eef56b7"
+ },
+ {
+  "seq": 4625,
+  "at": "2026-11-04T22:55:13.534470Z",
+  "kind": "reserved",
+  "ref": "688cee13b1154415b3f93fc68f662d40",
+  "detail": {
+   "purpose": "product_detail (attempt 1)",
+   "stage": "W-L12-detail-canary-166-20261104",
+   "worst_results": 1,
+   "worst_usd": "0.001500"
+  },
+  "prev_hash": "4afaafa174c6ca25682fb07df48a92616f7b92a0ee2d7ed37ca8de645eef56b7",
+  "hash": "2cbe57458d0ff1d9d9b5ac15ff23a514888c36fcdff75065f41d3e8bc91cccd8"
+ },
+ {
+  "seq": 4626,
+  "at": "2026-11-04T22:55:13.549735Z",
+  "kind": "dispatched",
+  "ref": "688cee13b1154415b3f93fc68f662d40",
+  "detail": {},
+  "prev_hash": "2cbe57458d0ff1d9d9b5ac15ff23a514888c36fcdff75065f41d3e8bc91cccd8",
+  "hash": "419d9f480e2648af687c3623b2f95d7a1dccc37cb1b3aa146af3b8879cb8d564"
+ },
+ {
+  "seq": 4627,
+  "at": "2026-11-04T22:55:16.426765Z",
+  "kind": "settled",
+  "ref": "688cee13b1154415b3f93fc68f662d40",
+  "detail": {
+   "basis": "an answer with a page: one result at the reservation rate USD 0.0015 (the price page's highest non-AI row, a list price; not an invoice)",
+   "capture_sha256": null,
+   "http_status": 200,
+   "kind": "rule_estimate",
+   "provider_job_id": null,
+   "results": 1,
+   "usd": "0.001500"
+  },
+  "prev_hash": "419d9f480e2648af687c3623b2f95d7a1dccc37cb1b3aa146af3b8879cb8d564",
+  "hash": "54156daf4040d03f2919c74dc40e4ae4e03cb2a4d9b9aea797cd1e085377d86a"
+ },
+ {
+  "seq": 4628,
+  "at": "2026-11-04T22:59:45.513318Z",
+  "kind": "lease_released",
+  "ref": "27",
+  "detail": {
+   "reason": "step l12_run ended with exit code 0"
+  },
+  "prev_hash": "54156daf4040d03f2919c74dc40e4ae4e03cb2a4d9b9aea797cd1e085377d86a",
+  "hash": "bbf31ea060a8dd4be0ef6040be145baa37ed3d09d19259012e82e6be096c85ef"
+ },
+ {
+  "seq": 4629,
+  "at": "2026-11-04T23:03:49.894170Z",
+  "kind": "stage_closed",
+  "ref": "W-L12-detail-canary-166-20261104",
+  "detail": {
+   "outcome": "PASSED (the detail-on canary of the final release; the run itself is a rejected pilot, never published): run 01M6MC7YE4PBXV88G3PJ5ENW4B on release 1.6.6 (cbea802, the frozen Oxylabs edition ZIP 0859a2f6...), one worker, page 1 of Household Essentials' Fabric Softeners listing (/browse/household-essentials/fabric-softener/1115193_1071967_1630538, named with --subcategory). Store 3891 Pickup verified; the automated canary passed (40 of 40 records verified against the page); 40 fresh valid products; UPC 27 of 40 (17 from earlier reads of the products' own pages, reused at no request, and 10 product pages read live; the other 13 stopped by the pilot's 10-page budget and stay queued); size 39 of 40; the four deal fields empty in every row. Three of W2's never-read UPCs were read live (items 14561172064, 1398092439 and 14620357163); the fourth on this listing in L7 (20242472444) was not on page 1. validate-export: 10,301 of 10,301 records verified against their stored pages, 0 mismatches. Checks: G3 failed (incomplete collection: a pilot) and G14 (the readiness marker, non-blocking); every other gate passed. 13 submissions through the gate, all settled: 13 results, USD 0.0195 at the reserve rate; 0 unknown. Walmart's envelope keeps USD 0.003. Not the >=500-product demonstration, which stays BLOCKED_BUDGET."
+  },
+  "prev_hash": "bbf31ea060a8dd4be0ef6040be145baa37ed3d09d19259012e82e6be096c85ef",
+  "hash": "95651b72378066f458008164ea7c828ff56251ba4f4cf67b00d0830fb94aa294"
  }
 ]

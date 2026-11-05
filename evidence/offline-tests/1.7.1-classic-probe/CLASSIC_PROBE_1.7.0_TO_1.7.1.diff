@@ -1,0 +1,2360 @@
+diff --git a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+index c184059..373d0ad 100644
+--- a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
++++ b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+@@ -2,7 +2,7 @@
+ 
+ This is how a small Classic campaign could be run for Walmart and for Mariano's, once the account's owner has approved it.
+ 
+-This build (1.7.0) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrects the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5); the stages and their limits are unchanged.
++This build (1.7.1) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). The stages and their limits are unchanged.
+ 
+ None of it has been run. This build's live mode is disabled, and no request has been made to Oxylabs Classic. The limits below are the proposal sent to the client: they are a proposal, not an approval.
+ 
+@@ -23,7 +23,7 @@ None of it has been run. This build's live mode is disabled, and no request has
+ 
+ - 10 dispatched requests per retailer.
+ - 20 for both retailers. This includes any setup, authentication or qualification call, every retry and every restart.
+-- 30 minutes for the combined campaign from its first reservation, with the last 3 minutes kept for evidence export and cleanup.
++- 30 minutes for the combined campaign from its first reservation, with the last 3 minutes kept for evidence export and cleanup. Of those, the last 30 s are kept for a supervisor's recovery: the session's own ledger writes end before them (1.7.1).
+ - USD 5.00 of combined provider charges, less USD 0.50 of headroom for delayed or uncertain charges. Each retailer has USD 2.25, which is not borrowed.
+ - A request is reserved before it is sent, and its reservation stays until the owner records the charge read from the account (`confirm-charge`).
+ 
+diff --git a/headless/oxylabs-classic-probe/README.md b/headless/oxylabs-classic-probe/README.md
+index ff54417..346001c 100644
+--- a/headless/oxylabs-classic-probe/README.md
++++ b/headless/oxylabs-classic-probe/README.md
+@@ -1,4 +1,4 @@
+-# oxylabs-classic-probe 1.7.0
++# oxylabs-classic-probe 1.7.1
+ 
+ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper API (Realtime method). It holds three things:
+ 
+@@ -8,7 +8,14 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
+-Version 1.7.0 corrects the five findings of the client's second review (C1 to C5) in the shared layer: no redirect is followed and the credentials go only to the documented endpoint (C1); each exchange runs in its own worker process, killed and reaped at its deadline, with every body, header block and decompression bounded (C2); the ledger reads the clock under its write lock and checks the time and every stop again just before sending (C3); each answer is written to disk and indexed before the next paid step (C4); a backoff is a real wait, bounded by the deadline, and `Retry-After` is honoured up to 60 s (C5). The steps, the response checks and the limits are those of 1.6.0, and the Mariano's adapter is byte-for-byte unchanged.
++Version 1.7.1 completes two findings of the client's review that 1.7.0 described as corrected but had corrected only in part (C2 and C4). Each gap was first reproduced as a test that fails on 1.7.0 (`tests/test_c2_c4_reproduction.py`: 7 tests, all 7 failing on 1.7.0, all 7 passing on 1.7.1):
++
++- **C2, the deadline through recovery, export and cleanup.** In 1.7.0 a supervisor's recovery ran after the session's end with no bound of its own (a ledger lock held elsewhere kept it waiting 30 s, then it raised), the ledger writes after an answer waited up to 30 s for the lock whatever time was left, and a killed session that could not be reaped raised out of the supervisor with nothing recovered. Now the ledger writes after an answer (its index, its settlement, a retry's record, a stop) wait no longer than the session's write window, which ends 30 s before the session's end, and after one refusal of the lock the session does not wait for it again. The supervisor's kill, reap and recovery all end by the session's hard end: the recovery runs in its own process, its waits for the lock end by the same end, and a recovery still running then is killed. What a recovery could not do is listed (`completed`: false, and why). A row it could not mark keeps its money held for the next recovery; nothing is assumed.
++- **C4, evidence across crashes.** In 1.7.0 the transport deleted the worker's synced file as soon as it had read it, before the kept copy was written, so a crash between the two lost a paid answer; the evidence manifest was renamed into place without being synced; and a body cut at its deadline left no record. Now each answer is kept as received, privately, under its dispatch's number (`private/raw/dispatch_NNN.body` with its `.status.json`; never exported), synced and renamed durably (a write-through rename on Windows, a synced directory on Linux and macOS). A crash before the kept copy loses nothing: the recovery keeps the copy from those files, once the body matches the hash in its status, without a paid refetch. A body cut short is kept (`dispatch_NNN.partial`) and recorded once in the ledger (`PARTIAL_RESPONSE`, with its length and SHA-256), never as an answer. The evidence manifest is synced before it is renamed into place.
++
++The steps, the response checks, the payloads and the campaign limits are those of 1.7.0, live mode stays disabled, and the Mariano's adapter is byte-for-byte unchanged.
++
++Version 1.7.0 corrected the five findings of the client's second review (C1 to C5) in the shared layer, C2 and C4 only in part (above): no redirect is followed and the credentials go only to the documented endpoint (C1); each exchange runs in its own worker process, killed and reaped at its deadline, with every body, header block and decompression bounded (C2); the ledger reads the clock under its write lock and checks the time and every stop again just before sending (C3); each answer is written to disk and indexed before the next paid step (C4); a backoff is a real wait, bounded by the deadline, and `Retry-After` is honoured up to 60 s (C5). The steps, the response checks and the limits are those of 1.6.0, and the Mariano's adapter is byte-for-byte unchanged.
+ 
+ Version 1.6.0 added the **Mariano's** steps (Mariano's Vernon Hills, store 53100502, 1720 N Milwaukee Ave, Vernon Hills, IL 60061, Pickup) to the Walmart steps of 1.5.2. The Walmart steps, the response checks of the Walmart steps and the campaign limits are unchanged: both retailers run on the one shared ledger, with the same limits as the separately versioned Walmart probe 1.5.2 that ships in the Walmart package. That Walmart package is not modified by this release.
+ 
+@@ -20,6 +27,7 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ | Response checks: Walmart (store, fulfillment, identity, pagination, challenge, parser status) | **SYNTHETIC TEST**: tested against invented responses shaped like the documented envelope |
+ | Response checks: Mariano's (selected store and modality, the search's own store and modality, each price's store, identity, refusal) | **OFFLINE REPLAY**: tested on two real Mariano's pages (Vernon Hills, Pickup) that the Mariano's collector saved through the Oxylabs **Web API** on 2026-11-02, each wrapped in an invented Classic envelope. The pages are real; the Classic envelope is not |
+ | Shared ledger (10 per retailer, 20 total, 30 minutes, USD 5, headroom, deadline) | **SYNTHETIC TEST**: tested offline, including concurrent processes, crashes and both retailers on one ledger |
++| The deadline through recovery, export and cleanup; answers kept across crashes (C2, C4; 1.7.1) | **SYNTHETIC TEST**: tested offline with separate processes, a ledger lock held by another connection, killed sessions and a stub on 127.0.0.1. Not run against Oxylabs |
+ | A Classic request | **NOT TESTED**: none was made. That needs the account owner's credentials, entitlement, rates and approval |
+ | Listing pagination for Mariano's | **NOT AVAILABLE**: the documentation gives `marianos_search` no page parameter, so no second page is planned (see below) |
+ 
+@@ -68,7 +76,7 @@ These are the limits of the Walmart probe 1.5.2, unchanged.
+ | --- | --- | --- |
+ | Requests per retailer | 10, including setup, authentication or qualification calls, every retry and every restart | `Ledger.reserve`: the 11th is never reserved |
+ | Requests for both retailers | 20 | the same check, across both retailers |
+-| Campaign time | 30 minutes for the combined campaign, from its first reservation | each reservation must end before the end less 3 minutes kept for evidence export and cleanup |
++| Campaign time | 30 minutes for the combined campaign, from its first reservation | each reservation must end before the end less 3 minutes kept for evidence export and cleanup. Of those 3 minutes, the last 30 s are a supervisor's: the session's own ledger writes end before them (1.7.1) |
+ | Provider charges | USD 5.00 combined, less USD 0.50 of headroom for delayed or uncertain charges | each request reserves its worst-case charge. Each retailer's share is USD 2.25 and is not borrowed |
+ 
+ A request exists in the ledger before it is sent:
+@@ -115,6 +123,15 @@ What a Mariano's page shows is read from its own page state (`window.__INITIAL_S
+ 
+ A refusal page (the collector's challenge markers), a retailer status that is not 2xx, a page without page state, an empty first page or a page for another product stops the campaign, and nothing more is sent.
+ 
++## Evidence on disk (1.7.1)
++
++| Where, in the campaign's output folder | What | Exported |
++| --- | --- | --- |
++| `response_NNN.json.gz`, `response_NNN.meta.json` | each answer's kept copy (sanitized) and its record, indexed in the ledger | yes |
++| `campaign_evidence.json` | the session's own manifest, written from the durable index | yes |
++| `campaign_evidence.recovered.json` | the manifest of a supervisor's recovery, always marked incomplete | yes |
++| `private/raw/dispatch_NNN.body`, `.status.json`, `.partial` | each answer as received, the worker's status for it, or the part of a body that arrived | **no**: kept for the recovery and the account owner only, owner-only on Linux and macOS |
++
+ ## Files
+ 
+ | Path | What |
+diff --git a/headless/oxylabs-classic-probe/pyproject.toml b/headless/oxylabs-classic-probe/pyproject.toml
+index 9b52edd..476dbde 100644
+--- a/headless/oxylabs-classic-probe/pyproject.toml
++++ b/headless/oxylabs-classic-probe/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "oxylabs-classic-probe"
+-version = "1.7.0"
++version = "1.7.1"
+ description = "A small offline probe and request plan for the Oxylabs Classic Web Scraper API (Realtime): documented payloads, response checks and a durable shared campaign ledger. Its live mode is disabled."
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+index c57e015..e3678d3 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+@@ -3,4 +3,4 @@
+ Importing this package opens no connection and reads no credential.
+ """
+ 
+-__version__ = "1.7.0"
++__version__ = "1.7.1"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/campaign.py b/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
+index 44f368a..6626d9b 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
+@@ -27,13 +27,24 @@ replaces the reason the campaign stopped.
+ - C5: a backoff is a real wait (``time.sleep``) unless a test injects another, bounded by the deadline;
+   a ``Retry-After`` the provider sends is honoured, and a longer wait than :data:`MAX_RETRY_AFTER_S` ends the
+   step.
++
++1.7.1 (the client's review of 1.7.0):
++
++- C2: the session's deadline also bounds everything after the requests. The campaign binds it to the ledger,
++  so an answer's index and settlement, a retry's record and a stop wait for the ledger's lock no longer than
++  the session has left before the part of its end kept for a supervisor's recovery (deadline.py); a write that
++  cannot be made in time is left to that recovery, never waited for. The export indexes, checks and writes
++  only while that time lasts, and says what it did not reach;
++- C4: each request carries the dispatch's own name (``private/raw/dispatch_NNN``), where the worker keeps the
++  answer as received; a body cut short is recorded in the ledger (``PARTIAL_RESPONSE``) with its length and
++  SHA-256, never as an answer; the evidence manifest is written durably.
+ """
+ 
+ from __future__ import annotations
+ 
++import dataclasses
+ import hashlib
+ import json
+-import os
+ import time
+ from collections.abc import Callable, Mapping
+ from dataclasses import dataclass, field
+@@ -42,10 +53,10 @@ from decimal import Decimal
+ from pathlib import Path
+ from typing import Any
+ 
+-from classic_probe import checks, contract
++from classic_probe import checks, contract, durable
+ from classic_probe.captures import CaptureStore, kept_response, sanitize
+-from classic_probe.deadline import SessionClock, parse_retry_after
+-from classic_probe.ledger import BILLABLE, NOT_BILLED, Ledger, LimitReached
++from classic_probe.deadline import SessionClock, parse_retry_after, recovery_reserve
++from classic_probe.ledger import BILLABLE, NOT_BILLED, Ledger, LimitReached, LockNotObtained
+ from classic_probe.money import RateCard, UnknownRate
+ from classic_probe.stops import Stop
+ from classic_probe.targets import Target
+@@ -68,6 +79,7 @@ LOCK_WAIT_S = (
+     10.0  # 1.7.0 (C3): the most a reservation waits for the ledger's lock (less if less time is left)
+ )
+ EXPORT_CHECK_MIN_S = 5.0  # 1.7.0 (C4): captures are checked while at least this much of the session is left
++EXPORT_WRITE_MIN_S = 1.0  # 1.7.1 (C2): the manifest is written only while at least this much is left
+ 
+ 
+ @dataclass(frozen=True)
+@@ -91,6 +103,8 @@ class CampaignResult:
+     export_errors: list[str] = field(default_factory=list)
+     cleanup_errors: list[str] = field(default_factory=list)
+     out_dir: str = ""
++    # 1.7.1 (C2): ledger writes the session's time did not allow; a recovery makes them (never assumed)
++    ledger_errors: list[str] = field(default_factory=list)
+ 
+     def as_dict(self) -> dict[str, Any]:
+         return {
+@@ -101,6 +115,7 @@ class CampaignResult:
+             "steps": self.steps,
+             "export_errors": self.export_errors,
+             "cleanup_errors": self.cleanup_errors,
++            "ledger_errors": self.ledger_errors,
+             "out_dir": self.out_dir,
+         }
+ 
+@@ -184,6 +199,9 @@ class Campaign:
+         self.result = CampaignResult(ledger.campaign_id, target.retailer, out_dir=str(out_dir))
+         self.captures = CaptureStore(out_dir, target.retailer)
+         self._session: SessionClock | None = None
++        # 1.7.1 (C2): once the ledger's lock was not obtained in the session's time, no later write waits for
++        # it again; what is left to write is the recovery's (supervisor.py)
++        self._lock_refused: str | None = None
+ 
+     # -- one step --------------------------------------------------------------------------------------
+ 
+@@ -193,14 +211,29 @@ class Campaign:
+             ends = self.ledger.deadlines()
+             if ends is None:
+                 return None
++            export_reserve = float(self.ledger.limits.export_reserve_seconds)
+             self._session = SessionClock(
+                 ends[0],
+-                export_reserve_s=float(self.ledger.limits.export_reserve_seconds),
++                export_reserve_s=export_reserve,
+                 wall=self.clock,
+                 sleeper=self.sleep,
++                recovery_reserve_s=recovery_reserve(export_reserve),
+             )
++            # 1.7.1 (C2): from now on no ledger write waits past the part of the end kept for a recovery,
++            # and no read past the end itself.
++            self.ledger.bind_time_left(self._session.write_remaining, self._session.remaining)
+         return self._session
+ 
++    def _write_left(self) -> float:
++        """Seconds the session's own ledger writes may still use (1.7.1, C2)."""
++        session = self.session_clock()
++        return float("inf") if session is None else session.write_remaining()
++
++    def _end_left(self) -> float:
++        """Seconds until the session's end: its reads, its checks and its manifest end by then."""
++        session = self.session_clock()
++        return float("inf") if session is None else session.remaining()
++
+     def _seconds_left(self) -> float | None:
+         """Seconds a request or a wait may still use: the lesser of the wall clock's and the monotonic
+         clock's reading (a wall-clock jump never extends it)."""
+@@ -247,13 +280,15 @@ class Campaign:
+                 return None
+             sent: dict[str, Any] = {"seq": seq, "attempt": attempt, "reserved_usd": str(amount)}
+             record["attempts"].append(sent)
++            # 1.7.1 (C4): the worker keeps the answer under this dispatch's own name, privately.
++            request = dataclasses.replace(request, raw_stem=str(self.captures.raw_stem(seq)))
+             preflight = getattr(self.transport, "preflight", None)
+             if preflight is not None:
+                 try:
+                     preflight(request)
+                 except TransportFailed as exc:
+-                    self.ledger.release_unsent(seq, str(exc))
+                     sent["outcome"] = f"not sent: {exc}"
++                    self._ledger_write("release_unsent", self.ledger.release_unsent, seq, str(exc))
+                     self._stop(Stop.OPERATOR, f"{plan.step}: {exc}")
+                     return None
+             # The allowance again, after any wait for the ledger's lock, checked under the lock (C3).
+@@ -270,17 +305,42 @@ class Campaign:
+             try:
+                 response = self.transport.send(request, allowance)
+             except TransportFailed as exc:
+-                self.ledger.mark_unknown(seq, f"no answer: {exc}")
+                 sent["outcome"] = (
+                     "unknown: no answer; the request may have reached the provider and been charged"
+                 )
++                if exc.partial:
++                    # 1.7.1 (C4): what arrived is kept on disk and recorded, never as an answer.
++                    detail = {"seq": seq, "step": plan.step, **exc.partial, "complete": False}
++                    sent["partial"] = detail
++                    self._ledger_write(
++                        "the partial body's record",
++                        self.ledger.event,
++                        "PARTIAL_RESPONSE",
++                        json.dumps(detail, sort_keys=True),
++                    )
++                self._ledger_write("mark_unknown", self.ledger.mark_unknown, seq, f"no answer: {exc}")
+                 self._stop(Stop.IN_FLIGHT_UNKNOWN, f"{plan.step}: {exc}; its reservation stays")
+                 return None
+             # C4: the answer is kept on disk and indexed before anything else happens.
+             try:
+-                self.ledger.record_capture(seq, self.captures.persist(seq, plan.step, response))
++                capture = self.captures.persist(seq, plan.step, response)
++                self.ledger.record_capture(seq, capture)
++            except LockNotObtained as exc:
++                # 1.7.1 (C2): the kept copy is on disk; the session's time did not allow its index. A recovery
++                # indexes it; the row stays sent, its money held, and nothing more is sent.
++                sent["outcome"] = "answered and kept on disk; not indexed in the session's time"
++                self._lock_refused = str(exc)
++                self.result.ledger_errors.append(f"capture {seq}: {exc}")
++                self._stop(
++                    Stop.DEADLINE,
++                    f"{plan.step}: the answer is kept ({self.captures.data_name(seq)}), but the ledger "
++                    f"could not index it before the session's end ({exc}); a recovery indexes it",
++                )
++                return None
+             except Exception as exc:  # noqa: BLE001 - recorded; nothing more is sent
+-                self.ledger.settle(
++                self._ledger_write(
++                    "settle",
++                    self.ledger.settle,
+                     seq,
+                     billing=checks.provider(response).billing,
+                     estimated_usd=None,
+@@ -301,7 +361,9 @@ class Campaign:
+             if not ins.stop:
+                 ins = inspect(ins)
+             estimate = self._estimate(plan, ins)
+-            self.ledger.settle(
++            settled = self._ledger_write(
++                "settle",
++                self.ledger.settle,
+                 seq,
+                 billing=ins.billing,
+                 estimated_usd=estimate,
+@@ -322,6 +384,13 @@ class Campaign:
+                 outcome=(ins.stop.value if ins.stop else "ok"),
+                 detail=ins.detail,
+             )
++            if not settled:
++                self._stop(
++                    Stop.DEADLINE,
++                    f"{plan.step}: answered and indexed, but its settlement could not be recorded before the "
++                    "session's end; the row stays sent and is recovered as unknown",
++                )
++                return None
+             if ins.transient and attempt < self.max_attempts:
+                 wait = RETRY_WAIT_S.get(ins.provider_status, DEFAULT_RETRY_WAIT_S)
+                 headers = {k.lower(): v for k, v in response.headers.items()}
+@@ -341,11 +410,12 @@ class Campaign:
+                         Stop.DEADLINE, f"{plan.step}: a retry after {wait} s would end past the deadline"
+                     )
+                     return None
+-                self.ledger.event(
+-                    "RETRY",
+-                    f"{plan.step}: HTTP {ins.provider_status}, attempt {attempt + 1} in {wait} s"
+-                    + (f" (Retry-After {asked:.0f} s)" if asked is not None else ""),
+-                )
++                retry_note = f"{plan.step}: HTTP {ins.provider_status}, attempt {attempt + 1} in {wait} s"
++                if asked is not None:
++                    retry_note += f" (Retry-After {asked:.0f} s)"
++                if not self._ledger_write("the retry's record", self.ledger.event, "RETRY", retry_note):
++                    self._stop(Stop.DEADLINE, f"{plan.step}: no time left to record a retry; not retried")
++                    return None
+                 self.sleep(wait)
+                 continue
+             if ins.stop:
+@@ -371,15 +441,36 @@ class Campaign:
+         except KeyError:
+             return None
+ 
++    def _ledger_write(self, what: str, write: Callable[..., object], *args: Any, **kwargs: Any) -> bool:
++        """A ledger write after a request, bounded by the session's time (1.7.1, C2). When the lock is not
++        obtained in time, the write is left to a recovery and recorded here, and no later write of this
++        session waits for the lock again; False tells the caller."""
++        if self._lock_refused is not None:
++            self.result.ledger_errors.append(
++                f"{what}: not attempted, the ledger's lock was refused earlier ({self._lock_refused})"
++            )
++            return False
++        try:
++            write(*args, **kwargs)
++        except LockNotObtained as exc:
++            self._lock_refused = str(exc)
++            self.result.ledger_errors.append(f"{what}: {exc}")
++            return False
++        return True
++
+     def _stop(self, code: Stop, detail: str) -> None:
+         self.result.stop, self.result.detail = code.value, detail
+-        self.ledger.stop(code, detail, retailer=self.target.retailer)
++        self._ledger_write("stop", self.ledger.stop, code, detail, retailer=self.target.retailer)
+ 
+     # -- the sequence ----------------------------------------------------------------------------------
+ 
+     def run(self) -> CampaignResult:
+         try:
+             self._run()
++        except LockNotObtained as exc:  # 1.7.1 (C2): a write of a step's record, past the session's time
++            self._lock_refused = str(exc)
++            self.result.ledger_errors.append(str(exc))
++            self._stop(Stop.DEADLINE, f"the session's time ran out while recording its steps: {exc}")
+         finally:
+             self._export()
+         return self.result
+@@ -450,18 +541,17 @@ class Campaign:
+ 
+     def _export(self) -> None:
+         """Write the evidence from the durable capture index (C4), never from memory. A failure here is
+-        recorded beside the campaign's own stop and sends nothing. Captures are checked against their files
+-        while the session has time; the manifest says whether every one was (``complete``)."""
++        recorded beside the campaign's own stop and sends nothing. A kept copy the index lacks is indexed only
++        within the session's write window, captures are checked while 5 s of the session are left, and the
++        manifest, a local file, is written while 1 s is left (1.7.1, C2). It says whether every capture was
++        checked (``complete``) and lists what was not reached."""
+         try:
+             self.out_dir.mkdir(parents=True, exist_ok=True)
+-            recovery = self.captures.recover(self.ledger)
+-            session = self.session_clock()
+-
+-            def time_left() -> float:
+-                return float("inf") if session is None else session.remaining()
+-
++            recovery = self.captures.recover(
++                self.ledger, time_left=self._write_left, min_left_s=0.0, lock_refused=self._lock_refused
++            )
+             responses, checked = self.captures.verify(
+-                self.ledger, time_left=time_left, min_left_s=EXPORT_CHECK_MIN_S
++                self.ledger, time_left=self._end_left, min_left_s=EXPORT_CHECK_MIN_S
+             )
+             export = {
+                 "campaign_id": self.ledger.campaign_id,
+@@ -473,9 +563,14 @@ class Campaign:
+                 "events": self.ledger.events(),
+                 "result": self.result.as_dict(),
+                 "responses": responses,
+-                "complete": checked,
++                "complete": checked and not recovery["not_reached"],
+                 "capture_recovery": recovery,
+             }
++            if self._end_left() < EXPORT_WRITE_MIN_S:
++                raise TimeoutError(
++                    "no time was left to write the evidence manifest; a recovery writes it from the same "
++                    "index"
++                )
+             write_json(self.out_dir / "campaign_evidence.json", export)
+         except Exception as exc:  # noqa: BLE001 - recorded; the campaign's own outcome stands
+             self.result.export_errors.append(f"{type(exc).__name__}: {exc}")
+@@ -488,7 +583,6 @@ class Campaign:
+ 
+ 
+ def write_json(path: Path, data: Any) -> None:
+-    """``path`` holds the JSON whole or not at all (a ``.part`` file renamed into place; 1.7.0)."""
+-    part = path.with_name(path.name + ".part")
+-    part.write_bytes((json.dumps(data, indent=1, sort_keys=True, default=str) + "\n").encode("utf-8"))
+-    os.replace(part, path)
++    """``path`` holds the JSON whole or not at all: a ``.part`` file, synced and renamed into place durably
++    (1.7.0 renamed it without syncing it; 1.7.1, C4)."""
++    durable.write(path, (json.dumps(data, indent=1, sort_keys=True, default=str) + "\n").encode("utf-8"))
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/captures.py b/headless/oxylabs-classic-probe/src/classic_probe/captures.py
+index e5cf068..3a68768 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/captures.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/captures.py
+@@ -7,9 +7,20 @@ pair not yet indexed (indexed on recovery once its hash checks out). The evidenc
+ these files only, never the memory of a process, so it can be rebuilt after any crash.
+ 
+ The copy kept is sanitized: values under credential-like keys are replaced, and each raw page goes through the
+-retailer collector's own sanitizer. The response as received is never written; only its SHA-256 is kept
+-(private: it cannot be checked by a reader), beside the SHA-256 of the copy kept (public: anyone can check it
+-against the file), so the two are matched without publishing the original.
++retailer collector's own sanitizer. Its SHA-256 (public: anyone can check it against the file) is kept beside
++the SHA-256 of the response as received (private), so the two are matched without publishing the original.
++
++1.7.1 (the client's review of 1.7.0, finding C4):
++
++- the response as received is kept too, privately: the request worker writes it under the dispatch's own
++  number in ``private/raw/`` (``dispatch_NNN.body`` with ``dispatch_NNN.status.json``; owner-only on Linux and
++  macOS), synced and renamed durably, and nothing deletes it. It is never exported or published;
++- a crash after the answer arrived and before its kept copy was indexed loses nothing:
++  :meth:`CaptureStore.recover` keeps the copy from those files, once the body matches the hash in its status,
++  without a paid refetch. A body cut short (``dispatch_NNN.partial``) is recorded once in the ledger as a
++  ``PARTIAL_RESPONSE`` event (length, SHA-256, never complete) and never indexed as an answer;
++- every file is renamed into place durably (durable.py: a synced directory, or a write-through rename on
++  Windows), and the recovery stops when the session's time runs out, saying what it did not reach.
+ """
+ 
+ from __future__ import annotations
+@@ -17,13 +28,13 @@ from __future__ import annotations
+ import gzip
+ import hashlib
+ import json
+-import os
+ import re
+ import urllib.parse
+ from collections.abc import Callable, Mapping
+ from pathlib import Path
+ from typing import TYPE_CHECKING, Any
+ 
++from classic_probe import durable
+ from classic_probe.transport import ProviderResponse
+ 
+ if TYPE_CHECKING:
+@@ -95,19 +106,13 @@ def sha256(data: bytes) -> str:
+ 
+ 
+ def atomic_write(path: Path, data: bytes) -> None:
+-    """``path`` holds ``data`` whole or not at all: a ``.part`` file, flushed, synced, renamed into place."""
+-    part = path.with_name(path.name + ".part")
+-    with open(part, "wb") as fh:
+-        fh.write(data)
+-        fh.flush()
+-        os.fsync(fh.fileno())
+-    os.replace(part, path)
+-    if os.name == "posix":  # the rename itself made durable (a directory cannot be synced on Windows)
+-        fd = os.open(path.parent, os.O_RDONLY)
+-        try:
+-            os.fsync(fd)
+-        finally:
+-            os.close(fd)
++    """``path`` holds ``data`` whole or not at all: a ``.part`` file, flushed, synced and renamed into place
++    durably (1.7.1: a write-through rename on Windows, durable.py)."""
++    durable.write(path, data)
++
++
++def _never(_: Any = None) -> float:
++    return float("inf")
+ 
+ 
+ def _location(value: str | None) -> str | None:
+@@ -131,9 +136,20 @@ class CaptureStore:
+     def meta_name(self, seq: int) -> str:
+         return f"response_{seq:03d}.meta.json"
+ 
++    @property
++    def raw_dir(self) -> Path:
++        """The responses as received (1.7.1, C4): private, never exported."""
++        return self.directory / "private" / "raw"
++
++    def raw_stem(self, seq: int) -> Path:
++        """Where the request worker writes dispatch ``seq``'s answer: its stable name."""
++        return self.raw_dir / f"dispatch_{seq:03d}"
++
+     def persist(self, seq: int, step: str, response: ProviderResponse) -> dict[str, Any]:
+         """Write one answer's kept copy and metadata durably; returns the record to index."""
+-        self.directory.mkdir(parents=True, exist_ok=True)
++        if not self.directory.is_dir():
++            self.directory.mkdir(parents=True, exist_ok=True)
++            durable.sync_dir(self.directory.parent)
+         kept, pages = kept_response(response.body, self.retailer)
+         data = gzip.compress(kept, mtime=0)
+         record: dict[str, Any] = {
+@@ -161,33 +177,168 @@ class CaptureStore:
+         )
+         return record
+ 
+-    def recover(self, ledger: Ledger) -> dict[str, Any]:
+-        """After a crash: ``.part`` files are removed (never indexed, never evidence), and a complete pair the
+-        index lacks is indexed when its file matches its recorded hash."""
++    def recover(
++        self,
++        ledger: Ledger,
++        *,
++        time_left: Callable[[], float] = _never,
++        min_left_s: float = 0.0,
++        lock_refused: str | None = None,
++    ) -> dict[str, Any]:
++        """After a crash, in this order and while ``time_left()`` stays above ``min_left_s`` (1.7.1, C2):
++
++        1. ``.part`` files of kept copies are removed (never indexed, never evidence);
++        2. a complete kept copy the index lacks is indexed when its file matches its recorded hash;
++        3. an answer the worker wrote whole (``private/raw/dispatch_NNN.body`` and its status) that has no
++           kept copy gets one, and is indexed: an answer that reached the disk is never lost or fetched again;
++        4. a partial body is recorded once as a ``PARTIAL_RESPONSE`` event, never indexed.
++
++        What the time did not allow, or the ledger's lock refused, is listed (``not_reached``) and left as it
++        is for the next recovery: nothing is assumed. ``lock_refused`` (why) says the lock was already refused
++        in this session's time: no write waits for it again."""
++        from classic_probe.ledger import LockNotObtained
++
++        out: dict[str, Any] = {
++            "part_files_removed": [],
++            "indexed_on_recovery": [],
++            "kept_from_raw": [],
++            "partial_recorded": [],
++            "refused": [],
++            "not_reached": [],
++        }
+         if not self.directory.is_dir():
+-            return {"part_files_removed": [], "indexed_on_recovery": [], "refused": []}
+-        removed = []
++            return out
++
++        def time_up(what: str) -> bool:
++            if time_left() > min_left_s:
++                return False
++            out["not_reached"].append({"what": what, "why": "the session's time ran out"})
++            return True
++
+         for part in sorted(self.directory.glob("response_*.part")):
+             part.unlink()
+-            removed.append(part.name)
++            out["part_files_removed"].append(part.name)
+         indexed = {int(c["seq"]) for c in ledger.captures()}
+-        known = {int(r["seq"]) for r in ledger.rows()}
+-        added: list[int] = []
+-        refused: list[dict[str, Any]] = []
++        rows = {int(r["seq"]): r for r in ledger.rows()}
++        locked = lock_refused is not None
++
++        def index(seq: int, record: dict[str, Any], what: str) -> bool:
++            nonlocal locked
++            if locked or time_up(what):
++                if locked:
++                    why = (
++                        f"the ledger's write lock: {lock_refused}"
++                        if lock_refused
++                        else "the ledger's write lock"
++                    )
++                    out["not_reached"].append({"what": what, "why": why + " (not waited for again)"})
++                return False
++            try:
++                ledger.record_capture(seq, record)
++            except LockNotObtained as exc:
++                locked = True
++                out["not_reached"].append({"what": what, "why": f"the ledger's write lock: {exc}"})
++                return False
++            indexed.add(seq)
++            return True
++
+         for meta in sorted(self.directory.glob("response_*.meta.json")):
+             record = json.loads(meta.read_text(encoding="utf-8"))
+             seq = int(record["seq"])
+             if seq in indexed:
+                 continue
+             path = self.directory / str(record["file"])
+-            if seq not in known:
+-                refused.append({"file": meta.name, "why": "no dispatch of this number in the ledger"})
++            if seq not in rows:
++                out["refused"].append({"file": meta.name, "why": "no dispatch of this number in the ledger"})
+             elif not path.is_file() or sha256(path.read_bytes()) != record["detail"]["file_sha256"]:
+-                refused.append({"file": meta.name, "why": "its data file is missing or does not match"})
+-            else:
+-                ledger.record_capture(seq, record)
+-                added.append(seq)
+-        return {"part_files_removed": removed, "indexed_on_recovery": added, "refused": refused}
++                out["refused"].append(
++                    {"file": meta.name, "why": "its data file is missing or does not match"}
++                )
++            elif index(seq, record, meta.name):
++                out["indexed_on_recovery"].append(seq)
++
++        raw = self.raw_dir
++        if raw.is_dir():
++            for status_file in sorted(raw.glob("dispatch_*.status.json")):
++                seq = int(status_file.name.split("_", 1)[1].split(".", 1)[0])
++                try:
++                    status = json.loads(status_file.read_text(encoding="utf-8"))
++                except ValueError:
++                    out["refused"].append({"file": status_file.name, "why": "its status cannot be read"})
++                    continue
++                if not status.get("ok") or seq in indexed:
++                    continue
++                if seq not in rows:
++                    out["refused"].append({"file": status_file.name, "why": "no dispatch of this number"})
++                    continue
++                stem = self.raw_stem(seq)
++                body_path = stem.with_name(stem.name + ".body")
++                part = stem.with_name(stem.name + ".body.part")
++                if not body_path.is_file() and part.is_file():
++                    body_path = part  # the crash came between the status and the body's final rename
++                if not body_path.is_file():
++                    out["refused"].append({"file": status_file.name, "why": "its body is missing"})
++                    continue
++                if time_up(body_path.name):
++                    break
++                body = body_path.read_bytes()
++                if sha256(body) != status.get("sha256"):
++                    out["refused"].append(
++                        {"file": body_path.name, "why": "its body does not match its status"}
++                    )
++                    continue
++                if body_path == part:
++                    durable.replace(part, stem.with_name(stem.name + ".body"))
++                response = ProviderResponse(
++                    int(status["status"]),
++                    body,
++                    {str(k): str(v) for k, v in status.get("headers") or []},
++                    truncated=bool(status.get("truncated")),
++                    redirect_location=status.get("redirect_location"),
++                    elapsed_s=float(status.get("elapsed_s") or 0.0),
++                )
++                record = self.persist(seq, str(rows[seq]["step"]), response)
++                if index(seq, record, body_path.name):
++                    out["indexed_on_recovery"].append(seq)
++                    out["kept_from_raw"].append(seq)
++
++            recorded = set()
++            for e in ledger.events():
++                if e["kind"] == "PARTIAL_RESPONSE":
++                    try:
++                        recorded.add(int(json.loads(e["detail"])["seq"]))
++                    except (ValueError, KeyError, TypeError):
++                        continue
++            for partial in sorted(raw.glob("dispatch_*.partial")):
++                seq = int(partial.name.split("_", 1)[1].split(".", 1)[0])
++                if seq in recorded or seq in indexed:
++                    continue
++                if locked:
++                    out["not_reached"].append(
++                        {"what": partial.name, "why": "the ledger's write lock (not waited for again)"}
++                    )
++                    continue
++                if time_up(partial.name):
++                    break
++                data = partial.read_bytes()
++                detail = {
++                    "seq": seq,
++                    "bytes": len(data),
++                    "sha256": sha256(data),
++                    "file": partial.name,
++                    "complete": False,
++                    "found": "at a recovery",
++                }
++                try:
++                    ledger.event("PARTIAL_RESPONSE", json.dumps(detail, sort_keys=True))
++                except LockNotObtained as exc:
++                    locked = True
++                    out["not_reached"].append(
++                        {"what": partial.name, "why": f"the ledger's write lock: {exc}"}
++                    )
++                    break
++                out["partial_recorded"].append(seq)
++        return out
+ 
+     def verify(
+         self, ledger: Ledger, *, time_left: Callable[[], float], min_left_s: float
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/deadline.py b/headless/oxylabs-classic-probe/src/classic_probe/deadline.py
+index 10314d8..25f73c0 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/deadline.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/deadline.py
+@@ -1,9 +1,20 @@
+-"""One session deadline for everything a campaign does (1.7.0, findings C2, C3 and C5).
++"""One session deadline for everything a campaign does (1.7.0, findings C2, C3 and C5; 1.7.1, C2).
+ 
+ The deadline is durable: it is derived from the campaign's start recorded once in the ledger, so a restart
+ never grants a new window. Inside a process it is held on the monotonic clock (a wall-clock jump cannot
+ extend it), and the ledger checks the wall clock again under its write lock. Every wait (lock, request,
+ backoff) is clamped to the time left before the reserve kept for export and cleanup.
++
++1.7.1: the same deadline also bounds what follows the requests. The end of the session is split in three:
++
++- until ``end - export_reserve``: requests, their lock waits and backoffs
++  (:meth:`SessionClock.dispatch_remaining`);
++- until ``end - recovery_reserve``: the session's own ledger writes (an answer's index and settlement, a
++  stop, the export's index of a kept copy; :meth:`SessionClock.write_remaining`). After that, the ledger is
++  left to a supervisor's recovery, which never has to wait for the session's writes;
++- until ``end``: the session's reads of the ledger and of its own files (the export checks each capture while
++  5 s are left and writes its manifest, a local file, while 1 s is left), and a supervisor's recovery after it
++  kills a session that did not end in time (supervisor.py), in a file of its own.
+ """
+ 
+ from __future__ import annotations
+@@ -12,6 +23,13 @@ import time
+ from collections.abc import Callable
+ from datetime import UTC, datetime
+ 
++RECOVERY_RESERVE_S = 30.0  # 1.7.1 (C2): at most this much of the end is kept for a supervisor's recovery
++
++
++def recovery_reserve(export_reserve_s: float) -> float:
++    """The last part of the export reserve, kept for a recovery after a kill: 30 s, or a third if less."""
++    return max(0.0, min(RECOVERY_RESERVE_S, export_reserve_s / 3))
++
+ 
+ class DeadlinePassed(RuntimeError):
+     """No time is left for this step: nothing was started."""
+@@ -26,11 +44,13 @@ class SessionClock:
+         wall: Callable[[], datetime] | None = None,
+         monotonic: Callable[[], float] = time.monotonic,
+         sleeper: Callable[[float], None] = time.sleep,
++        recovery_reserve_s: float = 0.0,
+     ) -> None:
+         self.wall = wall or (lambda: datetime.now(UTC))
+         self.monotonic = monotonic
+         self.sleeper = sleeper  # the real sleep unless a test injects a fake one (C5)
+         self.export_reserve_s = export_reserve_s
++        self.recovery_reserve_s = recovery_reserve_s
+         self.end_wall = end_wall
+         self._end_mono = monotonic() + (end_wall - self.wall()).total_seconds()
+ 
+@@ -42,6 +62,11 @@ class SessionClock:
+         """Seconds a request, a lock wait or a backoff may still use: the end less the export reserve."""
+         return self.remaining() - self.export_reserve_s
+ 
++    def write_remaining(self) -> float:
++        """Seconds the session's own ledger writes may still use (1.7.1, C2): the end less the part kept for a
++        supervisor's recovery."""
++        return self.remaining() - self.recovery_reserve_s
++
+     def allowance(self, cap_s: float) -> float:
+         """A request's whole allowance (connect, read and decode), clamped; raises when none is left."""
+         left = min(cap_s, self.dispatch_remaining())
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/durable.py b/headless/oxylabs-classic-probe/src/classic_probe/durable.py
+new file mode 100644
+index 0000000..4afbae8
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/src/classic_probe/durable.py
+@@ -0,0 +1,72 @@
++"""Files that survive a crash (1.7.1, finding C4).
++
++A file is written whole or not at all: the bytes go to a ``.part`` file that is flushed and synced, and the
++``.part`` file is then renamed into place in a way that is itself durable. On Linux and macOS the rename is
++made durable by syncing the directory. On Windows a directory cannot be synced: the rename is made with
++``MoveFileExW(..., MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)``, which returns only once the move is
++on the disk.
++
++A private file is created readable and writable by its owner only (mode 0600, in a 0700 directory) on Linux
++and macOS. On Windows a new file takes the access rules of its folder, which for the probe's working folders
++is the user's own profile; nothing here widens them.
++"""
++
++from __future__ import annotations
++
++import os
++import sys
++from pathlib import Path
++
++MOVEFILE_REPLACE_EXISTING = 0x1
++MOVEFILE_WRITE_THROUGH = 0x8
++
++
++def private_dir(path: Path) -> Path:
++    """``path`` made if missing, private to its owner on Linux and macOS."""
++    path.mkdir(parents=True, exist_ok=True, mode=0o700)
++    if os.name == "posix":
++        os.chmod(path, 0o700)
++    return path
++
++
++def sync_dir(path: Path) -> None:
++    """Make a rename or a new entry in ``path`` durable (Linux and macOS; nothing to do on Windows)."""
++    if os.name != "posix":
++        return
++    fd = os.open(path, os.O_RDONLY)
++    try:
++        os.fsync(fd)
++    finally:
++        os.close(fd)
++
++
++def replace(src: Path, dst: Path) -> None:
++    """Rename ``src`` to ``dst`` (replacing it), durably."""
++    if sys.platform == "win32":
++        import ctypes
++
++        kernel32 = ctypes.windll.kernel32  # looked up at each call: the tests patch it
++        ok = kernel32.MoveFileExW(
++            os.fspath(src), os.fspath(dst), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH
++        )
++        if not ok:
++            raise ctypes.WinError()
++        return
++    os.replace(src, dst)
++    sync_dir(dst.parent)
++
++
++def write(path: Path, data: bytes, *, private: bool = False) -> None:
++    """``path`` holds ``data`` whole or not at all, durably."""
++    part = path.with_name(path.name + ".part")
++    flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC | getattr(os, "O_BINARY", 0)
++    fd = os.open(part, flags, 0o600 if private else 0o644)
++    try:
++        view = memoryview(data)
++        while view:
++            written = os.write(fd, view)
++            view = view[written:]
++        os.fsync(fd)
++    finally:
++        os.close(fd)
++    replace(part, path)
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/ledger.py b/headless/oxylabs-classic-probe/src/classic_probe/ledger.py
+index 4329e61..aa0e9c5 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/ledger.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/ledger.py
+@@ -31,6 +31,11 @@ ledger
+ * each answer is indexed in the ``capture`` table (finding C4) before the next paid step: the kept file, the
+   hash of the response as received (private) and of the copy kept (public). A capture row is never changed or
+   deleted.
++
++1.7.1 (finding C2): a session binds its deadline to the ledger (:meth:`Ledger.bind_time_left`). From then on
++every write waits for the lock no longer than the session has left, and a write with no time left is not
++attempted (:class:`LockNotObtained`, nothing written); a read waits no longer either. A row a write could not
++update stays as it was (``reserved`` or ``sent``) and is recovered as unknown, its money held.
+ """
+ 
+ from __future__ import annotations
+@@ -266,6 +271,16 @@ class Ledger:
+         self.path = path
+         self.conn = conn
+         self.clock = clock
++        self.time_left: Callable[[], float] | None = None  # 1.7.1 (C2): the session's, once bound
++        self.read_time_left: Callable[[], float] | None = None
++
++    def bind_time_left(
++        self, time_left: Callable[[], float] | None, read_time_left: Callable[[], float] | None = None
++    ) -> None:
++        """Bound every later lock wait, for writes and reads, by the seconds ``time_left()`` returns (1.7.1,
++        C2). Reads are bounded by ``read_time_left`` when given (the session's true end), else by the same."""
++        self.time_left = time_left
++        self.read_time_left = time_left if read_time_left is None else read_time_left
+ 
+     # -- creating and opening --------------------------------------------------------------------------
+ 
+@@ -303,14 +318,19 @@ class Ledger:
+         campaign_id: str,
+         genesis_id: str,
+         clock: Clock = utc_now,
++        time_left: Callable[[], float] | None = None,
+     ) -> Ledger:
+-        """Connect to the campaign's ledger. It is never created here: see the module docstring."""
++        """Connect to the campaign's ledger. It is never created here: see the module docstring. With
++        ``time_left``, every wait for the lock, from these first reads on, is bounded by it (1.7.1, C2)."""
+         _refuse_network_path(path)
+         if not path.is_file():
+             raise LedgerRefused(
+                 f"no ledger at {path}: this execution is not connected to the campaign's ledger"
+             )
+         ledger = cls(path, cls._connect(path), clock)
++        if time_left is not None:
++            ledger.bind_time_left(time_left)
++            ledger._read_wait()
+         try:
+             row = ledger.conn.execute("SELECT campaign_id, genesis_id, host FROM campaign").fetchone()
+         except sqlite3.DatabaseError:
+@@ -348,11 +368,29 @@ class Ledger:
+     def close(self) -> None:
+         self.conn.close()
+ 
++    def _bounded(self, wait: float) -> float:
++        """``wait`` clamped to the time the session has left (1.7.1, C2); 0 when none is left."""
++        if self.time_left is None:
++            return wait
++        return max(0.0, min(wait, self.time_left()))
++
++    def _read_wait(self) -> None:
++        """A read waits for a writer no longer than the session has left (1.7.1, C2)."""
++        if self.read_time_left is not None:
++            wait = max(0.0, min(DEFAULT_LOCK_WAIT_S, self.read_time_left()))
++            self.conn.execute(f"PRAGMA busy_timeout = {int(wait * 1000)}")
++
+     @contextmanager
+     def _write(self, lock_wait_s: float | None = None) -> Iterator[None]:
+-        """One write transaction. The wait for the lock is bounded by ``lock_wait_s`` (1.7.0, C3): a lock
+-        not obtained in time raises :class:`LockNotObtained` and nothing was written."""
++        """One write transaction. The wait for the lock is bounded by ``lock_wait_s`` (1.7.0, C3) and by the
++        session's time left (1.7.1, C2): a lock not obtained in time raises :class:`LockNotObtained`, and with
++        no time left nothing is attempted. Either way nothing was written."""
+         wait = DEFAULT_LOCK_WAIT_S if lock_wait_s is None else max(0.0, min(lock_wait_s, DEFAULT_LOCK_WAIT_S))
++        if self.time_left is not None:
++            left = self.time_left()
++            if left <= 0:
++                raise LockNotObtained("no time is left before the session's end: nothing was written")
++            wait = min(wait, left)
+         self.conn.execute(f"PRAGMA busy_timeout = {int(wait * 1000)}")
+         try:
+             self.conn.execute("BEGIN IMMEDIATE")
+@@ -372,6 +410,7 @@ class Ledger:
+     # -- reading ---------------------------------------------------------------------------------------
+ 
+     def _campaign(self, *fields: str) -> tuple[Any, ...]:
++        self._read_wait()
+         row = self.conn.execute(f"SELECT {', '.join(fields)} FROM campaign").fetchone()
+         assert row is not None
+         return tuple(row)
+@@ -397,6 +436,7 @@ class Ledger:
+         return (str(code), str(detail)) if code else None
+ 
+     def retailer_stopped(self, retailer: str) -> tuple[str, str] | None:
++        self._read_wait()
+         row = self.conn.execute(
+             "SELECT stop_code, stop_detail FROM retailer_stop WHERE retailer = ?", (retailer,)
+         ).fetchone()
+@@ -412,11 +452,13 @@ class Ledger:
+         return end, end - timedelta(seconds=limits.export_reserve_seconds)
+ 
+     def rows(self) -> list[dict[str, Any]]:
++        self._read_wait()
+         cur = self.conn.execute("SELECT * FROM dispatch ORDER BY seq")
+         names = [d[0] for d in cur.description]
+         return [dict(zip(names, row, strict=True)) for row in cur.fetchall()]
+ 
+     def events(self) -> list[dict[str, Any]]:
++        self._read_wait()
+         cur = self.conn.execute("SELECT * FROM event ORDER BY seq")
+         names = [d[0] for d in cur.description]
+         return [dict(zip(names, row, strict=True)) for row in cur.fetchall()]
+@@ -673,6 +715,7 @@ class Ledger:
+             )
+ 
+     def captures(self) -> list[dict[str, Any]]:
++        self._read_wait()
+         cur = self.conn.execute("SELECT * FROM capture ORDER BY seq")
+         names = [d[0] for d in cur.description]
+         out = []
+@@ -794,7 +837,9 @@ def write_manifest(path: Path, ledger: Ledger) -> None:
+     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+ 
+ 
+-def open_from_manifest(path: Path, clock: Clock = utc_now) -> Ledger:
++def open_from_manifest(
++    path: Path, clock: Clock = utc_now, *, time_left: Callable[[], float] | None = None
++) -> Ledger:
+     if not path.is_file():
+         raise LedgerRefused(f"no campaign manifest at {path}: run campaign-init once for the whole campaign")
+     data = json.loads(path.read_text(encoding="utf-8"))
+@@ -803,4 +848,5 @@ def open_from_manifest(path: Path, clock: Clock = utc_now) -> Ledger:
+         campaign_id=str(data["campaign_id"]),
+         genesis_id=str(data["ledger_genesis_id"]),
+         clock=clock,
++        time_left=time_left,
+     )
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/networker.py b/headless/oxylabs-classic-probe/src/classic_probe/networker.py
+index 59a72ab..2c86400 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/networker.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/networker.py
+@@ -11,6 +11,18 @@ argument or the environment) and kills and reaps it at the request's deadline. T
+   every status (success and error alike): a large or endless body is cut, reported as truncated, never kept
+   whole;
+ - writes the bytes it read to a private ``.part`` file, flushed and synced, and prints one JSON status line.
++
++1.7.1 (finding C4): the files are named by the dispatch's number in the ledger (``dispatch_NNN``), given by
++the campaign, and nothing received is deleted:
++
++- a whole answer: its status (HTTP status, headers, length, SHA-256) is written durably to
++  ``dispatch_NNN.status.json``, then the body is renamed, durably, to ``dispatch_NNN.body``. A crash at any
++  point leaves either nothing, a body still named ``.part`` (with or without its status), or both files: the
++  recovery keeps an answer whose body matches its status, without a paid refetch (captures.py);
++- a body cut by the deadline or an error: the bytes that arrived are synced and renamed to
++  ``dispatch_NNN.partial``, and the status says how many there were and their SHA-256, never that the answer
++  is complete;
++- reads use ``read1``, so a slow body is recorded up to the last byte that arrived.
+ """
+ 
+ from __future__ import annotations
+@@ -23,13 +35,34 @@ import os
+ import ssl
+ import sys
+ import time
++from pathlib import Path
+ from typing import Any
+ 
+-from classic_probe import contract, gates
++from classic_probe import contract, durable, gates
+ 
+ CHUNK = 65536
+ 
+ 
++def _open_private(path: str) -> int:
++    flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC | getattr(os, "O_BINARY", 0)
++    return os.open(path, flags, 0o600)
++
++
++def _write_all(fd: int, data: bytes) -> None:
++    view = memoryview(data)
++    while view:
++        view = view[os.write(fd, view) :]
++
++
++def _status_file(spec: dict[str, Any], status: dict[str, Any]) -> dict[str, Any]:
++    """The status, also written durably beside the body (1.7.1): a supervisor that dies loses the worker's
++    output, not this file."""
++    path = spec.get("status_path")
++    if path:
++        durable.write(Path(path), (json.dumps(status, sort_keys=True) + "\n").encode("utf-8"), private=True)
++    return status
++
++
+ def _allowed(spec: dict[str, Any]) -> str | None:
+     """None if this worker may connect; else why not."""
+     scheme, host, port = spec["scheme"], spec["host"], int(spec["port"])
+@@ -50,13 +83,13 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+     deadline = t0 + float(spec["allowance_s"])
+     refused = _allowed(spec)
+     if refused:
+-        return {"ok": False, "error": "Refused", "detail": refused, "sent": False}
++        return _status_file(spec, {"ok": False, "error": "Refused", "detail": refused, "sent": False})
+ 
+     def left() -> float:
+         return deadline - time.monotonic()
+ 
+     if left() <= 0:
+-        return {"ok": False, "error": "DeadlinePassed", "sent": False}
++        return _status_file(spec, {"ok": False, "error": "DeadlinePassed", "sent": False})
+     conn: http.client.HTTPConnection
+     if spec["scheme"] == "https":
+         conn = http.client.HTTPSConnection(
+@@ -74,41 +107,61 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+     sent: bool | None = False
+     out_path = spec["out_path"]
+     max_body = int(spec["max_body_bytes"])
++    fd: int | None = None
++    total, truncated = 0, False
++    digest = hashlib.sha256()
++    http_status: int | None = None
++
++    def partial(error: str) -> dict[str, Any]:
++        """What arrived before ``error``, kept and described, never called complete (1.7.1, C4)."""
++        nonlocal fd
++        status: dict[str, Any] = {"ok": False, "error": error, "sent": sent, "http_status": http_status}
++        if fd is not None:
++            os.fsync(fd)
++            os.close(fd)
++            fd = None
++            if total and spec.get("partial_path"):
++                durable.replace(Path(out_path), Path(spec["partial_path"]))
++                status.update(partial_bytes=total, partial_sha256=digest.hexdigest(), partial_file=True)
++            else:
++                os.unlink(out_path)  # nothing arrived: an empty file is not evidence
++        return _status_file(spec, status)
++
+     try:
+         body = base64.b64decode(spec["body_b64"]) if spec.get("body_b64") else None
+         conn.connect()
+         if left() <= 0:
+-            return {"ok": False, "error": "DeadlinePassed", "sent": False}
++            return _status_file(spec, {"ok": False, "error": "DeadlinePassed", "sent": False})
+         sent = None
+         conn.request(spec["method"], spec["path"], body=body, headers=spec["headers"])
+         sent = True
+         if conn.sock is not None:
+             conn.sock.settimeout(max(0.05, left()))
+         resp = conn.getresponse()
++        http_status = resp.status
+         headers = [(k, v) for k, v in resp.getheaders() if k.lower() != "set-cookie"]
+         header_bytes = sum(len(k) + len(v) for k, v in headers)
+-        total, truncated = 0, False
+-        digest = hashlib.sha256()
+-        with open(out_path, "wb") as fh:
+-            while True:
+-                if left() <= 0:
+-                    return {"ok": False, "error": "DeadlinePassed", "sent": True, "partial_bytes": total}
+-                if conn.sock is not None:
+-                    conn.sock.settimeout(max(0.05, left()))
+-                chunk = resp.read(min(CHUNK, max_body + 1 - total))
+-                if not chunk:
+-                    break
+-                if total + len(chunk) > max_body:
+-                    chunk = chunk[: max_body - total]
+-                    truncated = True
+-                fh.write(chunk)
+-                digest.update(chunk)
+-                total += len(chunk)
+-                if truncated:
+-                    break
+-            fh.flush()
+-            os.fsync(fh.fileno())
+-        return {
++        fd = _open_private(out_path)
++        while True:
++            if left() <= 0:
++                return partial("DeadlinePassed")
++            if conn.sock is not None:
++                conn.sock.settimeout(max(0.05, left()))
++            chunk = resp.read1(min(CHUNK, max_body + 1 - total))
++            if not chunk:
++                break
++            if total + len(chunk) > max_body:
++                chunk = chunk[: max_body - total]
++                truncated = True
++            _write_all(fd, chunk)
++            digest.update(chunk)
++            total += len(chunk)
++            if truncated:
++                break
++        os.fsync(fd)
++        os.close(fd)
++        fd = None
++        status = {
+             "ok": True,
+             "status": resp.status,
+             "reason": resp.reason,
+@@ -122,9 +175,17 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+             if 300 <= resp.status < 400
+             else None,
+         }
++        # The status first (it names the body's hash), then the body under its final name: a crash between
++        # the two leaves a body still named .part that its status describes (the recovery checks the hash).
++        _status_file(spec, status)
++        if spec.get("final_path"):
++            durable.replace(Path(out_path), Path(spec["final_path"]))
++        return status
+     except Exception as exc:  # noqa: BLE001 - reported to the supervisor; no credential is in the message
+-        return {"ok": False, "error": type(exc).__name__, "sent": sent}
++        return partial(type(exc).__name__)
+     finally:
++        if fd is not None:
++            os.close(fd)
+         conn.close()
+ 
+ 
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+index 9741f1c..4c56a16 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+@@ -1,21 +1,41 @@
+-"""The outer bound of a whole session (1.7.0, finding C2).
++"""The outer bound of a whole session (1.7.0, finding C2; corrected in 1.7.1).
+ 
+ A request's worker is killed and reaped at the request's own deadline (transport.py). This module bounds the
+ rest: a campaign session runs in its own process, and the supervisor kills it, with every process it started,
+-at the session's hard end, reaps it, and then recovers in its own process. Rows the session left reserved or
+-sent are kept as unknown (``Ledger.recover``: their reservations stay held), capture files are indexed or
+-removed (``CaptureStore.recover``), and an evidence manifest marked incomplete is written from the durable
+-index. A wedged lock, a hung export or a stuck worker therefore cannot hold a session open past its end.
++reaps it, and then recovers in its own process. Rows the session left reserved or sent are kept as unknown
++(``Ledger.recover``: their reservations stay held), capture files are indexed or removed
++(``CaptureStore.recover``), and an evidence manifest marked incomplete is written from the durable index.
++
++1.7.1 (the client's review of 1.7.0, finding C2): in 1.7.0 the recovery ran after the session's end with no
++bound of its own: a ledger lock held elsewhere kept it waiting 30 s and then raised, and a killed session that
++could not be reaped raised out of the supervisor with nothing recovered. Now the supervisor's whole run ends
++by the session's hard end:
++
++- the session's command runs until the hard end less a reserve kept for the recovery
++  (:func:`classic_probe.deadline.recovery_reserve`: a third of a short session, 30 s at most);
++- its kill and its reap are each bounded by the time left. A process that has not gone when its reap's time
++  runs out is recorded (``reaped``: False), and the recovery still runs;
++- the recovery runs in its own process, which the supervisor kills if it is still running at the hard end.
++  Inside it, every wait for the ledger's lock is bounded by the same end (``Ledger.bind_time_left``), so a
++  lock held elsewhere ends the recovery's ledger writes, not the recovery: it writes the manifest of what it
++  found and says what it could not do (``completed``: False, and why). A row it could not mark stays as the
++  session left it, its money held, for the next recovery to mark. Nothing is assumed.
++
++The supervisor is the bound for a future approved live session. This build's live mode stays disabled: the
++tests run it against a stub on 127.0.0.1 only.
+ """
+ 
+ from __future__ import annotations
+ 
++import argparse
++import json
+ import os
+ import signal
++import sqlite3
+ import subprocess
+ import sys
+ import time
+-from collections.abc import Mapping, Sequence
++from collections.abc import Callable, Mapping, Sequence
+ from dataclasses import dataclass, field
+ from pathlib import Path
+ from typing import Any
+@@ -23,8 +43,15 @@ from typing import Any
+ from classic_probe import ledger as ledger_mod
+ from classic_probe.campaign import write_json
+ from classic_probe.captures import CaptureStore
++from classic_probe.deadline import recovery_reserve
+ 
+-REAP_TIMEOUT_S = 10.0
++REAP_TIMEOUT_S = 10.0  # the longest a kill or a reap is waited for, when the session has that much time left
++MIN_STEP_S = 0.05  # the shortest wait given to a kill or a reap
++RECOVERY_MARGIN_S = 0.5  # the recovery's own end comes this long before the supervisor's end
++RECOVERY_KILL_S = 0.25  # within that margin: the time to kill and reap a recovery that did not end by itself
++FINAL_WRITE_S = 0.25  # the part of the recovery's time its ledger writes leave for writing the manifest
++EVIDENCE = "campaign_evidence.json"
++RECOVERED = "campaign_evidence.recovered.json"
+ 
+ 
+ @dataclass
+@@ -34,24 +61,54 @@ class SupervisedSession:
+     elapsed_s: float
+     stdout_tail: str = ""
+     recovery: dict[str, Any] = field(default_factory=dict)
++    reaped: bool = True  # 1.7.1: False when the killed session had not gone when its reap's time ran out
++    recovery_reserve_s: float = 0.0
++    problems: list[str] = field(default_factory=list)
++
+ 
++def _step(left: float) -> float:
++    """How long a kill or a reap may take: a quarter of what is left, between MIN_STEP_S and
++    REAP_TIMEOUT_S."""
++    return max(MIN_STEP_S, min(REAP_TIMEOUT_S, left / 4))
+ 
+-def _kill_tree(proc: subprocess.Popen[bytes]) -> None:
+-    """The session and everything it started: a request worker must not outlive its session."""
++
++def _kill_tree(proc: subprocess.Popen[bytes], seconds: float) -> list[str]:
++    """The session and everything it started: a request worker must not outlive its session. Bounded by
++    ``seconds`` (1.7.1); returns what did not work."""
++    problems: list[str] = []
+     if sys.platform == "win32":
+-        subprocess.run(
+-            ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
+-            capture_output=True,
+-            timeout=REAP_TIMEOUT_S,
+-            check=False,
+-        )
++        try:
++            subprocess.run(
++                ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
++                capture_output=True,
++                timeout=seconds,
++                check=False,
++            )
++        except (subprocess.TimeoutExpired, OSError) as exc:
++            problems.append(f"taskkill did not finish in {seconds:.2f} s ({type(exc).__name__})")
+         if proc.poll() is None:
+-            proc.kill()
++            try:
++                proc.kill()
++            except OSError as exc:
++                problems.append(f"the session's process could not be killed: {type(exc).__name__}")
+     else:
+         try:
+             os.killpg(proc.pid, signal.SIGKILL)  # the session leads its own process group
+         except ProcessLookupError:
+             pass
++        except OSError as exc:
++            problems.append(f"the session's process group could not be killed: {type(exc).__name__}")
++    return problems
++
++
++def _evidence_complete(path: Path, since_wall: float) -> bool:
++    """The session wrote its own evidence manifest, after it started, and every capture in it was checked."""
++    try:
++        if path.stat().st_mtime < since_wall - 2.0:
++            return False
++        return json.loads(path.read_text(encoding="utf-8")).get("complete") is True
++    except (OSError, ValueError, AttributeError):
++        return False
+ 
+ 
+ def run_session(
+@@ -63,9 +120,27 @@ def run_session(
+     retailer: str,
+     cwd: Path | None = None,
+     env: Mapping[str, str] | None = None,
++    recovery_reserve_s: float | None = None,
+ ) -> SupervisedSession:
+-    """Run one session's command and kill it, with its children, ``hard_end_s`` seconds after it starts."""
++    """Run one session's command so that all of it, its kill, its reap and its recovery included, ends
++    ``hard_end_s`` seconds after it starts (1.7.1, C2). The command has the hard end less the recovery's
++    reserve.
++
++    A recovery runs when the session was killed, ended with an error, or left no complete evidence manifest of
++    its own."""
+     t0 = time.monotonic()
++    since_wall = time.time()
++    end = t0 + max(0.0, hard_end_s)
++    reserve = (
++        recovery_reserve(hard_end_s)
++        if recovery_reserve_s is None
++        else max(0.0, min(recovery_reserve_s, hard_end_s))
++    )
++    budget = max(0.0, hard_end_s - reserve)
++
++    def left() -> float:
++        return end - time.monotonic()
++
+     proc = subprocess.Popen(
+         list(command),
+         cwd=cwd,
+@@ -74,38 +149,144 @@ def run_session(
+         stderr=subprocess.STDOUT,
+         start_new_session=sys.platform != "win32",
+     )
+-    killed = False
++    killed, reaped = False, True
++    problems: list[str] = []
++    out = b""
+     try:
+-        out, _ = proc.communicate(timeout=max(0.0, hard_end_s))
++        out, _ = proc.communicate(timeout=budget)
+     except subprocess.TimeoutExpired:
+         killed = True
+-        _kill_tree(proc)
+-        out, _ = proc.communicate(timeout=REAP_TIMEOUT_S)
++        problems += _kill_tree(proc, _step(left()))
++        try:
++            out, _ = proc.communicate(timeout=_step(left()))
++        except subprocess.TimeoutExpired:
++            reaped = False
++            problems.append(
++                "the killed session had not exited when its reap's time ran out: it was not reaped, and the "
++                "recovery ran without waiting for it"
++            )
++    returncode = proc.poll()
+     session = SupervisedSession(
+-        returncode=proc.returncode,
++        returncode=returncode,
+         killed=killed,
+-        elapsed_s=round(time.monotonic() - t0, 3),
+-        stdout_tail=out.decode("utf-8", "replace")[-4000:],
++        elapsed_s=0.0,
++        stdout_tail=(out or b"").decode("utf-8", "replace")[-4000:],
++        reaped=reaped,
++        recovery_reserve_s=round(reserve, 3),
++        problems=problems,
+     )
+-    if killed or proc.returncode not in (0, None):
+-        reason = (
+-            f"killed by the supervisor at the session's hard end ({hard_end_s:.1f} s)"
+-            if killed
+-            else f"the session ended with exit code {proc.returncode}"
+-        )
+-        session.recovery = recover_session(manifest, out_dir, retailer, reason=reason)
++    evidence = Path(out_dir) / EVIDENCE
++    if killed or returncode != 0 or not _evidence_complete(evidence, since_wall):
++        if killed:
++            reason = (
++                f"killed by the supervisor {budget:.1f} s after its start, before the session's hard end "
++                f"({hard_end_s:.1f} s): the last {reserve:.1f} s are kept for this recovery"
++            )
++        elif returncode != 0:
++            reason = f"the session ended with exit code {returncode}"
++        else:
++            reason = "the session ended without a complete evidence manifest of its own"
++        session.recovery = _recover_in_child(manifest, out_dir, retailer, reason=reason, seconds=left())
++    session.elapsed_s = round(time.monotonic() - t0, 3)
+     return session
+ 
+ 
+-def recover_session(manifest: Path, out_dir: Path, retailer: str, *, reason: str) -> dict[str, Any]:
+-    """After a session that did not end by itself: what it left, made safe and written down."""
+-    led = ledger_mod.open_from_manifest(manifest)
++def _recover_in_child(
++    manifest: Path, out_dir: Path, retailer: str, *, reason: str, seconds: float
++) -> dict[str, Any]:
++    """The recovery in its own process, ended by ``seconds`` from now whatever happens in it (1.7.1, C2)."""
++    if seconds <= RECOVERY_MARGIN_S:
++        return {
++            "completed": False,
++            "ended_by": reason,
++            "problems": [
++                f"no time was left for a recovery before the session's end ({max(0.0, seconds):.2f} s): "
++                "the rows and files stay as the session left them, their money held, for the next recovery"
++            ],
++        }
++    until = time.time() + seconds - RECOVERY_MARGIN_S
++    command = [
++        sys.executable,
++        "-I",
++        "-m",
++        "classic_probe.supervisor",
++        "recover",
++        os.fspath(Path(manifest).resolve()),
++        os.fspath(Path(out_dir).resolve()),
++        retailer,
++        "--reason",
++        reason,
++        "--until",
++        repr(until),
++    ]
++    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    try:
++        out, err = proc.communicate(timeout=max(MIN_STEP_S, seconds - RECOVERY_KILL_S))
++    except subprocess.TimeoutExpired:
++        proc.kill()
++        try:
++            proc.communicate(timeout=RECOVERY_KILL_S)
++        except subprocess.TimeoutExpired:
++            pass
++        return {
++            "completed": False,
++            "ended_by": reason,
++            "problems": [
++                f"the recovery had not ended by the session's end and was killed after {seconds:.1f} s: what "
++                "it wrote stays, and the next recovery completes it"
++            ],
++        }
++    try:
++        result = json.loads(out.decode("utf-8").strip().splitlines()[-1])
++    except (ValueError, IndexError):
++        result = None
++    if not isinstance(result, dict):
++        return {
++            "completed": False,
++            "ended_by": reason,
++            "problems": [
++                f"the recovery gave no readable result (exit code {proc.returncode}): "
++                + err.decode("utf-8", "replace")[-500:]
++            ],
++        }
++    return result
++
++
++def recover_session(
++    manifest: Path, out_dir: Path, retailer: str, *, reason: str, until: float | None = None
++) -> dict[str, Any]:
++    """After a session that did not end by itself: what it left, made safe and written down.
++
++    ``until`` (seconds since the epoch; None: no bound) bounds all of it (1.7.1, C2): each wait for the
++    ledger's lock ends by then, less the time kept to write the manifest. What could not be done is listed in
++    ``problems`` and ``completed`` is False; a row not marked keeps its money held for the next recovery."""
++
++    def time_left() -> float:
++        return float("inf") if until is None else until - time.time()
++
++    def ledger_time() -> float:
++        return time_left() - FINAL_WRITE_S
++
++    bound: Callable[[], float] | None = None if until is None else ledger_time
++    problems: list[str] = []
++    led = ledger_mod.open_from_manifest(manifest, time_left=bound)
+     try:
+-        unfinished = led.recover()
++        unfinished: int | None = None
++        try:
++            unfinished = led.recover()
++        except ledger_mod.LockNotObtained as exc:
++            problems.append(
++                f"the rows left reserved or sent were not marked unknown ({exc}): they stay as the session "
++                "left them, their money held, for the next recovery"
++            )
+         store = CaptureStore(out_dir, retailer)
+-        captures = store.recover(led)
+-        responses, checked = store.verify(led, time_left=lambda: float("inf"), min_left_s=0.0)
+-        data = {
++        captures = store.recover(led, time_left=ledger_time, min_left_s=0.0)
++        for item in captures["not_reached"]:
++            problems.append(f"capture file {item['what']} not reached: {item['why']}")
++        responses, checked = store.verify(led, time_left=ledger_time, min_left_s=0.0)
++        if not checked:
++            problems.append("not every capture was checked against its file before the session's end")
++        data: dict[str, Any] = {
+             "campaign_id": led.campaign_id,
+             "ledger_genesis_id": led.genesis_id,
+             "offline": led.offline,
+@@ -114,17 +295,67 @@ def recover_session(manifest: Path, out_dir: Path, retailer: str, *, reason: str
+             "captures_checked": checked,
+             "rows_recovered_as_unknown": unfinished,
+             "capture_recovery": captures,
+-            "totals": led.totals().as_dict(),
+-            "dispatches": led.rows(),
+-            "events": led.events(),
+-            "responses": responses,
++            "recovery_completed": not problems,
++            "recovery_problems": problems,
+         }
+-        out_dir.mkdir(parents=True, exist_ok=True)
+-        write_json(out_dir / "campaign_evidence.recovered.json", data)
+-        return {
++        try:
++            data.update(
++                totals=led.totals().as_dict(), dispatches=led.rows(), events=led.events(), responses=responses
++            )
++        except sqlite3.OperationalError as exc:
++            problems.append(f"the ledger could not be read before the session's end: {exc}")
++            data.update(responses=responses, recovery_completed=False)
++        result: dict[str, Any] = {
++            "completed": not problems,
++            "ended_by": reason,
++            "problems": problems,
+             "rows_recovered_as_unknown": unfinished,
+             "capture_recovery": captures,
+-            "manifest": "campaign_evidence.recovered.json",
+         }
++        if time_left() <= 0:
++            problems.append("no time was left to write the recovered manifest")
++            result["completed"] = False
++            return result
++        out_dir.mkdir(parents=True, exist_ok=True)
++        write_json(out_dir / RECOVERED, data)
++        result["manifest"] = RECOVERED
++        return result
+     finally:
+         led.close()
++
++
++def main(argv: Sequence[str] | None = None) -> int:
++    """The supervisor's recovery in its own process (1.7.1), printing its result as one JSON line::
++
++    python -I -m classic_probe.supervisor recover MANIFEST OUT_DIR RETAILER --reason TEXT --until EPOCH
++    """
++    parser = argparse.ArgumentParser(prog="classic_probe.supervisor")
++    sub = parser.add_subparsers(dest="command", required=True)
++    rec = sub.add_parser("recover", help="recover a session that did not end by itself (OFFLINE)")
++    rec.add_argument("manifest", type=Path)
++    rec.add_argument("out_dir", type=Path)
++    rec.add_argument("retailer")
++    rec.add_argument("--reason", required=True)
++    rec.add_argument("--until", type=float, default=None)
++    args = parser.parse_args(argv)
++    try:
++        result = recover_session(
++            args.manifest, args.out_dir, args.retailer, reason=args.reason, until=args.until
++        )
++    except Exception as exc:  # noqa: BLE001 - reported to the supervisor, which records it
++        print(
++            json.dumps(
++                {
++                    "completed": False,
++                    "ended_by": args.reason,
++                    "problems": [f"the recovery failed: {type(exc).__name__}: {exc}"],
++                }
++            )
++        )
++        return 1
++    print(json.dumps(result, sort_keys=True, default=str))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/transport.py b/headless/oxylabs-classic-probe/src/classic_probe/transport.py
+index be90ff3..dea81cd 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/transport.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/transport.py
+@@ -14,25 +14,33 @@ in the worker. Importing this module opens nothing.
+   request's deadline (a queue timeout and a daemon thread are not cancellation; a killed process is). The
+   body is bounded on success and error alike, decompression is bounded, and every socket wait is clamped to
+   the time left. A killed exchange may still have reached the provider: its reservation stays held as unknown.
++
++1.7.1 correction (finding C4): nothing received is deleted. The worker writes each answer under the dispatch's
++own number (``ProviderRequest.raw_stem``, given by the campaign: ``dispatch_NNN`` in the campaign's private
++folder), with its status beside it, both synced and renamed durably (networker.py). The campaign keeps its
++sanitized copy from there; a crash before that copy is kept loses nothing, because the recovery keeps it from
++these files (captures.py). A body cut by a deadline, an error or a kill is kept as ``dispatch_NNN.partial``
++and reported with its length and SHA-256 (:attr:`TransportFailed.partial`), never as an answer.
+ """
+ 
+ from __future__ import annotations
+ 
+ import base64
++import hashlib
+ import json
+ import os
+ import subprocess
+ import sys
+-import tempfile
+ import time
+ import urllib.parse
++import uuid
+ import zlib
+ from collections.abc import Mapping, Sequence
+ from dataclasses import dataclass, field
+ from pathlib import Path
+ from typing import Any, Protocol
+ 
+-from classic_probe import contract, gates
++from classic_probe import contract, durable, gates
+ 
+ REAP_TIMEOUT_S = 10.0
+ 
+@@ -42,6 +50,8 @@ class ProviderRequest:
+     step: str
+     payload: Mapping[str, Any]
+     query_string: str = ""  # e.g. type=raw,parsed
++    # 1.7.1 (C4): where the answer is written, by the dispatch's own number (the campaign's private folder)
++    raw_stem: str | None = None
+ 
+     @property
+     def url(self) -> str:
+@@ -72,9 +82,13 @@ class Transport(Protocol):
+ class TransportFailed(RuntimeError):
+     """No HTTP answer. The request may have reached the provider: the remote outcome is unknown."""
+ 
+-    def __init__(self, message: str, *, sent: bool | None = None) -> None:
++    def __init__(
++        self, message: str, *, sent: bool | None = None, partial: dict[str, Any] | None = None
++    ) -> None:
+         super().__init__(message)
+         self.sent = sent  # False only when the worker proves it never sent the request
++        # 1.7.1 (C4): the part of a body that arrived before the failure, kept on disk: length, SHA-256, file
++        self.partial = partial
+ 
+ 
+ class BodyTooLarge(ValueError):
+@@ -158,13 +172,27 @@ class IsolatedHttpTransport:
+             return "http", "127.0.0.1", self.loopback_port, path
+         return u.scheme, str(u.hostname), 443, path
+ 
++    def _stem(self, request: ProviderRequest) -> Path:
++        """Where this exchange's files go: the dispatch's own name, or a fresh name in the work folder."""
++        if request.raw_stem:
++            return Path(request.raw_stem)
++        return self.work_dir / f"{request.step}-{uuid.uuid4().hex[:16]}"
++
+     def send(self, request: ProviderRequest, allowance_s: float) -> ProviderResponse:
+         if allowance_s <= 0:
+             raise TransportFailed("no time is left for this request", sent=False)
+         scheme, host, port, path = self._target(request)
+-        self.work_dir.mkdir(parents=True, exist_ok=True)
+-        fd, part = tempfile.mkstemp(prefix=f"{request.step}-", suffix=".part", dir=self.work_dir)
+-        os.close(fd)
++        stem = self._stem(request)
++        durable.private_dir(stem.parent)
++        files = {
++            "out_path": stem.with_name(stem.name + ".body.part"),
++            "final_path": stem.with_name(stem.name + ".body"),
++            "partial_path": stem.with_name(stem.name + ".partial"),
++            "status_path": stem.with_name(stem.name + ".status.json"),
++        }
++        for existing in files.values():
++            if existing.exists():  # a dispatch number is used once: its files are never overwritten
++                raise TransportFailed(f"refused: {existing.name} already exists", sent=False)
+         spec = {
+             "method": "POST",
+             "scheme": scheme,
+@@ -180,8 +208,8 @@ class IsolatedHttpTransport:
+             "allowance_s": max(0.05, allowance_s - 0.25),  # the worker stops itself a little before its kill
+             "max_body_bytes": self.limits.max_body_bytes,
+             "max_header_bytes": self.limits.max_header_bytes,
+-            "out_path": part,
+             "loopback_stub": self.loopback_port is not None,
++            **{k: os.fspath(v) for k, v in files.items()},
+         }
+         t0 = time.monotonic()
+         proc = subprocess.Popen(
+@@ -201,31 +229,35 @@ class IsolatedHttpTransport:
+                 proc.communicate(timeout=REAP_TIMEOUT_S)
+             except subprocess.TimeoutExpired:  # pragma: no cover - a killed process that cannot be reaped
+                 pass
+-            _unlink(part)
+             raise TransportFailed(
+                 f"no answer within {allowance_s:.1f} s: the worker was killed and reaped (the provider may "
+                 "still run and charge the request)",
+                 sent=None,
++                partial=_keep_after_kill(files),
+             ) from None
+         finally:
+             if proc.poll() is None:  # pragma: no cover - communicate returned, so the worker has exited
+                 proc.kill()
+                 proc.wait(REAP_TIMEOUT_S)
+             self.last_returncode = proc.returncode
+-        try:
+-            status = json.loads(out.decode("utf-8").strip().splitlines()[-1])
+-        except (ValueError, IndexError):
+-            _unlink(part)
+-            raise TransportFailed("the worker gave no readable status", sent=None) from None
++        status = _read_status(out, files["status_path"])
++        if status is None:
++            raise TransportFailed(
++                "the worker gave no readable status", sent=None, partial=_keep_after_kill(files)
++            )
+         if not status.get("ok"):
+-            _unlink(part)
+             sent = status.get("sent")
+             raise TransportFailed(
+                 f"{status.get('error')}: {status.get('detail', '')}".strip(": "),
+                 sent=False if sent is False else None,
++                partial=_described_partial(status, files["partial_path"]),
++            )
++        final = files["final_path"]
++        data = final.read_bytes()[: self.limits.max_body_bytes]
++        if hashlib.sha256(data).hexdigest() != status.get("sha256"):
++            raise TransportFailed(
++                f"the answer on disk ({final.name}) does not match the worker's account of it", sent=None
+             )
+-        data = Path(part).read_bytes()[: self.limits.max_body_bytes]
+-        _unlink(part)
+         return ProviderResponse(
+             int(status["status"]),
+             data,
+@@ -236,6 +268,75 @@ class IsolatedHttpTransport:
+         )
+ 
+ 
++def _read_status(out: bytes, status_path: Path) -> dict[str, Any] | None:
++    """The worker's status line, or the copy it wrote to disk when its output was lost."""
++    try:
++        status = json.loads(out.decode("utf-8").strip().splitlines()[-1])
++        if isinstance(status, dict):
++            return status
++    except (ValueError, IndexError):
++        pass
++    try:
++        status = json.loads(status_path.read_text(encoding="utf-8"))
++    except (OSError, ValueError):
++        return None
++    return status if isinstance(status, dict) else None
++
++
++def _described_partial(status: Mapping[str, Any], partial_path: Path) -> dict[str, Any] | None:
++    if not status.get("partial_bytes"):
++        return None
++    return {
++        "bytes": int(status["partial_bytes"]),
++        "sha256": str(status.get("partial_sha256")),
++        "http_status": status.get("http_status"),
++        "error": status.get("error"),
++        "file": partial_path.name,
++        "complete": False,
++    }
++
++
++def _keep_after_kill(files: Mapping[str, Path]) -> dict[str, Any] | None:
++    """A worker killed mid-body leaves its ``.part`` file: what arrived is kept as the dispatch's partial
++    body, described by its length and SHA-256 (1.7.1, C4). An empty file holds nothing and is removed."""
++    part = files["out_path"]
++    try:
++        data = part.read_bytes()
++    except OSError:
++        return None
++    if not data:
++        _unlink(os.fspath(part))
++        return None
++    durable.replace(part, files["partial_path"])
++    described = {
++        "bytes": len(data),
++        "sha256": hashlib.sha256(data).hexdigest(),
++        "http_status": None,
++        "error": "Killed",
++        "file": files["partial_path"].name,
++        "complete": False,
++    }
++    durable.write(
++        files["status_path"],
++        (
++            json.dumps(
++                {
++                    "ok": False,
++                    "error": "Killed",
++                    "sent": None,
++                    "partial_bytes": len(data),
++                    "partial_sha256": described["sha256"],
++                    "partial_file": True,
++                },
++                sort_keys=True,
++            )
++            + "\n"
++        ).encode(),
++        private=True,
++    )
++    return described
++
++
+ def _unlink(path: str) -> None:
+     try:
+         os.unlink(path)
+diff --git a/headless/oxylabs-classic-probe/tests/session_drill.py b/headless/oxylabs-classic-probe/tests/session_drill.py
+index d4e4587..b4e5f1d 100644
+--- a/headless/oxylabs-classic-probe/tests/session_drill.py
++++ b/headless/oxylabs-classic-probe/tests/session_drill.py
+@@ -3,6 +3,8 @@
+     python -m tests.session_drill <manifest> <out> <mode> [<port>]
+ 
+ ``loopback``: the isolated worker against a stub on 127.0.0.1:<port>, with a 20 s request allowance.
++``loopback-crash-after-send``: the same, and the process dies once the answer is back, before its kept copy is
++written (1.7.1, C4).
+ ``crash-after-reserve`` | ``crash-after-send`` | ``crash-after-capture-file`` | ``crash-after-index``: a
+ replay of saved answers whose process dies at that point, as a killed process would (exit 23, no cleanup).
+ """
+@@ -43,13 +45,17 @@ def main() -> None:
+     led = ledger.open_from_manifest(manifest)
+     card = money.RateCard.load(SYNTHETIC_RATES)
+     tr: Transport
+-    if mode == "loopback":
++    if mode in ("loopback", "loopback-crash-after-send"):
+         tr = IsolatedHttpTransport(
+             gates.Credentials("loopback-user", "loopback-password"),
+             work_dir=out / "work",
+             loopback_port=int(sys.argv[4]),
+         )
+         timeout = 20.0
++        if (
++            mode == "loopback-crash-after-send"
++        ):  # the answer arrived; the process dies before keeping its copy
++            captures.CaptureStore.persist = die  # type: ignore[method-assign]
+     else:
+         tr = ReplayTransport({k: [ProviderResponse(s, b) for s, b in v] for k, v in fb.complete().items()})
+         timeout = 60.0
+diff --git a/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py b/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py
+new file mode 100644
+index 0000000..5c0d4b5
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py
+@@ -0,0 +1,299 @@
++"""Reproductions of the two findings the client's review left open after 1.7.0 (C2 and C4), kept as tests.
++
++Each test here was written against release 1.7.0 first and failed there (the log of that run is delivered with
++1.7.1); release 1.7.1 makes it pass.
++
++- C2: the one session deadline must also bound what happens after the requests: the ledger writes that record
++  an answer or a stop, the evidence export, and the recovery a supervisor runs after it kills a session. In
++  1.7.0 the recovery ran after the session's end with no bound of its own (a held ledger lock kept it waiting
++  30 s, then it raised), the writes after an answer waited 30 s for the lock whatever time was left, and a
++  process that could not be reaped after its kill raised out of the supervisor with nothing recovered.
++- C4: an answer that reached the disk must survive a crash. In 1.7.0 the request worker's file, written and
++  synced, was deleted by the transport before the kept copy was written, so a crash between the two lost a
++  paid answer; the evidence files were renamed into place without being synced; and a body cut at its deadline
++  left no record of what had arrived.
++
++OFFLINE: every connection is a request worker's (a child process) to a stub on 127.0.0.1.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++import sqlite3
++import subprocess
++import sys
++import threading
++import time
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import campaign, captures, gates, ledger, money, supervisor
++from classic_probe.transport import IsolatedHttpTransport, ProviderRequest, ProviderResponse
++from tests import fixture_builder as fb
++from tests import loopback_stub as stub
++from tests.conftest import FakeClock
++from tests.test_campaign import WALMART
++
++ROOT = Path(__file__).resolve().parents[1]
++CREDS = gates.Credentials("loopback-user", "loopback-password")
++
++
++def campaign_files(tmp_path: Path) -> tuple[Path, Path, Path]:
++    path = tmp_path / "ledger.sqlite3"
++    led = ledger.Ledger.create(path, "drill", ledger.Limits(), offline=True)
++    ledger.write_manifest(tmp_path / "manifest.json", led)
++    led.close()
++    return tmp_path / "manifest.json", tmp_path / "out", path
++
++
++def drill(manifest: Path, out: Path, mode: str, *extra: str) -> list[str]:
++    return [sys.executable, "-m", "tests.session_drill", str(manifest), str(out), mode, *extra]
++
++
++class LockHolder:
++    """Another connection that takes the ledger's write lock when told to and keeps it until released."""
++
++    def __init__(self, path: Path) -> None:
++        self.path = path
++        self.take = threading.Event()
++        self.taken = threading.Event()
++        self.release = threading.Event()
++        self.thread = threading.Thread(target=self._run, daemon=True)
++
++    def _run(self) -> None:
++        conn = sqlite3.connect(self.path, timeout=60, isolation_level=None, check_same_thread=False)
++        try:
++            if not self.take.wait(120):
++                return
++            conn.execute("BEGIN IMMEDIATE")
++            self.taken.set()
++            self.release.wait(180)
++            conn.execute("ROLLBACK")
++        finally:
++            conn.close()
++
++    def __enter__(self) -> LockHolder:
++        self.thread.start()
++        return self
++
++    def __exit__(self, *_exc: object) -> None:
++        self.take.set()
++        self.release.set()
++        self.thread.join(30)
++
++
++# -- C2: the deadline bounds what follows the requests ---------------------------------------------------
++
++
++def test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked(
++    tmp_path: Path,
++) -> None:
++    """A session whose request hangs is killed; another process then holds the ledger's lock. The supervisor's
++    whole run, recovery included, must end by the session's end, and say what it could not do."""
++    manifest, out, path = campaign_files(tmp_path)
++    with LockHolder(path) as holder:
++
++        def hang_and_lock(conn: stub.Connection) -> None:
++            holder.take.set()  # the request was sent: its row is marked sent; now the lock is held elsewhere
++            stub.hang(conn)
++
++        with stub.Stub(hang_and_lock) as s:
++            t0 = time.monotonic()
++            session = supervisor.run_session(
++                drill(manifest, out, "loopback", str(s.port)),
++                hard_end_s=12.0,
++                manifest=manifest,
++                out_dir=out,
++                retailer="walmart",
++                cwd=ROOT,
++            )
++            elapsed = time.monotonic() - t0
++        assert holder.taken.is_set()
++    assert session.killed
++    assert elapsed < 12.0 + 3.0, elapsed  # the session's end, not the end plus a 30 s wait for the lock
++    rec = session.recovery
++    assert rec.get("completed") is False and "lock" in json.dumps(rec), rec
++    # Nothing was decided about the row: it stays as the session left it, held, for the next recovery.
++    led = ledger.open_from_manifest(manifest)
++    try:
++        [row] = led.rows()
++        assert row["state"] == ledger.SENT and row["reserved_usd"] == "0.0040"
++        assert led.recover() == 1 and led.rows()[0]["state"] == ledger.IN_FLIGHT_UNKNOWN
++    finally:
++        led.close()
++
++
++class LockingReplay:
++    """Answers each step from saved answers. When the first answer is returned, time has passed (the wall
++    clock advances) and another connection holds the ledger's lock: the writes that follow must not wait past
++    the session's end."""
++
++    def __init__(self, clock: FakeClock, holder: LockHolder, advance_s: float) -> None:
++        self.answers = {k: [ProviderResponse(s, b) for s, b in v] for k, v in fb.complete().items()}
++        self.clock, self.holder, self.advance_s = clock, holder, advance_s
++        self.sent = 0
++
++    def send(self, request: ProviderRequest, allowance_s: float) -> ProviderResponse:
++        self.sent += 1
++        self.clock.advance(self.advance_s)
++        self.holder.take.set()
++        assert self.holder.taken.wait(10)
++        return self.answers[request.step].pop(0)
++
++
++def test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows(
++    tmp_path: Path, clock: FakeClock, card: money.RateCard
++) -> None:
++    path = tmp_path / "ledger.sqlite3"
++    limits = ledger.Limits(campaign_minutes=1, export_reserve_seconds=50)
++    led = ledger.Ledger.create(path, "c2-lock", limits, offline=True, clock=clock)
++    genesis = led.genesis_id
++    try:
++        with LockHolder(path) as holder:
++            tr = LockingReplay(clock, holder, advance_s=40.0)  # 20 s of the session are left after the answer
++            run = campaign.Campaign(led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=5.0)
++            t0 = time.monotonic()
++            result = run.run()
++            elapsed = time.monotonic() - t0
++        assert tr.sent == 1
++        assert elapsed < 12.0, (
++            elapsed
++        )  # 1.7.0: 30 s for the capture's index, 30 s for the settlement, then raised
++        assert result.stop is not None
++        # The answer is on disk (kept and described) even though the ledger could not index it in time.
++        kept = sorted(p.name for p in (tmp_path / "out").glob("response_*"))
++        assert kept == ["response_001.json.gz", "response_001.meta.json"], kept
++        assert (tmp_path / "out" / "campaign_evidence.json").is_file()
++    finally:
++        led.close()
++    # A later recovery (the lock is free again) indexes it, and the row's money stays held.
++    led = ledger.Ledger.open(path, campaign_id="c2-lock", genesis_id=genesis, clock=clock)
++    try:
++        store = captures.CaptureStore(tmp_path / "out", "walmart")
++        found = store.recover(led)
++        assert found["indexed_on_recovery"] == [1]
++        led.recover()
++        assert led.rows()[0]["state"] == ledger.IN_FLIGHT_UNKNOWN
++    finally:
++        led.close()
++
++
++def test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    real = subprocess.Popen.communicate
++    sleeper = [sys.executable, "-c", "import time; time.sleep(60)"]
++    calls: list[float | None] = []
++
++    def communicate(self: subprocess.Popen[bytes], input: Any = None, timeout: float | None = None) -> Any:
++        if list(self.args) == sleeper:
++            calls.append(timeout)
++            if len(calls) == 2:  # the reap after the kill: the process does not go away in time
++                raise subprocess.TimeoutExpired(self.args, timeout or 0.0)
++        return real(self, input, timeout)
++
++    monkeypatch.setattr(subprocess.Popen, "communicate", communicate)
++    session = supervisor.run_session(
++        sleeper, hard_end_s=6.0, manifest=manifest, out_dir=out, retailer="walmart", cwd=ROOT
++    )
++    assert session.killed and len(calls) == 2
++    assert session.recovery.get("manifest") == "campaign_evidence.recovered.json", session.recovery
++    assert (out / "campaign_evidence.recovered.json").is_file()
++
++
++# -- C4: what reached the disk survives a crash ----------------------------------------------------------
++
++
++def test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch(tmp_path: Path) -> None:
++    """The isolated worker received the answer and wrote it; the session died before keeping its copy. The
++    recovery must keep it from what is on disk: the answer was paid for and is not lost."""
++    manifest, out, _ = campaign_files(tmp_path)
++    body = fb.complete()["walmart-search-p1"][0][1]
++    with stub.Stub(stub.respond(200, body)) as s:
++        done = subprocess.run(
++            drill(manifest, out, "loopback-crash-after-send", str(s.port)),
++            cwd=ROOT,
++            capture_output=True,
++            timeout=120,
++            check=False,
++        )
++        assert len(s.connections) == 1
++    assert done.returncode == 23, done.stderr[-2000:]
++    recovery = supervisor.recover_session(manifest, out, "walmart", reason="test: crash after send")
++    assert recovery["capture_recovery"]["indexed_on_recovery"] == [1], recovery
++    led = ledger.open_from_manifest(manifest)
++    try:
++        [capture] = led.captures()
++        assert capture["original_sha256"] == hashlib.sha256(body).hexdigest()
++        assert capture["truncated"] == 0
++        assert led.rows()[0]["state"] == ledger.IN_FLIGHT_UNKNOWN  # its charge stays held: never assumed
++    finally:
++        led.close()
++    recovered = json.loads((out / "campaign_evidence.recovered.json").read_text("utf-8"))
++    assert [r["verified"] for r in recovered["responses"]] == [True]
++
++
++def test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    order: list[str] = []
++    real_fsync = os.fsync
++
++    def fsync(fd: int) -> None:
++        order.append("fsync")
++        real_fsync(fd)
++
++    monkeypatch.setattr(os, "fsync", fsync)
++    campaign.write_json(tmp_path / "campaign_evidence.json", {"x": 1})
++    assert order, "the evidence manifest was renamed into place without ever being synced"
++    assert json.loads((tmp_path / "campaign_evidence.json").read_text("utf-8")) == {"x": 1}
++    assert not list(tmp_path.glob("*.part"))
++
++
++@pytest.mark.skipif(
++    sys.platform != "win32", reason="the write-through rename is the Windows form of a synced rename"
++)
++def test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    import ctypes
++
++    kernel32 = ctypes.windll.kernel32  # type: ignore[attr-defined]
++    real = kernel32.MoveFileExW
++    flags_seen: list[int] = []
++
++    def move(src: str, dst: str, flags: int) -> int:
++        flags_seen.append(int(flags))
++        return int(real(src, dst, flags))
++
++    monkeypatch.setattr(kernel32, "MoveFileExW", move)
++    captures.atomic_write(tmp_path / "x.json", b"{}")
++    MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH = 0x1, 0x8
++    assert (
++        flags_seen and flags_seen[-1] & MOVEFILE_WRITE_THROUGH and flags_seen[-1] & MOVEFILE_REPLACE_EXISTING
++    )
++    assert (tmp_path / "x.json").read_bytes() == b"{}"
++
++
++def test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer(
++    tmp_path: Path, make_ledger: Any, card: money.RateCard
++) -> None:
++    led = make_ledger()
++    with stub.Stub(stub.drip(200_000, 0.01)) as s:
++        tr = IsolatedHttpTransport(CREDS, work_dir=tmp_path / "work", loopback_port=s.port)
++        run = campaign.Campaign(led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=3.0)
++        result = run.run()
++    assert result.stop == "STOP_IN_FLIGHT_UNKNOWN"
++    [row] = led.rows()
++    assert row["state"] == ledger.IN_FLIGHT_UNKNOWN  # held: the provider may have charged it
++    partial = [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"]
++    assert len(partial) == 1, led.events()
++    detail = json.loads(partial[0]["detail"])
++    assert detail["seq"] == 1 and detail["complete"] is False and detail["bytes"] > 0
++    assert len(detail["sha256"]) == 64
++    assert led.captures() == []  # a partial body is never indexed as an answer
+diff --git a/headless/oxylabs-classic-probe/tests/test_durable_evidence.py b/headless/oxylabs-classic-probe/tests/test_durable_evidence.py
+new file mode 100644
+index 0000000..504808f
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_durable_evidence.py
+@@ -0,0 +1,222 @@
++"""The paths of the 1.7.1 corrections (C2 and C4) that the reproductions do not reach on their own. OFFLINE:
++the only connection made is a request worker's, to a stub on 127.0.0.1, and none is made in most tests."""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import sys
++import time
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import campaign, captures, ledger, money, supervisor
++from classic_probe.stops import Stop
++from classic_probe.transport import IsolatedHttpTransport, ProviderRequest, TransportFailed, _keep_after_kill
++from tests import fixture_builder as fb
++from tests import loopback_stub as stub
++from tests.conftest import FakeClock, reserve
++from tests.test_c2_c4_reproduction import CREDS, ROOT, LockHolder, LockingReplay, campaign_files
++from tests.test_campaign import WALMART
++
++STEP = "walmart-search-p1"
++
++
++def sha(data: bytes) -> str:
++    return hashlib.sha256(data).hexdigest()
++
++
++def sent_row(led: ledger.Ledger) -> int:
++    seq = reserve(led, step=STEP)
++    led.mark_sent(seq)
++    return seq
++
++
++def raw_answer(
++    store: captures.CaptureStore, seq: int, body: bytes, *, renamed: bool, digest: str = ""
++) -> Path:
++    """What the request worker leaves on disk: the status, then the body under its final name (``renamed``)
++    or still under its ``.part`` name (a crash between the two)."""
++    stem = store.raw_stem(seq)
++    stem.parent.mkdir(parents=True, exist_ok=True)
++    status = {
++        "ok": True,
++        "status": 200,
++        "reason": "OK",
++        "headers": [["Content-Type", "application/json"]],
++        "body_bytes": len(body),
++        "truncated": False,
++        "sha256": digest or sha(body),
++        "elapsed_s": 0.2,
++        "redirect_location": None,
++    }
++    stem.with_name(stem.name + ".status.json").write_text(json.dumps(status), encoding="utf-8")
++    stem.with_name(stem.name + (".body" if renamed else ".body.part")).write_bytes(body)
++    return stem
++
++
++def test_an_answer_whose_worker_died_before_its_final_rename_is_kept_without_a_refetch(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    led = make_ledger()
++    seq = sent_row(led)
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    body = fb.complete()[STEP][0][1]
++    stem = raw_answer(store, seq, body, renamed=False)
++    found = store.recover(led)
++    assert found["kept_from_raw"] == [seq] and found["indexed_on_recovery"] == [seq], found
++    assert stem.with_name(stem.name + ".body").read_bytes() == body  # renamed into place, never deleted
++    assert not stem.with_name(stem.name + ".body.part").exists()
++    [capture] = led.captures()
++    assert capture["original_sha256"] == sha(body)
++    again = store.recover(led)
++    assert again["indexed_on_recovery"] == [] and again["kept_from_raw"] == []  # once
++
++
++def test_a_raw_body_that_does_not_match_its_status_is_refused_and_never_indexed(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    led = make_ledger()
++    seq = sent_row(led)
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    stem = raw_answer(store, seq, b'{"results": []}', renamed=True, digest="0" * 64)
++    found = store.recover(led)
++    assert found["indexed_on_recovery"] == [] and led.captures() == []
++    assert found["refused"] == [{"file": stem.name + ".body", "why": "its body does not match its status"}]
++    assert stem.with_name(stem.name + ".body").is_file()  # kept as it was found: evidence is never deleted
++
++
++def test_a_partial_body_found_at_a_recovery_is_recorded_once_and_never_indexed(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    led = make_ledger()
++    seq = sent_row(led)
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    stem = store.raw_stem(seq)
++    stem.parent.mkdir(parents=True)
++    stem.with_name(stem.name + ".partial").write_bytes(b'{"results": [{"conte')
++    assert store.recover(led)["partial_recorded"] == [seq]
++    assert store.recover(led)["partial_recorded"] == []  # a second recovery does not record it again
++    [event] = [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"]
++    detail = json.loads(event["detail"])
++    assert detail["seq"] == seq and detail["bytes"] == 20 and detail["complete"] is False
++    assert detail["sha256"] == sha(b'{"results": [{"conte')
++    assert led.captures() == []
++
++
++def test_a_dispatch_name_is_used_once_and_its_files_are_never_overwritten(tmp_path: Path) -> None:
++    stem = tmp_path / "private" / "raw" / "dispatch_001"
++    stem.parent.mkdir(parents=True)
++    stem.with_name(stem.name + ".body").write_bytes(b"an earlier answer")
++    with stub.Stub(stub.respond(200, b"{}")) as s:
++        tr = IsolatedHttpTransport(CREDS, work_dir=tmp_path / "work", loopback_port=s.port)
++        with pytest.raises(TransportFailed) as err:
++            tr.send(ProviderRequest(STEP, {"source": "walmart_search"}, raw_stem=str(stem)), 5.0)
++        assert s.connections == []  # refused before anything was sent
++    assert err.value.sent is False and "already exists" in str(err.value)
++    assert stem.with_name(stem.name + ".body").read_bytes() == b"an earlier answer"
++
++
++def test_a_body_cut_by_the_workers_kill_is_kept_as_partial_with_its_length_and_hash(tmp_path: Path) -> None:
++    files = {
++        "out_path": tmp_path / "dispatch_001.body.part",
++        "final_path": tmp_path / "dispatch_001.body",
++        "partial_path": tmp_path / "dispatch_001.partial",
++        "status_path": tmp_path / "dispatch_001.status.json",
++    }
++    files["out_path"].write_bytes(b"0123456789")
++    described = _keep_after_kill(files)
++    assert described == {
++        "bytes": 10,
++        "sha256": sha(b"0123456789"),
++        "http_status": None,
++        "error": "Killed",
++        "file": "dispatch_001.partial",
++        "complete": False,
++    }
++    assert files["partial_path"].read_bytes() == b"0123456789" and not files["out_path"].exists()
++    status = json.loads(files["status_path"].read_text("utf-8"))
++    assert status["ok"] is False and status["partial_bytes"] == 10 and status["partial_file"] is True
++    # nothing arrived: an empty file is not evidence, and nothing is described
++    empty = {k: v.with_name("e_" + v.name) for k, v in files.items()}
++    empty["out_path"].write_bytes(b"")
++    assert _keep_after_kill(empty) is None and not empty["out_path"].exists()
++
++
++def test_after_one_refusal_of_the_lock_the_session_does_not_wait_for_it_again(
++    tmp_path: Path, clock: FakeClock, card: money.RateCard
++) -> None:
++    path = tmp_path / "ledger.sqlite3"
++    led = ledger.Ledger.create(
++        path,
++        "c2-once",
++        ledger.Limits(campaign_minutes=1, export_reserve_seconds=50),
++        offline=True,
++        clock=clock,
++    )
++    try:
++        with LockHolder(path) as holder:
++            run = campaign.Campaign(
++                led,
++                LockingReplay(clock, holder, advance_s=40.0),
++                WALMART,
++                card,
++                out_dir=tmp_path / "out",
++                request_timeout_s=5.0,
++            )
++            result = run.run()
++    finally:
++        led.close()
++    assert result.stop == Stop.DEADLINE.value
++    refused = [e for e in result.ledger_errors if e.startswith("capture 1:")]
++    skipped = [e for e in result.ledger_errors if "not attempted" in e]
++    assert len(refused) == 1 and skipped, result.ledger_errors
++    evidence = json.loads((tmp_path / "out" / "campaign_evidence.json").read_text("utf-8"))
++    assert evidence["complete"] is False
++    assert [n["why"] for n in evidence["capture_recovery"]["not_reached"]] == [
++        f"the ledger's write lock: {result.ledger_errors[0].split(': ', 1)[1]} (not waited for again)"
++    ]
++
++
++def test_a_session_that_exits_cleanly_without_its_evidence_is_recovered(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    session = supervisor.run_session(
++        [sys.executable, "-c", "pass"],
++        hard_end_s=30.0,
++        manifest=manifest,
++        out_dir=out,
++        retailer="walmart",
++        cwd=ROOT,
++    )
++    assert not session.killed and session.returncode == 0
++    assert session.recovery["completed"] is True, session.recovery
++    assert "without a complete evidence manifest" in session.recovery["ended_by"]
++    assert (out / "campaign_evidence.recovered.json").is_file()
++
++
++def test_a_recovery_that_overruns_is_killed_by_the_sessions_end(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The recovery is told it may run 30 s past the end, and the ledger's lock is held elsewhere: the
++    supervisor still ends by the session's end, and says the recovery was killed."""
++    manifest, out, path = campaign_files(tmp_path)
++    monkeypatch.setattr(supervisor, "RECOVERY_MARGIN_S", -30.0)
++    with LockHolder(path) as holder:
++        holder.take.set()
++        assert holder.taken.wait(10)
++        t0 = time.monotonic()
++        session = supervisor.run_session(
++            [sys.executable, "-c", "import time; time.sleep(60)"],
++            hard_end_s=6.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        elapsed = time.monotonic() - t0
++    assert session.killed
++    assert elapsed < 6.0 + 1.0, elapsed
++    assert session.recovery["completed"] is False
++    assert "killed" in " ".join(session.recovery["problems"]), session.recovery
+diff --git a/headless/oxylabs-classic-probe/uv.lock b/headless/oxylabs-classic-probe/uv.lock
+index 3c7b2fc..6a0678d 100644
+--- a/headless/oxylabs-classic-probe/uv.lock
++++ b/headless/oxylabs-classic-probe/uv.lock
+@@ -120,7 +120,7 @@ wheels = [
+ 
+ [[package]]
+ name = "oxylabs-classic-probe"
+-version = "1.7.0"
++version = "1.7.1"
+ source = { editable = "." }
+ dependencies = [
+     { name = "selectolax" },

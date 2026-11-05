@@ -1,0 +1,363 @@
+diff --git a/Dockerfile b/Dockerfile
+index 5467985..63d74a9 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.5 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.6.5 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.6 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.6 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 543116d..87119ad 100644
+--- a/README.md
++++ b/README.md
+@@ -78,7 +78,7 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
+-## What releases 1.6.0 to 1.6.5 change
++## What releases 1.6.0 to 1.6.6 change
+ 
+ Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
+ `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
+@@ -102,7 +102,11 @@ once the page names the store and Pickup, even when the page also shows an "Avai
+ show, stopped the run and held the store). Release 1.6.5 corrects the independent source check that
+ `validate-export --run` and the canary use: it now reads Walmart's flat price strings, the third price layout the
+ page reader reads (release 1.6.4 reported 21 correct records of the census as mismatches, all from the one page in
+-that layout). What a run collects and exports is unchanged. See `docs/VERIFICATION.md`.
++that layout). What a run collects and exports is unchanged. Release 1.6.6 makes a refused automatic
++publication an alert: a complete validated run that could not be published is logged and recorded as an
++`ERROR` (`PUBLICATION_REFUSED`), and its execution, and Azure's retry of it, exits 6 instead of 0 (release 1.6.5
++logged a `WARN` and exited 0, so no documented alert fired). What a run collects, checks and exports is
++unchanged. See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 195d09f..a37bd99 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.5" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.6" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index d39175e..3cada0f 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -31,13 +31,13 @@ indented instead of that line. A key value is never written: keys appear only as
+ 
+ | Code | Meaning | Typical next step |
+ |---|---|---|
+-| 0 | Done: the run validated (or published), a bounded pilot collected what its limits allowed, or there was nothing due | none |
++| 0 | Done: the run validated (and was published, when publication is automatic), a bounded pilot collected what its limits allowed, or there was nothing due | none |
+ | 1 | Unexpected error (logged as `UNEXPECTED` with its type) | read the log; resume if a run was interrupted |
+ | 2 | Configuration: invalid file, missing database URL, schema not current, unknown store or run; a provider the edition does not list (`COMMAND_REFUSED`, release 1.4.0: nothing is sent) | fix the configuration; `db-upgrade`; run the edition of that provider (EDITIONS.md) |
+ | 3 | Credentials: no key for the run's provider, or the provider refused it | set or replace the key (OPERATIONS.md) |
+ | 4 | Credits: the key's credits, the credit ceiling or a credit budget ran out; or the next request could cross a provider's spending ceiling or the task's money budget (`SPENDING_CEILING`, also when no Oxylabs ceiling is set) | add credits or raise the budget; after `SPENDING_CEILING` the run stays interrupted: raise the ceiling (`set-ceiling`, `set-budget`) and `resume` it |
+ | 5 | Site refusal: Walmart refused access (HTTP 403/429, challenge). The site's own not-found page is not a refusal: its listing is recorded `NOT_FOUND` and the run goes on (release 1.6.3) | the store is held; investigate, then `release-hold` |
+-| 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page or the site's not-found page, releases 1.6.2 and 1.6.3; a first result page that reports results and shows none; a first page that reports 0 results is an empty listing, release 1.6.4), which also holds the store | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold` |
++| 6 | Rejected: the run's checks rejected it, or an export did not verify; or a page did not show what it must (`ABNORMAL_RESULT`: a page without its data or result grid that is not a category page or the site's not-found page, releases 1.6.2 and 1.6.3; a first result page that reports results and shows none; a first page that reports 0 results is an empty listing, release 1.6.4), which also holds the store. Since release 1.6.6 also: a complete validated run whose automatic publication was refused (`PUBLICATION_REFUSED`, an `ERROR` line recorded on the run), and Azure's retry of that execution | read `status --run`; nothing was published; after `ABNORMAL_RESULT` investigate the page, then `release-hold`; after `PUBLICATION_REFUSED` resolve its reason, then `publish --run ID` (the run stays validated, the last published dataset stays published) |
+ | 7 | Store or source checks failed: a page was not for store/Pickup, or the canary's records differ from the page | the store is held; investigate, then `release-hold` |
+ | 8 | Held: the store's collection is held after an earlier stop | `status` shows why; `release-hold` |
+ | 9 | Busy: another execution holds the store, or an unfinished run must be resumed or finalized first | wait, or `resume` / `finalize` |
+@@ -296,7 +296,9 @@ Collection: `RUN_CREATED`, `RUN_EXECUTING`, `PROVIDER_BALANCE`, `PROVIDER_SESSIO
+ `FOLLOW_UP_PAUSED`, `FOLLOW_UP_DONE`, `PRODUCT_DETAIL_PAUSED`, `REPLAY_SESSION_OPENED`, `RUN_LIMIT_REACHED`,
+ `RUN_STOPPED`, `RUN_PAUSED`, `PROVIDER_SESSION_CLOSED`, `PROVIDER_TRAFFIC`, `COLLECTION_CLOSED`.
+ Results: `HISTORICAL_OBSERVATIONS`, `RECORDS_ASSEMBLED`, `CHECKS_COMPLETE`, `EXPORTS_STAGED`,
+-`PARTIAL_EXPORT`, `RUN_VALIDATED` / `RUN_REJECTED`, `RUN_PUBLISHED` / `PUBLICATION_REFUSED`,
+-`RUN_FINISHED` (with the exit code and the run's summary). Control: `SIGNAL_RECEIVED`, `RUN_INTERRUPTED`,
++`PARTIAL_EXPORT`, `RUN_VALIDATED` / `RUN_REJECTED`, `RUN_PUBLISHED` / `PUBLICATION_REFUSED` (an `ERROR`
++since release 1.6.6),
++`RUN_FINISHED` (with the exit code and the run's summary; `publication` when it was attempted),
++`OCCURRENCE_DONE` (a firing whose occurrence already has a finished run: that run's exit code). Control: `SIGNAL_RECEIVED`, `RUN_INTERRUPTED`,
+ `TERMINATED`, `RUN_AUTO_RESUMED`, `RUN_RECOVERED`, `SEGMENT_ABANDONED`, `COLLECTION_HELD`, `HOLD_RELEASED`,
+ `STORE_BUSY`, `LINEAGE_ATTESTED`, `COMMAND_REFUSED`, `CONFIG_INVALID`, `UNEXPECTED`.
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index e25338f..173c1a7 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.6.5 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.6 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+@@ -302,12 +302,18 @@ estimates from measured page rates, and **no full-scope run has been executed**.
+   ContainerAppConsoleLogs_CL
+   | where ContainerJobName_s startswith "walmart-collector"
+   | extend e = parse_json(Log_s)
+-  | where e.event in ("RUN_FINISHED", "COLLECTION_HELD", "UNEXPECTED", "TERMINATED", "PUBLICATION_REFUSED")
++  | where e.event in ("RUN_FINISHED", "OCCURRENCE_DONE", "COLLECTION_HELD", "UNEXPECTED", "TERMINATED",
++                      "PUBLICATION_REFUSED")
+   | project TimeGenerated, ContainerJobName_s, e.level, e.event, e.exit_code, e.run_id, e.stop_code, e.message
+   ```
+ 
+-  Alert suggestions: any `ERROR` line; `RUN_FINISHED` with `exit_code != 0`; no `RUN_FINISHED` for a store
+-  in 4 days; `PROVIDER_BALANCE` with `usable` below the next run's need.
++  Alert suggestions: any `ERROR` line; `RUN_FINISHED` or `OCCURRENCE_DONE` with `exit_code != 0`; no
++  `RUN_FINISHED` for a store in 4 days; `PROVIDER_BALANCE` with `usable` below the next run's need. A complete
++  validated run whose automatic publication was refused is caught by the first two since release 1.6.6:
++  `PUBLICATION_REFUSED` is an `ERROR` line, recorded on the run, and the execution (and Azure's retry of it)
++  exits 6. Release 1.6.5 logged it at `WARN` and exited 0, so none of these alerts fired. Read the reason
++  (`status --run ID`), resolve it, then `publish --run ID`; the last published dataset stays published
++  meanwhile.
+ * **`status`** (operations job, or locally): holds, last runs, published dataset, credits recorded.
+ * **`schedule-status`**: occurrences, backlog, missed deadlines, capacity. **`follow-ups`**: unfinished
+   product-page work. **`field-dispositions --run ID`**: why each product's UPC and size are filled or empty.
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 5ea6468..dc6dfab 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,4 +1,15 @@
+-# Verification report: walmart-azure-headless 1.6.5
++# Verification report: walmart-azure-headless 1.6.6
++
++## Release 1.6.6
++
++Release 1.6.6 corrects how a refused automatic publication is reported, a defect the client's review of 1.6.5
++named. What a run collects, checks and exports does not change: the page reader, the records, the gates, the
++exports and the publication's own checks are those of 1.6.5. Integration tests show the defect and its correction:
++each new test fails on 1.6.5 and passes on 1.6.6, and the test that shows what did not change passes on both.
++
++| Change | Until 1.6.5 | Where |
++|---|---|---|
++| A complete validated run whose automatic publication is refused (for example WARN findings without a recorded reason, a failed integrity check, or pages that did not come from the network on a target that is not a test target) is an error. The refusal is recorded on the run as an `ERROR` event and logged at `ERROR` (`PUBLICATION_REFUSED`, with its reason), the run's `RUN_FINISHED` summary says so (`publication`: `published` false and the reason), and the execution exits 6 (nothing was published). Azure's retry of that execution (the job's `replicaRetryLimit` is 1) finds the occurrence done, sends nothing and exits 6 again (`OCCURRENCE_DONE` names the refusal). The run stays validated, the last published dataset stays published, and `publish --run ID` publishes the run once the cause is resolved | The refusal was logged at `WARN` only and recorded nowhere on the run, and the execution exited 0, so neither documented alert (an `ERROR` line; `RUN_FINISHED` with `exit_code != 0`) fired and a dataset could stay unpublished unnoticed. Azure's retry exited 0 as well | `operations.py` (`after_run`, `_done_occurrence`, `auto_publication_refused`); `tests/integration/test_operations.py::test_a_refused_automatic_publication_is_an_error_with_a_non_zero_exit` (fails on 1.6.5: the line was `WARN`, nothing was recorded, the exit code was 0) and `::test_a_scheduled_run_whose_publication_was_refused_exits_6_also_on_azures_retry` (fails on 1.6.5: the scheduled execution exited 0); `::test_a_complete_run_is_published_and_a_partial_run_never_replaces_it` (unchanged; passes on both) |
+ 
+ ## Release 1.6.5
+ 
+diff --git a/pyproject.toml b/pyproject.toml
+index d645bb4..5617730 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.6.5"
++version = "1.6.6"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index bcb8345..8bf15c6 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.6.5"
++__version__ = "1.6.6"
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index aecad5d..f0b916b 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.6.5"
++PARSER_VERSION = "1.6.6"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/src/walmart_headless/operations.py b/src/walmart_headless/operations.py
+index a505553..a083ff3 100644
+--- a/src/walmart_headless/operations.py
++++ b/src/walmart_headless/operations.py
+@@ -68,6 +68,7 @@ from walmart_headless.db.locks import RunLockHeld, worker_alive
+ from walmart_headless.db.models import (
+     Artifact,
+     AuditLog,
++    Event,
+     ExportRow,
+     FollowUpItem,
+     PageFetch,
+@@ -652,7 +653,13 @@ async def continue_scheduled(
+ 
+ def after_run(ctx: Context, store_key: str, run_id: str) -> Exit:
+     """Hold the store after a refusal or a failed source check; keep a stopped run's records as a partial
+-    export; publish a complete validated run."""
++    export; publish a complete validated run.
++
++    Release 1.6.6: a complete validated run whose automatic publication is refused is an error, never a quiet
++    success. The refusal is recorded on the run and logged at ERROR (``PUBLICATION_REFUSED``), the run's
++    summary says so (``publication``), and the execution exits 6 (rejected: nothing was published), so an
++    alert on an ERROR line or on a non-zero exit code fires. The last published dataset stays published.
++    1.6.5 logged the refusal at WARN and exited 0."""
+     pipe = ctx.pipeline(store_key)
+     with ctx.factory() as s:
+         run = s.get(Run, run_id)
+@@ -694,6 +701,7 @@ def after_run(ctx: Context, store_key: str, run_id: str) -> Exit:
+             assert run is not None
+         label = pipe.dataset_label(run)
+         status = run.status
++    publication: dict[str, Any] | None = None
+     if status == "validated" and label == "complete" and ctx.config.collector.publish.auto:
+         try:
+             pub = publish_run(
+@@ -704,14 +712,29 @@ def after_run(ctx: Context, store_key: str, run_id: str) -> Exit:
+                 warn_override_reason=ctx.config.collector.publish.accept_warnings_reason,
+                 test_target=ctx.settings.publication.test_target,
+             )
++            publication = {"automatic": True, "published": True, "version": pub.version}
+             logs.log("INFO", "RUN_PUBLISHED", run_id=run_id, store=store_key, version=pub.version)
+         except PublicationRefused as exc:
+-            logs.log("WARN", "PUBLICATION_REFUSED", run_id=run_id, store=store_key, message=str(exc))
++            publication = {"automatic": True, "published": False, "refused": str(exc)}
++            with ctx.factory() as s:
++                event(
++                    s,
++                    run_id,
++                    "ERROR",
++                    "PUBLICATION_REFUSED",
++                    f"the complete validated run was not published: {exc}; the last published dataset stays",
++                    {"store": store_key, "reason": str(exc)},
++                )
++                s.commit()
+     with ctx.factory() as s:
+         run = s.get(Run, run_id)
+         assert run is not None
+         summary = run_summary(pipe, run)
+         code = exit_for(s, run)
++        if publication is not None:
++            summary["publication"] = publication
++            if not publication["published"] and code is Exit.OK:
++                code = Exit.REJECTED  # 1.6.6: nothing was published, so the execution does not end as OK
+         summary["failed_checks"] = failed_gates(s, run.id)
+     logs.log(
+         "INFO" if code is Exit.OK else "WARN", "RUN_FINISHED", store=store_key, exit_code=int(code), **summary
+@@ -1042,14 +1065,37 @@ def _done_occurrence(ctx: Context, store_key: str, coll: StoreCollection, now: d
+         if mine is None or mine.status not in FINISHED_STATES:
+             return None
+         pipe = ctx.pipeline(store_key)
++        code = exit_for(s, mine)
++        refused = auto_publication_refused(s, mine)
++        extra: dict[str, Any] = {}
++        if refused is not None:
++            extra["publication"] = {"automatic": True, "published": False, "refused": refused}
++            if code is Exit.OK:
++                code = Exit.REJECTED  # 1.6.6: a retry of the firing says again that nothing was published
+         logs.log(
+-            "INFO",
++            "INFO" if code is Exit.OK else "WARN",
+             "OCCURRENCE_DONE",
+             store=store_key,
+             occurrence=occ.day.isoformat(),
+             run=run_summary(pipe, mine),
++            exit_code=int(code),
++            **extra,
+         )
+-        return exit_for(s, mine)
++        return code
++
++
++def auto_publication_refused(s: Session, run: Run) -> str | None:
++    """Why the run's automatic publication was refused (release 1.6.6), while the run is still
++    unpublished: the last ``PUBLICATION_REFUSED`` event recorded on it; None when there is none or it was
++    published since."""
++    if run.status != "validated":
++        return None
++    found = s.scalars(
++        select(Event)
++        .where(Event.run_id == run.id, Event.code == "PUBLICATION_REFUSED")
++        .order_by(Event.ts.desc())
++    ).first()
++    return None if found is None else str((found.data or {}).get("reason") or found.message)
+ 
+ 
+ def _settle_occurrences(ctx: Context, store_key: str) -> None:
+diff --git a/tests/integration/test_operations.py b/tests/integration/test_operations.py
+index d45fa82..d461ff7 100644
+--- a/tests/integration/test_operations.py
++++ b/tests/integration/test_operations.py
+@@ -195,6 +195,37 @@ def test_a_complete_run_is_published_and_a_partial_run_never_replaces_it(env: En
+     assert code == 0 and res["run_id"] == first.id
+ 
+ 
++def test_a_refused_automatic_publication_is_an_error_with_a_non_zero_exit(env: Env) -> None:
++    """Release 1.6.6 (the client's review of 1.6.5): a validated, complete run whose automatic publication is
++    refused must not end as a quiet success. 1.6.5 logged PUBLICATION_REFUSED at WARN and exited 0, so neither
++    documented alert (any ERROR line; RUN_FINISHED with exit_code != 0) fired, and nothing was recorded on
++    the run."""
++    settings = env.config.parent / "settings.yaml"
++    text = settings.read_text(encoding="utf-8")
++    assert text.count("publication: { test_target: true }") == 1
++    # Not a test target: the mock's pages did not come from the network, so their publication is refused.
++    settings.write_text(
++        text.replace("publication: { test_target: true }", "publication: { test_target: false }"),
++        encoding="utf-8",
++    )
++    code, lines = env.cli("run", "--store", STORE_KEY)
++    [run] = env.runs()
++    assert run.status == "validated"  # the run itself is good: only its publication was refused
++    refused = [x for x in lines if x["event"] == "PUBLICATION_REFUSED"]
++    assert len(refused) == 1 and refused[0]["level"] == "ERROR", refused
++    assert "did not come from the network" in json.dumps(refused[0])
++    finished = [x for x in lines if x["event"] == "RUN_FINISHED"][-1]
++    assert code == 6 and finished["exit_code"] == 6 and finished["level"] == "WARN", finished
++    assert finished["publication"]["published"] is False
++    assert "did not come from the network" in finished["publication"]["refused"]
++    with sessionmaker(env.engine)() as s:
++        recorded = list(
++            s.scalars(select(Event).where(Event.run_id == run.id, Event.code == "PUBLICATION_REFUSED"))
++        )
++    assert [e.level for e in recorded] == ["ERROR"]
++    assert not (env.data / "published" / STORE_KEY / "latest.json").exists()  # nothing was published
++
++
+ def test_a_store_check_failure_holds_the_store_until_an_operator_releases_it(env: Env) -> None:
+     env.mock.intent = "SHIPPING"
+     code, _ = env.result("run", "--store", STORE_KEY)
+@@ -327,6 +358,28 @@ def test_a_scheduled_execution_acts_only_on_the_due_local_occurrence_once(env: E
+     assert _scheduled(env, datetime(2026, 7, 15, 11, tzinfo=UTC)) == 0 and len(env.runs()) == 1
+ 
+ 
++def test_a_scheduled_run_whose_publication_was_refused_exits_6_also_on_azures_retry(env: Env) -> None:
++    """Release 1.6.6: Azure retries a failed replica once (``replicaRetryLimit`` 1). The retry finds the
++    occurrence done and sends nothing; it must still exit 6, or the execution would end as a success."""
++    settings = env.config.parent / "settings.yaml"
++    text = settings.read_text(encoding="utf-8")
++    settings.write_text(
++        text.replace("publication: { test_target: true }", "publication: { test_target: false }"),
++        encoding="utf-8",
++    )
++    env.edit(schedule={"enabled": True, "weekdays": [1], "start_time": "06:00"})
++    summer = datetime(2026, 7, 14, tzinfo=UTC)
++    assert _scheduled(env, summer.replace(hour=11)) == 6
++    [run] = env.runs()
++    assert run.status == "validated" and run.trigger == "schedule"
++    calls = len(env.mock.calls)
++    assert (
++        _scheduled(env, summer.replace(hour=11, minute=10)) == 6
++    )  # Azure's retry: done, still not published
++    assert len(env.runs()) == 1 and len(env.mock.calls) == calls  # nothing was collected again
++    assert not (env.data / "published" / STORE_KEY / "latest.json").exists()
++
++
+ def test_a_winter_occurrence_is_due_at_its_local_time(env: Env) -> None:
+     env.edit(schedule={"enabled": True, "weekdays": [1], "start_time": "06:00"})
+     winter = datetime(2026, 1, 13, tzinfo=UTC)
+diff --git a/uv.lock b/uv.lock
+index 5e8d272..bdcf109 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.6.5"
++version = "1.6.6"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

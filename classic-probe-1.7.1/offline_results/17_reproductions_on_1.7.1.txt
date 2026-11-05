@@ -1,0 +1,11 @@
+.......                                                                  [100%]
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+PASSED tests/test_c2_c4_reproduction.py::test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+PASSED tests/test_c2_c4_reproduction.py::test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+PASSED tests/test_c2_c4_reproduction.py::test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+PASSED tests/test_c2_c4_reproduction.py::test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place
+PASSED tests/test_c2_c4_reproduction.py::test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk
+PASSED tests/test_c2_c4_reproduction.py::test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+7 passed in 24.88s

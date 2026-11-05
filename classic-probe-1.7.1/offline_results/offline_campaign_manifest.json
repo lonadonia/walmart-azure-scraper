@@ -1,0 +1,6 @@
+{
+  "campaign_id": "offline-check",
+  "ledger_path": "offline_out\\ledger.sqlite3",
+  "ledger_genesis_id": "e9e87fcb7fd54a9195b5e789d2ae5f0a",
+  "offline": true
+}

@@ -1,14 +1,16 @@
-"""Check that source/, classic-probe/ and classic-probe-1.7.0/ are the frozen trees they say they are, file for file
-(offline, standard library).
+"""Check that source/, classic-probe/, classic-probe-1.7.0/ and classic-probe-1.7.1/ are the frozen trees they say they
+are, file for file (offline, standard library).
 
 Run from the root of a clone, before any environment is created inside it:  python3 manifests/check_frozen_trees.py
 
-source/               collector release 1.6.5: each edition against its own EDITION.json (every file's SHA-256 and
+source/               collector release 1.6.6: each edition against its own EDITION.json (every file's SHA-256 and
                       the tree's) and against source/BUILD_MANIFEST.json (file count and tree SHA-256 of its commit);
 classic-probe/        the Walmart probe 1.5.2 the client reviewed (frozen with collector 627c804), unchanged;
-classic-probe-1.7.0/  the shared probe 1.7.0 (C1 to C5 corrected; frozen with collector 1.6.1, 1780349);
+classic-probe-1.7.0/  the shared probe 1.7.0 of the 1.6.5 delivery (C1, C3 and C5 corrected, C2 and C4 in part;
+                      frozen with collector 1.6.1, 1780349), unchanged and superseded;
+classic-probe-1.7.1/  the shared probe 1.7.1 (C2 and C4 completed; frozen with collector 1.6.6's build, cbea802);
                       each probe tree against its FILE_SHA256.txt and PACKAGE_MANIFEST.json (count and file-list SHA-256);
-all three             every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
+all four              every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
                       delivered archive.
 Prints each finding and ends with PASS or FAIL (exit status 0 or 1).
 """
@@ -21,10 +23,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE_RELEASE, SOURCE_COMMIT = "1.6.5", "67d216eb8ee2ec839a437b0b5bf2d594324b6982"
+SOURCE_RELEASE, SOURCE_COMMIT = "1.6.6", "cbea802891d4e66b74a0abc33e0af0af74c89708"
 PROBES = {
     "classic-probe": ("1.5.2", "627c804d66aa33fc423fd2296c8896c5d5c2c3d4"),
     "classic-probe-1.7.0": ("1.7.0", "1780349e522d771a3642fe88bfb7b542044ec844"),
+    "classic-probe-1.7.1": ("1.7.1", "cbea802891d4e66b74a0abc33e0af0af74c89708"),
 }
 problems: list[str] = []
 

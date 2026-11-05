@@ -1,0 +1,22 @@
+{
+ "steps": {
+  "marianos-search-p1": [
+   {
+    "http_status": 200,
+    "body_file": "marianos-search-p1-0.json"
+   }
+  ],
+  "marianos-product": [
+   {
+    "http_status": 200,
+    "body_file": "marianos-product-0.json"
+   }
+  ],
+  "marianos-category-url": [
+   {
+    "http_status": 200,
+    "body_file": "marianos-category-url-0.json"
+   }
+  ]
+ }
+}

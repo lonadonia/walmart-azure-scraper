@@ -1,0 +1,266 @@
+{
+  "mode": "LIVE",
+  "run_id": "01M6MC7YE4PBXV88G3PJ5ENW4B",
+  "store_key": "walmart-3891-pickup",
+  "created_at": "2026-11-04T22:59:44.716668Z",
+  "record_count": 10301,
+  "fresh_record_count": 40,
+  "dataset": "pilot",
+  "files": {
+    "products.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/products.json",
+      "sha256": "7b0552a345a75afea1d2fe7c7e2fa76db363de5a5abb8426f390a0a62fde0550",
+      "size": 13111134
+    },
+    "products.csv": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/products.csv",
+      "sha256": "cba607cda62d8eaf5e86bcb437d4ed1a5eeaf5258bd6368d68f78f33752d7d47",
+      "size": 8095110
+    },
+    "memberships.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/memberships.json",
+      "sha256": "2dec6edafdfee3f9a2a3ccb702c3356537d8609a2e2a99318ba25ebf2d5e01a9",
+      "size": 9337
+    },
+    "offers.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/offers.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "provenance.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/provenance.json",
+      "sha256": "e33968617fd0ac175864f24bd3fa504021615cdb2b34baeeec43e834fb9d5a76",
+      "size": 86797945
+    },
+    "validation_report.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/validation_report.json",
+      "sha256": "86ac9c56898be7490e276c900063f65c1d7529eb69df3716b34e64ef4d598c5d",
+      "size": 3337
+    },
+    "products_fresh.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/products_fresh.json",
+      "sha256": "03cb7222e322e0f6c57ec245976355c77621b0507fe07710976ac26f3a4cdea1",
+      "size": 53281
+    },
+    "products_fresh.csv": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/products_fresh.csv",
+      "sha256": "d6e9143cc34cd92e53119d4328a71e062ed459cc8a52b59e190694b3f2c54c85",
+      "size": 34098
+    },
+    "record_map.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/record_map.json",
+      "sha256": "1c6b92ea11f332f53b909fd56b3db022d8f95fb19f05d591818b9151f09d3d93",
+      "size": 98050866
+    },
+    "field_dispositions.json": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/field_dispositions.json",
+      "sha256": "9a7b0e199c32ae74b620b1d909812e2535c8ae9f046a607b126dce052f41f3b1",
+      "size": 9793987
+    },
+    "field_dispositions.csv": {
+      "key": "runs/walmart-3891-pickup/01M6MC7YE4PBXV88G3PJ5ENW4B/exports/field_dispositions.csv",
+      "sha256": "7ba12430b254afcb89c643d0dfd36cabfc7f82ec7e0e61ce0494f5a4f46b3c57",
+      "size": 6092650
+    }
+  },
+  "config_snapshot": {
+    "code": {
+      "commit": "cbea802891d4e66b74a0abc33e0af0af74c89708",
+      "source": "build_info",
+      "version": "1.6.6",
+      "built_at": "2026-11-04T22:38:53+00:00"
+    },
+    "plan": {
+      "nodes": [
+        {
+          "url": "https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning",
+          "kind": "landing",
+          "only": [
+            "/browse/household-essentials/fabric-softener/1115193_1071967_1630538"
+          ],
+          "category": "Household Essentials",
+          "excluded": [],
+          "row_index": 1,
+          "taxonomy_id": "1115193",
+          "sub_category": "",
+          "category_source_id": "01M69X5MFRVHSV96JV91SAN90V"
+        }
+      ],
+      "skipped": []
+    },
+    "gates": {
+      "coverage_fail_below": null,
+      "coverage_warn_below": null,
+      "canary_missing_is_fail": false,
+      "reconciliation_fail_above": 0.02,
+      "reconciliation_warn_above": 0.005,
+      "price_completeness_warn_below": 0.98
+    },
+    "pilot": true,
+    "store": {
+      "key": "walmart-3891-pickup",
+      "name": "Walmart #3891 Waukegan",
+      "modality": "PICKUP",
+      "retailer": "walmart",
+      "location_id": "3891"
+    },
+    "yield": {
+      "fail_retained_share": 0.5,
+      "warn_retained_share": 0.3,
+      "fail_drop_vs_last_good": 0.5,
+      "warn_drop_vs_last_good": 0.3
+    },
+    "contest": {
+      "enabled": true,
+      "min_categories": 3,
+      "min_valid_records": 500
+    },
+    "edition": "oxylabs",
+    "lineage": {
+      "replaced": [],
+      "transport": "network"
+    },
+    "records": {
+      "crawl_date": "STORE_LOCAL_DATE",
+      "exclude_ship_only": true,
+      "ppm_source_policy": "DOM_ONLY",
+      "other_promo_target": "NONE",
+      "sub_category_format": "LEAF",
+      "approx_weight_pattern": "(?i)\\b(approx\\.?|approximately|about|avg\\.?|average|est\\.?|estimated)\\b|~",
+      "fail_on_price_mismatch": true,
+      "deal_description_format": "TAG_TEXT_EXPIRY",
+      "primary_category_policy": "CSV_ORDER_COUPONS_LAST",
+      "deal_description_separator": " | ",
+      "store_brand_negative_value": "no",
+      "store_brand_positive_value": "yes",
+      "include_cashback_in_digital": false,
+      "sub_category_path_separator": " > ",
+      "exclude_relative_price_items": false,
+      "include_points_offers_in_deals": false
+    },
+    "retries": {
+      "backoff_max_s": 300.0,
+      "backoff_base_s": 10.0,
+      "pause_on_429_s": 600.0,
+      "max_retry_after_s": 1800.0,
+      "max_attempts_per_task": 3
+    },
+    "storage": {
+      "backend": "local",
+      "local_root": "C:\\w9\\live\\data",
+      "azure_container": null,
+      "azure_account_url": null
+    },
+    "coverage": {
+      "partition_max_depth": null,
+      "row_fail_below_ratio": null,
+      "node_min_coverage_ratio": 1.0,
+      "partition_large_listings": true,
+      "allow_paid_only_membership": false
+    },
+    "provider": "oxylabs",
+    "retailer": "walmart",
+    "overrides": {
+      "workers": 1,
+      "provider": "oxylabs",
+      "categories": [
+        1
+      ],
+      "subcategories": {
+        "1": [
+          "/browse/household-essentials/fabric-softener/1115193_1071967_1630538"
+        ]
+      },
+      "follow_up_pages": 0,
+      "max_run_minutes": 30,
+      "pilot_detail_pages": 10,
+      "max_credits_per_run": 15,
+      "max_pages_per_listing": 1
+    },
+    "collection": {
+      "detail": {
+        "enabled": true,
+        "endpoint": "general",
+        "reuse_days": 30,
+        "max_per_run": 10,
+        "pause_after_failures": 3
+      },
+      "limits": {
+        "max_run_minutes": 30,
+        "min_credit_reserve": 0,
+        "max_credits_per_day": null,
+        "max_credits_per_run": 15,
+        "max_segment_minutes": 300,
+        "max_products_per_day": null,
+        "max_products_per_run": null,
+        "max_pages_per_listing": 1,
+        "max_products_per_category": null,
+        "max_subcategories_per_category": null
+      },
+      "oxylabs": {
+        "delivery_zip": null,
+        "fulfillment_type": "pickup"
+      },
+      "parallel": {
+        "workers": 1,
+        "max_in_flight": 2,
+        "min_interval_s": 0.5
+      },
+      "provider": "oxylabs",
+      "schedule": {
+        "enabled": false,
+        "end_date": null,
+        "weekdays": [
+          1,
+          4
+        ],
+        "on_overlap": "continue",
+        "start_date": null,
+        "start_time": "06:00",
+        "window_end": null,
+        "window_start": "00:00",
+        "continue_unfinished": true
+      },
+      "timezone": "America/Chicago",
+      "follow_up": {
+        "seeds": [],
+        "variants": true,
+        "max_pages": 0,
+        "sponsored": true
+      },
+      "categories": [
+        1
+      ],
+      "pdp_sample": null,
+      "subcategories": {
+        "1": [
+          "/browse/household-essentials/fabric-softener/1115193_1071967_1630538"
+        ]
+      },
+      "max_auto_resumes": 3,
+      "start_tolerance_minutes": 45
+    },
+    "started_by": "operator",
+    "attestation": {
+      "trusted_modality_sources": [],
+      "require_is_trusted_source": true,
+      "periodic_every_navigations": 25
+    },
+    "publication": {
+      "test_target": false
+    },
+    "pilot_budgets": {
+      "detail.max_per_run": 10,
+      "follow_up.max_pages": 0,
+      "limits.max_pages_per_listing": 1
+    },
+    "circuit_breaker": {
+      "challenge_pages_to_abort_run": 1,
+      "consecutive_failures_to_fail_category": 5
+    }
+  },
+  "versions": {
+    "collector": "1.6.6"
+  },
+  "site_version": "walmart-next"
+}

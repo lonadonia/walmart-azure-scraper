@@ -4,7 +4,7 @@ Grouped by class. Paths are rewritten to this repository's layout; contents are 
 listed in [`../manifests/REDACTIONS.csv`](../manifests/REDACTIONS.csv).
 [`../manifests/FILE_MAP.csv`](../manifests/FILE_MAP.csv) gives each file's origin and both SHA-256 values.
 
-## The evidence of releases 1.6.0 to 1.6.5 (this delivery)
+## The evidence of releases 1.6.0 to 1.6.6 (this delivery)
 
 **Read the class before the number.** Every 1.6.x live request was made on 2026-11-03 or 2026-11-04, from the
 workstation, with the user's Oxylabs Web API trial account, by the release named for its run. Nothing ran in the
@@ -12,14 +12,16 @@ client's environment.
 
 | Folder | Class | What it holds |
 |---|---|---|
-| [`live/1.6.x/runs/`](live/1.6.x/runs/) | LIVE, releases 1.6.0 to 1.6.5 | the fourteen runs, one folder each (`<stage>_<run id>/`): the collector database's rows of the run, its stored pages (sanitized, with `PAGE_LINEAGE.csv` and the SHA-256 of each private original in `RAW_ORIGINALS_MANIFEST.csv`), its exports, coverage and field dispositions |
+| [`live/1.6.x/runs/`](live/1.6.x/runs/) | LIVE, releases 1.6.0 to 1.6.6 | the fifteen runs (L12, on 1.6.6, is the last), one folder each (`<stage>_<run id>/`): the collector database's rows of the run, its stored pages (sanitized, with `PAGE_LINEAGE.csv` and the SHA-256 of each private original in `RAW_ORIGINALS_MANIFEST.csv`), its exports, coverage and field dispositions |
 | [`live/1.6.x/campaign/`](live/1.6.x/campaign/) | LIVE, the campaign record | the harness that launched the collector's commands, the step definitions, `commands.csv` (every command with its start, end and exit code), each command's log, the checks, and the shared trial ledger's Walmart extract (`shared_ledger/`) |
-| [`live/1.6.x/builds/`](live/1.6.x/builds/) | BUILD | the Oxylabs edition ZIP of each release that ran live, 1.6.0 to 1.6.5, as built |
-| [`offline-tests/1.6.0-collector/`](offline-tests/1.6.0-collector/) to [`1.6.5-collector/`](offline-tests/1.6.5-collector/) | OFFLINE TEST | each release's diff from the one before, its new tests run against the release before (where they fail), and its suites on its commit; `1.6.5-collector/` also holds the pinned diff from 1.5.2 and the scan of every stored page's price layout |
+| [`live/1.6.x/builds/`](live/1.6.x/builds/) | BUILD | the Oxylabs edition ZIP of each release that ran live, 1.6.0 to 1.6.6, as built |
+| [`offline-tests/1.6.0-collector/`](offline-tests/1.6.0-collector/) to [`1.6.6-collector/`](offline-tests/1.6.6-collector/) | OFFLINE TEST | each release's diff from the one before, its new tests run against the release before (where they fail), and its suites on its commit; `1.6.6-collector/` also holds the pinned diff from 1.5.2, and `1.6.5-collector/` the scan of every stored page's price layout |
 | [`offline-tests/1.7.0-classic-probe/`](offline-tests/1.7.0-classic-probe/) | OFFLINE TEST | the shared Classic probe 1.7.0: its diff from 1.6.0 and its tests |
-| [`verification/1.6.5/`](verification/1.6.5/) | the delivery's verification | `package/`: both editions from clean extractions of the source ZIP, and the Bicep build and lint; `last_good_publication/`: the synthetic publication faults; `source_check_l10/`: the live L10 and L8 exports checked with 1.6.5's source check, and the record of the 1.6.4 check's defect |
+| [`offline-tests/1.7.1-classic-probe/`](offline-tests/1.7.1-classic-probe/) | OFFLINE TEST | the shared Classic probe 1.7.1: its diff from 1.7.0, the reproductions of C2 and C4 on 1.7.0 (where they fail) and on 1.7.1, and its development-tree tests |
+| [`verification/1.6.6/`](verification/1.6.6/) | the delivery's verification | `package/`: both editions from clean extractions of the source ZIP, and the Bicep build and lint; `last_good_publication/`: the synthetic publication faults |
+| [`verification/1.6.5/`](verification/1.6.5/) | the 1.6.5 delivery's verification, kept | the same two records for 1.6.5, and `source_check_l10/`: the live L10 and L8 exports checked with 1.6.5's source check, and the record of the 1.6.4 check's defect |
 | [`verification/1.6.1/`](verification/1.6.1/), [`verification/1.6.4/`](verification/1.6.4/) | SYNTHETIC TEST | the same last-good publication check on releases 1.6.1 and 1.6.4 |
-| [`reconciliation/1.6.1/`](reconciliation/1.6.1/) to [`1.6.5/`](reconciliation/1.6.5/) | OFFLINE REPROCESSING of the live evidence | W2, the field corrections of S6's 706 rows (final: `1.6.3/w2/`); W3, the 275 sponsored and variant decisions (`1.6.1/w3/`); W4, coverage by row, listing and page with the continuation estimate (`1.6.5/w4/`); the measured concurrency (`1.6.5/`) |
+| [`reconciliation/1.6.1/`](reconciliation/1.6.1/) to [`1.6.6/`](reconciliation/1.6.6/) | OFFLINE REPROCESSING of the live evidence | W2, the field corrections of S6's 706 rows (final: `1.6.3/w2/`); W3, the 275 sponsored and variant decisions (`1.6.1/w3/`); W4, coverage by row, listing and page with the continuation estimate (`1.6.6/w4/`, which adds L12's page to `1.6.5/w4/`); the measured concurrency (`1.6.6/`) |
 
 The runs, their releases and their results are in [`../data/RUN_SUMMARY.json`](../data/RUN_SUMMARY.json) and
 [`../review/TECHNICAL_REPORT.md`](../review/TECHNICAL_REPORT.md), section 3. To trace one row back to the page it

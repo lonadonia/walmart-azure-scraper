@@ -1,0 +1,55 @@
+{
+ "fault": "interrupted_run",
+ "synthetic": true,
+ "first_run": "01M6MF23N8HGA7CY4222NY4N25",
+ "second_run": "01M6MF29Q5WFQE10HJFKTR1SJF",
+ "interrupted_exit_code": 75,
+ "manual_publish_exit_code": 6,
+ "resume_exit_code": 0,
+ "before": {
+  "pointer": {
+   "publication_id": "01M6MF29GKRAYM4FZHKDAJKQ8Q",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6MF23N8HGA7CY4222NY4N25",
+  "latest_json_sha256": "0db602d09d42d043d11d29aa73137f0dafcc57789729b447f4b72613552f9e2b",
+  "manifest_sha256": "e3f45c6dc0ad03b4724bd613aed7f0efc0de252dacf94abe33d9956211558d5d",
+  "products_sha256": "cb190e5ae401b859490784e52d218bcf0e4baec75fe37bc3dcc0942c8bd4aa90",
+  "published_products": 4,
+  "first_run_observations_sha256": "5637defb26af41240aca25ae97feb5f4bd756b16c6aba2c9d773ecbde21a057e",
+  "first_run_records_sha256": "ee1cf45210ea8108e5d54614857bd29e7ee7666a6a0b64c84749ea102c41fbec",
+  "first_run_observations": 5
+ },
+ "after_interruption": {
+  "pointer": {
+   "publication_id": "01M6MF29GKRAYM4FZHKDAJKQ8Q",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6MF23N8HGA7CY4222NY4N25",
+  "latest_json_sha256": "0db602d09d42d043d11d29aa73137f0dafcc57789729b447f4b72613552f9e2b",
+  "manifest_sha256": "e3f45c6dc0ad03b4724bd613aed7f0efc0de252dacf94abe33d9956211558d5d",
+  "products_sha256": "cb190e5ae401b859490784e52d218bcf0e4baec75fe37bc3dcc0942c8bd4aa90",
+  "published_products": 4,
+  "first_run_observations_sha256": "5637defb26af41240aca25ae97feb5f4bd756b16c6aba2c9d773ecbde21a057e",
+  "first_run_records_sha256": "ee1cf45210ea8108e5d54614857bd29e7ee7666a6a0b64c84749ea102c41fbec",
+  "first_run_observations": 5
+ },
+ "after_resume": {
+  "pointer": {
+   "publication_id": "01M6MF2F4M01VAMC84PRB42N2Z",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6MF29Q5WFQE10HJFKTR1SJF",
+  "latest_json_sha256": "8bfa9a91602464576f9f75f6524104f9b902f029d4ec5dfd88e680ff8a6220bf",
+  "manifest_sha256": "753c1fb93bacae4e14ff5b805bef25e0570e6e13599c73ac7f54474a67a32627",
+  "products_sha256": "cb190e5ae401b859490784e52d218bcf0e4baec75fe37bc3dcc0942c8bd4aa90",
+  "published_products": 4,
+  "first_run_observations_sha256": "5637defb26af41240aca25ae97feb5f4bd756b16c6aba2c9d773ecbde21a057e",
+  "first_run_records_sha256": "ee1cf45210ea8108e5d54614857bd29e7ee7666a6a0b64c84749ea102c41fbec",
+  "first_run_observations": 5
+ },
+ "unchanged_until_resume": true
+}

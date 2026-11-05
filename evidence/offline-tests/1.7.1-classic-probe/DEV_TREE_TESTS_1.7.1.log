@@ -1,0 +1,200 @@
+........................................................................ [ 41%]
+........................................................................ [ 83%]
+...........................ss                                            [100%]
+=================================== PASSES ====================================
+============================ slowest 20 durations =============================
+11.82s call     tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+5.84s call     tests/test_durable_evidence.py::test_a_recovery_that_overruns_is_killed_by_the_sessions_end
+5.02s call     tests/test_offline.py::test_every_command_runs_in_its_own_process_without_a_network_or_a_credential
+4.92s call     tests/test_c2_c4_reproduction.py::test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+4.77s call     tests/test_supervisor.py::test_a_session_past_its_hard_end_is_killed_with_its_worker_and_recovered
+3.86s call     tests/test_marianos.py::test_both_retailers_share_one_ledger_and_neither_gets_a_fresh_allowance
+3.83s call     tests/test_c2_c4_reproduction.py::test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+3.82s call     tests/test_durable_evidence.py::test_after_one_refusal_of_the_lock_the_session_does_not_wait_for_it_again
+3.14s call     tests/test_c2_c4_reproduction.py::test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+3.00s call     tests/test_saved_pages.py::test_a_campaign_on_saved_pages_stops_at_a_product_page_for_another_item
+2.30s call     tests/test_campaign.py::test_a_backoff_is_a_real_wait_by_default
+2.16s call     tests/test_campaign.py::test_a_temporary_error_that_does_not_clear_stops_after_the_last_attempt
+1.81s call     tests/test_marianos.py::test_a_wrong_store_category_page_stops_and_nothing_more_is_sent
+1.79s call     tests/test_marianos.py::test_a_complete_answer_takes_three_requests_each_reserved_first
+1.66s call     tests/test_saved_pages.py::test_real_page_2_advances_and_page_1_served_again_is_refused
+1.56s call     tests/test_isolated_transport.py::test_a_server_that_never_answers_is_killed_and_reaped_at_the_deadline
+1.56s call     tests/test_isolated_transport.py::test_a_body_dripped_past_the_deadline_is_cut_off
+1.19s call     tests/test_supervisor.py::test_a_session_that_ends_by_itself_needs_no_recovery
+1.16s call     tests/test_c2_c4_reproduction.py::test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+0.89s call     tests/test_isolated_transport.py::test_a_compression_bomb_is_refused_within_its_decoded_limit
+=========================== short test summary info ===========================
+PASSED tests/test_c2_c4_reproduction.py::test_c2_the_recovery_after_a_kill_ends_by_the_sessions_end_even_with_the_ledger_locked
+PASSED tests/test_c2_c4_reproduction.py::test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_session_allows
+PASSED tests/test_c2_c4_reproduction.py::test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered
+PASSED tests/test_c2_c4_reproduction.py::test_c4_an_answer_received_before_a_crash_is_kept_without_a_paid_refetch
+PASSED tests/test_c2_c4_reproduction.py::test_c4_the_evidence_manifest_is_synced_before_it_is_renamed_into_place
+PASSED tests/test_c2_c4_reproduction.py::test_c4_on_windows_a_kept_file_is_renamed_through_to_the_disk
+PASSED tests/test_c2_c4_reproduction.py::test_c4_a_body_cut_at_its_deadline_is_recorded_as_partial_never_as_an_answer
+PASSED tests/test_campaign.py::test_a_complete_answer_takes_four_requests_each_reserved_first
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[blocked-steps0-STOP_BLOCKED-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[retailer_refused-steps1-STOP_BLOCKED-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[wrong_store-steps2-STOP_WRONG_CONTEXT-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[wrong_fulfillment-steps3-STOP_WRONG_CONTEXT-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[parsed_disagrees-steps4-STOP_WRONG_CONTEXT-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[no_raw-steps5-STOP_UNVERIFIED_CONTEXT-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[parser_failed-steps6-STOP_PARSER_FAILED-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[malformed-steps7-STOP_UNSUPPORTED_RESPONSE-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[no_results-steps8-STOP_UNSUPPORTED_RESPONSE-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[unauthorized-steps9-STOP_AUTHORIZATION-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[no_entitlement-steps10-STOP_ENTITLEMENT-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[bad_request-steps11-STOP_BAD_REQUEST-1]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[repeated_page-steps12-STOP_REPEATED_PAGE-2]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[page_2_with_page_1s_products-steps13-STOP_REPEATED_PAGE-2]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[empty_page_2-steps14-STOP_EMPTY_RESPONSE-2]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[wrong_product-steps15-STOP_WRONG_IDENTITY-3]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[product_for_other_store-steps16-STOP_WRONG_CONTEXT-3]
+PASSED tests/test_campaign.py::test_a_response_that_fails_its_check_stops_the_campaign_with_nothing_more_sent[category_page_for_a_random_store-steps17-STOP_WRONG_CONTEXT-4]
+PASSED tests/test_campaign.py::test_a_documented_temporary_error_is_retried_once_and_the_retry_is_a_new_dispatch
+PASSED tests/test_campaign.py::test_a_temporary_error_that_does_not_clear_stops_after_the_last_attempt
+PASSED tests/test_campaign.py::test_a_retry_that_would_end_after_the_deadline_is_not_sent
+PASSED tests/test_campaign.py::test_a_request_still_open_at_its_deadline_keeps_its_reservation_and_its_outcome_stays_unknown
+PASSED tests/test_campaign.py::test_an_export_or_cleanup_error_sends_nothing_keeps_the_history_and_the_first_reason
+PASSED tests/test_campaign.py::test_kept_evidence_has_no_session_identifier_token_or_cookie
+PASSED tests/test_campaign.py::test_the_marianos_target_plans_nothing_and_keeps_its_share
+PASSED tests/test_campaign.py::test_an_unknown_rate_prevents_the_first_dispatch
+PASSED tests/test_campaign.py::test_the_replay_command_runs_the_steps_from_saved_files
+PASSED tests/test_campaign.py::test_a_backoff_is_a_real_wait_by_default
+PASSED tests/test_campaign.py::test_retry_after_is_honoured_and_a_longer_wait_ends_the_step
+PASSED tests/test_campaign.py::test_retry_after_past_the_deadline_is_not_waited_for
+PASSED tests/test_campaign.py::test_each_answer_is_kept_and_indexed_before_the_next_paid_step
+PASSED tests/test_campaign.py::test_an_answer_that_cannot_be_kept_stops_the_campaign_before_another_request
+PASSED tests/test_campaign.py::test_the_export_says_when_a_capture_was_not_checked_in_time
+PASSED tests/test_campaign.py::test_a_refused_target_is_never_marked_sent
+PASSED tests/test_contract.py::test_the_documented_examples_are_accepted_as_written
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload0]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload1]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload2]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload3]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload4]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload5]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload6]
+PASSED tests/test_contract.py::test_an_undocumented_request_is_refused_before_it_can_be_planned[payload7]
+PASSED tests/test_contract.py::test_a_documented_general_feature_is_never_used_and_says_why[geo_location]
+PASSED tests/test_contract.py::test_a_documented_general_feature_is_never_used_and_says_why[render]
+PASSED tests/test_contract.py::test_a_documented_general_feature_is_never_used_and_says_why[user_agent_type]
+PASSED tests/test_contract.py::test_a_documented_general_feature_is_never_used_and_says_why[session_id]
+PASSED tests/test_contract.py::test_a_next_page_is_asked_for_only_when_the_previous_response_shows_it
+PASSED tests/test_contract.py::test_the_probes_payloads_are_the_store_and_pickup_forms
+PASSED tests/test_deadline.py::test_a_wall_clock_jump_backwards_never_extends_the_session
+PASSED tests/test_deadline.py::test_a_wall_clock_jump_forwards_ends_the_session_early
+PASSED tests/test_deadline.py::test_an_allowance_is_clamped_to_the_time_before_the_reserve
+PASSED tests/test_deadline.py::test_a_backoff_really_waits_and_never_past_the_deadline
+PASSED tests/test_deadline.py::test_the_default_sleeper_is_the_real_one
+PASSED tests/test_deadline.py::test_retry_after_is_read_in_both_documented_forms
+PASSED tests/test_durable_evidence.py::test_an_answer_whose_worker_died_before_its_final_rename_is_kept_without_a_refetch
+PASSED tests/test_durable_evidence.py::test_a_raw_body_that_does_not_match_its_status_is_refused_and_never_indexed
+PASSED tests/test_durable_evidence.py::test_a_partial_body_found_at_a_recovery_is_recorded_once_and_never_indexed
+PASSED tests/test_durable_evidence.py::test_a_dispatch_name_is_used_once_and_its_files_are_never_overwritten
+PASSED tests/test_durable_evidence.py::test_a_body_cut_by_the_workers_kill_is_kept_as_partial_with_its_length_and_hash
+PASSED tests/test_durable_evidence.py::test_after_one_refusal_of_the_lock_the_session_does_not_wait_for_it_again
+PASSED tests/test_durable_evidence.py::test_a_session_that_exits_cleanly_without_its_evidence_is_recovered
+PASSED tests/test_durable_evidence.py::test_a_recovery_that_overruns_is_killed_by_the_sessions_end
+PASSED tests/test_gates.py::test_each_missing_condition_prevents_dispatch_and_is_named
+PASSED tests/test_gates.py::test_an_offline_ledger_never_authorizes_a_request
+PASSED tests/test_gates.py::test_this_build_cannot_construct_its_http_transport
+PASSED tests/test_gates.py::test_the_live_command_refuses_without_reading_a_credential
+PASSED tests/test_isolated_transport.py::test_an_answer_comes_back_whole_without_its_cookies
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://realtime.oxylabs.io/v1/queries?again=1-301]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://realtime.oxylabs.io/v1/queries?again=1-302]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://realtime.oxylabs.io/v1/queries?again=1-303]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://realtime.oxylabs.io/v1/queries?again=1-307]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://realtime.oxylabs.io/v1/queries?again=1-308]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://elsewhere.example/collect-301]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://elsewhere.example/collect-302]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://elsewhere.example/collect-303]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://elsewhere.example/collect-307]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[https://elsewhere.example/collect-308]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[http://realtime.oxylabs.io/v1/queries-301]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[http://realtime.oxylabs.io/v1/queries-302]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[http://realtime.oxylabs.io/v1/queries-303]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[http://realtime.oxylabs.io/v1/queries-307]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[http://realtime.oxylabs.io/v1/queries-308]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[/v1/queries-301]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[/v1/queries-302]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[/v1/queries-303]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[/v1/queries-307]
+PASSED tests/test_isolated_transport.py::test_a_redirect_is_reported_and_never_followed[/v1/queries-308]
+PASSED tests/test_isolated_transport.py::test_a_redirect_chain_stops_the_campaign_after_one_request
+PASSED tests/test_isolated_transport.py::test_a_server_that_never_answers_is_killed_and_reaped_at_the_deadline
+PASSED tests/test_isolated_transport.py::test_a_body_dripped_past_the_deadline_is_cut_off
+PASSED tests/test_isolated_transport.py::test_a_body_above_its_limit_is_truncated_on_success_and_error_alike[200]
+PASSED tests/test_isolated_transport.py::test_a_body_above_its_limit_is_truncated_on_success_and_error_alike[500]
+PASSED tests/test_isolated_transport.py::test_a_truncated_answer_stops_the_campaign_and_is_never_read
+PASSED tests/test_isolated_transport.py::test_a_compression_bomb_is_refused_within_its_decoded_limit
+PASSED tests/test_isolated_transport.py::test_a_request_for_any_other_url_is_refused_before_a_worker_starts[https://realtime.oxylabs.io.evil.example/v1/queries]
+PASSED tests/test_isolated_transport.py::test_a_request_for_any_other_url_is_refused_before_a_worker_starts[http://realtime.oxylabs.io/v1/queries]
+PASSED tests/test_isolated_transport.py::test_a_request_for_any_other_url_is_refused_before_a_worker_starts[https://realtime.oxylabs.io:8443/v1/queries]
+PASSED tests/test_isolated_transport.py::test_a_request_for_any_other_url_is_refused_before_a_worker_starts[https://realtime.oxylabs.io/v1/other]
+PASSED tests/test_isolated_transport.py::test_a_request_for_any_other_url_is_refused_before_a_worker_starts[https://user@elsewhere.example/v1/queries]
+PASSED tests/test_isolated_transport.py::test_without_a_loopback_stub_this_build_refuses_to_build_the_transport
+PASSED tests/test_isolated_transport.py::test_the_worker_itself_refuses_the_real_endpoint_and_any_other_target
+PASSED tests/test_isolated_transport.py::test_the_credentials_never_appear_in_the_workers_arguments_or_environment
+PASSED tests/test_ledger.py::test_the_eleventh_request_of_a_retailer_and_the_twenty_first_of_the_campaign_are_never_reserved
+PASSED tests/test_ledger.py::test_one_retailer_cannot_take_the_other_retailers_requests_or_money
+PASSED tests/test_ledger.py::test_setup_calls_retries_and_failed_responses_count_like_any_request
+PASSED tests/test_ledger.py::test_a_restart_continues_the_same_counters_and_finds_unfinished_requests
+PASSED tests/test_ledger.py::test_concurrent_invocations_never_pass_the_shared_caps
+PASSED tests/test_ledger.py::test_a_crash_after_a_reservation_keeps_it_counted
+PASSED tests/test_ledger.py::test_money_is_exact_and_units_are_never_mixed
+PASSED tests/test_ledger.py::test_a_charge_above_the_remaining_funds_is_never_reserved
+PASSED tests/test_ledger.py::test_the_deadline_keeps_time_for_export_and_cleanup
+PASSED tests/test_ledger.py::test_history_is_never_deleted_or_rewritten
+PASSED tests/test_ledger.py::test_a_disconnected_execution_cannot_grant_itself_a_new_budget
+PASSED tests/test_ledger.py::test_the_proposed_ceilings_cannot_be_raised
+PASSED tests/test_ledger.py::test_the_time_is_read_only_while_the_write_lock_is_held
+PASSED tests/test_ledger.py::test_a_reservation_that_waited_for_the_lock_is_checked_against_the_time_left_when_it_gets_it
+PASSED tests/test_ledger.py::test_the_wait_for_the_lock_is_bounded_and_reserves_nothing
+PASSED tests/test_ledger.py::test_the_last_check_before_sending_refuses_a_late_request_and_records_it_as_never_sent
+PASSED tests/test_ledger.py::test_a_stop_recorded_by_another_invocation_is_seen_at_the_last_check
+PASSED tests/test_ledger.py::test_requests_never_sent_do_not_use_the_quotas
+PASSED tests/test_ledger.py::test_a_capture_index_row_is_never_changed_or_deleted
+PASSED tests/test_ledger.py::test_a_ledger_of_the_earlier_schema_is_refused
+PASSED tests/test_marianos.py::test_the_mariano_payloads_are_the_documented_ones
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[start_page]
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[pages]
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[parse]
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[domain]
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[page]
+PASSED tests/test_marianos.py::test_a_parameter_the_marianos_page_does_not_document_is_refused[sort_by]
+PASSED tests/test_marianos.py::test_the_documented_filters_and_the_store_rule
+PASSED tests/test_marianos.py::test_no_second_page_can_be_planned_for_marianos
+PASSED tests/test_marianos.py::test_the_shipped_targets_name_vernon_hills_and_never_lakeshore_east
+PASSED tests/test_marianos.py::test_a_saved_vernon_hills_search_page_passes_in_a_synthetic_envelope
+PASSED tests/test_marianos.py::test_the_same_page_for_another_store_stops_the_campaign
+PASSED tests/test_marianos.py::test_another_fulfillment_stops_the_campaign
+PASSED tests/test_marianos.py::test_a_refusal_or_a_page_without_state_stops_the_campaign[<html><title>Access Denied</title>Reference #18.1a2b.123</html>-200-STOP_BLOCKED]
+PASSED tests/test_marianos.py::test_a_refusal_or_a_page_without_state_stops_the_campaign[<html><body>no state at all</body></html>-200-STOP_UNVERIFIED_CONTEXT]
+PASSED tests/test_marianos.py::test_a_refusal_or_a_page_without_state_stops_the_campaign[<html></html>-403-STOP_BLOCKED]
+PASSED tests/test_marianos.py::test_a_saved_category_page_passes_and_a_product_page_needs_its_own_product
+PASSED tests/test_marianos.py::test_a_complete_answer_takes_three_requests_each_reserved_first
+PASSED tests/test_marianos.py::test_both_retailers_share_one_ledger_and_neither_gets_a_fresh_allowance
+PASSED tests/test_marianos.py::test_a_wrong_store_category_page_stops_and_nothing_more_is_sent
+PASSED tests/test_marianos.py::test_an_unknown_marianos_rate_prevents_the_first_dispatch
+PASSED tests/test_marianos.py::test_live_is_refused_for_marianos_and_lists_what_it_lacks
+PASSED tests/test_offline.py::test_the_offline_tests_cannot_reach_a_network
+PASSED tests/test_offline.py::test_every_command_runs_in_its_own_process_without_a_network_or_a_credential
+PASSED tests/test_saved_pages.py::test_each_saved_page_is_the_recorded_copy
+PASSED tests/test_saved_pages.py::test_a_real_result_page_for_store_3891_pickup_passes_the_search_checks
+PASSED tests/test_saved_pages.py::test_the_same_real_page_is_refused_for_any_other_store
+PASSED tests/test_saved_pages.py::test_real_page_2_advances_and_page_1_served_again_is_refused
+PASSED tests/test_saved_pages.py::test_a_parsed_result_naming_a_product_the_page_does_not_hold_is_refused
+PASSED tests/test_saved_pages.py::test_a_real_product_page_passes_identity_store_and_upc_and_refuses_for_another_item
+PASSED tests/test_saved_pages.py::test_the_real_challenge_page_stops_as_blocked
+PASSED tests/test_saved_pages.py::test_a_real_category_page_shows_the_store_it_was_served_for
+PASSED tests/test_saved_pages.py::test_a_campaign_on_saved_pages_stops_at_a_product_page_for_another_item
+PASSED tests/test_supervisor.py::test_a_session_past_its_hard_end_is_killed_with_its_worker_and_recovered
+PASSED tests/test_supervisor.py::test_a_session_that_ends_by_itself_needs_no_recovery
+PASSED tests/test_supervisor.py::test_a_crash_at_each_point_leaves_the_money_held_and_the_evidence_recoverable[crash-after-reserve-0-indexed_on_recovery0]
+PASSED tests/test_supervisor.py::test_a_crash_at_each_point_leaves_the_money_held_and_the_evidence_recoverable[crash-after-send-0-indexed_on_recovery1]
+PASSED tests/test_supervisor.py::test_a_crash_at_each_point_leaves_the_money_held_and_the_evidence_recoverable[crash-after-capture-file-1-indexed_on_recovery2]
+PASSED tests/test_supervisor.py::test_a_crash_at_each_point_leaves_the_money_held_and_the_evidence_recoverable[crash-after-index-1-indexed_on_recovery3]
+PASSED tests/test_vendored.py::test_each_vendored_file_is_the_recorded_copy
+SKIPPED [1] tests\test_vendored.py:55: the collector beside this probe is walmart-azure-headless 1.6.5; the copies were taken from walmart-azure-headless 1.5.2 (each copy is checked against its recorded git object above)
+SKIPPED [1] tests\test_vendored.py:55: the collector beside this probe is marianos-azure-headless 1.2.1; the copies were taken from marianos-azure-headless 1.8.0rc3 (each copy is checked against its recorded git object above)
+171 passed, 2 skipped in 100.41s (0:01:40)

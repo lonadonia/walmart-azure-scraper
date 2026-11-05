@@ -1,26 +1,26 @@
 {
-  "release": "1.6.5",
-  "commit": "67d216eb8ee2ec839a437b0b5bf2d594324b6982",
-  "committed_at": "2026-11-04T14:15:19+00:00",
+  "release": "1.6.6",
+  "commit": "cbea802891d4e66b74a0abc33e0af0af74c89708",
+  "committed_at": "2026-11-04T22:38:53+00:00",
   "built_with": "deploy/build_edition.py of the revision (reproducible: the same revision gives the same bytes)",
   "editions": {
     "oxylabs": {
-      "top_folder": "walmart-oxylabs-1.6.5",
+      "top_folder": "walmart-oxylabs-1.6.6",
       "provider": "oxylabs",
       "title": "Oxylabs Web API (Bearer key; not the Classic product)",
-      "edition_zip": "WALMART_OXYLABS_SOURCE_1.6.5.zip",
-      "edition_zip_sha256": "edd60bb8435e7abd8293d7c2b5b76eaaaff0051d18c053d715afc2533070ba6b",
+      "edition_zip": "WALMART_OXYLABS_SOURCE_1.6.6.zip",
+      "edition_zip_sha256": "0859a2f693527bab073252edf941928bb4f118ea4a63d581078d96ddd2324e22",
       "files": 230,
-      "tree_sha256": "877f36afbf46531777575717d794e58f38b162512b01a35720022d37f7ca4f04"
+      "tree_sha256": "938045b09316f2585f637137d0ea5038af6124e8596a8e67baadca1749253741"
     },
     "scrapedo": {
-      "top_folder": "walmart-scrapedo-1.6.5",
+      "top_folder": "walmart-scrapedo-1.6.6",
       "provider": "scrapedo",
       "title": "Scrape.do, Walmart store endpoint (/plugin/walmart/store)",
-      "edition_zip": "WALMART_SCRAPEDO_SOURCE_1.6.5.zip",
-      "edition_zip_sha256": "3551ee0ece09d3609a2504d4f60c3adef714eb424d79185587f7ef574bb25e94",
+      "edition_zip": "WALMART_SCRAPEDO_SOURCE_1.6.6.zip",
+      "edition_zip_sha256": "d96ef6409c0094b40094b605687c8b72efdfc2414568a020965fc31a5c0e68e2",
       "files": 230,
-      "tree_sha256": "b771dcb5e876c80f9f96ff62efa1d937e6686fb1fd7f958afe5176f86476108f"
+      "tree_sha256": "d7d43d3e3ae0f1a2b3524d12b9a51dc2ddcd98ec2e3eab4fe64ab3d1f1c11c97"
     }
   },
   "files_that_differ_between_the_editions": [

@@ -1,5 +1,5 @@
 {
- "about": "Every live run of Walmart #3891 Pickup that this repository publishes. The nine 1.5.x stages are the owner-funded campaign of 2026-10-31 (releases 1.5.0 and 1.5.1), with the values the 1.5.2 publication gave them and repository paths. The 1.6.x stages are the user-trial campaign oxylabs-trial-20261103 (2026-11-03/04; releases 1.6.0 to 1.6.4 and the final 1.6.5): each entry is computed from the run's own evidence in evidence/live/1.6.x/runs/ and from the shared trial ledger's reservations of its stage (evidence/live/1.6.x/campaign/shared_ledger/). A run's status is the collector's: 'rejected' means a release gate failed (G3, coverage, at least: no run read the whole catalogue), so nothing was published. products.valid_fresh is the run's own count of valid fresh records (its validation report); a run that stopped before its validation (L4, L6, L7) has none, and products.fresh_rows_exported is the number of fresh rows its export holds. products_retained is the run's products.json: its fresh rows plus the rows it carried from earlier runs, each with its own observation date. USD amounts are at the reserve rate (USD 0.0015 per result, a list price), not an invoice.",
+ "about": "Every live run of Walmart #3891 Pickup that this repository publishes. The nine 1.5.x stages are the owner-funded campaign of 2026-10-31 (releases 1.5.0 and 1.5.1), with the values the 1.5.2 publication gave them and repository paths. The 1.6.x stages are the user-trial campaign oxylabs-trial-20261103 (2026-11-03/04; releases 1.6.0 to 1.6.5 and the final 1.6.6): each entry is computed from the run's own evidence in evidence/live/1.6.x/runs/ and from the shared trial ledger's reservations of its stage (evidence/live/1.6.x/campaign/shared_ledger/). A run's status is the collector's: 'rejected' means a release gate failed (G3, coverage, at least: no run read the whole catalogue), so nothing was published. products.valid_fresh is the run's own count of valid fresh records (its validation report); a run that stopped before its validation (L4, L6, L7) has none, and products.fresh_rows_exported is the number of fresh rows its export holds. products_retained is the run's products.json: its fresh rows plus the rows it carried from earlier runs, each with its own observation date. USD amounts are at the reserve rate (USD 0.0015 per result, a list price), not an invoice.",
  "evidence_class": "LIVE VERIFIED",
  "campaigns": {
   "1.5.x": {
@@ -1916,6 +1916,88 @@
    },
    "run_folder": "evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54",
    "exports": "evidence/live/1.6.x/runs/L11b_01M6KFRFEX31W014SW9ZTT4Y54/exports",
+   "delivered_files": {}
+  },
+  {
+   "stage": "L12",
+   "trial_stage": "W-L12-detail-canary-166-20261104",
+   "run": "01M6MC7YE4PBXV88G3PJ5ENW4B",
+   "release": "1.6.6",
+   "commit": "cbea802891d4e66b74a0abc33e0af0af74c89708",
+   "evidence_class": "LIVE VERIFIED",
+   "mode": "LIVE",
+   "dataset": "pilot",
+   "provider": "oxylabs",
+   "provider_product": "Oxylabs Web API (Bearer key; not the Classic Web Scraper API)",
+   "edition": "oxylabs",
+   "edition_zip_sha256": "0859a2f693527bab073252edf941928bb4f118ea4a63d581078d96ddd2324e22",
+   "edition_zip_in_repository": "evidence/live/1.6.x/builds/WALMART_OXYLABS_SOURCE_1.6.6.zip",
+   "store": {
+    "store_id": "3891",
+    "configured_name": "Walmart #3891 Waukegan",
+    "address": "3900 Fountain Square Pl, Waukegan, IL 60085",
+    "zipcode": "60085",
+    "fulfillment": "PICKUP",
+    "timezone": "America/Chicago",
+    "store_page_url": "https://www.walmart.com/store/3891-waukegan-il",
+    "store_key": "walmart-3891-pickup",
+    "location_id_configured": "3891",
+    "modality_configured": "PICKUP"
+   },
+   "created_at": "2026-11-04 22:52:58.099524+00:00",
+   "started_at": "2026-11-04 22:52:58.292232+00:00",
+   "finished_at": "2026-11-04 22:59:45.331519+00:00",
+   "active_seconds": 407.0,
+   "status": "rejected",
+   "stop_code": "",
+   "gates_failed": "G3; G14",
+   "segments": 1,
+   "segment_stop_codes": {
+    "(none)": 1
+   },
+   "workers": [
+    1
+   ],
+   "collector_ledger_rows": 13,
+   "collector_ledger_by_outcome": {
+    "ok": 13
+   },
+   "collector_ledger_by_purpose": {
+    "listing": 1,
+    "product_detail": 10,
+    "robots": 1,
+    "store_page": 1
+   },
+   "usd_at_reserve_rate_0_0015": "0.0195",
+   "shared_ledger_reservations_by_state": {
+    "settled": 13
+   },
+   "shared_ledger_usd_by_state": {
+    "settled": "0.0195"
+   },
+   "page_fetches_by_purpose": {
+    "listing": 1,
+    "product_detail": 10,
+    "robots": 1,
+    "store_page": 1
+   },
+   "page_fetches_http_not_200": 0,
+   "challenges": 0,
+   "products": {
+    "valid_fresh": 40,
+    "fresh_rows_exported": 40,
+    "export_rows": 10301,
+    "carried_from_earlier_runs": 10261,
+    "records_by_status": {
+     "valid": 40,
+     "historical": 10261
+    }
+   },
+   "coverage_by_status": {
+    "CAPPED": 1
+   },
+   "run_folder": "evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B",
+   "exports": "evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B/exports",
    "delivered_files": {}
   }
  ]

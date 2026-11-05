@@ -1,7 +1,7 @@
-# Recovery and operations (W6), release 1.6.5
+# Recovery and operations (W6), release 1.6.6
 
-Release 1.6.5, commit `67d216eb8ee2ec839a437b0b5bf2d594324b6982`. Store: Walmart #3891, 3900 Fountain Square Pl,
-Waukegan, IL 60085, PICKUP. Times are UTC.
+Release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b` (built as `cbea802`). Store: Walmart #3891, 3900
+Fountain Square Pl, Waukegan, IL 60085, PICKUP. Times are UTC.
 
 Each line says where it was shown:
 - **LIVE:** the Oxylabs Web API and Walmart, from the workstation, with the user's trial account. This is
@@ -9,9 +9,10 @@ Each line says where it was shown:
 - **SYNTHETIC:** fixture pages and a temporary local database, with no request.
 - **DOCUMENTED:** the shipped documents and configuration, not exercised here.
 
-Nothing in this file ran in the client's Azure environment, and the schedule was never enabled. Release 1.6.5
-changed only the independent source check, and release 1.6.4 only how a listing's total is read: the retention,
-recovery, publication, concurrency and schedule code is that of 1.6.3.
+Nothing in this file ran in the client's Azure environment, and the schedule was never enabled. Release 1.6.6
+changed only how a refused automatic publication is reported (section 3), release 1.6.5 only the independent source
+check, and release 1.6.4 only how a listing's total is read: the retention, recovery, concurrency and schedule code
+is that of 1.6.3, and the publication step's own checks are too.
 
 ## 1. Retention
 
@@ -30,9 +31,9 @@ LIVE, three times, each on the release it ran:
 - L5 on 1.6.2 (`01M6K1HG154683NAAFXQZX33C6`);
 - L8 on 1.6.3 (`01M6K6P21BW509BMRTN1FSB9H7`).
 
-Each ran with two workers. Releases 1.6.4 and 1.6.5 did not change the recovery path, and a live repeat on them was
-not funded; their integration suites, which include the interruption, kill and resume tests, passed in both
-editions. Every command, with its start, end and exit code, is in `evidence/live/1.6.x/campaign/commands.csv`, and
+Each ran with two workers. Releases 1.6.4 to 1.6.6 did not change the recovery path (1.6.6 changes only how a
+refused automatic publication is reported), and a live repeat on them was not funded; their integration suites,
+which include the interruption, kill and resume tests, passed in both editions. Every command, with its start, end and exit code, is in `evidence/live/1.6.x/campaign/commands.csv`, and
 each command's own log is beside it.
 
 | Step | L8 on 1.6.3 | L5 on 1.6.2 | L3 on 1.6.1 |
@@ -80,10 +81,10 @@ reads. L8 needed 6 product pages for its 675 fresh products; L2 needed 484 for i
 
 ## 3. The last good dataset is protected
 
-SYNTHETIC, on a clean extraction of the 1.6.5 Oxylabs edition ZIP (sha256 `edd60bb8…`): its own frozen tests plus
-one added file, 19 passed on 2026-11-04 between 15:06:30Z and 15:09:51Z
-([`evidence/verification/1.6.5/last_good_publication/`](../evidence/verification/1.6.5/last_good_publication/)).
-The same check passed on 1.6.1 and 1.6.4. In each case a first run is published, a second run meets the fault, and
+SYNTHETIC, on a clean extraction of the 1.6.6 Oxylabs edition ZIP (sha256 `0859a2f6…`): its own frozen tests plus
+one added file, 19 passed on 2026-11-04 (23:40:08Z to 23:43:12Z)
+([`evidence/verification/1.6.6/last_good_publication/`](../evidence/verification/1.6.6/last_good_publication/)).
+The same check passed on 1.6.1, 1.6.4 and 1.6.5. In each case a first run is published, a second run meets the fault, and
 the published state is compared before and after: the pointer, the publication rows, `latest.json`, the manifest and
 its `products.json`, and the first run's observations.
 
@@ -96,7 +97,7 @@ its `products.json`, and the first run's observations.
 | Blocked by the site | rejected, `SITE_REFUSAL`, exit 5; the store is then held | unchanged |
 | Product pages stopped by a challenge | rejected, exit 6 | unchanged |
 | Mixed lineage | the publication refused, exit 6 | unchanged |
-| Corrupt evidence after the run validated: one byte of `products.json` changed, `products.json` truncated, or `manifest.json` changed | not published: "products.json hash mismatch" or "manifest hash mismatch"; the run stays `validated`, exit 0 | unchanged |
+| Corrupt evidence after the run validated: one byte of `products.json` changed, `products.json` truncated, or `manifest.json` changed | not published: "products.json hash mismatch" or "manifest hash mismatch"; the run stays `validated`; exit 6 (1.6.5: exit 0). That `PUBLICATION_REFUSED` is now at `ERROR` (1.6.5: `WARN`) is asserted by 1.6.6's two new tests, not by this check | unchanged |
 | Run interrupted | exit 75; a manual publication of it refused (exit 6) | unchanged until its resume completes and publishes it |
 | Publication interrupted | the retry publishes in one step | the old dataset until then |
 | Control: one product page refused among many | published | moves, as it should |
@@ -105,16 +106,26 @@ its `products.json`, and the first run's observations.
 `"dataset": "pilot"` and it is never published. Only a complete, validated, non-pilot run moves the pointer. None of
 the 1.6.x runs was published: each is a bounded pilot, and no run read the full catalogue.
 
-**Found on 2026-11-03 and not changed.** When the automatic publication is refused (the corrupt-evidence cases), the
-run exits 0. CLI.md defines 0 as "the run validated (or published)", and the refusal is a WARN line,
-`PUBLICATION_REFUSED`. The published dataset is protected, but the alerts that OPERATIONS.md suggests (any ERROR line,
-any non-zero exit) would not fire. Add an alert on `PUBLICATION_REFUSED`: the Log Analytics query in OPERATIONS.md
-already selects it. A manual `publish` that is refused exits 6.
+**A refused automatic publication is an alert (release 1.6.6).** Until 1.6.5, when the automatic publication was
+refused (the corrupt-evidence cases, for example), the run exited 0 and the refusal was a `WARN` line,
+`PUBLICATION_REFUSED`. The published dataset was protected, but none of the alerts OPERATIONS.md suggests (any `ERROR`
+line, any non-zero exit) fired. The 1.6.5 delivery disclosed this and advised an extra alert, but still gave its operating
+documentation a pass (N10-03). Since 1.6.6:
+- `PUBLICATION_REFUSED` is an `ERROR` line, and an `ERROR` event recorded on the run, with its reason;
+- the execution exits 6, and `RUN_FINISHED` carries `exit_code` 6 and the refusal;
+- Azure's retry of a scheduled execution whose run is done exits 6 too (`OCCURRENCE_DONE` with `exit_code` 6), so a
+  retry cannot turn the execution into a success;
+- the alert advice of OPERATIONS.md adds `OCCURRENCE_DONE` with `exit_code != 0` and names the case.
+
+The two tests that show it fail on 1.6.5 and pass on 1.6.6
+([`evidence/offline-tests/1.6.6-collector/`](../evidence/offline-tests/1.6.6-collector/)). A manual `publish` that is
+refused exits 6, as before. To act on the alert: read the reason (`status --run ID`), resolve it, then
+`publish --run ID`. The last published dataset stays published meanwhile.
 
 ## 4. Concurrency
 
 LIVE, measured from each run's own page fetches and its collector ledger
-([`CONCURRENCY_MEASURED_1_6_5.csv`](../evidence/reconciliation/1.6.5/CONCURRENCY_MEASURED_1_6_5.csv), one line per
+([`CONCURRENCY_MEASURED_1_6_6.csv`](../evidence/reconciliation/1.6.6/CONCURRENCY_MEASURED_1_6_6.csv), one line per
 run and page purpose). Workers share one pace per store: leases, checkpoints, deduplication and the shared trial
 reservations held under two workers, and no page was read twice.
 
@@ -134,10 +145,12 @@ reservations held under two workers, and no page was read twice.
 | L10 | 1.6.4 | 2 | 1 | 2,596.6 | 441 | 10.19 | 8.4, 12.9 | none |
 | L11 | 1.6.5 | 1 | 1 | 342.6 | 3 | 0.53 | 13.8 (one page) | none |
 | L11b | 1.6.5 | 1 | 1 | 311.3 | 3 | 0.58 | 10.0 (one page) | none |
+| L12 | 1.6.6 | 1 | 1 | 407.0 | 13 | 1.92 | 21.8 (one page) | 3.5, 5.1 |
 
 "Pages answered" counts robots.txt and the store page too. The rate of a short run is dominated by its fixed work:
-each canary's three requests ended within its first 20 s, and the rest of its active time (about 5 minutes) went to
-checking and exporting its 10,301 rows. The longest two-worker run, L10, read 441 pages in 2,596.6 s of active time:
+each 1.6.5 canary's three requests ended within its first 20 s, and the rest of its active time (about 5 minutes)
+went to checking and exporting its 10,301 rows. L12's 13 requests ended by 22:55:13Z, about 2.3 minutes into its 6.8
+minutes of active time. The longest two-worker run, L10, read 441 pages in 2,596.6 s of active time:
 10.19 pages per active minute, the rate [`TEST_PLAN.md`](TEST_PLAN.md) uses. Memory was not measured. The worker
 count for a full run needs the full run (A53).
 
@@ -166,23 +179,23 @@ DOCUMENTED and tested offline. Nothing was scheduled anywhere in this delivery.
   - The schedule tests of `tests/integration/test_operations.py` cover: the due local occurrence; the winter
     occurrence; an unfinished scheduled run going on; continuation by later firings; a late start; a backlog across a
     clock change; a manual run deferring an occurrence; a closed window deferring it.
-  - All passed in the 1.6.5 suites of both editions (unit 533, integration 200).
+  - All passed in the 1.6.6 suites of both editions (unit 533, integration 202).
 - **Not established:** that a full-scope run fits between two starts. No full-scope run has been made.
   [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md) estimates it from the census's measured page rates. The
   observed cadence is a separate milestone (PENDING_OBSERVATION), after the client's authorization.
 
 ## 6. Container
 
-**Not verified for 1.6.5.** This workstation has no container runtime (no Docker, Podman or WSL), and the client's VM
+**Not verified for 1.6.6.** This workstation has no container runtime (no Docker, Podman or WSL), and the client's VM
 was not touched.
 
 - **What changed since 1.5.2:** only two comment lines of the `Dockerfile` (the version in the build examples), and
-  in `uv.lock` only the collector's own version.
+  in `uv.lock` only the collector's own version. 1.6.6 changed the same two lines again.
 - **The last image built:** the 1.5.2 image was built and run on the owner's Azure test VM
   ([`evidence/owner-azure-test/1.5.2/`](../evidence/owner-azure-test/1.5.2/)).
-- **What was verified instead for 1.6.5:** the Python deployment the image wraps. Both edition ZIPs were installed
-  from their locks (`uv sync --frozen`) in clean extractions and their suites run, and both editions' Azure templates
-  were built and linted with the Bicep CLI, with no deployment
-  ([`evidence/verification/1.6.5/package/`](../evidence/verification/1.6.5/package/)).
-- **What remains:** a 1.6.5 image build is in the client-environment milestone ([`MILESTONES.md`](MILESTONES.md)).
+- **What was verified instead for 1.6.6:** the Python deployment the image wraps. Both edition ZIPs were installed
+  from their locks (`uv sync --frozen`) in clean extractions and their suites run
+  ([`evidence/verification/1.6.6/package/`](../evidence/verification/1.6.6/package/)). Both editions' Azure templates were built and linted
+  with the Bicep CLI, with no deployment: exit 0, no lint finding ([`BICEP_CHECKS.txt`](../evidence/verification/1.6.6/package/BICEP_CHECKS.txt)).
+- **What remains:** a 1.6.6 image build is in the client-environment milestone ([`MILESTONES.md`](MILESTONES.md)).
   The commands are in [`ACCEPTANCE_RUNBOOK.md`](ACCEPTANCE_RUNBOOK.md).

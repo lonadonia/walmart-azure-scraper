@@ -2657,5 +2657,211 @@
    "oxylabs"
   ],
   "expected": -1
+ },
+ "l12_validate_config": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "validate-config",
+   "--check-db",
+   "--require-credentials"
+  ],
+  "expected": 0
+ },
+ "l12_status_before": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "status",
+   "--limit",
+   "3"
+  ],
+  "expected": 0
+ },
+ "l12_followups_before": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "follow-ups",
+   "--store",
+   "walmart-3891-pickup",
+   "--kind",
+   "detail"
+  ],
+  "expected": 0
+ },
+ "l12_trial_open": {
+  "kind": "trial_open",
+  "stage": {
+   "stage_id": "W-L12-detail-canary-166-20261104",
+   "project": "walmart",
+   "objective": "Canary of the final frozen release 1.6.6 with product-page reading on (W5; W2's UPC queue): the store's context (3891, Pickup), page 1 of Household Essentials' Fabric Softeners listing, at most 10 product pages for missing UPC or size (never read first), the automated canary and validate-export, the four deal fields empty, every submission through the account-wide gate; never published. Not the >=500-product demonstration, which stays BLOCKED_BUDGET",
+   "command": "walmart-collector run --store walmart-3891-pickup --provider oxylabs --categories 1 --subcategory 1:/browse/household-essentials/fabric-softener/1115193_1071967_1630538 --max-pages-per-listing 1 --pilot-detail-pages 10 --follow-up-pages 0 --workers 1 --max-credits 15 --max-minutes 30",
+   "config": {
+    "edition": "oxylabs 1.6.6",
+    "zip_sha256": "0859a2f693527bab073252edf941928bb4f118ea4a63d581078d96ddd2324e22",
+    "stage_config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+    "stage_config_sha256": "b9f6fd579a1936305942da83e021480a4e3655fef2d16df7e072038eec7778de",
+    "workers": 1
+   },
+   "source_revision": "cbea802891d4e66b74a0abc33e0af0af74c89708",
+   "max_requests": 15,
+   "max_results": 15,
+   "max_usd": "0.0225",
+   "deadline_utc": "2026-11-04T23:52:15+00:00",
+   "retry_policy": "the collector's: at most 3 submissions per request; 408, 429 and 5xx retried with backoff and jitter; Retry-After honoured up to 60 s; every submission is a new reservation",
+   "stop_conditions": "a store check fails; a block or challenge; the canary fails; the gate, the ceiling, the credit or time budget or the deadline refuses; any unexpected exit"
+  }
+ },
+ "l12_ceiling": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "15",
+   "--usd",
+   "0.0225",
+   "--minutes",
+   "30",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "Campaign oxylabs-trial-20261103 (shared with Mariano's; USD 5 total), stage W-L12-detail-canary-166-20261104 on release 1.6.6 (cbea802): 15 submissions (USD 0.0225 at the reserve rate 0.0015), about 13 needed; Walmart's envelope had USD 0.022500 left; Hamza's request of 2026-11-04 (use only the remaining authorized trial credit); the shared ledger reserves each submission again before it is sent"
+  ],
+  "expected": 0
+ },
+ "l12_run": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "run",
+   "--store",
+   "walmart-3891-pickup",
+   "--provider",
+   "oxylabs",
+   "--categories",
+   "1",
+   "--subcategory",
+   "1:/browse/household-essentials/fabric-softener/1115193_1071967_1630538",
+   "--max-pages-per-listing",
+   "1",
+   "--pilot-detail-pages",
+   "10",
+   "--follow-up-pages",
+   "0",
+   "--workers",
+   "1",
+   "--max-credits",
+   "15",
+   "--max-minutes",
+   "30"
+  ],
+  "expected": -1,
+  "run_stage": "L12",
+  "trial_stage": "W-L12-detail-canary-166-20261104"
+ },
+ "l12_status_final": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "status",
+   "--limit",
+   "3"
+  ],
+  "expected": 0
+ },
+ "l12_export": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "export",
+   "--run",
+   "01M6MC7YE4PBXV88G3PJ5ENW4B",
+   "--out",
+   "C:\\w9\\evidence\\live160\\runs\\L12\\exports"
+  ],
+  "expected": -1
+ },
+ "l12_validate_export": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "validate-export",
+   "--run",
+   "01M6MC7YE4PBXV88G3PJ5ENW4B"
+  ],
+  "expected": -1
+ },
+ "l12_field_dispositions": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "field-dispositions",
+   "--run",
+   "01M6MC7YE4PBXV88G3PJ5ENW4B",
+   "--csv",
+   "C:\\w9\\evidence\\live160\\runs\\L12\\field_dispositions.csv"
+  ],
+  "expected": -1
+ },
+ "l12_coverage_report": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "coverage-report",
+   "--run",
+   "01M6MC7YE4PBXV88G3PJ5ENW4B",
+   "--out",
+   "C:\\w9\\evidence\\live160\\runs\\L12\\coverage"
+  ],
+  "expected": -1
+ },
+ "l12_provider_balance": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "provider-balance",
+   "--provider",
+   "oxylabs"
+  ],
+  "expected": -1
+ },
+ "l12_close": {
+  "kind": "trial_close",
+  "stage_id": "W-L12-detail-canary-166-20261104",
+  "outcome": "PASSED (the detail-on canary of the final release; the run itself is a rejected pilot, never published): run 01M6MC7YE4PBXV88G3PJ5ENW4B on release 1.6.6 (cbea802, the frozen Oxylabs edition ZIP 0859a2f6...), one worker, page 1 of Household Essentials' Fabric Softeners listing (/browse/household-essentials/fabric-softener/1115193_1071967_1630538, named with --subcategory). Store 3891 Pickup verified; the automated canary passed (40 of 40 records verified against the page); 40 fresh valid products; UPC 27 of 40 (17 from earlier reads of the products' own pages, reused at no request, and 10 product pages read live; the other 13 stopped by the pilot's 10-page budget and stay queued); size 39 of 40; the four deal fields empty in every row. Three of W2's never-read UPCs were read live (items 14561172064, 1398092439 and 14620357163); the fourth on this listing in L7 (20242472444) was not on page 1. validate-export: 10,301 of 10,301 records verified against their stored pages, 0 mismatches. Checks: G3 failed (incomplete collection: a pilot) and G14 (the readiness marker, non-blocking); every other gate passed. 13 submissions through the gate, all settled: 13 results, USD 0.0195 at the reserve rate; 0 unknown. Walmart's envelope keeps USD 0.003. Not the >=500-product demonstration, which stays BLOCKED_BUDGET."
+ },
+ "h166_ceiling_zero": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "set-ceiling",
+   "--provider",
+   "oxylabs",
+   "--submissions",
+   "0",
+   "--usd",
+   "0",
+   "--minutes",
+   "1",
+   "--usd-per-result",
+   "0.0015",
+   "--basis",
+   "No live work is left in this delivery (stages L1 to L12 of campaign oxylabs-trial-20261103 closed on 2026-11-04; Walmart keeps USD 0.003 of its envelope): the Oxylabs ceiling is 0 submissions and USD 0, so no run sends anything until a new ceiling is set with its own approved basis"
+  ],
+  "expected": -1
+ },
+ "h166_status_end": {
+  "edition": "1.6.6",
+  "config": "C:\\w9\\evidence\\live160\\configs\\collector.l12_166.yaml",
+  "args": [
+   "provider-balance",
+   "--provider",
+   "oxylabs"
+  ],
+  "expected": -1
  }
 }

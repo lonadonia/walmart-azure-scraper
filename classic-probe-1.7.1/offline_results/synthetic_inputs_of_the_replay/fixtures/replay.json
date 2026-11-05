@@ -1,0 +1,28 @@
+{
+ "steps": {
+  "walmart-search-p1": [
+   {
+    "http_status": 200,
+    "body_file": "walmart-search-p1-0.json"
+   }
+  ],
+  "walmart-search-p2": [
+   {
+    "http_status": 200,
+    "body_file": "walmart-search-p2-0.json"
+   }
+  ],
+  "walmart-product": [
+   {
+    "http_status": 200,
+    "body_file": "walmart-product-0.json"
+   }
+  ],
+  "walmart-category-url": [
+   {
+    "http_status": 200,
+    "body_file": "walmart-category-url-0.json"
+   }
+  ]
+ }
+}

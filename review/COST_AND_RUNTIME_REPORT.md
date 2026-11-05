@@ -1,6 +1,6 @@
-# Cost and runtime report: Walmart release 1.6.5
+# Cost and runtime report: Walmart release 1.6.6
 
-Release 1.6.5, commit `67d216eb8ee2ec839a437b0b5bf2d594324b6982`. Store: Walmart #3891, 3900 Fountain Square Pl,
+Release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b` (built as `cbea802`). Store: Walmart #3891, 3900 Fountain Square Pl,
 Waukegan, IL 60085, PICKUP. Times are UTC. Measured values and estimates are kept apart, and every estimate is
 labelled as one.
 
@@ -14,7 +14,8 @@ endpoint, and the provider dashboard's reading is the owner's (A74).
 Hamza authorized USD 5 in total across Walmart and Mariano's, on the designated free trial account: no top-up,
 overage, new subscription, other paid provider or client-account charge. One account-wide ledger outside both
 repositories (`.shared-oxylabs-trial-20261103`) enforces it: each submission's worst case is reserved
-before it is sent, and an outcome that is not known stays reserved. Read after the last stage closed:
+before it is sent, and an outcome that is not known stays reserved. Read after the last stage closed (L12,
+2026-11-04T23:03:49Z; the ledger's state written at 23:04:15Z):
 
 | | USD |
 |---|---|
@@ -22,17 +23,18 @@ before it is sent, and an outcome that is not known stays reserved. Read after t
 | Headroom kept inside the cap | 0.50 |
 | Walmart's envelope | 2.25 |
 | Mariano's envelope | 2.25 |
-| Walmart: settled, 1,469 billable results | 2.2035 |
+| Walmart: settled, 1,482 billable results | 2.2230 |
 | Walmart: unknown outcomes held, 16 reservations | 0.0240 |
-| Walmart: committed | 2.2275 |
-| Walmart: left in its envelope | 0.0225 |
+| Walmart: committed | 2.2470 |
+| Walmart: left in its envelope | 0.0030 |
 | Mariano's: committed (0 reservations) | 0 |
 
-Walmart's 1,500 reservations: 1,484 settled (1,469 results; the other 15 were refused or documented free and
-settled at 0) and 16 unknown. The collector's own ledger agrees: 1,499 requests, USD 2.2275; the 1,500th reservation
+Walmart's 1,513 reservations: 1,497 settled (1,482 results; the other 15 were refused or documented free and
+settled at 0) and 16 unknown. The collector's own ledger agrees: 1,512 requests, USD 2.2470; the 1,513th reservation
 is W0, a request made outside the collector (see [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8). The
-Oxylabs ceiling is 0 since 2026-11-04T14:43:43Z and no lease is active. Mariano's envelope stays with Mariano's:
-its essential tests have not been done. The ledger's Walmart extract is in
+Oxylabs ceiling is 0 since 2026-11-04T23:03:52Z and no lease is active. Mariano's envelope stays with Mariano's:
+it may be reassigned only after Mariano's smallest essential tests are done or shown unable to proceed, and
+neither is the case. The ledger's Walmart extract is in
 [`evidence/live/1.6.x/campaign/shared_ledger/`](../evidence/live/1.6.x/campaign/shared_ledger/).
 
 Per stage (each stage's ceiling is the most it could reserve; "per 1,000" divides the stage's dollars by the run's
@@ -55,24 +57,26 @@ own count of valid fresh products):
 | L10 | 11-04 12:56:12, 14:18:06 | 442, 0.663 | 441 | 0 | 0.6615 | 7,055 | 0.094 |
 | L11 | 11-04 14:24:19, 14:34:55 | 6, 0.009 | 3 | 0 | 0.0045 | 0 | none |
 | L11b | 11-04 14:35:04, 14:43:41 | 6, 0.009 | 3 | 0 | 0.0045 | 35 | 0.129 |
-| **Total** | | | **1,484** | **16** | **2.2275** | | |
+| L12 | 11-04 22:52:53, 23:03:49 | 15, 0.0225 | 13 | 0 | 0.0195 | 40 | 0.488 |
+| **Total** | | | **1,497** | **16** | **2.2470** | | |
 
 What drives the cost per 1,000: a demonstration that reads product pages (L2: 484 of them) costs about ten times a
 listing read; a census with detail off (L10) or a demonstration that reuses saved reads (L8) costs about USD 0.09
-per 1,000 valid fresh products at the reserve rate. The small stages (L9, L11b) are dominated by their fixed
-requests: robots.txt and the store page for each worker.
+per 1,000 valid fresh products at the reserve rate. The small stages (L9, L11b, L12) are dominated by their fixed
+requests: robots.txt and the store page for each worker. L12 also read 10 product pages for 40 products: with
+detail on, a short run's cost per product is several times a long run's.
 
 ## 2. Measured runtime
 
 Per run, from its own page fetches: [`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md), section 4, and
-[`CONCURRENCY_MEASURED_1_6_5.csv`](../evidence/reconciliation/1.6.5/CONCURRENCY_MEASURED_1_6_5.csv). The figures
+[`CONCURRENCY_MEASURED_1_6_6.csv`](../evidence/reconciliation/1.6.6/CONCURRENCY_MEASURED_1_6_6.csv). The figures
 the estimates use:
 - **L10, two workers, detail off:** 441 pages in 2,596.6 s of active time, **10.19 pages per active minute**; a
   listing page took 8.4 s at the median and 12.9 s at the 90th percentile.
 - **Product pages, detail on:** 5.0 s median and 16.0 s at the 90th percentile in L2 (254 pages); 5.0 s and 8.8 s in
-  L5 (34 pages).
+  L5 (34 pages); 3.5 s and 5.1 s in L12 (10 pages, on 1.6.6).
 - **Fixed work:** each execution reads robots.txt and the store page for each worker before it collects; after
-  collection, a run checks and exports its rows (about 5 minutes for 10,301 rows in L11 and L11b).
+  collection, a run checks and exports its rows (about 5 minutes for 10,301 rows in L11, L11b and L12).
 - **Memory** was not measured.
 
 ## 3. The outstanding work toward full scope (an estimate)
@@ -112,7 +116,7 @@ collector does not drop an occurrence: a late or overlapped one keeps its identi
 ## 5. Azure (estimates carried from 1.5.2)
 
 The Azure resources did not change since release 1.5.2: the templates are the same, and their example parameters
-now name the 1.6.5 image. The estimates are those of the 1.5.2 report, with retail prices read on 2026-10-28 and
+now name the 1.6.6 image. The estimates are those of the 1.5.2 report, with retail prices read on 2026-10-28 and
 not read again: [`COST_AND_RUNTIME_REPORT.md`, section 10, at `review-1.5.2-20261103`](https://github.com/lonadonia/walmart-azure-scraper/blob/review-1.5.2-20261103/review/COST_AND_RUNTIME_REPORT.md#10-azure-estimates).
 Its VM hours rested on a modelled full run; the runtime of section 4 above, once measured, replaces that model.
 Nothing was deployed to Azure in this delivery.

@@ -1,0 +1,17 @@
+ headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md             |   4 +-
+ headless/oxylabs-classic-probe/README.md                        |  23 ++++++++--
+ headless/oxylabs-classic-probe/pyproject.toml                   |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/__init__.py    |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/campaign.py    | 154 +++++++++++++++++++++++++++++++++++++++++++++++++------------
+ headless/oxylabs-classic-probe/src/classic_probe/captures.py    | 219 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------
+ headless/oxylabs-classic-probe/src/classic_probe/deadline.py    |  27 ++++++++++-
+ headless/oxylabs-classic-probe/src/classic_probe/durable.py     |  72 +++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/src/classic_probe/ledger.py      |  54 ++++++++++++++++++++--
+ headless/oxylabs-classic-probe/src/classic_probe/networker.py   | 115 +++++++++++++++++++++++++++++++++++-----------
+ headless/oxylabs-classic-probe/src/classic_probe/supervisor.py  | 323 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------
+ headless/oxylabs-classic-probe/src/classic_probe/transport.py   | 133 ++++++++++++++++++++++++++++++++++++++++++++++-------
+ headless/oxylabs-classic-probe/tests/session_drill.py           |   8 +++-
+ headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py | 299 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/tests/test_durable_evidence.py   | 222 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/uv.lock                          |   2 +-
+ 16 files changed, 1492 insertions(+), 167 deletions(-)

@@ -1,5 +1,434 @@
 {
- "about": "The corrections of each publication of this repository, newest first. This publication's: the errata in files that are not edited (each quoted from its file), the files of the 1.5.2 publication replaced with their text kept (with the exact text replaced, where a passage was), and the corrections made to this publication's own records before its review tag was set. The 1.5.2 publication's record follows, unchanged.",
+ "about": "The corrections of each publication of this repository, newest first. This publication's: the statements of the 1.6.5 publication that were not accurate (each quoted from its file at that tag), the limitations 1.6.5 stated truly and 1.6.6 corrects, the 1.6.5 test counts counted again from their evidence, the errata in files and a commit message that are not edited, the files of the 1.6.5 publication replaced with their text kept, and the corrections made to this publication's own records before its review tag was set. The records of the 1.6.5 and 1.5.2 publications follow, unchanged.",
+ "review-1.6.6-20261105": {
+  "statements_not_accurate_in_1_6_5": [
+   {
+    "file": "README.md",
+    "where": "lines 16 to 18",
+    "text": "- **Every point of the client's two latest reviews is corrected**, with its tests and evidence: the four deal fields\n  always `\"\"`, UPC and size provenance, the sponsored and variant decisions, coverage and partitions, retention and\n  recovery, and the Classic findings C1 to C5 (probe 1.7.0, live mode disabled). See the",
+    "quote": "Every point of the client's two latest reviews is corrected, with its tests and evidence [...] and the Classic findings C1 to C5 (probe 1.7.0, live mode disabled)",
+    "what_is_true": "Probe 1.7.0 corrected C1, C3 and C5. It corrected C2 and C4 only in part (C2: a request's worker was killed and reaped at its allowance and its body bounded, but the work after an answer was not bound by the session's deadline: a supervisor's recovery ran after the hard end without a limit, the ledger writes after an answer waited the default 30 s whatever time was left, and the export's recovery of captures had no limit. C4: a crash could still lose a paid answer: the transport deleted the worker's synced body before the capture store had kept it; the campaign's JSON writes were not synced; and a body cut at its deadline was discarded with no record.) Seven reproduction tests fail on 1.7.0's code and pass on probe 1.7.1, which completes both.",
+    "corrected_in": "README.md, Status",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "README.md",
+    "where": "line 39",
+    "text": "| [`classic-probe-1.7.0/`](classic-probe-1.7.0/) | The shared offline Classic probe 1.7.0: the client's findings C1 to C5 corrected ([start here](classic-probe-1.7.0/README_FIRST.md), [what changed](review/CLASSIC_PROBE_CORRECTIONS.md)) |",
+    "quote": "The shared offline Classic probe 1.7.0: the client's findings C1 to C5 corrected",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "README.md, Contents: 1.7.0 is \"unchanged; superseded by 1.7.1\"",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "CHANGELOG.md",
+    "where": "line 35",
+    "text": "  - the Classic findings C1 to C5 are corrected offline (probe 1.7.0).",
+    "quote": "the Classic findings C1 to C5 are corrected offline (probe 1.7.0).",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "CHANGELOG.md: the 1.6.6 entry, and a note added to this line of the 1.6.5 entry",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "line 8",
+    "text": "**What this is: a correction delivery.** Every point of the client's two latest reviews is corrected and verified,",
+    "quote": "Every point of the client's two latest reviews is corrected and verified",
+    "what_is_true": "As for README.md, above: C2 and C4 were corrected only in part.",
+    "corrected_in": "review/DELIVERY_INDEX.md, \"What this is\"",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "line 27",
+    "text": "| [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) | C1 to C5 in the probe 1.7.0 |",
+    "quote": "C1 to C5 in the probe 1.7.0",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/DELIVERY_INDEX.md, \"Start here\"",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 39",
+    "text": "- **Probe 1.7.0:** C1 to C5.",
+    "quote": "Probe 1.7.0: C1 to C5.",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/TECHNICAL_REPORT.md, sections 2 and 8",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "line 148",
+    "text": "- C1 to C5 are corrected in the shared probe 1.7.0, offline, with live mode disabled",
+    "quote": "C1 to C5 are corrected in the shared probe 1.7.0, offline, with live mode disabled",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/CORRECTION_MAP.md, Classic (W7)",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/MILESTONES.md",
+    "where": "line 19",
+    "text": "| 2026-11-03T16:58:50Z | the shared Classic probe 1.7.0 corrects C1 to C5 offline (`2c08585`; its documents `48307cf`, 18:16:47Z) | [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |",
+    "quote": "the shared Classic probe 1.7.0 corrects C1 to C5 offline",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/MILESTONES.md: the row now says so, and later rows give probe 1.7.1",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 48",
+    "text": "| **W7** Classic findings, Mariano's adapter | PASS_OFFLINE; a live successor is PENDING_CLIENT_DECISION | C1 to C5 are corrected in probe 1.7.0 with live mode disabled. The adapter's identity is explicit. [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |",
+    "quote": "C1 to C5 are corrected in probe 1.7.0 with live mode disabled.",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W7",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 56",
+    "text": "| C2 A timeout leaves the worker alive; body, processing and export unbounded | PASS_OFFLINE | One process per request, killed and reaped at its allowance. Bounded bodies, headers and decompression. A session supervisor. |",
+    "quote": "PASS_OFFLINE | One process per request, killed and reaped at its allowance. Bounded bodies, headers and decompression. A session supervisor.",
+    "what_is_true": "1.7.0 corrected it in part: a request's worker was killed and reaped at its allowance and its body bounded, but the work after an answer was not bound by the session's deadline: a supervisor's recovery ran after the hard end without a limit, the ledger writes after an answer waited the default 30 s whatever time was left, and the export's recovery of captures had no limit. The state PASS_OFFLINE now rests on probe 1.7.1.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, C2",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 58",
+    "text": "| C4 Responses only in memory | PASS_OFFLINE | Each answer is written atomically and indexed before the next paid step, and recovered after a crash. |",
+    "quote": "PASS_OFFLINE | Each answer is written atomically and indexed before the next paid step, and recovered after a crash.",
+    "what_is_true": "1.7.0 corrected it in part: a crash could still lose a paid answer: the transport deleted the worker's synced body before the capture store had kept it; the campaign's JSON writes were not synced; and a body cut at its deadline was discarded with no record. The state PASS_OFFLINE now rests on probe 1.7.1.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, C4",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "where": "line 1",
+    "text": "# Classic probe: the corrections C1 to C5 (shared probe 1.7.0)",
+    "quote": "Classic probe: the corrections C1 to C5 (shared probe 1.7.0)",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/CLASSIC_PROBE_CORRECTIONS.md, written again for probe 1.7.1",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "where": "line 18",
+    "text": "| **1.7.0**, shared, corrected | 1.6.0 with C1 to C5 corrected. It is authoritative from this delivery. | the probe's source tree is Git tree `8305ffe25665b404347954dad38d501cbba70640`, both at `1780349e522d771a3642fe88bfb7b542044ec844`, where its archive was built, and at the delivery's final revision `67d216eb8ee2ec839a437b0b5bf2d594324b6982` (collector 1.6.5); the adapter blob is still `9de6510bddbb0cae7fd86e09dac5ed32fc3487a4`, unchanged | [`classic-probe-1.7.0/`](../classic-probe-1.7.0/) in this repository |",
+    "quote": "1.6.0 with C1 to C5 corrected. It is authoritative from this delivery.",
+    "what_is_true": "C2 and C4 were corrected only in part (above). Probe 1.7.1 is authoritative from this delivery.",
+    "corrected_in": "review/CLASSIC_PROBE_CORRECTIONS.md, the versions table",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "manifests/PUBLICATION.json",
+    "where": "the Classic probe's \"corrections\"",
+    "text": "the client's findings C1 to C5 (review/CLASSIC_PROBE_CORRECTIONS.md)",
+    "quote": "the client's findings C1 to C5 (review/CLASSIC_PROBE_CORRECTIONS.md)",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "manifests/PUBLICATION.json of this publication, whose probe is 1.7.1",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N8-01, note_1_6_x",
+    "text": "C1 to C5 corrected offline",
+    "quote": "C1 to C5 corrected offline",
+    "what_is_true": "C2 and C4 were corrected only in part (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N8-01: the 1.6.6 columns (state_1_6_6, note_1_6_6)",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N10-03, state_1_6_5",
+    "text": "PASS_OFFLINE",
+    "quote": "PASS_OFFLINE",
+    "what_is_true": "Not for monitoring. The operating documentation's alert advice (any ERROR line, any non-zero exit) did not catch a refused automatic publication, which 1.6.5 logged as a WARN line with exit 0. The 1.6.5 documents disclosed the gap and advised an extra alert, but the row still passed. Release 1.6.6 makes the refusal an ERROR with exit 6, also on Azure's retry, and its OPERATIONS.md names the case.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N10-03: the 1.6.6 columns (state_1_6_6, note_1_6_6)",
+    "basis": "evidence/offline-tests/1.6.6-collector/REPRODUCTION_ON_1.6.5.log; evidence/verification/1.6.5/last_good_publication/ (the corrupt-evidence cases: exit 0)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N1A-02, note_1_6_x",
+    "text": "every 1.6.x run passed its canary (store, Pickup, seller, parsing) before collecting",
+    "quote": "every 1.6.x run passed its canary (store, Pickup, seller, parsing) before collecting",
+    "what_is_true": "Not every run: L11 recorded no product, because its listing was rejected for its identity before a canary page. Every 1.6.x run that recorded products passed its canary.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N1A-02: the 1.6.6 columns (state_1_6_6, note_1_6_6)",
+    "basis": "data/RUN_SUMMARY.json (L11); evidence/live/1.6.x/campaign/checks/L11_close_outcome.txt"
+   }
+  ],
+  "limitations_corrected": [
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "lines 92 to 93 (known limitation 10)",
+    "text": "10. **A refused automatic publication exits 0** (found on 2026-11-03, not changed): alert on `PUBLICATION_REFUSED`\n    ([`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md), section 3).",
+    "now": "Release 1.6.6 corrects it: a refused automatic publication is an ERROR line and event and exits 6, also on Azure's retry. DELIVERY_INDEX.md says so after its limitations."
+   },
+   {
+    "file": "review/RECOVERY_AND_OPERATIONS.md",
+    "where": "lines 108 to 112 (section 3)",
+    "text": "**Found on 2026-11-03 and not changed.** When the automatic publication is refused (the corrupt-evidence cases), the\nrun exits 0. CLI.md defines 0 as \"the run validated (or published)\", and the refusal is a WARN line,\n`PUBLICATION_REFUSED`. The published dataset is protected, but the alerts that OPERATIONS.md suggests (any ERROR line,\nany non-zero exit) would not fire. Add an alert on `PUBLICATION_REFUSED`: the Log Analytics query in OPERATIONS.md\nalready selects it. A manual `publish` that is refused exits 6.",
+    "now": "True when written, the query included (source/walmart-oxylabs-1.6.5/docs/OPERATIONS.md, line 305, at the tag review-1.6.5-20261104). Release 1.6.6 corrects the limitation; RECOVERY_AND_OPERATIONS.md, section 3, describes it."
+   },
+   {
+    "file": "evidence/verification/1.6.5/last_good_publication/README.txt",
+    "where": "line 46",
+    "text": "Still true in 1.6.5 (found on 2026-11-03 and not changed): when the AUTOMATIC publication is refused, the run exits",
+    "now": "True of 1.6.5. The file is 1.6.5's evidence and is carried unchanged; the same check on 1.6.6 is evidence/verification/1.6.6/last_good_publication/, where the three corrupt-evidence cases exit 6."
+   }
+  ],
+  "test_counts_of_1_6_5_counted_again": [
+   {
+    "statement": "1.6.5, oxylabs edition, from the clean extraction: 533 unit tests passed",
+    "said": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.5/package/junit/oxylabs.unit.xml",
+    "counted": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "1.6.5, oxylabs edition, from the clean extraction: 200 integration tests passed",
+    "said": {
+     "tests": 200,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.5/package/junit/oxylabs.integration.xml",
+    "counted": {
+     "tests": 200,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "1.6.5, scrapedo edition, from the clean extraction: 533 unit tests passed",
+    "said": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.5/package/junit/scrapedo.unit.xml",
+    "counted": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "1.6.5, scrapedo edition, from the clean extraction: 200 integration tests passed",
+    "said": {
+     "tests": 200,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.5/package/junit/scrapedo.integration.xml",
+    "counted": {
+     "tests": 200,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "the last-good publication on 1.6.5: 19 passed",
+    "said": {
+     "tests": 19,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.5/last_good_publication/pytest_run.junit.xml",
+    "counted": {
+     "tests": 19,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "probe 1.7.0 from its clean export: 158 tests, 156 passed, 2 skipped",
+    "said": {
+     "tests": 158,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 2
+    },
+    "evidence": "classic-probe-1.7.0/offline_results/junit_standalone.xml",
+    "counted": {
+     "tests": 158,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 2
+    }
+   },
+   {
+    "statement": "probe 1.7.0 in the development tree: 157 passed, 1 skipped",
+    "said": {
+     "passed": 157,
+     "skipped": 1
+    },
+    "evidence": "evidence/offline-tests/1.7.0-classic-probe/DEV_TREE_TESTS_1.7.0.log",
+    "counted": {
+     "passed": 157,
+     "skipped": 1
+    }
+   },
+   {
+    "statement": "the 8 tests of 1.6.5's new test file on 1.6.4: 6 failed and 2 passed",
+    "said": {
+     "tests": 8,
+     "failures": 6,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/offline-tests/1.6.5-collector/REGRESSION_TESTS_ON_1.6.4.junit.xml",
+    "counted": {
+     "tests": 8,
+     "failures": 6,
+     "errors": 0,
+     "skipped": 0
+    }
+   },
+   {
+    "statement": "the unit suite on the 1.6.5 commit: 533 passed",
+    "said": {
+     "passed": 533
+    },
+    "evidence": "evidence/offline-tests/1.6.5-collector/UNIT_1.6.5.log",
+    "counted": {
+     "passed": 533
+    }
+   }
+  ],
+  "errata_not_edited": [
+   {
+    "file": "source/README.md",
+    "line": 7,
+    "text": "| `walmart-oxylabs-1.6.6/` | Oxylabs Web API (Bearer key; not the Classic product) | none: release 1.6.6 changes only how a refused automatic publication is reported (an ERROR line and exit code 6, also on Azure's retry), and what a run collects, checks and exports is that of 1.6.5. The live runs L1 to L10 ran releases 1.6.0 to 1.6.4 (the census L10 on 1.6.4), and the export of L10 was verified offline with release 1.6.5 (see the review documents) |",
+    "quote": "none: release 1.6.6 changes only how a refused automatic publication is reported [...] The live runs L1 to L10 ran releases 1.6.0 to 1.6.4",
+    "erratum": "Written when the source ZIP was built (2026-11-04T22:38:53Z), before release 1.6.6's live canary L12 ran (22:52:55Z to 22:59:46Z, detail on: 40 fresh valid products, a rejected pilot). The cell also leaves out release 1.6.5's two canaries, L11 and L11b. The rest of the cell is true.",
+    "basis": "data/RUN_SUMMARY.json; evidence/live/1.6.x/campaign/commands.csv",
+    "edited": false,
+    "why_not_edited": "a file of the frozen tree WALMART_SOURCE_1.6.6.zip (manifests/check_frozen_trees.py)"
+   },
+   {
+    "file": "classic-probe-1.7.0/README_FIRST.md",
+    "where": "lines 6 to 7",
+    "text": "This is the shared probe (Walmart and Mariano's on one ledger). Version 1.7.0 corrects the five findings of the\nclient's second review (C1 to C5) in the shared layer; the steps, the response checks, the limits and the Mariano's",
+    "quote": "Version 1.7.0 corrects the five findings of the client's second review (C1 to C5) in the shared layer",
+    "erratum": "C1, C3 and C5 were corrected in 1.7.0; C2 and C4 only in part, and probe 1.7.1 completes them. The same file of classic-probe-1.7.1/ says so.",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt",
+    "edited": false,
+    "why_not_edited": "a file of the frozen tree OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip, kept as the 1.6.5 delivery published it (manifests/check_frozen_trees.py)"
+   },
+   {
+    "file": "classic-probe-1.7.0/oxylabs-classic-probe/README.md",
+    "where": "line 11",
+    "text": "Version 1.7.0 corrects the five findings of the client's second review (C1 to C5) in the shared layer: no redirect is followed and the credentials go only to the documented endpoint (C1); each exchange runs in its own worker process, killed and reaped at its deadline, with every body, header block and decompression bounded (C2); the ledger reads the clock under its write lock and checks the time and every stop again just before sending (C3); each answer is written to disk and indexed before the next paid step (C4); a backoff is a real wait, bounded by the deadline, and `Retry-After` is honoured up to 60 s (C5). The steps, the response checks and the limits are those of 1.6.0, and the Mariano's adapter is byte-for-byte unchanged.",
+    "quote": "Version 1.7.0 corrects the five findings of the client's second review (C1 to C5)",
+    "erratum": "C1, C3 and C5 were corrected in 1.7.0; C2 and C4 only in part, and probe 1.7.1 completes them. The same file of classic-probe-1.7.1/ says so.",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt",
+    "edited": false,
+    "why_not_edited": "a file of the frozen tree OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip, kept as the 1.6.5 delivery published it (manifests/check_frozen_trees.py)"
+   },
+   {
+    "file": "classic-probe-1.7.0/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md",
+    "where": "line 5",
+    "text": "This build (1.7.0) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrects the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5); the stages and their limits are unchanged.",
+    "quote": "Release 1.7.0 corrects the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5)",
+    "erratum": "C1, C3 and C5 were corrected in 1.7.0; C2 and C4 only in part, and probe 1.7.1 completes them. The same file of classic-probe-1.7.1/ says so.",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt",
+    "edited": false,
+    "why_not_edited": "a file of the frozen tree OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.0.zip, kept as the 1.6.5 delivery published it (manifests/check_frozen_trees.py)"
+   },
+   {
+    "file": "d2ce076f23ac2787b4b38269de6f8ba8942f520c",
+    "where": "its commit message, lines 5 to 6",
+    "text": "- classic-probe-1.7.0/: the shared Classic probe 1.7.0 (findings C1 to C5 corrected, live mode disabled), file for\n  file; classic-probe/ (the probe 1.5.2 the client reviewed) unchanged",
+    "quote": "classic-probe-1.7.0/: the shared Classic probe 1.7.0 (findings C1 to C5 corrected, live mode disabled)",
+    "erratum": "C1, C3 and C5 were corrected in 1.7.0; C2 and C4 only in part, and probe 1.7.1 completes them. The commit message of this publication says so.",
+    "basis": "evidence/offline-tests/1.7.1-classic-probe/REPRODUCTION_ON_1.7.0.log and REPRODUCTION_ON_1.7.1.log; classic-probe-1.7.1/offline_results/16b_reproductions_on_1.7.0_source.txt and 17_reproductions_on_1.7.1.txt",
+    "edited": false,
+    "why_not_edited": "a commit message of the published history, which is never rewritten (no force-push)"
+   }
+  ],
+  "replaced_files_keeping_their_text": [
+   {
+    "file": "CHANGELOG.md",
+    "change": "the 1.6.6 entry added; in the 1.6.5 entry, a note added to the line on the Classic findings says that C2 and C4 were corrected only in part. The 1.6.5 entry and those before it are otherwise unchanged"
+   },
+   {
+    "file": "data/README.md",
+    "change": "in its first part, the paragraph on releases 1.6.5 and 1.6.6, L12's place, the fifteen 1.6.x runs and the current coverage tables (1.6.6/w4/); the 1.5.x part is unchanged"
+   },
+   {
+    "file": "evidence/README.md",
+    "change": "in its first part, the rows for 1.6.6 and probe 1.7.1 and the 1.6.6 verification and reconciliation folders; the 1.5.2 part is unchanged"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "change": "four columns added (state_1_6_6, evidence_1_6_6, revision_1_6_6, note_1_6_6); the sixteen columns of the 1.5.2 matrix and the four of 1.6.5 are unchanged in all 206 rows. Their paths name files of those publications, which are at their tags"
+   },
+   {
+    "file": "data/RUN_SUMMARY.json",
+    "change": "L12 added, and \"about\" names the final release 1.6.6; the 23 entries of the 1.6.5 publication, \"campaigns\" and \"files_delivered\" are unchanged"
+   },
+   {
+    "file": "manifests/DOC_CORRECTIONS.md, DOC_CORRECTIONS.json",
+    "change": "this publication's part added first; the records of the 1.6.5 and 1.5.2 publications kept below, as published"
+   }
+  ],
+  "corrected_before_publication": [
+   {
+    "what": "review/MILESTONES.md: the probe 1.7.0 row",
+    "correction": "The row carried from 1.6.5 said that probe 1.7.0 corrected C1 to C5. Before publication it was corrected to say that C2 and C4 were corrected only in part, and completed in 1.7.1."
+   },
+   {
+    "what": "review/RECOVERY_AND_OPERATIONS.md: the corrupt-evidence row of the last-good table",
+    "correction": "A draft credited the last-good check with showing PUBLICATION_REFUSED at ERROR. That check records the exit code and the published state only; the ERROR level is asserted by 1.6.6's two new tests (tests/integration/test_operations.py). The row now says so."
+   },
+   {
+    "what": "review/DELIVERY_INDEX.md: L12's export",
+    "correction": "A draft said that L12's export carries L10's rows. Compared row by row, its 10,301 retained rows are L10's except the products that L11b (35) and L12 (40) read again; against L11b's retained export, only L12's 40 products differ."
+   },
+   {
+    "what": "classic-probe-1.7.1/offline_results/: the reproduction on 1.7.0",
+    "correction": "The first run of the probe's results tool counted the reproduction step on 1.7.0 as expected from its exit code alone; its install had failed, because that extraction lacked a file. The tool now builds the whole tree and checks each step's output as well. Only the rerun (7 failed on 1.7.0, 7 passed on 1.7.1) is delivered (TECHNICAL_REPORT.md, section 8)."
+   },
+   {
+    "what": "evidence/verification/1.6.6/package/BICEP_CHECKS.txt",
+    "correction": "Its first version said the Bicep checks ran after the verifier's steps; they ran while the Scrape.do integration step was running. They were run again with the header corrected, and only that run is delivered."
+   },
+   {
+    "what": "review/ wording found in the review before publication",
+    "correction": "\"the client's review of 1.6.5 rejected that\" became \"advised an extra alert, but still gave its operating documentation a pass (N10-03)\", which is what the 1.6.5 documents did; \"a pilot, so no publication was attempted\" became \"a rejected pilot, never published\"; a sentence that no live command ran in a gap now cites commands.csv; the reason for the probe's two skipped tests replaced \"skipped by design\"; the C2 and C4 rows of REQUIREMENT_MATRIX.md and TECHNICAL_REPORT.md now follow CLASSIC_PROBE_CORRECTIONS.md."
+   },
+   {
+    "what": "review/RECOVERY_AND_OPERATIONS.md, section 2, and review/ACCEPTANCE_MATRIX.csv, B26",
+    "correction": "Found in the last review before publication. Section 2 carried 1.6.5's sentence \"Releases 1.6.4 and 1.6.5 did not change the recovery path\"; it now names 1.6.4 to 1.6.6. B26's note said that the Mariano's repository's pin had moved to probe 1.7.1; that pin needs this publication's commit, so it can only follow it, and the note now says so."
+   },
+   {
+    "what": "the commit message of d2ce076 (section 4)",
+    "correction": "Found in the last review before publication: the 1.6.5 publication's first commit message also said that probe 1.7.0 corrected C1 to C5. It is added to section 4, and this publication's commit message says what is true."
+   },
+   {
+    "what": "evidence/offline-tests/1.6.6-collector/RETRY_GAP_BEFORE_THE_FULL_FIX.log",
+    "correction": "Found by the names scan made before the commit: this new test log named the workstation's user folder and its pytest temporary folder, 3 times each. The redaction step had skipped it without a word, because 4 of its bytes are not UTF-8 (the Windows console wrote the collector's breadcrumb separator as cp1252 0x9B). The step now reads such a file losslessly and refuses, never skips, a text file it cannot read. The log is redacted (REDACTIONS.csv, rules \"Windows user folder\" and \"pytest temporary folder user\"), its 4 bytes kept; no other file had been skipped (manifests/PUBLICATION.json, checks_before_commit, scans)."
+   }
+  ]
+ },
  "review-1.6.5-20261104": {
   "errata_not_edited": [
    {

@@ -1,0 +1,10 @@
+release 1.6.6, commit cbea802891d4e66b74a0abc33e0af0af74c89708, 2026-11-04T22:59:12Z, development tree (clean: 0 changed files)
+$ uv run --frozen python -m ruff check src tests deploy
+All checks passed!
+exit=0
+$ uv run --frozen python -m ruff format --check src tests deploy
+165 files already formatted
+exit=0
+$ uv run --frozen python -m mypy
+Success: no issues found in 87 source files
+exit=0

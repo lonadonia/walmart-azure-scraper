@@ -18,10 +18,13 @@ covers the full catalogue.
   counted.
 - **Retained** (`products_retained.*`): the run's export with the products it carried from earlier runs. Each
   carried row keeps its own run and date and is never counted as fresh.
-- **The final release, 1.6.5,** changed only the independent source check. Both exports pass its `validate-export
-  --run`: 10,301 of 10,301 and 2,515 of 2,515 records verified against their stored pages
-  ([`../evidence/verification/1.6.5/source_check_l10/`](../evidence/verification/1.6.5/source_check_l10/)). They stay
-  attributed to the releases that collected them.
+- **Releases 1.6.5 and 1.6.6** changed neither how a product is read nor the export: 1.6.5 changed the independent
+  source check, and 1.6.6 the alert and exit code of a refused automatic publication. Both exports pass 1.6.5's
+  `validate-export --run`: 10,301 of 10,301 and 2,515 of 2,515 records verified against their stored pages
+  ([`../evidence/verification/1.6.5/source_check_l10/`](../evidence/verification/1.6.5/source_check_l10/)). L12's
+  export passes the final 1.6.6's: 10,301 of 10,301 records verified against 1,494 stored pages of 15 runs; its
+  retained rows are L10's, except the products that L11b (35) and L12 (40) read again. The files stay attributed
+  to the releases that collected them.
 - **The format.** Each file has the 22 fields in order, all strings, with `""` for a missing value. `gupc` and
   `unit_price` are always empty, and from release 1.6.0 the four deal fields are always empty. PPM is copied as
   displayed, and `crawl_date` is the store-local date of the row's own observation. JSON and CSV hold the same rows.
@@ -32,10 +35,12 @@ covers the full catalogue.
     identity mismatch.
 
 Every other 1.6.x run's exports are in its folder of
-[`../evidence/live/1.6.x/runs/`](../evidence/live/1.6.x/runs/). [`RUN_SUMMARY.json`](RUN_SUMMARY.json) records every
-run of this store that the repository publishes, the 1.5.x runs and the fourteen 1.6.x runs: release, commit, edition
+[`../evidence/live/1.6.x/runs/`](../evidence/live/1.6.x/runs/). That includes L12 (`01M6MC7YE4PBXV88G3PJ5ENW4B`,
+2026-11-04T22:52Z to 22:59Z, release 1.6.6, detail reading on): a canary of 40 fresh valid products, with no folder
+here. [`RUN_SUMMARY.json`](RUN_SUMMARY.json) records every run of this store that the repository publishes, the
+1.5.x runs and the fifteen 1.6.x runs: release, commit, edition
 ZIP, store checks, times, gates, pages, ledgers, counts, and each delivered file's SHA-256 and row count. The current
-coverage tables are in [`../evidence/reconciliation/1.6.5/w4/`](../evidence/reconciliation/1.6.5/w4/);
+coverage tables are in [`../evidence/reconciliation/1.6.6/w4/`](../evidence/reconciliation/1.6.6/w4/);
 [`COVERAGE_RECONCILIATION.csv`](COVERAGE_RECONCILIATION.csv) is release 1.5.2's, kept as published.
 
 **Check:** `python3 manifests/check_data.py`, from the root of a clone. It checks each file against

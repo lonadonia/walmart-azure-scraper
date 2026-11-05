@@ -25,3 +25,4 @@ id,project,holder,token,host,pid,acquired_at,expires_at,released_at,release_reas
 24,walmart,live160:l10_run:2344,<withheld>,<withheld>,<withheld>,2026-11-04T12:56:14.967172Z,2026-11-04T13:44:19.272436Z,2026-11-04T13:42:46.630390Z,step l10_run ended with exit code 4
 25,walmart,live160:l11_run:12640,<withheld>,<withheld>,<withheld>,2026-11-04T14:24:22.638500Z,2026-11-04T14:31:53.000034Z,2026-11-04T14:30:07.808572Z,step l11_run ended with exit code 6
 26,walmart,live160:l11b_run:21200,<withheld>,<withheld>,<withheld>,2026-11-04T14:35:09.046451Z,2026-11-04T14:42:09.821172Z,2026-11-04T14:40:22.742358Z,step l11b_run ended with exit code 6
+27,walmart,live160:l12_run:11408,<withheld>,<withheld>,<withheld>,2026-11-04T22:52:55.930987Z,2026-11-04T23:01:26.244623Z,2026-11-04T22:59:45.513318Z,step l12_run ended with exit code 0

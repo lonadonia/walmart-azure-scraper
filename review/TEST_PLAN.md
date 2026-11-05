@@ -1,6 +1,6 @@
-# Test plan and the next live work: Walmart release 1.6.5
+# Test plan and the next live work: Walmart release 1.6.6
 
-Status on 2026-11-04: **nothing below has been run, and nothing below is approved.** Every figure is an estimate
+Status on 2026-11-05: **nothing below has been run, and nothing below is approved.** Every figure is an estimate
 from this delivery's measurements, not a quote. Money is at the shared trial's reserve rate, USD 0.0015 per result
 (a list price, not an invoice). Times are UTC. Store: Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085,
 PICKUP.
@@ -9,17 +9,19 @@ PICKUP.
 
 | Account | Limit | Used (committed) | Left | Needed for the smallest useful stage |
 |---|---|---:|---:|---|
-| The user's Oxylabs Web API trial, Walmart's envelope | USD 2.25 | USD 2.2275 (1,500 reservations) | USD 0.0225 (15 submissions) | Stage 1: about 28 to 45 submissions, at most about USD 0.07 |
-| The same trial, Mariano's envelope | USD 2.25 | 0 | USD 2.25 | not available to Walmart: Mariano's essential tests have not been done |
+| The user's Oxylabs Web API trial, Walmart's envelope | USD 2.25 | USD 2.247 (1,513 reservations) | USD 0.003 (2 submissions) | Stage 1: about 28 to 45 submissions, at most about USD 0.07 |
+| The same trial, Mariano's envelope | USD 2.25 | 0 | USD 2.25 | not available to Walmart: it may be reassigned only after Mariano's smallest essential tests are done or shown unable to proceed, and neither is the case |
 | Scrape.do | no access authorized in this delivery | 0 | none | Stage 3 |
 | Oxylabs Classic (the client's) | no access | 0 | not known | credentials, entitlement, rates, written approval |
 
 The trial's cap is USD 5 in total across Walmart and Mariano's, with USD 0.50 kept as headroom inside it. The
 ledger was not reset, nothing was bought, and nothing was charged to the client. The Oxylabs ceiling is 0 since
-2026-11-04T14:43:43Z: no run sends anything until a new ceiling is set with its own approved basis. Figures:
+2026-11-04T23:03:52Z: no run sends anything until a new ceiling is set with its own approved basis. The last
+USD 0.0225 of Walmart's envelope paid for L12, a canary of 1.6.6 with detail on (13 submissions, USD 0.0195): the
+smallest live check of the final revision's detail path that the envelope could pay for. It is not Stage 1. Figures:
 [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md).
 
-Each stage below runs the frozen release 1.6.5 (`67d216e`). Its ceiling is set with `set-ceiling` before its first
+Each stage below runs the frozen release 1.6.6 (`39cc61f`, built as `cbea802`). Its ceiling is set with `set-ceiling` before its first
 request, every submission's worst case is reserved before it is sent, a retry or a restart counts against the same
 ceiling, and an unknown outcome stays charged. A stage that meets a block, a wrong store, repeated pages or its
 ceiling stops, and reports what remains.
@@ -32,8 +34,8 @@ of the final revision, with the detail path on).
 | Step | Submissions | What it shows |
 |---|---:|---|
 | Preflight of each worker: robots.txt and the store page | 4 | store 3891, ZIP 60085, PICKUP, on Walmart's own store page |
-| The six listings of L2, L3, L5 and L8, three result pages each, two workers, one execution | 18 | about 675 fresh products, as L8 read; the automated canary and the 1.6.5 source check on the first recorded page |
-| Product pages, detail on, for the products with no saved read of the last 30 days | about 6 to 23 | L8 needed 6 (with 667 UPCs from saved reads); more if Walmart's listings changed |
+| The six listings of L2, L3, L5 and L8, three result pages each, two workers, one execution | 18 | about 675 fresh products, as L8 read; the automated canary and the 1.6.6 source check on the first recorded page |
+| Product pages, detail on, for the products with no saved read of the last 30 days | about 6 to 23 | L8 needed 6 (with 667 UPCs from saved reads); more if Walmart's listings changed. L12 read 10 such pages on 1.6.6, 10 of 10 matched to their products |
 | **Total** | **about 28 to 45** | **at most about USD 0.07** (45 × USD 0.0015) |
 
 Ceiling: `set-ceiling --provider oxylabs --submissions 45 --usd 0.0675`. Afterwards: `export`, `validate-export
@@ -41,12 +43,13 @@ Ceiling: `set-ceiling --provider oxylabs --submissions 45 --usd 0.0675`. Afterwa
 so they serve until 2026-12-03; later, more product pages are needed.
 
 An optional addition of about 6 submissions: reach Beauty's "New Arrivals" listing through Beauty's category page,
-as L10 did, so that 1.6.5's source check also meets the flat price layout live. L11 named that listing directly and
+as L10 did, so that the source check (1.6.5 and later) also meets the flat price layout live. L11 named that listing directly and
 it was rejected for its identity (see [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8).
 
 ## Stage 2: the continuation toward full scope (W4), priced from the coverage table
 
-Computed offline from [`W4_LISTINGS_1_6_5.csv`](../evidence/reconciliation/1.6.5/w4/W4_LISTINGS_1_6_5.csv) by
+Computed offline from [`W4_LISTINGS_1_6_5.csv`](../evidence/reconciliation/1.6.5/w4/W4_LISTINGS_1_6_5.csv) (L12's one
+page, in the 1.6.6 tables, changes no listing's state, so the estimate stands) by
 `continuation_165.py`
 ([`CONTINUATION_ESTIMATE_1_6_5.json`](../evidence/reconciliation/1.6.5/w4/CONTINUATION_ESTIMATE_1_6_5.json)): 40
 results per page, at most 25 pages per listing (the result window).
@@ -76,7 +79,7 @@ results per page, at most 25 pages per listing (the result window).
 Needs separately supplied Scrape.do access; this delivery authorizes no Scrape.do spending. The Scrape.do edition is
 built from the same revision and passes the same offline suites. Its request code (`acquisition/scrapedo.py`) has
 not changed since 1.5.2, so the estimates of the 1.5.2 plan stand: a canary of about 21 credits, and a 19-page
-demonstration of about 192 credits. The canary is run as L11b was: robots.txt, the store page and one listing page,
+demonstration of about 192 credits. The canary is run as L11b and L12 were: robots.txt, the store page and one listing page,
 with the store, Pickup and source checks.
 
 ## Stage 4: a sequence the client observes
