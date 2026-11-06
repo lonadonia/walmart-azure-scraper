@@ -1,0 +1,91 @@
+{
+ "about": "W2 recheck, release 1.6.7 tool, offline: S6's blank UPCs and sizes against every saved read",
+ "inputs_sha256": {
+  "evidence/reconciliation/1.6.3/w2/W2_FIELD_CORRECTIONS_1_6_3.csv": "04b9b466bf1fc066aaa13230d39048a00f38137ba4d859e61d086a1e6eca159b",
+  "evidence/live/1.6.x/runs/L12_01M6MC7YE4PBXV88G3PJ5ENW4B/field_dispositions_01M6MC7YE4PBXV88G3PJ5ENW4B.csv": "7ba12430b254afcb89c643d0dfd36cabfc7f82ec7e0e61ce0494f5a4f46b3c57"
+ },
+ "database": {
+  "name": "walmart_live150",
+  "access": "read-only session (default_transaction_read_only=on)",
+  "reads_of_own_pages_of_this_store": 1895
+ },
+ "values": {
+  "upc": 52,
+  "size (weight)": 14
+ },
+ "classes": {
+  "upc": {
+   "never_attempted": 44,
+   "recoverable_by_1_6_7": 3,
+   "filled_in_l12_export": 3,
+   "absent_at_source": 1,
+   "wrong_identity": 1
+  },
+  "size (weight)": {
+   "conflicting": 4,
+   "absent_at_source": 8,
+   "never_attempted": 2
+  }
+ },
+ "never_attempted_upc_items": [
+  "1011349520",
+  "10419738",
+  "110052207",
+  "11027383",
+  "11148249",
+  "148286033",
+  "16116206250",
+  "17247529",
+  "17990615174",
+  "18325023028",
+  "18468708077",
+  "18511760810",
+  "18529653937",
+  "18693856198",
+  "18813903634",
+  "18987964813",
+  "20242472444",
+  "20636621408",
+  "215031623",
+  "23601933",
+  "2386281301",
+  "338270604",
+  "352623724",
+  "368458451",
+  "3811156132",
+  "44391003",
+  "44933639",
+  "5017425632",
+  "5035193904",
+  "5060258830",
+  "5078351324",
+  "5259432948",
+  "5357248862",
+  "546228383",
+  "55524646",
+  "615874681",
+  "727887056",
+  "752121328",
+  "763944867",
+  "765763959",
+  "805359800",
+  "9006609910",
+  "9035618952",
+  "933259956"
+ ],
+ "never_attempted_upc_count": 44,
+ "recoverable_by_1_6_7": [
+  [
+   "16664823",
+   "046500022517"
+  ],
+  [
+   "314089142",
+   "024200049423"
+  ],
+  [
+   "40347953",
+   "033383652207"
+  ]
+ ]
+}

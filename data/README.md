@@ -5,7 +5,7 @@ Pickup fulfilment, through the Oxylabs Web API. Each folder is named after the r
 it. Every run is a capped pilot, rejected by the coverage gate G3 at least, so nothing was published, and no file
 covers the full catalogue.
 
-## The 1.6.x runs (2026-11-03 and 2026-11-04, the user's Oxylabs Web API trial)
+## The 1.6.x runs (2026-11-03 and 2026-11-04, the owner's Oxylabs Web API trial, free credit)
 
 | Folder | Run | Release that collected it | Fresh | Retained |
 |---|---|---|---:|---:|
@@ -25,6 +25,13 @@ covers the full catalogue.
   export passes the final 1.6.6's: 10,301 of 10,301 records verified against 1,494 stored pages of 15 runs; its
   retained rows are L10's, except the products that L11b (35) and L12 (40) read again. The files stay attributed
   to the releases that collected them.
+- **Releases 1.6.7 and 1.6.8 have made no live run, so no file here is theirs.** They change what a run reads, how a listing is named and which saved values a carried row takes. The files here
+  keep the names they were collected with, which 1.6.8 would not all give:
+  - L10's `products_fresh` has 31 rows "Subscription" and 19 "Cough" under Health & Wellness: reads of filtered views of listing `976760_4661388_6244277_7158394`;
+  - its `products_retained` has 5 rows "Great Value Pantry" beside 43 "Pantry" (one listing, `976759_976794_2002490`), and 12 "Fabric Softener" beside 37 "Fabric Softeners" (one listing, `1115193_1071967_1630538`);
+  - L12's export and L8's name that listing "Fabric Softener".
+
+  See [`../review/TECHNICAL_REPORT.md`](../review/TECHNICAL_REPORT.md), section 8.
 - **The format.** Each file has the 22 fields in order, all strings, with `""` for a missing value. `gupc` and
   `unit_price` are always empty, and from release 1.6.0 the four deal fields are always empty. PPM is copied as
   displayed, and `crawl_date` is the store-local date of the row's own observation. JSON and CSV hold the same rows.
@@ -40,7 +47,7 @@ Every other 1.6.x run's exports are in its folder of
 here. [`RUN_SUMMARY.json`](RUN_SUMMARY.json) records every run of this store that the repository publishes, the
 1.5.x runs and the fifteen 1.6.x runs: release, commit, edition
 ZIP, store checks, times, gates, pages, ledgers, counts, and each delivered file's SHA-256 and row count. The current
-coverage tables are in [`../evidence/reconciliation/1.6.6/w4/`](../evidence/reconciliation/1.6.6/w4/);
+coverage tables are in [`../evidence/reconciliation/1.6.8/w4/`](../evidence/reconciliation/1.6.8/w4/);
 [`COVERAGE_RECONCILIATION.csv`](COVERAGE_RECONCILIATION.csv) is release 1.5.2's, kept as published.
 
 **Check:** `python3 manifests/check_data.py`, from the root of a clone. It checks each file against

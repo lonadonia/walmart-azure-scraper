@@ -1,0 +1,3 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen python -c import sys; from walmart_headless.cli import entrypoint; sys.argv[0] = 'walmart-collector'; entrypoint() --version
+(cwd walmart-oxylabs-1.6.8; offline=True)
+walmart-azure-headless 1.6.8

@@ -1,26 +1,28 @@
-# Recovery and operations (W6), release 1.6.6
+# Recovery and operations (W6), release 1.6.8
 
-Release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b` (built as `cbea802`). Store: Walmart #3891, 3900
+Release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a`. Store: Walmart #3891, 3900
 Fountain Square Pl, Waukegan, IL 60085, PICKUP. Times are UTC.
 
 Each line says where it was shown:
-- **LIVE:** the Oxylabs Web API and Walmart, from the workstation, with the user's trial account. This is
+- **LIVE:** the Oxylabs Web API and Walmart, from the workstation, with the owner's trial account (free credit). This is
   developer-environment evidence, not the client's.
+- **OWNER AZURE:** the owner's Azure test VM, Linux, with no provider request: stored pages or synthetic pages. Not the client's environment.
 - **SYNTHETIC:** fixture pages and a temporary local database, with no request.
 - **DOCUMENTED:** the shipped documents and configuration, not exercised here.
 
-Nothing in this file ran in the client's Azure environment, and the schedule was never enabled. Release 1.6.6
+Nothing in this file ran in the client's Azure environment, and the schedule was never enabled. **No live run was made on 1.6.7 or 1.6.8.**
+Releases 1.6.7 and 1.6.8 change what a run reads, how its listings and rows are judged and named, and which saved values a carried row takes. Release 1.6.6
 changed only how a refused automatic publication is reported (section 3), release 1.6.5 only the independent source
 check, and release 1.6.4 only how a listing's total is read: the retention, recovery, concurrency and schedule code
-is that of 1.6.3, and the publication step's own checks are too.
+is that of 1.6.3, with a carried row's renaming and its UPC and size decided apart since 1.6.7, and the publication step's own checks are too.
 
 ## 1. Retention
 
 | What | Rule (unchanged in 1.6.x unless named) | Where it is set or shown |
 |---|---|---|
-| The store's verified products | Kept indefinitely. A product a run does not observe is carried forward from its last verified observation, with its own crawl date, its age and the reason. A carried row is never counted as fresh, and its crawl date is never refreshed by a new export | `config/collector.yaml`, `historical:` (`max_age_days` must stay null); `collection/retention.py`. LIVE: L8 (1.6.3) exported 2,515 rows, 675 fresh and 1,840 carried; L10 (1.6.4) exported 10,301 rows, 7,057 fresh and 3,244 carried; each carried row with its own run and date |
+| The store's verified products | Kept indefinitely. A product a run does not observe is carried forward from its last verified observation, with its own crawl date, its age and the reason. A carried row is never counted as fresh, and its crawl date is never refreshed by a new export. Since 1.6.7 it takes the name the category page gives its exact view, and its lineage keeps the earlier name (`historical.renamed_by_mapping`) | `config/collector.yaml`, `historical:` (`max_age_days` must stay null); `collection/retention.py`. LIVE: L8 (1.6.3) exported 2,515 rows, 675 fresh and 1,840 carried; L10 (1.6.4) exported 10,301 rows, 7,057 fresh and 3,244 carried; each carried row with its own run and date |
 | A product later shown only with a shipping or marketplace offer, or with no line for the store | keeps its identity with empty prices, never that offer's price | DOCUMENTED and tested (`tests/integration/test_coverage_and_assortment.py`) |
-| A UPC or size read on a product's own page | reused for 30 days (`detail.reuse_days`), always named as that read: its time, run, revision and page. From 1.6.1 also when a run ends before its detail pass; from 1.6.3 also with detail reading off and for carried rows | LIVE: L8 took 667 UPCs from saved reads and fetched 6 product pages; 155 carried rows got their blank UPC from a saved read that each names. L10, with detail off, took 367 UPCs from saved reads and filled 267 carried rows. Carried rows whose read gives conflicting sizes were left as carried (`recovery_withheld`): 4 in L8, 12 in L10 |
+| A UPC or size read on a product's own page | reused for 30 days (`detail.reuse_days`), always named as that read: its time, run, revision and page. From 1.6.1 also when a run ends before its detail pass; from 1.6.3 also with detail reading off and for carried rows | LIVE: L8 took 667 UPCs from saved reads and fetched 6 product pages; 155 carried rows got their blank UPC from a saved read that each names. L10, with detail off, took 367 UPCs from saved reads and filled 267 carried rows. Carried rows whose read gives conflicting sizes were left as carried (`recovery_withheld`): 4 in L8, 12 in L10. Since 1.6.7 such a read withholds the size only (`historical.size_withheld`), offline; 3 UPCs of S6's rows are recovered so with no request |
 | Deal fields (`volume_deals_*`, `digital_deals_*`) | always `""` (the client's clarification, release 1.6.0) | LIVE: `""` in every row of every 1.6.x export |
 | Exports and the published dataset | every run's exports under `runs/<store>/<run>/exports/` in the storage (a local folder or the Blob container). `published/<store>/latest.json` is the **last-good pointer**: it names the published run and its manifest, and it is not a product file. The database's publication pointer is authoritative | `docs/OPERATIONS.md`, "Publication" and "Backup" (Blob soft delete and versioning; PostgreSQL point-in-time restore, 7 to 35 days) |
 
@@ -31,8 +33,7 @@ LIVE, three times, each on the release it ran:
 - L5 on 1.6.2 (`01M6K1HG154683NAAFXQZX33C6`);
 - L8 on 1.6.3 (`01M6K6P21BW509BMRTN1FSB9H7`).
 
-Each ran with two workers. Releases 1.6.4 to 1.6.6 did not change the recovery path (1.6.6 changes only how a
-refused automatic publication is reported), and a live repeat on them was not funded; their integration suites,
+Each ran with two workers. Releases 1.6.4 to 1.6.8 did not change the recovery path, and a live repeat on them was not funded; their integration suites,
 which include the interruption, kill and resume tests, passed in both editions. Every command, with its start, end and exit code, is in `evidence/live/1.6.x/campaign/commands.csv`, and
 each command's own log is beside it.
 
@@ -50,6 +51,8 @@ each command's own log is beside it.
 Each execution reads robots.txt and the store page again, as a resume must before it collects: 6 each per stage (3
 executions, 2 workers). On 1.6.0, L2 (`01M6H72J86K5TF7A1874N7BJ2R`) was paused after 480 s, killed 420 s into its
 resume and resumed to the end, with no page read twice (18 listing pages, 254 product pages, 230 follow-up pages).
+
+**OWNER AZURE, on 1.6.8, with no request.** A replay of L10's stored pages in the container, with 120 pages read, was killed with SIGKILL (exit 137). The run stayed unfinished. The ordinary `resume`, started at once, was not refused: it recorded the run interrupted and recovered, closed the killed execution's segment as abandoned, and reclaimed the one task the dead worker held, which went on from its checkpoint. The run finished with 426 pages. Two pages were read again, robots.txt and the store page, because a resumed execution checks the store before it continues; no result page was read twice. Its export equals the uninterrupted replay's byte for byte, and its records were checked against their stored pages ([`KILL_RESUME_COMPARISON.txt`](../evidence/owner-azure-test/1.6.8/container/kill_resume/KILL_RESUME_COMPARISON.txt), [`killresume.log`](../evidence/owner-azure-test/1.6.8/container/logs/killresume.log)). It stays a replay: `rejected`, like its source run, and never published.
 
 **What a stop costs.** In every stage, the pause left 2 requests in flight and the kill left 2 more. Their answers
 were not used and their outcome is unknown, so both ledgers keep them as charged. The collector's ledger shows the
@@ -81,10 +84,10 @@ reads. L8 needed 6 product pages for its 675 fresh products; L2 needed 484 for i
 
 ## 3. The last good dataset is protected
 
-SYNTHETIC, on a clean extraction of the 1.6.6 Oxylabs edition ZIP (sha256 `0859a2f6…`): its own frozen tests plus
-one added file, 19 passed on 2026-11-04 (23:40:08Z to 23:43:12Z)
-([`evidence/verification/1.6.6/last_good_publication/`](../evidence/verification/1.6.6/last_good_publication/)).
-The same check passed on 1.6.1, 1.6.4 and 1.6.5. In each case a first run is published, a second run meets the fault, and
+SYNTHETIC, on a clean extraction of the 1.6.8 Oxylabs edition ZIP (sha256 `eacf76e9…`): its own frozen tests plus
+one added file, 19 passed on 2026-11-05, 21:22:13Z to 21:25:33Z
+([`evidence/verification/1.6.8/last_good_publication/`](../evidence/verification/1.6.8/last_good_publication/)).
+The same check passed on 1.6.1, 1.6.4, 1.6.5 and 1.6.6. In each case a first run is published, a second run meets the fault, and
 the published state is compared before and after: the pointer, the publication rows, `latest.json`, the manifest and
 its `products.json`, and the first run's observations.
 
@@ -97,7 +100,7 @@ its `products.json`, and the first run's observations.
 | Blocked by the site | rejected, `SITE_REFUSAL`, exit 5; the store is then held | unchanged |
 | Product pages stopped by a challenge | rejected, exit 6 | unchanged |
 | Mixed lineage | the publication refused, exit 6 | unchanged |
-| Corrupt evidence after the run validated: one byte of `products.json` changed, `products.json` truncated, or `manifest.json` changed | not published: "products.json hash mismatch" or "manifest hash mismatch"; the run stays `validated`; exit 6 (1.6.5: exit 0). That `PUBLICATION_REFUSED` is now at `ERROR` (1.6.5: `WARN`) is asserted by 1.6.6's two new tests, not by this check | unchanged |
+| Corrupt evidence after the run validated: one byte of `products.json` changed, `products.json` truncated, or `manifest.json` changed | not published: "products.json hash mismatch" or "manifest hash mismatch"; the run stays `validated`; exit 6 (1.6.5: exit 0). That `PUBLICATION_REFUSED` is at `ERROR` (1.6.5: `WARN`) is asserted by 1.6.6's two tests and the operator drill below, not by this check | unchanged |
 | Run interrupted | exit 75; a manual publication of it refused (exit 6) | unchanged until its resume completes and publishes it |
 | Publication interrupted | the retry publishes in one step | the old dataset until then |
 | Control: one product page refused among many | published | moves, as it should |
@@ -122,11 +125,17 @@ The two tests that show it fail on 1.6.5 and pass on 1.6.6
 refused exits 6, as before. To act on the alert: read the reason (`status --run ID`), resolve it, then
 `publish --run ID`. The last published dataset stays published meanwhile.
 
+**The operator drill (OWNER AZURE, synthetic pages), on 1.6.8, in both editions.** `test_operator_drill_owner.py` runs the ordinary command line against the VM's PostgreSQL 16, with a local stub for the site: `validate-config --check-db`, `sync-config`, `run`, `status`, `export` and the storage location, a pause and `resume`, a publication refused because the run's pages did not come from the network and the store is not a test target, `publish` of that run by hand, a run stopped when its provider credits ran out, and the export of the store's published dataset. Its transcripts are [`oxylabs.drill.jsonl` and `scrapedo.drill.jsonl`](../evidence/owner-azure-test/1.6.8/qualification/logs/). It shows:
+- the run's automatic publication refused: `PUBLICATION_REFUSED` at `ERROR`, exit 6; a manual `publish` of the same run refused again, exit 6; the last-good pointer unchanged throughout;
+- a run paused by its execution limit (exit 75), then continued by `resume`: the same run, then published;
+- a run stopped when its credits ran out (exit 4), partial, which did not replace the published dataset: the store's export is still the last good run;
+- store isolation: a second store, configured and enabled beside the first, has no run and no folder, and no request carried its store id (the stub saw only `3891`), while the first ran.
+
 ## 4. Concurrency
 
 LIVE, measured from each run's own page fetches and its collector ledger
 ([`CONCURRENCY_MEASURED_1_6_6.csv`](../evidence/reconciliation/1.6.6/CONCURRENCY_MEASURED_1_6_6.csv), one line per
-run and page purpose). Workers share one pace per store: leases, checkpoints, deduplication and the shared trial
+run and page purpose; no live run since). Workers share one pace per store: leases, checkpoints, deduplication and the shared trial
 reservations held under two workers, and no page was read twice.
 
 | Run | Release | Workers | Executions | Active time (s) | Pages answered | Pages per active minute | Listing page, median and p90 (s) | Product page, median and p90 (s) |
@@ -151,7 +160,7 @@ reservations held under two workers, and no page was read twice.
 each 1.6.5 canary's three requests ended within its first 20 s, and the rest of its active time (about 5 minutes)
 went to checking and exporting its 10,301 rows. L12's 13 requests ended by 22:55:13Z, about 2.3 minutes into its 6.8
 minutes of active time. The longest two-worker run, L10, read 441 pages in 2,596.6 s of active time:
-10.19 pages per active minute, the rate [`TEST_PLAN.md`](TEST_PLAN.md) uses. Memory was not measured. The worker
+10.19 pages per active minute, the rate [`TEST_PLAN.md`](TEST_PLAN.md) uses. Memory of a live run was not measured. On the owner's Azure test VM (2 vCPU, 3.9 GB of memory), the delivered Oxylabs edition of 1.6.8 replayed L10 from its stored pages, on the host rather than in Docker: 424 pages and 6,880 valid records (the container's replay gave the same), in 511.5 s of wall time and 212 s of CPU. A replay serves the stored pages through one session, so it ran one worker in one process; L10 itself ran two. That process's resident memory peaked at 1.38 GiB by the kernel's count (1.31 GiB in samples every 0.25 s), and the host never had less than 1.75 GiB available ([`memory/`](../evidence/owner-azure-test/1.6.8/memory/)). A replay makes no request, so this is not a live run's measurement. The worker
 count for a full run needs the full run (A53).
 
 ## 5. Schedule (kept disabled)
@@ -179,23 +188,22 @@ DOCUMENTED and tested offline. Nothing was scheduled anywhere in this delivery.
   - The schedule tests of `tests/integration/test_operations.py` cover: the due local occurrence; the winter
     occurrence; an unfinished scheduled run going on; continuation by later firings; a late start; a backlog across a
     clock change; a manual run deferring an occurrence; a closed window deferring it.
-  - All passed in the 1.6.6 suites of both editions (unit 533, integration 202).
+  - All passed in the 1.6.8 suites of both editions on Linux (unit 554, integration 222).
 - **Not established:** that a full-scope run fits between two starts. No full-scope run has been made.
-  [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md) estimates it from the census's measured page rates. The
+  [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md) estimates it from the measured page rates. The
   observed cadence is a separate milestone (PENDING_OBSERVATION), after the client's authorization.
 
 ## 6. Container
 
-**Not verified for 1.6.6.** This workstation has no container runtime (no Docker, Podman or WSL), and the client's VM
-was not touched.
+**OWNER AZURE, on 1.6.8** (2026-11-05, 21:24:30Z to 22:09:14Z): 89 steps, 1 not as expected by its exit code: `after` (exit 1), because the gate's four databases were still on the host; they were kept for the checks that followed and then dropped ([`HOST_STATE.md`](../evidence/owner-azure-test/1.6.8/HOST_STATE.md)). The gate's recording of the walkthrough exited 0 but failed by its output (`command not found`); it was recorded again in a session of its own. The record is [`evidence/owner-azure-test/1.6.8/container/`](../evidence/owner-azure-test/1.6.8/container/). This is an owner test, not the client's environment. The client's VM was not touched.
 
-- **What changed since 1.5.2:** only two comment lines of the `Dockerfile` (the version in the build examples), and
-  in `uv.lock` only the collector's own version. 1.6.6 changed the same two lines again.
-- **The last image built:** the 1.5.2 image was built and run on the owner's Azure test VM
-  ([`evidence/owner-azure-test/1.5.2/`](../evidence/owner-azure-test/1.5.2/)).
-- **What was verified instead for 1.6.6:** the Python deployment the image wraps. Both edition ZIPs were installed
-  from their locks (`uv sync --frozen`) in clean extractions and their suites run
-  ([`evidence/verification/1.6.6/package/`](../evidence/verification/1.6.6/package/)). Both editions' Azure templates were built and linted
-  with the Bicep CLI, with no deployment: exit 0, no lint finding ([`BICEP_CHECKS.txt`](../evidence/verification/1.6.6/package/BICEP_CHECKS.txt)).
-- **What remains:** a 1.6.6 image build is in the client-environment milestone ([`MILESTONES.md`](MILESTONES.md)).
-  The commands are in [`ACCEPTANCE_RUNBOOK.md`](ACCEPTANCE_RUNBOOK.md).
+- **The images.** Both editions were built with `docker build` from the delivered ZIPs. Their ids, layers, `docker save` digests and base-image digests are in [`IMAGES.md`](../evidence/owner-azure-test/1.6.8/container/IMAGES.md). Every file of the images' `src` and `config` was compared with the ZIP's: identical.
+- **Smoke tests.** With no network and a read-only root: `--version`, `--help` and the default `validate-config`; `validate-config --require-credentials` with no key is refused with exit 3.
+- **Migrations.** A new isolated database per edition: the schema check fails (exit 2), `db-upgrade`, the check passes, a second upgrade changes nothing, then `sync-config` and `status`.
+- **Stored live pages.** A copy of the campaign database, with L12 and L10 replayed by 1.6.8. A replay makes no request, and HTTP(S) goes to a closed local port. It is a replay, not new collection, and it stays attributed to the release that collected the pages.
+- **Kill and resume.** Section 2.
+- **Rollback.** The published 1.6.6, built as an image from its ZIP, reads the same database (one schema head, `0006`), and shows and exports the same run. Then 1.6.8 again.
+- **Persistence.** The daemon was stopped and started. The images, the volumes, every file the replays wrote (compared by SHA-256) and the database were all still there.
+- **The host.** [`HOST_STATE.md`](../evidence/owner-azure-test/1.6.8/HOST_STATE.md) compares it before and after. Docker is not installed on the VM: Ubuntu's packages were unpacked into the gate's own folder, and a daemon from there ran as root during the gate, with no default bridge and no firewall change.
+
+**What this does not establish:** that the images run in the client's environment, that they run against Azure's PostgreSQL or Blob storage, or anything live.

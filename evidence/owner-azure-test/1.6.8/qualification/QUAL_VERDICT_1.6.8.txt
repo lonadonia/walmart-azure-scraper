@@ -1,0 +1,53 @@
+ok   oxylabs.zip: sha256 eacf76e90320dbb1e1795913c4e0736d6297ca54645653764fae212eec6093ea is the delivered oxylabs ZIP
+ok   oxylabs.build_info: exit 0 (expected 0)
+ok   oxylabs.install: exit 0 (expected 0)
+ok   oxylabs.lock: exit 0 (expected 0)
+ok   oxylabs.ruff: exit 0 (expected 0)
+ok   oxylabs.format: exit 0 (expected 0)
+ok   oxylabs.mypy: exit 0 (expected 0)
+ok   oxylabs.version: exit 0 (expected 0)
+ok   oxylabs.help: exit 0 (expected 0)
+ok   oxylabs.validate-config: exit 0 (expected 0)
+ok   oxylabs.check-db-before: exit 2 (expected 2); output: database current=False revision=None head=0006
+ok   oxylabs.db-upgrade: exit 0 (expected 0)
+ok   oxylabs.check-db-after: exit 0 (expected 0)
+ok   oxylabs.db-upgrade-again: exit 0 (expected 0)
+ok   oxylabs.status: exit 0 (expected 0)
+ok   oxylabs.unit: exit 0 (expected 0); summary: 554 passed in 8.85s
+ok   oxylabs.integration: exit 0 (expected 0); summary: 222 passed in 1340.01s (0:22:20)
+ok   oxylabs.drill_file: information row, sha256 993e9798b905b5ca7982b67320135dc904c4a2cdddcc78d17d45d796dcd75f6b is the uploaded drill file
+ok   oxylabs.drill: exit 0 (expected 0); summary: 1 passed in 20.34s
+ok   scrapedo.zip: sha256 18642dd6fd1de8db6d43eea16bc11e11ffa780cc791a67dd75b4ce316d63db52 is the delivered scrapedo ZIP
+ok   scrapedo.build_info: exit 0 (expected 0)
+ok   scrapedo.install: exit 0 (expected 0)
+ok   scrapedo.lock: exit 0 (expected 0)
+ok   scrapedo.ruff: exit 0 (expected 0)
+ok   scrapedo.format: exit 0 (expected 0)
+ok   scrapedo.mypy: exit 0 (expected 0)
+ok   scrapedo.version: exit 0 (expected 0)
+ok   scrapedo.help: exit 0 (expected 0)
+ok   scrapedo.validate-config: exit 0 (expected 0)
+ok   scrapedo.check-db-before: exit 2 (expected 2); output: database current=False revision=None head=0006
+ok   scrapedo.db-upgrade: exit 0 (expected 0)
+ok   scrapedo.check-db-after: exit 0 (expected 0)
+ok   scrapedo.db-upgrade-again: exit 0 (expected 0)
+ok   scrapedo.status: exit 0 (expected 0)
+ok   scrapedo.unit: exit 0 (expected 0); summary: 554 passed in 8.54s
+ok   scrapedo.integration: exit 0 (expected 0); summary: 222 passed in 1320.02s (0:22:00)
+ok   scrapedo.drill_file: information row, sha256 993e9798b905b5ca7982b67320135dc904c4a2cdddcc78d17d45d796dcd75f6b is the uploaded drill file
+ok   scrapedo.drill: exit 0 (expected 0); summary: 1 passed in 20.37s
+ok   rollback166.zip: sha256 0859a2f693527bab073252edf941928bb4f118ea4a63d581078d96ddd2324e22 is the delivered rollback166 ZIP
+ok   rollback166.install: exit 0 (expected 0)
+ok   rollback166.version: exit 0 (expected 0)
+ok   rollback166.check-db: exit 0 (expected 0)
+ok   rollback166.status: exit 0 (expected 0)
+ok   rollforward168.check-db: exit 0 (expected 0)
+ok   oxylabs.drill.jsonl: 14 operator commands, each exit as expected
+ok   oxylabs.drill.jsonl: the automatic publication refused (exit 6, PUBLICATION_REFUSED at ERROR) and the manual publish of that run refused (exit 6); the last-good pointer stayed 01M6PXETEREN0ZCVKFEHDK1RQH through both (Azure's retry of a refused scheduled run: test_a_scheduled_run_whose_publication_was_refused_exits_6_also_on_azures_retry, in the integration suite)
+ok   oxylabs.drill.jsonl: store ids sent ['3891']; runs of the other configured store: []
+ok   scrapedo.drill.jsonl: 14 operator commands, each exit as expected
+ok   scrapedo.drill.jsonl: the automatic publication refused (exit 6, PUBLICATION_REFUSED at ERROR) and the manual publish of that run refused (exit 6); the last-good pointer stayed 01M6PYRNCTNS8HK59S6WDFVPFD through both (Azure's retry of a refused scheduled run: test_a_scheduled_run_whose_publication_was_refused_exits_6_also_on_azures_retry, in the integration suite)
+ok   scrapedo.drill.jsonl: store ids sent ['3891']; runs of the other configured store: []
+
+44 rows; 0 not as expected
+RESULT: PASS

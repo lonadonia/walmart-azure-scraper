@@ -1,0 +1,8 @@
+('L4', '976759', 9, 'Pantry', '976759_976794_2002490', ())
+('L4', '976759', 55, 'Great Value Pantry', '976759_976794_2002490', ())
+('L10', '1005862', 3, 'Deodorant', '1005862_1001487', ())
+('L10', '1005862', 70, "Men's Deodorant", '1005862_1001487?facet=gender%3AMale', (('facet', 'gender:Male'),))
+('L10', '133283', 55, 'Baby Health Care', '5427_132943_2441534', ())
+('L10', '133283', 63, 'Baby Healthcare', '5427_132943_2441534', ())
+('L10', '976760', 1, 'Cough', '976760_4661388_6244277_7158394?facet=health_concern%3ACough', (('facet', 'health_concern:Cough'),))
+('L10', '976760', 8, 'Subscription', '976760_4661388_6244277_7158394?facet=subscription_eligible%3ASubscription+item', (('facet', 'subscription_eligible:Subscription item'),))

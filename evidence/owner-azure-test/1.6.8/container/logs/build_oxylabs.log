@@ -1,0 +1,165 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
+
+Sending build context to Docker daemon  1.442MB
+Step 1/21 : FROM python:3.12-slim-bookworm AS build
+3.12-slim-bookworm: Pulling from library/python
+dd051e1b8c92: Pulling fs layer
+a47be7bff94f: Pulling fs layer
+8691b22c22a3: Pulling fs layer
+88d156875409: Pulling fs layer
+88d156875409: Waiting
+a47be7bff94f: Verifying Checksum
+a47be7bff94f: Download complete
+8691b22c22a3: Verifying Checksum
+8691b22c22a3: Download complete
+88d156875409: Verifying Checksum
+88d156875409: Download complete
+dd051e1b8c92: Verifying Checksum
+dd051e1b8c92: Download complete
+dd051e1b8c92: Pull complete
+a47be7bff94f: Pull complete
+8691b22c22a3: Pull complete
+88d156875409: Pull complete
+Digest: sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+Status: Downloaded newer image for python:3.12-slim-bookworm
+ ---> 313cf8f190a1
+Step 2/21 : COPY --from=ghcr.io/astral-sh/uv:0.13.1 /uv /usr/local/bin/uv
+0.13.1: Pulling from astral-sh/uv
+f2eb7853ff11: Pulling fs layer
+cd3991183762: Pulling fs layer
+cd3991183762: Verifying Checksum
+cd3991183762: Download complete
+f2eb7853ff11: Verifying Checksum
+f2eb7853ff11: Download complete
+f2eb7853ff11: Pull complete
+cd3991183762: Pull complete
+Digest: sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336
+Status: Downloaded newer image for ghcr.io/astral-sh/uv:0.13.1
+ ---> dd6c71e9d845
+Step 3/21 : ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
+ ---> Running in a593c3f5c84b
+ ---> Removed intermediate container a593c3f5c84b
+ ---> 145effd0a844
+Step 4/21 : WORKDIR /app
+ ---> Running in 55556a5e4d0b
+ ---> Removed intermediate container 55556a5e4d0b
+ ---> d7cb66947f6f
+Step 5/21 : COPY pyproject.toml uv.lock README.md ./
+ ---> edd99dbb048d
+Step 6/21 : RUN uv sync --frozen --no-dev --no-install-project
+ ---> Running in e8ecae7c4696
+[91mUsing CPython 3.12.16 interpreter at: /usr/local/bin/python3
+Creating virtual environment at: .venv
+[0m[91mDownloading cryptography (4.5MiB)
+[0m[91mDownloading psycopg-binary (5.0MiB)
+[0m[91mDownloading[0m[91m selectolax (1.5MiB)
+[0m[91mDownloading pydantic-core (2.1MiB)
+[0m[91m [0m[91mDownloaded[0m[91m [0m[91mselectolax[0m[91m
+[0m[91m [0m[91mDownloaded[0m[91m [0m[91mpydantic-core[0m[91m
+[0m[91m Downloaded cryptography
+[0m[91m Downloaded psycopg-binary
+[0m[91m   Building sqlalchemy==2.1.6
+[0m[91m      Built sqlalchemy==2.1.6
+[0m[91mPrepared 34 packages in 6.04s
+[0m[91mInstalled 34 packages in 3.86s
+[0m[91mBytecode compiled 1209 files in 2.12s
+ + alembic==1.20.0
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + azure-core==1.41.0
+ + azure-identity==1.26.0
+ + azure-storage-blob==12.31.0
+ + certifi==2026.10.19
+ + cffi==2.1.1
+ + charset-normalizer==3.5.2
+ + cryptography==50.0.2
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + isodate==0.7.2
+ + mako==1.4.3
+ + markupsafe==3.0.4
+ + msal==1.39.0
+ + msal-extensions==1.3.1
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ + pycparser==3.11
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pyjwt==2.15.1
+ + python-ulid==4.0.1
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + selectolax==1.0.1
+ + sqlalchemy==2.1.6
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + tzdata==2026.5
+ + urllib3==2.8.0
+[0m ---> Removed intermediate container e8ecae7c4696
+ ---> 09a5833e2e1c
+Step 7/21 : COPY src ./src
+ ---> 295cc3459c77
+Step 8/21 : RUN uv sync --frozen --no-dev
+ ---> Running in 366aa51f30cb
+[91m   Building walmart-azure-headless @ file:///app
+[0m[91m      Built walmart-azure-headless @ file:///app
+[0m[91mPrepared 1 package in 853ms
+[0m[91mInstalled 1 package in 2ms
+[0m[91mBytecode compiled 1209 files in 82ms
+ + walmart-azure-headless==1.6.8 (from file:///app)
+[0m ---> Removed intermediate container 366aa51f30cb
+ ---> 2f509ef95a97
+Step 9/21 : FROM python:3.12-slim-bookworm
+3.12-slim-bookworm: Pulling from library/python
+Digest: sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+Status: Image is up to date for python:3.12-slim-bookworm
+ ---> 313cf8f190a1
+Step 10/21 : ARG SOURCE_COMMIT=unknown
+ ---> Running in 80a89ee4f5e2
+ ---> Removed intermediate container 80a89ee4f5e2
+ ---> 64c3585ce464
+Step 11/21 : ARG BUILT_AT=unknown
+ ---> Running in 6b0398cd1172
+ ---> Removed intermediate container 6b0398cd1172
+ ---> abbd19f2f6e7
+Step 12/21 : ENV PATH="/app/.venv/bin:$PATH"     PYTHONUNBUFFERED=1     PYTHONDONTWRITEBYTECODE=1     WALMART_COLLECTOR_CONFIG=/app/config/collector.yaml     WALMART_COLLECTOR_DATA_DIR=/app/data
+ ---> Running in 0289904c18c4
+ ---> Removed intermediate container 0289904c18c4
+ ---> 67b1741fd6a8
+Step 13/21 : RUN groupadd --system --gid 10001 collector && useradd --system --uid 10001 --gid collector --home /app collector
+ ---> Running in b2f31be0bc9f
+[91museradd warning: collector's uid 10001 is greater than SYS_UID_MAX 999
+[0m ---> Removed intermediate container b2f31be0bc9f
+ ---> 9c447e64929c
+Step 14/21 : WORKDIR /app
+ ---> Running in 32cdaed1b138
+ ---> Removed intermediate container 32cdaed1b138
+ ---> 6e5f739612d9
+Step 15/21 : COPY --from=build /app/.venv /app/.venv
+ ---> 65e948c8fdb5
+Step 16/21 : COPY --from=build /app/src /app/src
+ ---> 37369b211097
+Step 17/21 : COPY config ./config
+ ---> 3ae499eca24b
+Step 18/21 : RUN printf '{"commit": "%s", "built_at": "%s"}\n' "$SOURCE_COMMIT" "$BUILT_AT" > /app/BUILD_INFO.json     && mkdir -p /app/data && chown collector:collector /app/data
+ ---> Running in 964c40771277
+ ---> Removed intermediate container 964c40771277
+ ---> 26cc0152add1
+Step 19/21 : USER collector
+ ---> Running in 4ec95705f941
+ ---> Removed intermediate container 4ec95705f941
+ ---> 731aeada4dc4
+Step 20/21 : ENTRYPOINT ["walmart-collector"]
+ ---> Running in 2b1d8ef1a965
+ ---> Removed intermediate container 2b1d8ef1a965
+ ---> 9810a4a326bb
+Step 21/21 : CMD ["validate-config"]
+ ---> Running in 67f9c45f9e80
+ ---> Removed intermediate container 67f9c45f9e80
+ ---> 330d11c53192
+Successfully built 330d11c53192
+Successfully tagged walmart-collector-q168d:1.6.8-oxylabs

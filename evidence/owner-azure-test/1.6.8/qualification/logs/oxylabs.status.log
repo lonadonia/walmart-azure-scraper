@@ -1,0 +1,1 @@
+{"ts": "2026-11-05T22:09:37.015Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "status", "exit_code": 0, "result": {"stores": [{"store": "walmart-3891-pickup", "in_database": false, "hold": null}], "provider": {"key_configured": false, "keys": [], "charged_total": 0.0, "charged_uncertain": 0.0}}}

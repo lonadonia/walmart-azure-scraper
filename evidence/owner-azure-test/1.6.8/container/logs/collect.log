@@ -1,0 +1,6 @@
+b61dc526b217ad5ea817b7f8e199d1336ae907431ae2ed41042f1ebefb26d39f  <vm-home>/q168d/docker/out/campaign_volume_q168.tar.gz
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          7         0         1.065GB   1.018GB (95%)
+Containers      0         0         0B        0B
+Local Volumes   3         0         2.862GB   2.862GB (100%)
+Build Cache     0         0         0B        0B

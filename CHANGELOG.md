@@ -2,7 +2,7 @@
 
 There is one entry for each delivery to the client's review, newest first. Each delivery keeps its own review tag,
 and a tag is never moved. The collector's change history by release is in
-[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.6.6/docs/VERIFICATION.md).
+[`docs/VERIFICATION.md`](source/walmart-oxylabs-1.6.8/docs/VERIFICATION.md).
 
 ## How this repository is updated
 
@@ -17,7 +17,33 @@ and a tag is never moved. The collector's change history by release is in
   - its own tag, `review-<release>-<YYYYMMDD>`, with the UTC date the tag was made;
   - freshly written manifests, with `SHA256SUMS.txt` written last.
 
+## 1.6.8: correction delivery, published 2026-11-06 (tag `review-1.6.8-20261106`)
+
+- **Collector:** release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a`, 2026-11-05T20:51:52Z. It carries release 1.6.7 (`7ee2fa1`), prepared on 2026-11-05 and never
+  delivered. Three earlier 1.6.8 commits (`745607e`, `7a96218`, `9c14425`) were found wanting by this delivery's own checks before any
+  archive was delivered. The shared Classic probe is 1.7.2 ([`classic-probe-1.7.2/`](classic-probe-1.7.2/)). The probes 1.7.1 and 1.7.0 and the
+  Walmart probe 1.5.2 stay in their folders, unchanged.
+- **Corrections** (the client's review of 1.6.6; see [`review/CORRECTION_MAP.md`](review/CORRECTION_MAP.md)):
+  - Classic C4 and C2 are completed in probe 1.7.2, and the drip test that failed on Linux asserts what happened, with a separate forced-kill
+    test. The review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2. Probe 1.7.1's claim to complete C2 and C4 was not accurate.
+  - A partition is complete only through its children; a row read in part is never complete; a read of a filtered view never completes a listing
+    (252 listings complete under these rules, 0 of 11 rows).
+  - A category page of its own is read for the listings it names. A filtered link has the listing itself read. Two shelves are two listings.
+  - The agreed category name per view ("Fabric Softeners"), on fresh and carried rows.
+  - UPC and size decided apart; the queue of unread UPCs is 44, not 45; the 275 decisions at row level.
+  - The 1.6.6 statements that were not accurate are corrected. See [`manifests/DOC_CORRECTIONS.md`](manifests/DOC_CORRECTIONS.md).
+- **Live data:** none. No provider request was made in this delivery: the Oxylabs ceiling is 0 and USD 0.003 of Walmart's share is left. Every file of
+  `data/` is unchanged except this delivery's note in [`data/README.md`](data/README.md). The demonstration of 500 or more with detail on, on 1.6.8, was not funded.
+- **Verification:** both editions from their ZIPs on Linux, the whole suites (owner's Azure test VM, [`evidence/owner-azure-test/1.6.8/`](evidence/owner-azure-test/1.6.8/)), and
+  from a clean extraction of the source ZIP on Windows, the unit suites and the integration files the change touches
+  ([`evidence/verification/1.6.8/`](evidence/verification/1.6.8/)); the Docker images, migrations, a replay of the stored pages, a kill and resume, a rollback and data across a
+  restart; a walkthrough recording of 1.6.8. Nothing ran in the client's environment.
+- **States:** [`review/REQUIREMENT_MATRIX.md`](review/REQUIREMENT_MATRIX.md) and the four 1.6.8 columns of
+  [`review/ACCEPTANCE_MATRIX.csv`](review/ACCEPTANCE_MATRIX.csv).
+
 ## 1.6.6: correction delivery, published 2026-11-05 (tag `review-1.6.6-20261105`)
+
+*Note added by the 1.6.8 delivery: "completed in probe 1.7.1" below was not accurate for C2 and C4. See [`manifests/DOC_CORRECTIONS.md`](manifests/DOC_CORRECTIONS.md).*
 
 - **Collector:** release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b`, 2026-11-04T22:34:53Z. The
   archives were built at `cbea802`, which adds only their builder. The shared Classic probe is 1.7.1

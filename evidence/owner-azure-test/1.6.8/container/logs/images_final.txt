@@ -1,0 +1,6 @@
+REPOSITORY                TAG                  IMAGE ID                                                                  CREATED          SIZE
+walmart-collector-q168d   1.6.6-oxylabs        sha256:2ac45cd5a1bf113dd6fb0f204c246b5d8535a768de3edcf423d3c18e2036c609   18 minutes ago   222MB
+walmart-collector-q168d   1.6.8-scrapedo       sha256:be4e7e408bfe57f04ad2af2512581f0d201c0d73088fc8a5fa39a6ec774f7e5e   43 minutes ago   222MB
+walmart-collector-q168d   1.6.8-oxylabs        sha256:330d11c531928fa57b1c9048e5b87e5fb332f096f8e3c0a1abc9203e97b538e7   43 minutes ago   222MB
+python                    3.12-slim-bookworm   sha256:313cf8f190a1abab00472c1f0c950c10486c22114bcd8aef2a8198fb587a6d18   14 hours ago     124MB
+ghcr.io/astral-sh/uv      0.13.1               sha256:f6e289b87a320629950d704181c971b5abb074bb26cfeca559d9deb871507007   3 weeks ago      43.5MB

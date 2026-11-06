@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": { "value": "walmart-collector" },
+    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.8" },
+    "acrName": { "value": "<registry>" },
+    "keyVaultName": { "value": "<key-vault>" },
+    "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+    "databaseUrlSecretName": { "value": "walmart-collector-database-url" },
+    "databaseAuth": { "value": "password" },
+    "storageAccountName": { "value": "<storage-account>" },
+    "blobContainerName": { "value": "walmart-collector" },
+    "schedules": {
+      "value": [
+        { "storeKey": "walmart-3891-pickup", "cronUtc": "*/30 * * * *", "jobName": "walmart-3891-pickup" }
+      ]
+    },
+    "replicaTimeoutSeconds": { "value": 21600 },
+    "replicaRetryLimit": { "value": 1 },
+    "cpu": { "value": "0.5" },
+    "memory": { "value": "1Gi" },
+    "createEnvironment": { "value": false },
+    "environmentId": { "value": "/subscriptions/<subscription>/resourceGroups/<group>/providers/Microsoft.App/managedEnvironments/<environment>" }
+  }
+}

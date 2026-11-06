@@ -1,0 +1,66 @@
+Get:1 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 containerd amd64 2.2.1-0ubuntu1~24.04.4 [28.2 MB]
+Get:2 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 runc amd64 1.3.4-0ubuntu1~24.04.1 [9574 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 docker.io amd64 29.1.3-0ubuntu3~24.04.2 [35.6 MB]
+Fetched 73.3 MB in 1s (56.9 MB/s)
+213089e5957d1ea6554b312f8e69869229017fc962ef4f6950228d7160fef2e9  ./containerd_2.2.1-0ubuntu1~24.04.4_amd64.deb
+bd5c22d42d4ce3021958b7a8d627701597f61a1a9867ba83fe3c841f04991e3a  ./docker.io_29.1.3-0ubuntu3~24.04.2_amd64.deb
+6ddd64ed7ef1693dd95620a2b1148a4187ef4fe0819c3c3049fad9385ecfd5dc  ./runc_1.3.4-0ubuntu1~24.04.1_amd64.deb
+Package: docker.io
+Version: 29.1.3-0ubuntu3~24.04.2
+Filename: pool/universe/d/docker.io-app/docker.io_29.1.3-0ubuntu3~24.04.2_amd64.deb
+SHA256: bd5c22d42d4ce3021958b7a8d627701597f61a1a9867ba83fe3c841f04991e3a
+Package: containerd
+Version: 2.2.1-0ubuntu1~24.04.4
+Filename: pool/main/c/containerd-app/containerd_2.2.1-0ubuntu1~24.04.4_amd64.deb
+SHA256: 213089e5957d1ea6554b312f8e69869229017fc962ef4f6950228d7160fef2e9
+Package: runc
+Version: 1.3.4-0ubuntu1~24.04.1
+Filename: pool/main/r/runc-app/runc_1.3.4-0ubuntu1~24.04.1_amd64.deb
+SHA256: 6ddd64ed7ef1693dd95620a2b1148a4187ef4fe0819c3c3049fad9385ecfd5dc
+docker: <vm-home>/q168d/docker/pkg/root/usr/bin/docker
+Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+dockerd: <vm-home>/q168d/docker/pkg/root/usr/bin/dockerd
+Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+containerd: <vm-home>/q168d/docker/pkg/root/usr/bin/containerd
+containerd github.com/containerd/containerd/v2 2.2.1 
+containerd-shim-runc-v2: <vm-home>/q168d/docker/pkg/root/usr/bin/containerd-shim-runc-v2
+flag provided but not defined: -version
+runc: <vm-home>/q168d/docker/pkg/root/usr/bin/runc
+runc version 1.3.4-0ubuntu1~24.04.1
+version = 3
+root = "<vm-home>/q168d/docker/containerd-root"
+state = "/run/q168ddocker/containerd-state"
+disabled_plugins = ["io.containerd.grpc.v1.cri", "io.containerd.cri.v1.images", "io.containerd.cri.v1.runtime", "io.containerd.nri.v1.nri", "io.containerd.podsandbox.controller.v1.podsandbox"]
+
+[grpc]
+  address = "/run/q168ddocker/containerd/containerd.sock"
+
+[ttrpc]
+  address = "/run/q168ddocker/containerd/containerd.sock.ttrpc"
+
+[debug]
+  address = ""
+
+[metrics]
+  address = ""
+
+[plugins]
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "<vm-home>/q168d/docker/containerd-opt"
+{
+  "data-root": "<vm-home>/q168d/docker/root",
+  "exec-root": "/run/q168ddocker/exec",
+  "pidfile": "/run/q168ddocker/dockerd.pid",
+  "hosts": ["unix:///run/q168ddocker/docker.sock"],
+  "containerd": "/run/q168ddocker/containerd/containerd.sock",
+  "bridge": "none",
+  "iptables": false,
+  "ip6tables": false,
+  "ip-forward": false,
+  "ip-masq": false,
+  "userland-proxy": false,
+  "features": {"containerd-snapshotter": false},
+  "storage-driver": "overlay2",
+  "log-driver": "json-file",
+  "log-opts": {"max-size": "10m"}
+}

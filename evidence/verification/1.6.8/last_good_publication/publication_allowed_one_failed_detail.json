@@ -1,0 +1,37 @@
+{
+ "fault": "one_failed_detail",
+ "synthetic": true,
+ "first_run": "01M6PSHTG5HWRS151MKRDCW3QN",
+ "second_run": "01M6PSJ10ZJN7GKY2BX2QRTS5H",
+ "second_run_status": "published",
+ "before": {
+  "pointer": {
+   "publication_id": "01M6PSJ0TB6N1QPJP2H6X98JA6",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6PSHTG5HWRS151MKRDCW3QN",
+  "latest_json_sha256": "b2c17d4077923a84726e871af14e40410d33d23b5f1ce0616c39ab85d6260da8",
+  "manifest_sha256": "5a2df6a475e897030908cf34bc93b9d57f7c71239daab0bfb77e1d3741a96f6b",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "05292d85b75aa3a2345b2c2d83fd9380025b510385f31be4c11582267f4428ee",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "after": {
+  "pointer": {
+   "publication_id": "01M6PSJ7DN5HN26X9JYGXC98WK",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6PSJ10ZJN7GKY2BX2QRTS5H",
+  "latest_json_sha256": "3158047141381533c6cbaa063e6c34c5a3030b5c8e94b82ee56ebb9093e79b28",
+  "manifest_sha256": "e11b057164a41c36b7e128d3c7f1f1e6f76b883be34042553f4812a3acb103b4",
+  "products_sha256": "74c01d67b34c2641b5d428ff9768501c385487229f2fc5f91dda0b7ccccb2712",
+  "published_products": 4,
+  "first_run_observations_sha256": "05292d85b75aa3a2345b2c2d83fd9380025b510385f31be4c11582267f4428ee",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ }
+}

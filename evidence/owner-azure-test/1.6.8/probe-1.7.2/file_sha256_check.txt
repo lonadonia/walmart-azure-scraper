@@ -1,0 +1,1 @@
+sha256sum -c exit 0 over 67 files

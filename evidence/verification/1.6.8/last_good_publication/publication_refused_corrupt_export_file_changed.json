@@ -1,0 +1,47 @@
+{
+ "fault": "corrupt evidence: export_file_changed",
+ "synthetic": true,
+ "first_run": "01M6PSK90GCDNAWQCETCPXBP5R",
+ "second_run": "01M6PSKFWXH315JRXG4G930NDC",
+ "second_run_status": "validated",
+ "second_run_exit_code": 6,
+ "corruption": {
+  "file": "products.json",
+  "change": "one byte changed",
+  "manifest_key": "runs/walmart-3891-pickup/01M6PSKFWXH315JRXG4G930NDC/exports/manifest.json",
+  "problems": [
+   "products.json hash mismatch"
+  ]
+ },
+ "before": {
+  "pointer": {
+   "publication_id": "01M6PSKFEJN4VQMFNS9H4SBPJ5",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6PSK90GCDNAWQCETCPXBP5R",
+  "latest_json_sha256": "b2b12f2ef4c89887f3377e8c59b10cc40ad9356643734e1bf8f5cb8cd77b5e86",
+  "manifest_sha256": "95790ce9e9bc1ec3cbe40ba61a7ee1281731b13bf4d7a64baf8a21eaaa728bf4",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "840bda1cfa632b332e3c3258cbef2956880aa23514262769d2f5d6c93bb01753",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "after": {
+  "pointer": {
+   "publication_id": "01M6PSKFEJN4VQMFNS9H4SBPJ5",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6PSK90GCDNAWQCETCPXBP5R",
+  "latest_json_sha256": "b2b12f2ef4c89887f3377e8c59b10cc40ad9356643734e1bf8f5cb8cd77b5e86",
+  "manifest_sha256": "95790ce9e9bc1ec3cbe40ba61a7ee1281731b13bf4d7a64baf8a21eaaa728bf4",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "840bda1cfa632b332e3c3258cbef2956880aa23514262769d2f5d6c93bb01753",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "unchanged": true
+}

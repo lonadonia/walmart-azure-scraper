@@ -1,0 +1,13 @@
+{
+ "live": "refused",
+ "missing": [
+  "live mode is disabled in this build (a later, separately approved version may enable it)",
+  "credentials: not checked while live mode is disabled",
+  "this ledger is an offline test ledger: it never authorizes a provider request",
+  "no explicit approval",
+  "the account's target entitlement is not verified",
+  "the account's maximum billing rates are not confirmed",
+  "credentials are not present"
+ ],
+ "nothing was sent": true
+}

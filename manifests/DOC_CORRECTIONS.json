@@ -1,5 +1,488 @@
 {
- "about": "The corrections of each publication of this repository, newest first. This publication's: the statements of the 1.6.5 publication that were not accurate (each quoted from its file at that tag), the limitations 1.6.5 stated truly and 1.6.6 corrects, the 1.6.5 test counts counted again from their evidence, the errata in files and a commit message that are not edited, the files of the 1.6.5 publication replaced with their text kept, and the corrections made to this publication's own records before its review tag was set. The records of the 1.6.5 and 1.5.2 publications follow, unchanged.",
+ "about": "The corrections of each publication of this repository, newest first. This publication's: the statements of the 1.6.6 publication that were not accurate (each quoted from its file at that tag), the limitations 1.6.6 stated truly and 1.6.8 corrects, the 1.6.6 test counts counted again from their evidence, the errata in files that are not edited and in a commit message, the files of the 1.6.6 publication replaced with their text kept, and the corrections made to this publication's own records before its review tag was set. The records of the 1.6.6, 1.6.5 and 1.5.2 publications follow, unchanged.",
+ "review-1.6.8-20261106": {
+  "statements_not_accurate_in_1_6_6": [
+   {
+    "file": "README.md",
+    "where": "line 21",
+    "text": "  - **Classic C2 and C4** are completed in the shared probe 1.7.1 (live mode disabled). The 1.6.5 publication said probe 1.7.0 corrected C1 to C5. That was true of C1, C3 and C5 only: C2 and C4 were partly corrected. Seven reproduction tests fail on 1.7.0 and pass on 1.7.1. [What changed](review/CLASSIC_PROBE_CORRECTIONS.md).",
+    "quote": "Classic C2 and C4 are completed in the shared probe 1.7.1 (live mode disabled).",
+    "what_is_true": "Probe 1.7.1 did not complete C2 or C4. The client's review of 1.7.1 reproduced both. C4: a local server that declares Content-Length: 100, sends the two bytes {} and closes the connection got ok=True and truncated=False, and its body was written as final; a body shorter than its declared length, zero bytes included, was taken as complete. C2: on Linux the supervisor waited 1.10 s for a session manifest that a FIFO delivered late, past a 0.30 s hard deadline, and it accepted an earlier campaign's recent complete=true file when a new command exited 0 without writing evidence of its own. The published suite also failed one test on Linux (169 passed, 1 failed, 3 skipped): the drip test required a forced kill when the worker had ended by itself. Probe 1.7.2 corrects all three; its review tests fail on 1.7.1's code (13 failed on Windows; 14 on Linux, where the FIFO test runs) and pass on 1.7.2.",
+    "corrected_in": "README.md, Status",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "README.md",
+    "where": "lines 30 to 31",
+    "text": "- **Live, in the developer environment** (the user's Oxylabs Web API trial, from the workstation): fifteen runs on\n  releases 1.6.0 to 1.6.6, each attributed to the release that ran it. L12, on the final 1.6.6, read with",
+    "quote": "L12, on the final 1.6.6, read with",
+    "what_is_true": "1.6.6 was not the final revision. The client's review of 1.6.6 found that probe 1.7.1 left C2 and C4 open, a test failing on Linux, and defects in the coverage tables and the queue of unread UPCs. Release 1.6.8 of the collector and probe 1.7.2 answer it. Release 1.6.7 was prepared and never delivered; its corrections are in 1.6.8.",
+    "corrected_in": "README.md, Status",
+    "basis": "this publication's README.md"
+   },
+   {
+    "file": "README.md",
+    "where": "line 59",
+    "text": "| [`classic-probe-1.7.1/`](classic-probe-1.7.1/) | The shared offline Classic probe 1.7.1: the client's findings C1 to C5, with C2 and C4 completed in this version ([start here](classic-probe-1.7.1/README_FIRST.md), [what changed](review/CLASSIC_PROBE_CORRECTIONS.md)) |",
+    "quote": "The shared offline Classic probe 1.7.1: the client's findings C1 to C5, with C2 and C4 completed in this version",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "README.md, Contents: 1.7.1 is \"unchanged; superseded by 1.7.2\"",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "CHANGELOG.md",
+    "where": "lines 28 to 30",
+    "text": "  - Classic C2 and C4 are completed in probe 1.7.1. The deadline holds through recovery, export and cleanup. Each\n    answer is kept durably, across a crash, before the next paid step, and a body cut at its deadline is recorded.\n    Seven reproduction tests fail on 1.7.0 and pass on 1.7.1.",
+    "quote": "Classic C2 and C4 are completed in probe 1.7.1. The deadline holds through recovery, export and cleanup.",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "CHANGELOG.md: the 1.6.8 entry, and a note added to this line of the 1.6.6 entry",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 20",
+    "text": "Release 1.6.6 is the final revision of this delivery. It answers the client's review of 1.6.5. Two findings of that",
+    "quote": "Release 1.6.6 is the final revision of this delivery.",
+    "what_is_true": "1.6.6 was not the final revision. The client's review of 1.6.6 found that probe 1.7.1 left C2 and C4 open, a test failing on Linux, and defects in the coverage tables and the queue of unread UPCs. Release 1.6.8 of the collector and probe 1.7.2 answer it. Release 1.6.7 was prepared and never delivered; its corrections are in 1.6.8.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, introduction",
+    "basis": "this publication's README.md"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 56",
+    "text": "| **W2** UPC, size and provenance | PASS_DEVELOPER_LIVE; BLOCKED_BUDGET for 45 UPCs never read; PENDING_OWNER for the key rotation | A per-row, per-field correction table, from S6's 706 rows to their state in L8, with its aggregates. 48 UPCs had never been read; L12 on 1.6.6 read 3 of them live (leading zeros kept), so 45 remain. [W2](CORRECTION_MAP.md#upc-size-and-provenance-w2) |",
+    "quote": "48 UPCs had never been read; L12 on 1.6.6 read 3 of them live (leading zeros kept), so 45 remain.",
+    "what_is_true": "Not 45. After 1.6.3, S6's rows lacked 52 UPCs (51 still blank and 1 cleared), 49 of them recorded as not attempted. L12 filled 3. Of the other 46, a saved read of the item's own page states the UPC for 3, which 1.6.6 withheld only because the same read's sizes conflict; release 1.6.7 decides UPC and size separately and recovers them. 44 UPCs have no read of the item's own page in any run: 43 never attempted and 1 whose read a run's detail limit cut. Of the remaining 2, the UPC is absent from the item's own page for 1, and the page read was of another item for 1.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W2",
+    "basis": "evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 58",
+    "text": "| **W4** Full production scope | BLOCKED_BUDGET | Two censuses: L7 on 1.6.3 and L10 on 1.6.4. Together they read page 1 of 451 listings in the 11 CSV rows; 395 listings their category pages named were not reached before L10's ceiling. Coverage tables by row, root, child and page give the exact outstanding queue (1.6.6: L12's one page added, no state changed). No CSV row is complete (0 of 11). [`TEST_PLAN.md`](TEST_PLAN.md) prices the remaining work. [W4](CORRECTION_MAP.md#coverage-partitions-and-the-census-w4) |",
+    "quote": "Coverage tables by row, root, child and page give the exact outstanding queue",
+    "what_is_true": "Not exact. The tables recorded 230 listings OUT_OF_SCOPE: 6 excluded by the client's CSV, but also 93 listings the census did not choose to read, which belong to their rows (36 of them were read by some run), 1 filtered views of the row's own category, and 130 links skipped as category or other pages: 95 are category pages of their own (/cp/) that no run read, 56 of them with no listing known under their id, and 35 are shop, brand, search, product or account pages. The queue therefore lacked the 95 pages and the listings they name. Release 1.6.8 reads such pages, and its tables give each listing its state.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W4",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 61",
+    "text": "| **W7** Classic findings, Mariano's adapter | PASS_OFFLINE; a live successor is PENDING_CLIENT_DECISION | C1, C3 and C5 are corrected in probe 1.7.0; C2 and C4 are completed in probe 1.7.1, with live mode disabled. The adapter's identity is explicit and unchanged. [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |",
+    "quote": "C2 and C4 are completed in probe 1.7.1, with live mode disabled.",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W7",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 69",
+    "text": "| C2 A timeout leaves the worker alive; body, processing and export unbounded | PASS_OFFLINE | 1.7.0: one process per request, killed and reaped at its allowance; bounded bodies, headers and decompression; a session supervisor. **1.7.1** completes it: the ledger writes after an answer wait no longer than the write window, which ends 30 s before the session's end by default (a third of the export reserve, at most 30 s); after one refusal of the lock, the session does not wait for it again; the export's checks and manifest run until the true end; the supervisor's kill, reap and recovery all end by the hard end, the recovery in its own process, killed if it is still running then. |",
+    "quote": "1.7.1 completes it: the ledger writes after an answer wait no longer than the write window",
+    "what_is_true": "Not complete in 1.7.1: the supervisor waited 1.10 s past a 0.30 s hard deadline for a manifest a FIFO delivered late, and accepted an earlier campaign's complete=true evidence (above). The state PASS_OFFLINE now rests on probe 1.7.2.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, C2",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 71",
+    "text": "| C4 Responses only in memory | PASS_OFFLINE | 1.7.0: each answer written atomically and indexed before the next paid step, and recovered after a crash. **1.7.1** completes it: each answer is kept as received, privately, under its dispatch's number; the worker writes its status first, then renames the body durably (a write-through rename on Windows, a synced folder on Linux and macOS), so a crash before the kept copy loses nothing; a body cut short is kept and recorded once (`PARTIAL_RESPONSE`); every evidence file, the manifest included, is synced before it is renamed into place. |",
+    "quote": "1.7.1 completes it: each answer is kept as received, privately, under its dispatch's number",
+    "what_is_true": "Not complete in 1.7.1: a body shorter than its declared length, zero bytes included, was answered as complete and written as final (above). The state PASS_OFFLINE now rests on probe 1.7.2.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, C4",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "line 103",
+    "text": "  45 UPCs of S6's rows remain never read. The table above stays against L8's export; L12's own reads are in its run",
+    "quote": "45 UPCs of S6's rows remain never read.",
+    "what_is_true": "Not 45. After 1.6.3, S6's rows lacked 52 UPCs (51 still blank and 1 cleared), 49 of them recorded as not attempted. L12 filled 3. Of the other 46, a saved read of the item's own page states the UPC for 3, which 1.6.6 withheld only because the same read's sizes conflict; release 1.6.7 decides UPC and size separately and recovers them. 44 UPCs have no read of the item's own page in any run: 43 never attempted and 1 whose read a run's detail limit cut. Of the remaining 2, the UPC is absent from the item's own page for 1, and the page read was of another item for 1.",
+    "corrected_in": "review/CORRECTION_MAP.md, W2",
+    "basis": "evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "line 105",
+    "text": "- **State:** PASS_DEVELOPER_LIVE for the reads made; BLOCKED_BUDGET for the 45 UPCs never read.",
+    "quote": "BLOCKED_BUDGET for the 45 UPCs never read.",
+    "what_is_true": "Not 45. After 1.6.3, S6's rows lacked 52 UPCs (51 still blank and 1 cleared), 49 of them recorded as not attempted. L12 filled 3. Of the other 46, a saved read of the item's own page states the UPC for 3, which 1.6.6 withheld only because the same read's sizes conflict; release 1.6.7 decides UPC and size separately and recovers them. 44 UPCs have no read of the item's own page in any run: 43 never attempted and 1 whose read a run's detail limit cut. Of the remaining 2, the UPC is absent from the item's own page for 1, and the page read was of another item for 1.",
+    "corrected_in": "review/CORRECTION_MAP.md, W2",
+    "basis": "evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "lines 111 to 112",
+    "text": "- **Result:** all 275 were read live (L2, L3 and L2b, on 1.6.0 and 1.6.1) and decided: 48 included, 224 excluded with\n  the page's own reason, 3 duplicates of another identity. A sponsored label alone decided nothing.",
+    "quote": "224 excluded with the page's own reason",
+    "what_is_true": "Not every exclusion rests on a reason the page states. Of the 224: 165 because the item's own page places it in another category (the alternative category is identified), 55 because the page does not prove the item's local eligibility, and 4 because the page states no category path (categoryPathId -1, no breadcrumb), so the required category cannot be proven. 169 lack proof of the required category, 55 proof of local eligibility. The 3 duplicates are linked to their original observations and the SHA-256 of the stored pages.",
+    "corrected_in": "review/CORRECTION_MAP.md, W3",
+    "basis": "evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_1_6_7.csv and W3_ROW_LEVEL_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "line 121",
+    "text": "  page, every 1.6.x read, and the exact outstanding queue ([`TEST_PLAN.md`](TEST_PLAN.md) prices it). They are the",
+    "quote": "every 1.6.x read, and the exact outstanding queue",
+    "what_is_true": "Not exact. The tables recorded 230 listings OUT_OF_SCOPE: 6 excluded by the client's CSV, but also 93 listings the census did not choose to read, which belong to their rows (36 of them were read by some run), 1 filtered views of the row's own category, and 130 links skipped as category or other pages: 95 are category pages of their own (/cp/) that no run read, 56 of them with no listing known under their id, and 35 are shop, brand, search, product or account pages. The queue therefore lacked the 95 pages and the listings they name. Release 1.6.8 reads such pages, and its tables give each listing its state.",
+    "corrected_in": "review/CORRECTION_MAP.md, W4",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "lines 164 to 165",
+    "text": "- C1, C3 and C5 are corrected in the shared probe 1.7.0, and C2 and C4 are completed in 1.7.1, offline, with live\n  mode disabled ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)). The 1.6.5 delivery gave all five as",
+    "quote": "C2 and C4 are completed in 1.7.1",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "review/CORRECTION_MAP.md, Classic (W7)",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 137",
+    "text": "  not on page 1. 45 of W2's never-read UPCs remain ([`CORRECTION_MAP.md`](CORRECTION_MAP.md), W2).",
+    "quote": "45 of W2's never-read UPCs remain",
+    "what_is_true": "Not 45. After 1.6.3, S6's rows lacked 52 UPCs (51 still blank and 1 cleared), 49 of them recorded as not attempted. L12 filled 3. Of the other 46, a saved read of the item's own page states the UPC for 3, which 1.6.6 withheld only because the same read's sizes conflict; release 1.6.7 decides UPC and size separately and recovers them. 44 UPCs have no read of the item's own page in any run: 43 never attempted and 1 whose read a run's detail limit cut. Of the remaining 2, the UPC is absent from the item's own page for 1, and the page read was of another item for 1.",
+    "corrected_in": "review/TECHNICAL_REPORT.md, section 4",
+    "basis": "evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 188",
+    "text": "| `COMPLETE`: every page read and reconciled | 244 |",
+    "quote": "COMPLETE: every page read and reconciled | 244",
+    "what_is_true": "Under the rules the 1.6.8 tables apply (a read is complete only when its recorded status, its status under the rule of release 1.3.1 and its effective status are all complete, and a read of a filtered view never completes a listing), 239 of the 244 stay complete; Emergency Contraception (1005862_1414629_9244777_7747619) is FILTERED_VIEW: only a filtered view was read (facet=fulfillment_method_in_store:In-storetraception_2.9) in L10 (1.6.4): the listing itself, page 1 onward; Celebrity Colognes (1085666_133225_5149721) is FILTERED_VIEW: only a filtered view was read (facet=facet_product_type:Colognes) in L10 (1.6.4): the listing itself, page 1 onward; Allergy (976760_3771182_7802889) is FILTERED_VIEW: only a filtered view was read (facet=subscription_eligible:Subscription item) in L10 (1.6.4): the listing itself, page 1 onward; Cough (976760_4661388_6244277_7158394) is INCOMPLETE: the reported total changed while the listing was read ([351, 349, 344]): 9 result pages, 332 organic and 0 sponsored-only identities; not reconciled (L4r); Contact solution (976760_9575239_4038363) is FILTERED_VIEW: only a filtered view was read (facet=subscription_eligible:Subscription item) in L10 (1.6.4): the listing itself, page 1 onward. No CSV row was complete then or is now (0 of 11).",
+    "corrected_in": "review/TECHNICAL_REPORT.md, section 4",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 191",
+    "text": "| `OUT_OF_SCOPE` | 230 |",
+    "quote": "OUT_OF_SCOPE | 230",
+    "what_is_true": "Not exact. The tables recorded 230 listings OUT_OF_SCOPE: 6 excluded by the client's CSV, but also 93 listings the census did not choose to read, which belong to their rows (36 of them were read by some run), 1 filtered views of the row's own category, and 130 links skipped as category or other pages: 95 are category pages of their own (/cp/) that no run read, 56 of them with no listing known under their id, and 35 are shop, brand, search, product or account pages. The queue therefore lacked the 95 pages and the listings they name. Release 1.6.8 reads such pages, and its tables give each listing its state.",
+    "corrected_in": "review/TECHNICAL_REPORT.md, section 4",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "lines 198 to 199",
+    "text": "(those of 1.6.5 stay beside them), and the outstanding work is priced in [`TEST_PLAN.md`](TEST_PLAN.md): about 2,683\nlisting pages and 2,711 submissions, about USD 4.07 at the trial's rate, product pages not included.",
+    "quote": "the outstanding work is priced in TEST_PLAN.md: about 2,683 listing pages and 2,711 submissions, about USD 4.07",
+    "what_is_true": "The estimate prices the listing pages known then, and nothing else. It leaves out the 95 category pages of their own (one result each) and the listings they name, which are not known until those pages are read, the pages beyond the result window, retries, and product pages, which are by far the largest part. review/TEST_PLAN.md prices each part on its own basis.",
+    "corrected_in": "review/TECHNICAL_REPORT.md, section 4, and review/TEST_PLAN.md",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "where": "line 1",
+    "text": "# Classic probe: the corrections C1 to C5 (shared probe 1.7.1)",
+    "quote": "Classic probe: the corrections C1 to C5 (shared probe 1.7.1)",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "review/CLASSIC_PROBE_CORRECTIONS.md, written again for probe 1.7.2",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "where": "line 8",
+    "text": "That was true of C1, C3 and C5. C2 and C4 were corrected only in part. Release 1.7.1 completes them, and each gap",
+    "quote": "Release 1.7.1 completes them",
+    "what_is_true": "Probe 1.7.1 did not complete C2 or C4. The client's review of 1.7.1 reproduced both. C4: a local server that declares Content-Length: 100, sends the two bytes {} and closes the connection got ok=True and truncated=False, and its body was written as final; a body shorter than its declared length, zero bytes included, was taken as complete. C2: on Linux the supervisor waited 1.10 s for a session manifest that a FIFO delivered late, past a 0.30 s hard deadline, and it accepted an earlier campaign's recent complete=true file when a new command exited 0 without writing evidence of its own. The published suite also failed one test on Linux (169 passed, 1 failed, 3 skipped): the drip test required a forced kill when the worker had ended by itself. Probe 1.7.2 corrects all three; its review tests fail on 1.7.1's code (13 failed on Windows; 14 on Linux, where the FIFO test runs) and pass on 1.7.2.",
+    "corrected_in": "review/CLASSIC_PROBE_CORRECTIONS.md, written again for probe 1.7.2",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "line 26",
+    "text": "| [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) | C1 to C5 in the probe 1.7.1: what 1.7.0 did, what 1.7.1 completes (C2, C4), and the reproductions |",
+    "quote": "what 1.7.1 completes (C2, C4)",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "review/DELIVERY_INDEX.md, the documents table",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "manifests/PUBLICATION.json",
+    "where": "line 81",
+    "text": "   \"corrections\": \"C2 and C4 completed: the deadline holds through recovery, export and cleanup, and each answer is kept durably across a crash. C1, C3 and C5 as corrected in 1.7.0 (review/CLASSIC_PROBE_CORRECTIONS.md)\",",
+    "quote": "C2 and C4 completed: the deadline holds through recovery, export and cleanup, and each answer is kept durably across a crash.",
+    "what_is_true": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "corrected_in": "manifests/PUBLICATION.json of this publication, whose probe is 1.7.2",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N8-01, note_1_6_6",
+    "text": "C1, C3 and C5 corrected in probe 1.7.0; C2 (the deadline through recovery, export and cleanup) and C4 (answers kept durably across a crash; a cut body recorded) completed in 1.7.1: 7 reproduction tests fail on 1.7.0 and pass on 1.7.1. The 1.6.5 note \"C1 to C5 corrected offline\" was not accurate for C2 and C4 (manifests/DOC_CORRECTIONS.md)",
+    "quote": "C2 (the deadline through recovery, export and cleanup) and C4 (answers kept durably across a crash; a cut body recorded) completed in 1.7.1",
+    "what_is_true": "Probe 1.7.1 did not complete C2 or C4. The client's review of 1.7.1 reproduced both. C4: a local server that declares Content-Length: 100, sends the two bytes {} and closes the connection got ok=True and truncated=False, and its body was written as final; a body shorter than its declared length, zero bytes included, was taken as complete. C2: on Linux the supervisor waited 1.10 s for a session manifest that a FIFO delivered late, past a 0.30 s hard deadline, and it accepted an earlier campaign's recent complete=true file when a new command exited 0 without writing evidence of its own. The published suite also failed one test on Linux (169 passed, 1 failed, 3 skipped): the drip test required a forced kill when the worker had ended by itself. Probe 1.7.2 corrects all three; its review tests fail on 1.7.1's code (13 failed on Windows; 14 on Linux, where the FIFO test runs) and pass on 1.7.2.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N8-01: the 1.6.8 columns",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "P3-01, note_1_6_6",
+    "text": "product pages read where funded (L2: 254 detail and 230 follow-up pages; L8: 6; L12 on 1.6.6: 10). Of the 706 S6 rows, 48 UPCs had never been read; L12 read 3 of them (items 14561172064, 1398092439, 14620357163), so 45 remain: BLOCKED_BUDGET",
+    "quote": "so 45 remain: BLOCKED_BUDGET",
+    "what_is_true": "Not 45. After 1.6.3, S6's rows lacked 52 UPCs (51 still blank and 1 cleared), 49 of them recorded as not attempted. L12 filled 3. Of the other 46, a saved read of the item's own page states the UPC for 3, which 1.6.6 withheld only because the same read's sizes conflict; release 1.6.7 decides UPC and size separately and recovers them. 44 UPCs have no read of the item's own page in any run: 43 never attempted and 1 whose read a run's detail limit cut. Of the remaining 2, the UPC is absent from the item's own page for 1, and the page read was of another item for 1.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, P3-01: the 1.6.8 columns",
+    "basis": "evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N1A-05, note_1_6_6",
+    "text": "with the detail path on: L8 on 1.6.3, 675 fresh valid. On the final 1.6.6, L12 ran with detail on: 40 fresh valid, 10 product pages read, UPC 27 of 40, a canary and not 500. A run of 500 or more needs about 28 to 45 submissions (at most about USD 0.07); USD 0.003 of Walmart's envelope is left, and Mariano's envelope may be reassigned only after Mariano's smallest essential tests (review/TEST_PLAN.md, stage 1)",
+    "quote": "On the final 1.6.6, L12 ran with detail on",
+    "what_is_true": "1.6.6 was not the final revision. The client's review of 1.6.6 found that probe 1.7.1 left C2 and C4 open, a test failing on Linux, and defects in the coverage tables and the queue of unread UPCs. Release 1.6.8 of the collector and probe 1.7.2 answer it. Release 1.6.7 was prepared and never delivered; its corrections are in 1.6.8.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N1A-05: the 1.6.8 columns",
+    "basis": "this publication's README.md"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "lines 265 to 268",
+    "text": "- **L12's rows name the subcategory \"Fabric Softener\".** The run named its listing by path (`--subcategory`), and the\n  collector takes such a listing's name from its path. The site names it \"Fabric Softeners\", which is the name the\n  carried rows of L7 and L10 have. The products, URLs, prices and UPCs are as the page shows them. A listing that a\n  category page names keeps the site's name.",
+    "quote": "A listing that a category page names keeps the site's name.",
+    "what_is_true": "Not for every link. A category page can link a listing through a filtered view, or twice. L10's fresh file has 31 rows \"Subscription\" and 19 \"Cough\" under Health & Wellness, each read through a filtered view of listing 976760_4661388_6244277_7158394, and its retained file has 5 rows \"Great Value Pantry\", a second link the Food page gives listing 976759_976794_2002490. Release 1.6.8 names each view by the name its link gives it, reads the listing itself when a link shows it filtered, and keeps carried rows' earlier names in their lineage. The published files are as collected.",
+    "corrected_in": "review/TECHNICAL_REPORT.md, section 8, and data/README.md",
+    "basis": "data/L10-1.6.4/products_fresh.csv, data/L10-1.6.4/products_retained.csv; source/walmart-oxylabs-1.6.8/docs/VERIFICATION.md, Release 1.6.8"
+   }
+  ],
+  "limitations_corrected": [
+   {
+    "file": "README.md",
+    "where": "line 45",
+    "text": "  - a container build;",
+    "now": "Both 1.6.8 editions were built with docker build from the delivered ZIPs on the owner's Azure test VM, migrated on its PostgreSQL 16, smoke-tested, killed and resumed, rolled back to 1.6.6 and forward, and their data checked across a restart (evidence/owner-azure-test/1.6.8/container/). An owner test: not the client's environment."
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 85",
+    "text": "| W01, W02: client VM and key | PENDING_CLIENT_AZURE | The VM is deallocated (the client's statement). No SSH attempt was made. The new public key waits for the client. Locally, both edition ZIPs were installed from their locks and tested. The container was not built: there is no container runtime here. |",
+    "now": "The container was built and tested on the owner's Azure test VM (above). The client's VM is unchanged: no SSH attempt was made."
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "lines 97 to 99",
+    "text": "- **Limit, disclosed:** carried rows left as carried, their blank fields unfilled, although a saved read of their\n  page exists, because that read's statements about the size conflict (`recovery_withheld`): 4 in L8, 12 in L10.\n  Nothing is guessed.",
+    "now": "Release 1.6.7 decides a carried row's UPC and size separately: conflicting sizes withhold the size only, never a UPC the same read verifies (W2: 3 UPCs recovered from saved reads)."
+   },
+   {
+    "file": "evidence/reconciliation/1.6.6/w4/README.txt",
+    "where": "lines 18 to 20",
+    "text": "                         its configured path, so this row now reads \"Fabric Softener\", found_via \"configured\",\n                         and the link without its navigation parameter. The site's name (\"Fabric Softeners\") and\n                         the category-page link are in the 1.6.5 table.",
+    "now": "Release 1.6.7 names a listing read by its path as the row's category page names it (\"Fabric Softeners\"), also in carried rows, whose lineage keeps the earlier name (historical.renamed_by_mapping)."
+   }
+  ],
+  "test_counts_of_1_6_6_counted_again": [
+   {
+    "statement": "1.6.6, oxylabs edition, from the clean extraction: 533 unit tests passed",
+    "said": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.6/package/junit/oxylabs.unit.xml",
+    "counted": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "note": ""
+   },
+   {
+    "statement": "1.6.6, oxylabs edition, from the clean extraction: 202 integration tests passed",
+    "said": {
+     "tests": 202,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.6/package/junit/oxylabs.integration.xml",
+    "counted": {
+     "tests": 202,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "note": ""
+   },
+   {
+    "statement": "1.6.6, scrapedo edition, from the clean extraction: 533 unit tests passed",
+    "said": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.6/package/junit/scrapedo.unit.xml",
+    "counted": {
+     "tests": 533,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "note": ""
+   },
+   {
+    "statement": "1.6.6, scrapedo edition, from the clean extraction: 202 integration tests passed",
+    "said": {
+     "tests": 202,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "evidence": "evidence/verification/1.6.6/package/junit/scrapedo.integration.xml",
+    "counted": {
+     "tests": 202,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 0
+    },
+    "note": ""
+   },
+   {
+    "statement": "probe 1.7.1 from its clean export: 173 tests, 171 passed, 2 skipped",
+    "said": {
+     "tests": 173,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 2
+    },
+    "evidence": "classic-probe-1.7.1/offline_results/junit_standalone.xml",
+    "counted": {
+     "tests": 173,
+     "failures": 0,
+     "errors": 0,
+     "skipped": 2
+    },
+    "note": "accurate for that run, on Windows; on Linux the same suite gave 169 passed, 1 failed (the drip test), 3 skipped (evidence/offline-tests/1.7.2-classic-probe/PUBLISHED_1.7.1_LINUX.log)"
+   }
+  ],
+  "errata_not_edited": [
+   {
+    "file": "evidence/reconciliation/1.6.6/w4/README.txt",
+    "where": "lines 15 to 16",
+    "quote": "its state stays OUT_OF_SCOPE and its outstanding work is unchanged",
+    "erratum": "The listing was read (L6 pages 1 and 2, L12 page 1). It was OUT_OF_SCOPE only because the census L10 did not choose it; the 1.6.8 tables give it the state of its reads. The 1.6.5 and 1.6.6 tables (W4_LISTINGS_1_6_5.csv, W4_LISTINGS_1_6_6.csv) record 230 listings OUT_OF_SCOPE: Not exact. The tables recorded 230 listings OUT_OF_SCOPE: 6 excluded by the client's CSV, but also 93 listings the census did not choose to read, which belong to their rows (36 of them were read by some run), 1 filtered views of the row's own category, and 130 links skipped as category or other pages: 95 are category pages of their own (/cp/) that no run read, 56 of them with no listing known under their id, and 35 are shop, brand, search, product or account pages. The queue therefore lacked the 95 pages and the listings they name. Release 1.6.8 reads such pages, and its tables give each listing its state.",
+    "basis": "evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json)"
+   },
+   {
+    "file": "evidence/owner-azure-test/1.5.2/owner_vm/cleanup152.sh",
+    "where": "line 2",
+    "quote": "Removes what this work added",
+    "erratum": "Not all of it. Found on 2026-11-05 on the owner's VM: the 2026-11-01 test left the docker0 bridge, Docker's iptables chains and its NAT masquerade rule, /run/docker.sock, /run/docker, /run/containerd, /var/run/nri, the AppArmor profile docker-default (loaded) and /opt/containerd on disk. The docker0 bridge was later deleted by the 1.6.7 container gate's own daemon and restored after the 1.6.8 gate (evidence/owner-azure-test/1.6.8/HOST_STATE.md).",
+    "basis": "evidence/owner-azure-test/1.6.8/HOST_STATE.md"
+   },
+   {
+    "file": "classic-probe-1.7.1/README_FIRST.md",
+    "where": "line 7",
+    "quote": "version 1.7.1 completes them",
+    "erratum": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "classic-probe-1.7.1/README_FIRST.md",
+    "where": "line 17",
+    "quote": "(1.7.1: C2 and C4 completed)",
+    "erratum": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "classic-probe-1.7.1/oxylabs-classic-probe/README.md",
+    "where": "line 11",
+    "quote": "Version 1.7.1 completes two findings of the client's review",
+    "erratum": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "4bae4fb383dc47ac44c3175896edaf19ae1064cc",
+    "where": "its commit message, lines 7 to 8",
+    "quote": "It completes C2 (the deadline through recovery, export and cleanup) and C4 (answers kept durably across a crash).",
+    "erratum": "C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them.",
+    "basis": "evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt"
+   },
+   {
+    "file": "source/walmart-oxylabs-1.6.8/docs/CLI.md (and the Scrape.do edition's)",
+    "where": "the coverage-report paragraph",
+    "quote": "csv_rows_read_in_part (release 1.6.7) lists the CSV rows the run read only in part",
+    "erratum": "Incomplete: since release 1.6.7 the report also gives each top-level listing its effective_status and effective_reason, and each CSV row its verdict (csv_rows: planned, read in part, listings, complete, why not; csv_rows_complete). The paragraph names effective_status only for a filtered view. docs/VERIFICATION.md (the 1.6.7 table) names them all.",
+    "basis": "source/walmart-oxylabs-1.6.8/docs/VERIFICATION.md, Release 1.6.7"
+   }
+  ],
+  "replaced_files_keeping_their_text": [
+   {
+    "file": "CHANGELOG.md",
+    "change": "the 1.6.8 entry added first; in the 1.6.6 entry, a note added under its heading that \"completed in probe 1.7.1\" was not accurate for C2 and C4; the link to `docs/VERIFICATION.md` at the top now names the 1.6.8 source folder. The 1.6.6 entry and those before it are otherwise unchanged"
+   },
+   {
+    "file": "data/README.md",
+    "change": "in its first part, the heading of the 1.6.x runs names the owner's trial and its free credit (it said \"the user's\"), a paragraph added on releases 1.6.7 and 1.6.8 (no live run; the names the published files keep), and the current coverage tables are 1.6.8's (`1.6.8/w4/`); the rest, and the 1.5.x part, are unchanged"
+   },
+   {
+    "file": "evidence/README.md",
+    "change": "a part for the evidence of release 1.6.8 added first; the heading of the 1.6.0 to 1.6.6 part now calls them the earlier deliveries of this work (it said \"this delivery\"), and its sentence on the live runs names the owner's trial account and its free credit (it said \"the user's\"); the rest, and the 1.5.2 part, are unchanged"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "change": "four columns added (state_1_6_8, evidence_1_6_8, revision_1_6_8, note_1_6_8); the 24 columns of the 1.6.6 matrix are unchanged in all 206 rows. Their paths name files of those publications, which are at their tags"
+   },
+   {
+    "file": "walkthrough/README.md",
+    "change": "a part for the 1.6.8 recording added first; the 1.5.2 part is unchanged, and its video stays beside the new one"
+   },
+   {
+    "file": "manifests/DOC_CORRECTIONS.md, DOC_CORRECTIONS.json",
+    "change": "this publication's part added first; the records of the 1.6.6, 1.6.5 and 1.5.2 publications kept below, as published"
+   }
+  ],
+  "corrected_before_publication": [
+   {
+    "what": "evidence/owner-azure-test/1.6.8/container/: the gate's walkthrough step",
+    "correction": "The Docker gate counted its walkthrough recording as passed by its exit code, 0. Its output shows `command not found` on 1,295 lines: the shell that ran the recording (dash) drops exported functions. The recording is kept as `WALKTHROUGH_1.6.8_GATE_FAILED.cast` and is not delivered as the walkthrough. The walkthrough was recorded again in a session of its own (evidence/owner-azure-test/1.6.8/walkthrough/), and its check reads the recording's output, not only its exit code."
+   },
+   {
+    "what": "walkthrough/README.md: the kill and resume",
+    "correction": "A draft written before the recording said that the resume would be refused (exit 9, BUSY) while the killed worker's lease held, and that no page was read twice. The recording shows the resume accepted: it finished all 16 tasks, and robots.txt and the store page were read twice, because a resumed execution verifies the store first. A draft gave the resume's exit 6 as the result of the replay being a pilot's; a pilot whose only blocking failure is G3 exits 0, as L12's replay does, and this replay exits 6 because the yield check G4 fails too. The README now says what the recording and the checks' findings show (evidence/owner-azure-test/1.6.8/memory/validation_findings_01M6PZXJ1X4QDHJDQNHJW3GPMT.txt)."
+   },
+   {
+    "what": "walkthrough/README.md and the review documents: the walkthrough",
+    "correction": "Drafts said that the walkthrough was recorded in the gate and that it shows a run refused without a provider key. It was recorded in a session of its own, after the gate (the gate's recording failed, above). It shows the credentials check refusing (`validate-config --require-credentials`, exit 3); the refusal of a `run` without a key, before any request, is shown by `test_operations.py`. The README also says that the video shortens each pause to at most 2 s, and that the session built its images again, so their ids differ from the gate's."
+   },
+   {
+    "what": "the review documents and the acceptance matrix: the operator drill",
+    "correction": "A draft described the drill's refused publication as evidence corrupted after validation, and the drill as including a rollback. The drill's publication is refused because the run's pages did not come from the network and the store is not a test target; the rollback to 1.6.6 and forward are separate qualification steps. The matrix's N10-04 note names the walkthrough for the kill and resume and the drill for the pause (exit 75) and its resume."
+   },
+   {
+    "what": "review/TEST_PLAN.md, review/COST_AND_RUNTIME_REPORT.md and review/TECHNICAL_REPORT.md: Mariano's envelope",
+    "correction": "Drafts said that Mariano's unused envelope could move to Walmart under the shared rule. Moving any of it needs the owner's separate written authorization, which has not been given; the shared rule allows it only after Mariano's own essential tests are done or cannot proceed. The documents now say so."
+   },
+   {
+    "what": "README.md, CHANGELOG.md and the review documents: the trial account and the client's VM",
+    "correction": "Drafts called the Oxylabs trial \"the user's\"; it is the owner's trial account, free credit at the documented rate. A draft said in its own words that the client's VM is deallocated; that is the client's statement, not checked here, and access waits for the client's confirmation of a restart and window and for the new public key, with the old one revoked."
+   },
+   {
+    "what": "README.md and CHANGELOG.md: the Windows verification",
+    "correction": "A draft's account of the Windows verification was imprecise. The full Windows integration pass that the workstation's low-memory protection stopped after 56 tests was an earlier candidate's ZIP (`7a96218`), and it was not forced. On 1.6.8, Windows ran the unit suites and the integration files the change touches, each in its own process; the full suites ran on Linux."
+   },
+   {
+    "what": "review/WALMART_1.6.8_SUMMARY.md and .pdf",
+    "correction": "A draft said that each new test fails on the earlier code; the new tests that are controls pass there, and only the others fail. A draft gave the scope as 1,104 listings; that count includes listings out of scope, and the summary now gives each state with the out-of-scope listings apart."
+   },
+   {
+    "what": "review/DELIVERY_INDEX.md: known limitations",
+    "correction": "Found in the last review before publication: `validate-export --run` exits 2 (`CONFIG_INVALID`) naming only the missing file when a stored page that its records cite is not on the host, as the gate's first `validate-export` steps showed. The gate's record said so; the known limitations did not. Item 13 now does."
+   },
+   {
+    "what": "evidence/offline-tests/1.6.8-collector/: release 1.6.7's own logs",
+    "correction": "Found in the review of the staged tree: 1.6.7's Linux logs had not been staged. They were added before the commit."
+   },
+   {
+    "what": "classic-probe-1.7.2/: the probe package's offline results",
+    "correction": "Found by this publication's names scan: one of the package's offline results (offline_results/16b_review_tests_on_1.7.1_source.txt) held the preparation workstation's user name, once in a user-folder path and twice in a pytest temporary-folder name, written by pytest in a JSON-escaped form that the packing had not replaced. The package was built again before the commit by the same builder, from the same revision, results and documentation, with that name replaced and one line in offline_results/README.txt saying so; the two builds differ in nothing else. The rebuilt package was run on the owner's Azure test VM with the same results as the first build (evidence/offline-tests/1.7.2-classic-probe/PACKAGE_REBUILD.txt; evidence/owner-azure-test/1.6.8/probe-1.7.2/)."
+   }
+  ]
+ },
  "review-1.6.6-20261105": {
   "statements_not_accurate_in_1_6_5": [
    {

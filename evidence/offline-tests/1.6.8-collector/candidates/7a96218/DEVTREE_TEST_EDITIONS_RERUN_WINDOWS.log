@@ -1,0 +1,7 @@
+dev tree C:/w9/wt at commit 7a96218f5cb64c7759d5b6544da797fe381281e1 (git status: 0 changed files), Windows 11, started 2026-11-05T18:15:39Z
+why: in DEVTREE_FULL_INTEGRATION_WINDOWS_168b.log the four tests of this file errored at fixture setup (FileNotFoundError, 17:30:52Z to 17:31:00Z), minutes before that run was stopped by hand; this reruns the file alone on the same commit
+$ .venv/Scripts/python.exe -m pytest -q -p no:cacheprovider -rs tests/integration/test_editions.py
+....                                                                     [100%]
+4 passed in 15.40s
+exit 0
+ended 2026-11-05T18:15:57Z

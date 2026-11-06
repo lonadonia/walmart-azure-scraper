@@ -1,0 +1,19 @@
+{
+ "campaign_id": "offline-check",
+ "dispatches": [],
+ "events": [],
+ "ledger_genesis_id": "55abe99890894ea8b001aea3687955c1",
+ "offline": true,
+ "stopped": null,
+ "totals": {
+  "committed_usd": "0",
+  "confirmed_usd": "0",
+  "dispatched_by_retailer": {},
+  "dispatched_total": 0,
+  "estimated_usd": "0",
+  "not_sent": 0,
+  "other_units": {},
+  "reserved_unconfirmed_usd": "0",
+  "unknown_billing": 0
+ }
+}

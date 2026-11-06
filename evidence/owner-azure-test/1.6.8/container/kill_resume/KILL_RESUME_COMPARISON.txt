@@ -1,0 +1,52 @@
+KILL AND RESUME, release 1.6.8 (commit 85c29e7b2404500299056973f50c84b84e187a5a), Oxylabs image, on the owner's
+Azure test VM, 2026-11-05. REPLAY of stored live pages: no request reached a provider or Walmart (the container's
+HTTP(S) went to a closed local port, 127.0.0.1:9, and it had no provider key). An owner test, not the client's
+environment.
+
+What ran (../logs/killresume.log, ../vm_docker_168d.sh, function killresume):
+  - a fresh copy of the campaign database (walmart_q168d_c_killresume, restored from campaign_live150.dump);
+  - the image replayed L10 (01M6KA3CKYJSD6WDY4TDAAV73Y, a census run of release 1.6.4) in a detached container, as
+    run 01M6PTD4PJBQRS9WXVQ32MJMBM;
+  - at 21:40:04Z, with 120 pages read, the container was killed with SIGKILL (exit code 137; not out of memory). The
+    run was then "running", with 12 tasks pending, 1 running and 3 succeeded: 120 pages, 2,265 records;
+  - the ordinary command `resume --run 01M6PTD4PJBQRS9WXVQ32MJMBM` was started at once. The gate would have repeated
+    it every 15 s while it was refused as busy (exit 9); it was not refused. At 21:40:07Z it recorded the run
+    interrupted and recovered ("the execution that collected it ended without closing it"), the killed execution's
+    segment abandoned (last durable observation 21:40:04.28Z), and reclaimed the 1 task the killed worker had left,
+    which resumed from its checkpoint (../logs/killresume_attempt_1.log: RUN_INTERRUPTED, RUN_RECOVERED,
+    SEGMENT_ABANDONED, TASK_LEASE_RECLAIMED);
+  - the resumed run read on to its end and finished at 21:47:41Z with exit 6, status rejected, like the uninterrupted
+    replay of L10 in the gate (01M6PSW480FW90MCQ8FVS8RNMD: exit 6, rejected by G3 and G4, as L10 itself was on 1.6.4,
+    "REJECTED AS A PILOT (G3, G4)"). After the resume: 16 tasks succeeded, 426 pages, 10,194 records.
+
+Pages read twice in the killed run: 2, robots.txt and the store page, which the resumed execution reads again to
+verify the store before it continues. No result page was read twice. The uninterrupted replay read 424 pages, none
+twice.
+
+The two runs' exports, compared file by file on the workstation. The exports stay in the gate's volume archive,
+which is not published for its size (manifests/EXCLUDED.csv); each run's manifest.json (../replays/<run>/) lists its files'
+SHA-256 and sizes:
+
+  file                       killed and resumed vs uninterrupted
+  products.csv               byte for byte equal (sha256 e5c71986cf910e8c..., 10,171 rows)
+  products.json              equal
+  products_fresh.csv, .json  equal
+  field_dispositions.csv     equal
+  field_dispositions.json    equal
+  memberships.json           equal
+  offers.json                equal
+  record_map.json            differs only in 81,002 fetch_id and 6,882 page_fetch_id values (each run's own page
+                             reads) and generated_at
+  provenance.json            differs in each run's own identifiers and times (88,178 fetch_id, 6,905 page_fetch_id,
+                             6,905 segment), in 2,265 products marked "earlier_segment": true (observed by the
+                             killed execution: the 2,265 records it had written) and in the run's segments: the killed
+                             run has two, the first "abandoned" (ended between 21:40:04.28Z and 21:40:07.02Z, at least
+                             66.9 s active), the second 157.3 s active, 305 steps, 4,617 products verified; the
+                             uninterrupted run has one, 202.6 s, 423 steps, 6,880 products verified
+  manifest.json              created_at, and the hashes of the three files above
+  validation_report.json     the canary's time and page id
+
+Method: in each of the killed run's files the run ID was replaced by the uninterrupted run's (the same length), the
+files were compared with diff, and every changed line pair was classified by classify_diff.py (this folder): a pair
+equal once ULIDs and ISO times are masked is an identifier or time difference; any other change is listed. The only
+other changes are those named above.

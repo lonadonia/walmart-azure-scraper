@@ -1,0 +1,135 @@
+{
+  "mode": "REPLAY",
+  "run_id": "01M6PSR0QX0H8X0HRE3YWNDA8Y",
+  "status": "rejected",
+  "dataset": "pilot",
+  "counts": {
+    "gates": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "FAIL",
+      "G4": "PASS",
+      "G5": "PASS",
+      "G6": "PASS",
+      "G7": "PASS",
+      "G8": "PASS",
+      "G9": "PASS",
+      "G10": "PASS",
+      "G11": "PASS",
+      "G12": "PASS",
+      "G13": "PASS",
+      "G14": "FAIL"
+    },
+    "nodes": {
+      "INCOMPLETE": 1
+    },
+    "canary": {
+      "at": "2026-11-05T21:27:25.943361Z",
+      "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538",
+      "page": "01M6PSR10YNK2P14ZSK98Q8PT9",
+      "valid": 40,
+      "status": "passed",
+      "records": 40,
+      "problems": [],
+      "valid_ratio": 1.0,
+      "source_check": {
+        "checked": 40,
+        "mismatch": 0,
+        "unverified": 0
+      }
+    },
+    "outcome": "rejected",
+    "contract": {
+      "pages": 1,
+      "problems": []
+    },
+    "verified": 40,
+    "follow_up": {
+      "variants": {
+        "kind": "variant",
+        "candidates": 42,
+        "pages_read": 0,
+        "not_attempted": 42
+      },
+      "sponsored": {
+        "kind": "sponsored",
+        "duplicate": 9,
+        "candidates": 9,
+        "pages_read": 0
+      }
+    },
+    "historical": {
+      "not_valid_now": 0,
+      "carried_forward": 10261,
+      "refused_sources": 0,
+      "renamed_by_mapping": 297,
+      "not_verified_by_current_rules": 0
+    },
+    "upc_detail": {
+      "extracted": 10,
+      "not_attempted": 13,
+      "extracted_reused": 17
+    },
+    "completeness": {
+      "ppm": 0.975,
+      "upc": 0.675,
+      "url": 1.0,
+      "gupc": 0.0,
+      "weight": 0.975,
+      "zipcode": 1.0,
+      "category": 1.0,
+      "image_url": 1.0,
+      "crawl_date": 1.0,
+      "sale_price": 0.075,
+      "store_logo": 1.0,
+      "store_name": 1.0,
+      "unit_price": 0.0,
+      "store_brand": 1.0,
+      "sub_category": 1.0,
+      "product_title": 1.0,
+      "regular_price": 1.0,
+      "store_location": 1.0,
+      "volume_deals_price": 0.0,
+      "digital_deals_price": 0.0,
+      "volume_deals_description": 0.0,
+      "digital_deals_description": 0.0
+    },
+    "yield_baseline": null,
+    "carried_details": {
+      "withheld": 0,
+      "upc_filled": 228,
+      "size_withheld": 1,
+      "weight_filled": 10,
+      "already_from_that_read": 26,
+      "answered_by_saved_read": 229,
+      "rows_with_empty_fields": 9549
+    },
+    "records_by_status": {
+      "valid": 40,
+      "historical": 10261
+    },
+    "field_dispositions": {
+      "upc": {
+        "not_attempted": 9305,
+        "fetched_detail": 57,
+        "absent_in_source": 4,
+        "identity_mismatch": 1,
+        "recovered_from_saved_detail": 933,
+        "budget_deadline_interruption": 1
+      },
+      "weight": {
+        "not_attempted": 2036,
+        "fetched_detail": 3,
+        "absent_in_source": 19,
+        "present_in_listing": 8202,
+        "unresolved_conflict": 6,
+        "recovered_from_saved_detail": 35
+      }
+    },
+    "collection_complete": false
+  },
+  "excluded_by_reason": {
+    "CARRIED_FORWARD": 10261
+  },
+  "duplicates": 0
+}

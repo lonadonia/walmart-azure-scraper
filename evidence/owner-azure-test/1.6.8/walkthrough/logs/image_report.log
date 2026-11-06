@@ -1,0 +1,373 @@
+== walmart-collector-q168d:1.6.8-oxylabs
+id sha256:71a9aa2befb1a4b55816620d221dd43eb6a310d028acf919800c1f3c275cf5bd size 222457222 user collector entrypoint [walmart-collector] cmd [validate-config] created 2026-11-05T22:59:06.643334642Z
+["sha256:1d7b9dd8778ebc4d9bf2f64436dd358640718cb349f5640b33bebaea4ffd62c2","sha256:a3cfe73133965fb536427fde3fe66b2949ea6178f568733760bf45f5c8b5c405","sha256:5e63f01f0cee6291b52c44ffeee48c9eb7b94cdb19478259bcfce37db9eb680e","sha256:311a92d269bd002ca4ff3d801c6320df734027d3b425ff1ec860368f12b07a26","sha256:4bf736ce3d5570384945fc39bcb2209bf3b165b11c970416e874247b36c4d80f","sha256:f1085c053bd36951de5b5b9c93c77b0521f23d3371c49a6bf36da650ef3fc587","sha256:7d8cca0160c20378fd0a9841e81ae5c06899e41a079c7331035c12f7abce1b84","sha256:8f687c9a5da5da0801866384682b815f32a50cc2cb968dd841d910d8f9aa250f","sha256:e5dede82ae5ad922315199ffe0e2586ae0892b417a7af564e5f19eea96d4c158","sha256:70fc6cd58a4424be2a818e5df537eaf1baceefab3a82eed0259327ef7980520e"]
+["PATH=/app/.venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","LANG=C.UTF-8","GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305","PYTHON_VERSION=3.12.16","PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c","PYTHONUNBUFFERED=1","PYTHONDONTWRITEBYTECODE=1","WALMART_COLLECTOR_CONFIG=/app/config/collector.yaml","WALMART_COLLECTOR_DATA_DIR=/app/data"]
+0B /bin/sh -c #(nop)  CMD ["validate-config"]
+0B /bin/sh -c #(nop)  ENTRYPOINT ["walmart-collector"]
+0B /bin/sh -c #(nop)  USER collector
+91B |2 BUILT_AT=2026-11-05T22:58:08Z SOURCE_COMMIT=85c29e7b2404500299056973f50c84b84e187a5a /bin/sh -c printf '{"commit": "%s", "built_at": "%s"}\n' "$SOURCE_COMMIT" "$BUILT_AT" > /app/BUILD_INFO.json
+13.1kB /bin/sh -c #(nop) COPY dir:52fd4a449300f0a335b947fae906d90e7085a78a7ccd920af642d7199acfdc20 in ./config 
+1.12MB /bin/sh -c #(nop) COPY dir:2947f215027170245fad26ffda4c925deff828e8a5173d540a4ff6e3a3824bf5 in /app/src 
+97.7MB /bin/sh -c #(nop) COPY dir:9fd931b50592e362f9ecde4b2b18eae6f662594e9f2177661fd11d7f85352a62 in /app/.venv 
+0B /bin/sh -c #(nop) WORKDIR /app
+3.88kB |2 BUILT_AT=2026-11-05T22:58:08Z SOURCE_COMMIT=85c29e7b2404500299056973f50c84b84e187a5a /bin/sh -c groupadd --system --gid 10001 collector && useradd --system --uid 10001 --gid collector --home
+0B /bin/sh -c #(nop)  ENV PATH=/app/.venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 WALMART_COLLECTOR_CONFIG=/app/con
+0B /bin/sh -c #(nop)  ARG BUILT_AT=unknown
+0B /bin/sh -c #(nop)  ARG SOURCE_COMMIT=unknown
+0B CMD ["python3"]
+0B RUN /bin/sh -c set -eux;  for src in idle3 pip3 pydoc3 python3 python3-config; do   dst="$(echo "$src" | tr -d 3)";   [ -s "/usr/local/bin/$src" ];   [ ! -e "/usr/local/bin/$dst" ];   ln -svT "$src
+40.3MB RUN /bin/sh -c set -eux;   savedAptMark="$(apt-mark showmanual)";  apt-get update;  apt-get install -y --no-install-recommends   dpkg-dev   g++   gcc   gnupg   libbluetooth-dev   libbz2-dev   l
+0B ENV PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c
+0B ENV PYTHON_VERSION=3.12.16
+0B ENV GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305
+8.51MB RUN /bin/sh -c set -eux;  apt-get update;  apt-get install -y --no-install-recommends   ca-certificates   netbase   tzdata  ;  rm -rf /var/lib/apt/lists/* # buildkit
+0B ENV LANG=C.UTF-8
+0B ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+74.9MB # debian.sh --arch 'amd64' out/ 'bookworm' '@1793827419'
+docker save sha256: e749c7e9a167fbed6f73644c9a323c7bcda68c2201d75de36ab47b809a46d7bb
+-- inside: BUILD_INFO, user, no key file, version
+{"commit": "85c29e7b2404500299056973f50c84b84e187a5a", "built_at": "2026-11-05T22:58:08Z"}
+uid=10001(collector) gid=10001(collector) groups=10001(collector)
+/usr/local/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem
+/etc/ssl/certs/OISTE_WISeKey_Global_Root_GB_CA.pem
+/etc/ssl/certs/OISTE_WISeKey_Global_Root_GC_CA.pem
+/etc/ssl/certs/GTS_Root_R4.pem
+/etc/ssl/certs/CommScope_Public_Trust_ECC_Root-02.pem
+/etc/ssl/certs/QuoVadis_Root_CA_3_G3.pem
+/etc/ssl/certs/GlobalSign_Root_R46.pem
+/etc/ssl/certs/Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+/etc/ssl/certs/GlobalSign_Root_CA_-_R3.pem
+/etc/ssl/certs/Certum_EC-384_CA.pem
+/etc/ssl/certs/DigiCert_Global_Root_G3.pem
+/etc/ssl/certs/ISRG_Root_X1.pem
+/etc/ssl/certs/SwissSign_Gold_CA_-_G2.pem
+/etc/ssl/certs/Amazon_Root_CA_2.pem
+/etc/ssl/certs/Entrust.net_Premium_2048_Secure_Server_CA.pem
+/etc/ssl/certs/Microsoft_ECC_Root_Certificate_Authority_2017.pem
+/etc/ssl/certs/HARICA_TLS_RSA_Root_CA_2021.pem
+/etc/ssl/certs/GTS_Root_R3.pem
+/etc/ssl/certs/T-TeleSec_GlobalRoot_Class_3.pem
+/etc/ssl/certs/TWCA_CYBER_Root_CA.pem
+/etc/ssl/certs/Certum_Trusted_Network_CA_2.pem
+/etc/ssl/certs/QuoVadis_Root_CA_2_G3.pem
+/etc/ssl/certs/SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority_-_G2.pem
+/etc/ssl/certs/Sectigo_Public_Server_Authentication_Root_R46.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+/etc/ssl/certs/Microsoft_RSA_Root_Certificate_Authority_2017.pem
+/etc/ssl/certs/GlobalSign_Root_E46.pem
+/etc/ssl/certs/Amazon_Root_CA_1.pem
+/etc/ssl/certs/ACCVRAIZ1.pem
+/etc/ssl/certs/GlobalSign_ECC_Root_CA_-_R5.pem
+/etc/ssl/certs/GTS_Root_R1.pem
+/etc/ssl/certs/SecureSign_Root_CA14.pem
+/etc/ssl/certs/UCA_Extended_Validation_Root.pem
+/etc/ssl/certs/emSign_ECC_Root_CA_-_C3.pem
+/etc/ssl/certs/emSign_Root_CA_-_C1.pem
+/etc/ssl/certs/D-TRUST_BR_Root_CA_2_2023.pem
+/etc/ssl/certs/CFCA_EV_ROOT.pem
+/etc/ssl/certs/T-TeleSec_GlobalRoot_Class_2.pem
+/etc/ssl/certs/certSIGN_Root_CA_G2.pem
+/etc/ssl/certs/CommScope_Public_Trust_RSA_Root-01.pem
+/etc/ssl/certs/USERTrust_RSA_Certification_Authority.pem
+/etc/ssl/certs/Sectigo_Public_Server_Authentication_Root_E46.pem
+/etc/ssl/certs/TrustAsia_Global_Root_CA_G3.pem
+/etc/ssl/certs/Atos_TrustedRoot_2011.pem
+/etc/ssl/certs/Buypass_Class_3_Root_CA.pem
+/etc/ssl/certs/QuoVadis_Root_CA_1_G3.pem
+/etc/ssl/certs/SSL.com_Root_Certification_Authority_ECC.pem
+/etc/ssl/certs/Baltimore_CyberTrust_Root.pem
+/etc/ssl/certs/IdenTrust_Public_Sector_Root_CA_1.pem
+/etc/ssl/certs/Certigna_Root_CA.pem
+/etc/ssl/certs/AffirmTrust_Commercial.pem
+/etc/ssl/certs/Microsec_e-Szigno_Root_CA_2009.pem
+/etc/ssl/certs/DigiCert_Global_Root_G2.pem
+/etc/ssl/certs/Trustwave_Global_ECC_P384_Certification_Authority.pem
+/etc/ssl/certs/Starfield_Class_2_CA.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_G2.pem
+/etc/ssl/certs/COMODO_RSA_Certification_Authority.pem
+/etc/ssl/certs/GlobalSign_Root_CA.pem
+/etc/ssl/certs/SecureSign_Root_CA15.pem
+/etc/ssl/certs/Certum_Trusted_Root_CA.pem
+/etc/ssl/certs/SZAFIR_ROOT_CA2.pem
+/etc/ssl/certs/Certum_Trusted_Network_CA.pem
+/etc/ssl/certs/DigiCert_Global_Root_CA.pem
+/etc/ssl/certs/Starfield_Services_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/SecureTrust_CA.pem
+/etc/ssl/certs/Telekom_Security_TLS_RSA_Root_2023.pem
+/etc/ssl/certs/Actalis_Authentication_Root_CA.pem
+/etc/ssl/certs/GlobalSign_Root_CA_-_R6.pem
+/etc/ssl/certs/IdenTrust_Commercial_Root_CA_1.pem
+/etc/ssl/certs/QuoVadis_Root_CA_2.pem
+/etc/ssl/certs/D-TRUST_EV_Root_CA_1_2020.pem
+/etc/ssl/certs/DigiCert_High_Assurance_EV_Root_CA.pem
+/etc/ssl/certs/Izenpe.com.pem
+/etc/ssl/certs/DigiCert_TLS_RSA4096_Root_G5.pem
+/etc/ssl/certs/TunTrust_Root_CA.pem
+/etc/ssl/certs/e-Szigno_Root_CA_2017.pem
+/etc/ssl/certs/NAVER_Global_Root_Certification_Authority.pem
+/etc/ssl/certs/UCA_Global_G2_Root.pem
+/etc/ssl/certs/Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+/etc/ssl/certs/SSL.com_Root_Certification_Authority_RSA.pem
+/etc/ssl/certs/Certigna.pem
+/etc/ssl/certs/GlobalSign_ECC_Root_CA_-_R4.pem
+/etc/ssl/certs/D-TRUST_BR_Root_CA_1_2020.pem
+/etc/ssl/certs/AffirmTrust_Premium_ECC.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+/etc/ssl/certs/Trustwave_Global_Certification_Authority.pem
+/etc/ssl/certs/TrustAsia_Global_Root_CA_G4.pem
+/etc/ssl/certs/Amazon_Root_CA_3.pem
+/etc/ssl/certs/USERTrust_ECC_Certification_Authority.pem
+/etc/ssl/certs/COMODO_Certification_Authority.pem
+/etc/ssl/certs/GDCA_TrustAUTH_R5_ROOT.pem
+/etc/ssl/certs/DigiCert_Trusted_Root_G4.pem
+/etc/ssl/certs/CA_Disig_Root_R2.pem
+/etc/ssl/certs/SSL.com_TLS_ECC_Root_CA_2022.pem
+/etc/ssl/certs/HiPKI_Root_CA_-_G1.pem
+/etc/ssl/certs/COMODO_ECC_Certification_Authority.pem
+/etc/ssl/certs/HARICA_TLS_ECC_Root_CA_2021.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority_-_EC1.pem
+/etc/ssl/certs/ePKI_Root_Certification_Authority.pem
+/etc/ssl/certs/emSign_Root_CA_-_G1.pem
+/etc/ssl/certs/NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+/etc/ssl/certs/TWCA_Root_Certification_Authority.pem
+/etc/ssl/certs/Telia_Root_CA_v2.pem
+/etc/ssl/certs/TWCA_Global_Root_CA.pem
+/etc/ssl/certs/CommScope_Public_Trust_RSA_Root-02.pem
+/etc/ssl/certs/vTrus_Root_CA.pem
+/etc/ssl/certs/certSIGN_ROOT_CA.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_G3.pem
+/etc/ssl/certs/Secure_Global_CA.pem
+/etc/ssl/certs/BJCA_Global_Root_CA2.pem
+/etc/ssl/certs/Certainly_Root_E1.pem
+/etc/ssl/certs/Certainly_Root_R1.pem
+/etc/ssl/certs/Buypass_Class_2_Root_CA.pem
+/etc/ssl/certs/SSL.com_TLS_RSA_Root_CA_2022.pem
+/etc/ssl/certs/ISRG_Root_X2.pem
+/etc/ssl/certs/Go_Daddy_Class_2_CA.pem
+/etc/ssl/certs/D-TRUST_Root_Class_3_CA_2_2009.pem
+/etc/ssl/certs/Security_Communication_ECC_RootCA1.pem
+/etc/ssl/certs/FIRMAPROFESIONAL_CA_ROOT-A_WEB.pem
+/etc/ssl/certs/ANF_Secure_Server_Root_CA.pem
+/etc/ssl/certs/CommScope_Public_Trust_ECC_Root-01.pem
+/etc/ssl/certs/Go_Daddy_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/GTS_Root_R2.pem
+/etc/ssl/certs/AffirmTrust_Premium.pem
+/etc/ssl/certs/Hongkong_Post_Root_CA_3.pem
+/etc/ssl/certs/GLOBALTRUST_2020.pem
+/etc/ssl/certs/TeliaSonera_Root_CA_v1.pem
+/etc/ssl/certs/D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+/etc/ssl/certs/D-TRUST_EV_Root_CA_2_2023.pem
+/etc/ssl/certs/SSL.com_EV_Root_Certification_Authority_ECC.pem
+/etc/ssl/certs/Trustwave_Global_ECC_P256_Certification_Authority.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_CA.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+/etc/ssl/certs/Amazon_Root_CA_4.pem
+/etc/ssl/certs/AffirmTrust_Networking.pem
+/etc/ssl/certs/TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+/etc/ssl/certs/BJCA_Global_Root_CA1.pem
+/etc/ssl/certs/Starfield_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/Telekom_Security_TLS_ECC_Root_2020.pem
+/etc/ssl/certs/QuoVadis_Root_CA_3.pem
+/etc/ssl/certs/DigiCert_TLS_ECC_P384_Root_G5.pem
+/etc/ssl/certs/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+/etc/ssl/certs/SecureSign_Root_CA12.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM.pem
+/etc/ssl/certs/Security_Communication_RootCA2.pem
+/etc/ssl/certs/XRamp_Global_CA_Root.pem
+/etc/ssl/certs/vTrus_ECC_Root_CA.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority.pem
+1.6.8
+-- the image's src and config against the delivered ZIP's (SHA-256 of every file)
+identical: 101 files
+== walmart-collector-q168d:1.6.8-scrapedo
+id sha256:42ead3b39a010499ed3c8ad4c4adcac8e403255b1dd270227be004a8a5700d29 size 222457224 user collector entrypoint [walmart-collector] cmd [validate-config] created 2026-11-05T22:59:22.672877873Z
+["sha256:1d7b9dd8778ebc4d9bf2f64436dd358640718cb349f5640b33bebaea4ffd62c2","sha256:a3cfe73133965fb536427fde3fe66b2949ea6178f568733760bf45f5c8b5c405","sha256:5e63f01f0cee6291b52c44ffeee48c9eb7b94cdb19478259bcfce37db9eb680e","sha256:311a92d269bd002ca4ff3d801c6320df734027d3b425ff1ec860368f12b07a26","sha256:e7befc6da6b0da7d4f9c553f8a995a680f875b33e031e345ce28fc25c4963cf7","sha256:907f08b14f6a6f04c7e4a4b99fd120d791cd8e6d3b8574a10fb9a8f17a2ff635","sha256:ae74a43051f507ccfa449b3b435e86f40e0ea30b2b617c9fd5a9d4d2e7e2fb92","sha256:75618a1400b0981b349d770a041d01dbaaecb39f1e74d26521696401b0c39ba1","sha256:a724e8a76a1a873d462156377df8227931ccfafe631bd0800bf12cee8d8f69aa","sha256:d762ca12bd5ba9a7222058ece2939b898dd86f64e7f8c4c0ab14960ee49949b8"]
+["PATH=/app/.venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","LANG=C.UTF-8","GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305","PYTHON_VERSION=3.12.16","PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c","PYTHONUNBUFFERED=1","PYTHONDONTWRITEBYTECODE=1","WALMART_COLLECTOR_CONFIG=/app/config/collector.yaml","WALMART_COLLECTOR_DATA_DIR=/app/data"]
+0B /bin/sh -c #(nop)  CMD ["validate-config"]
+0B /bin/sh -c #(nop)  ENTRYPOINT ["walmart-collector"]
+0B /bin/sh -c #(nop)  USER collector
+91B |2 BUILT_AT=2026-11-05T22:59:07Z SOURCE_COMMIT=85c29e7b2404500299056973f50c84b84e187a5a /bin/sh -c printf '{"commit": "%s", "built_at": "%s"}\n' "$SOURCE_COMMIT" "$BUILT_AT" > /app/BUILD_INFO.json
+13.1kB /bin/sh -c #(nop) COPY dir:6517bd12227c9225db423ad9b54704a6941b8422accb6fc8a3fe659e9f91d186 in ./config 
+1.12MB /bin/sh -c #(nop) COPY dir:2947f215027170245fad26ffda4c925deff828e8a5173d540a4ff6e3a3824bf5 in /app/src 
+97.7MB /bin/sh -c #(nop) COPY dir:9fd931b50592e362f9ecde4b2b18eae6f662594e9f2177661fd11d7f85352a62 in /app/.venv 
+0B /bin/sh -c #(nop) WORKDIR /app
+3.88kB |2 BUILT_AT=2026-11-05T22:59:07Z SOURCE_COMMIT=85c29e7b2404500299056973f50c84b84e187a5a /bin/sh -c groupadd --system --gid 10001 collector && useradd --system --uid 10001 --gid collector --home
+0B /bin/sh -c #(nop)  ENV PATH=/app/.venv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 WALMART_COLLECTOR_CONFIG=/app/con
+0B /bin/sh -c #(nop)  ARG BUILT_AT=unknown
+0B /bin/sh -c #(nop)  ARG SOURCE_COMMIT=unknown
+0B CMD ["python3"]
+0B RUN /bin/sh -c set -eux;  for src in idle3 pip3 pydoc3 python3 python3-config; do   dst="$(echo "$src" | tr -d 3)";   [ -s "/usr/local/bin/$src" ];   [ ! -e "/usr/local/bin/$dst" ];   ln -svT "$src
+40.3MB RUN /bin/sh -c set -eux;   savedAptMark="$(apt-mark showmanual)";  apt-get update;  apt-get install -y --no-install-recommends   dpkg-dev   g++   gcc   gnupg   libbluetooth-dev   libbz2-dev   l
+0B ENV PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c
+0B ENV PYTHON_VERSION=3.12.16
+0B ENV GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305
+8.51MB RUN /bin/sh -c set -eux;  apt-get update;  apt-get install -y --no-install-recommends   ca-certificates   netbase   tzdata  ;  rm -rf /var/lib/apt/lists/* # buildkit
+0B ENV LANG=C.UTF-8
+0B ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+74.9MB # debian.sh --arch 'amd64' out/ 'bookworm' '@1793827419'
+docker save sha256: c5ce36abacf3ba68f7250a20cac7f21a3115b31648b0c333f15d3e8902ea6d6e
+-- inside: BUILD_INFO, user, no key file, version
+{"commit": "85c29e7b2404500299056973f50c84b84e187a5a", "built_at": "2026-11-05T22:59:07Z"}
+uid=10001(collector) gid=10001(collector) groups=10001(collector)
+/usr/local/lib/python3.12/site-packages/pip/_vendor/certifi/cacert.pem
+/etc/ssl/certs/OISTE_WISeKey_Global_Root_GB_CA.pem
+/etc/ssl/certs/OISTE_WISeKey_Global_Root_GC_CA.pem
+/etc/ssl/certs/GTS_Root_R4.pem
+/etc/ssl/certs/CommScope_Public_Trust_ECC_Root-02.pem
+/etc/ssl/certs/QuoVadis_Root_CA_3_G3.pem
+/etc/ssl/certs/GlobalSign_Root_R46.pem
+/etc/ssl/certs/Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+/etc/ssl/certs/GlobalSign_Root_CA_-_R3.pem
+/etc/ssl/certs/Certum_EC-384_CA.pem
+/etc/ssl/certs/DigiCert_Global_Root_G3.pem
+/etc/ssl/certs/ISRG_Root_X1.pem
+/etc/ssl/certs/SwissSign_Gold_CA_-_G2.pem
+/etc/ssl/certs/Amazon_Root_CA_2.pem
+/etc/ssl/certs/Entrust.net_Premium_2048_Secure_Server_CA.pem
+/etc/ssl/certs/Microsoft_ECC_Root_Certificate_Authority_2017.pem
+/etc/ssl/certs/HARICA_TLS_RSA_Root_CA_2021.pem
+/etc/ssl/certs/GTS_Root_R3.pem
+/etc/ssl/certs/T-TeleSec_GlobalRoot_Class_3.pem
+/etc/ssl/certs/TWCA_CYBER_Root_CA.pem
+/etc/ssl/certs/Certum_Trusted_Network_CA_2.pem
+/etc/ssl/certs/QuoVadis_Root_CA_2_G3.pem
+/etc/ssl/certs/SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority_-_G2.pem
+/etc/ssl/certs/Sectigo_Public_Server_Authentication_Root_R46.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+/etc/ssl/certs/Microsoft_RSA_Root_Certificate_Authority_2017.pem
+/etc/ssl/certs/GlobalSign_Root_E46.pem
+/etc/ssl/certs/Amazon_Root_CA_1.pem
+/etc/ssl/certs/ACCVRAIZ1.pem
+/etc/ssl/certs/GlobalSign_ECC_Root_CA_-_R5.pem
+/etc/ssl/certs/GTS_Root_R1.pem
+/etc/ssl/certs/SecureSign_Root_CA14.pem
+/etc/ssl/certs/UCA_Extended_Validation_Root.pem
+/etc/ssl/certs/emSign_ECC_Root_CA_-_C3.pem
+/etc/ssl/certs/emSign_Root_CA_-_C1.pem
+/etc/ssl/certs/D-TRUST_BR_Root_CA_2_2023.pem
+/etc/ssl/certs/CFCA_EV_ROOT.pem
+/etc/ssl/certs/T-TeleSec_GlobalRoot_Class_2.pem
+/etc/ssl/certs/certSIGN_Root_CA_G2.pem
+/etc/ssl/certs/CommScope_Public_Trust_RSA_Root-01.pem
+/etc/ssl/certs/USERTrust_RSA_Certification_Authority.pem
+/etc/ssl/certs/Sectigo_Public_Server_Authentication_Root_E46.pem
+/etc/ssl/certs/TrustAsia_Global_Root_CA_G3.pem
+/etc/ssl/certs/Atos_TrustedRoot_2011.pem
+/etc/ssl/certs/Buypass_Class_3_Root_CA.pem
+/etc/ssl/certs/QuoVadis_Root_CA_1_G3.pem
+/etc/ssl/certs/SSL.com_Root_Certification_Authority_ECC.pem
+/etc/ssl/certs/Baltimore_CyberTrust_Root.pem
+/etc/ssl/certs/IdenTrust_Public_Sector_Root_CA_1.pem
+/etc/ssl/certs/Certigna_Root_CA.pem
+/etc/ssl/certs/AffirmTrust_Commercial.pem
+/etc/ssl/certs/Microsec_e-Szigno_Root_CA_2009.pem
+/etc/ssl/certs/DigiCert_Global_Root_G2.pem
+/etc/ssl/certs/Trustwave_Global_ECC_P384_Certification_Authority.pem
+/etc/ssl/certs/Starfield_Class_2_CA.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_G2.pem
+/etc/ssl/certs/COMODO_RSA_Certification_Authority.pem
+/etc/ssl/certs/GlobalSign_Root_CA.pem
+/etc/ssl/certs/SecureSign_Root_CA15.pem
+/etc/ssl/certs/Certum_Trusted_Root_CA.pem
+/etc/ssl/certs/SZAFIR_ROOT_CA2.pem
+/etc/ssl/certs/Certum_Trusted_Network_CA.pem
+/etc/ssl/certs/DigiCert_Global_Root_CA.pem
+/etc/ssl/certs/Starfield_Services_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/SecureTrust_CA.pem
+/etc/ssl/certs/Telekom_Security_TLS_RSA_Root_2023.pem
+/etc/ssl/certs/Actalis_Authentication_Root_CA.pem
+/etc/ssl/certs/GlobalSign_Root_CA_-_R6.pem
+/etc/ssl/certs/IdenTrust_Commercial_Root_CA_1.pem
+/etc/ssl/certs/QuoVadis_Root_CA_2.pem
+/etc/ssl/certs/D-TRUST_EV_Root_CA_1_2020.pem
+/etc/ssl/certs/DigiCert_High_Assurance_EV_Root_CA.pem
+/etc/ssl/certs/Izenpe.com.pem
+/etc/ssl/certs/DigiCert_TLS_RSA4096_Root_G5.pem
+/etc/ssl/certs/TunTrust_Root_CA.pem
+/etc/ssl/certs/e-Szigno_Root_CA_2017.pem
+/etc/ssl/certs/NAVER_Global_Root_Certification_Authority.pem
+/etc/ssl/certs/UCA_Global_G2_Root.pem
+/etc/ssl/certs/Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+/etc/ssl/certs/SSL.com_Root_Certification_Authority_RSA.pem
+/etc/ssl/certs/Certigna.pem
+/etc/ssl/certs/GlobalSign_ECC_Root_CA_-_R4.pem
+/etc/ssl/certs/D-TRUST_BR_Root_CA_1_2020.pem
+/etc/ssl/certs/AffirmTrust_Premium_ECC.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+/etc/ssl/certs/Trustwave_Global_Certification_Authority.pem
+/etc/ssl/certs/TrustAsia_Global_Root_CA_G4.pem
+/etc/ssl/certs/Amazon_Root_CA_3.pem
+/etc/ssl/certs/USERTrust_ECC_Certification_Authority.pem
+/etc/ssl/certs/COMODO_Certification_Authority.pem
+/etc/ssl/certs/GDCA_TrustAUTH_R5_ROOT.pem
+/etc/ssl/certs/DigiCert_Trusted_Root_G4.pem
+/etc/ssl/certs/CA_Disig_Root_R2.pem
+/etc/ssl/certs/SSL.com_TLS_ECC_Root_CA_2022.pem
+/etc/ssl/certs/HiPKI_Root_CA_-_G1.pem
+/etc/ssl/certs/COMODO_ECC_Certification_Authority.pem
+/etc/ssl/certs/HARICA_TLS_ECC_Root_CA_2021.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority_-_EC1.pem
+/etc/ssl/certs/ePKI_Root_Certification_Authority.pem
+/etc/ssl/certs/emSign_Root_CA_-_G1.pem
+/etc/ssl/certs/NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+/etc/ssl/certs/TWCA_Root_Certification_Authority.pem
+/etc/ssl/certs/Telia_Root_CA_v2.pem
+/etc/ssl/certs/TWCA_Global_Root_CA.pem
+/etc/ssl/certs/CommScope_Public_Trust_RSA_Root-02.pem
+/etc/ssl/certs/vTrus_Root_CA.pem
+/etc/ssl/certs/certSIGN_ROOT_CA.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_G3.pem
+/etc/ssl/certs/Secure_Global_CA.pem
+/etc/ssl/certs/BJCA_Global_Root_CA2.pem
+/etc/ssl/certs/Certainly_Root_E1.pem
+/etc/ssl/certs/Certainly_Root_R1.pem
+/etc/ssl/certs/Buypass_Class_2_Root_CA.pem
+/etc/ssl/certs/SSL.com_TLS_RSA_Root_CA_2022.pem
+/etc/ssl/certs/ISRG_Root_X2.pem
+/etc/ssl/certs/Go_Daddy_Class_2_CA.pem
+/etc/ssl/certs/D-TRUST_Root_Class_3_CA_2_2009.pem
+/etc/ssl/certs/Security_Communication_ECC_RootCA1.pem
+/etc/ssl/certs/FIRMAPROFESIONAL_CA_ROOT-A_WEB.pem
+/etc/ssl/certs/ANF_Secure_Server_Root_CA.pem
+/etc/ssl/certs/CommScope_Public_Trust_ECC_Root-01.pem
+/etc/ssl/certs/Go_Daddy_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/GTS_Root_R2.pem
+/etc/ssl/certs/AffirmTrust_Premium.pem
+/etc/ssl/certs/Hongkong_Post_Root_CA_3.pem
+/etc/ssl/certs/GLOBALTRUST_2020.pem
+/etc/ssl/certs/TeliaSonera_Root_CA_v1.pem
+/etc/ssl/certs/D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+/etc/ssl/certs/D-TRUST_EV_Root_CA_2_2023.pem
+/etc/ssl/certs/SSL.com_EV_Root_Certification_Authority_ECC.pem
+/etc/ssl/certs/Trustwave_Global_ECC_P256_Certification_Authority.pem
+/etc/ssl/certs/DigiCert_Assured_ID_Root_CA.pem
+/etc/ssl/certs/Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+/etc/ssl/certs/Amazon_Root_CA_4.pem
+/etc/ssl/certs/AffirmTrust_Networking.pem
+/etc/ssl/certs/TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+/etc/ssl/certs/BJCA_Global_Root_CA1.pem
+/etc/ssl/certs/Starfield_Root_Certificate_Authority_-_G2.pem
+/etc/ssl/certs/Telekom_Security_TLS_ECC_Root_2020.pem
+/etc/ssl/certs/QuoVadis_Root_CA_3.pem
+/etc/ssl/certs/DigiCert_TLS_ECC_P384_Root_G5.pem
+/etc/ssl/certs/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+/etc/ssl/certs/SecureSign_Root_CA12.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM.pem
+/etc/ssl/certs/Security_Communication_RootCA2.pem
+/etc/ssl/certs/XRamp_Global_CA_Root.pem
+/etc/ssl/certs/vTrus_ECC_Root_CA.pem
+/etc/ssl/certs/Entrust_Root_Certification_Authority.pem
+1.6.8
+-- the image's src and config against the delivered ZIP's (SHA-256 of every file)
+identical: 101 files
+== base images
+sha256:313cf8f190a1abab00472c1f0c950c10486c22114bcd8aef2a8198fb587a6d18 ["python@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df"]
+sha256:f6e289b87a320629950d704181c971b5abb074bb26cfeca559d9deb871507007 ["ghcr.io/astral-sh/uv@sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336"]
+REPOSITORY                TAG                  IMAGE ID                                                                  CREATED              SIZE
+walmart-collector-q168d   1.6.6-oxylabs        sha256:00c8f00f00784a87de0c515068fe23e8b7d8b2a0ba06a83a51705e0e32adadfc   6 seconds ago        222MB
+walmart-collector-q168d   1.6.8-scrapedo       sha256:42ead3b39a010499ed3c8ad4c4adcac8e403255b1dd270227be004a8a5700d29   53 seconds ago       222MB
+walmart-collector-q168d   1.6.8-oxylabs        sha256:71a9aa2befb1a4b55816620d221dd43eb6a310d028acf919800c1f3c275cf5bd   About a minute ago   222MB
+python                    3.12-slim-bookworm   sha256:313cf8f190a1abab00472c1f0c950c10486c22114bcd8aef2a8198fb587a6d18   15 hours ago         124MB
+ghcr.io/astral-sh/uv      0.13.1               sha256:f6e289b87a320629950d704181c971b5abb074bb26cfeca559d9deb871507007   3 weeks ago          43.5MB

@@ -1,0 +1,107 @@
+2026-11-05T18:57:30Z
+tree: git archive 7a96218f5cb64c7759d5b6544da797fe381281e1:headless/walmart-azure-headless (the second 1.6.8 candidate), with tests/integration/test_category_mapping.py of commit
+  9c144251cc099c01e67ff6a20582d2eaddcb2adc copied in: sha256 1362be2e933875a17335310bbe782fa87d84e28aaee714f7fde2b3dfa514d3d1
+  (the same file at 7a96218f5cb64c7759d5b6544da797fe381281e1: sha256 ac59123aaa3bd8568ebde21307cedb7fed799113692a83cd016fc9e9b7d5b022)
+import check: C:\w9\scratch\c168\fix168c\fb168b\src\walmart_headless\__init__.py 1.6.8
+== the two tests of the third candidate (expected to FAIL by their own assertions) and the file's five
+   earlier tests (controls: expected to pass on 7a96218 as on the third candidate)
+.....FF                                                                  [100%]
+================================== FAILURES ===================================
+_ test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name _
+
+env = Env(config=WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-<user>/pytest-1185/test_a_listing_the_category_pa0/config...test-1185/test_a_listing_the_category_pa0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x0000028037FA6E10>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000028037F23D40>
+
+    def test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """A category page can link one listing twice, by two paths, under two names. Live (L10, 2026-11-04), the
+        Health & Wellness page links listing 976760_4661388_6244277_7158394 as "Cough" (its 1st link) and again as
+        "Subscription" (its 8th, another path to the same listing); the Personal Care page links 1005862_1001487
+        as "Deodorant" and as "Men's Deodorant". Up to the second 1.6.8 candidate a run read such a listing once
+        per path, and its products took the name of the read that placed them (L10: 19 "Cough", 31
+        "Subscription").
+        The listing is read once, under the first name the page gives it. SYNTHETIC: the Food page links Milk
+        again, from a "Subscription" group, by another path to the same listing."""
+        monkeypatch.setattr(
+            mock_scrapedo,
+            "category_page",
+            lambda: mock_scrapedo.nav_page(
+                [
+                    ("Recipes", [("Shop All", "/i/recipes")]),
+                    ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907"), ("Milk", MILK)]),
+                    ("Snacks", [("Shop all", SNACKS)]),
+                    ("Subscription", [("Subscription", PROMO_MILK)]),
+                ]
+            ),
+        )
+        monkeypatch.setitem(mock_scrapedo.PAGES, PROMO_MILK, mock_scrapedo.PAGES[MILK])  # the same listing
+        monkeypatch.setitem(mock_scrapedo.LISTING_CATS, PROMO_MILK, mock_scrapedo.LISTING_CATS[MILK])
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        run = env.runs()[-1]
+        milk_reads = [
+            url
+            for _, path, url in env.mock.calls[before:]
+            if path == "/plugin/walmart/store" and "976759_9176907" in url
+        ]
+>       assert len(milk_reads) == 1 and "/browse/food/milk/" in milk_reads[0], milk_reads
+E       AssertionError: ['https://www.walmart.com/browse/food/milk/976759_9176907?facet=fulfillment_method%3APickup', 'https://www.walmart.com/browse/subscriptions/milk/976759_9176907?facet=fulfillment_method%3APickup']
+E       assert (2 == 1)
+E        +  where 2 = len(['https://www.walmart.com/browse/food/milk/976759_9176907?facet=fulfillment_method%3APickup', 'https://www.walmart.com/browse/subscriptions/milk/976759_9176907?facet=fulfillment_method%3APickup'])
+
+tests\integration\test_category_mapping.py:275: AssertionError
+_ test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name _
+
+env = Env(config=WindowsPath('C:/Users/<user>/AppData/Local/Temp/pytest-of-<user>/pytest-1185/test_a_stored_category_page_th0/config...test-1185/test_a_stored_category_page_th0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x0000028037D0FE30>)
+own_page_name = 'Milk Products'
+
+    def test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name(
+        env: Env,  # noqa: F811
+        own_page_name: str,
+    ) -> None:
+        """Runs up to the second 1.6.8 candidate recorded both links of a listing a category page names twice
+        (L10's Health & Wellness page: "Cough", then "Subscription"). ``category_page_names`` kept the last, so
+        the agreed mapping of 1.6.7 renamed 268 carried records of L12's replay "Subscription", 35 "Men's
+        Deodorant" and 43 "Great Value Pantry". The first name a page gives a listing is its name; a later page
+        still replaces an earlier page's name. SYNTHETIC events, as such a run recorded them."""
+        from walmart_headless.collection import navigation
+    
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
+        assert code == 0
+        first = env.runs()[-1]
+        t0 = datetime(2026, 11, 1, 6, 0, tzinfo=UTC)
+        twice = [
+            {"name": "Milk", "url": MILK, "note": ""},
+            {"name": "Subscription", "url": PROMO_MILK, "note": ""},
+        ]
+        with sessionmaker(env.engine)() as s:
+            s.add(
+                Event(
+                    run_id=first.id,
+                    ts=t0,
+                    level="INFO",
+                    code=navigation.FOUND_CODE,
+                    message="SYNTHETIC TEST: a category page that links Milk twice, as earlier runs recorded it",
+                    data={"node": "976759", "listings": twice},
+                )
+            )
+            s.commit()
+            named = navigation.category_page_names(s, first.store_id)
+            own = navigation.category_page_names(s, first.store_id, node="976759")
+>       assert named["976759_9176907"].name == "Milk" and own["976759_9176907"].name == "Milk"
+E       AssertionError: assert ('Subscription' == 'Milk'
+E         
+E         - Milk
+E         + Subscription)
+
+tests\integration\test_category_mapping.py:315: AssertionError
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+FAILED tests/integration/test_category_mapping.py::test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name
+FAILED tests/integration/test_category_mapping.py::test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name
+2 failed, 5 passed in 51.95s
+exit 1
+2026-11-05T18:58:26Z

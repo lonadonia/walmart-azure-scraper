@@ -1,7 +1,7 @@
-# Milestones: Walmart collector 1.6.6
+# Milestones: Walmart collector 1.6.8
 
 Every time here is UTC and written with its offset. Conversions use the IANA time-zone database (tzdata 2026.5,
-read 2026-11-04): on 2026-11-04 and 2026-11-05, America/Chicago (the store's zone) is UTC−06:00 (CST, daylight-saving time ended
+read 2026-11-04): from 2026-11-04 to 2026-11-06, America/Chicago (the store's zone) is UTC−06:00 (CST, daylight-saving time ended
 2026-11-01) and Africa/Casablanca is UTC+00:00. Chicago returns to UTC−05:00 (CDT) on 2027-03-14.
 
 The 2026-11-03T23:00Z time the VM extension was requested for was a request, not a granted window. No date below
@@ -59,7 +59,12 @@ Command times are from `evidence/live/1.6.x/campaign/commands.csv`; each run's o
 | 2026-11-04T23:00:43Z to 23:01:59Z | L12's export passes `validate-export --run` on 1.6.6: 10,301 of 10,301 records verified | `campaign/logs/205_l12_validate_export.jsonl` |
 | 2026-11-04T23:03:49Z | L12's stage closed; at 23:03:52Z the Oxylabs ceiling was set to 0 submissions and USD 0 | `campaign/` |
 | 2026-11-04T23:40:08Z to 23:43:12Z | the last-good publication on a clean 1.6.6: 19 passed; the three corrupt-evidence cases now exit 6 (1.6.5: 0). A first attempt at 23:36:05Z ran no test: offline, `uv` could not fetch its build backend | `verification/1.6.6/last_good_publication/` |
-| 2026-11-05, at the time of the commit the tag names | this publication, tag `review-1.6.6-20261105` (a file cannot hold the time of the commit that adds it) | `manifests/PUBLICATION.json` |
+| 2026-11-05T03:20:29Z | the 1.6.6 publication, tag `review-1.6.6-20261105` (`4bae4fb`) | the tag's `manifests/PUBLICATION.json` |
+| 2026-11-05, about 06:10Z | the client's review of 1.6.6 is taken up: Classic C4 and C2, the Linux test discrepancy, completeness, the mapping, the UPC queue, the 275 decisions. The owner's Azure test VM is authorized for this work | [`CORRECTION_MAP.md`](CORRECTION_MAP.md) |
+| 2026-11-05 | release 1.6.8 (`85c29e7`) and the shared Classic probe 1.7.2 (`7768514`): the corrections the client's review of 1.6.6 asked for, each new test failing on the code before it | `evidence/offline-tests/1.6.8-collector/`, `evidence/offline-tests/1.7.2-classic-probe/` |
+| 2026-11-05 | OWNER AZURE (Linux, the owner's test VM, no request): both editions qualified from their ZIPs; both Docker images built and gated (replays of stored live pages, a kill and resume, a rollback, a restart); the walkthrough recorded | `evidence/owner-azure-test/1.6.8/`, `walkthrough/` |
+| 2026-11-05 | W2, W3 and W4 made again from the stored evidence (no request), and the outstanding work priced part by part | `evidence/reconciliation/1.6.8/` |
+| 2026-11-06, at the time of the commit the tag names | this publication, tag `review-1.6.8-20261106` (a file cannot hold the time of the commit that adds it) | `manifests/PUBLICATION.json` |
 
 ## 2. Open, with their conditions
 
@@ -68,15 +73,16 @@ duration after the condition.
 
 | Milestone | State | Condition | After the condition |
 |---|---|---|---|
-| The client's review of 1.6.6 | PENDING_CLIENT_DECISION | the client reads this delivery | none from us |
-| A demonstration of 500 or more with detail on, on 1.6.6 | BLOCKED_BUDGET | approval of stage 1 of [`TEST_PLAN.md`](TEST_PLAN.md): at most about USD 0.07, on a named account (USD 0.003 of the trial share is left) | about 10 minutes of running (L8 took 6 minutes of active time) and an hour of checks and reporting |
-| Offline checks on the client's VM: install from the source ZIP, `uv sync --frozen`, migration on an isolated test database, the unit suite, a container build, `--version` | PENDING_CLIENT_AZURE | the client confirms the VM is running and the window, and installs `scraper_client_test_v2.pub` with the old key revoked. No SSH attempt is made before that | about 2 hours of work, by the access already agreed with the client |
+| The client's review of 1.6.8 | PENDING_CLIENT_DECISION | the client reads this delivery | none from us |
+| A demonstration of 500 or more with detail on, on 1.6.8 | BLOCKED_BUDGET | written approval of stage 1 of [`TEST_PLAN.md`](TEST_PLAN.md) and a ceiling: at most 45 submissions, USD 0.0675, on a named account (USD 0.003 of the trial share is left, the ceiling is 0) | about 10 minutes of running (L8 took 6 minutes of active time) and an hour of checks and reporting, the same day. Saved reads serve until 2026-12-03 |
+| Offline checks on the client's VM: install from the source ZIP, `uv sync --frozen`, migration on an isolated test database, the unit suite, a container build, `--version` | PENDING_CLIENT_AZURE | the client confirms the VM is running and the window, and installs `scraper_client_test_v2.pub` with the old key revoked. No SSH attempt is made before that | about 2 hours of work, by the access already agreed with the client; the same steps passed on the owner's VM |
 | A live run in the client's environment | PENDING_CLIENT_AZURE | the offline checks above, and the client's approval of a paid budget on their own account | the bounded proposal in [`TEST_PLAN.md`](TEST_PLAN.md) |
-| The full catalogue (all 11 CSV rows, every child and page) | BLOCKED_BUDGET | funding of the continuation in [`TEST_PLAN.md`](TEST_PLAN.md), stage 2 (about USD 4.07 for its listing pages, plus product pages) | about 4.4 active hours of listing pages with two workers at L10's measured rate, plus the product pages and the child listings found on the way |
-| A timed full-scope run, and the twice-weekly fit | BLOCKED_BUDGET | the full catalogue above | measured by that run |
-| The twice-weekly schedule enabled and observed | PENDING_OBSERVATION | the client's authorization (it ships disabled) and two observed scheduled runs | the first slots after an authorization: Tuesday and Friday 06:00 America/Chicago = 12:00Z (UTC−06:00) until 2027-03-12; from 2027-03-16 = 11:00Z (UTC−05:00). For example Friday 2026-11-06T12:00Z and Tuesday 2026-11-10T12:00Z |
-| Scrape.do edition live on 1.6.6 | BLOCKED_BUDGET | Scrape.do access with credits (no Scrape.do spend is authorized in this delivery) | the canary of [`TEST_PLAN.md`](TEST_PLAN.md), stage 3 |
+| The full catalogue (all 11 CSV rows, every child and page) | BLOCKED_BUDGET | funding of the continuation in [`TEST_PLAN.md`](TEST_PLAN.md), stage 2: about USD 4.63 for the known listing pages and USD 0.14 for the category pages first; then the listings those pages name, and product pages, each priced there | about 5.0 active hours of known listing pages with two workers at L10's measured rate; about 59.9 to 111.7 active hours of product pages with two workers (an estimate) |
+| A timed full-scope run, and the twice-weekly fit | BLOCKED_BUDGET | the full catalogue above | measured by that run: requests, fresh, retained and invalid products, wall time, peak memory, workers and cost |
+| The twice-weekly schedule enabled, and two scheduled runs observed | PENDING_OBSERVATION | the client's authorization (it ships disabled) and two observed scheduled runs | the first slots after an authorization: Tuesday and Friday 06:00 America/Chicago = 12:00Z (UTC−06:00) until 2027-03-12; from 2027-03-16 = 11:00Z (UTC−05:00). For example Tuesday 2026-11-10T12:00Z and Friday 2026-11-13T12:00Z |
+| A natural unavailable or later-missing transition | PENDING_OBSERVATION | it can only be observed, between live runs | reported when seen, never manufactured |
+| Scrape.do edition live on 1.6.8 | BLOCKED_BUDGET | Scrape.do access with credits (no Scrape.do spend is authorized in this delivery) | the canary of [`TEST_PLAN.md`](TEST_PLAN.md), stage 3 |
 | A live Classic successor probe | PENDING_CLIENT_DECISION | the client's choice of Classic, a corrected live-enabled revision, a real Classic entitlement and the client-account limits proposed earlier (10 requests per retailer, 20 combined, 30 minutes, USD 5 combined) | not planned before that decision |
 | The earlier Web API key (fingerprint `<key-fingerprint>`) revoked | PENDING_OWNER | the account owner's credential workflow | none from us |
-| A walkthrough recording of 1.6.6; a summary PDF | PENDING_OWNER | Hamza's decision | none from us |
+| The owner's test VM deallocated when idle; the provider dashboard's reading | PENDING_OWNER | Hamza's Azure and Oxylabs consoles; this work holds neither credential | none from us |
 | The defect-support period and the transfer of intellectual property | PENDING_CLIENT_DECISION | a commercial agreement | none: not a code item |

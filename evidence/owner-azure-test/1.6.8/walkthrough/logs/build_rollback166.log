@@ -1,0 +1,127 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
+
+Sending build context to Docker daemon  1.394MB
+Step 1/21 : FROM python:3.12-slim-bookworm AS build
+ ---> 313cf8f190a1
+Step 2/21 : COPY --from=ghcr.io/astral-sh/uv:0.13.1 /uv /usr/local/bin/uv
+ ---> Using cache
+ ---> 806476e48be9
+Step 3/21 : ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
+ ---> Using cache
+ ---> 9bdd837818dc
+Step 4/21 : WORKDIR /app
+ ---> Using cache
+ ---> d6e11ca0a110
+Step 5/21 : COPY pyproject.toml uv.lock README.md ./
+ ---> fd8986fb99ec
+Step 6/21 : RUN uv sync --frozen --no-dev --no-install-project
+ ---> Running in ec75c237201f
+[91mUsing CPython 3.12.16 interpreter at: /usr/local/bin/python3
+Creating virtual environment at: .venv
+[0m[91mDownloading psycopg-binary (5.0MiB)
+[0m[91mDownloading pydantic-core (2.1MiB)
+[0m[91mDownloading cryptography (4.5MiB)
+[0m[91mDownloading selectolax (1.5MiB)
+[0m[91m Downloaded selectolax
+[0m[91m Downloaded pydantic-core
+[0m[91m Downloaded cryptography[0m[91m
+[0m[91m Downloaded psycopg-binary
+[0m[91m   Building sqlalchemy==2.1.6
+[0m[91m      Built sqlalchemy==2.1.6
+[0m[91mPrepared 34 packages in 6.05s
+[0m[91mInstalled 34 packages in 3.80s
+[0m[91mBytecode compiled 1209 files in 2.14s
+[0m[91m + alembic==1.20.0
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + azure-core==1.41.0
+ + azure-identity==1.26.0
+ + azure-storage-blob==12.31.0
+ + certifi==2026.10.19
+ + cffi==2.1.1
+ + charset-normalizer==3.5.2
+ + cryptography==50.0.2
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + isodate==0.7.2
+ + mako==1.4.3
+ + markupsafe==3.0.4[0m[91m
+ + msal==1.39.0
+ + msal-extensions==1.3.1
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ +[0m[91m pycparser==3[0m[91m.11
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pyjwt==2.15.1
+ + python-ulid==4.0[0m[91m.1
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + selectolax==1.0.1
+ + sqlalchemy==2.1[0m[91m.6
+ [0m[91m+[0m[91m [0m[91mtyping-extensions==4.16.[0m[91m0[0m[91m
+[0m[91m [0m[91m+ typing-inspection[0m[91m==0.[0m[91m4[0m[91m.[0m[91m4[0m[91m
+ +[0m[91m [0m[91mtzdata==[0m[91m2026.5
+ + urllib3==2.8.0
+[0m ---> Removed intermediate container ec75c237201f
+ ---> be870edf0f8e
+Step 7/21 : COPY src ./src
+ ---> 887d69f9d7ff
+Step 8/21 : RUN uv sync --frozen --no-dev
+ ---> Running in 7477441b4473
+[91m   Building walmart-azure-headless @ file:///app
+[0m[91m      Built walmart-azure-headless @ file:///app
+[0m[91mPrepared 1 package in 759ms
+[0m[91mInstalled 1 package in 2ms
+[0m[91mBytecode compiled 1209 files in 83ms
+ + walmart-azure-headless==1.6.6 (from file:[0m[91m///app)
+[0m ---> Removed intermediate container 7477441b4473
+ ---> 80861a348ec6
+Step 9/21 : FROM python:3.12-slim-bookworm
+ ---> 313cf8f190a1
+Step 10/21 : ARG SOURCE_COMMIT=unknown
+ ---> Using cache
+ ---> 1c1837bd3811
+Step 11/21 : ARG BUILT_AT=unknown
+ ---> Using cache
+ ---> 7fec9034cfdc
+Step 12/21 : ENV PATH="/app/.venv/bin:$PATH"     PYTHONUNBUFFERED=1     PYTHONDONTWRITEBYTECODE=1     WALMART_COLLECTOR_CONFIG=/app/config/collector.yaml     WALMART_COLLECTOR_DATA_DIR=/app/data
+ ---> Using cache
+ ---> fe8eba7f1837
+Step 13/21 : RUN groupadd --system --gid 10001 collector && useradd --system --uid 10001 --gid collector --home /app collector
+ ---> Running in b235f20e2e81
+[91museradd warning: collector's uid 10001 is greater than SYS_UID_MAX 999
+[0m ---> Removed intermediate container b235f20e2e81
+ ---> 9e66657a7300
+Step 14/21 : WORKDIR /app
+ ---> Running in 890e1f1befbf
+ ---> Removed intermediate container 890e1f1befbf
+ ---> fae07ae24f4e
+Step 15/21 : COPY --from=build /app/.venv /app/.venv
+ ---> aaaa465999de
+Step 16/21 : COPY --from=build /app/src /app/src
+ ---> 01f27f64d439
+Step 17/21 : COPY config ./config
+ ---> 8cf9f1a5a070
+Step 18/21 : RUN printf '{"commit": "%s", "built_at": "%s"}\n' "$SOURCE_COMMIT" "$BUILT_AT" > /app/BUILD_INFO.json     && mkdir -p /app/data && chown collector:collector /app/data
+ ---> Running in 3b22e7ed63d9
+ ---> Removed intermediate container 3b22e7ed63d9
+ ---> 1d8d6dfe47a5
+Step 19/21 : USER collector
+ ---> Running in 0c3f07da3ee2
+ ---> Removed intermediate container 0c3f07da3ee2
+ ---> 9974caf58064
+Step 20/21 : ENTRYPOINT ["walmart-collector"]
+ ---> Running in 14d6b01b24a5
+ ---> Removed intermediate container 14d6b01b24a5
+ ---> d2a667603166
+Step 21/21 : CMD ["validate-config"]
+ ---> Running in f65e74868536
+ ---> Removed intermediate container f65e74868536
+ ---> 00c8f00f0078
+Successfully built 00c8f00f0078
+Successfully tagged walmart-collector-q168d:1.6.6-oxylabs

@@ -1,0 +1,24 @@
+2026-11-05T21:38:55Z start a replay of L10 (01M6KA3CKYJSD6WDY4TDAAV73Y), detached
+774228fc4e4bc4f10550ff752dba65617cda0d5a1cb78633e5dab3ab0743a87f
+2026-11-05T21:40:04Z replay run 01M6PTD4PJBQRS9WXVQ32MJMBM has 120 pages read: SIGKILL
+running: true
+q168dreplay
+exit code 137 oom false
+{"ts": "2026-11-05T21:40:03.124Z", "level": "INFO", "event": "PAGE_COLLECTED", "collector": "walmart-azure-headless", "run_id": "01M6PTD4PJBQRS9WXVQ32MJMBM", "message": "Beauty › Hair Styling Products: result page 1", "data": {"node": "1085666", "listing": "1085666_3147628_7768896", "page": 1, "pr
+{"ts": "2026-11-05T21:40:03.721Z", "level": "INFO", "event": "PAGE_COLLECTED", "collector": "walmart-azure-headless", "run_id": "01M6PTD4PJBQRS9WXVQ32MJMBM", "message": "Beauty › Hair Styling Tools: result page 1", "data": {"node": "1085666", "listing": "1085666_3147628_3847754", "page": 1, "produ
+{"ts": "2026-11-05T21:40:04.326Z", "level": "INFO", "event": "PAGE_COLLECTED", "collector": "walmart-azure-headless", "run_id": "01M6PTD4PJBQRS9WXVQ32MJMBM", "message": "Beauty › Hair Treatments: result page 1", "data": {"node": "1085666", "listing": "1085666_3147628_8428896", "page": 1, "products
+q168dreplay
+--- the state after the kill
+running|
+pending|12
+running|1
+succeeded|3
+pages read 120 records 2265
+--- resume: repeated only while it is refused because the dead worker's lease holds (exit 9)
+2026-11-05T21:47:42Z resume attempt 1: exit 6
+{"ts": "2026-11-05T21:47:41.173Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "resume", "exit_code": 6, "result": {}}
+--- the state after the resume
+rejected|
+succeeded|16
+pages read 426 records 10194
+pages read twice: 2

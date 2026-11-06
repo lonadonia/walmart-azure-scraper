@@ -1,0 +1,35 @@
+pg role exit 0
+created walmart_q168d_oxylabs exit 0
+created walmart_q168d_scrapedo exit 0
+created walmart_q168d_oxylabs_test exit 0
+created walmart_q168d_scrapedo_test exit 0
+walmart_collector owner=walmart
+walmart_oxylabs owner=walmart
+walmart_pubtest owner=walmart
+walmart_pubtest_oxylabs owner=walmart
+walmart_pubtest_scrapedo owner=walmart
+walmart_q167_c_campaign owner=walmart_q167
+walmart_q167_c_killresume owner=walmart_q167
+walmart_q167_c_oxylabs owner=walmart_q167
+walmart_q167_c_scrapedo owner=walmart_q167
+walmart_q167_oxylabs owner=walmart_q167
+walmart_q167_oxylabs_test owner=walmart_q167
+walmart_q167_scrapedo owner=walmart_q167
+walmart_q167_scrapedo_test owner=walmart_q167
+walmart_q168_c_campaign owner=walmart_q167
+walmart_q168_c_killresume owner=walmart_q167
+walmart_q168_c_oxylabs owner=walmart_q167
+walmart_q168_c_scrapedo owner=walmart_q167
+walmart_q168_oxylabs owner=walmart_q167
+walmart_q168_oxylabs_test owner=walmart_q167
+walmart_q168_scrapedo owner=walmart_q167
+walmart_q168_scrapedo_test owner=walmart_q167
+walmart_q168d_c_campaign owner=walmart_q167
+walmart_q168d_c_killresume owner=walmart_q167
+walmart_q168d_c_oxylabs owner=walmart_q167
+walmart_q168d_c_scrapedo owner=walmart_q167
+walmart_q168d_oxylabs owner=walmart_q167
+walmart_q168d_oxylabs_test owner=walmart_q167
+walmart_q168d_scrapedo owner=walmart_q167
+walmart_q168d_scrapedo_test owner=walmart_q167
+walmart_scrapedo owner=walmart

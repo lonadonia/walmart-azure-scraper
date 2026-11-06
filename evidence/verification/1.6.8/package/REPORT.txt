@@ -1,0 +1,40 @@
+extract: exit 0 in 0.7 s: ok: 472 entries; zip sha256 0cd1d4c07cbd25ead47080794efde39e7d309e4a09e670008908b893e0f9923e
+oxylabs.tree: exit 0 in 0.0 s: ok: 235 files, tree bb0e35e3743d9746..., commit 85c29e7b2404
+oxylabs.lock: exit 0 in 0.1 s: ok
+oxylabs.install: exit 0 in 5.9 s: ok
+oxylabs.ruff: exit 0 in 0.8 s: ok
+oxylabs.format: exit 0 in 0.2 s: ok
+oxylabs.mypy-m: exit 0 in 26.1 s: ok
+oxylabs.version-m: exit 0 in 6.9 s: ok
+oxylabs.help-m: exit 0 in 2.2 s: ok
+oxylabs.validate-config-m: exit 0 in 2.2 s: ok
+oxylabs.unit: exit 0 in 28.6 s: ok
+oxylabs.integration-affected.test_category_mapping: exit 0 in 105.7 s: ok
+oxylabs.integration-affected.test_scrapedo_walmart: exit 0 in 149.7 s: ok
+oxylabs.integration-affected.test_coverage_and_assortment: exit 0 in 145.0 s: ok
+oxylabs.integration-affected.test_workers_and_oxylabs: exit 0 in 67.2 s: ok
+oxylabs.integration-affected.test_lineage_retention: exit 0 in 39.5 s: ok
+oxylabs.integration-affected.test_replay: exit 0 in 109.1 s: ok
+oxylabs.integration-affected.test_operations: exit 0 in 282.3 s: ok
+oxylabs.integration-affected.test_followups: exit 0 in 54.5 s: ok
+oxylabs.integration-affected.test_publication_safety: exit 0 in 141.0 s: ok
+oxylabs.integration-affected.test_deal_fields_policy: exit 0 in 33.2 s: ok
+oxylabs.integration-affected.test_retained_masking: exit 0 in 33.6 s: ok
+oxylabs.integration-affected.test_yield_baseline: exit 0 in 23.1 s: ok
+scrapedo.tree: exit 0 in 0.0 s: ok: 235 files, tree 1f6fdc3d505fc59e..., commit 85c29e7b2404
+scrapedo.lock: exit 0 in 0.1 s: ok
+scrapedo.install: exit 0 in 7.3 s: ok
+scrapedo.ruff: exit 0 in 0.8 s: ok
+scrapedo.format: exit 0 in 0.2 s: ok
+scrapedo.mypy-m: exit 0 in 33.5 s: ok
+scrapedo.version-m: exit 0 in 7.5 s: ok
+scrapedo.help-m: exit 0 in 2.8 s: ok
+scrapedo.validate-config-m: exit 0 in 2.7 s: ok
+scrapedo.unit: exit 0 in 31.4 s: ok
+scrapedo.integration-affected.test_category_mapping: exit 0 in 110.8 s: ok
+scrapedo.integration-affected.test_scrapedo_walmart: exit 0 in 148.2 s: ok
+scrapedo.integration-affected.test_coverage_and_assortment: exit 0 in 146.8 s: ok
+scrapedo.integration-affected.test_workers_and_oxylabs: exit 0 in 70.1 s: ok
+
+37 steps, 0 not ok: none
+RESULT: PASS

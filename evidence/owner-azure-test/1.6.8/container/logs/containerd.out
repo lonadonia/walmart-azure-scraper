@@ -1,0 +1,516 @@
+time="2026-11-05T21:24:36.863574930Z" level=info msg="starting containerd" revision= version=2.2.1
+time="2026-11-05T21:24:36.867002029Z" level=info msg="loading plugin" id=io.containerd.content.v1.content type=io.containerd.content.v1
+time="2026-11-05T21:24:36.867063665Z" level=info msg="loading plugin" id=io.containerd.image-verifier.v1.bindir type=io.containerd.image-verifier.v1
+time="2026-11-05T21:24:36.867082535Z" level=info msg="loading plugin" id=io.containerd.internal.v1.opt type=io.containerd.internal.v1
+time="2026-11-05T21:24:36.867267381Z" level=info msg="loading plugin" id=io.containerd.warning.v1.deprecations type=io.containerd.warning.v1
+time="2026-11-05T21:24:36.867309159Z" level=info msg="loading plugin" id=io.containerd.mount-handler.v1.erofs type=io.containerd.mount-handler.v1
+time="2026-11-05T21:24:36.867326482Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.blockfile type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867368583Z" level=info msg="skip loading plugin" error="no scratch file generator: skip plugin" id=io.containerd.snapshotter.v1.blockfile type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867381147Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.btrfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867575874Z" level=info msg="skip loading plugin" error="path <vm-home>/q168d/docker/containerd-root/io.containerd.snapshotter.v1.btrfs (ext4) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" id=io.containerd.snapshotter.v1.btrfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867594075Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.devmapper type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867607908Z" level=info msg="skip loading plugin" error="devmapper not configured: skip plugin" id=io.containerd.snapshotter.v1.devmapper type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867615786Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.erofs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867748403Z" level=info msg="skip loading plugin" error="EROFS unsupported, please `modprobe erofs`: skip plugin" id=io.containerd.snapshotter.v1.erofs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867762938Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.native type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867818725Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.overlayfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867943153Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.zfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867977544Z" level=info msg="skip loading plugin" error="lstat <vm-home>/q168d/docker/containerd-root/io.containerd.snapshotter.v1.zfs: no such file or directory: skip plugin" id=io.containerd.snapshotter.v1.zfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:24:36.867988101Z" level=info msg="loading plugin" id=io.containerd.event.v1.exchange type=io.containerd.event.v1
+time="2026-11-05T21:24:36.868350913Z" level=info msg="loading plugin" id=io.containerd.monitor.task.v1.cgroups type=io.containerd.monitor.task.v1
+time="2026-11-05T21:24:36.868688525Z" level=info msg="loading plugin" id=io.containerd.metadata.v1.bolt type=io.containerd.metadata.v1
+time="2026-11-05T21:24:36.868776923Z" level=info msg="metadata content store policy set" policy=shared
+time="2026-11-05T21:24:36.899696427Z" level=info msg="loading plugin" id=io.containerd.gc.v1.scheduler type=io.containerd.gc.v1
+time="2026-11-05T21:24:36.899766971Z" level=info msg="loading plugin" id=io.containerd.differ.v1.erofs type=io.containerd.differ.v1
+time="2026-11-05T21:24:36.899891324Z" level=info msg="skip loading plugin" error="failed to check mkfs.erofs availability: failed to run mkfs.erofs --help: exec: \"mkfs.erofs\": executable file not found in $PATH: skip plugin" id=io.containerd.differ.v1.erofs type=io.containerd.differ.v1
+time="2026-11-05T21:24:36.899904655Z" level=info msg="loading plugin" id=io.containerd.differ.v1.walking type=io.containerd.differ.v1
+time="2026-11-05T21:24:36.899918021Z" level=info msg="loading plugin" id=io.containerd.lease.v1.manager type=io.containerd.lease.v1
+time="2026-11-05T21:24:36.899926580Z" level=info msg="loading plugin" id=io.containerd.mount-manager.v1.bolt type=io.containerd.mount-manager.v1
+time="2026-11-05T21:24:36.900041243Z" level=info msg="loading plugin" id=io.containerd.service.v1.containers-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900067258Z" level=info msg="loading plugin" id=io.containerd.service.v1.content-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900076076Z" level=info msg="loading plugin" id=io.containerd.service.v1.diff-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900084353Z" level=info msg="loading plugin" id=io.containerd.service.v1.images-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900093155Z" level=info msg="loading plugin" id=io.containerd.service.v1.introspection-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900106341Z" level=info msg="loading plugin" id=io.containerd.service.v1.namespaces-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900114792Z" level=info msg="loading plugin" id=io.containerd.service.v1.snapshots-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900122899Z" level=info msg="loading plugin" id=io.containerd.shim.v1.manager type=io.containerd.shim.v1
+time="2026-11-05T21:24:36.900133506Z" level=info msg="loading plugin" id=io.containerd.runtime.v2.task type=io.containerd.runtime.v2
+time="2026-11-05T21:24:36.900218022Z" level=info msg="loading plugin" id=io.containerd.service.v1.tasks-service type=io.containerd.service.v1
+time="2026-11-05T21:24:36.900230121Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.containers type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900248813Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.content type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900272906Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.diff type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900282135Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.events type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900288535Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.images type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900295825Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.introspection type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900304462Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.leases type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900311944Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.mounts type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900317739Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.namespaces type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900326553Z" level=info msg="loading plugin" id=io.containerd.sandbox.controller.v1.shim type=io.containerd.sandbox.controller.v1
+time="2026-11-05T21:24:36.900397937Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.sandbox-controllers type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900412903Z" level=info msg="loading plugin" id=io.containerd.sandbox.store.v1.local type=io.containerd.sandbox.store.v1
+time="2026-11-05T21:24:36.900424846Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.sandboxes type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900446398Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.snapshots type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900459773Z" level=info msg="loading plugin" id=io.containerd.streaming.v1.manager type=io.containerd.streaming.v1
+time="2026-11-05T21:24:36.900469031Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.streaming type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900476276Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.tasks type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900488251Z" level=info msg="loading plugin" id=io.containerd.transfer.v1.local type=io.containerd.transfer.v1
+time="2026-11-05T21:24:36.900523706Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.transfer type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900539239Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.version type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900552562Z" level=info msg="loading plugin" id=io.containerd.monitor.container.v1.restart type=io.containerd.monitor.container.v1
+time="2026-11-05T21:24:36.900603087Z" level=info msg="loading plugin" id=io.containerd.tracing.processor.v1.otlp type=io.containerd.tracing.processor.v1
+time="2026-11-05T21:24:36.900624755Z" level=info msg="skip loading plugin" error="skip plugin: tracing endpoint not configured" id=io.containerd.tracing.processor.v1.otlp type=io.containerd.tracing.processor.v1
+time="2026-11-05T21:24:36.900630258Z" level=info msg="loading plugin" id=io.containerd.internal.v1.tracing type=io.containerd.internal.v1
+time="2026-11-05T21:24:36.900636974Z" level=info msg="skip loading plugin" error="skip plugin: tracing endpoint not configured" id=io.containerd.internal.v1.tracing type=io.containerd.internal.v1
+time="2026-11-05T21:24:36.900642053Z" level=info msg="loading plugin" id=io.containerd.ttrpc.v1.otelttrpc type=io.containerd.ttrpc.v1
+time="2026-11-05T21:24:36.900647786Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.healthcheck type=io.containerd.grpc.v1
+time="2026-11-05T21:24:36.900898574Z" level=info msg=serving... address=/run/q168ddocker/containerd/containerd.sock.ttrpc
+time="2026-11-05T21:24:36.900938638Z" level=info msg=serving... address=/run/q168ddocker/containerd/containerd.sock
+time="2026-11-05T21:24:36.900957558Z" level=info msg="containerd successfully booted in 0.037889s"
+time="2026-11-05T21:24:56.331105792Z" level=info msg="connecting to shim e8ecae7c46962f41479e4432b6b7b65f4fab9c8f814b3f745daa63f06e24cea1" address="unix:///run/containerd/s/b5e3da87b9ac82d6fa04c79a6308547143d6d8b385445ae3de5d9b810eec1483" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:08.859925128Z" level=info msg="shim disconnected" id=e8ecae7c46962f41479e4432b6b7b65f4fab9c8f814b3f745daa63f06e24cea1 namespace=moby
+time="2026-11-05T21:25:08.860081593Z" level=info msg="cleaning up after shim disconnected" id=e8ecae7c46962f41479e4432b6b7b65f4fab9c8f814b3f745daa63f06e24cea1 namespace=moby
+time="2026-11-05T21:25:08.860096603Z" level=info msg="cleaning up dead shim" id=e8ecae7c46962f41479e4432b6b7b65f4fab9c8f814b3f745daa63f06e24cea1 namespace=moby
+time="2026-11-05T21:25:24.693969679Z" level=info msg="connecting to shim 366aa51f30cbd9ab7a53221312934c8bf608375fe96ecfdc771ca2da22a49ccd" address="unix:///run/containerd/s/8004a380bd3e5fd6cb6fd8566c7cfa3bed38a40a9bac43e1b47fc948af4d1001" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:25.857519554Z" level=info msg="shim disconnected" id=366aa51f30cbd9ab7a53221312934c8bf608375fe96ecfdc771ca2da22a49ccd namespace=moby
+time="2026-11-05T21:25:25.857572983Z" level=info msg="cleaning up after shim disconnected" id=366aa51f30cbd9ab7a53221312934c8bf608375fe96ecfdc771ca2da22a49ccd namespace=moby
+time="2026-11-05T21:25:25.857608452Z" level=info msg="cleaning up dead shim" id=366aa51f30cbd9ab7a53221312934c8bf608375fe96ecfdc771ca2da22a49ccd namespace=moby
+time="2026-11-05T21:25:30.252859908Z" level=info msg="connecting to shim b2f31be0bc9f62e390c7b51011818fb60a338b51d4c7436e180aa32eba096e49" address="unix:///run/containerd/s/f4589ec1a51bf5f89ae41fd090831fa7f51ccf5460fb8ff71e29ab7de715794b" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:30.531043995Z" level=info msg="shim disconnected" id=b2f31be0bc9f62e390c7b51011818fb60a338b51d4c7436e180aa32eba096e49 namespace=moby
+time="2026-11-05T21:25:30.531128263Z" level=info msg="cleaning up after shim disconnected" id=b2f31be0bc9f62e390c7b51011818fb60a338b51d4c7436e180aa32eba096e49 namespace=moby
+time="2026-11-05T21:25:30.531153550Z" level=info msg="cleaning up dead shim" id=b2f31be0bc9f62e390c7b51011818fb60a338b51d4c7436e180aa32eba096e49 namespace=moby
+time="2026-11-05T21:25:41.294259379Z" level=info msg="connecting to shim 964c40771277adef44f339e8ad0f141f39167cbf773b004e35aaf9ef732c461b" address="unix:///run/containerd/s/ca18bd2ac330ffa74129b9d5df8e97aeb35b482e0e9eb3a6ae80842cd991fde6" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:41.459118702Z" level=info msg="shim disconnected" id=964c40771277adef44f339e8ad0f141f39167cbf773b004e35aaf9ef732c461b namespace=moby
+time="2026-11-05T21:25:41.459154324Z" level=info msg="cleaning up after shim disconnected" id=964c40771277adef44f339e8ad0f141f39167cbf773b004e35aaf9ef732c461b namespace=moby
+time="2026-11-05T21:25:41.459162546Z" level=info msg="cleaning up dead shim" id=964c40771277adef44f339e8ad0f141f39167cbf773b004e35aaf9ef732c461b namespace=moby
+time="2026-11-05T21:25:46.298738911Z" level=info msg="connecting to shim ed59c8729cfb218df31c7baebccec2ab09cad3a754cec1d0716fad7e8f74dfa6" address="unix:///run/containerd/s/ba42a3b6f8dfab9a93ba34e3de15ed31d317d00e555fd11c354c36962dd9bbb8" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:46.559350696Z" level=info msg="shim disconnected" id=ed59c8729cfb218df31c7baebccec2ab09cad3a754cec1d0716fad7e8f74dfa6 namespace=moby
+time="2026-11-05T21:25:46.559399773Z" level=info msg="cleaning up after shim disconnected" id=ed59c8729cfb218df31c7baebccec2ab09cad3a754cec1d0716fad7e8f74dfa6 namespace=moby
+time="2026-11-05T21:25:46.559408015Z" level=info msg="cleaning up dead shim" id=ed59c8729cfb218df31c7baebccec2ab09cad3a754cec1d0716fad7e8f74dfa6 namespace=moby
+time="2026-11-05T21:25:57.302662778Z" level=info msg="connecting to shim 9d6f6beabae12f3b5ffae747bf6e869df3bd26c5ca8efd93c5d174e6603cac55" address="unix:///run/containerd/s/6094c2f7567af0a4445fcc5a2a3fe8a8bfe7fcf85e620da81a6c4eb21e077d74" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:25:57.453870577Z" level=info msg="shim disconnected" id=9d6f6beabae12f3b5ffae747bf6e869df3bd26c5ca8efd93c5d174e6603cac55 namespace=moby
+time="2026-11-05T21:25:57.453899143Z" level=info msg="cleaning up after shim disconnected" id=9d6f6beabae12f3b5ffae747bf6e869df3bd26c5ca8efd93c5d174e6603cac55 namespace=moby
+time="2026-11-05T21:25:57.453904909Z" level=info msg="cleaning up dead shim" id=9d6f6beabae12f3b5ffae747bf6e869df3bd26c5ca8efd93c5d174e6603cac55 namespace=moby
+time="2026-11-05T21:26:04.127576723Z" level=info msg="connecting to shim 12c16d1025990db0148121258c998b1b1fbd41b05657fc6adcf41c03827ae873" address="unix:///run/containerd/s/7357a7ee18f4a6d15b39e5b9fbcb3d66a23a4ce3137608a4cc1a802e1c8aa85a" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:04.348932437Z" level=info msg="shim disconnected" id=12c16d1025990db0148121258c998b1b1fbd41b05657fc6adcf41c03827ae873 namespace=moby
+time="2026-11-05T21:26:04.348989475Z" level=info msg="cleaning up after shim disconnected" id=12c16d1025990db0148121258c998b1b1fbd41b05657fc6adcf41c03827ae873 namespace=moby
+time="2026-11-05T21:26:04.349000097Z" level=info msg="cleaning up dead shim" id=12c16d1025990db0148121258c998b1b1fbd41b05657fc6adcf41c03827ae873 namespace=moby
+time="2026-11-05T21:26:04.844348947Z" level=info msg="connecting to shim 5f85cbf86d9fbec5f623c865d845e02c5faf66b428316323f25fd114bfbadc95" address="unix:///run/containerd/s/17cdf6452b27649d886fb2de5612ef97e09a79462e0bc575cafd2f9bb2464bbb" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:04.999392403Z" level=info msg="shim disconnected" id=5f85cbf86d9fbec5f623c865d845e02c5faf66b428316323f25fd114bfbadc95 namespace=moby
+time="2026-11-05T21:26:04.999431212Z" level=info msg="cleaning up after shim disconnected" id=5f85cbf86d9fbec5f623c865d845e02c5faf66b428316323f25fd114bfbadc95 namespace=moby
+time="2026-11-05T21:26:04.999441205Z" level=info msg="cleaning up dead shim" id=5f85cbf86d9fbec5f623c865d845e02c5faf66b428316323f25fd114bfbadc95 namespace=moby
+time="2026-11-05T21:26:07.293272768Z" level=info msg="connecting to shim db27dfd5cf3102bc0586ee970640515897e9d168e64d8e240c29bf909155141e" address="unix:///run/containerd/s/c951b829a94f644414cc12fbfb4b4afda6b12dfdca664440dc8dbae500318952" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:07.483948517Z" level=info msg="shim disconnected" id=db27dfd5cf3102bc0586ee970640515897e9d168e64d8e240c29bf909155141e namespace=moby
+time="2026-11-05T21:26:07.484003398Z" level=info msg="cleaning up after shim disconnected" id=db27dfd5cf3102bc0586ee970640515897e9d168e64d8e240c29bf909155141e namespace=moby
+time="2026-11-05T21:26:07.484010991Z" level=info msg="cleaning up dead shim" id=db27dfd5cf3102bc0586ee970640515897e9d168e64d8e240c29bf909155141e namespace=moby
+time="2026-11-05T21:26:07.947905397Z" level=info msg="connecting to shim de18e14fa64c4a1f8b23a396bcef8e446137db9302cb83d17b314fa24c19e53a" address="unix:///run/containerd/s/4827874cc13e63317edc374c7a7f39a52e80a12865690fcb0c721c725e3fa2b7" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:08.103835713Z" level=info msg="shim disconnected" id=de18e14fa64c4a1f8b23a396bcef8e446137db9302cb83d17b314fa24c19e53a namespace=moby
+time="2026-11-05T21:26:08.103883239Z" level=info msg="cleaning up after shim disconnected" id=de18e14fa64c4a1f8b23a396bcef8e446137db9302cb83d17b314fa24c19e53a namespace=moby
+time="2026-11-05T21:26:08.103892695Z" level=info msg="cleaning up dead shim" id=de18e14fa64c4a1f8b23a396bcef8e446137db9302cb83d17b314fa24c19e53a namespace=moby
+time="2026-11-05T21:26:08.784987428Z" level=info msg="connecting to shim 052b01e2051080f0cad17c7b92db3b20a90db971954f2404f9928d6452b32c01" address="unix:///run/containerd/s/ddcdaa4cc2977aaafe939d993ff2bb531f319e91f413e9671b1c36ab90971492" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:10.200266877Z" level=info msg="shim disconnected" id=052b01e2051080f0cad17c7b92db3b20a90db971954f2404f9928d6452b32c01 namespace=moby
+time="2026-11-05T21:26:10.200305161Z" level=info msg="cleaning up after shim disconnected" id=052b01e2051080f0cad17c7b92db3b20a90db971954f2404f9928d6452b32c01 namespace=moby
+time="2026-11-05T21:26:10.200314665Z" level=info msg="cleaning up dead shim" id=052b01e2051080f0cad17c7b92db3b20a90db971954f2404f9928d6452b32c01 namespace=moby
+time="2026-11-05T21:26:10.736281093Z" level=info msg="connecting to shim 2e009462624ad667954a7eecf5e58b802e7d8ae3cc3ede5d5b5006cb570440a3" address="unix:///run/containerd/s/0d900a152963a2d9bd90c5925ab667e93f1ccb642e989c89ce59025fcebf552a" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:12.144959343Z" level=info msg="shim disconnected" id=2e009462624ad667954a7eecf5e58b802e7d8ae3cc3ede5d5b5006cb570440a3 namespace=moby
+time="2026-11-05T21:26:12.144998555Z" level=info msg="cleaning up after shim disconnected" id=2e009462624ad667954a7eecf5e58b802e7d8ae3cc3ede5d5b5006cb570440a3 namespace=moby
+time="2026-11-05T21:26:12.145005211Z" level=info msg="cleaning up dead shim" id=2e009462624ad667954a7eecf5e58b802e7d8ae3cc3ede5d5b5006cb570440a3 namespace=moby
+time="2026-11-05T21:26:13.041895199Z" level=info msg="connecting to shim 311fa5c33dc2a7e5bd67434a6b1e239607a37675254b4ad705db14fe122b6f0c" address="unix:///run/containerd/s/10e35abb04411a995fa44fc057c354415fe228945836606c90a91676807fe984" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:14.464046977Z" level=info msg="shim disconnected" id=311fa5c33dc2a7e5bd67434a6b1e239607a37675254b4ad705db14fe122b6f0c namespace=moby
+time="2026-11-05T21:26:14.464085368Z" level=info msg="cleaning up after shim disconnected" id=311fa5c33dc2a7e5bd67434a6b1e239607a37675254b4ad705db14fe122b6f0c namespace=moby
+time="2026-11-05T21:26:14.464096315Z" level=info msg="cleaning up dead shim" id=311fa5c33dc2a7e5bd67434a6b1e239607a37675254b4ad705db14fe122b6f0c namespace=moby
+time="2026-11-05T21:26:14.933124077Z" level=info msg="connecting to shim c7c557a792712abad1b43182b82df29261e3c3272436275054e4938dcb67d520" address="unix:///run/containerd/s/efb95d129cc0460f0ce553b04105c0194b8be45e1c6334ad48ff9dbdfb6b05d1" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:16.374334945Z" level=info msg="shim disconnected" id=c7c557a792712abad1b43182b82df29261e3c3272436275054e4938dcb67d520 namespace=moby
+time="2026-11-05T21:26:16.374382832Z" level=info msg="cleaning up after shim disconnected" id=c7c557a792712abad1b43182b82df29261e3c3272436275054e4938dcb67d520 namespace=moby
+time="2026-11-05T21:26:16.374390481Z" level=info msg="cleaning up dead shim" id=c7c557a792712abad1b43182b82df29261e3c3272436275054e4938dcb67d520 namespace=moby
+time="2026-11-05T21:26:16.949716642Z" level=info msg="connecting to shim 1d205d58baebd02939e87a14c33c29abac1aefc76721ac1665e908e3703f6152" address="unix:///run/containerd/s/4e4c36b95c1b48744776320b4e011a1f3841003b8788719d87a39bc26cdf1cf9" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:18.355938032Z" level=info msg="shim disconnected" id=1d205d58baebd02939e87a14c33c29abac1aefc76721ac1665e908e3703f6152 namespace=moby
+time="2026-11-05T21:26:18.355985657Z" level=info msg="cleaning up after shim disconnected" id=1d205d58baebd02939e87a14c33c29abac1aefc76721ac1665e908e3703f6152 namespace=moby
+time="2026-11-05T21:26:18.355994522Z" level=info msg="cleaning up dead shim" id=1d205d58baebd02939e87a14c33c29abac1aefc76721ac1665e908e3703f6152 namespace=moby
+time="2026-11-05T21:26:18.878935173Z" level=info msg="connecting to shim c929aae6bbec32f1065826ee4d8e6947b0e2392c9cd3de812b1626ad96b16f30" address="unix:///run/containerd/s/a66e0529e24d9c66f2e0d0a084567585d75891b4b31049b787eabffe380576aa" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:20.279040793Z" level=info msg="shim disconnected" id=c929aae6bbec32f1065826ee4d8e6947b0e2392c9cd3de812b1626ad96b16f30 namespace=moby
+time="2026-11-05T21:26:20.279080461Z" level=info msg="cleaning up after shim disconnected" id=c929aae6bbec32f1065826ee4d8e6947b0e2392c9cd3de812b1626ad96b16f30 namespace=moby
+time="2026-11-05T21:26:20.279090840Z" level=info msg="cleaning up dead shim" id=c929aae6bbec32f1065826ee4d8e6947b0e2392c9cd3de812b1626ad96b16f30 namespace=moby
+time="2026-11-05T21:26:20.835844043Z" level=info msg="connecting to shim 8de216d149c07f5a7f23bfd971f38da864f7c861a70d8c22f9a9d68fce985694" address="unix:///run/containerd/s/ed1aebebad6a099c7ea4faef9d652c5c539069342492bbc42f155fde11e1dd85" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:22.264773531Z" level=info msg="shim disconnected" id=8de216d149c07f5a7f23bfd971f38da864f7c861a70d8c22f9a9d68fce985694 namespace=moby
+time="2026-11-05T21:26:22.264817094Z" level=info msg="cleaning up after shim disconnected" id=8de216d149c07f5a7f23bfd971f38da864f7c861a70d8c22f9a9d68fce985694 namespace=moby
+time="2026-11-05T21:26:22.264829603Z" level=info msg="cleaning up dead shim" id=8de216d149c07f5a7f23bfd971f38da864f7c861a70d8c22f9a9d68fce985694 namespace=moby
+time="2026-11-05T21:26:22.754308772Z" level=info msg="connecting to shim b0d9cb6896dc1f01a517cb03c50df8f57990ed2680381261fa187ba7afc30858" address="unix:///run/containerd/s/41d4cf9cdcc8e80b1e9e9c60b440023f2048629b7a15f643505fb7b087ba5aca" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:24.177324587Z" level=info msg="shim disconnected" id=b0d9cb6896dc1f01a517cb03c50df8f57990ed2680381261fa187ba7afc30858 namespace=moby
+time="2026-11-05T21:26:24.177379101Z" level=info msg="cleaning up after shim disconnected" id=b0d9cb6896dc1f01a517cb03c50df8f57990ed2680381261fa187ba7afc30858 namespace=moby
+time="2026-11-05T21:26:24.177399010Z" level=info msg="cleaning up dead shim" id=b0d9cb6896dc1f01a517cb03c50df8f57990ed2680381261fa187ba7afc30858 namespace=moby
+time="2026-11-05T21:26:25.201271943Z" level=info msg="connecting to shim 985fc4c8bb8d6f7f945e43e48e23cfc5008b1f394091ed4f562b163816288fbd" address="unix:///run/containerd/s/3d16fbd8e674eb907d13455d1c3a048a140fefe7de74b7ba944afa6ef13316cf" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:26.731427926Z" level=info msg="shim disconnected" id=985fc4c8bb8d6f7f945e43e48e23cfc5008b1f394091ed4f562b163816288fbd namespace=moby
+time="2026-11-05T21:26:26.731465121Z" level=info msg="cleaning up after shim disconnected" id=985fc4c8bb8d6f7f945e43e48e23cfc5008b1f394091ed4f562b163816288fbd namespace=moby
+time="2026-11-05T21:26:26.731474117Z" level=info msg="cleaning up dead shim" id=985fc4c8bb8d6f7f945e43e48e23cfc5008b1f394091ed4f562b163816288fbd namespace=moby
+time="2026-11-05T21:26:27.274284062Z" level=info msg="connecting to shim e9fd2ded6e2c1700e45caf29c704130b485f355f8f18a675c89c4715ad4afe27" address="unix:///run/containerd/s/af16f48091389c43a6b294882701892e75a9cb0b57cd4a4a496bdd9e3d1cddfa" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:29.437004920Z" level=info msg="shim disconnected" id=e9fd2ded6e2c1700e45caf29c704130b485f355f8f18a675c89c4715ad4afe27 namespace=moby
+time="2026-11-05T21:26:29.437056195Z" level=info msg="cleaning up after shim disconnected" id=e9fd2ded6e2c1700e45caf29c704130b485f355f8f18a675c89c4715ad4afe27 namespace=moby
+time="2026-11-05T21:26:29.437067943Z" level=info msg="cleaning up dead shim" id=e9fd2ded6e2c1700e45caf29c704130b485f355f8f18a675c89c4715ad4afe27 namespace=moby
+time="2026-11-05T21:26:30.104307195Z" level=info msg="connecting to shim e3a51eb0f171cece78701efae2c343d323c51197c281adde34f9c3b856c63ca3" address="unix:///run/containerd/s/c12723347f338b801b251df96f9946cfef9e29b672c58f284b83b5915e9b8c96" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:31.630214119Z" level=info msg="shim disconnected" id=e3a51eb0f171cece78701efae2c343d323c51197c281adde34f9c3b856c63ca3 namespace=moby
+time="2026-11-05T21:26:31.630304155Z" level=info msg="cleaning up after shim disconnected" id=e3a51eb0f171cece78701efae2c343d323c51197c281adde34f9c3b856c63ca3 namespace=moby
+time="2026-11-05T21:26:31.630313474Z" level=info msg="cleaning up dead shim" id=e3a51eb0f171cece78701efae2c343d323c51197c281adde34f9c3b856c63ca3 namespace=moby
+time="2026-11-05T21:26:32.187472565Z" level=info msg="connecting to shim 95a5af14e4b3a302951d439c51222437c38c86ffa78e5b7d832ecb244c49a644" address="unix:///run/containerd/s/ee9f276715cfb90304e11c2de9946f074eef42f379200291bc8868cd0d3d93df" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:33.743129458Z" level=info msg="shim disconnected" id=95a5af14e4b3a302951d439c51222437c38c86ffa78e5b7d832ecb244c49a644 namespace=moby
+time="2026-11-05T21:26:33.743186706Z" level=info msg="cleaning up after shim disconnected" id=95a5af14e4b3a302951d439c51222437c38c86ffa78e5b7d832ecb244c49a644 namespace=moby
+time="2026-11-05T21:26:33.743197590Z" level=info msg="cleaning up dead shim" id=95a5af14e4b3a302951d439c51222437c38c86ffa78e5b7d832ecb244c49a644 namespace=moby
+time="2026-11-05T21:26:34.275312613Z" level=info msg="connecting to shim 3683120fb7e4ec4b1e9c7bf359d29452f81c8fa031523d0382728e6e6cd25d5f" address="unix:///run/containerd/s/dfa6f52f0a78e2fa04286642507d97b1678bcd2b6cfb4e640b3202d6ea456e21" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:35.836600771Z" level=info msg="shim disconnected" id=3683120fb7e4ec4b1e9c7bf359d29452f81c8fa031523d0382728e6e6cd25d5f namespace=moby
+time="2026-11-05T21:26:35.836636216Z" level=info msg="cleaning up after shim disconnected" id=3683120fb7e4ec4b1e9c7bf359d29452f81c8fa031523d0382728e6e6cd25d5f namespace=moby
+time="2026-11-05T21:26:35.836643250Z" level=info msg="cleaning up dead shim" id=3683120fb7e4ec4b1e9c7bf359d29452f81c8fa031523d0382728e6e6cd25d5f namespace=moby
+time="2026-11-05T21:26:36.325956025Z" level=info msg="connecting to shim 59ce78285c18d62227e5a851a886ecd386962ea285463a0694640042ee5ee1ae" address="unix:///run/containerd/s/cac816ece7ff1eda1a5b825ee05897426b0f9b84bc863f993dc1be2bbd2eabbc" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:37.886529308Z" level=info msg="shim disconnected" id=59ce78285c18d62227e5a851a886ecd386962ea285463a0694640042ee5ee1ae namespace=moby
+time="2026-11-05T21:26:37.886579265Z" level=info msg="cleaning up after shim disconnected" id=59ce78285c18d62227e5a851a886ecd386962ea285463a0694640042ee5ee1ae namespace=moby
+time="2026-11-05T21:26:37.886593084Z" level=info msg="cleaning up dead shim" id=59ce78285c18d62227e5a851a886ecd386962ea285463a0694640042ee5ee1ae namespace=moby
+time="2026-11-05T21:26:38.843353057Z" level=info msg="connecting to shim d7839a8898c7ab503e74e0ff7f49748d5d65f3eb1616ceb818a722722a84473b" address="unix:///run/containerd/s/6a3bc553df7931c852260e642c2e6a78c30d674cf0f7b65f99b7005cdaae93b4" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:40.385166120Z" level=info msg="shim disconnected" id=d7839a8898c7ab503e74e0ff7f49748d5d65f3eb1616ceb818a722722a84473b namespace=moby
+time="2026-11-05T21:26:40.385206875Z" level=info msg="cleaning up after shim disconnected" id=d7839a8898c7ab503e74e0ff7f49748d5d65f3eb1616ceb818a722722a84473b namespace=moby
+time="2026-11-05T21:26:40.385216377Z" level=info msg="cleaning up dead shim" id=d7839a8898c7ab503e74e0ff7f49748d5d65f3eb1616ceb818a722722a84473b namespace=moby
+time="2026-11-05T21:26:40.970317016Z" level=info msg="connecting to shim 473320140aaf076c4ed2c170b6eb23d4425e1dbd1d5e61cfb2404e26f0d301cc" address="unix:///run/containerd/s/ac35f98155c837864554e83b02e8b3933b22a2afa09e53f0a3da9a20b56d809d" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:43.155175265Z" level=info msg="shim disconnected" id=473320140aaf076c4ed2c170b6eb23d4425e1dbd1d5e61cfb2404e26f0d301cc namespace=moby
+time="2026-11-05T21:26:43.155213746Z" level=info msg="cleaning up after shim disconnected" id=473320140aaf076c4ed2c170b6eb23d4425e1dbd1d5e61cfb2404e26f0d301cc namespace=moby
+time="2026-11-05T21:26:43.155222065Z" level=info msg="cleaning up dead shim" id=473320140aaf076c4ed2c170b6eb23d4425e1dbd1d5e61cfb2404e26f0d301cc namespace=moby
+time="2026-11-05T21:26:43.747818086Z" level=info msg="connecting to shim 0512f3092333800ed3dc2c11a854fa18b200b3439d997572def52b8a79e895c1" address="unix:///run/containerd/s/8b67e2d535981ca89b30a08ee6c3627d3f861baf64ead45188091762cebbbf1e" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:45.276001383Z" level=info msg="shim disconnected" id=0512f3092333800ed3dc2c11a854fa18b200b3439d997572def52b8a79e895c1 namespace=moby
+time="2026-11-05T21:26:45.276055960Z" level=info msg="cleaning up after shim disconnected" id=0512f3092333800ed3dc2c11a854fa18b200b3439d997572def52b8a79e895c1 namespace=moby
+time="2026-11-05T21:26:45.276075432Z" level=info msg="cleaning up dead shim" id=0512f3092333800ed3dc2c11a854fa18b200b3439d997572def52b8a79e895c1 namespace=moby
+time="2026-11-05T21:26:45.843465820Z" level=info msg="connecting to shim ea0bce85b33f90727764ad872eba98e5451ae1ec9938372912491c28bfa1274a" address="unix:///run/containerd/s/e511d0dfa3d00b36e855a7d40c66e67255a51f1d8e33d60b22e16b6cd5d810e6" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:47.374989148Z" level=info msg="shim disconnected" id=ea0bce85b33f90727764ad872eba98e5451ae1ec9938372912491c28bfa1274a namespace=moby
+time="2026-11-05T21:26:47.375028665Z" level=info msg="cleaning up after shim disconnected" id=ea0bce85b33f90727764ad872eba98e5451ae1ec9938372912491c28bfa1274a namespace=moby
+time="2026-11-05T21:26:47.375037334Z" level=info msg="cleaning up dead shim" id=ea0bce85b33f90727764ad872eba98e5451ae1ec9938372912491c28bfa1274a namespace=moby
+time="2026-11-05T21:26:47.940213251Z" level=info msg="connecting to shim 9a16cdd427f1796a5b7fa7a3535f752885a102aa6ac09510023e10d1229407cf" address="unix:///run/containerd/s/d40a0293de1d6466748e00c1f3233d0f0fbdac486c609250c2801b516e3e2eb4" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:49.504440796Z" level=info msg="shim disconnected" id=9a16cdd427f1796a5b7fa7a3535f752885a102aa6ac09510023e10d1229407cf namespace=moby
+time="2026-11-05T21:26:49.504480214Z" level=info msg="cleaning up after shim disconnected" id=9a16cdd427f1796a5b7fa7a3535f752885a102aa6ac09510023e10d1229407cf namespace=moby
+time="2026-11-05T21:26:49.504492293Z" level=info msg="cleaning up dead shim" id=9a16cdd427f1796a5b7fa7a3535f752885a102aa6ac09510023e10d1229407cf namespace=moby
+time="2026-11-05T21:26:50.089789239Z" level=info msg="connecting to shim 3e3b8603daf25e7490838a4c9f118f03c1670d5b06f267c78ba49e335f38c0d7" address="unix:///run/containerd/s/a25065c594460edc2e2bd4b9f01762ee1dbca912c8d01472b342696db175766b" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:26:51.666400358Z" level=info msg="shim disconnected" id=3e3b8603daf25e7490838a4c9f118f03c1670d5b06f267c78ba49e335f38c0d7 namespace=moby
+time="2026-11-05T21:26:51.666760584Z" level=info msg="cleaning up after shim disconnected" id=3e3b8603daf25e7490838a4c9f118f03c1670d5b06f267c78ba49e335f38c0d7 namespace=moby
+time="2026-11-05T21:26:51.666773655Z" level=info msg="cleaning up dead shim" id=3e3b8603daf25e7490838a4c9f118f03c1670d5b06f267c78ba49e335f38c0d7 namespace=moby
+time="2026-11-05T21:27:16.446839828Z" level=info msg="connecting to shim d3b266387596d1328cc51c6c4591f55d7b1d334cd5d00c693548aadcd1779fe6" address="unix:///run/containerd/s/49df667947d344f2fd347e694563ecffaf13a836fbbafc87a4dfcd4b6f2d6223" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:27:16.681834028Z" level=info msg="shim disconnected" id=d3b266387596d1328cc51c6c4591f55d7b1d334cd5d00c693548aadcd1779fe6 namespace=moby
+time="2026-11-05T21:27:16.681873514Z" level=info msg="cleaning up after shim disconnected" id=d3b266387596d1328cc51c6c4591f55d7b1d334cd5d00c693548aadcd1779fe6 namespace=moby
+time="2026-11-05T21:27:16.681962153Z" level=info msg="cleaning up dead shim" id=d3b266387596d1328cc51c6c4591f55d7b1d334cd5d00c693548aadcd1779fe6 namespace=moby
+time="2026-11-05T21:27:19.435192963Z" level=info msg="connecting to shim d0edcd1f2eec9760bfdc61ebe572c740b866a57f6d1f9297a76ddb7ef7aa0a23" address="unix:///run/containerd/s/618a7958e17eec5d72e0a22f5b875b4c41111ca5cbd7530c8c49262fd3fff501" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:27:21.139421701Z" level=info msg="shim disconnected" id=d0edcd1f2eec9760bfdc61ebe572c740b866a57f6d1f9297a76ddb7ef7aa0a23 namespace=moby
+time="2026-11-05T21:27:21.139454947Z" level=info msg="cleaning up after shim disconnected" id=d0edcd1f2eec9760bfdc61ebe572c740b866a57f6d1f9297a76ddb7ef7aa0a23 namespace=moby
+time="2026-11-05T21:27:21.139462637Z" level=info msg="cleaning up dead shim" id=d0edcd1f2eec9760bfdc61ebe572c740b866a57f6d1f9297a76ddb7ef7aa0a23 namespace=moby
+time="2026-11-05T21:27:21.697420548Z" level=info msg="connecting to shim ee6ffe50b5dac0479a4f23d3995188fcd2d35930385ef11294888474729d5fee" address="unix:///run/containerd/s/e79832ccde0b0f6520e405cd96b931c253d3c86a6aab0187fdfb6c19eaaee11c" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:27:23.238258941Z" level=info msg="shim disconnected" id=ee6ffe50b5dac0479a4f23d3995188fcd2d35930385ef11294888474729d5fee namespace=moby
+time="2026-11-05T21:27:23.238296933Z" level=info msg="cleaning up after shim disconnected" id=ee6ffe50b5dac0479a4f23d3995188fcd2d35930385ef11294888474729d5fee namespace=moby
+time="2026-11-05T21:27:23.238307219Z" level=info msg="cleaning up dead shim" id=ee6ffe50b5dac0479a4f23d3995188fcd2d35930385ef11294888474729d5fee namespace=moby
+time="2026-11-05T21:27:23.794766518Z" level=info msg="connecting to shim b5761dce33e35cb2e15a148362d306c704acaf5274e3f22292a650ce275b814e" address="unix:///run/containerd/s/c8eced2f9e59ef7783aa22054775e29e37c91d17511e2921eb554b265dd5e45d" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:15.883261543Z" level=info msg="shim disconnected" id=b5761dce33e35cb2e15a148362d306c704acaf5274e3f22292a650ce275b814e namespace=moby
+time="2026-11-05T21:29:15.884727520Z" level=info msg="cleaning up after shim disconnected" id=b5761dce33e35cb2e15a148362d306c704acaf5274e3f22292a650ce275b814e namespace=moby
+time="2026-11-05T21:29:15.884761289Z" level=info msg="cleaning up dead shim" id=b5761dce33e35cb2e15a148362d306c704acaf5274e3f22292a650ce275b814e namespace=moby
+time="2026-11-05T21:29:16.856256958Z" level=info msg="connecting to shim 197668a8bef803e7bf3c2c5879f992fdeb4f13ce873f97b2a55e5cff5cdf4150" address="unix:///run/containerd/s/d9885511118ebb929dffb6f59445da3cb501e5beaa9322fb55ce3067904468cc" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:20.922556245Z" level=info msg="shim disconnected" id=197668a8bef803e7bf3c2c5879f992fdeb4f13ce873f97b2a55e5cff5cdf4150 namespace=moby
+time="2026-11-05T21:29:20.922607606Z" level=info msg="cleaning up after shim disconnected" id=197668a8bef803e7bf3c2c5879f992fdeb4f13ce873f97b2a55e5cff5cdf4150 namespace=moby
+time="2026-11-05T21:29:20.922615644Z" level=info msg="cleaning up dead shim" id=197668a8bef803e7bf3c2c5879f992fdeb4f13ce873f97b2a55e5cff5cdf4150 namespace=moby
+time="2026-11-05T21:29:21.545750676Z" level=info msg="connecting to shim fa34570e9abf388a00b4f0f7da79dfa1edc716a2dd250bd732da086800a209d3" address="unix:///run/containerd/s/172fd7eeba7f6a4dcbe64c1cd7dc9432b2f7743efa20fbe349713ca5b87d604e" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:24.186439806Z" level=info msg="shim disconnected" id=fa34570e9abf388a00b4f0f7da79dfa1edc716a2dd250bd732da086800a209d3 namespace=moby
+time="2026-11-05T21:29:24.186478397Z" level=info msg="cleaning up after shim disconnected" id=fa34570e9abf388a00b4f0f7da79dfa1edc716a2dd250bd732da086800a209d3 namespace=moby
+time="2026-11-05T21:29:24.186487749Z" level=info msg="cleaning up dead shim" id=fa34570e9abf388a00b4f0f7da79dfa1edc716a2dd250bd732da086800a209d3 namespace=moby
+time="2026-11-05T21:29:24.664395122Z" level=info msg="connecting to shim 743030b2ce87f1ef1351fc2799d31fdc4a493335b0d61d49fcf44f1f387a4384" address="unix:///run/containerd/s/da0348d574af7ef240c7d5746052c8bc502ad0f6a75280997bdc48a193cf3df3" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:27.138232537Z" level=info msg="shim disconnected" id=743030b2ce87f1ef1351fc2799d31fdc4a493335b0d61d49fcf44f1f387a4384 namespace=moby
+time="2026-11-05T21:29:27.138290012Z" level=info msg="cleaning up after shim disconnected" id=743030b2ce87f1ef1351fc2799d31fdc4a493335b0d61d49fcf44f1f387a4384 namespace=moby
+time="2026-11-05T21:29:27.138299491Z" level=info msg="cleaning up dead shim" id=743030b2ce87f1ef1351fc2799d31fdc4a493335b0d61d49fcf44f1f387a4384 namespace=moby
+time="2026-11-05T21:29:27.740919005Z" level=info msg="connecting to shim 67a22d5f9716656d78289fd4f468a6e4e61640a963848e2d65fb1cd26e9577f4" address="unix:///run/containerd/s/d7a22d9112daa455f075c6d85504499061ddbc427683d57aff6c0128f9fadb7f" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:30.630297687Z" level=info msg="shim disconnected" id=67a22d5f9716656d78289fd4f468a6e4e61640a963848e2d65fb1cd26e9577f4 namespace=moby
+time="2026-11-05T21:29:30.630333583Z" level=info msg="cleaning up after shim disconnected" id=67a22d5f9716656d78289fd4f468a6e4e61640a963848e2d65fb1cd26e9577f4 namespace=moby
+time="2026-11-05T21:29:30.630342877Z" level=info msg="cleaning up dead shim" id=67a22d5f9716656d78289fd4f468a6e4e61640a963848e2d65fb1cd26e9577f4 namespace=moby
+time="2026-11-05T21:29:34.664516851Z" level=info msg="connecting to shim cef9ee30e506c1d9c9e9c264b6d3884a6d0ad2f0859fdb9a92aabde413028e41" address="unix:///run/containerd/s/df67a416b3030b83965c9a88076b03d912cb24e24b6870d04f992e7ccd8b310e" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:29:37.864788544Z" level=info msg="shim disconnected" id=cef9ee30e506c1d9c9e9c264b6d3884a6d0ad2f0859fdb9a92aabde413028e41 namespace=moby
+time="2026-11-05T21:29:37.864830001Z" level=info msg="cleaning up after shim disconnected" id=cef9ee30e506c1d9c9e9c264b6d3884a6d0ad2f0859fdb9a92aabde413028e41 namespace=moby
+time="2026-11-05T21:29:37.864840392Z" level=info msg="cleaning up dead shim" id=cef9ee30e506c1d9c9e9c264b6d3884a6d0ad2f0859fdb9a92aabde413028e41 namespace=moby
+time="2026-11-05T21:29:38.436089419Z" level=info msg="connecting to shim b6e1a9e3087c8a13ca690dfe2c6e8d7a4c9558dab77e0ffaafc3632ba39cd6be" address="unix:///run/containerd/s/21056ee33edfebc8487857722ac920f2b647e635a7d512e37be975d2ebde8918" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:37:59.196132972Z" level=info msg="shim disconnected" id=b6e1a9e3087c8a13ca690dfe2c6e8d7a4c9558dab77e0ffaafc3632ba39cd6be namespace=moby
+time="2026-11-05T21:37:59.196490208Z" level=info msg="cleaning up after shim disconnected" id=b6e1a9e3087c8a13ca690dfe2c6e8d7a4c9558dab77e0ffaafc3632ba39cd6be namespace=moby
+time="2026-11-05T21:37:59.196505862Z" level=info msg="cleaning up dead shim" id=b6e1a9e3087c8a13ca690dfe2c6e8d7a4c9558dab77e0ffaafc3632ba39cd6be namespace=moby
+time="2026-11-05T21:37:59.849281570Z" level=info msg="connecting to shim 1058142a0b2b8d3dd138ff6b06fcc6b4cb092997855ad92a9f29c06690b62e76" address="unix:///run/containerd/s/af3785f615ec19397f4be8ba24a4a6aaca9d21b8e78021ff8ec7587e6907c826" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:02.747170168Z" level=info msg="shim disconnected" id=1058142a0b2b8d3dd138ff6b06fcc6b4cb092997855ad92a9f29c06690b62e76 namespace=moby
+time="2026-11-05T21:38:02.747205446Z" level=info msg="cleaning up after shim disconnected" id=1058142a0b2b8d3dd138ff6b06fcc6b4cb092997855ad92a9f29c06690b62e76 namespace=moby
+time="2026-11-05T21:38:02.747214566Z" level=info msg="cleaning up dead shim" id=1058142a0b2b8d3dd138ff6b06fcc6b4cb092997855ad92a9f29c06690b62e76 namespace=moby
+time="2026-11-05T21:38:03.377727383Z" level=info msg="connecting to shim e695674c8e743138a0da78a9067c615a41129ad22a7855adba2770c287e014a3" address="unix:///run/containerd/s/33def14a68276ab6d96b2cc5776add28ada73555f76a18c119530a9dfc495c14" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:07.983041728Z" level=info msg="shim disconnected" id=e695674c8e743138a0da78a9067c615a41129ad22a7855adba2770c287e014a3 namespace=moby
+time="2026-11-05T21:38:07.983076152Z" level=info msg="cleaning up after shim disconnected" id=e695674c8e743138a0da78a9067c615a41129ad22a7855adba2770c287e014a3 namespace=moby
+time="2026-11-05T21:38:07.983084338Z" level=info msg="cleaning up dead shim" id=e695674c8e743138a0da78a9067c615a41129ad22a7855adba2770c287e014a3 namespace=moby
+time="2026-11-05T21:38:08.787453889Z" level=info msg="connecting to shim 7000184185da2e90d63fc0b473c105844a06deaf93f75698cf89581ad9e02c96" address="unix:///run/containerd/s/1bd22b17d1163321e4fd71cf190d4f8fdf3b51916ea31989e2b02a9eb532549b" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:12.892129070Z" level=info msg="shim disconnected" id=7000184185da2e90d63fc0b473c105844a06deaf93f75698cf89581ad9e02c96 namespace=moby
+time="2026-11-05T21:38:12.892166252Z" level=info msg="cleaning up after shim disconnected" id=7000184185da2e90d63fc0b473c105844a06deaf93f75698cf89581ad9e02c96 namespace=moby
+time="2026-11-05T21:38:12.892176112Z" level=info msg="cleaning up dead shim" id=7000184185da2e90d63fc0b473c105844a06deaf93f75698cf89581ad9e02c96 namespace=moby
+time="2026-11-05T21:38:13.496729120Z" level=info msg="connecting to shim 956eecc47be3c5cb9235f0ccfeecbf75dcac47e38f9ddcb92a1a12251da13031" address="unix:///run/containerd/s/48fafcf34fffe7cd058e154ef3969dfd031bd73f7f9fb7bd1b21c7e2ed5b5c24" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:17.902930797Z" level=info msg="shim disconnected" id=956eecc47be3c5cb9235f0ccfeecbf75dcac47e38f9ddcb92a1a12251da13031 namespace=moby
+time="2026-11-05T21:38:17.902982210Z" level=info msg="cleaning up after shim disconnected" id=956eecc47be3c5cb9235f0ccfeecbf75dcac47e38f9ddcb92a1a12251da13031 namespace=moby
+time="2026-11-05T21:38:17.902992439Z" level=info msg="cleaning up dead shim" id=956eecc47be3c5cb9235f0ccfeecbf75dcac47e38f9ddcb92a1a12251da13031 namespace=moby
+time="2026-11-05T21:38:22.465475337Z" level=info msg="connecting to shim 577769bee4beee76fe9648afd2c2262dc0553c3f5f50192043e815f5db36d943" address="unix:///run/containerd/s/5f8038002d4dbaeee5149ee40a2c40f9736986d68b5b9637efb9a14e0d662dd0" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:26.209326678Z" level=info msg="shim disconnected" id=577769bee4beee76fe9648afd2c2262dc0553c3f5f50192043e815f5db36d943 namespace=moby
+time="2026-11-05T21:38:26.209436581Z" level=info msg="cleaning up after shim disconnected" id=577769bee4beee76fe9648afd2c2262dc0553c3f5f50192043e815f5db36d943 namespace=moby
+time="2026-11-05T21:38:26.209446588Z" level=info msg="cleaning up dead shim" id=577769bee4beee76fe9648afd2c2262dc0553c3f5f50192043e815f5db36d943 namespace=moby
+time="2026-11-05T21:38:53.341398133Z" level=info msg="connecting to shim 509d1dafa4840a7f2951fdce3ab944f85cd33d86e4fa9c0192e3f8f40d496ccb" address="unix:///run/containerd/s/0c8489274b1c41d4c581047c0e7aefa1e6eed1f00e05233fd9c6996400a4d2f5" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:38:55.100384721Z" level=info msg="shim disconnected" id=509d1dafa4840a7f2951fdce3ab944f85cd33d86e4fa9c0192e3f8f40d496ccb namespace=moby
+time="2026-11-05T21:38:55.100439891Z" level=info msg="cleaning up after shim disconnected" id=509d1dafa4840a7f2951fdce3ab944f85cd33d86e4fa9c0192e3f8f40d496ccb namespace=moby
+time="2026-11-05T21:38:55.100446051Z" level=info msg="cleaning up dead shim" id=509d1dafa4840a7f2951fdce3ab944f85cd33d86e4fa9c0192e3f8f40d496ccb namespace=moby
+time="2026-11-05T21:38:55.745414515Z" level=info msg="connecting to shim 774228fc4e4bc4f10550ff752dba65617cda0d5a1cb78633e5dab3ab0743a87f" address="unix:///run/containerd/s/d68271de8675d770040525b06e0b5209af0b9b58eab2371e1e814caaf4bf291e" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:40:04.531917772Z" level=info msg="shim disconnected" id=774228fc4e4bc4f10550ff752dba65617cda0d5a1cb78633e5dab3ab0743a87f namespace=moby
+time="2026-11-05T21:40:04.531949576Z" level=info msg="cleaning up after shim disconnected" id=774228fc4e4bc4f10550ff752dba65617cda0d5a1cb78633e5dab3ab0743a87f namespace=moby
+time="2026-11-05T21:40:04.531956717Z" level=info msg="cleaning up dead shim" id=774228fc4e4bc4f10550ff752dba65617cda0d5a1cb78633e5dab3ab0743a87f namespace=moby
+time="2026-11-05T21:40:05.584617040Z" level=info msg="connecting to shim 5fcc0a7cf133be38b1f8eae53a600110e332768b0ac65b1d80f7ac95720b3003" address="unix:///run/containerd/s/1129898c9ca06c97fd47544cae07c3b53617c12454f9a0866a7cd8756cb191ca" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:47:41.450539044Z" level=info msg="shim disconnected" id=5fcc0a7cf133be38b1f8eae53a600110e332768b0ac65b1d80f7ac95720b3003 namespace=moby
+time="2026-11-05T21:47:41.451254495Z" level=info msg="cleaning up after shim disconnected" id=5fcc0a7cf133be38b1f8eae53a600110e332768b0ac65b1d80f7ac95720b3003 namespace=moby
+time="2026-11-05T21:47:41.451268544Z" level=info msg="cleaning up dead shim" id=5fcc0a7cf133be38b1f8eae53a600110e332768b0ac65b1d80f7ac95720b3003 namespace=moby
+time="2026-11-05T21:47:43.429650128Z" level=info msg="connecting to shim ebbd13113e475a22462498be320ce6bbc440fa2c5a712abe87cafadb05cd5288" address="unix:///run/containerd/s/a70677b3a045c9fd5573773b90eb43f2ecf6ef484523edbcae7c9cbb7c194db2" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:47:46.275445276Z" level=info msg="shim disconnected" id=ebbd13113e475a22462498be320ce6bbc440fa2c5a712abe87cafadb05cd5288 namespace=moby
+time="2026-11-05T21:47:46.275494580Z" level=info msg="cleaning up after shim disconnected" id=ebbd13113e475a22462498be320ce6bbc440fa2c5a712abe87cafadb05cd5288 namespace=moby
+time="2026-11-05T21:47:46.275504418Z" level=info msg="cleaning up dead shim" id=ebbd13113e475a22462498be320ce6bbc440fa2c5a712abe87cafadb05cd5288 namespace=moby
+time="2026-11-05T21:47:50.843331993Z" level=info msg="connecting to shim 822efba215ee9100d69e17511290619816d9039b7dc7675b562042ef22319507" address="unix:///run/containerd/s/9826688534501e4cc12e834cf1985b1a413559f948b1662fc268d0b308255989" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:47:55.641306750Z" level=info msg="shim disconnected" id=822efba215ee9100d69e17511290619816d9039b7dc7675b562042ef22319507 namespace=moby
+time="2026-11-05T21:47:55.641348734Z" level=info msg="cleaning up after shim disconnected" id=822efba215ee9100d69e17511290619816d9039b7dc7675b562042ef22319507 namespace=moby
+time="2026-11-05T21:47:55.641361205Z" level=info msg="cleaning up dead shim" id=822efba215ee9100d69e17511290619816d9039b7dc7675b562042ef22319507 namespace=moby
+time="2026-11-05T21:48:05.362810374Z" level=info msg="connecting to shim ffa25c4b35d13b8cb3af6266d732ebeed06cd9db8ab86bbb1eb988564442d22c" address="unix:///run/containerd/s/fe313dc5c8f4ce30ebf1723e0867e2167f423b2b17effbf5465d4b3c94a3f52f" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:48:05.728956578Z" level=info msg="shim disconnected" id=ffa25c4b35d13b8cb3af6266d732ebeed06cd9db8ab86bbb1eb988564442d22c namespace=moby
+time="2026-11-05T21:48:05.729004758Z" level=info msg="cleaning up after shim disconnected" id=ffa25c4b35d13b8cb3af6266d732ebeed06cd9db8ab86bbb1eb988564442d22c namespace=moby
+time="2026-11-05T21:48:05.729016775Z" level=info msg="cleaning up dead shim" id=ffa25c4b35d13b8cb3af6266d732ebeed06cd9db8ab86bbb1eb988564442d22c namespace=moby
+time="2026-11-05T21:48:10.816747675Z" level=info msg="connecting to shim e4c472f2d932079b365beb7db554415127175d410f2430760a2063b45eb058e0" address="unix:///run/containerd/s/5e9b8ed9a0fcd87e002f12b08f93912ad07779a7e8785cca1f715454dafc4078" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:48:42.560910376Z" level=info msg="shim disconnected" id=e4c472f2d932079b365beb7db554415127175d410f2430760a2063b45eb058e0 namespace=moby
+time="2026-11-05T21:48:42.560959837Z" level=info msg="cleaning up after shim disconnected" id=e4c472f2d932079b365beb7db554415127175d410f2430760a2063b45eb058e0 namespace=moby
+time="2026-11-05T21:48:42.560969435Z" level=info msg="cleaning up dead shim" id=e4c472f2d932079b365beb7db554415127175d410f2430760a2063b45eb058e0 namespace=moby
+time="2026-11-05T21:48:43.007752859Z" level=info msg="connecting to shim 1a6bf0fd03d33341cafdf5d0e912fa728d5aa07bbb4d535fc42c85c8f00a9330" address="unix:///run/containerd/s/3da88e82781b539731f6a67b88b170c0d6f726a7181096dfe60016f505491512" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:49:16.141663571Z" level=info msg="shim disconnected" id=1a6bf0fd03d33341cafdf5d0e912fa728d5aa07bbb4d535fc42c85c8f00a9330 namespace=moby
+time="2026-11-05T21:49:16.141722088Z" level=info msg="cleaning up after shim disconnected" id=1a6bf0fd03d33341cafdf5d0e912fa728d5aa07bbb4d535fc42c85c8f00a9330 namespace=moby
+time="2026-11-05T21:49:16.141732881Z" level=info msg="cleaning up dead shim" id=1a6bf0fd03d33341cafdf5d0e912fa728d5aa07bbb4d535fc42c85c8f00a9330 namespace=moby
+time="2026-11-05T21:49:16.890673209Z" level=info msg="connecting to shim 05932301ac8090b6dbed0eec0ffa0dd41a46de7c55ca4a32e3c08d5edc7de50c" address="unix:///run/containerd/s/42379d717ccd6a1d359fc10f668cc68846bf20f382897acad7b77ee3da1a54a3" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:49:48.314075752Z" level=info msg="shim disconnected" id=05932301ac8090b6dbed0eec0ffa0dd41a46de7c55ca4a32e3c08d5edc7de50c namespace=moby
+time="2026-11-05T21:49:48.314110978Z" level=info msg="cleaning up after shim disconnected" id=05932301ac8090b6dbed0eec0ffa0dd41a46de7c55ca4a32e3c08d5edc7de50c namespace=moby
+time="2026-11-05T21:49:48.314117249Z" level=info msg="cleaning up dead shim" id=05932301ac8090b6dbed0eec0ffa0dd41a46de7c55ca4a32e3c08d5edc7de50c namespace=moby
+time="2026-11-05T21:49:49.638571883Z" level=info msg="connecting to shim a5b34312bc9d05b7c83dcd7943abd70a89fcf880d94e9db887372bbd293370e0" address="unix:///run/containerd/s/016ffadb5829399ee03692c2a72debbbaf6c50a59110938437651ae3188d69f9" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:02.591915170Z" level=info msg="shim disconnected" id=a5b34312bc9d05b7c83dcd7943abd70a89fcf880d94e9db887372bbd293370e0 namespace=moby
+time="2026-11-05T21:50:02.591977533Z" level=info msg="cleaning up after shim disconnected" id=a5b34312bc9d05b7c83dcd7943abd70a89fcf880d94e9db887372bbd293370e0 namespace=moby
+time="2026-11-05T21:50:02.591987850Z" level=info msg="cleaning up dead shim" id=a5b34312bc9d05b7c83dcd7943abd70a89fcf880d94e9db887372bbd293370e0 namespace=moby
+time="2026-11-05T21:50:18.406106873Z" level=info msg="connecting to shim 1b72acd414498868504012d40a070b19306c153b292632b1f50b6f077444aba0" address="unix:///run/containerd/s/63ec58485746379eb411634803fcbefca4bd7c7013e4322b253e29f6c315887a" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:19.561196829Z" level=info msg="shim disconnected" id=1b72acd414498868504012d40a070b19306c153b292632b1f50b6f077444aba0 namespace=moby
+time="2026-11-05T21:50:19.561242499Z" level=info msg="cleaning up after shim disconnected" id=1b72acd414498868504012d40a070b19306c153b292632b1f50b6f077444aba0 namespace=moby
+time="2026-11-05T21:50:19.561251584Z" level=info msg="cleaning up dead shim" id=1b72acd414498868504012d40a070b19306c153b292632b1f50b6f077444aba0 namespace=moby
+time="2026-11-05T21:50:20.719340308Z" level=info msg="connecting to shim fddfeed4ff024f1bbaa204221c895b9437685d3e7084b424b0eee4d7258c9b16" address="unix:///run/containerd/s/7b658d397492102cb7a6b8aa8d8a5c2f8d8ea6d175204cc2cf3ca121ef2b6165" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:21.038881089Z" level=info msg="shim disconnected" id=fddfeed4ff024f1bbaa204221c895b9437685d3e7084b424b0eee4d7258c9b16 namespace=moby
+time="2026-11-05T21:50:21.038914892Z" level=info msg="cleaning up after shim disconnected" id=fddfeed4ff024f1bbaa204221c895b9437685d3e7084b424b0eee4d7258c9b16 namespace=moby
+time="2026-11-05T21:50:21.038921543Z" level=info msg="cleaning up dead shim" id=fddfeed4ff024f1bbaa204221c895b9437685d3e7084b424b0eee4d7258c9b16 namespace=moby
+time="2026-11-05T21:50:32.292041061Z" level=info msg="connecting to shim ce34e837b3b43a2991ab45ecbeec7c36477294de34cadb82df110b45b2c43457" address="unix:///run/containerd/s/4b342eb7d8a59a8c042cc68c96bb113873c397b08a5b6f00a977d2670ddd19be" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:32.443323923Z" level=info msg="shim disconnected" id=ce34e837b3b43a2991ab45ecbeec7c36477294de34cadb82df110b45b2c43457 namespace=moby
+time="2026-11-05T21:50:32.443385334Z" level=info msg="cleaning up after shim disconnected" id=ce34e837b3b43a2991ab45ecbeec7c36477294de34cadb82df110b45b2c43457 namespace=moby
+time="2026-11-05T21:50:32.443401296Z" level=info msg="cleaning up dead shim" id=ce34e837b3b43a2991ab45ecbeec7c36477294de34cadb82df110b45b2c43457 namespace=moby
+time="2026-11-05T21:50:36.411396078Z" level=info msg="connecting to shim 5931aaee15fb76afaafc58336271a84d5569a04e7189e651a1fe8826efcb0f08" address="unix:///run/containerd/s/3a935814c77931a59ee3561236b7d9d36271dd56f9b90e40235d62a53f9bd55c" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:37.826836554Z" level=info msg="shim disconnected" id=5931aaee15fb76afaafc58336271a84d5569a04e7189e651a1fe8826efcb0f08 namespace=moby
+time="2026-11-05T21:50:37.826875680Z" level=info msg="cleaning up after shim disconnected" id=5931aaee15fb76afaafc58336271a84d5569a04e7189e651a1fe8826efcb0f08 namespace=moby
+time="2026-11-05T21:50:37.826884274Z" level=info msg="cleaning up dead shim" id=5931aaee15fb76afaafc58336271a84d5569a04e7189e651a1fe8826efcb0f08 namespace=moby
+time="2026-11-05T21:50:38.259107088Z" level=info msg="connecting to shim 702b3a81f24e1b4f33ab0758b60344b5395e61b6adcd85c4928e77235e6179cb" address="unix:///run/containerd/s/b998aaf8cb70cac15aa35f545242217edefbf24676bfcf548a0fc74535b448e5" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:39.764025297Z" level=info msg="shim disconnected" id=702b3a81f24e1b4f33ab0758b60344b5395e61b6adcd85c4928e77235e6179cb namespace=moby
+time="2026-11-05T21:50:39.764073183Z" level=info msg="cleaning up after shim disconnected" id=702b3a81f24e1b4f33ab0758b60344b5395e61b6adcd85c4928e77235e6179cb namespace=moby
+time="2026-11-05T21:50:39.764082057Z" level=info msg="cleaning up dead shim" id=702b3a81f24e1b4f33ab0758b60344b5395e61b6adcd85c4928e77235e6179cb namespace=moby
+time="2026-11-05T21:50:40.207282250Z" level=info msg="connecting to shim 45c5f3319eab2c2a7c8169af4d680d1c70768e1497d5acb55a41d34254dadcf4" address="unix:///run/containerd/s/8305a6eb49c7161951ed7e3f3274d254ab5d1e3ea91afddad95f6441ef5f4eb3" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:41.740204557Z" level=info msg="shim disconnected" id=45c5f3319eab2c2a7c8169af4d680d1c70768e1497d5acb55a41d34254dadcf4 namespace=moby
+time="2026-11-05T21:50:41.740243071Z" level=info msg="cleaning up after shim disconnected" id=45c5f3319eab2c2a7c8169af4d680d1c70768e1497d5acb55a41d34254dadcf4 namespace=moby
+time="2026-11-05T21:50:41.740252934Z" level=info msg="cleaning up dead shim" id=45c5f3319eab2c2a7c8169af4d680d1c70768e1497d5acb55a41d34254dadcf4 namespace=moby
+time="2026-11-05T21:50:42.099196794Z" level=info msg="connecting to shim 0bb74d36fd65cd4aa889d8b221aa557c22a58ba7a77c1e01d17d4cd71027b65d" address="unix:///run/containerd/s/820da4cd9ab30957fc2d003f0ec9acb0528d12852a08fed50de7da3f9c8ba8ae" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:45.383802812Z" level=info msg="shim disconnected" id=0bb74d36fd65cd4aa889d8b221aa557c22a58ba7a77c1e01d17d4cd71027b65d namespace=moby
+time="2026-11-05T21:50:45.383860707Z" level=info msg="cleaning up after shim disconnected" id=0bb74d36fd65cd4aa889d8b221aa557c22a58ba7a77c1e01d17d4cd71027b65d namespace=moby
+time="2026-11-05T21:50:45.383871947Z" level=info msg="cleaning up dead shim" id=0bb74d36fd65cd4aa889d8b221aa557c22a58ba7a77c1e01d17d4cd71027b65d namespace=moby
+time="2026-11-05T21:50:45.802983838Z" level=info msg="connecting to shim 64726ec9c8960944f310a70a424ab50e86c934cb6aedd4e1653dc783615cfced" address="unix:///run/containerd/s/d841b7b8d2c8c8a7c205cde6580cc451df42cec997e5043d7bc103f91571d849" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:51.347128797Z" level=info msg="shim disconnected" id=64726ec9c8960944f310a70a424ab50e86c934cb6aedd4e1653dc783615cfced namespace=moby
+time="2026-11-05T21:50:51.347175401Z" level=info msg="cleaning up after shim disconnected" id=64726ec9c8960944f310a70a424ab50e86c934cb6aedd4e1653dc783615cfced namespace=moby
+time="2026-11-05T21:50:51.347187855Z" level=info msg="cleaning up dead shim" id=64726ec9c8960944f310a70a424ab50e86c934cb6aedd4e1653dc783615cfced namespace=moby
+time="2026-11-05T21:50:55.370103614Z" level=info msg="connecting to shim 454bf918871e0a356d4d9d43686d4573fb9daccb6939c43ca914b1818d83e521" address="unix:///run/containerd/s/82b86f12b5e04d3b59bfa538c8ba20d928453ad415a157b4e2d5b02d05bb9984" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:57.118421787Z" level=info msg="shim disconnected" id=454bf918871e0a356d4d9d43686d4573fb9daccb6939c43ca914b1818d83e521 namespace=moby
+time="2026-11-05T21:50:57.118468670Z" level=info msg="cleaning up after shim disconnected" id=454bf918871e0a356d4d9d43686d4573fb9daccb6939c43ca914b1818d83e521 namespace=moby
+time="2026-11-05T21:50:57.118475393Z" level=info msg="cleaning up dead shim" id=454bf918871e0a356d4d9d43686d4573fb9daccb6939c43ca914b1818d83e521 namespace=moby
+time="2026-11-05T21:50:57.507131355Z" level=info msg="connecting to shim 1004e7a391af338721aa105679eac83e67ab8e72901dd7770f512baa7d5fd2aa" address="unix:///run/containerd/s/01934dcbad5f164f9b1f5e62a5a2376556a9b38019dbb1bdebab205a0a56215f" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:50:59.055509341Z" level=info msg="shim disconnected" id=1004e7a391af338721aa105679eac83e67ab8e72901dd7770f512baa7d5fd2aa namespace=moby
+time="2026-11-05T21:50:59.055551687Z" level=info msg="cleaning up after shim disconnected" id=1004e7a391af338721aa105679eac83e67ab8e72901dd7770f512baa7d5fd2aa namespace=moby
+time="2026-11-05T21:50:59.055563984Z" level=info msg="cleaning up dead shim" id=1004e7a391af338721aa105679eac83e67ab8e72901dd7770f512baa7d5fd2aa namespace=moby
+time="2026-11-05T21:50:59.470254702Z" level=info msg="connecting to shim c3ddb4a894d09f7807941f00daa5978d91d00c4a535986d6d437ee557be26fbd" address="unix:///run/containerd/s/3bd65d9889c1d966b50b80e016ef36220ed0467d6b7ab851f53bd628824f3661" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:16.102303603Z" level=info msg="shim disconnected" id=c3ddb4a894d09f7807941f00daa5978d91d00c4a535986d6d437ee557be26fbd namespace=moby
+time="2026-11-05T21:51:16.102333561Z" level=info msg="cleaning up after shim disconnected" id=c3ddb4a894d09f7807941f00daa5978d91d00c4a535986d6d437ee557be26fbd namespace=moby
+time="2026-11-05T21:51:16.102340060Z" level=info msg="cleaning up dead shim" id=c3ddb4a894d09f7807941f00daa5978d91d00c4a535986d6d437ee557be26fbd namespace=moby
+time="2026-11-05T21:51:16.510227585Z" level=info msg="connecting to shim 1e4ec1000fb3c3fbf75222c1f88436990f6c3e09c91b1beb8545c80c1ba56f51" address="unix:///run/containerd/s/90168c7c346a7a204f679d060038a6e7f557127cad92e280a4451edd33282106" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:18.980044679Z" level=info msg="shim disconnected" id=1e4ec1000fb3c3fbf75222c1f88436990f6c3e09c91b1beb8545c80c1ba56f51 namespace=moby
+time="2026-11-05T21:51:18.980079861Z" level=info msg="cleaning up after shim disconnected" id=1e4ec1000fb3c3fbf75222c1f88436990f6c3e09c91b1beb8545c80c1ba56f51 namespace=moby
+time="2026-11-05T21:51:18.980086904Z" level=info msg="cleaning up dead shim" id=1e4ec1000fb3c3fbf75222c1f88436990f6c3e09c91b1beb8545c80c1ba56f51 namespace=moby
+time="2026-11-05T21:51:19.360369212Z" level=info msg="connecting to shim f2bf3b012f7a8dee6ae795f79d0f6d48aa0b3287d093f19490bb3718f53e8ebe" address="unix:///run/containerd/s/44eaaceca2f2f6dd876ccfdfc23ab7408e33c02dfd88d3f23a91ab9cb0b86884" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:21.563169288Z" level=info msg="shim disconnected" id=f2bf3b012f7a8dee6ae795f79d0f6d48aa0b3287d093f19490bb3718f53e8ebe namespace=moby
+time="2026-11-05T21:51:21.563224163Z" level=info msg="cleaning up after shim disconnected" id=f2bf3b012f7a8dee6ae795f79d0f6d48aa0b3287d093f19490bb3718f53e8ebe namespace=moby
+time="2026-11-05T21:51:21.563230838Z" level=info msg="cleaning up dead shim" id=f2bf3b012f7a8dee6ae795f79d0f6d48aa0b3287d093f19490bb3718f53e8ebe namespace=moby
+time="2026-11-05T21:51:21.978945611Z" level=info msg="connecting to shim 0ed516c7d0918c3f9f5cd783e5f3acb306d784bd4bab6d5aa83678ac4d9fc41b" address="unix:///run/containerd/s/9651491bec9660ea67ce969a32235e64c681fa757db3731ce413aa1058f87e13" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:26.307150761Z" level=info msg="shim disconnected" id=0ed516c7d0918c3f9f5cd783e5f3acb306d784bd4bab6d5aa83678ac4d9fc41b namespace=moby
+time="2026-11-05T21:51:26.307185932Z" level=info msg="cleaning up after shim disconnected" id=0ed516c7d0918c3f9f5cd783e5f3acb306d784bd4bab6d5aa83678ac4d9fc41b namespace=moby
+time="2026-11-05T21:51:26.307194413Z" level=info msg="cleaning up dead shim" id=0ed516c7d0918c3f9f5cd783e5f3acb306d784bd4bab6d5aa83678ac4d9fc41b namespace=moby
+time="2026-11-05T21:51:26.673363188Z" level=info msg="starting containerd" revision= version=2.2.1
+time="2026-11-05T21:51:26.677128028Z" level=info msg="loading plugin" id=io.containerd.content.v1.content type=io.containerd.content.v1
+time="2026-11-05T21:51:26.677633572Z" level=info msg="loading plugin" id=io.containerd.image-verifier.v1.bindir type=io.containerd.image-verifier.v1
+time="2026-11-05T21:51:26.677661128Z" level=info msg="loading plugin" id=io.containerd.internal.v1.opt type=io.containerd.internal.v1
+time="2026-11-05T21:51:26.677879135Z" level=info msg="loading plugin" id=io.containerd.warning.v1.deprecations type=io.containerd.warning.v1
+time="2026-11-05T21:51:26.677900065Z" level=info msg="loading plugin" id=io.containerd.mount-handler.v1.erofs type=io.containerd.mount-handler.v1
+time="2026-11-05T21:51:26.677911657Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.blockfile type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678102674Z" level=info msg="skip loading plugin" error="no scratch file generator: skip plugin" id=io.containerd.snapshotter.v1.blockfile type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678115464Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.btrfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678278222Z" level=info msg="skip loading plugin" error="path <vm-home>/q168d/docker/containerd-root/io.containerd.snapshotter.v1.btrfs (ext4) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" id=io.containerd.snapshotter.v1.btrfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678290147Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.devmapper type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678297756Z" level=info msg="skip loading plugin" error="devmapper not configured: skip plugin" id=io.containerd.snapshotter.v1.devmapper type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678303019Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.erofs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678540368Z" level=info msg="skip loading plugin" error="EROFS unsupported, please `modprobe erofs`: skip plugin" id=io.containerd.snapshotter.v1.erofs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678547125Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.native type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.678760788Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.overlayfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.679009465Z" level=info msg="loading plugin" id=io.containerd.snapshotter.v1.zfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.679027464Z" level=info msg="skip loading plugin" error="lstat <vm-home>/q168d/docker/containerd-root/io.containerd.snapshotter.v1.zfs: no such file or directory: skip plugin" id=io.containerd.snapshotter.v1.zfs type=io.containerd.snapshotter.v1
+time="2026-11-05T21:51:26.679033216Z" level=info msg="loading plugin" id=io.containerd.event.v1.exchange type=io.containerd.event.v1
+time="2026-11-05T21:51:26.679057850Z" level=info msg="loading plugin" id=io.containerd.monitor.task.v1.cgroups type=io.containerd.monitor.task.v1
+time="2026-11-05T21:51:26.679281589Z" level=info msg="loading plugin" id=io.containerd.metadata.v1.bolt type=io.containerd.metadata.v1
+time="2026-11-05T21:51:26.679294357Z" level=info msg="metadata content store policy set" policy=shared
+time="2026-11-05T21:51:26.679416971Z" level=info msg="loading plugin" id=io.containerd.gc.v1.scheduler type=io.containerd.gc.v1
+time="2026-11-05T21:51:26.679431866Z" level=info msg="loading plugin" id=io.containerd.differ.v1.erofs type=io.containerd.differ.v1
+time="2026-11-05T21:51:26.679479333Z" level=info msg="skip loading plugin" error="failed to check mkfs.erofs availability: failed to run mkfs.erofs --help: exec: \"mkfs.erofs\": executable file not found in $PATH: skip plugin" id=io.containerd.differ.v1.erofs type=io.containerd.differ.v1
+time="2026-11-05T21:51:26.679487382Z" level=info msg="loading plugin" id=io.containerd.differ.v1.walking type=io.containerd.differ.v1
+time="2026-11-05T21:51:26.679494484Z" level=info msg="loading plugin" id=io.containerd.lease.v1.manager type=io.containerd.lease.v1
+time="2026-11-05T21:51:26.679501285Z" level=info msg="loading plugin" id=io.containerd.mount-manager.v1.bolt type=io.containerd.mount-manager.v1
+time="2026-11-05T21:51:26.679542823Z" level=info msg="loading plugin" id=io.containerd.service.v1.containers-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679556334Z" level=info msg="loading plugin" id=io.containerd.service.v1.content-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679563611Z" level=info msg="loading plugin" id=io.containerd.service.v1.diff-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679574533Z" level=info msg="loading plugin" id=io.containerd.service.v1.images-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679581101Z" level=info msg="loading plugin" id=io.containerd.service.v1.introspection-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679588004Z" level=info msg="loading plugin" id=io.containerd.service.v1.namespaces-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679594090Z" level=info msg="loading plugin" id=io.containerd.service.v1.snapshots-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679600032Z" level=info msg="loading plugin" id=io.containerd.shim.v1.manager type=io.containerd.shim.v1
+time="2026-11-05T21:51:26.679613677Z" level=info msg="loading plugin" id=io.containerd.runtime.v2.task type=io.containerd.runtime.v2
+time="2026-11-05T21:51:26.679688013Z" level=info msg="loading plugin" id=io.containerd.service.v1.tasks-service type=io.containerd.service.v1
+time="2026-11-05T21:51:26.679699076Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.containers type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679737227Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.content type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679749441Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.diff type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679755957Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.events type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679761966Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.images type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679772856Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.introspection type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679779205Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.leases type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679785536Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.mounts type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679790665Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.namespaces type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679798253Z" level=info msg="loading plugin" id=io.containerd.sandbox.controller.v1.shim type=io.containerd.sandbox.controller.v1
+time="2026-11-05T21:51:26.679827031Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.sandbox-controllers type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679836897Z" level=info msg="loading plugin" id=io.containerd.sandbox.store.v1.local type=io.containerd.sandbox.store.v1
+time="2026-11-05T21:51:26.679843175Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.sandboxes type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679849474Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.snapshots type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679855336Z" level=info msg="loading plugin" id=io.containerd.streaming.v1.manager type=io.containerd.streaming.v1
+time="2026-11-05T21:51:26.679865930Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.streaming type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679872461Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.tasks type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679881553Z" level=info msg="loading plugin" id=io.containerd.transfer.v1.local type=io.containerd.transfer.v1
+time="2026-11-05T21:51:26.679910104Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.transfer type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679919453Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.version type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.679924978Z" level=info msg="loading plugin" id=io.containerd.monitor.container.v1.restart type=io.containerd.monitor.container.v1
+time="2026-11-05T21:51:26.679964960Z" level=info msg="loading plugin" id=io.containerd.tracing.processor.v1.otlp type=io.containerd.tracing.processor.v1
+time="2026-11-05T21:51:26.679975267Z" level=info msg="skip loading plugin" error="skip plugin: tracing endpoint not configured" id=io.containerd.tracing.processor.v1.otlp type=io.containerd.tracing.processor.v1
+time="2026-11-05T21:51:26.679982609Z" level=info msg="loading plugin" id=io.containerd.internal.v1.tracing type=io.containerd.internal.v1
+time="2026-11-05T21:51:26.679989749Z" level=info msg="skip loading plugin" error="skip plugin: tracing endpoint not configured" id=io.containerd.internal.v1.tracing type=io.containerd.internal.v1
+time="2026-11-05T21:51:26.679994530Z" level=info msg="loading plugin" id=io.containerd.ttrpc.v1.otelttrpc type=io.containerd.ttrpc.v1
+time="2026-11-05T21:51:26.679999871Z" level=info msg="loading plugin" id=io.containerd.grpc.v1.healthcheck type=io.containerd.grpc.v1
+time="2026-11-05T21:51:26.681613323Z" level=info msg=serving... address=/run/q168ddocker/containerd/containerd.sock.ttrpc
+time="2026-11-05T21:51:26.681657557Z" level=info msg=serving... address=/run/q168ddocker/containerd/containerd.sock
+time="2026-11-05T21:51:26.681673048Z" level=info msg="containerd successfully booted in 0.009241s"
+time="2026-11-05T21:51:28.295916235Z" level=info msg="connecting to shim 1d37c7dfeff907fc807b7c7d60a96b5f5dab1c8a9562bcb2f79c34e41bfbab87" address="unix:///run/containerd/s/ad9ecb4bcfb316333a4858dffec2971e2a4047526f53fca7dfec9dfe339d60d5" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:39.563600126Z" level=info msg="shim disconnected" id=1d37c7dfeff907fc807b7c7d60a96b5f5dab1c8a9562bcb2f79c34e41bfbab87 namespace=moby
+time="2026-11-05T21:51:39.563646671Z" level=info msg="cleaning up after shim disconnected" id=1d37c7dfeff907fc807b7c7d60a96b5f5dab1c8a9562bcb2f79c34e41bfbab87 namespace=moby
+time="2026-11-05T21:51:39.563665128Z" level=info msg="cleaning up dead shim" id=1d37c7dfeff907fc807b7c7d60a96b5f5dab1c8a9562bcb2f79c34e41bfbab87 namespace=moby
+time="2026-11-05T21:51:39.989334129Z" level=info msg="connecting to shim 833970da2c2b5416eda4cad9ef74bda068cfa9589a86e349e1235a19fc9c3d3b" address="unix:///run/containerd/s/4c1cab0119eb11305f8dbed501314f4d0b75f72b52ced3002be970b3238dbcdc" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:42.496328922Z" level=info msg="shim disconnected" id=833970da2c2b5416eda4cad9ef74bda068cfa9589a86e349e1235a19fc9c3d3b namespace=moby
+time="2026-11-05T21:51:42.496372150Z" level=info msg="cleaning up after shim disconnected" id=833970da2c2b5416eda4cad9ef74bda068cfa9589a86e349e1235a19fc9c3d3b namespace=moby
+time="2026-11-05T21:51:42.496382505Z" level=info msg="cleaning up dead shim" id=833970da2c2b5416eda4cad9ef74bda068cfa9589a86e349e1235a19fc9c3d3b namespace=moby
+time="2026-11-05T21:51:42.976225988Z" level=info msg="connecting to shim e102fcc1f871aca6331643a4a5e4b36753a9bc03b9671a316730c42e3ed597cd" address="unix:///run/containerd/s/8dd68069e5ff98614085754185ec7a8c80702ed21bf548117eba5e3f1de1c00d" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:48.731360564Z" level=info msg="shim disconnected" id=e102fcc1f871aca6331643a4a5e4b36753a9bc03b9671a316730c42e3ed597cd namespace=moby
+time="2026-11-05T21:51:48.731397824Z" level=info msg="cleaning up after shim disconnected" id=e102fcc1f871aca6331643a4a5e4b36753a9bc03b9671a316730c42e3ed597cd namespace=moby
+time="2026-11-05T21:51:48.731406591Z" level=info msg="cleaning up dead shim" id=e102fcc1f871aca6331643a4a5e4b36753a9bc03b9671a316730c42e3ed597cd namespace=moby
+time="2026-11-05T21:51:52.772796073Z" level=info msg="connecting to shim 179dc63457161036f7c62390aeb790459d1e039235bcda084fac4407a31b9558" address="unix:///run/containerd/s/73e5677e578cd8cfd4cb2adc28124c02676a0382e589246923145d7fdc2fa69d" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:51:55.327802438Z" level=info msg="shim disconnected" id=179dc63457161036f7c62390aeb790459d1e039235bcda084fac4407a31b9558 namespace=moby
+time="2026-11-05T21:51:55.327837617Z" level=info msg="cleaning up after shim disconnected" id=179dc63457161036f7c62390aeb790459d1e039235bcda084fac4407a31b9558 namespace=moby
+time="2026-11-05T21:51:55.327846523Z" level=info msg="cleaning up dead shim" id=179dc63457161036f7c62390aeb790459d1e039235bcda084fac4407a31b9558 namespace=moby
+time="2026-11-05T21:51:55.722033777Z" level=info msg="connecting to shim 27b2ab8064c4df26dca9e5964be580172d6df71f2e7fc277217418a3b9b042e9" address="unix:///run/containerd/s/021c28127fda0ef221baaa2dcb33eb050fe6c701e61583dfa497728399379cca" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:01.782378502Z" level=info msg="shim disconnected" id=27b2ab8064c4df26dca9e5964be580172d6df71f2e7fc277217418a3b9b042e9 namespace=moby
+time="2026-11-05T21:52:01.782415985Z" level=info msg="cleaning up after shim disconnected" id=27b2ab8064c4df26dca9e5964be580172d6df71f2e7fc277217418a3b9b042e9 namespace=moby
+time="2026-11-05T21:52:01.782446404Z" level=info msg="cleaning up dead shim" id=27b2ab8064c4df26dca9e5964be580172d6df71f2e7fc277217418a3b9b042e9 namespace=moby
+time="2026-11-05T21:52:06.310931840Z" level=info msg="connecting to shim 7f580b78505a95778d35b779c58673b4c8783b81de336c98d9b26cbd8d483189" address="unix:///run/containerd/s/3569ab0e5f2a797367cad38e4f4fb13506a96512bca083a5fbc610d2d754a7b4" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:09.345997001Z" level=info msg="shim disconnected" id=7f580b78505a95778d35b779c58673b4c8783b81de336c98d9b26cbd8d483189 namespace=moby
+time="2026-11-05T21:52:09.346061433Z" level=info msg="cleaning up after shim disconnected" id=7f580b78505a95778d35b779c58673b4c8783b81de336c98d9b26cbd8d483189 namespace=moby
+time="2026-11-05T21:52:09.346074010Z" level=info msg="cleaning up dead shim" id=7f580b78505a95778d35b779c58673b4c8783b81de336c98d9b26cbd8d483189 namespace=moby
+time="2026-11-05T21:52:09.779554828Z" level=info msg="connecting to shim 29ff5458f3a94c6d0e8d775d003149c5aa77f3376e4506b48e8a293a964f7be1" address="unix:///run/containerd/s/53feafff9d8204f73ad49e758b0e3f4fe2a17b1c5ef23577ce001fc12072d29c" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:15.873277283Z" level=info msg="shim disconnected" id=29ff5458f3a94c6d0e8d775d003149c5aa77f3376e4506b48e8a293a964f7be1 namespace=moby
+time="2026-11-05T21:52:15.873326817Z" level=info msg="cleaning up after shim disconnected" id=29ff5458f3a94c6d0e8d775d003149c5aa77f3376e4506b48e8a293a964f7be1 namespace=moby
+time="2026-11-05T21:52:15.873335880Z" level=info msg="cleaning up dead shim" id=29ff5458f3a94c6d0e8d775d003149c5aa77f3376e4506b48e8a293a964f7be1 namespace=moby
+time="2026-11-05T21:52:20.397849054Z" level=info msg="connecting to shim 588779b35de1847d50d3ad5f61a291c4959ef7608363fd95fc7429adc8fa5255" address="unix:///run/containerd/s/0dcd2340e2d0d39dcf723b75030d33f8beb0e1b13c7ab7f9cfcd184e297aac22" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:22.258899812Z" level=info msg="shim disconnected" id=588779b35de1847d50d3ad5f61a291c4959ef7608363fd95fc7429adc8fa5255 namespace=moby
+time="2026-11-05T21:52:22.258950661Z" level=info msg="cleaning up after shim disconnected" id=588779b35de1847d50d3ad5f61a291c4959ef7608363fd95fc7429adc8fa5255 namespace=moby
+time="2026-11-05T21:52:22.258959377Z" level=info msg="cleaning up dead shim" id=588779b35de1847d50d3ad5f61a291c4959ef7608363fd95fc7429adc8fa5255 namespace=moby
+time="2026-11-05T21:52:22.716520745Z" level=info msg="connecting to shim 60d8702d9a5663491994e60ca59779b03c80fb3c10b5a456aca2835be12fae35" address="unix:///run/containerd/s/4808526f87dcc574b4fd3f4f932b68691d6541f3f653d76e02587175e917cfd1" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:24.861079354Z" level=info msg="shim disconnected" id=60d8702d9a5663491994e60ca59779b03c80fb3c10b5a456aca2835be12fae35 namespace=moby
+time="2026-11-05T21:52:24.861124933Z" level=info msg="cleaning up after shim disconnected" id=60d8702d9a5663491994e60ca59779b03c80fb3c10b5a456aca2835be12fae35 namespace=moby
+time="2026-11-05T21:52:24.861135627Z" level=info msg="cleaning up dead shim" id=60d8702d9a5663491994e60ca59779b03c80fb3c10b5a456aca2835be12fae35 namespace=moby
+time="2026-11-05T21:52:25.303389585Z" level=info msg="connecting to shim f2b183b271c4d91b1046c2b82495c012f042d369b13a4431256b736a5c73411c" address="unix:///run/containerd/s/9585ae8371b42fb402275e06841a96c27f38ce5933da2db867d2a830ba08e851" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:54.237571157Z" level=info msg="shim disconnected" id=f2b183b271c4d91b1046c2b82495c012f042d369b13a4431256b736a5c73411c namespace=moby
+time="2026-11-05T21:52:54.237611752Z" level=info msg="cleaning up after shim disconnected" id=f2b183b271c4d91b1046c2b82495c012f042d369b13a4431256b736a5c73411c namespace=moby
+time="2026-11-05T21:52:54.237617676Z" level=info msg="cleaning up dead shim" id=f2b183b271c4d91b1046c2b82495c012f042d369b13a4431256b736a5c73411c namespace=moby
+time="2026-11-05T21:52:54.782368870Z" level=info msg="connecting to shim 0a904812e669c7f7fbf86ea70ac057802e962c6e95d923292611170388fe5187" address="unix:///run/containerd/s/c232f7bc2817430ad49fcc3e65dcdb10350c9afdcc0a217af99717aedef0e6b9" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:57.353126529Z" level=info msg="shim disconnected" id=0a904812e669c7f7fbf86ea70ac057802e962c6e95d923292611170388fe5187 namespace=moby
+time="2026-11-05T21:52:57.353271237Z" level=info msg="cleaning up after shim disconnected" id=0a904812e669c7f7fbf86ea70ac057802e962c6e95d923292611170388fe5187 namespace=moby
+time="2026-11-05T21:52:57.353286009Z" level=info msg="cleaning up dead shim" id=0a904812e669c7f7fbf86ea70ac057802e962c6e95d923292611170388fe5187 namespace=moby
+time="2026-11-05T21:52:57.793283617Z" level=info msg="connecting to shim 888b421b477d8b8e3eaafd8a9fcdb130e950d0fd590731f100b7542ad5a9ba75" address="unix:///run/containerd/s/1af81e5945b9f507843b6af1a9b79263d42ceb4a00032ab3d3dbbaa625732d3e" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:52:59.898133656Z" level=info msg="shim disconnected" id=888b421b477d8b8e3eaafd8a9fcdb130e950d0fd590731f100b7542ad5a9ba75 namespace=moby
+time="2026-11-05T21:52:59.898179746Z" level=info msg="cleaning up after shim disconnected" id=888b421b477d8b8e3eaafd8a9fcdb130e950d0fd590731f100b7542ad5a9ba75 namespace=moby
+time="2026-11-05T21:52:59.898188410Z" level=info msg="cleaning up dead shim" id=888b421b477d8b8e3eaafd8a9fcdb130e950d0fd590731f100b7542ad5a9ba75 namespace=moby
+time="2026-11-05T21:53:00.328506931Z" level=info msg="connecting to shim ac9c414932ce6e0369a8d6446020b4ab320cd0cee68391a9538781dbb532f183" address="unix:///run/containerd/s/5cde79ce6bc00a84667c0e5659c37fde6f62a7873779c8ce0b4b52d8cb24aaae" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:02.084293544Z" level=info msg="shim disconnected" id=ac9c414932ce6e0369a8d6446020b4ab320cd0cee68391a9538781dbb532f183 namespace=moby
+time="2026-11-05T21:53:02.084344537Z" level=info msg="cleaning up after shim disconnected" id=ac9c414932ce6e0369a8d6446020b4ab320cd0cee68391a9538781dbb532f183 namespace=moby
+time="2026-11-05T21:53:02.084354341Z" level=info msg="cleaning up dead shim" id=ac9c414932ce6e0369a8d6446020b4ab320cd0cee68391a9538781dbb532f183 namespace=moby
+time="2026-11-05T21:53:02.519833716Z" level=info msg="connecting to shim 32d751c5fb9f1ff3db1918c189441a43d3f73f4ba5af3f89d7433546e1fc3bb0" address="unix:///run/containerd/s/b8c7a804372fb1c35ae098feeb949422706b86745e807e0941f639c9c0b86b91" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:04.169496264Z" level=info msg="shim disconnected" id=32d751c5fb9f1ff3db1918c189441a43d3f73f4ba5af3f89d7433546e1fc3bb0 namespace=moby
+time="2026-11-05T21:53:04.169541586Z" level=info msg="cleaning up after shim disconnected" id=32d751c5fb9f1ff3db1918c189441a43d3f73f4ba5af3f89d7433546e1fc3bb0 namespace=moby
+time="2026-11-05T21:53:04.169548008Z" level=info msg="cleaning up dead shim" id=32d751c5fb9f1ff3db1918c189441a43d3f73f4ba5af3f89d7433546e1fc3bb0 namespace=moby
+time="2026-11-05T21:53:04.592091845Z" level=info msg="connecting to shim f207bd755a281c5c0490d055e8d1383b2116a8e53fabe7c04c882e1759a008ab" address="unix:///run/containerd/s/29e3d461f1dbc94330e6ae2aadb988ddb854d07fe8f27587f02b1aa331256746" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:06.537314992Z" level=info msg="shim disconnected" id=f207bd755a281c5c0490d055e8d1383b2116a8e53fabe7c04c882e1759a008ab namespace=moby
+time="2026-11-05T21:53:06.537354191Z" level=info msg="cleaning up after shim disconnected" id=f207bd755a281c5c0490d055e8d1383b2116a8e53fabe7c04c882e1759a008ab namespace=moby
+time="2026-11-05T21:53:06.537363514Z" level=info msg="cleaning up dead shim" id=f207bd755a281c5c0490d055e8d1383b2116a8e53fabe7c04c882e1759a008ab namespace=moby
+time="2026-11-05T21:53:06.993289259Z" level=info msg="connecting to shim da1846284b450c0101c5224c229e60f7befc63b31bf6816b175e262817da8b1a" address="unix:///run/containerd/s/b67690a8b666cda88223a164b07884025985305ece986661c8197e671262d874" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:08.809814810Z" level=info msg="shim disconnected" id=da1846284b450c0101c5224c229e60f7befc63b31bf6816b175e262817da8b1a namespace=moby
+time="2026-11-05T21:53:08.809849733Z" level=info msg="cleaning up after shim disconnected" id=da1846284b450c0101c5224c229e60f7befc63b31bf6816b175e262817da8b1a namespace=moby
+time="2026-11-05T21:53:08.809856418Z" level=info msg="cleaning up dead shim" id=da1846284b450c0101c5224c229e60f7befc63b31bf6816b175e262817da8b1a namespace=moby
+time="2026-11-05T21:53:09.278596493Z" level=info msg="connecting to shim e3ce7e1323a5273336daa860d96793e9af6e02b1cd27c4d522bce1de6f51eda0" address="unix:///run/containerd/s/f9e8705ca2e412a5de6c60eacef9c03e0b5abf90def57453f2488a2a763e4c5b" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:11.326505405Z" level=info msg="shim disconnected" id=e3ce7e1323a5273336daa860d96793e9af6e02b1cd27c4d522bce1de6f51eda0 namespace=moby
+time="2026-11-05T21:53:11.326544559Z" level=info msg="cleaning up after shim disconnected" id=e3ce7e1323a5273336daa860d96793e9af6e02b1cd27c4d522bce1de6f51eda0 namespace=moby
+time="2026-11-05T21:53:11.326568895Z" level=info msg="cleaning up dead shim" id=e3ce7e1323a5273336daa860d96793e9af6e02b1cd27c4d522bce1de6f51eda0 namespace=moby
+time="2026-11-05T21:53:11.755996449Z" level=info msg="connecting to shim 760effa3af00fdab8aa2a4ce7e9f8c94ea7fefd1e3691a357a7eb8ec90e7b0cf" address="unix:///run/containerd/s/de1351febd81ca7618259cd4fc56d3ad49d9d7bca1ff6aaac94635b77b320253" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:13.520903468Z" level=info msg="shim disconnected" id=760effa3af00fdab8aa2a4ce7e9f8c94ea7fefd1e3691a357a7eb8ec90e7b0cf namespace=moby
+time="2026-11-05T21:53:13.520950488Z" level=info msg="cleaning up after shim disconnected" id=760effa3af00fdab8aa2a4ce7e9f8c94ea7fefd1e3691a357a7eb8ec90e7b0cf namespace=moby
+time="2026-11-05T21:53:13.520963209Z" level=info msg="cleaning up dead shim" id=760effa3af00fdab8aa2a4ce7e9f8c94ea7fefd1e3691a357a7eb8ec90e7b0cf namespace=moby
+time="2026-11-05T21:53:13.951350989Z" level=info msg="connecting to shim 5245d487b2d7b126af47a2182badc49c687aca987f5033ea29ec1051b2e7417b" address="unix:///run/containerd/s/21301e3522fd7c09b84f0fabd8079c6251d8646607cdcf4bce52ce83b61d54bc" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:15.806742371Z" level=info msg="shim disconnected" id=5245d487b2d7b126af47a2182badc49c687aca987f5033ea29ec1051b2e7417b namespace=moby
+time="2026-11-05T21:53:15.806779935Z" level=info msg="cleaning up after shim disconnected" id=5245d487b2d7b126af47a2182badc49c687aca987f5033ea29ec1051b2e7417b namespace=moby
+time="2026-11-05T21:53:15.806788436Z" level=info msg="cleaning up dead shim" id=5245d487b2d7b126af47a2182badc49c687aca987f5033ea29ec1051b2e7417b namespace=moby
+time="2026-11-05T21:53:16.261345143Z" level=info msg="connecting to shim 373b56b5efff17c703dca26e6fadcdf34b1417fec0d5ffebbcdf257f24f77073" address="unix:///run/containerd/s/f415aaf3454a5cf25c737cdd3ea49569179f1d62d10447c729faf468cdfc262c" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:17.972318669Z" level=info msg="shim disconnected" id=373b56b5efff17c703dca26e6fadcdf34b1417fec0d5ffebbcdf257f24f77073 namespace=moby
+time="2026-11-05T21:53:17.972360892Z" level=info msg="cleaning up after shim disconnected" id=373b56b5efff17c703dca26e6fadcdf34b1417fec0d5ffebbcdf257f24f77073 namespace=moby
+time="2026-11-05T21:53:17.972370953Z" level=info msg="cleaning up dead shim" id=373b56b5efff17c703dca26e6fadcdf34b1417fec0d5ffebbcdf257f24f77073 namespace=moby
+time="2026-11-05T21:53:18.406291814Z" level=info msg="connecting to shim 36a57d89b4b86ca6c70bdf1792c9cf9a7d5b895d8692fde95be20de17408b33b" address="unix:///run/containerd/s/b8d1e8b402b2c12f706e3ca2a44afe0fc0141abe384453020e8ba59fcd2e94cf" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:20.413129357Z" level=info msg="shim disconnected" id=36a57d89b4b86ca6c70bdf1792c9cf9a7d5b895d8692fde95be20de17408b33b namespace=moby
+time="2026-11-05T21:53:20.413183518Z" level=info msg="cleaning up after shim disconnected" id=36a57d89b4b86ca6c70bdf1792c9cf9a7d5b895d8692fde95be20de17408b33b namespace=moby
+time="2026-11-05T21:53:20.413192431Z" level=info msg="cleaning up dead shim" id=36a57d89b4b86ca6c70bdf1792c9cf9a7d5b895d8692fde95be20de17408b33b namespace=moby
+time="2026-11-05T21:53:20.855858463Z" level=info msg="connecting to shim 2c78947fc3a74ec05e134012212de26f11aab6d63e0ab905a1256a40788ca71c" address="unix:///run/containerd/s/6f6ac424d263f1e1b6d7cf0f54ea6b6d5e5c007bbac2eeb838044ddd2f4ca7d7" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:25.009319031Z" level=info msg="shim disconnected" id=2c78947fc3a74ec05e134012212de26f11aab6d63e0ab905a1256a40788ca71c namespace=moby
+time="2026-11-05T21:53:25.009364180Z" level=info msg="cleaning up after shim disconnected" id=2c78947fc3a74ec05e134012212de26f11aab6d63e0ab905a1256a40788ca71c namespace=moby
+time="2026-11-05T21:53:25.009375480Z" level=info msg="cleaning up dead shim" id=2c78947fc3a74ec05e134012212de26f11aab6d63e0ab905a1256a40788ca71c namespace=moby
+time="2026-11-05T21:53:25.490938958Z" level=info msg="connecting to shim 7234a7d65f1eaeed92112954067d390d28aa9e3dcbb0febdf38123e1e9ca1037" address="unix:///run/containerd/s/02ee4a2d686661dd92c0c8ba3bf7cfb65f63ba2f7be9ec60133bd31af6c2dad9" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:27.563041009Z" level=info msg="shim disconnected" id=7234a7d65f1eaeed92112954067d390d28aa9e3dcbb0febdf38123e1e9ca1037 namespace=moby
+time="2026-11-05T21:53:27.563095679Z" level=info msg="cleaning up after shim disconnected" id=7234a7d65f1eaeed92112954067d390d28aa9e3dcbb0febdf38123e1e9ca1037 namespace=moby
+time="2026-11-05T21:53:27.563101558Z" level=info msg="cleaning up dead shim" id=7234a7d65f1eaeed92112954067d390d28aa9e3dcbb0febdf38123e1e9ca1037 namespace=moby
+time="2026-11-05T21:53:28.025367849Z" level=info msg="connecting to shim 09df757a41473316dad7d4b6f8b8c5d325404f094b530503d40431c81185a3d2" address="unix:///run/containerd/s/65d8392e2c1e549c502fd85593970913700a2e6ecdf7d2576ab7cdd6ccfa5fe0" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:30.102029942Z" level=info msg="shim disconnected" id=09df757a41473316dad7d4b6f8b8c5d325404f094b530503d40431c81185a3d2 namespace=moby
+time="2026-11-05T21:53:30.102067062Z" level=info msg="cleaning up after shim disconnected" id=09df757a41473316dad7d4b6f8b8c5d325404f094b530503d40431c81185a3d2 namespace=moby
+time="2026-11-05T21:53:30.102076112Z" level=info msg="cleaning up dead shim" id=09df757a41473316dad7d4b6f8b8c5d325404f094b530503d40431c81185a3d2 namespace=moby
+time="2026-11-05T21:53:30.580257321Z" level=info msg="connecting to shim 879d9b3c662857502f58f628e8cdf8d26f75b52c82545394ed57eed4550f247d" address="unix:///run/containerd/s/2bf8e99e699aee2b00a3baa07a407a525ce599a807d46afcfee5f1196c11115c" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T21:53:32.679148378Z" level=info msg="shim disconnected" id=879d9b3c662857502f58f628e8cdf8d26f75b52c82545394ed57eed4550f247d namespace=moby
+time="2026-11-05T21:53:32.679182749Z" level=info msg="cleaning up after shim disconnected" id=879d9b3c662857502f58f628e8cdf8d26f75b52c82545394ed57eed4550f247d namespace=moby
+time="2026-11-05T21:53:32.679191312Z" level=info msg="cleaning up dead shim" id=879d9b3c662857502f58f628e8cdf8d26f75b52c82545394ed57eed4550f247d namespace=moby
+time="2026-11-05T22:08:36.978972589Z" level=info msg="connecting to shim d8ae5cb6535486af35f0b9aec881abb2def1c0edbc46ac95c175effaa5a1f912" address="unix:///run/containerd/s/6b8fe88d69049cc74c3ff110ff9e356adf2e137c6a03309532dc8471b812c325" namespace=moby protocol=ttrpc version=3
+time="2026-11-05T22:09:10.206829452Z" level=info msg="shim disconnected" id=d8ae5cb6535486af35f0b9aec881abb2def1c0edbc46ac95c175effaa5a1f912 namespace=moby
+time="2026-11-05T22:09:10.211603787Z" level=info msg="cleaning up after shim disconnected" id=d8ae5cb6535486af35f0b9aec881abb2def1c0edbc46ac95c175effaa5a1f912 namespace=moby
+time="2026-11-05T22:09:10.211624353Z" level=info msg="cleaning up dead shim" id=d8ae5cb6535486af35f0b9aec881abb2def1c0edbc46ac95c175effaa5a1f912 namespace=moby

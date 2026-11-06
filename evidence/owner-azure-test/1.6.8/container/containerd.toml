@@ -1,0 +1,20 @@
+version = 3
+root = "<vm-home>/q168d/docker/containerd-root"
+state = "/run/q168ddocker/containerd-state"
+disabled_plugins = ["io.containerd.grpc.v1.cri", "io.containerd.cri.v1.images", "io.containerd.cri.v1.runtime", "io.containerd.nri.v1.nri", "io.containerd.podsandbox.controller.v1.podsandbox"]
+
+[grpc]
+  address = "/run/q168ddocker/containerd/containerd.sock"
+
+[ttrpc]
+  address = "/run/q168ddocker/containerd/containerd.sock.ttrpc"
+
+[debug]
+  address = ""
+
+[metrics]
+  address = ""
+
+[plugins]
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "<vm-home>/q168d/docker/containerd-opt"

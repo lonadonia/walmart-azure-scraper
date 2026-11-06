@@ -1,0 +1,17 @@
+{
+  "data-root": "<vm-home>/q168d/docker/root",
+  "exec-root": "/run/q168ddocker/exec",
+  "pidfile": "/run/q168ddocker/dockerd.pid",
+  "hosts": ["unix:///run/q168ddocker/docker.sock"],
+  "containerd": "/run/q168ddocker/containerd/containerd.sock",
+  "bridge": "none",
+  "iptables": false,
+  "ip6tables": false,
+  "ip-forward": false,
+  "ip-masq": false,
+  "userland-proxy": false,
+  "features": {"containerd-snapshotter": false},
+  "storage-driver": "overlay2",
+  "log-driver": "json-file",
+  "log-opts": {"max-size": "10m"}
+}

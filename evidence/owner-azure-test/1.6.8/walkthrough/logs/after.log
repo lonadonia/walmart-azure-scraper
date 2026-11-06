@@ -1,0 +1,5 @@
+failed to connect to the docker API at unix:///run/q168ddocker/docker.sock; check if the path is correct and if the daemon is running: dial unix /run/q168ddocker/docker.sock: connect: no such file or directory
+no daemon of this gate is running
+/run/q168ddocker/exec/netns/default
+unmount /run/q168ddocker/exec/netns/default
+host state unchanged

@@ -1,0 +1,65 @@
+dev tree C:/w9/wt: commit 9c144251cc099c01e67ff6a20582d2eaddcb2adc plus the uncommitted change of the fourth 1.6.8 candidate (10 changed or new files: README.md CLI.md VERIFICATION.md navigation.py reconcile.py retention.py walmart.py test_category_mapping.py test_filtered_views_168.py test_subcategory_pages_168.py ), Windows 11, started 2026-11-05T20:50:10Z
+== tests/unit 20:50:10Z
+........................................................................ [ 12%]
+........................................................................ [ 25%]
+........................................................................ [ 38%]
+........................................................................ [ 51%]
+........................................................................ [ 64%]
+........................................................................ [ 77%]
+........................................................................ [ 90%]
+..................................................                       [100%]
+554 passed in 23.85s
+exit 0
+== tests/integration/test_category_mapping.py 20:50:37Z
+..............                                                           [100%]
+14 passed in 103.20s (0:01:43)
+exit 0
+== tests/integration/test_scrapedo_walmart.py 20:52:24Z
+...................                                                      [100%]
+19 passed in 154.81s (0:02:34)
+exit 0
+== tests/integration/test_coverage_and_assortment.py 20:55:04Z
+................................                                         [100%]
+32 passed in 164.12s (0:02:44)
+exit 0
+== tests/integration/test_workers_and_oxylabs.py 20:57:54Z
+........                                                                 [100%]
+8 passed in 72.58s (0:01:12)
+exit 0
+== tests/integration/test_lineage_retention.py 20:59:11Z
+........                                                                 [100%]
+8 passed in 42.33s
+exit 0
+== tests/integration/test_replay.py 21:00:00Z
+.........                                                                [100%]
+9 passed in 112.86s (0:01:52)
+exit 0
+== tests/integration/test_operations.py 21:01:56Z
+................................                                         [100%]
+32 passed in 300.64s (0:05:00)
+exit 0
+== tests/integration/test_detail_path.py 21:07:01Z
+..........................                                               [100%]
+26 passed in 249.08s (0:04:09)
+exit 0
+== tests/integration/test_followups.py 21:11:15Z
+.........                                                                [100%]
+9 passed in 59.53s
+exit 0
+== tests/integration/test_publication_safety.py 21:12:19Z
+..........                                                               [100%]
+10 passed in 147.83s (0:02:27)
+exit 0
+== tests/integration/test_deal_fields_policy.py 21:14:54Z
+....                                                                     [100%]
+4 passed in 31.57s
+exit 0
+== tests/integration/test_retained_masking.py 21:15:30Z
+....                                                                     [100%]
+4 passed in 29.06s
+exit 0
+== tests/integration/test_yield_baseline.py 21:16:04Z
+..                                                                       [100%]
+2 passed in 20.42s
+exit 0
+ended 2026-11-05T21:16:28Z

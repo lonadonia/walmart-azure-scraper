@@ -4,10 +4,22 @@ Grouped by class. Paths are rewritten to this repository's layout; contents are 
 listed in [`../manifests/REDACTIONS.csv`](../manifests/REDACTIONS.csv).
 [`../manifests/FILE_MAP.csv`](../manifests/FILE_MAP.csv) gives each file's origin and both SHA-256 values.
 
-## The evidence of releases 1.6.0 to 1.6.6 (this delivery)
+## The evidence of release 1.6.8 (this delivery)
+
+**Read the class before the number.** No provider or retailer request was made for this delivery: everything below is offline, on stored pages or on synthetic pages. Nothing ran in the client's environment.
+
+| Folder | Class | What it holds |
+|---|---|---|
+| [`owner-azure-test/1.6.8/`](owner-azure-test/1.6.8/) | OWNER AZURE TEST, with no provider request | on Hamza's Azure test VM (Linux): `qualification/` (both edition ZIPs, the suites, migrations, the operator drill, a rollback), `container/` (the images with their digests, replays of stored pages, a kill and resume, a rollback, a restart), `linux-suite/` (the suite on the commit, and the fail-befores), `probe-1.7.2/`, `walkthrough/` (the recording's script, cast and renderer), `memory/` (a replay of L10 timed and its memory measured, on the host), `HOST_STATE.md` |
+| [`offline-tests/1.6.8-collector/`](offline-tests/1.6.8-collector/) | OFFLINE TEST | release 1.6.8: its diffs from 1.6.6, 1.6.7 and 1.5.2, each new test's failure on the commit before it, the candidates that were replaced, and 1.6.7's own logs |
+| [`offline-tests/1.7.2-classic-probe/`](offline-tests/1.7.2-classic-probe/) | OFFLINE TEST | the shared Classic probe 1.7.2: its diff from 1.7.1, the review's tests on 1.7.1 (where they fail) and on 1.7.2, on Windows and Linux, the published 1.7.1 on Linux, each skip explained, and the package built again before publication with the workstation's user name replaced in one of its offline results (`PACKAGE_REBUILD.txt`) |
+| [`verification/1.6.8/`](verification/1.6.8/) | the delivery's verification | `package/`: both editions from clean extractions of the source ZIP on Windows, and the Bicep build and lint; `last_good_publication/`: the synthetic publication faults |
+| [`reconciliation/1.6.8/`](reconciliation/1.6.8/) | OFFLINE REPROCESSING of the live evidence | W2, S6's blanks rechecked against every saved read; W3, the 275 at row level; W4, coverage under 1.6.8 from its own reports of the live runs, each listing's change from 1.6.6, and the continuation estimate |
+
+## The evidence of releases 1.6.0 to 1.6.6 (the earlier deliveries of this work)
 
 **Read the class before the number.** Every 1.6.x live request was made on 2026-11-03 or 2026-11-04, from the
-workstation, with the user's Oxylabs Web API trial account, by the release named for its run. Nothing ran in the
+workstation, with the owner's Oxylabs Web API trial account (free credit), by the release named for its run. Nothing ran in the
 client's environment.
 
 | Folder | Class | What it holds |

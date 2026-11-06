@@ -1,0 +1,122 @@
+FFFF........FFFFFsFFF.F                                                  [100%]
+================================== FAILURES ===================================
+___ test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer[200] ___
+tests\test_review_of_171.py:100: in test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer
+    exc, stem = failed_exchange(tmp_path, stub.short(status, 100, b"{}"))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_review_of_171.py:90: in failed_exchange
+    with pytest.raises(TransportFailed) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE TransportFailed
+___ test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer[500] ___
+tests\test_review_of_171.py:100: in test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer
+    exc, stem = failed_exchange(tmp_path, stub.short(status, 100, b"{}"))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_review_of_171.py:90: in failed_exchange
+    with pytest.raises(TransportFailed) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE TransportFailed
+______ test_c4_a_declared_body_of_which_nothing_came_is_never_an_answer _______
+tests\test_review_of_171.py:116: in test_c4_a_declared_body_of_which_nothing_came_is_never_an_answer
+    exc, stem = failed_exchange(tmp_path, stub.short(200, 100, b""))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_review_of_171.py:90: in failed_exchange
+    with pytest.raises(TransportFailed) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE TransportFailed
+___ test_c4_a_body_cut_short_below_its_byte_limit_is_partial_not_an_answer ____
+tests\test_review_of_171.py:130: in test_c4_a_body_cut_short_below_its_byte_limit_is_partial_not_an_answer
+    exc, stem = failed_exchange(
+tests\test_review_of_171.py:90: in failed_exchange
+    with pytest.raises(TransportFailed) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE TransportFailed
+____ test_c4_a_campaign_keeps_a_short_body_as_partial_and_holds_its_money _____
+tests\test_review_of_171.py:189: in test_c4_a_campaign_keeps_a_short_body_as_partial_and_holds_its_money
+    assert led.captures() == [], "a body shorter than its declared length was indexed as an answer"
+E   AssertionError: a body shorter than its declared length was indexed as an answer
+E   assert [{'seq': 1, '...tes': 2, ...}] == []
+E     
+E     Left contains one more item: {'seq': 1, 'file': 'response_001.json.gz', 'http_status': 200, 'body_bytes': 2, ...}
+E     Use -v to get more diff
+_ test_c4_a_short_body_survives_a_crash_and_an_immediate_restart_without_a_refetch _
+tests\test_review_of_171.py:211: in test_c4_a_short_body_survives_a_crash_and_an_immediate_restart_without_a_refetch
+    assert done.returncode == 23, (
+E   AssertionError: the session did not take the short body for a failure; it ended with exit code 0: {"campaign_id": "drill", "retailer": "walmart", "stop": "STOP_UNSUPPORTED_RESPONSE", "detail": "walmart-search-p1: the body has no results list", "steps": [{"step": "walmart-search-p1", "purpose": "result page 1 of the store's Pickup search: store, fulfillment, seller, parsing", "payload": {"source": "walmart_search", "query": "milk", "store_id": "3891", "fulfillment_type": "pickup", "parse": true}, "query_string": "type=raw,parsed", "attempts": [{"seq": 1, "attempt": 1, "reserved_usd": "0.0040", "provider_status": 200, "retailer_statuses": [], "parser_status": null, "billing": "documented_billable", "estimated_usd": "0.0000", "facts": {}, "outcome": "STOP_UNSUPPORTED_RESPONSE", "detail": "the body has no results list"}]}], "export_errors": [], "cleanup_errors": [], "ledger_errors": [], "out_dir": "C:\\Users\\<user>\\AppData\\Local\\Temp\\pytest-of-<user>\\pytest-1147\\test_c4_a_short_body_survives_0\\out"}
+
+E     
+E   assert 0 == 23
+E    +  where 0 = CompletedProcess(args=['C:\\w9\\scratch\\probe172_pkg\\work\\repro_on_1.7.1\\headless\\oxylabs-classic-probe\\.venv\\S...\\AppData\\\\Local\\\\Temp\\\\pytest-of-<user>\\\\pytest-1147\\\\test_c4_a_short_body_survives_0\\\\out"}\r\n', stderr=b'').returncode
+_ test_c4_a_raw_answer_shorter_than_its_declared_length_is_never_kept_as_whole _
+tests\test_review_of_171.py:298: in test_c4_a_raw_answer_shorter_than_its_declared_length_is_never_kept_as_whole
+    assert found["kept_from_raw"] == [] and led.captures() == [], found
+E   AssertionError: {'part_files_removed': [], 'indexed_on_recovery': [1], 'kept_from_raw': [1], 'partial_recorded': [], ...}
+E   assert ([1] == []
+E     
+E     Left contains one more item: 1
+E     Use -v to get more diff)
+_ test_c4_a_whole_answer_whose_worker_is_killed_before_its_final_rename_is_kept_whole _
+tests\test_review_of_171.py:365: in test_c4_a_whole_answer_whose_worker_is_killed_before_its_final_rename_is_kept_whole
+    r = tr.send(dataclasses.replace(REQUEST, raw_stem=str(stem)), 1.5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\classic_probe\transport.py:232: in send
+    raise TransportFailed(
+E   classic_probe.transport.TransportFailed: no answer within 1.5 s: the worker was killed and reaped (the provider may still run and charge the request)
+
+During handling of the above exception, another exception occurred:
+tests\test_review_of_171.py:369: in test_c4_a_whole_answer_whose_worker_is_killed_before_its_final_rename_is_kept_whole
+    pytest.fail(
+E   Failed: a whole answer was reported as no answer (no answer within 1.5 s: the worker was killed and reaped (the provider may still run and charge the request); partial {'bytes': 15, 'sha256': '6cecb20c79fa62eb775e45270a3cb9f2ca33c6a540c960ca88bb7a1d3700dcb5', 'http_status': None, 'error': 'Killed', 'file': 'dispatch_001.partial', 'complete': False}); files {'dispatch_001.partial': 15, 'dispatch_001.status.json': 176}; status now {'error': 'Killed', 'ok': False, 'partial_bytes': 15, 'partial_file': True, 'partial_sha256': '6cecb20c79fa62eb775e45270a3cb9f2ca33c6a540c960ca88bb7a1d3700dcb5', 'sent': None}
+____ test_c4_a_partial_the_worker_kept_before_its_kill_is_still_described _____
+tests\test_review_of_171.py:392: in test_c4_a_partial_the_worker_kept_before_its_kill_is_still_described
+    assert part is not None, "the partial body the worker had kept was not described"
+E   AssertionError: the partial body the worker had kept was not described
+E   assert None is not None
+__ test_c2_a_previous_runs_complete_evidence_is_not_taken_for_this_sessions ___
+tests\test_review_of_171.py:469: in test_c2_a_previous_runs_complete_evidence_is_not_taken_for_this_sessions
+    assert session.recovery, "the evidence an earlier run left in the folder was taken for this session's"
+E   AssertionError: the evidence an earlier run left in the folder was taken for this session's
+E   assert {}
+E    +  where {} = SupervisedSession(returncode=0, killed=False, elapsed_s=0.078, stdout_tail='', recovery={}, reaped=True, recovery_reserve_s=10.0, problems=[]).recovery
+_ test_c2_a_process_a_session_leaves_behind_is_killed_before_it_can_dispatch __
+tests\test_review_of_171.py:516: in test_c2_a_process_a_session_leaves_behind_is_killed_before_it_can_dispatch
+    assert connections == 0, "a process the session left behind connected after the session had ended"
+E   AssertionError: a process the session left behind connected after the session had ended
+E   assert 1 == 0
+_______ test_c2_the_recovery_keeps_its_bound_when_the_wall_clock_jumps ________
+tests\test_review_of_171.py:549: in test_c2_the_recovery_keeps_its_bound_when_the_wall_clock_jumps
+    assert "lock" in problems, session.recovery
+E   AssertionError: {'completed': False, 'ended_by': "killed by the supervisor 4.0 s after its start, before the session's hard end (6.0 s...d not ended by the session's end and was killed after 1.8 s: what it wrote stays, and the next recovery completes it"]}
+E   assert 'lock' in "the recovery had not ended by the session's end and was killed after 1.8 s: what it wrote stays, and the next recovery completes it"
+_ test_c2_an_immediate_restart_in_the_same_folder_keeps_each_sessions_evidence_its_own _
+tests\test_review_of_171.py:614: in test_c2_an_immediate_restart_in_the_same_folder_keeps_each_sessions_evidence_its_own
+    assert third.recovery, "the second session's evidence was taken for the third's"
+E   AssertionError: the second session's evidence was taken for the third's
+E   assert {}
+E    +  where {} = SupervisedSession(returncode=0, killed=False, elapsed_s=0.062, stdout_tail='', recovery={}, reaped=True, recovery_reserve_s=10.0, problems=[]).recovery
+=================================== PASSES ====================================
+=========================== short test summary info ===========================
+PASSED tests/test_review_of_171.py::test_c4_control_a_body_of_exactly_its_declared_length_is_whole[200-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]
+PASSED tests/test_review_of_171.py::test_c4_control_a_body_of_exactly_its_declared_length_is_whole[500-{}]
+PASSED tests/test_review_of_171.py::test_c4_control_a_response_without_a_body_is_whole_and_empty[204-no-content]
+PASSED tests/test_review_of_171.py::test_c4_control_a_response_without_a_body_is_whole_and_empty[304-not-modified]
+PASSED tests/test_review_of_171.py::test_c4_control_a_response_without_a_body_is_whole_and_empty[200-content-length-0]
+PASSED tests/test_review_of_171.py::test_c4_control_a_body_of_exactly_the_byte_limit_is_whole
+PASSED tests/test_review_of_171.py::test_c4_control_a_body_above_the_byte_limit_is_truncated_and_never_read
+PASSED tests/test_review_of_171.py::test_c4_control_a_chunked_body_cut_short_is_partial
+PASSED tests/test_review_of_171.py::test_c2_control_a_stalled_request_ends_within_the_tolerance_and_nothing_dispatches_later
+SKIPPED [1] tests\test_review_of_171.py:420: Windows has no FIFO in its file system (a named pipe lives under the pipe namespace, never at a file's path), so nothing at the evidence path can hold an open; the same bound is tested on Windows by the stale, left-behind and wall-clock tests below
+FAILED tests/test_review_of_171.py::test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer[200]
+FAILED tests/test_review_of_171.py::test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer[500]
+FAILED tests/test_review_of_171.py::test_c4_a_declared_body_of_which_nothing_came_is_never_an_answer
+FAILED tests/test_review_of_171.py::test_c4_a_body_cut_short_below_its_byte_limit_is_partial_not_an_answer
+FAILED tests/test_review_of_171.py::test_c4_a_campaign_keeps_a_short_body_as_partial_and_holds_its_money
+FAILED tests/test_review_of_171.py::test_c4_a_short_body_survives_a_crash_and_an_immediate_restart_without_a_refetch
+FAILED tests/test_review_of_171.py::test_c4_a_raw_answer_shorter_than_its_declared_length_is_never_kept_as_whole
+FAILED tests/test_review_of_171.py::test_c4_a_whole_answer_whose_worker_is_killed_before_its_final_rename_is_kept_whole
+FAILED tests/test_review_of_171.py::test_c4_a_partial_the_worker_kept_before_its_kill_is_still_described
+FAILED tests/test_review_of_171.py::test_c2_a_previous_runs_complete_evidence_is_not_taken_for_this_sessions
+FAILED tests/test_review_of_171.py::test_c2_a_process_a_session_leaves_behind_is_killed_before_it_can_dispatch
+FAILED tests/test_review_of_171.py::test_c2_the_recovery_keeps_its_bound_when_the_wall_clock_jumps
+FAILED tests/test_review_of_171.py::test_c2_an_immediate_restart_in_the_same_folder_keeps_each_sessions_evidence_its_own
+13 failed, 9 passed, 1 skipped in 30.71s

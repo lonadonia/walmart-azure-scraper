@@ -1,0 +1,55 @@
+{
+ "fault": "interrupted_run",
+ "synthetic": true,
+ "first_run": "01M6PSJMR099JTZWA0XQMKAMX8",
+ "second_run": "01M6PSJVD6WQEFYZ1GAFFBR858",
+ "interrupted_exit_code": 75,
+ "manual_publish_exit_code": 6,
+ "resume_exit_code": 0,
+ "before": {
+  "pointer": {
+   "publication_id": "01M6PSJV6W66G7VE2B9QKTJMPV",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6PSJMR099JTZWA0XQMKAMX8",
+  "latest_json_sha256": "1bc3fddddd1d2984e1443eca16b909ac7be1d4ca2bf3db97ae622f4c19d92b6b",
+  "manifest_sha256": "7480c0f054aefc1dbd6270d5b8008e470c365b634d6af1df6725700a6a8cda72",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "94251a7f68d83d6e0f5964d82dcf791b1c97d29ef3da8ce49b4f4f496e0ef9c4",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "after_interruption": {
+  "pointer": {
+   "publication_id": "01M6PSJV6W66G7VE2B9QKTJMPV",
+   "version": 1
+  },
+  "publications": 1,
+  "published_run": "01M6PSJMR099JTZWA0XQMKAMX8",
+  "latest_json_sha256": "1bc3fddddd1d2984e1443eca16b909ac7be1d4ca2bf3db97ae622f4c19d92b6b",
+  "manifest_sha256": "7480c0f054aefc1dbd6270d5b8008e470c365b634d6af1df6725700a6a8cda72",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "94251a7f68d83d6e0f5964d82dcf791b1c97d29ef3da8ce49b4f4f496e0ef9c4",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "after_resume": {
+  "pointer": {
+   "publication_id": "01M6PSK1892FDCRWW5K2MCWG3Z",
+   "version": 2
+  },
+  "publications": 2,
+  "published_run": "01M6PSJVD6WQEFYZ1GAFFBR858",
+  "latest_json_sha256": "051547b0bc0832e69d5a74f7734df67a7940017a12a4e73e46985312c071b9ef",
+  "manifest_sha256": "f390194a32a54c4f2168cefcf18ab10c820a5c1b34b6aa8df30f36db013f415c",
+  "products_sha256": "7aaa122e1c0220161e6ec4dbbbbbbaf9fad22bb078117ec3744d87a748bd1d5d",
+  "published_products": 4,
+  "first_run_observations_sha256": "94251a7f68d83d6e0f5964d82dcf791b1c97d29ef3da8ce49b4f4f496e0ef9c4",
+  "first_run_records_sha256": "2efca7c7b4b2f009d3629d9e045e6467fe17e733da0c523c204ae8f3edabe78a",
+  "first_run_observations": 5
+ },
+ "unchanged_until_resume": true
+}

@@ -1,0 +1,21 @@
+usage: classic-probe [-h] [--version]
+                     {plan,validate,campaign-init,status,confirm-charge,export,replay,live}
+                     ...
+
+Offline probe of the Oxylabs Classic Web Scraper API (Realtime). No command
+sends a request.
+
+positional arguments:
+  {plan,validate,campaign-init,status,confirm-charge,export,replay,live}
+    plan                the request plan and payload matrix (writes nothing)
+    validate            check the targets, the payloads and a rate card
+    campaign-init       create the campaign's one ledger and its manifest
+    status              the ledger's counters, reservations and stops
+    confirm-charge      record a charge read from the account, with its basis
+    export              write the ledger's history
+    replay              one retailer's steps against saved responses (OFFLINE)
+    live                list what a live campaign lacks; refused in this build
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit

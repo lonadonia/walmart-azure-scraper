@@ -1,0 +1,81 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
+
+Sending build context to Docker daemon  1.441MB
+Step 1/21 : FROM python:3.12-slim-bookworm AS build
+3.12-slim-bookworm: Pulling from library/python
+Digest: sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+Status: Image is up to date for python:3.12-slim-bookworm
+ ---> 313cf8f190a1
+Step 2/21 : COPY --from=ghcr.io/astral-sh/uv:0.13.1 /uv /usr/local/bin/uv
+0.13.1: Pulling from astral-sh/uv
+Digest: sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336
+Status: Image is up to date for ghcr.io/astral-sh/uv:0.13.1
+ ---> Using cache
+ ---> dd6c71e9d845
+Step 3/21 : ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
+ ---> Using cache
+ ---> 145effd0a844
+Step 4/21 : WORKDIR /app
+ ---> Using cache
+ ---> d7cb66947f6f
+Step 5/21 : COPY pyproject.toml uv.lock README.md ./
+ ---> Using cache
+ ---> edd99dbb048d
+Step 6/21 : RUN uv sync --frozen --no-dev --no-install-project
+ ---> Using cache
+ ---> 09a5833e2e1c
+Step 7/21 : COPY src ./src
+ ---> Using cache
+ ---> 295cc3459c77
+Step 8/21 : RUN uv sync --frozen --no-dev
+ ---> Using cache
+ ---> 2f509ef95a97
+Step 9/21 : FROM python:3.12-slim-bookworm
+3.12-slim-bookworm: Pulling from library/python
+Digest: sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+Status: Image is up to date for python:3.12-slim-bookworm
+ ---> 313cf8f190a1
+Step 10/21 : ARG SOURCE_COMMIT=unknown
+ ---> Using cache
+ ---> 64c3585ce464
+Step 11/21 : ARG BUILT_AT=unknown
+ ---> Using cache
+ ---> abbd19f2f6e7
+Step 12/21 : ENV PATH="/app/.venv/bin:$PATH"     PYTHONUNBUFFERED=1     PYTHONDONTWRITEBYTECODE=1     WALMART_COLLECTOR_CONFIG=/app/config/collector.yaml     WALMART_COLLECTOR_DATA_DIR=/app/data
+ ---> Using cache
+ ---> 67b1741fd6a8
+Step 13/21 : RUN groupadd --system --gid 10001 collector && useradd --system --uid 10001 --gid collector --home /app collector
+ ---> Running in ed59c8729cfb
+[91museradd warning: collector's uid 10001 is greater than SYS_UID_MAX 999
+[0m ---> Removed intermediate container ed59c8729cfb
+ ---> 53662685d790
+Step 14/21 : WORKDIR /app
+ ---> Running in 4fbfbb607c49
+ ---> Removed intermediate container 4fbfbb607c49
+ ---> d6b7c122b40d
+Step 15/21 : COPY --from=build /app/.venv /app/.venv
+ ---> 153c7f36f96a
+Step 16/21 : COPY --from=build /app/src /app/src
+ ---> c8209897d65d
+Step 17/21 : COPY config ./config
+ ---> f68ea3dc7977
+Step 18/21 : RUN printf '{"commit": "%s", "built_at": "%s"}\n' "$SOURCE_COMMIT" "$BUILT_AT" > /app/BUILD_INFO.json     && mkdir -p /app/data && chown collector:collector /app/data
+ ---> Running in 9d6f6beabae1
+ ---> Removed intermediate container 9d6f6beabae1
+ ---> d94787307dde
+Step 19/21 : USER collector
+ ---> Running in e551e37460f1
+ ---> Removed intermediate container e551e37460f1
+ ---> c081462a99fa
+Step 20/21 : ENTRYPOINT ["walmart-collector"]
+ ---> Running in c94b6c48f1ef
+ ---> Removed intermediate container c94b6c48f1ef
+ ---> b4c3813e52c2
+Step 21/21 : CMD ["validate-config"]
+ ---> Running in 7b7ee8359e5b
+ ---> Removed intermediate container 7b7ee8359e5b
+ ---> be4e7e408bfe
+Successfully built be4e7e408bfe
+Successfully tagged walmart-collector-q168d:1.6.8-scrapedo

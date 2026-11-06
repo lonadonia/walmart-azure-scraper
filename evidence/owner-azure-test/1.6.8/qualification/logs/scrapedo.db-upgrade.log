@@ -1,0 +1,1 @@
+{"ts": "2026-11-05T22:32:46.243Z", "level": "INFO", "event": "RESULT", "collector": "walmart-azure-headless", "command": "db-upgrade", "exit_code": 0, "result": {"before": null, "after": "0006"}}

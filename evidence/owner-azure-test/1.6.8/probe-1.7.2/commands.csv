@@ -1,0 +1,18 @@
+output_file,command,exit_code,expected_exit_code,started_at,ended_at
+00_uv_sync_frozen.txt,"uv sync --frozen",0,0,2026-11-06T01:02:36Z,2026-11-06T01:02:36Z
+01_pytest_standalone.txt,".venv/bin/python -m pytest -q -p no:cacheprovider -rs --junitxml=<vm-home>/q168e/probe172/out/junit_standalone_linux.xml",0,0,2026-11-06T01:02:36Z,2026-11-06T01:04:35Z
+02_ruff_check.txt,".venv/bin/python -m ruff check src tests",0,0,2026-11-06T01:04:35Z,2026-11-06T01:04:35Z
+03_ruff_format_check.txt,".venv/bin/python -m ruff format --check src tests",0,0,2026-11-06T01:04:35Z,2026-11-06T01:04:35Z
+04_mypy.txt,".venv/bin/python -m mypy",0,0,2026-11-06T01:04:35Z,2026-11-06T01:04:37Z
+05_version.txt,".venv/bin/python -m classic_probe --version",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:37Z
+06_help.txt,".venv/bin/python -m classic_probe --help",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:37Z
+07_plan.txt,".venv/bin/python -m classic_probe plan --targets config/targets.json",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:37Z
+08_plan_with_placeholder_rates.txt,".venv/bin/python -m classic_probe plan --targets config/targets.json --rates config/rates.example.json",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:37Z
+09_validate.txt,".venv/bin/python -m classic_probe validate --targets config/targets.json --rates config/rates.example.json",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:37Z
+11_replay_synthetic_responses.txt,".venv/bin/python -m classic_probe replay --retailer walmart --targets config/targets.json --fixtures ../offline_results/synthetic_inputs_of_the_replay/fixtures --rates ../offline_results/synthetic_inputs_of_the_replay/synthetic_rates.json --out offline_out/replay",0,0,2026-11-06T01:04:37Z,2026-11-06T01:04:38Z
+11c_replay_marianos_saved_pages.txt,".venv/bin/python -m classic_probe replay --retailer marianos --targets config/targets.json --fixtures ../offline_results/inputs_of_the_marianos_replay/fixtures --rates ../offline_results/inputs_of_the_marianos_replay/synthetic_rates.json --out offline_out/replay_marianos",0,0,2026-11-06T01:04:38Z,2026-11-06T01:04:39Z
+12_campaign_init_offline.txt,".venv/bin/python -m classic_probe campaign-init --manifest offline_out/manifest.json --ledger offline_out/ledger.sqlite3 --campaign-id offline-check --offline",0,0,2026-11-06T01:04:39Z,2026-11-06T01:04:39Z
+13_status.txt,".venv/bin/python -m classic_probe status --manifest offline_out/manifest.json",0,0,2026-11-06T01:04:39Z,2026-11-06T01:04:39Z
+14_export.txt,".venv/bin/python -m classic_probe export --manifest offline_out/manifest.json --out offline_out/export",0,0,2026-11-06T01:04:39Z,2026-11-06T01:04:40Z
+15_live_is_refused.txt,".venv/bin/python -m classic_probe live --manifest offline_out/manifest.json",3,3,2026-11-06T01:04:40Z,2026-11-06T01:04:40Z
+17_review_tests_on_1.7.2.txt,".venv/bin/python -m pytest -p no:cacheprovider -rA --tb=short tests/test_review_of_171.py",0,0,2026-11-06T01:04:40Z,2026-11-06T01:05:06Z

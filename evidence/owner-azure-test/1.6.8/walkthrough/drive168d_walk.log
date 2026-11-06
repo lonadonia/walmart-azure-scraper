@@ -1,0 +1,26 @@
+== drive168d.sh has ended 22:58:05Z
+== wprep 22:58:05Z
+drive168d_walk.sh: line 14: docker/walk_session/steps.jsonl: No such file or directory
+{"step": "wprep", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T22:58:05Z", "seconds": 2.3, "log": "logs/wprep.log", "command": "wprep"}
+== start 22:58:07Z
+{"step": "daemon_start", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T22:58:07Z", "seconds": 1.4, "log": "logs/daemon_start.log", "command": "start"}
+== build 22:58:08Z
+{"step": "build_oxylabs", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T22:58:08Z", "seconds": 58.3, "log": "logs/build_oxylabs.log", "command": "bash -c cd '<vm-home>/q168d/docker/
+{"step": "build_scrapedo", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T22:59:07Z", "seconds": 15.9, "log": "logs/build_scrapedo.log", "command": "bash -c cd '<vm-home>/q168d/docke
+== build166 22:59:23Z
+{"step": "build_rollback166", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T22:59:23Z", "seconds": 47.0, "log": "logs/build_rollback166.log", "command": "bash -c cd '<vm-home>/q168d
+{"step": "rollback166_image", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T23:00:10Z", "seconds": 0.0, "log": "logs/rollback166_image.log", "command": "dk image inspect walmart-collector
+== image 23:00:10Z
+{"step": "image_report", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T23:00:10Z", "seconds": 5.8, "log": "logs/image_report.log", "command": "image_report"}
+== walk 23:00:16Z
+{"step": "walk", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T23:00:16Z", "seconds": 837.8, "log": "logs/walk.log", "command": "walk"}
+== stop 23:14:13Z
+{"step": "daemon_stop_final", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T23:14:13Z", "seconds": 0.1, "log": "logs/daemon_stop_final.log", "command": "stop"}
+== after 23:14:14Z
+{"step": "after", "exit": 0, "expected_exit": 0, "pass_by_exit": true, "started_at": "2026-11-05T23:14:14Z", "seconds": 1.2, "log": "logs/after.log", "command": "after"}
+== render 23:14:15Z
+render exit 0
+{"frames": 1306, "seconds": 163.2, "size": [1096, 736], "ffmpeg_exit": 0}
+2964c4bbccd5eee3178c5f457f77e335fbc5512f9d2cd8e5fd6d872997010cd8  docker/out/WALKTHROUGH_1.6.8.cast
+932aadadcb7af7acc159067ae5a3ca2a04af50c1e3cdb55407ce643e6b857354  docker/out/WALKTHROUGH_1.6.8.mp4
+WALK SESSION DONE ok=1 23:14:33Z

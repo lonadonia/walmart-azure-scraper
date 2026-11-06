@@ -1,0 +1,101 @@
+time="2026-11-05T22:58:08.090755255Z" level=info msg="Starting up"
+time="2026-11-05T22:58:08.092553499Z" level=warning msg="could not change group /run/q168ddocker/docker.sock to docker: group docker not found"
+time="2026-11-05T22:58:08.092888833Z" level=info msg="OTEL tracing is not configured, using no-op tracer provider"
+time="2026-11-05T22:58:08.092985505Z" level=info msg="CDI directory does not exist, skipping: failed to monitor for changes: no such file or directory" dir=/var/run/cdi
+time="2026-11-05T22:58:08.092996761Z" level=info msg="CDI directory does not exist, skipping: failed to monitor for changes: no such file or directory" dir=/etc/cdi
+time="2026-11-05T22:58:08.093060168Z" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run/systemd/resolve/resolv.conf"
+time="2026-11-05T22:58:08.100202009Z" level=info msg="Creating a containerd client" address=/run/q168ddocker/containerd/containerd.sock timeout=1m0s
+time="2026-11-05T22:58:08.129148539Z" level=info msg="Loading containers: start."
+time="2026-11-05T22:58:08.129176695Z" level=info msg="[graphdriver] trying configured driver: overlay2"
+time="2026-11-05T22:58:08.544985331Z" level=info msg="Restoring containers: start."
+time="2026-11-05T22:58:08.591392804Z" level=info msg="Loading containers: done."
+time="2026-11-05T22:58:08.608025097Z" level=warning msg="Not using native diff for overlay2, this may cause degraded performance for building images: kernel has CONFIG_OVERLAY_FS_REDIRECT_DIR enabled" storage-driver=overlay2
+time="2026-11-05T22:58:08.609814260Z" level=info msg="Docker daemon" commit="29.1.3-0ubuntu3~24.04.2" containerd-snapshotter=false storage-driver=overlay2 version=29.1.3
+time="2026-11-05T22:58:08.609890394Z" level=info msg="Initializing buildkit"
+time="2026-11-05T22:58:08.694214794Z" level=info msg="Completed buildkit initialization"
+time="2026-11-05T22:58:08.701456649Z" level=info msg="Daemon has completed initialization"
+time="2026-11-05T22:58:08.701498990Z" level=info msg="API listen on /run/q168ddocker/docker.sock"
+time="2026-11-05T22:58:19.783677044Z" level=info msg="Cleaned up layer sha256:f46c22d67a722d3a4e81b300573073f44938c020cc1a228ef4b6655c3cbfc1eb" chainID="sha256:f46c22d67a722d3a4e81b300573073f44938c020cc1a228ef4b6655c3cbfc1eb"
+time="2026-11-05T22:58:22.337034895Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=8c9050a29ad6 ep=cranky_spence net=host nid=2251882c2ca4
+time="2026-11-05T22:58:34.560412532Z" level=info msg="ignoring event" container=dac1adf54cba0fdd37cf41560c7e9d1ced4ab438f9bf2bf6742bd70e74bfb462 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:58:48.597545628Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=50a3b36957da ep=confident_euclid net=host nid=2251882c2ca4
+time="2026-11-05T22:58:49.596153784Z" level=info msg="ignoring event" container=2596f39157bac9f9d8c40e22df7aed6fa902285fa023a6891bc265c1a04686b8 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:58:51.211002555Z" level=info msg="Cleaned up layer sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b" chainID="sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b"
+time="2026-11-05T22:58:51.727929681Z" level=info msg="Cleaned up layer sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b" chainID="sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b"
+time="2026-11-05T22:58:52.493805190Z" level=info msg="Cleaned up layer sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b" chainID="sha256:1302b8d1650f9441d09a6a7647f374a24a56e2d31eedeb529caf132416643c0b"
+time="2026-11-05T22:58:53.355232845Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=94e8976f024c ep=serene_galileo net=host nid=2251882c2ca4
+time="2026-11-05T22:58:53.572041227Z" level=info msg="ignoring event" container=b7e36ed52f31dd88188bae3963c2a5c16fa585c915c4851c58c13e4e58cf9a6e module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:03.445574549Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=3ee0a533fcc0 ep=magical_borg net=host nid=2251882c2ca4
+time="2026-11-05T22:59:03.521690369Z" level=info msg="ignoring event" container=8ac4cbd9eba9bc480172f8a9056252142c2dd0f5345fa5e74bc48b0c0fcb3221 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:04.775855743Z" level=info msg="Cleaned up layer sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b" chainID="sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b"
+time="2026-11-05T22:59:05.727488541Z" level=info msg="Cleaned up layer sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b" chainID="sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b"
+time="2026-11-05T22:59:06.663027182Z" level=info msg="Cleaned up layer sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b" chainID="sha256:6f12be89a00859f5943a53eb22fd4d080e6d1ab0f04cd2d4cabd2bab38a5924b"
+time="2026-11-05T22:59:08.392811804Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=159d1f7a97f9 ep=suspicious_kirch net=host nid=2251882c2ca4
+time="2026-11-05T22:59:08.594988702Z" level=info msg="ignoring event" container=c3894c50d24ea86cd07ff4c7e69b476504d9b5a02ac86db3bc620baf41426535 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:19.364907957Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=38a29e92e218 ep=elated_kapitsa net=host nid=2251882c2ca4
+time="2026-11-05T22:59:19.435774332Z" level=info msg="ignoring event" container=a8b3e81a08d59c6159cca229f0a757522a6e2f14a16e62eb54510a3c77fb5738 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:20.671118196Z" level=info msg="Cleaned up layer sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f" chainID="sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f"
+time="2026-11-05T22:59:21.626041529Z" level=info msg="Cleaned up layer sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f" chainID="sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f"
+time="2026-11-05T22:59:22.692106367Z" level=info msg="Cleaned up layer sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f" chainID="sha256:bd5205a3cbf8aa66be2971031f1de04fbad5cd5b8af791519c14a11f8b43343f"
+time="2026-11-05T22:59:24.306300117Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=2708d1a7215d ep=cranky_curie net=host nid=2251882c2ca4
+time="2026-11-05T22:59:36.555804384Z" level=info msg="ignoring event" container=ec75c237201f8b3e273edaf9f7b36952f386cb471fa8156c95cc2d7fc6c8f756 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:51.097158989Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=5310cf7c2c19 ep=happy_noyce net=host nid=2251882c2ca4
+time="2026-11-05T22:59:52.075095717Z" level=info msg="ignoring event" container=7477441b44732453d02981ec82a7d4574f7bf5c3b1ba01f057a85cddcce74d66 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T22:59:53.627645394Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=7107683fe226 ep=quirky_dirac net=host nid=2251882c2ca4
+time="2026-11-05T22:59:54.069047967Z" level=info msg="ignoring event" container=b235f20e2e818bed3d52c6e9ade58e903434bb0626a239800c872a0fec46c316 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:06.449172874Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=9f2921b67e5d ep=gracious_torvalds net=host nid=2251882c2ca4
+time="2026-11-05T23:00:06.523176385Z" level=info msg="ignoring event" container=3b22e7ed63d9cd917b27c675518f2a9531d3839c5ccaaef600e0a6c402f6e2bc module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:07.751207285Z" level=info msg="Cleaned up layer sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382" chainID="sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382"
+time="2026-11-05T23:00:08.597992358Z" level=info msg="Cleaned up layer sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382" chainID="sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382"
+time="2026-11-05T23:00:09.641166020Z" level=info msg="Cleaned up layer sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382" chainID="sha256:7ef9fd544ea8c3c14533e3073b72d33d35caefffa25a448a419a96e260e1c382"
+time="2026-11-05T23:00:12.239900154Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=1945d438560e ep=sweet_mccarthy net=none nid=9b1b80845409
+time="2026-11-05T23:00:12.431134163Z" level=info msg="ignoring event" container=cbe55d1e7130f027a97f30839a1b6fd9bc9f8941f54b37dc8f35fa139c450675 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:12.910802620Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=24d9fdf11835 ep=thirsty_saha net=none nid=9b1b80845409
+time="2026-11-05T23:00:12.994465057Z" level=info msg="ignoring event" container=435e51801cd26c76c46c9f38066152de7ba971e37d1025ac73d91cbd121ceffa module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:15.023974646Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=e8b7cf25bc77 ep=musing_driscoll net=none nid=9b1b80845409
+time="2026-11-05T23:00:15.154441495Z" level=info msg="ignoring event" container=5a062438aef7fd425aa2fb236d38d65f3119542f59145541bdc79f3872f69d9b module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:15.653228743Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=54a53acc4681 ep=objective_bardeen net=none nid=9b1b80845409
+time="2026-11-05T23:00:15.731841523Z" level=info msg="ignoring event" container=b8d198d802ad25ca1d5da25677c6f05ec26775082e1129b97778d1e5c6efd6cf module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:37.265280481Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=218bc42028a3 ep=hopeful_wilson net=none nid=9b1b80845409
+time="2026-11-05T23:00:38.631231198Z" level=info msg="ignoring event" container=369711a5ead274714c8379e02500ee15832c992e265484436d28bfdd9d4c4af6 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:42.182367180Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=1ed09e9448b0 ep=gallant_goodall net=none nid=9b1b80845409
+time="2026-11-05T23:00:43.523987384Z" level=info msg="ignoring event" container=1669c692506d0d0a2824098a99a53771e1c09f531fbce28b04717548216fdd41 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:47.047668759Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=442903d1c298 ep=youthful_bell net=none nid=9b1b80845409
+time="2026-11-05T23:00:47.110699122Z" level=info msg="ignoring event" container=32fd731a82388a2e5dc540b5f2f471dc75df6c8bb3cb4eee98a4b8a20f4a25a9 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:53.133578388Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=6c040e9eb89c ep=sharp_herschel net=none nid=9b1b80845409
+time="2026-11-05T23:00:53.195468331Z" level=info msg="ignoring event" container=a1445b37df5c9c520f914ed332774b0da8b66ae4abec9a3f2e361e3132c2fca1 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:00:59.237199376Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=cdd281df5b49 ep=sad_haslett net=none nid=9b1b80845409
+time="2026-11-05T23:00:59.307891268Z" level=info msg="ignoring event" container=77a8d5965d60c270b895c8f57cec89f2638d49c2d700aeb54443c66a9cea60f7 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:01:11.392467726Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=5931b24fe237 ep=gracious_brattain net=none nid=9b1b80845409
+time="2026-11-05T23:01:12.757479918Z" level=info msg="ignoring event" container=bd09c691a61dfa8b631633f58baacf745d7d807f5ffba46aca820131af253aa6 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:01:43.232727694Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=45055d960b9f ep=dreamy_booth net=none nid=9b1b80845409
+time="2026-11-05T23:01:44.692422448Z" level=info msg="ignoring event" container=95236bc11e23337ffed2f65c72f815417793e965c97b55132ae3e399657c5898 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:01:52.830213986Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=45cfb84e0e97 ep=mystifying_stonebraker net=host nid=2251882c2ca4
+time="2026-11-05T23:01:54.409050624Z" level=info msg="ignoring event" container=38a5acbebb6c58b7f31ee214832a5cab4b87986c12c5559edd5508968191d0fc module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:01:57.904668194Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=4958afd1ccde ep=hardcore_sanderson net=host nid=2251882c2ca4
+time="2026-11-05T23:01:59.359024678Z" level=info msg="ignoring event" container=33e5141c8879b717b48c488e1a71f99dc7edfdd7d56daa934611dce446a75eb1 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:02:05.458237191Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=fdadd38e309d ep=wonderful_golick net=host nid=2251882c2ca4
+time="2026-11-05T23:03:54.601589947Z" level=info msg="ignoring event" container=5e613e94afffc300598bf8446c5d96d08ee0b7eedf36ac332955154f9b7940b4 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:04:00.778572603Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=c0f218d30d62 ep=vigorous_chebyshev net=host nid=2251882c2ca4
+time="2026-11-05T23:04:03.765984699Z" level=info msg="ignoring event" container=0c0f8c2597530a4889db3beab173aa7a8a113d1afdfacc6ef3bc902bf827024e module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:04:07.434592407Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=721e33e8eb73 ep=heuristic_wiles net=none nid=9b1b80845409
+time="2026-11-05T23:04:07.522002838Z" level=info msg="ignoring event" container=9873afbcac86dc71fe8ecfd6ef8007858ffc590f8bb293660497f7bbff2a637a module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:04:13.597903935Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=e32400b71746 ep=musing_neumann net=host nid=2251882c2ca4
+time="2026-11-05T23:04:22.585061650Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=ae67ea839404 ep=stupefied_mestorf net=none nid=9b1b80845409
+time="2026-11-05T23:04:22.671025468Z" level=info msg="ignoring event" container=ab949f22ed66a74b47eca6a8060c5bc2c7bd692828d6b46bcfbeff796eaf2757 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:04:31.174631612Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=4fd323e1f0e3 ep=peaceful_sutherland net=host nid=2251882c2ca4
+time="2026-11-05T23:04:35.091904110Z" level=info msg="ignoring event" container=020b1322694e7cbf4008c68b7a9c88a8b2fe94a3751a506db37fdd2d75a24239 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:04:41.172251151Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=b3430ace2468 ep=q168dwalkreplay net=host nid=2251882c2ca4
+time="2026-11-05T23:05:12.736595691Z" level=info msg="ignoring event" container=869dfa4051a1ba362fd5609ffb513be98d9c08e471d2576ddfec74e68d614803 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:05:22.864175534Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=1a43c72b9766 ep=optimistic_blackburn net=host nid=2251882c2ca4
+time="2026-11-05T23:13:26.951947796Z" level=info msg="ignoring event" container=b2c2f1c9c89a17192d37cfff286d0edfbb21cd689d995e9e82ab73d3d6d320f6 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:13:44.830201245Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=e5dafaf9daee ep=distracted_mayer net=none nid=9b1b80845409
+time="2026-11-05T23:13:46.613795441Z" level=info msg="ignoring event" container=eb56b26945c195be32d11dc4d2daf64230740f46fc5428018dbc41cef3abdbe1 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:13:50.119247190Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=dee3d59c345b ep=musing_poitras net=host nid=2251882c2ca4
+time="2026-11-05T23:13:51.816326170Z" level=info msg="ignoring event" container=73753072da123ea62f2f5b49cab78b6e86e5f7c87623d4ab1ba5ba1929ff5092 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:13:55.321091684Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=0413c4836f8e ep=beautiful_germain net=host nid=2251882c2ca4
+time="2026-11-05T23:13:57.863912349Z" level=info msg="ignoring event" container=12e91842b0f35f9f38dc7ba6042edc57a66eb0bc5f01e7354f4775bd82120efa module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:14:01.473804091Z" level=info msg="sbJoin: gwep4 ''->'', gwep6 ''->''" eid=6e50a136942a ep=lucid_jemison net=host nid=2251882c2ca4
+time="2026-11-05T23:14:03.081281689Z" level=info msg="ignoring event" container=f0b0167e3b63ee8379f165225e735458bd402644538e2b381d6522808a95d908 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+time="2026-11-05T23:14:13.979240031Z" level=info msg="Processing signal 'terminated'"
+time="2026-11-05T23:14:13.981429862Z" level=info msg="Daemon shutdown complete"

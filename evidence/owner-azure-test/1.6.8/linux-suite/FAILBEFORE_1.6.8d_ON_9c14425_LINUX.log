@@ -1,0 +1,395 @@
+tree: the third 1.6.8 candidate (commit 9c14425, git archive, content digest c6d72db2a5a86deaa451e9addb1df21d9210ad972a6c0c2c78707bd10506710b, equal to the commit's)
+  with these files of commit 85c29e7 copied in (from its clean extraction above)
+label: FAILBEFORE_1.6.8d_ON_9c14425_LINUX; host: Ubuntu 24.04.5 LTS, kernel 7.0.0-1017-azure, x86_64
+copied tests/integration/test_category_mapping.py sha256 ba0d4e95d463fcf240c4d5edcca3ab69e1e0cd971f3ff6cdbc0c1e174897afe2 (same as commit 85c29e7: yes)
+copied tests/unit/test_filtered_views_168.py sha256 071f0f5c6d09265c6cd926e304aa1b9c1aa8487bb4accc36d728fd714d6f2898 (same as commit 85c29e7: yes)
+copied tests/unit/test_subcategory_pages_168.py sha256 a6e29dda9e3f9e364aa0d4a02c9ad44ac6636786a70e68850ad9b256de9699d1 (same as commit 85c29e7: yes)
+started 2026-11-05T21:23:02Z
+3:version = "1.6.8"
+ + walmart-azure-headless==1.6.8 (from file://<vm-home>/q168d/fb168c)
+sync exit 0
+import check: <vm-home>/q168d/fb168c/src/walmart_headless/__init__.py 1.6.8
+== tests/integration/test_category_mapping.py
+.......FFFFFFF                                                           [100%]
+=================================== FAILURES ===================================
+_ test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_listing_linked_only_thr0/config/collector.yaml'), moc...er/pytest-146/test_a_listing_linked_only_thr0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6371c590>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7d5d676738f0>
+own_page_name = 'Milk Products'
+
+    def test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+        own_page_name: str,
+    ) -> None:
+        """The third 1.6.8 candidate read only the first filtered view (its key was the listing ID alone): the
+        listing's other products were never read, the listing could be called complete from part of it, and the
+        filter's name ("Cough") named every product of the listing. The listing itself is read, once, without the
+        filters; the page names it only through filtered views, so its own page names it, and says so."""
+        food_page(
+            monkeypatch,
+            ("Snacks", [("Shop all", SNACKS)]),
+            ("Deals", [("Organic Milk", ORGANIC_MILK), ("Subscription", SUBSCRIPTION_MILK)]),
+        )
+        monkeypatch.setitem(mock_scrapedo.PAGES, PROMO_MILK, mock_scrapedo.PAGES[MILK])
+        monkeypatch.setitem(mock_scrapedo.LISTING_CATS, PROMO_MILK, mock_scrapedo.LISTING_CATS[MILK])
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        run = env.runs()[-1]
+        reads = store_reads(env, before, "976759_9176907")
+>       assert len(reads) == 1 and "organic" not in reads[0] and "subscription" not in reads[0], reads
+E       AssertionError: ['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup']
+E       assert (1 == 1 and 'organic' not in 'https://www...hod%3APickup'
+E        +  where 1 = len(['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup'])
+E         
+E         'organic' is contained here:
+E           ilk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup
+E         ?           +++++++)
+
+tests/integration/test_category_mapping.py:383: AssertionError
+_ test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_link_to_the_listing_its0/config/collector.yaml'), moc...er/pytest-146/test_a_link_to_the_listing_its0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d64beb770>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7d5d637a1280>
+own_page_name = 'Milk Products'
+
+    def test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+        own_page_name: str,
+    ) -> None:
+        """The page links the listing filtered first, and the listing itself later ("Men's Deodorant" first
+        would make it so for Deodorant). The third 1.6.8 candidate read the filtered view and skipped the link to
+        the listing itself. The listing is read once, without the filter, under the name the page gives the
+        listing itself."""
+        food_page(
+            monkeypatch,
+            ("Deals", [("Organic Milk", ORGANIC_MILK)]),
+            ("Dairy & Eggs", [("Milk", MILK)]),
+            ("Snacks", [("Shop all", SNACKS)]),
+        )
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        run = env.runs()[-1]
+        reads = store_reads(env, before, "976759_9176907")
+>       assert len(reads) == 1 and "organic" not in reads[0], reads
+E       AssertionError: ['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup']
+E       assert (1 == 1 and 'organic' not in 'https://www...hod%3APickup'
+E        +  where 1 = len(['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup'])
+E         
+E         'organic' is contained here:
+E           ilk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup
+E         ?           +++++++)
+
+tests/integration/test_category_mapping.py:420: AssertionError
+__________ test_two_shelves_that_share_listing_id_0_are_two_listings ___________
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_two_shelves_that_share_li0/config/collector.yaml'), moc...er/pytest-146/test_two_shelves_that_share_li0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6349f170>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7d5d637a1c40>
+
+    def test_two_shelves_that_share_listing_id_0_are_two_listings(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Live, the Food page links two shelves, "Fresh Fruit" (/browse/pre-cut-fruits/0/0, shelf 8210692) and
+        "Snack packs" (/browse/kids-lunches-&-snacks/0/0, shelf 7195079): listing ID 0, a shelf's query being the
+        whole listing. The third 1.6.8 candidate read the first only (one key, ``browse:0``); before it, both
+        were read under one ID, 0, and so one coverage record. Each shelf is read, under its own ID."""
+        links = []
+        for base, (name, shelf, item) in SHELVES.items():
+            links.append(
+                (name, f"{base}?_refineresult=true&_be_shelf_id={shelf}&facet=shelf_id%3A{shelf}&povid=x")
+            )
+            monkeypatch.setitem(mock_scrapedo.PAGES, base, [[item]])
+        food_page(monkeypatch, ("Featured shops", links))
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        run = env.runs()[-1]
+>       assert len(store_reads(env, before, "/0/0")) == 2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = len(['https://www.walmart.com/browse/pre-cut-fruits/0/0?_refineresult=true&_be_shelf_id=8210692&povid=x&facet=shelf_id%3A8210692%7C%7Cfulfillment_method%3APickup'])
+E        +    where ['https://www.walmart.com/browse/pre-cut-fruits/0/0?_refineresult=true&_be_shelf_id=8210692&povid=x&facet=shelf_id%3A8210692%7C%7Cfulfillment_method%3APickup'] = store_reads(Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_two_shelves_that_share_li0/config/collector.yaml'), moc...er/pytest-146/test_two_shelves_that_share_li0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6349f170>), 0, '/0/0')
+
+tests/integration/test_category_mapping.py:460: AssertionError
+__ test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own ___
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_filtered_view_of_the_ro0/config/collector.yaml'), moc...er/pytest-146/test_a_filtered_view_of_the_ro0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6759a270>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7d5d63379040>
+
+    def test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Live, Household Essentials links its own category filtered, "Clearance"
+        (/browse/household-essentials/1115193?facet=special_offers:Clearance), and Pets "Under $5"
+        (/browse/5440?max_price=5): part of what the row's subcategories list. It is recorded, not read; the row
+        is complete when its listings are. The third 1.6.8 candidate read it as a listing."""
+        mock_rows_only(env)
+        food_page(
+            monkeypatch,
+            ("Recipes", [("Shop All", "/i/recipes")]),
+            ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907"), ("Milk", MILK)]),
+            ("Snacks", [("Shop all", SNACKS)]),
+            ("Deals", [("Clearance", "/browse/food/976759?facet=special_offers%3AClearance&povid=FoodCP")]),
+        )
+        monkeypatch.setitem(mock_scrapedo.PAGES, W + "/browse/food/976759", mock_scrapedo.PAGES[MILK])
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY)
+>       assert store_reads(env, before, "/browse/food/976759") == []
+E       AssertionError: assert ['https://www...hod%3APickup'] == []
+E         
+E         Left contains one more item: 'https://www.walmart.com/browse/food/976759?povid=FoodCP&facet=special_offers%3AClearance%7C%7Cfulfillment_method%3APickup'
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:487: AssertionError
+_ test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_subcategory_page_that_l0/config/collector.yaml'), moc...er/pytest-146/test_a_subcategory_page_that_l0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d635f5d60>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7d5d67935760>
+own_page_name = 'Milk Products'
+
+    def test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page(
+        env: Env,  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+        own_page_name: str,
+    ) -> None:
+        """A subcategory page of its own links a listing only filtered, and its own category filtered. The listing
+        itself is read, once, as a listing found on that page; the filtered view of the page's own category is
+        part of what the page's listings list, and is not read. Both links are recorded."""
+        food_page(monkeypatch, ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907")]))
+        monkeypatch.setitem(
+            mock_scrapedo.CATEGORY_PAGES,
+            "/cp/dairy-eggs/9176907",
+            mock_scrapedo.nav_page(
+                [
+                    (
+                        "Dairy",
+                        [
+                            ("Organic Milk", ORGANIC_MILK),
+                            ("Clearance", "/browse/dairy-eggs/9176907?facet=special_offers%3AClearance"),
+                        ],
+                    )
+                ]
+            ),
+        )
+        monkeypatch.setitem(mock_scrapedo.PAGES, W + "/browse/dairy-eggs/9176907", mock_scrapedo.PAGES[MILK])
+        before = len(env.mock.calls)
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        run = env.runs()[-1]
+        reads = store_reads(env, before, "976759_9176907")
+>       assert len(reads) == 1 and "organic" not in reads[0], reads
+E       AssertionError: ['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup']
+E       assert (1 == 1 and 'organic' not in 'https://www...hod%3APickup'
+E        +  where 1 = len(['https://www.walmart.com/browse/food/milk/976759_9176907?povid=FoodCP_LHN_Organic_Milk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup'])
+E         
+E         'organic' is contained here:
+E           ilk&facet=organic%3AYes%7C%7Cfulfillment_method%3APickup
+E         ?           +++++++)
+
+tests/integration/test_category_mapping.py:529: AssertionError
+__ test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself ___
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_name_a_page_gives_a_fil0/config/collector.yaml'), moc...er/pytest-146/test_a_name_a_page_gives_a_fil0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6470d190>)
+own_page_name = 'Milk Products'
+
+    def test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself(
+        env: Env,  # noqa: F811
+        own_page_name: str,
+    ) -> None:
+        """Runs up to 1.6.7 recorded a filtered link among the listings a page names (L10's Health & Wellness:
+        "Cough", facet=health_concern:Cough). The third 1.6.8 candidate keyed a name by the listing ID alone:
+        it would have renamed the 249 carried records of 976760_4661388_6244277_7158394 that L12 exported as
+        "Shop all Cold Cough & Flu Medicine" (read from the listing itself) "Cough". A filtered view's name names
+        that view only. SYNTHETIC events, as such a run recorded them."""
+        from walmart_headless.collection import navigation
+    
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
+        assert code == 0
+        first = env.runs()[-1]
+        assert {p["sub_category"] for p in products(env, first)} == {own_page_name}
+        with sessionmaker(env.engine)() as s:
+            s.add(
+                Event(
+                    run_id=first.id,
+                    level="INFO",
+                    code=navigation.FOUND_CODE,
+                    message="SYNTHETIC TEST: a category page that links Milk only filtered, as 1.6.7 recorded it",
+                    data={
+                        "node": "976759",
+                        "listings": [{"name": "Organic Milk", "url": ORGANIC_MILK, "note": ""}],
+                    },
+                )
+            )
+            s.commit()
+            names = navigation.category_page_names(s, first.store_id, node="976759")
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", SNACKS_PATH)
+        assert code == 0
+        later = env.runs()[-1]
+        milk = [p for p in products(env, later) if p["url"].endswith("/7101")]
+>       assert [p["sub_category"] for p in milk] == [own_page_name], milk
+E       AssertionError: [{'zipcode': '60085', 'store_name': 'Waukegan Supercenter', 'store_location': '3900 Fountain Square Pl, Waukegan, IL 60085', 'store_logo': '', ...}]
+E       assert ['Organic Milk'] == ['Milk Products']
+E         
+E         At index 0 diff: 'Organic Milk' != 'Milk Products'
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:582: AssertionError
+_ test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-146/test_a_stored_read_of_a_filter0/config/collector.yaml'), moc...er/pytest-146/test_a_stored_read_of_a_filter0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x7d5d6370d820>)
+
+    def test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report(
+        env: Env,  # noqa: F811
+    ) -> None:
+        """A run of an earlier release read a filtered link as if it were the listing (L10: "Allergy",
+        facet=subscription_eligible, 0 results; "Contact solution", 30 results: the 1.6.6 and earlier 1.6.8
+        coverage tables called both COMPLETE). Its results are part of the listing: the listing is not complete,
+        and its row stays open. A filtered view of the row's own category (L10: Personal Care "Clearance") is not
+        a listing of the row. SYNTHETIC: a whole run's stored Food checkpoint, its Milk link given a filter as
+        such a run recorded it, and a filtered link to Food itself added."""
+        mock_rows_only(env)
+        code, _ = env.result("run", "--store", STORE_KEY)
+        assert code == 0
+        run = env.runs()[-1]
+        assert coverage(env, run)["coverage_complete"] is True  # the control: as read
+        with sessionmaker(env.engine)() as s:
+            tasks = s.scalars(select(Task).where(Task.run_id == run.id, Task.kind == "listing_node")).all()
+            [task] = [t for t in tasks if (t.cursor.get("node") or {}).get("taxonomy_id") == "976759"]
+            cursor = copy.deepcopy(task.cursor)
+            [milk] = [x for x in cursor["listings"] if x["id"] == "976759_9176907"]
+            milk["url"] = ORGANIC_MILK
+            cursor["listings"].append(
+                {
+                    **copy.deepcopy(milk),
+                    "id": "976759",
+                    "name": "Clearance",
+                    "url": W + "/browse/food/976759?facet=special_offers%3AClearance",
+                    "seen": [],
+                }
+            )
+            task.cursor = cursor
+            s.commit()
+        report = coverage(env, run)
+        rows = {r["listing_id"]: r for r in report["rows"]}
+        milk_row, own_row = rows["976759_9176907"], rows["976759"]
+>       assert (milk_row["effective_status"], milk_row.get("filtered_view_of")) == ("INCOMPLETE", "listing"), (
+            milk_row["effective_reason"]
+        )
+E       AssertionError: reconciled at the last page: 1 result pages, 1 organic and 0 sponsored-only identities; 1 reported; the organic identities equal the total
+E       assert ('DONE', None) == ('INCOMPLETE', 'listing')
+E         
+E         At index 0 diff: 'DONE' != 'INCOMPLETE'
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:626: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+FAILED tests/integration/test_category_mapping.py::test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once
+FAILED tests/integration/test_category_mapping.py::test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once
+FAILED tests/integration/test_category_mapping.py::test_two_shelves_that_share_listing_id_0_are_two_listings
+FAILED tests/integration/test_category_mapping.py::test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own
+FAILED tests/integration/test_category_mapping.py::test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page
+FAILED tests/integration/test_category_mapping.py::test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself
+FAILED tests/integration/test_category_mapping.py::test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report
+7 failed, 7 passed in 83.07s (0:01:23)
+pytest exit code 1
+== tests/unit/test_filtered_views_168.py
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_tracking_and_the_collectors_own_fulfillment_facet_do_not_narrow_a_listing _
+
+    def test_tracking_and_the_collectors_own_fulfillment_facet_do_not_narrow_a_listing() -> None:
+>       assert navigation.narrowing(DEODORANT) == ()
+               ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+
+tests/unit/test_filtered_views_168.py:42: AttributeError
+____ test_a_second_question_mark_separates_parameters_and_facets_are_sorted ____
+
+    def test_a_second_question_mark_separates_parameters_and_facets_are_sorted() -> None:
+>       assert navigation.narrowing(MENS_DEODORANT) == (("facet", "gender:Male"),)
+               ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+
+tests/unit/test_filtered_views_168.py:50: AttributeError
+_ test_a_parameter_without_a_value_or_repeating_the_links_own_id_is_no_filter_an_unknown_one_is _
+
+    def test_a_parameter_without_a_value_or_repeating_the_links_own_id_is_no_filter_an_unknown_one_is() -> None:
+>       assert navigation.narrowing(W + "/browse/x/123?povid=FSA_&_HAS_2.9") == ()  # live: an unencoded "&"
+               ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+
+tests/unit/test_filtered_views_168.py:56: AttributeError
+___ test_two_paths_to_the_same_view_are_one_read_two_filtered_views_are_not ____
+
+    def test_two_paths_to_the_same_view_are_one_read_two_filtered_views_are_not() -> None:
+        assert listing_key(PANTRY) == listing_key(GV_PANTRY) == "browse:976759_976794_2002490"
+>       assert listing_key(COUGH) != listing_key(SUBSCRIPTION)
+E       AssertionError: assert 'browse:976760_4661388_6244277_7158394' != 'browse:976760_4661388_6244277_7158394'
+E        +  where 'browse:976760_4661388_6244277_7158394' = listing_key('https://www.walmart.com/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394?facet=health_concern%3aCough&povid=ColdCoughFluCPLHN_Shop_All_Cough')
+E        +  and   'browse:976760_4661388_6244277_7158394' = listing_key('https://www.walmart.com/browse/cold-cough-and-flu/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394?facet=subscription_eligible%3ASubscription+item')
+
+tests/unit/test_filtered_views_168.py:66: AssertionError
+_ test_a_filtered_view_names_the_listing_it_filters_and_a_shelf_is_a_listing_of_its_own _
+
+    def test_a_filtered_view_names_the_listing_it_filters_and_a_shelf_is_a_listing_of_its_own() -> None:
+        base = W + "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
+>       assert navigation.filtered_listing(COUGH) == base
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'filtered_listing'
+
+tests/unit/test_filtered_views_168.py:77: AttributeError
+__________________ test_a_shelf_is_recorded_under_its_own_id ___________________
+
+    def test_a_shelf_is_recorded_under_its_own_id() -> None:
+>       assert navigation.read_id(FRESH_FRUIT) == "0@shelf_id:8210692"
+               ^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'read_id'
+
+tests/unit/test_filtered_views_168.py:87: AttributeError
+_ test_view_key_names_a_listing_itself_by_its_id_and_a_filtered_view_with_its_filters _
+
+    def test_view_key_names_a_listing_itself_by_its_id_and_a_filtered_view_with_its_filters() -> None:
+>       assert navigation.view_key(DEODORANT) == "1005862_1001487"
+               ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'view_key'
+
+tests/unit/test_filtered_views_168.py:96: AttributeError
+=========================== short test summary info ============================
+FAILED tests/unit/test_filtered_views_168.py::test_tracking_and_the_collectors_own_fulfillment_facet_do_not_narrow_a_listing
+FAILED tests/unit/test_filtered_views_168.py::test_a_second_question_mark_separates_parameters_and_facets_are_sorted
+FAILED tests/unit/test_filtered_views_168.py::test_a_parameter_without_a_value_or_repeating_the_links_own_id_is_no_filter_an_unknown_one_is
+FAILED tests/unit/test_filtered_views_168.py::test_two_paths_to_the_same_view_are_one_read_two_filtered_views_are_not
+FAILED tests/unit/test_filtered_views_168.py::test_a_filtered_view_names_the_listing_it_filters_and_a_shelf_is_a_listing_of_its_own
+FAILED tests/unit/test_filtered_views_168.py::test_a_shelf_is_recorded_under_its_own_id
+FAILED tests/unit/test_filtered_views_168.py::test_view_key_names_a_listing_itself_by_its_id_and_a_filtered_view_with_its_filters
+7 failed in 0.57s
+pytest exit code 1
+== tests/unit/test_subcategory_pages_168.py
+...F.                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_the_coverage_report_counts_an_expanded_page_as_read_and_keeps_its_status _
+
+    def test_the_coverage_report_counts_an_expanded_page_as_read_and_keeps_its_status() -> None:
+        assert "EXPANDED" in reconcile.COMPLETE_OUTCOMES and "EXPANDED" in reconcile.NOT_DECIDED
+        page = Listing("Chips", "https://www.walmart.com/cp/chips/1001390", "1001390", status="EXPANDED")
+        status, _ = reconcile.rule_status(page, set(), set())
+        assert status == "EXPANDED"
+>       assert reconcile.COLUMNS[-3:] == ("found_on", "filtered_view", "filtered_view_of")
+E       AssertionError: assert ('end', 'stop...', 'found_on') == ('found_on', ...ered_view_of')
+E         
+E         At index 0 diff: 'end' != 'found_on'
+E         Use -v to get more diff
+
+tests/unit/test_subcategory_pages_168.py:49: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+FAILED tests/unit/test_subcategory_pages_168.py::test_the_coverage_report_counts_an_expanded_page_as_read_and_keeps_its_status
+1 failed, 4 passed in 0.50s
+pytest exit code 1
+ended 2026-11-05T21:24:30Z

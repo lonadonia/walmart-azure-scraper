@@ -1,0 +1,4 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen python -m pytest -q -p no:cacheprovider -rs tests/integration/test_workers_and_oxylabs.py --junitxml=C:\w9\v168d\junit\scrapedo.integration-affected.test_workers_and_oxylabs.xml
+(cwd walmart-scrapedo-1.6.8; offline=True)
+........                                                                 [100%]
+8 passed in 66.69s (0:01:06)

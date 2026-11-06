@@ -1,0 +1,152 @@
+== tests/integration/test_abandoned_segments.py 20:56:16Z
+1 passed in 12.18s
+exit 0
+== tests/integration/test_account_gate.py 20:56:29Z
+4 passed in 30.18s
+exit 0
+== tests/integration/test_captures_replay.py 20:57:00Z
+1 passed in 7.92s
+exit 0
+== tests/integration/test_category_mapping.py 20:57:09Z
+14 passed in 83.02s (0:01:23)
+exit 0
+== tests/integration/test_concurrency_load.py 20:58:33Z
+6 passed in 123.19s (0:02:03)
+exit 0
+== tests/integration/test_coverage_and_assortment.py 21:00:37Z
+32 passed in 120.78s (0:02:00)
+exit 0
+== tests/integration/test_deal_fields_policy.py 21:02:39Z
+4 passed in 17.96s
+exit 0
+== tests/integration/test_detail_path.py 21:02:57Z
+26 passed in 210.85s (0:03:30)
+exit 0
+== tests/integration/test_editions.py 21:06:29Z
+4 passed in 9.64s
+exit 0
+== tests/integration/test_follow_queue.py 21:06:40Z
+3 passed in 23.08s
+exit 0
+== tests/integration/test_followups.py 21:07:03Z
+9 passed in 42.66s
+exit 0
+== tests/integration/test_lineage_retention.py 21:07:47Z
+8 passed in 27.60s
+exit 0
+== tests/integration/test_operations.py 21:08:15Z
+32 passed in 239.12s (0:03:59)
+exit 0
+== tests/integration/test_publication_safety.py 21:12:16Z
+10 passed in 115.42s (0:01:55)
+exit 0
+== tests/integration/test_publish.py 21:14:12Z
+6 passed in 10.11s
+exit 0
+== tests/integration/test_queue_locks.py 21:14:23Z
+10 passed in 12.15s
+exit 0
+== tests/integration/test_replay.py 21:14:36Z
+9 passed in 80.56s (0:01:20)
+exit 0
+== tests/integration/test_retained_masking.py 21:15:57Z
+4 passed in 20.28s
+exit 0
+== tests/integration/test_runner.py 21:16:18Z
+7 passed in 11.49s
+exit 0
+== tests/integration/test_scrapedo_walmart.py 21:16:31Z
+19 passed in 129.92s (0:02:09)
+exit 0
+== tests/integration/test_weight_wording.py 21:18:42Z
+3 passed in 12.99s
+exit 0
+== tests/integration/test_workers_and_oxylabs.py 21:18:55Z
+8 passed in 52.45s
+exit 0
+== tests/integration/test_yield_baseline.py 21:19:49Z
+2 passed in 12.95s
+exit 0
+ALL DONE 2026-11-05T21:20:02Z
+---- fail-before on 1.6.7
+E           assert ('SKIPPED' == 'EXPANDED'
+E             
+E             - EXPANDED
+E             + SKIPPED)
+{"ts": "2026-11-05T21:20:30.943Z", "level": "INFO", "event": "CANARY_PASSED", "collector": "walmart-azure-headless", "run_id": "01M6PSBAJW3AFZY7ASPHV0ASB1", "message": "first recorded page passed the automated checks: collection continues", "data": {"page": "0
+E       AssertionError: assert [('/', 'https...food/976759')] == [('/', 'https...ggs/9176907')]
+E         
+E         Right contains one more item: ('/', 'https://www.walmart.com/cp/dairy-eggs/9176907')
+E         Use -v to get more diff
+{"ts": "2026-11-05T21:20:37.148Z", "level": "INFO", "event": "CANARY_PASSED", "collector": "walmart-azure-headless", "run_id": "01M6PSBGMWCPTJ91M5DRBJYQ39", "message": "first recorded page passed the automated checks: collection continues", "data": {"page": "0
+{"ts": "2026-11-05T21:20:41.529Z", "level": "INFO", "event": "CANARY_PASSED", "collector": "walmart-azure-headless", "run_id": "01M6PSBMXRGYH0T1RNKAVY9J0E", "message": "first recorded page passed the automated checks: collection continues", "data": {"page": "0
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_run_checks_every_page_against_the_store_and_charges_the_ledger
+FAILED tests/integration/test_coverage_and_assortment.py::test_the_category_page_is_read_through_the_general_api_never_the_store_plugin
+5 failed, 7 passed in 96.78s (0:01:36)
+pytest exit code 1
+E   ImportError: cannot import name 'NOT_A_CATEGORY' from 'walmart_headless.collection.walmart' (<vm-home>/q168d/fb167d/src/walmart_headless/collection/walmart.py)
+ERROR tests/unit/test_subcategory_pages_168.py
+pytest exit code 2
+E   ImportError: cannot import name 'listing_key' from 'walmart_headless.collection.walmart' (<vm-home>/q168d/fb167d/src/walmart_headless/collection/walmart.py)
+ERROR tests/unit/test_filtered_views_168.py
+pytest exit code 2
+E       AssertionError: reconciled at the last page: 1 result pages, 1 organic and 0 sponsored-only identities; 1 reported; the organic identities equal the total
+E       assert ('DONE', None) == ('INCOMPLETE', 'listing')
+E         
+E         At index 0 diff: 'DONE' != 'INCOMPLETE'
+E         Use -v to get more diff
+FAILED tests/integration/test_category_mapping.py::test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name
+FAILED tests/integration/test_category_mapping.py::test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name
+FAILED tests/integration/test_category_mapping.py::test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once
+FAILED tests/integration/test_category_mapping.py::test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once
+FAILED tests/integration/test_category_mapping.py::test_two_shelves_that_share_listing_id_0_are_two_listings
+FAILED tests/integration/test_category_mapping.py::test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own
+FAILED tests/integration/test_category_mapping.py::test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page
+FAILED tests/integration/test_category_mapping.py::test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself
+FAILED tests/integration/test_category_mapping.py::test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report
+9 failed, 5 passed in 77.18s (0:01:17)
+pytest exit code 1
+---- fail-before on 9c14425
+E         Use -v to get more diff
+E       AssertionError: reconciled at the last page: 1 result pages, 1 organic and 0 sponsored-only identities; 1 reported; the organic identities equal the total
+E       assert ('DONE', None) == ('INCOMPLETE', 'listing')
+E         
+E         At index 0 diff: 'DONE' != 'INCOMPLETE'
+E         Use -v to get more diff
+FAILED tests/integration/test_category_mapping.py::test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once
+FAILED tests/integration/test_category_mapping.py::test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once
+FAILED tests/integration/test_category_mapping.py::test_two_shelves_that_share_listing_id_0_are_two_listings
+FAILED tests/integration/test_category_mapping.py::test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own
+FAILED tests/integration/test_category_mapping.py::test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page
+FAILED tests/integration/test_category_mapping.py::test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself
+FAILED tests/integration/test_category_mapping.py::test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report
+7 failed, 7 passed in 83.07s (0:01:23)
+pytest exit code 1
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'narrowing'
+E       AssertionError: assert 'browse:976760_4661388_6244277_7158394' != 'browse:976760_4661388_6244277_7158394'
+E        +  where 'browse:976760_4661388_6244277_7158394' = listing_key('https://www.walmart.com/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394?facet=health_concern%3aCough&povid=ColdCoughFluCPLHN_Shop_All_Cough')
+E        +  and   'browse:976760_4661388_6244277_7158394' = listing_key('https://www.walmart.com/browse/cold-cough-and-flu/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394?facet=subscription_eligible%3ASubscription+item')
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'filtered_listing'
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'read_id'
+E       AttributeError: module 'walmart_headless.collection.navigation' has no attribute 'view_key'
+FAILED tests/unit/test_filtered_views_168.py::test_tracking_and_the_collectors_own_fulfillment_facet_do_not_narrow_a_listing
+FAILED tests/unit/test_filtered_views_168.py::test_a_second_question_mark_separates_parameters_and_facets_are_sorted
+FAILED tests/unit/test_filtered_views_168.py::test_a_parameter_without_a_value_or_repeating_the_links_own_id_is_no_filter_an_unknown_one_is
+FAILED tests/unit/test_filtered_views_168.py::test_two_paths_to_the_same_view_are_one_read_two_filtered_views_are_not
+FAILED tests/unit/test_filtered_views_168.py::test_a_filtered_view_names_the_listing_it_filters_and_a_shelf_is_a_listing_of_its_own
+FAILED tests/unit/test_filtered_views_168.py::test_a_shelf_is_recorded_under_its_own_id
+FAILED tests/unit/test_filtered_views_168.py::test_view_key_names_a_listing_itself_by_its_id_and_a_filtered_view_with_its_filters
+7 failed in 0.57s
+pytest exit code 1
+E       AssertionError: assert ('end', 'stop...', 'found_on') == ('found_on', ...ered_view_of')
+E         
+E         At index 0 diff: 'end' != 'found_on'
+E         Use -v to get more diff
+FAILED tests/unit/test_subcategory_pages_168.py::test_the_coverage_report_counts_an_expanded_page_as_read_and_keeps_its_status
+1 failed, 4 passed in 0.50s
+pytest exit code 1

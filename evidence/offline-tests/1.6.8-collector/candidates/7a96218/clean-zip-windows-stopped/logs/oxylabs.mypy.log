@@ -1,0 +1,3 @@
+$ C:\Users\<user>\.local\bin\uv.exe run --frozen mypy
+(cwd walmart-oxylabs-1.6.8; offline=True)
+Success: no issues found in 88 source files

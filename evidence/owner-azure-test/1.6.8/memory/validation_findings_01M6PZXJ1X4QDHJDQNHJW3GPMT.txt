@@ -1,0 +1,26 @@
+# The checks findings (WARN and FAIL) of the memory stage replay of L10, run 01M6PZXJ1X4QDHJDQNHJW3GPMT, read from its database walmart_q168d_mem on 2026-11-05T23:30:55Z, before that database was dropped.
+# Query: select gate, severity, code, scope, coalesce(ref, '') as ref, message, metrics::text as metrics from validation_findings where run_id = '01M6PZXJ1X4QDHJDQNHJW3GPMT' and severity <> 'INFO' order by gate, severity, scope, ref
+gate	severity	code	scope	ref	message	metrics
+G14	FAIL	CONTEST_NOT_READY	run		a REPLAY reads an earlier run's stored pages again: it is not a fresh observation	{}
+G3	FAIL	NODE_INCOMPLETE	category	Art Supplies	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Balloons	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Beauty	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Diapering	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Feeding	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Health & Wellness	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Household Essentials	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Office Supplies	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Personal Care	status INCOMPLETE	{}
+G3	FAIL	NODE_INCOMPLETE	category	Pets	status INCOMPLETE	{}
+G4	FAIL	RETAINED_MASKS_YIELD	category	Health & Wellness	71% of the published products are retained from earlier runs (293 retained, 121 fresh valid)	{"retained": 293, "fresh_valid": 121, "retained_share": 0.7077}
+G4	FAIL	ZERO_YIELD_SUSPECT	category	Household Essentials	0 records	{}
+G4	FAIL	RETAINED_MASKS_YIELD	category	Household Essentials	100% of the published products are retained from earlier runs (1172 retained, 0 fresh valid)	{"retained": 1172, "fresh_valid": 0, "retained_share": 1.0}
+G4	WARN	RETAINED_MASKS_YIELD	category	Diapering	43% of the published products are retained from earlier runs (30 retained, 39 fresh valid)	{"retained": 30, "fresh_valid": 39, "retained_share": 0.4348}
+(15 rows)
+# Counts by gate and severity, all severities:
+gate	severity	count
+G14	FAIL	1
+G3	FAIL	10
+G4	FAIL	3
+G4	WARN	1
+(4 rows)

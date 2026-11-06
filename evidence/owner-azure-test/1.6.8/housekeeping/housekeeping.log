@@ -1,0 +1,97 @@
+started 2026-11-05T23:31:51Z
+== databases before
+postgres postgres 7503 kB
+template0 postgres 7345 kB
+template1 postgres 7567 kB
+walmart_collector walmart 26 MB
+walmart_oxylabs walmart 51 MB
+walmart_pubtest walmart 10175 kB
+walmart_pubtest_oxylabs walmart 18 MB
+walmart_pubtest_scrapedo walmart 11 MB
+walmart_q167_c_campaign walmart_q167 532 MB
+walmart_q167_c_killresume walmart_q167 725 MB
+walmart_q167_c_oxylabs walmart_q167 8871 kB
+walmart_q167_c_scrapedo walmart_q167 8871 kB
+walmart_q167_oxylabs walmart_q167 8807 kB
+walmart_q167_oxylabs_test walmart_q167 17 MB
+walmart_q167_scrapedo walmart_q167 8807 kB
+walmart_q167_scrapedo_test walmart_q167 17 MB
+walmart_q168_c_campaign walmart_q167 576 MB
+walmart_q168_c_killresume walmart_q167 637 MB
+walmart_q168_c_oxylabs walmart_q167 8871 kB
+walmart_q168_c_scrapedo walmart_q167 8871 kB
+walmart_q168_oxylabs walmart_q167 8807 kB
+walmart_q168_oxylabs_test walmart_q167 16 MB
+walmart_q168_scrapedo walmart_q167 8807 kB
+walmart_q168_scrapedo_test walmart_q167 16 MB
+walmart_q168d_c_campaign walmart_q167 633 MB
+walmart_q168d_c_killresume walmart_q167 643 MB
+walmart_q168d_c_oxylabs walmart_q167 8871 kB
+walmart_q168d_c_scrapedo walmart_q167 8879 kB
+walmart_q168d_mem walmart_q167 603 MB
+walmart_q168d_oxylabs walmart_q167 8807 kB
+walmart_q168d_oxylabs_test walmart_q167 16 MB
+walmart_q168d_scrapedo walmart_q167 8807 kB
+walmart_q168d_scrapedo_test walmart_q167 17 MB
+walmart_scrapedo walmart 32 MB
+dropped walmart_q167_c_campaign
+dropped walmart_q167_c_killresume
+dropped walmart_q167_c_oxylabs
+dropped walmart_q167_c_scrapedo
+dropped walmart_q167_oxylabs
+dropped walmart_q167_oxylabs_test
+dropped walmart_q167_scrapedo
+dropped walmart_q167_scrapedo_test
+dropped walmart_q168_c_campaign
+dropped walmart_q168_c_killresume
+dropped walmart_q168_c_oxylabs
+dropped walmart_q168_c_scrapedo
+dropped walmart_q168_oxylabs
+dropped walmart_q168_oxylabs_test
+dropped walmart_q168_scrapedo
+dropped walmart_q168_scrapedo_test
+dropped walmart_q168d_c_campaign
+dropped walmart_q168d_c_killresume
+dropped walmart_q168d_c_oxylabs
+dropped walmart_q168d_c_scrapedo
+dropped walmart_q168d_mem
+dropped walmart_q168d_oxylabs
+dropped walmart_q168d_oxylabs_test
+dropped walmart_q168d_scrapedo
+dropped walmart_q168d_scrapedo_test
+== databases after
+postgres postgres
+template0 postgres
+template1 postgres
+walmart_collector walmart
+walmart_oxylabs walmart
+walmart_pubtest walmart
+walmart_pubtest_oxylabs walmart
+walmart_pubtest_scrapedo walmart
+walmart_scrapedo walmart
+== the host now against 2026-11-05T10:49Z (before the 1.6.7 gate)
+8d7
+< docker0 DOWN
+13d11
+< docker0 172.17.0.1/16 fe80::285c:ebff:feac:19fb/64
+32c30
+< == mounts naming docker, containerd or q167
+---
+> == mounts naming docker, containerd, q167 or q168
+46,47c44
+< sys-devices-virtual-net-docker0.device                                                                                                                                    loaded    active   plugged   /sys/devices/virtual/net/docker0
+< sys-subsystem-net-devices-docker0.device                                                                                                                                  loaded    active   plugged   /sys/subsystem/net/devices/docker0
+---
+> none
+61,64d57
+< walmart_q167_oxylabs walmart_q167
+< walmart_q167_oxylabs_test walmart_q167
+< walmart_q167_scrapedo walmart_q167
+< walmart_q167_scrapedo_test walmart_q167
+== this work's folders
+1.9G	<vm-home>/q167
+1.2G	<vm-home>/q168
+1.6G	<vm-home>/q168d
+/dev/root        29G   11G   18G  38% /
+Mem:            3905         811        2323         146        1215        3094
+ended 2026-11-05T23:31:58Z

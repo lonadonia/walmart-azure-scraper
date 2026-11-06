@@ -1,0 +1,69 @@
+{
+ "about": "W3 at row level, release 1.6.7 tool, offline: the 275 queued sponsored and variant products",
+ "evidence_class": "LIVE VERIFIED (the 1.6.0 and 1.6.1 reads of L2, L3 and L2b), reclassified offline",
+ "decisions": {
+  "included": 48,
+  "excluded": 224,
+  "duplicate": 3
+ },
+ "classes": {
+  "duplicate": 3,
+  "excluded_alternative_category": 165,
+  "excluded_category_path_missing": 4,
+  "excluded_local_eligibility_not_proven": 55,
+  "included": 48
+ },
+ "excluded": 224,
+ "excluded_without_required_category_proof": 169,
+ "of_which_missing_or_broader_path": 4,
+ "of_which_alternative_category_identified": 165,
+ "excluded_without_local_eligibility_proof": 55,
+ "failed": 0,
+ "blocked": 0,
+ "unresolved": 0,
+ "by_listing": {
+  "Bath & Body (1005862_1071969)": {
+   "excluded_alternative_category": 3,
+   "excluded_local_eligibility_not_proven": 14,
+   "included": 7
+  },
+  "Diapering (5427_486190)": {
+   "excluded_alternative_category": 29,
+   "excluded_local_eligibility_not_proven": 18,
+   "included": 27
+  },
+  "Dry Dog Food (5440_202072_6432755_1636265)": {
+   "duplicate": 2,
+   "excluded_alternative_category": 87,
+   "excluded_local_eligibility_not_proven": 5,
+   "included": 2
+  },
+  "Fresh Vegetables (976759_976793_8910423)": {
+   "excluded_alternative_category": 17,
+   "excluded_category_path_missing": 4,
+   "excluded_local_eligibility_not_proven": 3,
+   "included": 1
+  },
+  "Laundry (1115193_1071967)": {
+   "excluded_alternative_category": 12,
+   "excluded_local_eligibility_not_proven": 15,
+   "included": 11
+  },
+  "Shop all Cold Cough & Flu Medicine (976760_4661388_6244277_7158394)": {
+   "duplicate": 1,
+   "excluded_alternative_category": 17
+  }
+ },
+ "inputs_sha256": {
+  "evidence/live/1.6.x/runs/L2_01M6H72J86K5TF7A1874N7BJ2R/PAGE_LINEAGE.csv": "e21762982acc7d53d6c1b7deab539418253edf2a7de85d40f5b703cd2f1d8568",
+  "evidence/live/1.6.x/runs/L2_01M6H72J86K5TF7A1874N7BJ2R/coverage/follow_up_outcomes_01M6H72J86K5TF7A1874N7BJ2R.csv": "0b594a1cbc1a8826e9102bf61ef2a0a5fbb5903106fed83e67a142dd166826b8",
+  "evidence/live/1.6.x/runs/L2_01M6H72J86K5TF7A1874N7BJ2R/exports/record_map.json": "b63c791713592509c7d90df640800f27dd9313e227dedb38ac89e00c307d011c",
+  "evidence/live/1.6.x/runs/L2b_01M6HAXEP6495EGWT91JQS09SS/PAGE_LINEAGE.csv": "7c21572db81d59425cabb8954a4e689b90d21e50fccf394b2224ac3a1ecfe3f0",
+  "evidence/live/1.6.x/runs/L2b_01M6HAXEP6495EGWT91JQS09SS/coverage/follow_up_outcomes_01M6HAXEP6495EGWT91JQS09SS.csv": "200b7bea549b17d1ab98ad07e8d07d79bad10b9ff029897ca9f4e9a363ac05ab",
+  "evidence/live/1.6.x/runs/L2b_01M6HAXEP6495EGWT91JQS09SS/exports/record_map.json": "ed7c056e0c12d63b36a38495065e31860070e898e3c270f77d756c95af141384",
+  "evidence/live/1.6.x/runs/L3_01M6HA74X4QYMW45SVD62JQDSQ/PAGE_LINEAGE.csv": "526406d4e1bb54269f294de9e73667eb78d9ae2c2a0e1b8b9e835eb0e3fe8686",
+  "evidence/live/1.6.x/runs/L3_01M6HA74X4QYMW45SVD62JQDSQ/coverage/follow_up_outcomes_01M6HA74X4QYMW45SVD62JQDSQ.csv": "27558c82bf3dffaf66ce9f2be4c154252e04c316926fc457ff5087cefd031c6d",
+  "evidence/live/1.6.x/runs/L3_01M6HA74X4QYMW45SVD62JQDSQ/exports/record_map.json": "afb8dd6fdcc0be087c3ba106c9004a5444da424bac87e75cd3c4d3461b7a7723",
+  "evidence/reconciliation/1.6.1/w3/W3_DECISIONS_1_6_1.csv": "edb5c108eb7b5d135c8936cdaf01f3bb4f91f4694fef47eb616257ae650149d9"
+ }
+}

@@ -1,0 +1,4 @@
+$ C:\Users\<user>\.local\bin\uv.exe lock --check --offline
+(cwd walmart-oxylabs-1.6.8; offline=True)
+Using CPython 3.12.10 interpreter at: C:\w6\py312\pkg\tools\python.exe
+Resolved 54 packages in 2ms

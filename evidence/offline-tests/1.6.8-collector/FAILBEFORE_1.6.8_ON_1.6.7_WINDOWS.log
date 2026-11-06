@@ -1,0 +1,189 @@
+2026-11-05T17:31:13Z
+tree: git archive 7ee2fa1:headless/walmart-azure-headless (release 1.6.7), the 1.6.8 test files of commit 7a96218f5cb64c7759d5b6544da797fe381281e1 copied in:
+  tests/mock_scrapedo.py sha256 03eb231ee126f15f9175ac7004a071fb43327a3266e099f0329a0ee76e0a5af4
+  tests/integration/test_scrapedo_walmart.py sha256 36e585c1a3448efeedc10369070b5f0877f64145611a753a3f34c4eae22bebbe
+  tests/integration/test_operations.py sha256 4ae299d8db1f2383ae8085767f8ec6660ff32378bf0e39ef491e36f4750a8e06
+  tests/integration/test_publication_safety.py sha256 1e2011d65f4cc45671587769a3a8a75910e48815d3b54fdedaf2f0232e98909e
+  tests/integration/test_coverage_and_assortment.py sha256 bffb925378c4acf9ae1d134941472ee877f045c19f282098e5164d08e743cf0c
+  tests/unit/test_subcategory_pages_168.py sha256 29058c538ae2c5bb3c0880221914c7fe66b1a95b785788676c6452f0de456e5a
+import check: C:\w9\scratch\c168\fb167_7a96218f5cb64c7759d5b6544da797fe381281e1\src\walmart_headless\__init__.py 1.6.7
+== integration: the five 1.6.8 tests (expected to FAIL by their own assertions) and three controls whose credit
+   budget 1.6.8 raised by one (expected to pass on 1.6.7 as on 1.6.8)
+FFFFF.......                                                             [100%]
+================================== FAILURES ===================================
+_ test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:51680/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002A7892917F0>
+
+    def test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names(
+        env: dict[str, Any], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Release 1.6.8 (the coverage review of 1.6.7): a link of a row's navigation to a category page of its
+        own (/cp/: Food's "Chips", "Cookies", "Soda", "Water" live) was skipped as "a category page or other page,
+        not a product listing", so the listings only that page names were never read. The page is now read for
+        the listings its own navigation names, each read as a listing of the row found on it; a page or listing
+        named twice is read once, and a subcategory page of the page is read in turn."""
+        _dairy_tree(monkeypatch)
+        run_id, status = _run(env)
+        calls = [urlsplit(c[2]).path for c in env["mock"].calls]
+        with env["factory"]() as s:
+            run = s.get(Run, run_id)
+            assert run is not None and status == "validated", (status, _failed_gates(s, run_id))
+            assert run.counts["collection_complete"] is True
+            records = {r.upc: r for r in s.scalars(select(RecordRow).where(RecordRow.run_id == run_id))}
+            for upc, sub in (("wm:7401", "Eggs"), ("wm:7501", "Shredded Cheese"), ("wm:7101", "Milk")):
+>               assert records[upc].status == "valid", (upc, records[upc].status)
+                       ^^^^^^^^^^^^
+E               KeyError: 'wm:7401'
+
+tests\integration\test_scrapedo_walmart.py:681: KeyError
+---------------------------- Captured stdout call -----------------------------
+__ test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete ___
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:51680/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002A789291F10>
+
+    def test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete(
+        env: dict[str, Any], monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Release 1.6.8: the listings a subcategory page names are part of the row, so a page the site answers
+        with its not-found page is recorded with why and the row is never complete (the row's other listings
+        are still read). Never an empty page, never a refusal."""
+        monkeypatch.setitem(mock_scrapedo.CATEGORY_PAGES, "/cp/dairy-eggs/9176907", syn.not_found_page())
+        run_id, _ = _run(env)
+        with env["factory"]() as s:
+            run = s.get(Run, run_id)
+            assert run is not None and run.stop_code is None
+>           assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
+E           assert (True is False)
+
+tests\integration\test_scrapedo_walmart.py:741: AssertionError
+---------------------------- Captured stdout call -----------------------------
+_ test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:51680/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report(
+        env: dict[str, Any],
+    ) -> None:
+        """Release 1.6.8: the coverage report of a run made by release 1.6.7 or earlier, whose Food row skipped
+        its Dairy & Eggs category page as "a category page or other page, not a product listing" (simulated here
+        by writing that 1.6.7 record into the run's checkpoint), does not call the row complete: the page was
+        never read for the listings it names. Until 1.6.7 that skip counted as a complete outcome."""
+        run_id, status = _run(env)
+        assert status == "validated"
+        with env["factory"]() as s:
+            assert reconcile.reconcile(s, run_id)["csv_rows"][0]["complete"] is True  # as 1.6.8 read it
+            task = next(
+                t
+                for t in s.scalars(select(Task).where(Task.run_id == run_id, Task.kind == "listing_node"))
+                if any(x.get("id") == "9176907" for x in (t.cursor or {}).get("listings") or [])
+            )
+            legacy = "a category page or other page, not a product listing"
+            task.cursor = {
+                **task.cursor,
+                "listings": [
+                    {**x, "status": "SKIPPED", "note": legacy, "reason": "", "end": "", "children": []}
+                    if x.get("id") == "9176907"
+                    else x
+                    for x in task.cursor["listings"]
+                ],
+            }
+            s.commit()
+            report = reconcile.reconcile(s, run_id)
+        food = report["csv_rows"][0]
+>       assert food["csv_row"] == 0 and food["complete"] is False, food
+E       AssertionError: {'csv_row': 0, 'category': 'Food', 'planned': True, 'read_in_part': False, ...}
+E       assert (0 == 0 and True is False)
+
+tests\integration\test_scrapedo_walmart.py:793: AssertionError
+---------------------------- Captured stdout call -----------------------------
+____ test_a_run_checks_every_page_against_the_store_and_charges_the_ledger ____
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:51680/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_run_checks_every_page_against_the_store_and_charges_the_ledger(env: dict[str, Any]) -> None:
+        run_id, _ = _run(env)
+        with env["factory"]() as s:
+            run = s.get(Run, run_id)
+            assert run is not None and run.status == "validated", (
+                run.status,
+                run.stop_code,
+                _failed_gates(s, run_id),
+            )
+            records = {r.upc: r for r in s.scalars(select(RecordRow).where(RecordRow.run_id == run_id))}
+            assert {"wm:7101", "wm:7201", "wm:7301"} <= {k for k, r in records.items() if r.status == "valid"}
+            assert records["wm:7202"].status == "excluded"  # a marketplace, shipping-only offer
+            assert records["wm:7201"].record["sub_category"] == "Snacks"  # "Shop all" takes its group's name
+            assert records["wm:7101"].record["sub_category"] == "Milk"
+            assert records["wm:7203"].status != "valid" or "OUT_OF_STOCK" in (records["wm:7203"].flags or [])
+            att = list(s.scalars(select(StoreAttestation).where(StoreAttestation.run_id == run_id)))
+            names = {c["check"]: c["status"] for a in att for c in a.checks["checks"]}
+            assert names.get("page_location_store") == "PASS" and names.get("page_intent") == "PASS"
+            assert names.get("store_scoped_request") == "PASS"
+            assert (run.counts or {})["canary"]["status"] == "passed"
+            assert run.counts["collection_complete"] is True
+            # The coverage rows of listings not read say why.
+            reasons = {
+                c.partition["url"]: (c.status, c.partition["reason"])
+                for c in s.scalars(select(NodeCoverage).where(NodeCoverage.run_id == run_id))
+            }
+            # Release 1.6.8: the "Shop All" link of Dairy & Eggs is a category page of its own, read for the
+            # listings its navigation names: Milk, which the Food page names too (read once, not twice).
+            dairy = reasons["https://www.walmart.com/cp/dairy-eggs/9176907"]
+>           assert dairy[0] == "EXPANDED" and "names 1 links, 0 not named before in this row" in dairy[1], dairy
+E           AssertionError: ('SKIPPED', 'a category page or other page, not a product listing')
+E           assert ('SKIPPED' == 'EXPANDED'
+E             
+E             - EXPANDED
+E             + SKIPPED)
+
+tests\integration\test_scrapedo_walmart.py:176: AssertionError
+---------------------------- Captured stdout call -----------------------------
+_ test_the_category_page_is_read_through_the_general_api_never_the_store_plugin _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@127.0.0.1:51680/walmart_collector_test?connect_timeout=15), 'facto..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_the_category_page_is_read_through_the_general_api_never_the_store_plugin(
+        env: dict[str, Any],
+    ) -> None:
+        """On 2026-10-23 the store plugin answered every /cp/ page with its own 502 ("Walmart-store plugin
+        failure."); a category page is read only for its navigation, so it goes through the general API.
+        Release 1.6.8: so does a subcategory page of its own that the row's navigation links (the Dairy & Eggs
+        page the SYNTHETIC Food page links), read for the listings it names."""
+        run_id, _ = run_food(env)
+        cp = [(path, u) for _, path, u in env["mock"].calls if "/cp/" in u]
+>       assert cp == [
+            ("/", "https://www.walmart.com/cp/food/976759"),
+            ("/", "https://www.walmart.com/cp/dairy-eggs/9176907"),
+        ]
+E       AssertionError: assert [('/', 'https...food/976759')] == [('/', 'https...ggs/9176907')]
+E         
+E         Right contains one more item: ('/', 'https://www.walmart.com/cp/dairy-eggs/9176907')
+E         Use -v to get more diff
+
+tests\integration\test_coverage_and_assortment.py:912: AssertionError
+---------------------------- Captured stdout call -----------------------------
+=================================== PASSES ====================================
+___ test_an_exhausted_key_stops_the_run_resumably_and_nothing_else_is_tried ___
+---------------------------- Captured stdout call -----------------------------
+=========================== short test summary info ===========================
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_run_checks_every_page_against_the_store_and_charges_the_ledger
+FAILED tests/integration/test_coverage_and_assortment.py::test_the_category_page_is_read_through_the_general_api_never_the_store_plugin
+5 failed, 7 passed in 112.93s (0:01:52)
+exit 1
+== unit: tests/unit/test_subcategory_pages_168.py (the functions 1.6.8 adds: expected to fail on import)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_subcategory_pages_168.py:8: in <module>
+    from walmart_headless.collection.walmart import (
+E   ImportError: cannot import name 'NOT_A_CATEGORY' from 'walmart_headless.collection.walmart' (C:\w9\scratch\c168\fb167_7a96218f5cb64c7759d5b6544da797fe381281e1\src\walmart_headless\collection\walmart.py)
+=========================== short test summary info ===========================
+ERROR tests/unit/test_subcategory_pages_168.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 2.14s
+exit 2
+2026-11-05T17:33:15Z

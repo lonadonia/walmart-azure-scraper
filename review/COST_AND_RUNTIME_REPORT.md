@@ -1,6 +1,6 @@
-# Cost and runtime report: Walmart release 1.6.6
+# Cost and runtime report: Walmart release 1.6.8
 
-Release 1.6.6, commit `39cc61f61ee694c0659a611310605bee6ed42d6b` (built as `cbea802`). Store: Walmart #3891, 3900 Fountain Square Pl,
+Release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a`. No live run was made on it, so every live figure below belongs to an earlier release, named. Store: Walmart #3891, 3900 Fountain Square Pl,
 Waukegan, IL 60085, PICKUP. Times are UTC. Measured values and estimates are kept apart, and every estimate is
 labelled as one.
 
@@ -15,7 +15,7 @@ Hamza authorized USD 5 in total across Walmart and Mariano's, on the designated 
 overage, new subscription, other paid provider or client-account charge. One account-wide ledger outside both
 repositories (`.shared-oxylabs-trial-20261103`) enforces it: each submission's worst case is reserved
 before it is sent, and an outcome that is not known stays reserved. Read after the last stage closed (L12,
-2026-11-04T23:03:49Z; the ledger's state written at 23:04:15Z):
+2026-11-04T23:03:49Z; the ledger's state written at 23:04:15Z), and read again unchanged on 2026-11-06T01:10:58Z:
 
 | | USD |
 |---|---|
@@ -33,7 +33,8 @@ Walmart's 1,513 reservations: 1,497 settled (1,482 results; the other 15 were re
 settled at 0) and 16 unknown. The collector's own ledger agrees: 1,512 requests, USD 2.2470; the 1,513th reservation
 is W0, a request made outside the collector (see [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md), section 8). The
 Oxylabs ceiling is 0 since 2026-11-04T23:03:52Z and no lease is active. Mariano's envelope stays with Mariano's:
-it may be reassigned only after Mariano's smallest essential tests are done or shown unable to proceed, and
+moving any of it to Walmart needs the owner's separate written authorization, which has not been given, and the
+shared rule allows it only after Mariano's smallest essential tests are done or shown unable to proceed, and
 neither is the case. The ledger's Walmart extract is in
 [`evidence/live/1.6.x/campaign/shared_ledger/`](../evidence/live/1.6.x/campaign/shared_ledger/).
 
@@ -69,7 +70,7 @@ detail on, a short run's cost per product is several times a long run's.
 ## 2. Measured runtime
 
 Per run, from its own page fetches: [`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md), section 4, and
-[`CONCURRENCY_MEASURED_1_6_6.csv`](../evidence/reconciliation/1.6.6/CONCURRENCY_MEASURED_1_6_6.csv). The figures
+[`CONCURRENCY_MEASURED_1_6_6.csv`](../evidence/reconciliation/1.6.6/CONCURRENCY_MEASURED_1_6_6.csv), which stands: no live run since. The figures
 the estimates use:
 - **L10, two workers, detail off:** 441 pages in 2,596.6 s of active time, **10.19 pages per active minute**; a
   listing page took 8.4 s at the median and 12.9 s at the 90th percentile.
@@ -77,49 +78,65 @@ the estimates use:
   L5 (34 pages); 3.5 s and 5.1 s in L12 (10 pages, on 1.6.6).
 - **Fixed work:** each execution reads robots.txt and the store page for each worker before it collects; after
   collection, a run checks and exports its rows (about 5 minutes for 10,301 rows in L11, L11b and L12).
-- **Memory** was not measured.
+- **Memory** of a live run was not measured. On the owner's Azure test VM (2 vCPU, 3.9 GB of memory), the delivered Oxylabs edition of 1.6.8 replayed L10 from its stored pages, on the host rather than in Docker: 424 pages and 6,880 valid records (the container's replay gave the same), in 511.5 s of wall time and 212 s of CPU. A replay serves the stored pages through one session, so it ran one worker in one process; L10 itself ran two. That process's resident memory peaked at 1.38 GiB by the kernel's count (1.31 GiB in samples every 0.25 s), and the host never had less than 1.75 GiB available ([`memory/`](../evidence/owner-azure-test/1.6.8/memory/)). A replay makes no request, so this is not a live run's measurement. Peak memory of a full run needs that run.
 
 ## 3. The outstanding work toward full scope (an estimate)
 
-From the coverage table of W4, computed offline by `continuation_165.py`
-([`CONTINUATION_ESTIMATE_1_6_5.json`](../evidence/reconciliation/1.6.5/w4/CONTINUATION_ESTIMATE_1_6_5.json); the
-details are in [`TEST_PLAN.md`](TEST_PLAN.md), stage 2): about **2,683 listing pages** (1,236 and 37 of them from
-measured totals, about 1,410 estimated for the 407 listings never reached), about **2,711 submissions**, **USD 4.07
-at the reserve rate**, about **4.4 active hours** with two workers. Not included: product pages with detail on, the
-child categories of 14 listings above the result window, and retries.
+From the coverage table of W4 and the campaign's records, computed offline by `continuation_168.py`
+([`CONTINUATION_ESTIMATE_1_6_8.json`](../evidence/reconciliation/1.6.8/w4/CONTINUATION_ESTIMATE_1_6_8.json); the
+details are in [`TEST_PLAN.md`](TEST_PLAN.md), stage 2). Each part has its own basis, and they are not added into one figure:
+
+| Part | Results | USD at the reserve rate | Basis |
+|---|---:|---:|---|
+| **Known listing pages** | about 3,087 | about 4.63 | 1,305 pages after those read (213 `PARTIAL` listings) and 61 read again (15 `INCOMPLETE`): measured, from reported totals. About 1,659 for 464 listings never reached and about 34 for 7 read only through a filtered view: **estimates**, each row's mean. Plus robots.txt and the store page for each worker of about 7 executions |
+| **Category pages of their own, never read** | 95 | 0.14 | a count: one result each. Reading them replaces the assumption below with a measured count |
+| **The listings those pages name** | 2,636 / 7,908 / 15,815 | 3.95 / 11.86 / 23.72 | an **assumption**, not a measurement: 5, 15 or 30 new listings per page, each at its row's mean pages. No such page has been read live |
+| **Pages beyond the result window** | 182, and 1,475 for one listing | 0.27, and 2.21 | from reported totals, read through child categories: 15 listings above the window. "Special Kitty" reports 60,000, which is priced apart until its children are named |
+| **Product pages of the products known today** | 9,307 | 13.96 | a count, from L12's 10,301 records: 9,344 lack a UPC or a size, 37 of those have a saved read of the last 30 days |
+| **Product pages of products not yet seen** | about 50,321 to 101,956 | 75.48 to 152.93 | an **estimate**: the known listing pages times the fresh valid products per page of L10 (low) and L4r (high). Listings overlap more as they are read further, so even the low figure can be high. USD 1.50 per 1,000 products |
+| **Retries** | 14 attempts after the first in 686 on product pages; 0 in 734 on listing pages | about 1.47 to 2.74 on product pages | measured in the 15 live runs: 11 of 672 billed product-page results were retries. A failure the provider documents as free costs time, not money; an unknown outcome stays reserved |
+
+The 1.6.6 report's USD 4.07 priced the 2,683 known listing pages of the 1.6.5 table only. The same part is now about
+**3,059 listing pages**, about **USD 4.63** at the reserve rate, about
+**5.0 active hours** with two workers. Product pages are the largest part: USD
+1.50 per 1,000 products at the reserve rate, about 59.9 to
+111.7 active hours with two workers at the measured 7.23 s
+a page.
 
 ## 4. A full run and the twice-weekly cadence (estimates, not measurements)
 
-**One full listing pass** of the scope as W4 knows it today: the pages of the 465 listings with a reported total
-(1,760 pages, each listing at most 25 pages) and about 1,410 pages for the 407 listings never reached: about
-**3,170 listing pages**, or about 3,178 submissions with two executions. At 10.19 pages per active minute, about
-**5.2 active hours** with two workers.
+**One full listing pass** of the scope as W4 knows it today: every listing page once, known totals capped at the window, the row
+mean where none is known: about **3,828 listing pages**, about 3,864 submissions. At
+10.19 pages per active minute, about **6.3 active hours** with two workers.
 
 | Rate per 1,000 results | One listing pass | A month of twice-weekly passes (8.67 a month) |
-|---|---:|---:|
-| USD 0.50 | about USD 1.59 | about USD 13.77 |
-| USD 1.00 | about USD 3.18 | about USD 27.54 |
-| USD 1.50 (the trial's reserve rate) | about USD 4.77 | about USD 41.31 |
+|---:|---:|---:|
+| USD 0.50 | about USD 1.93 | about USD 16.75 |
+| USD 1.00 | about USD 3.86 | about USD 33.50 |
+| USD 1.50 (the trial's reserve rate) | about USD 5.80 | about USD 50.25 |
 
 Not included, and each can be larger than the listing pass:
-- **Product pages with detail on:** one per distinct product without a saved read of the last 30 days. The first
-  full run reads them for every product; a twice-weekly schedule then rereads each product about once in 30 days,
-  plus new products. The number of distinct products in scope is not known until the continuation has run.
-- **The children of the 14 listings above the result window**, and any second partition level they need.
+- **Product pages with detail on:** one per exported product lacking a UPC or a size, with no saved read of the last 30 days. In the two large
+  reads measured (L4r, L10), no result page stated a UPC. The first full run reads nearly every product; a twice-weekly schedule then rereads each product
+  about once in 30 days, plus new products: at the reserve rate, about USD 13.96 for the products known today, and about USD
+  75.48 to 152.93 for those the known pages would add (an estimate, section 3), in each 30 days.
+- **New branches:** the 95 category pages of their own and the listings they name, the children of the 15 listings above the
+  result window, and any second partition level they need.
 - **Retries** and requests whose outcome is unknown.
 
-**The twice-weekly fit: UNKNOWN, not met and not refuted.** About 5.2 active hours of listing pages, plus product
-pages, fits easily between the Tuesday and Friday starts (72 hours) on paper, but no full run has been timed. The
-collector does not drop an occurrence: a late or overlapped one keeps its identity and backlog, and
+**The twice-weekly fit: UNKNOWN, not met and not refuted.** About 6.3 active hours of listing pages fits between the
+Tuesday and Friday starts (72 hours) on paper. A first full run's product pages, about 59.9 to
+111.7 active hours with two workers, may not; later runs read only the pages whose reads have expired or
+are new. No full run has been timed. The collector does not drop an occurrence: a late or overlapped one keeps its identity and backlog, and
 `schedule-status` reports it (see [`RECOVERY_AND_OPERATIONS.md`](RECOVERY_AND_OPERATIONS.md), section 5).
 
 ## 5. Azure (estimates carried from 1.5.2)
 
 The Azure resources did not change since release 1.5.2: the templates are the same, and their example parameters
-now name the 1.6.6 image. The estimates are those of the 1.5.2 report, with retail prices read on 2026-10-28 and
+now name the 1.6.8 image. The estimates are those of the 1.5.2 report, with retail prices read on 2026-10-28 and
 not read again: [`COST_AND_RUNTIME_REPORT.md`, section 10, at `review-1.5.2-20261103`](https://github.com/lonadonia/walmart-azure-scraper/blob/review-1.5.2-20261103/review/COST_AND_RUNTIME_REPORT.md#10-azure-estimates).
 Its VM hours rested on a modelled full run; the runtime of section 4 above, once measured, replaces that model.
-Nothing was deployed to Azure in this delivery.
+Nothing was deployed to the client's Azure in this delivery. The owner's existing Azure test VM ran the container and qualification gates (its compute is the owner's; no resource was added).
 
 ## 6. What would turn the estimates into measurements
 

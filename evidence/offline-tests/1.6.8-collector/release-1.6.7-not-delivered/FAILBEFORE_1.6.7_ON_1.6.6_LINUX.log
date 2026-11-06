@@ -1,0 +1,422 @@
+tree: frozen collector 1.6.6 (commit 39cc61f, tar sha256 2e5a5c2a722d0d903736db72663cfc46b596bd1f7f6d6f5df74b2e765512002c) with the tests of commit 7ee2fa1 copied in (from its clean extraction, tar sha256 8124210da2a4499658b875d67c4d6e45cf2de138a2783ca91d8659f2dcbde7f7)
+label: FAILBEFORE_1.6.7_ON_1.6.6_LINUX; host: Ubuntu 24.04.5 LTS, kernel 7.0.0-1017-azure, x86_64
+copied tests/unit/test_completeness_167.py sha256 2efeb9c7ef6e66658f1634ad5078127bd3ef5f1d1ab0bdb3d5359bdeba17beca (same as commit 7ee2fa1: yes)
+copied tests/integration/test_category_mapping.py sha256 ac59123aaa3bd8568ebde21307cedb7fed799113692a83cd016fc9e9b7d5b022 (same as commit 7ee2fa1: yes)
+copied tests/integration/test_detail_path.py sha256 e5728b98ba4ef9792b37eab1e95282e285b3e0610702c2e787237fb2e93f3a12 (same as commit 7ee2fa1: yes)
+copied tests/integration/test_coverage_and_assortment.py sha256 27a5b20c926cc1260af5dec603543b780eb9ba9552ea4f35791e75956c42a9a5 (same as commit 7ee2fa1: yes)
+started 2026-11-05T10:35:39Z
+3:version = "1.6.6"
+ + walmart-azure-headless==1.6.6 (from file://<vm-home>/q167/fb166final)
+sync exit 0
+.FFFFFFFFFFFFFFFF                                                        [100%]
+=================================== FAILURES ===================================
+_ test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[moving-total] _
+
+end = 'LAST_PAGE'
+reason = 'the reported total changed while the listing was read ([139, 137, 138])'
+
+    @pytest.mark.parametrize(
+        ("end", "reason"),
+        [
+            ("LAST_PAGE", "the reported total changed while the listing was read ([139, 137, 138])"),
+            ("REPEATED_PAGE", "result page 3 repeated page 2"),
+            ("IDENTITY", "the listing's own page does not place it under 5427_486190"),
+            ("RESULT_WINDOW", "the site served 1,000 of 1,400 results; not partitioned: no child category"),
+        ],
+        ids=["moving-total", "repeated-page", "wrong-page", "result-window"],
+    )
+    def test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance(
+        end: str, reason: str
+    ) -> None:
+        """1.6.6 called this partition DONE: its distinct products balance its total exactly, and no child was
+        still being read. A child that ended incomplete is evidence the listing's products were not all read
+        reliably; the partition stays incomplete and names the child."""
+        [out] = listing_outcomes(partition("INCOMPLETE", end, reason))
+        assert out["difference"] == 0  # the identities balance ...
+>       assert out["status"] == "INCOMPLETE"  # ... and the partition is still not complete
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE
+
+tests/unit/test_completeness_167.py:57: AssertionError
+_ test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[repeated-page] _
+
+end = 'REPEATED_PAGE', reason = 'result page 3 repeated page 2'
+
+    @pytest.mark.parametrize(
+        ("end", "reason"),
+        [
+            ("LAST_PAGE", "the reported total changed while the listing was read ([139, 137, 138])"),
+            ("REPEATED_PAGE", "result page 3 repeated page 2"),
+            ("IDENTITY", "the listing's own page does not place it under 5427_486190"),
+            ("RESULT_WINDOW", "the site served 1,000 of 1,400 results; not partitioned: no child category"),
+        ],
+        ids=["moving-total", "repeated-page", "wrong-page", "result-window"],
+    )
+    def test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance(
+        end: str, reason: str
+    ) -> None:
+        """1.6.6 called this partition DONE: its distinct products balance its total exactly, and no child was
+        still being read. A child that ended incomplete is evidence the listing's products were not all read
+        reliably; the partition stays incomplete and names the child."""
+        [out] = listing_outcomes(partition("INCOMPLETE", end, reason))
+        assert out["difference"] == 0  # the identities balance ...
+>       assert out["status"] == "INCOMPLETE"  # ... and the partition is still not complete
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE
+
+tests/unit/test_completeness_167.py:57: AssertionError
+_ test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[wrong-page] _
+
+end = 'IDENTITY'
+reason = "the listing's own page does not place it under 5427_486190"
+
+    @pytest.mark.parametrize(
+        ("end", "reason"),
+        [
+            ("LAST_PAGE", "the reported total changed while the listing was read ([139, 137, 138])"),
+            ("REPEATED_PAGE", "result page 3 repeated page 2"),
+            ("IDENTITY", "the listing's own page does not place it under 5427_486190"),
+            ("RESULT_WINDOW", "the site served 1,000 of 1,400 results; not partitioned: no child category"),
+        ],
+        ids=["moving-total", "repeated-page", "wrong-page", "result-window"],
+    )
+    def test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance(
+        end: str, reason: str
+    ) -> None:
+        """1.6.6 called this partition DONE: its distinct products balance its total exactly, and no child was
+        still being read. A child that ended incomplete is evidence the listing's products were not all read
+        reliably; the partition stays incomplete and names the child."""
+        [out] = listing_outcomes(partition("INCOMPLETE", end, reason))
+        assert out["difference"] == 0  # the identities balance ...
+>       assert out["status"] == "INCOMPLETE"  # ... and the partition is still not complete
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE
+
+tests/unit/test_completeness_167.py:57: AssertionError
+_ test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[result-window] _
+
+end = 'RESULT_WINDOW'
+reason = 'the site served 1,000 of 1,400 results; not partitioned: no child category'
+
+    @pytest.mark.parametrize(
+        ("end", "reason"),
+        [
+            ("LAST_PAGE", "the reported total changed while the listing was read ([139, 137, 138])"),
+            ("REPEATED_PAGE", "result page 3 repeated page 2"),
+            ("IDENTITY", "the listing's own page does not place it under 5427_486190"),
+            ("RESULT_WINDOW", "the site served 1,000 of 1,400 results; not partitioned: no child category"),
+        ],
+        ids=["moving-total", "repeated-page", "wrong-page", "result-window"],
+    )
+    def test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance(
+        end: str, reason: str
+    ) -> None:
+        """1.6.6 called this partition DONE: its distinct products balance its total exactly, and no child was
+        still being read. A child that ended incomplete is evidence the listing's products were not all read
+        reliably; the partition stays incomplete and names the child."""
+        [out] = listing_outcomes(partition("INCOMPLETE", end, reason))
+        assert out["difference"] == 0  # the identities balance ...
+>       assert out["status"] == "INCOMPLETE"  # ... and the partition is still not complete
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE
+
+tests/unit/test_completeness_167.py:57: AssertionError
+______ test_a_child_left_by_a_limit_of_the_run_makes_the_partition_capped ______
+
+    def test_a_child_left_by_a_limit_of_the_run_makes_the_partition_capped() -> None:
+        [out] = listing_outcomes(partition("CAPPED", "PAGE_LIMIT", "page limit of this run (1) reached"))
+>       assert out["status"] == "CAPPED"
+E       AssertionError: assert 'DONE' == 'CAPPED'
+E         
+E         - CAPPED
+E         + DONE
+
+tests/unit/test_completeness_167.py:63: AssertionError
+__ test_a_partitioned_child_with_no_child_category_of_its_own_is_not_complete __
+
+    def test_a_partitioned_child_with_no_child_category_of_its_own_is_not_complete() -> None:
+        listings = partition("PARTITIONED")
+        [out] = listing_outcomes(listings)
+>       assert out["status"] == "INCOMPLETE" and "Wipes PARTITIONED" in out["reason"], out
+E       AssertionError: {'id': '5427_486190', 'name': 'Diapering', 'url': 'u', 'status': 'DONE', ...}
+E       assert ('DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE)
+
+tests/unit/test_completeness_167.py:69: AssertionError
+___________ test_a_partition_with_no_child_recorded_is_not_complete ____________
+
+    def test_a_partition_with_no_child_recorded_is_not_complete() -> None:
+        parent = Listing("Diapering", "u", "5427_486190", status="PARTITIONED", total=2, seen=["a", "b"])
+        [out] = listing_outcomes([parent])
+>       assert out["status"] == "INCOMPLETE" and "no child category" in out["reason"]
+E       AssertionError: assert ('DONE' == 'INCOMPLETE'
+E         
+E         - INCOMPLETE
+E         + DONE)
+
+tests/unit/test_completeness_167.py:75: AssertionError
+_ test_a_row_read_through_configured_listings_or_with_listings_not_chosen_is_read_in_part _
+
+    def test_a_row_read_through_configured_listings_or_with_listings_not_chosen_is_read_in_part() -> None:
+        configured = Listing("Fabric Softeners", "u", "1115193_1071967_1630538", status="DONE", via="configured")
+>       assert "category page, which names its other listings, was not read" in walmart.row_read_in_part(
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^
+            [configured]
+        )
+E       AttributeError: module 'walmart_headless.collection.walmart' has no attribute 'row_read_in_part'
+
+tests/unit/test_completeness_167.py:80: AttributeError
+_ test_a_listing_read_by_its_path_takes_the_name_its_stored_category_page_gave_it _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-58/test_a_listing_read_by_its_pat0/config/collector.yaml'), mock...ser/pytest-58/test_a_listing_read_by_its_pat0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x71370e791040>)
+own_page_name = 'Milk Products'
+
+    def test_a_listing_read_by_its_path_takes_the_name_its_stored_category_page_gave_it(
+        env: Env,  # noqa: F811
+        own_page_name: str,
+    ) -> None:
+        # A census of Food reads the category page: its listings are named as the page names them.
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
+        assert code in (0, 6)
+        census = env.runs()[-1]
+        assert {p["sub_category"] for p in products(env, census) if p["url"].endswith("/7101")} == {"Milk"}
+        # The same listing read by its path: its own page says "Milk Products"; the stored category page wins.
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
+        assert code == 0
+        narrowed = env.runs()[-1]
+        milk = [p for p in products(env, narrowed) if p["url"].endswith("/7101")]
+>       assert [p["sub_category"] for p in milk] == ["Milk"], milk
+E       AssertionError: [{'zipcode': '60085', 'store_name': 'Waukegan Supercenter', 'store_location': '3900 Fountain Square Pl, Waukegan, IL 60085', 'store_logo': '', ...}]
+E       assert ['Milk Products'] == ['Milk']
+E         
+E         At index 0 diff: 'Milk Products' != 'Milk'
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:78: AssertionError
+__ test_without_a_stored_category_page_the_listings_own_name_is_used_and_said __
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-58/test_without_a_stored_category0/config/collector.yaml'), mock...ser/pytest-58/test_without_a_stored_category0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x71370efcb9e0>)
+own_page_name = 'Milk Products'
+
+    def test_without_a_stored_category_page_the_listings_own_name_is_used_and_said(
+        env: Env,  # noqa: F811
+        own_page_name: str,
+    ) -> None:
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
+        assert code == 0
+        run = env.runs()[-1]
+        assert {p["sub_category"] for p in products(env, run)} == {own_page_name}
+        with sessionmaker(env.engine)() as s:
+            task_cursor = s.execute(
+                select(Event.data).where(Event.run_id == run.id, Event.code == "SUBCATEGORIES_CONFIGURED")
+            ).scalar_one()
+>       assert task_cursor.get("names") == {"976759_9176907": None}, task_cursor
+E       AssertionError: {'node': '976759', 'listings': ['https://www.walmart.com/browse/food/milk/976759_9176907']}
+E       assert None == {'976759_9176907': None}
+E        +  where None = <built-in method get of dict object at 0x71370f9a0880>('names')
+E        +    where <built-in method get of dict object at 0x71370f9a0880> = {'node': '976759', 'listings': ['https://www.walmart.com/browse/food/milk/976759_9176907']}.get
+
+tests/integration/test_category_mapping.py:98: AssertionError
+_ test_a_carried_record_takes_the_category_pages_name_and_its_lineage_says_so __
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-58/test_a_carried_record_takes_th0/config/collector.yaml'), mock...ser/pytest-58/test_a_carried_record_takes_th0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x71370fec46e0>)
+own_page_name = 'Milk Products'
+
+    def test_a_carried_record_takes_the_category_pages_name_and_its_lineage_says_so(
+        env: Env,  # noqa: F811
+        own_page_name: str,
+    ) -> None:
+        """The Milk product is first read through its path, with no category page stored: "Milk Products".
+        A category page that names the listing "Milk" is then stored (here: its SUBCATEGORIES_FOUND event, as a
+        census run records it). A later run that does not observe the product carries it forward with the
+        category page's name; the lineage keeps the name it had and the source record's hash."""
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
+        first = env.runs()[-1]
+        assert code == 0 and {p["sub_category"] for p in products(env, first)} == {own_page_name}
+        with sessionmaker(env.engine)() as s:
+            s.add(
+                Event(
+                    run_id=first.id,
+                    level="INFO",
+                    code="SUBCATEGORIES_FOUND",
+                    message="SYNTHETIC TEST: the Food category page's links, as a census run records them",
+                    data={"node": "976759", "listings": [{"name": "Milk", "url": MILK, "note": ""}]},
+                )
+            )
+            s.commit()
+        code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", SNACKS_PATH)
+        assert code == 0
+        later = env.runs()[-1]
+        milk = [p for p in products(env, later) if p["url"].endswith("/7101")]
+>       assert [p["sub_category"] for p in milk] == ["Milk"], milk
+E       AssertionError: [{'zipcode': '60085', 'store_name': 'Waukegan Supercenter', 'store_location': '3900 Fountain Square Pl, Waukegan, IL 60085', 'store_logo': '', ...}]
+E       assert ['Milk Products'] == ['Milk']
+E         
+E         At index 0 diff: 'Milk Products' != 'Milk'
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:127: AssertionError
+____ test_a_row_read_only_through_its_configured_listings_is_never_complete ____
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-58/test_a_row_read_only_through_i0/config/collector.yaml'), mock...ser/pytest-58/test_a_row_read_only_through_i0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x71370ebc7bf0>)
+
+    def test_a_row_read_only_through_its_configured_listings_is_never_complete(env: Env) -> None:  # noqa: F811
+        """With every CSV row planned, a run that reads every listing covers the CSV. The same run narrowed to
+        Food's Milk listing (by its path) reads a complete listing, but not the row's other listings: the row is
+        CAPPED, never DONE, and the run's coverage is not complete."""
+        mock_rows_only(env)
+        code, _ = env.result("run", "--store", STORE_KEY)
+        assert code == 0
+        whole = env.runs()[-1]
+        report = coverage(env, whole)
+        summary = {k: v for k, v in report.items() if k != "rows"}
+        assert report["coverage_complete"] is True, summary  # the control: a whole read is complete
+        assert [e.code for e in food_outcomes(env, whole)] == ["NODE_DONE"]
+        code, _ = env.result("run", "--store", STORE_KEY, "--subcategory", MILK_PATH)
+        assert code == 0
+        narrowed = env.runs()[-1]
+        report = coverage(env, narrowed)
+        summary = {k: v for k, v in report.items() if k != "rows"}
+        food = food_outcomes(env, narrowed)
+>       assert ([e.code for e in food], report["coverage_complete"]) == (["NODE_CAPPED"], False), (
+            [e.message for e in food],
+            summary,
+        )
+E       AssertionError: (['Food: 1 distinct products in 1 listings'], {'run_id': '01M6NMFEAKJYWHVHHF45S78PG7', 'store': {'key': 'walmart-3891-...almart #3891 Waukegan', 'modality': 'PICKUP', 'retailer': 'walmart', ...}, 'provider': 'scrapedo', 'pilot': True, ...})
+E       assert (['NODE_DONE'], True) == (['NODE_CAPPED'], False)
+E         
+E         At index 0 diff: ['NODE_DONE'] != ['NODE_CAPPED']
+E         Use -v to get more diff
+
+tests/integration/test_category_mapping.py:186: AssertionError
+_ test_a_replay_names_listings_only_from_pages_stored_before_its_source_and_a_rows_own_page_wins _
+
+env = Env(config=PosixPath('/tmp/pytest-of-<vm-user>/pytest-58/test_a_replay_names_listings_o0/config/collector.yaml'), mock...ser/pytest-58/test_a_replay_names_listings_o0/data'), capsys=<_pytest.capture.CaptureFixture object at 0x71370fe7f290>)
+
+    def test_a_replay_names_listings_only_from_pages_stored_before_its_source_and_a_rows_own_page_wins(
+        env: Env,  # noqa: F811
+    ) -> None:
+        """``navigation.category_page_names``: ``before`` (a replay: its source run's creation) leaves out names
+        stored at or after it; with ``node``, the name the CSV row's own category page gave wins over a name
+        another row's page gave the same listing. SYNTHETIC events on a run that read no category page."""
+>       from walmart_headless.collection import navigation  # new in release 1.6.7
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ImportError: cannot import name 'navigation' from 'walmart_headless.collection' (<vm-home>/q167/fb166final/src/walmart_headless/collection/__init__.py). Did you mean: 'validation'?
+
+tests/integration/test_category_mapping.py:206: ImportError
+_ test_a_size_conflict_never_withholds_the_upc_the_same_read_verifies_for_a_carried_row _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@/walmart_collector_test?connect_timeout=15&host=%2Ftmp%2Fwalmart-h..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71370eec8b00>
+
+    def test_a_size_conflict_never_withholds_the_upc_the_same_read_verifies_for_a_carried_row(
+        env: dict[str, Any],  # noqa: F811
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Release 1.6.7 (the client's review of 1.6.6): 1.6.6 left a carried row's UPC blank when the saved read
+        that states it also states sizes that conflict (``recovery_withheld``: 4 rows in L8, 12 in L10). The UPC
+        and the size are separate values: the read's UPC is filled and names the read; the size stays blank,
+        with the conflict as its reason and the read that said it."""
+        one_product(monkeypatch, syn.Item("7101", "Whole Milk", "$3.12"))
+        env["mock"].page_override = pages(
+            {
+                "7101": product_page(
+                    "7101", upc=PINNED_UPC, specs={"Size": "12 oz", "Net content statement": "16 oz"}
+                )
+            }
+        )
+        first, _ = _run(env)
+        second, _ = _run(env, detail=DetailConfig(enabled=False, reuse_days=0))
+        blank = _records(env, second)["wm:7101"]
+        assert blank.record["upc"] == "" and blank.record["weight"] == ""
+        monkeypatch.setitem(
+            mock.PAGES, mock.MILK, [[syn.Item("7201", "Skim Milk, 1 gal", "$3.00", upc="028400090896")]]
+        )
+        env["mock"].calls.clear()
+        third, _ = _run(env)
+        assert "7101" not in [item for _, item in _detail_calls(env)]  # nothing is requested for it
+        rec = _records(env, third)["wm:7101"]
+        assert rec.status == "historical"
+        hist = rec.provenance["historical"]
+>       assert rec.record["upc"] == PINNED_UPC, hist.get("recovery_withheld")
+E       AssertionError: {'read': {'origin': 'fetched', 'run_id': '01M6NMFHXRNGQ636J12GE9Z67Y', 'body_sha256': 'f858f46e8e518e0e971925be0f3cee5...9ce892652', 'requested_at': '2026-11-05T10:36:12.236778Z', ...}, 'reason': "the read's statements about size conflict"}
+E       assert '' == '078742371245'
+E         
+E         - 078742371245
+
+tests/integration/test_detail_path.py:575: AssertionError
+_ test_the_coverage_report_judges_a_partition_through_its_children_and_gives_each_csv_row_its_verdict _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@/walmart_collector_test?connect_timeout=15&host=%2Ftmp%2Fwalmart-h..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_the_coverage_report_judges_a_partition_through_its_children_and_gives_each_csv_row_its_verdict(
+        env: dict[str, Any],
+    ) -> None:
+        """Release 1.6.7. The listing is larger than its window and its two child categories, both read to their
+        last page, balance its total (10 distinct products of 10 reported): the collector calls the row DONE.
+        1.6.6's report left the listing ``PARTITIONED``, so no CSV row with a partition could ever be reported
+        complete; the report now gives the listing's effective outcome and each CSV row its own verdict."""
+        report = partitioned_diapering(env, window_parent)
+        row = next(r for r in report["rows"] if r["listing_id"] == "5427_486190")
+>       assert (row["status"], row.get("effective_status")) == ("PARTITIONED", "DONE"), row
+E       AssertionError: {'csv_row': 4, 'category': 'Diapering', 'listing_id': '5427_486190', 'listing_name': '', ...}
+E       assert ('PARTITIONED', None) == ('PARTITIONED', 'DONE')
+E         
+E         At index 1 diff: None != 'DONE'
+E         Use -v to get more diff
+
+tests/integration/test_coverage_and_assortment.py:1129: AssertionError
+_ test_a_partition_whose_total_moved_leaves_its_csv_row_incomplete_in_the_report _
+
+env = {'engine': Engine(postgresql+psycopg://postgres:***@/walmart_collector_test?connect_timeout=15&host=%2Ftmp%2Fwalmart-h..._contest_store=False, notes='Client-assigned store, 3900 Fountain Square Pl, Waukegan, IL 60085; Pickup prices.'), ...}
+
+    def test_a_partition_whose_total_moved_leaves_its_csv_row_incomplete_in_the_report(
+        env: dict[str, Any],
+    ) -> None:
+        """Release 1.6.7: the same partition, but the listing's own total moved while it was read (12, then 10):
+        the partition can never reconcile it. The listing's effective outcome is incomplete, and so is its CSV
+        row, with the listing named."""
+        report = partitioned_diapering(env, moving_window_parent)
+        row = next(r for r in report["rows"] if r["listing_id"] == "5427_486190")
+>       assert (row["status"], row.get("effective_status")) == ("PARTITIONED", "INCOMPLETE"), row
+E       AssertionError: {'csv_row': 4, 'category': 'Diapering', 'listing_id': '5427_486190', 'listing_name': '', ...}
+E       assert ('PARTITIONED', None) == ('PARTITIONED', 'INCOMPLETE')
+E         
+E         At index 1 diff: None != 'INCOMPLETE'
+E         Use -v to get more diff
+
+tests/integration/test_coverage_and_assortment.py:1146: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/test_completeness_167.py::test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[moving-total]
+FAILED tests/unit/test_completeness_167.py::test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[repeated-page]
+FAILED tests/unit/test_completeness_167.py::test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[wrong-page]
+FAILED tests/unit/test_completeness_167.py::test_a_child_that_did_not_end_complete_keeps_the_partition_incomplete_even_when_identities_balance[result-window]
+FAILED tests/unit/test_completeness_167.py::test_a_child_left_by_a_limit_of_the_run_makes_the_partition_capped
+FAILED tests/unit/test_completeness_167.py::test_a_partitioned_child_with_no_child_category_of_its_own_is_not_complete
+FAILED tests/unit/test_completeness_167.py::test_a_partition_with_no_child_recorded_is_not_complete
+FAILED tests/unit/test_completeness_167.py::test_a_row_read_through_configured_listings_or_with_listings_not_chosen_is_read_in_part
+FAILED tests/integration/test_category_mapping.py::test_a_listing_read_by_its_path_takes_the_name_its_stored_category_page_gave_it
+FAILED tests/integration/test_category_mapping.py::test_without_a_stored_category_page_the_listings_own_name_is_used_and_said
+FAILED tests/integration/test_category_mapping.py::test_a_carried_record_takes_the_category_pages_name_and_its_lineage_says_so
+FAILED tests/integration/test_category_mapping.py::test_a_row_read_only_through_its_configured_listings_is_never_complete
+FAILED tests/integration/test_category_mapping.py::test_a_replay_names_listings_only_from_pages_stored_before_its_source_and_a_rows_own_page_wins
+FAILED tests/integration/test_detail_path.py::test_a_size_conflict_never_withholds_the_upc_the_same_read_verifies_for_a_carried_row
+FAILED tests/integration/test_coverage_and_assortment.py::test_the_coverage_report_judges_a_partition_through_its_children_and_gives_each_csv_row_its_verdict
+FAILED tests/integration/test_coverage_and_assortment.py::test_a_partition_whose_total_moved_leaves_its_csv_row_incomplete_in_the_report
+16 failed, 1 passed in 49.75s
+pytest exit code 1
+ended 2026-11-05T10:36:31Z

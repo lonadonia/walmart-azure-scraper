@@ -1,0 +1,21 @@
+Using CPython 3.12.10 interpreter at: C:\w6\py312\pkg\tools\python.exe
+Creating virtual environment at: .venv
+   Building oxylabs-classic-probe @ file:///C:/w9/scratch/probe172_pkg/work/headless/oxylabs-classic-probe
+      Built oxylabs-classic-probe @ file:///C:/w9/scratch/probe172_pkg/work/headless/oxylabs-classic-probe
+Prepared 1 package in 2.54s
+Installed 15 packages in 4.75s
+ + ast-serialize==0.13.1
+ + colorama==0.4.6
+ + iniconfig==2.3.1
+ + librt==0.16.0
+ + mypy==2.4.0
+ + mypy-extensions==1.1.0
+ + oxylabs-classic-probe==1.7.2 (from file:///C:/w9/scratch/probe172_pkg/work/headless/oxylabs-classic-probe)
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.7.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + ruff==0.17.1
+ + selectolax==1.0.1
+ + typing-extensions==4.16.0

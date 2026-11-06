@@ -1,0 +1,28 @@
+{
+ "body_bytes": 1993246,
+ "detail": {
+  "elapsed_s": 0.0,
+  "file_sha256": "b34f850be2832353c0162417a3030734afc77a800fccd1cb6d3ad06d20f3be75",
+  "headers": {},
+  "raw_pages": [
+   {
+    "data_uris_replaced": 39,
+    "input_sha256": "268a882dbe9adc46b9c71097ddde73cae745332b44536857a26e3c23354a7222",
+    "output_sha256": "268a882dbe9adc46b9c71097ddde73cae745332b44536857a26e3c23354a7222",
+    "result": 0,
+    "scripts_removed": 0,
+    "state_script_kept": true,
+    "styles_emptied": 0
+   }
+  ],
+  "redirect_location": null,
+  "step": "marianos-search-p1"
+ },
+ "file": "response_001.json.gz",
+ "http_status": 200,
+ "kept_sha256": "f88483f347d7e97db34550d088c05eae81204bff3a9790370539df5881acaf6c",
+ "original_sha256": "bad7eb51ba47dffe1b7ef62551f225766b675aead601666710b3218348cff0c0",
+ "sanitized": true,
+ "seq": 1,
+ "truncated": false
+}

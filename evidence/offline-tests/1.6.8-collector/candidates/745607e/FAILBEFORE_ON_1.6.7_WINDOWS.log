@@ -1,0 +1,46 @@
+2026-11-05T16:50:41Z
+tree: git archive 7ee2fa1:headless/walmart-azure-headless (release 1.6.7), the 1.6.8 tests copied in: tests/mock_scrapedo.py, tests/integration/test_scrapedo_walmart.py, tests/integration/test_operations.py, tests/integration/test_publication_safety.py, tests/unit/test_subcategory_pages_168.py
+import check: walmart_headless from C:\w9\scratch\c168\fb167\src\walmart_headless\__init__.py 1.6.7
+== integration: the three 1.6.8 tests (expected to fail by their assertions) and two controls (expected to pass)
+FFF..                                                                    [100%]
+================================== FAILURES ===================================
+_ test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names _
+tests\integration\test_scrapedo_walmart.py:680: in test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names
+    assert records[upc].status == "valid", (upc, records[upc].status)
+           ^^^^^^^^^^^^
+E   KeyError: 'wm:7401'
+---------------------------- Captured stdout call -----------------------------
+__ test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete ___
+tests\integration\test_scrapedo_walmart.py:740: in test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete
+    assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
+E   assert (True is False)
+---------------------------- Captured stdout call -----------------------------
+____ test_a_run_checks_every_page_against_the_store_and_charges_the_ledger ____
+tests\integration\test_scrapedo_walmart.py:175: in test_a_run_checks_every_page_against_the_store_and_charges_the_ledger
+    assert dairy[0] == "EXPANDED" and "names 1 links, 0 not named before in this row" in dairy[1], dairy
+E   AssertionError: ('SKIPPED', 'a category page or other page, not a product listing')
+E   assert ('SKIPPED' == 'EXPANDED'
+E     
+E     - EXPANDED
+E     + SKIPPED)
+---------------------------- Captured stdout call -----------------------------
+=================================== PASSES ====================================
+___ test_an_exhausted_key_stops_the_run_resumably_and_nothing_else_is_tried ___
+---------------------------- Captured stdout call -----------------------------
+=========================== short test summary info ===========================
+PASSED tests/integration/test_scrapedo_walmart.py::test_an_exhausted_key_stops_the_run_resumably_and_nothing_else_is_tried
+PASSED tests/integration/test_operations.py::test_a_complete_run_is_published_and_a_partial_run_never_replaces_it
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete
+FAILED tests/integration/test_scrapedo_walmart.py::test_a_run_checks_every_page_against_the_store_and_charges_the_ledger
+3 failed, 2 passed in 54.07s
+exit 1
+== unit: tests/unit/test_subcategory_pages_168.py (functions 1.6.8 adds: expected to fail on import)
+    from walmart_headless.collection.walmart import (
+E   ImportError: cannot import name 'NOT_A_CATEGORY' from 'walmart_headless.collection.walmart' (C:\w9\scratch\c168\fb167\src\walmart_headless\collection\walmart.py)
+=========================== short test summary info ===========================
+ERROR tests/unit/test_subcategory_pages_168.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 2.30s
+exit 2
+2026-11-05T16:51:43Z

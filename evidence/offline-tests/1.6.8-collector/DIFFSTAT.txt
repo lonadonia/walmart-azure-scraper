@@ -1,0 +1,105 @@
+git diff 39cc61f..85c29e7 (development monorepo), relative to the collector's folder
+1.6.6 = 39cc61f61ee694c0659a611310605bee6ed42d6b; 1.6.8 = 85c29e7b2404500299056973f50c84b84e187a5a (through 1.6.7 = 7ee2fa1, never delivered, and the 1.6.8 candidates 745607e, 7a96218 and 9c14425, not delivered)
+
+ Dockerfile                                        |   4 +-
+ README.md                                         |  28 ++-
+ azure/main.parameters.example.json                |   2 +-
+ docs/CLI.md                                       |  18 +-
+ docs/OPERATIONS.md                                |   2 +-
+ docs/VERIFICATION.md                              |  81 +++++++-
+ pyproject.toml                                    |   2 +-
+ src/walmart_headless/__init__.py                  |   2 +-
+ src/walmart_headless/collection/navigation.py     | 198 +++++++++++++++++++
+ src/walmart_headless/collection/reconcile.py      | 193 ++++++++++++++++++-
+ src/walmart_headless/collection/retention.py      |  54 +++++-
+ src/walmart_headless/collection/walmart.py        | 498 +++++++++++++++++++++++++++++++++++++++++++-----
+ src/walmart_headless/core/paths.py                |   2 +-
+ tests/integration/test_category_mapping.py        | 637 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/integration/test_coverage_and_assortment.py |  63 ++++++-
+ tests/integration/test_detail_path.py             |  48 +++++
+ tests/integration/test_operations.py              |   4 +-
+ tests/integration/test_publication_safety.py      |   4 +-
+ tests/integration/test_scrapedo_walmart.py        | 204 +++++++++++++++++++-
+ tests/mock_scrapedo.py                            |  48 +++++
+ tests/unit/test_completeness_167.py               |  90 +++++++++
+ tests/unit/test_filtered_views_168.py             |  99 ++++++++++
+ tests/unit/test_subcategory_pages_168.py          |  57 ++++++
+ uv.lock                                           |   2 +-
+ 24 files changed, 2267 insertions(+), 73 deletions(-)
+
+1.6.6 to 1.6.7 (git diff 39cc61f..7ee2fa1):
+
+ Dockerfile                                        |   4 +-
+ README.md                                         |  13 +++-
+ azure/main.parameters.example.json                |   2 +-
+ docs/CLI.md                                       |   9 ++-
+ docs/OPERATIONS.md                                |   2 +-
+ docs/VERIFICATION.md                              |  19 ++++-
+ pyproject.toml                                    |   2 +-
+ src/walmart_headless/__init__.py                  |   2 +-
+ src/walmart_headless/collection/navigation.py     |  96 ++++++++++++++++++++++++++
+ src/walmart_headless/collection/reconcile.py      |  86 ++++++++++++++++++++++-
+ src/walmart_headless/collection/retention.py      |  40 ++++++++++-
+ src/walmart_headless/collection/walmart.py        | 141 ++++++++++++++++++++++++++++++++++----
+ src/walmart_headless/core/paths.py                |   2 +-
+ tests/integration/test_category_mapping.py        | 232 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/integration/test_coverage_and_assortment.py |  54 +++++++++++++++
+ tests/integration/test_detail_path.py             |  48 +++++++++++++
+ tests/unit/test_completeness_167.py               |  90 ++++++++++++++++++++++++
+ uv.lock                                           |   2 +-
+ 18 files changed, 814 insertions(+), 30 deletions(-)
+
+1.6.7 to 1.6.8 (git diff 7ee2fa1..85c29e7):
+
+ Dockerfile                                        |   4 +-
+ README.md                                         |  19 ++-
+ azure/main.parameters.example.json                |   2 +-
+ docs/CLI.md                                       |  11 +-
+ docs/OPERATIONS.md                                |   2 +-
+ docs/VERIFICATION.md                              |  64 +++++++++-
+ pyproject.toml                                    |   2 +-
+ src/walmart_headless/__init__.py                  |   2 +-
+ src/walmart_headless/collection/navigation.py     | 126 +++++++++++++++++--
+ src/walmart_headless/collection/reconcile.py      | 117 ++++++++++++++++--
+ src/walmart_headless/collection/retention.py      |  20 ++-
+ src/walmart_headless/collection/walmart.py        | 363 +++++++++++++++++++++++++++++++++++++++++++++++++------
+ src/walmart_headless/core/paths.py                |   2 +-
+ tests/integration/test_category_mapping.py        | 407 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ tests/integration/test_coverage_and_assortment.py |   9 +-
+ tests/integration/test_operations.py              |   4 +-
+ tests/integration/test_publication_safety.py      |   4 +-
+ tests/integration/test_scrapedo_walmart.py        | 204 ++++++++++++++++++++++++++++++-
+ tests/mock_scrapedo.py                            |  48 ++++++++
+ tests/unit/test_filtered_views_168.py             |  99 +++++++++++++++
+ tests/unit/test_subcategory_pages_168.py          |  57 +++++++++
+ uv.lock                                           |   2 +-
+ 22 files changed, 1489 insertions(+), 79 deletions(-)
+
+the first 1.6.8 candidate to the second (git diff 745607e..7a96218):
+
+ docs/VERIFICATION.md                              | 7 +++++++
+ tests/integration/test_coverage_and_assortment.py | 9 +++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+the second to the third (git diff 7a96218..9c14425):
+
+ README.md                                     |   8 ++++--
+ docs/VERIFICATION.md                          |   9 ++++++
+ src/walmart_headless/collection/navigation.py |  13 +++++++--
+ src/walmart_headless/collection/walmart.py    |  35 ++++++++++++++++++++---
+ tests/integration/test_category_mapping.py    | 103 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 159 insertions(+), 9 deletions(-)
+
+the third to the delivered commit (git diff 9c14425..85c29e7):
+
+ README.md                                     |  15 ++-
+ docs/CLI.md                                   |   6 +-
+ docs/VERIFICATION.md                          |  25 ++++-
+ src/walmart_headless/collection/navigation.py | 135 ++++++++++++++++++++++-----
+ src/walmart_headless/collection/reconcile.py  |  83 ++++++++++++++++-
+ src/walmart_headless/collection/retention.py  |  20 +++-
+ src/walmart_headless/collection/walmart.py    | 281 +++++++++++++++++++++++++++++++++++++++------------------
+ tests/integration/test_category_mapping.py    | 326 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ tests/unit/test_filtered_views_168.py         |  99 ++++++++++++++++++++
+ tests/unit/test_subcategory_pages_168.py      |   2 +-
+ 10 files changed, 853 insertions(+), 139 deletions(-)

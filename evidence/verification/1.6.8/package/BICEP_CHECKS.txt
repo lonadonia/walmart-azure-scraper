@@ -1,0 +1,5 @@
+Bicep checks of the azure/ templates of both 1.6.8 editions (fourth candidate, commit 85c29e7), from the clean extraction of WALMART_SOURCE_1.6.8.zip (C:/w9/v168d/src), run after the verifier (the templates are only read); Bicep CLI version 0.48.1 (cec7951cf6), signed (Authenticode: Valid), sha256 398af294cf16ac4becdbd008a77d148d0e8e91492309a6b60ec911b7e1cab082. No deployment: build and lint only.
+oxylabs.bicep-build: $ bicep build azure/main.bicep --stdout; started 2026-11-05T21:00:59Z; exit 0; log logs/oxylabs.bicep-build.log (21691 bytes)
+oxylabs.bicep-lint: $ bicep lint azure/main.bicep; started 2026-11-05T21:01:03Z; exit 0; log logs/oxylabs.bicep-lint.log (0 bytes)
+scrapedo.bicep-build: $ bicep build azure/main.bicep --stdout; started 2026-11-05T21:01:05Z; exit 0; log logs/scrapedo.bicep-build.log (21691 bytes)
+scrapedo.bicep-lint: $ bicep lint azure/main.bicep; started 2026-11-05T21:01:09Z; exit 0; log logs/scrapedo.bicep-lint.log (0 bytes)

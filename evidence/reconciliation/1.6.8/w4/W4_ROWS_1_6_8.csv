@@ -1,0 +1,12 @@
+csv_row,category,category_url,listings_known,roots,children,named_20261024,named_by_census_L7+L10,state_complete,state_partial,state_result_window,state_incomplete,state_category_page,state_not_found,state_not_attempted,state_subcategory_page_not_read,state_blocked_robots,state_skipped_other,state_filtered_view,state_out_of_scope_csv,state_out_of_scope_not_a_category,state_out_of_scope_own_page,state_out_of_scope_filtered_row,open_listings,row_complete
+0,Food,https://www.walmart.com/cp/food/976759?povid=GlobalNav_rWeb_Grocery_GroceryShopAll,215,208,7,162,214,7,29,0,2,1,0,124,47,0,0,0,1,4,0,0,203,no
+1,Household Essentials,https://www.walmart.com/cp/household-essentials/1115193?povid=GlobalNav_rWeb_HouseholdEssentials_AllPaperCleaning,114,10,104,95,108,19,14,4,6,0,0,65,3,0,0,0,0,2,0,1,92,no
+2,Personal Care,https://www.walmart.com/cp/personal-care/1005862?povid=GlobalNav_rWeb_PersonalCare_3.19,123,36,87,102,122,46,53,4,0,0,0,1,11,0,0,1,0,6,0,1,70,no
+3,Beauty,https://www.walmart.com/cp/beauty/1085666?povid=GlobalNav_rWeb_Beauty_Beauty_ShopAll_051123,123,101,22,98,104,44,42,3,5,0,1,10,15,0,0,1,0,2,0,0,77,no
+4,Diapering,https://www.walmart.com/browse/diapering/5427_486190?povid=GlobalNav_mWeb_BabyKids_diaperswipes,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,no
+5,Feeding,https://www.walmart.com/cp/feeding/133283?povid=GlobalNav_mWeb_BabyKids_babyformula_babyfood,127,121,6,117,127,72,37,1,0,0,0,7,9,0,0,0,0,1,0,0,54,no
+6,Health & Wellness,https://www.walmart.com/cp/health/976760,11,10,1,11,11,2,3,0,1,0,0,0,0,0,0,5,0,0,0,0,9,no
+7,Pets,https://www.walmart.com/cp/pets/5440?povid=GlobalNav_rWeb_Pets_PetSupplies_AllPetSupplies,87,20,67,70,86,43,25,0,1,0,0,1,8,0,0,0,5,3,0,1,35,no
+8,Balloons,https://www.walmart.com/browse/party-occasions/balloons/2637_1042319_1212898_3956207?povid=GlobalNav_rWeb_ETS_partysupplies_balloons,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,no
+9,Art Supplies,https://www.walmart.com/cp/art-supplies/5899871?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_ArtsCraftsSewing_ArtSupplies,8,3,5,8,8,2,6,0,0,0,0,0,0,0,0,0,0,0,0,0,6,no
+10,Office Supplies,https://www.walmart.com/cp/office-supplies/1229749?povid=GlobalNav_rWeb_SchoolOfficeArtSupplies_Department_ShopAllOfficeSupplies,294,254,40,275,294,17,2,0,0,0,0,256,2,0,0,0,0,17,0,0,260,no

@@ -1,0 +1,28 @@
+THE PROBE 1.7.2 PACKAGE, BUILT AGAIN BEFORE PUBLICATION (2026-11-06, UTC)
+
+Why: the names scan of this publication's first staging found the preparation workstation's user name in one
+file of the package, offline_results/16b_review_tests_on_1.7.1_source.txt (the review tests run on 1.7.1's
+code): once in a user-folder path and twice in a pytest temporary-folder name, written by pytest into a
+JSON-escaped path (doubled backslashes) that the packing had not replaced. The package had been tested but
+not delivered.
+
+How: with the builder that made it (scripts/build_walmart_167_delivery.py probe, unchanged since b4f052f, at
+collector commit 85c29e7), from the probe's frozen revision 7ee2fa1, the offline results it was packed from
+and its saved documentation:
+  1. the same inputs again: the builder made the first build again, byte for byte (SHA-256 79f32db3457ff069...);
+  2. the same inputs with the user name replaced by <user> in that log (3 places, lines 45 and 49; nothing
+     else in the file changed) and one line added at the end of offline_results/README.txt, which says so:
+     SHA-256 fe25579154b9cac70628fa8b7e3a61a85858b01f6900ff0aded04b3d6da76e1e, 2,680,541 bytes, 191 members.
+
+What differs: of the 191 members, only offline_results/16b_review_tests_on_1.7.1_source.txt
+and offline_results/README.txt. The line added to README.txt:
+  16b_review_tests_on_1.7.1_source.txt: the workstation's user name reads <user> in one user-folder path and in two pytest temporary-folder names; it was replaced before packing, and nothing else in the file was changed.
+The probe's tree, FILE_SHA256.txt, PACKAGE_MANIFEST.json and every other member are byte for byte the same.
+
+The rebuilt package, on the owner's Azure test VM (Linux), extracted and run as its README says:
+  2026-11-06T01:02:36Z to 2026-11-06T01:05:06Z: 204 tests, 201 passed and 3 skipped; every offline command as expected;
+  the review tests, 23 passed (../../owner-azure-test/1.6.8/probe-1.7.2/). The first build's run, with the same results, is kept in
+  ../../owner-azure-test/1.6.8/probe-1.7.2/earlier_build_79f32db3/.
+The package's own results (offline_results/: the Windows run of 2026-11-05, 15:58:16Z to 16:02:05Z) are the
+same in both builds but for that log's user name and the README line: the rebuild ran no test on Windows,
+and the code those results tested is the same.

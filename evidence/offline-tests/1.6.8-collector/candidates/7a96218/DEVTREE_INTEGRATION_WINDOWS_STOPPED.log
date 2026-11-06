@@ -1,0 +1,43 @@
+dev tree C:/w9/wt (745607e + the test fix, uncommitted), Windows, started 2026-11-05T17:18:48Z
+== tests/integration/test_abandoned_segments.py 17:18:48Z
+.                                                                        [100%]
+1 passed in 16.77s
+exit 0
+== tests/integration/test_account_gate.py 17:19:08Z
+....                                                                     [100%]
+4 passed in 36.13s
+exit 0
+== tests/integration/test_captures_replay.py 17:19:47Z
+.                                                                        [100%]
+1 passed in 14.47s
+exit 0
+== tests/integration/test_category_mapping.py 17:20:05Z
+.....                                                                    [100%]
+5 passed in 42.22s
+exit 0
+== tests/integration/test_concurrency_load.py 17:20:50Z
+......                                                                   [100%]
+6 passed in 181.27s (0:03:01)
+exit 0
+== tests/integration/test_coverage_and_assortment.py 17:23:55Z
+................................                                         [100%]
+32 passed in 140.86s (0:02:20)
+exit 0
+== tests/integration/test_deal_fields_policy.py 17:26:19Z
+....                                                                     [100%]
+4 passed in 26.07s
+exit 0
+== tests/integration/test_detail_path.py 17:26:49Z
+..........................                                               [100%]
+26 passed in 238.60s (0:03:58)
+exit 0
+== tests/integration/test_editions.py 17:30:52Z
+
+C:\w6\py312\pkg\tools\Lib\pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ===========================
+ERROR tests/integration/test_editions.py::test_the_scrape_do_edition_never_sends_a_run_to_oxylabs
+ERROR tests/integration/test_editions.py::test_the_oxylabs_edition_never_sends_a_run_to_scrape_do
+ERROR tests/integration/test_editions.py::test_a_store_naming_a_provider_outside_the_edition_is_a_configuration_error
+ERROR tests/integration/test_editions.py::test_a_scheduled_execution_checks_the_key_of_its_own_provider
+4 errors in 7.39s
+STOPPED 2026-11-05T17:31:11Z: stopped by hand after test_coverage_and_assortment.py (the changed file) passed 32 of 32 and the other files were under way; the clean-ZIP verification of commit 7a96218 (both editions, full unit and integration suites) runs the same tests from the delivered archive. The tree equals commit 7a96218 (committed 17:27:22Z, no file changed by the commit).

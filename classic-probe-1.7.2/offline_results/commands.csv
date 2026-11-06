@@ -1,0 +1,22 @@
+output_file,command,exit_code,expected_exit_codes,output_must_say,output_must_not_say,as_expected,started_at,ended_at
+00_uv_sync_frozen.txt,uv sync --frozen,0,0,,,True,2026-11-05T15:58:16+00:00,2026-11-05T15:58:24+00:00
+01_pytest_standalone.txt,.venv/Scripts/python.exe -m pytest -q -p no:cacheprovider -rs --junitxml=./junit_standalone.xml,0,0,"junit_standalone.xml: tests=""204"" failures=""0"" errors=""0"" skipped=""5""",,True,2026-11-05T15:58:24+00:00,2026-11-05T16:00:47+00:00
+02_ruff_check.txt,.venv/Scripts/python.exe -m ruff check src tests,0,0,,,True,2026-11-05T16:00:47+00:00,2026-11-05T16:00:48+00:00
+03_ruff_format_check.txt,.venv/Scripts/python.exe -m ruff format --check src tests,0,0,,,True,2026-11-05T16:00:48+00:00,2026-11-05T16:00:48+00:00
+04_mypy.txt,.venv/Scripts/python.exe -m mypy,0,0,,,True,2026-11-05T16:00:48+00:00,2026-11-05T16:00:51+00:00
+05_version.txt,.venv/Scripts/python.exe -m classic_probe --version,0,0,,,True,2026-11-05T16:00:51+00:00,2026-11-05T16:00:51+00:00
+06_help.txt,.venv/Scripts/python.exe -m classic_probe --help,0,0,,,True,2026-11-05T16:00:51+00:00,2026-11-05T16:00:52+00:00
+07_plan.txt,.venv/Scripts/python.exe -m classic_probe plan --targets config/targets.json,0,0,,,True,2026-11-05T16:00:52+00:00,2026-11-05T16:00:52+00:00
+08_plan_with_placeholder_rates.txt,.venv/Scripts/python.exe -m classic_probe plan --targets config/targets.json --rates config/rates.example.json,0,0,,,True,2026-11-05T16:00:52+00:00,2026-11-05T16:00:52+00:00
+09_validate.txt,.venv/Scripts/python.exe -m classic_probe validate --targets config/targets.json --rates config/rates.example.json,0,0,,,True,2026-11-05T16:00:52+00:00,2026-11-05T16:00:53+00:00
+10_write_synthetic_fixtures.txt,.venv/Scripts/python.exe write_fixtures.py offline_out/synthetic,0,0,,,True,2026-11-05T16:00:53+00:00,2026-11-05T16:00:53+00:00
+11_replay_synthetic_responses.txt,.venv/Scripts/python.exe -m classic_probe replay --retailer walmart --targets config/targets.json --fixtures offline_out/synthetic/fixtures --rates offline_out/synthetic/synthetic_rates.json --out offline_out/replay,0,0,,,True,2026-11-05T16:00:53+00:00,2026-11-05T16:00:54+00:00
+11b_write_marianos_fixtures.txt,.venv/Scripts/python.exe write_marianos_fixtures.py offline_out/marianos_inputs,0,0,,,True,2026-11-05T16:00:54+00:00,2026-11-05T16:00:55+00:00
+11c_replay_marianos_saved_pages.txt,.venv/Scripts/python.exe -m classic_probe replay --retailer marianos --targets config/targets.json --fixtures offline_out/marianos_inputs/fixtures --rates offline_out/marianos_inputs/synthetic_rates.json --out offline_out/replay_marianos,0,0,,,True,2026-11-05T16:00:55+00:00,2026-11-05T16:00:56+00:00
+12_campaign_init_offline.txt,.venv/Scripts/python.exe -m classic_probe campaign-init --manifest offline_out/manifest.json --ledger offline_out/ledger.sqlite3 --campaign-id offline-check --offline,0,0,,,True,2026-11-05T16:00:56+00:00,2026-11-05T16:00:57+00:00
+13_status.txt,.venv/Scripts/python.exe -m classic_probe status --manifest offline_out/manifest.json,0,0,,,True,2026-11-05T16:00:57+00:00,2026-11-05T16:00:57+00:00
+14_export.txt,.venv/Scripts/python.exe -m classic_probe export --manifest offline_out/manifest.json --out offline_out/export,0,0,,,True,2026-11-05T16:00:57+00:00,2026-11-05T16:00:58+00:00
+15_live_is_refused.txt,.venv/Scripts/python.exe -m classic_probe live --manifest offline_out/manifest.json,3,3,,,True,2026-11-05T16:00:58+00:00,2026-11-05T16:00:58+00:00
+16a_uv_sync_frozen_1.7.1_source.txt,(in the 1.7.1-source tree) uv sync --frozen,0,0,,,True,2026-11-05T16:00:59+00:00,2026-11-05T16:01:02+00:00
+16b_review_tests_on_1.7.1_source.txt,(in the 1.7.1-source tree) .venv/Scripts/python.exe -m pytest -p no:cacheprovider -rA --tb=short tests/test_review_of_171.py,1,1,"13 failed, 9 passed, 1 skipped in ",No module named &  error in  &  errors in ,True,2026-11-05T16:01:02+00:00,2026-11-05T16:01:34+00:00
+17_review_tests_on_1.7.2.txt,.venv/Scripts/python.exe -m pytest -p no:cacheprovider -rA --tb=short tests/test_review_of_171.py,0,0,"22 passed, 1 skipped in ",,True,2026-11-05T16:01:34+00:00,2026-11-05T16:02:05+00:00

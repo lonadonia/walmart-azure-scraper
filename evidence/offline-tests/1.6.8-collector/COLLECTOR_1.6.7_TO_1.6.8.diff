@@ -1,0 +1,2118 @@
+diff --git a/Dockerfile b/Dockerfile
+index 795b136..527a7f7 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,6 +1,6 @@
+ # walmart-azure-headless: one container image for every command (scheduled job and manual operations).
+-# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.7 .
+-#   or:   az acr build --registry <acr> --image walmart-collector:1.6.7 --build-arg SOURCE_COMMIT=<sha> .
++# Build:  docker build --build-arg SOURCE_COMMIT=$(git rev-parse HEAD) -t walmart-collector:1.6.8 .
++#   or:   az acr build --registry <acr> --image walmart-collector:1.6.8 --build-arg SOURCE_COMMIT=<sha> .
+ # No secret is ever baked in: the Scrape.do key and the database come from the job's environment.
+ 
+ FROM python:3.12-slim-bookworm AS build
+diff --git a/README.md b/README.md
+index 72574c8..5f63dec 100644
+--- a/README.md
++++ b/README.md
+@@ -78,7 +78,7 @@ says how it ended (0 done, 2 configuration, 3 credentials, 4 credits, 5 site ref
+ * [docs/VERIFICATION.md](docs/VERIFICATION.md): what was checked, and how (offline, synthetic, live,
+   Azure), with the results.
+ 
+-## What releases 1.6.0 to 1.6.7 change
++## What releases 1.6.0 to 1.6.8 change
+ 
+ Release 1.6.0 follows the client's clarification for Walmart: `volume_deals_description`, `volume_deals_price`,
+ `digital_deals_description` and `digital_deals_price` are always `""` in every exported row, whatever path the row
+@@ -115,7 +115,22 @@ result window keeps it incomplete even when the identities balance), and a CSV r
+ configured listings, or with listings the run did not choose) is never complete: its outcome is `CAPPED`, and
+ `coverage-report` lists it in `csv_rows_read_in_part`. A carried row's UPC and size are decided separately: sizes
+ that conflict withhold the size only (`historical.size_withheld`, with the read), never a UPC the same read
+-verifies. See `docs/VERIFICATION.md`.
++verifies. Release 1.6.8 reads the subcategories a row's navigation links as category pages of their own
++(`/cp/`, for example Food's "Chips", "Cookies", "Soda" and "Water"): each such page is read for the
++listings its own navigation names, and those listings are read as listings of the row (`found_on` names the
++page). Until 1.6.7 these links were skipped as "not a product listing", so the listings only they name were
++never read and a row could be called complete without them. A page or listing named twice, by the same
++path or by another path to the same view, is read once, under the first name the page gives it. A navigation
++link that shows a listing filtered (a facet such as `subscription_eligible`, a price such as `max_price`) is not
++read as such: the listing itself is read, in full, once, named as the page names the listing itself, or by its
++own result page when the page links it only through filtered views; a filtered view of the row's own category
++(Clearance, Under $5) is recorded and not read. A name the page gives a filtered view never renames the listing.
++`coverage-report` lists those links (`filtered_views`), and a read of a filtered view by an earlier release never
++completes its listing (`effective_status` `INCOMPLETE`, `filtered_view`, `filtered_view_of`). Shelf links (listing
++ID `0`, `_be_shelf_id`) are listings of their own, each recorded under its own ID (`0@shelf_id:...`). A page the
++site does not serve keeps its row incomplete. A run makes more requests: one per subcategory page and the result
++pages of the listings those pages name, and a listing linked only filtered is read whole, so it can be larger than
++the view. See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/azure/main.parameters.example.json b/azure/main.parameters.example.json
+index 526e7af..f7ba24f 100644
+--- a/azure/main.parameters.example.json
++++ b/azure/main.parameters.example.json
+@@ -3,7 +3,7 @@
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+     "namePrefix": { "value": "walmart-collector" },
+-    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.7" },
++    "image": { "value": "<registry>.azurecr.io/walmart-collector:1.6.8" },
+     "acrName": { "value": "<registry>" },
+     "keyVaultName": { "value": "<key-vault>" },
+     "scrapedoKeySecretName": { "value": "walmart-collector-scrapedo-api-key" },
+diff --git a/docs/CLI.md b/docs/CLI.md
+index 23adb8a..7c7578c 100644
+--- a/docs/CLI.md
++++ b/docs/CLI.md
+@@ -237,7 +237,16 @@ partitioned listing is complete only when every child category ended complete (r
+ on a moving total, a repeated or wrong page or its result window keeps it incomplete even when the identities
+ balance, and the reason names the child; a partition with no child category recorded is incomplete).
+ `csv_rows_read_in_part` (release 1.6.7) lists the CSV rows the run read only in part (through configured
+-listings, or with listings it did not choose); `coverage_complete` is false while it is not empty. With `--out`, writes `coverage_reconciliation_<run>.csv` and `.json` and
++listings, or with listings it did not choose); `coverage_complete` is false while it is not empty. Release
++1.6.8: a subcategory the row's navigation links as a category page of its own (`/cp/`) is `EXPANDED` once read
++for the listings its navigation names (it counts no products of its own); a listing found on such a page has
++`found_via` `subcategory_page` and `found_on` (the page's listing id), and its `navigation_evidence` names the
++page. A subcategory page not read (not served, unreadable, not allowed, or past the safety ceiling) keeps its
++row incomplete. A link that shows a listing filtered is not read as such (README): `filtered_views` lists those
++links by page. A stored read of a filtered view by an earlier release has `filtered_view` (the filters) and
++`filtered_view_of`: `listing` when it stands for a listing of the row, which it never completes (`effective_status`
++`INCOMPLETE`); `row` when it filters the row's own category, which blocks nothing (`SKIPPED`). With `--out`,
++writes `coverage_reconciliation_<run>.csv` and `.json` and
+ `follow_up_outcomes_<run>.csv`. No provider request.
+ 
+ ### follow-ups --store KEY [--state pending|resolved|all] [--kind sponsored|variant|detail]
+diff --git a/docs/OPERATIONS.md b/docs/OPERATIONS.md
+index e4176d1..8b8e282 100644
+--- a/docs/OPERATIONS.md
++++ b/docs/OPERATIONS.md
+@@ -17,7 +17,7 @@
+    --basis ...` is set; `set-budget --usd X --basis ...` caps the task's money across both (CLI.md).
+ 
+ Data goes to `./data` (or `WALMART_COLLECTOR_DATA_DIR`). For a container, the same with the image
+-(Dockerfile): `docker run --env-file .env walmart-collector:1.6.7 validate-config --check-db`. For one Linux
++(Dockerfile): `docker run --env-file .env walmart-collector:1.6.8 validate-config --check-db`. For one Linux
+ VM (PostgreSQL on the VM, a service user, systemd units with no timer), see [AZURE_VM.md](AZURE_VM.md).
+ 
+ ### Azure
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index b00dfa7..ad2e992 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -1,4 +1,64 @@
+-# Verification report: walmart-azure-headless 1.6.7
++# Verification report: walmart-azure-headless 1.6.8
++
++## Release 1.6.8
++
++Release 1.6.8 corrects a coverage defect found on 2026-11-05 while the coverage tables were rebuilt under the
++completeness rule of 1.6.7: a subcategory that a row's navigation links as a category page of its own (`/cp/...`)
++was skipped as "a category page or other page, not a product listing", so the listings only that page names were
++never read, and the row could still be called complete. The stored category pages of the nine CSV rows that have
++one (the 2026-11-04 census) link 106 such pages (Food: 49, among them "Chips", "Cookies", "Soda", "Water",
++"Juices", "Coffee" and "Tea"). The 1.6.6 coverage tables recorded 130 skipped links of this kind as out of scope:
++95 category pages and 35 shop, brand, search, product or account pages; for 56 of the 95 category pages no listing
++under the page's id is known. Each new test was first run on the frozen 1.6.7 collector (commit `7ee2fa1`, its
++tree extracted byte for byte, the 1.6.8 tests copied in) and failed there by its own assertion; it passes on
++1.6.8. A run now makes more requests: one per subcategory page (a navigation page, through the general API like
++every category page: 1 Scrape.do credit or 1 Oxylabs result) and the result pages of the listings those pages name.
++
++| Change | Until 1.6.7 | Where |
++|---|---|---|
++| A link of the row's navigation to a category page of its own (`/cp/`) is read for the listings that page's own navigation names (`expand`: the page is `EXPANDED`, event `SUBCATEGORY_PAGE_READ`); each is read as a listing of the row (`via` `subcategory_page`, `found_on` the page's listing id), a page or listing the row names twice is read once, and a subcategory page of the page is read in turn. A link that is neither a result listing nor a category page (a shop, brand, search, product or account page) is recorded `SKIPPED` with that reason; the client's CSV exclusions apply on every page. The page itself counts no products | The link was skipped as "a category page or other page, not a product listing": never requested, and its row could be complete without the listings it names | `collection/walmart.py` (`discover`, `collect_node`, `expand`, `subcategory_page`, `NOT_A_CATEGORY`); `tests/integration/test_scrapedo_walmart.py::test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names` (fails on 1.6.7: `KeyError: 'wm:7401'`, the product only that page names was never collected) and `::test_a_run_checks_every_page_against_the_store_and_charges_the_ledger` (fails on 1.6.7: `('SKIPPED', 'a category page or other page, not a product listing')`) |
++| A subcategory page the site answers with its not-found page, whose page data cannot be read, that robots.txt does not allow, or past the safety ceiling of 2,000 subcategory pages per row is recorded with why (event `SUBCATEGORY_PAGE_NOT_READ`) and keeps its row from being complete; the row's other listings are still read | The page was never requested, and the run's collection was called complete | `collection/walmart.py` (`expand`, `SAFETY_MAX_SUBCATEGORY_PAGES`); `tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete` (fails on 1.6.7: `assert (True is False)`, the collection was called complete) |
++| `coverage-report`: a subcategory page read for its listings is `EXPANDED` (a read page, never products), and a listing found on one says so (`found_via` `subcategory_page`, `found_on`, `navigation_evidence` "named by the subcategory page ...") | No such page was read | `collection/reconcile.py`; `tests/unit/test_subcategory_pages_168.py` (the functions 1.6.8 adds: on 1.6.7 the module does not import, `cannot import name 'NOT_A_CATEGORY'`) |
++| `coverage-report` of a run made by release 1.6.7 or earlier: a subcategory page of its own that the run skipped ("a category page or other page, not a product listing") was never read for the listings it names, so its CSV row is not complete (`effective_status` `INCOMPLETE`, with why); the live runs' coverage is judged so | The skip counted as a complete outcome (`SKIPPED`), so such a row could be reported complete | `collection/reconcile.py` (`LEGACY_SKIPPED_PAGE`); `tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report` (fails on 1.6.7: `assert (0 == 0 and True is False)`, the Food row reported complete) |
++| A category page that links one view of a listing twice, by two paths, has it read once, under the first name the page gives it (`listing_key`, `navigation.view_key`, in `discover` and `expand`). The agreed mapping takes the first name a stored page gives a view (`navigation.category_page_names`); a later page still replaces an earlier page's name. Live: Food links `976759_976794_2002490` as "Pantry" and as "Great Value Pantry"; Feeding links `5427_132943_2441534` as "Baby Health Care" and as "Baby Healthcare" | One read per path, each product taking the name of the read that placed it; the mapping took the last name a page gave, so the second 1.6.8 commit's replay of L12 renamed 43 carried records "Great Value Pantry" | `collection/walmart.py` (`listing_key`, `discover`, `expand`), `collection/navigation.py`; `tests/integration/test_category_mapping.py::test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name` (fails on `7a96218`: the Milk listing requested twice, once per path) and `::test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name` (fails on `7a96218`: `'Subscription' == 'Milk'`) |
++| A navigation link that shows a listing filtered (its query narrows the listing: a facet, a price; `navigation.narrowing`) is not read as such. The listing itself is read, in full, once, named as the page names the listing itself, or by its own result page when the page links it only through filtered views. An unknown parameter counts as a filter: taken wrongly, it costs at most a name, never coverage. Each such link is recorded in the page's event (`filtered_views`). Live: Health & Wellness links `976760_4661388_6244277_7158394` as "Cough" (`facet=health_concern:Cough`) and as "Subscription" (`facet=subscription_eligible:...`), and links it no other way; Personal Care links `1005862_1001487` as "Men's Deodorant" (`facet=gender:Male`) | Each link was read by its path, as if it were the listing, so part of a listing could stand for all of it (L10, row below). The third 1.6.8 commit's `listing_key` ignored the query: it requested only the first filtered view of a listing, as the listing (the tests' synthetic pages; no live run of that commit) | `collection/walmart.py` (`_row_listings`), `collection/navigation.py` (`narrowing`, `filtered_listing`, `view_key`); `tests/integration/test_category_mapping.py::test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once` and `::test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once` (fail on `9c14425`: the request carries `organic`, the filtered view was requested) and `::test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page` (the same on a subcategory page); `tests/unit/test_filtered_views_168.py` (on `9c14425`, `AttributeError` for the functions this commit adds, and the two views of one listing share one key) |
++| A filtered view of the row's own category (Household Essentials "Clearance", Personal Care "Clearance", Pets "Under $5") is recorded and not read: its products are listed by the row's subcategories. A filtered view of a `/cp/` category the same page links counts as the row's own | Read as a listing of the row (L10: Personal Care "Clearance" and Pets "Under $5", both in part) | `collection/walmart.py` (`_row_listings`, `FILTERED_ROW`); `tests/integration/test_category_mapping.py::test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own` (fails on `9c14425`: `assert ['https://www...hod%3APickup'] == []`, the filtered view was requested) |
++| Shelf links (listing ID `0`, `_be_shelf_id`) are listings of their own, each recorded under its own ID (`0@shelf_id:N`, `navigation.read_id`). Live: Food links `/browse/pre-cut-fruits/0/0` (shelf 8210692) and `/browse/kids-lunches-&-snacks/0/0` (shelf 7195079) | Each shelf was read by its path, both recorded under the one ID `0`; the third 1.6.8 commit's `listing_key` gave them one key, so it read one of the two | `collection/navigation.py` (`read_id`, `no_category`); `tests/integration/test_category_mapping.py::test_two_shelves_that_share_listing_id_0_are_two_listings` (fails on `9c14425`: `assert 1 == 2`, one shelf read) |
++| The agreed mapping is per view (`navigation.category_page_names`, keyed by `view_key`): a carried record takes only the name of the exact view its read showed (`retention.Verified.named_view`), so a name a page gives a filtered view never renames the listing itself | A name a page gave any link to the listing renamed its records | `collection/navigation.py`, `collection/retention.py`; `tests/integration/test_category_mapping.py::test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself` (fails on `9c14425`: `assert ['Organic Milk'] == ['Milk Products']`) |
++| `coverage-report`: a stored read of a filtered view never completes its listing (`effective_status` `INCOMPLETE`, `filtered_view` the filters, `filtered_view_of` `listing`); a stored read of a filtered view of the row's own category is not a listing of the row and blocks nothing (`SKIPPED`, `filtered_view_of` `row`). The report lists the links a page shows filtered (`filtered_views`) | Such a read counted for the listing: the published 1.6.6 W4 tables count four listings complete from a filtered view alone (L10: Emergency Contraception, Celebrity Colognes, Allergy, Contact solution) | `collection/reconcile.py` (`filtered_view`, `filtered_links`, `FILTERED_VIEW_REASON`, `FILTERED_ROW_REASON`); `tests/integration/test_category_mapping.py::test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report` (fails on `9c14425`: `assert ('DONE', None) == ('INCOMPLETE', 'listing')`) |
++
++Three integration tests budget the mock provider's credits so that the key runs out part-way. Each now allows one
++credit more, for the Dairy & Eggs category page the SYNTHETIC Food page links:
++`test_scrapedo_walmart.py::test_an_exhausted_key_stops_the_run_resumably_and_nothing_else_is_tried`,
++`test_operations.py::test_a_complete_run_is_published_and_a_partial_run_never_replaces_it` and the partial run of
++`test_publication_safety.py`. They pass on 1.6.7 and 1.6.8 alike.
++
++One integration test names the category pages a run requests:
++`test_coverage_and_assortment.py::test_the_category_page_is_read_through_the_general_api_never_the_store_plugin`
++now expects the Dairy & Eggs category page as well as the Food page, each through the general API, never the store
++plugin. It fails on 1.6.7, which never requests the Dairy & Eggs page. The first 1.6.8 commit (`745607e`) still
++expected the Food page alone and failed this test; the full Linux suite on the owner's VM found it on 2026-11-05,
++before any archive of that commit was delivered.
++
++The second 1.6.8 commit (`7a96218`) was then replayed on the stored pages of L12 (on the workstation,
++2026-11-05; no request). Beside the agreed renames ("Fabric Softener" to "Fabric Softeners", the name the
++Household Essentials page gives the listing), it renamed carried records after a second link the same page
++gives the same listing: "Subscription" for the cough and cold medicine listing, "Men's Deodorant" for
++Deodorant and "Great Value Pantry" for Pantry. The third commit (`9c14425`) read such a listing once and kept
++the first name the page gives it. No archive of `7a96218` was delivered.
++
++The third commit's rule was then checked against the full URLs of the 1,505 links the stored category pages
++record (on the workstation, 2026-11-05; no request), and it did not hold: its key took only the listing ID.
++"Subscription" and "Men's Deodorant" are not second names of a listing but filtered views of it (a facet in the
++link's query), and two different shelves share the listing ID `0`. The rows above replace it: only two links to
++one view of a listing are one read; a filtered link has the listing itself read, in full. A run can read more
++than before, since a listing linked only filtered is now read whole. Every test named in those rows fails on
++`9c14425` by the message quoted, and passes on the fourth commit. No archive of `9c14425` was delivered, and no
++live run was made with it.
++
++One test's exact pin changes: `tests/unit/test_subcategory_pages_168.py` pinned the last column of the coverage
++report (`reconcile.COLUMNS[-1] == "found_on"`); it now pins the last three
++(`COLUMNS[-3:] == ("found_on", "filtered_view", "filtered_view_of")`), the two columns this commit adds.
+ 
+ ## Release 1.6.7
+ 
+@@ -641,7 +701,7 @@ Scrape.do's documented API; nothing reaches Scrape.do or Walmart. The delivery's
+ | Provider | the key from `SCRAPEDO_API_KEY` or a mounted key file, never stored or logged; the ledger charges by the cost header; an exhausted key stops the run resumably and no other key or provider is tried; a 429 is retried, a site refusal stops (exit 5) and holds the store; the credit ceiling and run budgets are never crossed |
+ | Runs | product, page and credit limits; a limit or an operator's stop finalizes the run as a pilot/partial export, never published; a complete validated run is published and a later partial run never replaces it |
+ | Publication (fault injection, offline) | a refusal, a rejected run and a crash before, during or after the publication's commit leave the published dataset as it was (or repair it from the database) |
+-| Coverage record | every listing a category page names has a coverage row; one not read says why (excluded by the CSV, not a product listing, not chosen, a limit of the run) |
++| Coverage record | every listing a category page names has a coverage row; one not read says why (excluded by the CSV, a shop, brand, search, product or account page, not chosen, a limit of the run); release 1.6.8: a subcategory page is read for the listings it names (`EXPANDED`) |
+ | Interruption | SIGTERM, SIGINT or (Windows) Ctrl+Break during a page: the run is left `interrupted` (`TERMINATED`), the provider session and segment closed, the store lock released, exit 75; `resume` finishes it without recording a product twice |
+ | Schedule | ships **disabled**; the Azure cron covers both UTC offsets; only the store-local occurrence acts (checked at both daylight-saving changes), an Azure retry or the second firing does nothing twice, a held store exits 8, an unfinished earlier occurrence is closed as partial |
+ | CLI | exit codes 0/2/3/4/5/6/7/8/9/75, JSON log lines, the operations entry point (`ops`) |
+diff --git a/pyproject.toml b/pyproject.toml
+index 0c84cb7..0ee1a21 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "walmart-azure-headless"
+-version = "1.6.7"
++version = "1.6.8"
+ description = "Headless Walmart store-price collector: Scrape.do's Walmart store endpoint or the Oxylabs Web API, PostgreSQL, Azure Container Apps jobs or one Linux VM"
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/src/walmart_headless/__init__.py b/src/walmart_headless/__init__.py
+index 0e8e181..ee22526 100644
+--- a/src/walmart_headless/__init__.py
++++ b/src/walmart_headless/__init__.py
+@@ -1,3 +1,3 @@
+ """Walmart store-price collector (headless): Scrape.do's Walmart store endpoint, PostgreSQL, Azure jobs."""
+ 
+-__version__ = "1.6.7"
++__version__ = "1.6.8"
+diff --git a/src/walmart_headless/collection/navigation.py b/src/walmart_headless/collection/navigation.py
+index bd707e0..aca4b03 100644
+--- a/src/walmart_headless/collection/navigation.py
++++ b/src/walmart_headless/collection/navigation.py
+@@ -1,4 +1,5 @@
+-"""The names the store's category pages give its listings, as earlier runs recorded them (release 1.6.7).
++"""The names the store's category pages give its listings, as earlier runs recorded them (release 1.6.7), and
++what a navigation link shows (release 1.6.8).
+ 
+ The agreed category mapping: ``category`` is the client's CSV row and ``sub_category`` the name the row's
+ category page gives the listing a product was read from ("A listing that a category page names keeps the
+@@ -11,18 +12,28 @@ Every category page a run reads is recorded in a ``SUBCATEGORIES_FOUND`` event (
+ names). :func:`category_page_names` reads those events of the store's runs, so a listing read by its path
+ takes the name its category page gave it, from data already stored: no request is made for it. A listing no
+ stored category page names keeps its own page's name, and says so (``Listing.named_by``).
++
++Release 1.6.8: a link can show a listing filtered. Its query narrows the listing by a facet, a price or a
++shelf. Live, Health & Wellness links ``976760_4661388_6244277_7158394`` as "Cough"
++(``facet=health_concern:Cough``) and as "Subscription" (``facet=subscription_eligible:Subscription item``).
++Each link shows part of the listing, never the listing itself. :func:`view_key` tells such views apart. A name
++the page gives a filtered view names that view only, never the listing itself (the agreed mapping per view).
+ """
+ 
+ from __future__ import annotations
+ 
++import hashlib
++import re
+ from collections.abc import Mapping
+ from dataclasses import dataclass
+ from datetime import datetime
+ from typing import Any
++from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+ 
+ from sqlalchemy import select
+ from sqlalchemy.orm import Session
+ 
++from walmart_headless.acquisition.scrapedo_session import FULFILLMENT_FACETS
+ from walmart_headless.core import jsonvalues as jv
+ from walmart_headless.core.timeutil import iso
+ from walmart_headless.db.models import Event, Run
+@@ -31,8 +42,82 @@ from walmart_headless.sites.walmart import page_data as wpd
+ FOUND_CODE = "SUBCATEGORIES_FOUND"
+ RULE = (
+     "release 1.6.7: sub_category is the name the CSV row's category page gives the listing (the agreed "
+-    "category mapping); a listing read by its path takes it from the store's stored category pages"
++    "category mapping); a listing read by its path takes it from the store's stored category pages; release "
++    "1.6.8: a name the page gives a filtered view of a listing names that view only"
+ )
++# Release 1.6.8: the query parameter that only says where a link was clicked (Walmart's page-origin tag,
++# ``povid``): it does not change what a listing shows.
++TRACKING_PARAMS = frozenset({"povid"})
++_CATEGORY_ID = re.compile(r"\d+(?:_\d+)*")
++
++
++def narrowing(url: str) -> tuple[tuple[str, str], ...]:
++    """The filters a link's query narrows its listing by (release 1.6.8), sorted. Every query parameter with
++    a value counts, an unknown one too (a filter taken for none would read part of a listing as all of it),
++    except Walmart's tracking ``povid``, a ``cat_id`` that repeats the link's own ID and the collector's own
++    fulfillment facet. A ``facet`` is split into its values, which Walmart joins with "||". A second "?" in a
++    query separates parameters (live, Personal Care:
++    ``cat_id=1005862_1001487&facet=gender%3AMale?povid=...``), and a parameter without a value is none (live:
++    ``povid=..._FSA_&_HAS_2.9``). () for a link to the listing itself."""
++    own = set(FULFILLMENT_FACETS.values())
++    lid = wpd.listing_id(url)
++    out: set[tuple[str, str]] = set()
++    for key, value in parse_qsl(urlsplit(url).query.replace("?", "&")):
++        k = key.strip()
++        if not k or k in TRACKING_PARAMS or (k == "cat_id" and value.strip() == lid):
++            continue
++        for v in value.split("||") if k == "facet" else [value]:
++            v = " ".join(v.split())
++            if not v or (k == "facet" and v in own):
++                continue
++            out.add((k, v))
++    return tuple(sorted(out))
++
++
++def no_category(lid: str) -> bool:
++    """A listing ID made of zeros (``/browse/pre-cut-fruits/0/0``): no category; Walmart's shelf links use it,
++    their query (``_be_shelf_id``, ``facet=shelf_id:...``) being the whole listing (release 1.6.8)."""
++    return bool(lid) and set(lid) <= {"0", "_"}
++
++
++def view_key(url: str) -> str:
++    """The view of a listing a link shows (release 1.6.8): the listing ID and, for a result listing
++    (``/browse/``), the filters its query narrows it by. Two links with the same key show the same products,
++    by any path. "" for a link without a listing ID. A category page of its own (``/cp/``) is read for its
++    navigation, which no filter changes."""
++    lid = wpd.listing_id(url)
++    if not lid:
++        return ""
++    filters = narrowing(url) if urlsplit(url).path.startswith("/browse/") else ()
++    return f"{lid}?{urlencode(filters)}" if filters else lid
++
++
++def filtered_listing(url: str) -> str:
++    """The URL of the listing a link shows filtered (release 1.6.8): for a ``/browse/`` link to a category
++    whose query narrows it, the same path without its query. "" for a link to the listing itself, to a shelf
++    (whose filters are the listing), to a category page, or to no category."""
++    parts = urlsplit(url)
++    lid = wpd.listing_id(url)
++    if not parts.path.startswith("/browse/") or not _CATEGORY_ID.fullmatch(lid) or no_category(lid):
++        return ""
++    if not narrowing(url):
++        return ""
++    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
++
++
++def read_id(url: str) -> str:
++    """The ID a listing read through this link is recorded under (release 1.6.8): its listing ID; for a shelf
++    (a listing ID of zeros), the ID with the shelf's facets, so that two shelves never share a record:
++    ``0@shelf_id:8210692``, or a digest of its filters when no facet names it."""
++    lid = wpd.listing_id(url)
++    filters = narrowing(url)
++    if not no_category(lid) or not filters:
++        return lid
++    facets = ",".join(v for k, v in filters if k == "facet")
++    rid = f"{lid}@{facets}"
++    if facets and len(rid) <= 64:
++        return rid
++    return f"{lid}@{hashlib.sha256(urlencode(filters).encode('utf-8')).hexdigest()[:16]}"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -66,12 +151,20 @@ class NamedBy:
+ def category_page_names(
+     s: Session, store_id: str, *, before: datetime | None = None, node: str = ""
+ ) -> dict[str, NamedBy]:
+-    """For each listing id a category page of the store named, the latest name it was given there. A link the
+-    page named but the run skipped (excluded, not a listing, not chosen) still has its name.
++    """For each view a category page of the store named (its :func:`view_key`: the listing ID, for a link to
++    the listing itself), the name the latest such page gave it. A link the page named but the run skipped
++    (excluded, not a listing, not chosen, a filtered view a 1.6.8 run did not read) still has its name. A page
++    that names one view twice, by two paths, gives it the first name (release 1.6.8: live, the Food page
++    names ``976759_976794_2002490`` "Pantry", then "Great Value Pantry"; until the second 1.6.8 candidate the
++    later link won).
++
++    A filtered view of a listing has its own key: its name never names the listing itself (release 1.6.8;
++    the third 1.6.8 candidate keyed a name by the listing ID only, and so named all of
++    ``976760_4661388_6244277_7158394`` "Cough" after its filtered link).
+ 
+     ``before`` (a replay: when its source run was created) leaves out what was stored at or after it, so a
+     replay names its listings as its source run could have. With ``node`` (a CSV row's category id), a name
+-    the row's own category page gave wins over a name another row's page gave the same listing."""
++    the row's own category page gave wins over a name another row's page gave the same view."""
+     query = (
+         select(Event.id, Event.run_id, Event.ts, Event.data)
+         .join(Run, Run.id == Event.run_id)
+@@ -85,12 +178,21 @@ def category_page_names(
+     for event_id, run_id, ts, data in rows:
+         d: Mapping[str, Any] = jv.obj(data, f"event {event_id}: data")
+         page_node = jv.text(d.get("node"), f"event {event_id}: node")
+-        for i, link in enumerate(jv.objects(d.get("listings"), f"event {event_id}: listings")):
+-            name = " ".join(jv.text(link.get("name"), f"event {event_id}: listings[{i}].name").split())
+-            url = jv.text(link.get("url"), f"event {event_id}: listings[{i}].url")
+-            lid = wpd.listing_id(url) if url else ""
+-            if not name or not lid:
++        named_here: set[str] = set()  # the views this page named already
++        links = [
++            *jv.objects(d.get("listings"), f"event {event_id}: listings"),
++            # Release 1.6.8: the filtered views a page links, recorded beside the listings a run reads.
++            *jv.objects(d.get("filtered_views"), f"event {event_id}: filtered_views"),
++        ]
++        for i, link in enumerate(links):
++            name = " ".join(jv.text(link.get("name"), f"event {event_id}: link {i}: name").split())
++            url = jv.text(link.get("url"), f"event {event_id}: link {i}: url")
++            key = view_key(url) if url else ""
++            if not name or not key:
+                 continue
+-            named = NamedBy(lid, name, str(run_id), str(event_id), ts, page_node)
+-            (own if node and page_node == node else other)[lid] = named  # later events replace
++            if key in named_here:
++                continue  # the page named this view before, by another path: its first name stands
++            named_here.add(key)
++            named = NamedBy(wpd.listing_id(url), name, str(run_id), str(event_id), ts, page_node)
++            (own if node and page_node == node else other)[key] = named  # later events replace
+     return {**other, **own}
+diff --git a/src/walmart_headless/collection/reconcile.py b/src/walmart_headless/collection/reconcile.py
+index 6aa0bdc..3ed963d 100644
+--- a/src/walmart_headless/collection/reconcile.py
++++ b/src/walmart_headless/collection/reconcile.py
+@@ -38,6 +38,7 @@ from typing import Any
+ from sqlalchemy import select
+ from sqlalchemy.orm import Session
+ 
++from walmart_headless.collection import navigation
+ from walmart_headless.collection.walmart import (
+     FINAL_ENDS,
+     NOT_CHOSEN,
+@@ -47,6 +48,7 @@ from walmart_headless.collection.walmart import (
+     page_placements,
+     reconcile_listing,
+     reported_totals,
++    subcategory_page,
+ )
+ from walmart_headless.core import jsonvalues as jv
+ from walmart_headless.core.timeutil import iso
+@@ -62,12 +64,14 @@ from walmart_headless.db.models import (
+     StoreAttestation,
+     Task,
+ )
++from walmart_headless.sites.walmart import page_data as wpd
+ 
+ EXPORTED = ("valid", "exported_not_valid")
+ UNAVAILABLE_FLAGS = ("NO_LOCAL_OFFER", "NO_PICKUP_OFFER", "OUT_OF_STOCK")
+ WINDOW_TEXT = "accessible pages exhausted; coverage incomplete"
+ # Listing states that are no completion decision (a limit, a choice, an open read): kept as recorded.
+-NOT_DECIDED = frozenset({"CAPPED", "SKIPPED", "PENDING", "IN_PROGRESS", "PARTITIONED"})
++# Release 1.6.8: EXPANDED, a subcategory page read for the listings it names (no result pages of its own).
++NOT_DECIDED = frozenset({"CAPPED", "SKIPPED", "PENDING", "IN_PROGRESS", "PARTITIONED", "EXPANDED"})
+ COLUMNS = (
+     "csv_row",
+     "category",
+@@ -114,10 +118,48 @@ COLUMNS = (
+     "effective_reason",
+     "end",
+     "stop_reason",
++    "found_on",  # release 1.6.8: the subcategory page (listing id) that named the listing
++    # Release 1.6.8: the filters of a link that showed the listing filtered, and what it filtered.
++    "filtered_view",
++    "filtered_view_of",
+ )
+ 
+-# Release 1.6.7: the outcomes that complete a listing, and so a CSV row.
+-COMPLETE_OUTCOMES = frozenset({"DONE", "EMPTY", "SKIPPED"})
++# Release 1.6.7: the outcomes that complete a listing, and so a CSV row. Release 1.6.8: a subcategory page
++# read for its listings (EXPANDED) is complete as a page; the listings it named are judged each on their own.
++COMPLETE_OUTCOMES = frozenset({"DONE", "EMPTY", "SKIPPED", "EXPANDED"})
++# Release 1.6.8: the note releases up to 1.6.7 gave every navigation link that was not a /browse/ listing. A
++# category page of its own skipped so was never read for the listings it names: its row is not complete.
++LEGACY_SKIPPED_PAGE = "a category page or other page, not a product listing"
++UNREAD_PAGE_REASON = (
++    "a subcategory page of its own that this run did not read for the listings it names (releases up to "
++    '1.6.7 skipped it as "a category page or other page, not a product listing"); release 1.6.8 reads it'
++)
++# Release 1.6.8: a navigation link that showed a listing filtered (a facet, a price), read by an earlier
++# release as if it were the listing. Its results are part of the listing: they never complete it.
++FILTERED_VIEW_REASON = (
++    "only a filtered view of the listing was read ({filters}): the listing itself was not read in full "
++    "(release 1.6.8 reads the listing itself instead)"
++)
++# A filtered view of the CSV row's own category: its products are those of the row's subcategories.
++FILTERED_ROW_REASON = (
++    "a filtered view of the row's own category ({filters}): its products are listed by the row's "
++    "subcategories; not a listing of its own (release 1.6.8)"
++)
++
++
++def filtered_view(lst: Listing, node: Mapping[str, object]) -> tuple[str, str]:
++    """For a listing a category page or subcategory page named through a link that shows it filtered
++    (``navigation.filtered_listing``), its filters and what they filter: ``listing`` (the listing itself
++    was not read in full), or ``row`` (the CSV row's own category). ("", "") for any other listing: the
++    listing itself, a shelf, a CSV row's own listing, a configured listing or a child category."""
++    if lst.via not in ("category_page", "subcategory_page") or not navigation.filtered_listing(lst.url):
++        return "", ""
++    filters = "&".join(f"{k}={v}" for k, v in navigation.narrowing(lst.url))
++    own = {
++        jv.text(node.get("taxonomy_id"), "listing node: taxonomy_id"),
++        wpd.listing_id(jv.text(node.get("url"), "listing node: url")),
++    }
++    return filters, "row" if wpd.listing_id(lst.url) in own else "listing"
+ 
+ 
+ def _listings_of(s: Session, run_id: str) -> dict[str, tuple[Mapping[str, object], Listing]]:
+@@ -266,10 +308,18 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+             last = fetch_at.get(str(reported[-1].get("fetch_id")))
+             observed_at = iso(last.started_at) if last is not None else None
+         via = lst.via
++        # Release 1.6.8: a listing its page links only through filtered views is named by its own result page.
++        how = "linked, only through filtered views," if lst.named_by else "named"
+         if via == "category_page":
+-            evidence = f"named by the category page {jv.text(node.get('url'), f'listing {lid}: node.url')}"
++            evidence = f"{how} by the category page {jv.text(node.get('url'), f'listing {lid}: node.url')}"
+         elif via == "departments_facet":
+             evidence = f"named by the Departments facet of listing {lst.parent} (its result page 1)"
++        elif via == "subcategory_page":
++            page = listings.get(lst.found_on)
++            evidence = (
++                f"{how} by the subcategory page {page[1].url if page is not None else lst.found_on} "
++                f"(listing {lst.found_on}), a category page of its own that the row's navigation links"
++            )
+         elif via == "configured":
+             evidence = "configured subcategory listing (its id extends the row's category id)"
+         else:
+@@ -277,6 +327,12 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+         status = lst.status
+         reason = lst.reason or lst.note
+         rechecked, rec = rule_status(lst, organic, paid)
++        # Release 1.6.8: a subcategory page an earlier release skipped keeps its row open (never complete).
++        unread_page = (
++            lst.status == "SKIPPED" and lst.note == LEGACY_SKIPPED_PAGE and subcategory_page(lst.url)
++        )
++        # Release 1.6.8: a filtered view an earlier release read as if it were the listing.
++        filters, filtered_of = filtered_view(lst, node)
+         if lst.status == "PARTITIONED":
+             # A partitioned listing balances with its child categories (never their totals added up).
+             tree_paid = set().union(*(keys_by_listing[x]["paid"] for x in tree(lid)))
+@@ -299,6 +355,7 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+                 "found_via": via,
+                 "parent_listing": lst.parent or None,
+                 "navigation_evidence": evidence,
++                "found_on": lst.found_on or None,
+                 "store_id": store.get("location_id"),
+                 "fulfillment": store.get("modality"),
+                 "store_checks_passed": sum(1 for f in fetch_ids if att.get(f) == "PASS"),
+@@ -336,13 +393,27 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+                 "status_rule_1_3_1": rechecked,
+                 # A top-level listing's effective outcome; a child category's own (its parent decides).
+                 "effective_status": (
+-                    str(effective[lid]["status"])
++                    "INCOMPLETE"
++                    if unread_page or filtered_of == "listing"
++                    else "SKIPPED"
++                    if filtered_of == "row"
++                    else str(effective[lid]["status"])
+                     if lid in effective
+                     else rechecked
+                     if lst.status != "PARTITIONED"
+                     else lst.status
+                 ),
+-                "effective_reason": str(effective[lid]["reason"] or "") if lid in effective else "",
++                "effective_reason": UNREAD_PAGE_REASON
++                if unread_page
++                else FILTERED_VIEW_REASON.format(filters=filters)
++                if filtered_of == "listing"
++                else FILTERED_ROW_REASON.format(filters=filters)
++                if filtered_of == "row"
++                else str(effective[lid]["reason"] or "")
++                if lid in effective
++                else "",
++                "filtered_view": filters,
++                "filtered_view_of": filtered_of,
+                 "end": lst.end or None,
+                 "stop_reason": reason
+                 or (
+@@ -371,7 +442,10 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+         {
+             str(r["csv_row"])
+             for r in rows
+-            if r["found_via"] == "configured" or (r["status"] == "SKIPPED" and r["stop_reason"] == NOT_CHOSEN)
++            if r["found_via"] == "configured"
++            or (
++                r["status"] == "SKIPPED" and r["stop_reason"] == NOT_CHOSEN and r["filtered_view_of"] != "row"
++            )
+         }
+     )
+     # Release 1.6.7: each CSV row's own verdict. A row is complete only when the run planned it, read it
+@@ -383,6 +457,8 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+             tops[int(unit["csv_row"])].append(unit)
+ 
+     def open_listing(unit: dict[str, Any]) -> bool:
++        if unit["filtered_view_of"] == "row":
++            return False  # release 1.6.8: part of what the row's subcategories list, not a listing of its own
+         if unit["status"] == "PARTITIONED":
+             return unit["effective_status"] not in COMPLETE_OUTCOMES
+         return (
+@@ -443,9 +519,36 @@ def reconcile(s: Session, run_id: str) -> dict[str, Any]:
+         and all(r["complete"] for r in csv_rows),
+         "rows": rows,
+         "follow_ups": follow_rows,
++        "filtered_views": filtered_links(s, run_id),
+     }
+ 
+ 
++def filtered_links(s: Session, run_id: str) -> list[dict[str, Any]]:
++    """Release 1.6.8: the links the run's category and subcategory pages gave that show a listing filtered,
++    which the run did not read as such, each with why (the listing itself read instead, the row's own
++    category, or excluded by the client's CSV). An earlier release recorded none: it read them as listings."""
++    out: list[dict[str, Any]] = []
++    for e in s.scalars(
++        select(Event)
++        .where(Event.run_id == run_id, Event.code.in_(("SUBCATEGORIES_FOUND", "SUBCATEGORY_PAGE_READ")))
++        .order_by(Event.ts, Event.id)
++    ):
++        d = jv.obj(e.data, f"event {e.id}: data")
++        for i, v in enumerate(jv.objects(d.get("filtered_views"), f"event {e.id}: filtered_views")):
++            where = f"event {e.id}: filtered_views[{i}]"
++            out.append(
++                {
++                    "node": jv.text(d.get("node"), f"event {e.id}: node"),
++                    "found_on": jv.text(d.get("listing"), f"event {e.id}: listing") or None,
++                    "name": jv.text(v.get("name"), f"{where}.name"),
++                    "url": jv.text(v.get("url"), f"{where}.url"),
++                    "listing": jv.text(v.get("listing"), f"{where}.listing"),
++                    "note": jv.text(v.get("note"), f"{where}.note"),
++                }
++            )
++    return out
++
++
+ def as_csv(rows: list[dict[str, Any]], columns: tuple[str, ...] = COLUMNS) -> str:
+     buf = io.StringIO()
+     w = csv.DictWriter(buf, fieldnames=list(columns), extrasaction="ignore", lineterminator="\n")
+diff --git a/src/walmart_headless/collection/retention.py b/src/walmart_headless/collection/retention.py
+index 6e568a5..e6baab7 100644
+--- a/src/walmart_headless/collection/retention.py
++++ b/src/walmart_headless/collection/retention.py
+@@ -52,7 +52,7 @@ from sqlalchemy.orm import Session
+ 
+ from walmart_headless.acquisition import lineage
+ from walmart_headless.collection.navigation import RULE as NAMING_RULE
+-from walmart_headless.collection.navigation import NamedBy
++from walmart_headless.collection.navigation import NamedBy, view_key
+ from walmart_headless.core import jsonvalues as jv
+ from walmart_headless.core.findings import DataMode, RecordFlag
+ from walmart_headless.core.ids import new_id
+@@ -102,6 +102,10 @@ class Verified:
+     # Release 1.6.7: the listing whose name the record's sub_category is, and that name as the observation
+     # recorded it (its provenance's ``listing`` and ``sub_category``); None when the observation did not say.
+     named_from: tuple[str, str] | None = None
++    # Release 1.6.8: the view of the listing its read showed (``navigation.view_key`` of its provenance's
++    # ``listing_url``: the listing ID for the listing itself, with the filters for a filtered view); the
++    # listing ID when the observation recorded no URL.
++    named_view: str = ""
+ 
+     def summary(self, now: datetime | None = None) -> dict[str, Any]:
+         out: dict[str, Any] = {
+@@ -446,6 +450,9 @@ def verified_local(
+             (str(p["listing"]), str(p["sub_category"]))
+             if isinstance(p.get("listing"), str) and isinstance(p.get("sub_category"), str)
+             else None,
++            view_key(str(p["listing_url"]))
++            if isinstance(p.get("listing_url"), str) and p.get("listing_url")
++            else str(p.get("listing") or ""),
+         )
+     return out
+ 
+@@ -498,7 +505,11 @@ def carry_forward(
+     (``navigation.category_page_names``). A carried record whose sub_category is its listing's name as an
+     earlier run took it from elsewhere (the listing's own page, for a listing read by its path) takes the
+     category page's name: the agreed category mapping. The change is recorded in the record's lineage
+-    (``renamed_by_mapping``, with the source record's own hash); nothing else in the record changes."""
++    (``renamed_by_mapping``, with the source record's own hash); nothing else in the record changes.
++    Release 1.6.8: the name is the one the page gives the view the record's read showed (``Verified.
++    named_view``): a filtered view's name ("Cough", ``facet=health_concern:Cough``) never renames a record
++    read from the listing itself, and the name of the listing itself never renames a record of a filtered
++    view."""
+     counts = {
+         "carried_forward": 0,
+         "not_verified_by_current_rules": 0,
+@@ -533,7 +544,9 @@ def carry_forward(
+             apply_output_policy(v.record) if set(v.record) == set(OUTPUT_FIELDS) else (dict(v.record), {})
+         )
+         renamed: dict[str, Any] | None = None
+-        named = names.get(v.named_from[0]) if names and v.named_from else None
++        # Release 1.6.8: by the view its read showed; a name the page gives a filtered view of the listing
++        # never names a record of the listing itself, nor the other way round.
++        named = names.get(v.named_view) if names and v.named_from and v.named_view else None
+         if (
+             named is not None
+             and v.named_from is not None
+@@ -546,6 +559,7 @@ def carry_forward(
+                 "was": v.named_from[1],
+                 "now": named.name,
+                 "listing": v.named_from[0],
++                "view": v.named_view,
+                 "named_by": named.as_dict(),
+                 "rule": NAMING_RULE,
+                 "source_record_sha256": record_sha256(ordered_record(v.record)),
+diff --git a/src/walmart_headless/collection/walmart.py b/src/walmart_headless/collection/walmart.py
+index c9cfab1..0880fa5 100644
+--- a/src/walmart_headless/collection/walmart.py
++++ b/src/walmart_headless/collection/walmart.py
+@@ -34,7 +34,9 @@ counted later ones as duplicates.
+ 
+ Catalogue. A CSV row is a category page (``/cp/``) or a listing (``/browse/``). A category page is read
+ once (its data names its subcategory listings; the CSV's exclusions and the run's subcategory limit are
+-applied); each listing is read with Walmart's own ``page=N`` links. Products are de-duplicated by identity
++applied); each listing is read with Walmart's own ``page=N`` links. A link that shows a listing filtered (its
++query narrows it: a facet, a price) is not read as such: the listing itself is, in full, once (release 1.6.8;
++:meth:`WalmartCollector._row_listings`). Products are de-duplicated by identity
+ (the UPC when shown, else Walmart's item ID ``wm:<id>``; each size, pack and variant is its own item), and
+ every placement is kept. The task's checkpoint keeps the listing and the next page to read, so a resumed
+ task continues there. A listing link that serves a category page instead of a listing (its data is the
+@@ -222,9 +224,10 @@ def _name_key(name: str) -> str:
+ class Listing:
+     name: str  # subcategory name as the category page shows it ("" for a CSV listing row)
+     url: str
+-    id: str  # the listing's own ID (last path segment)
++    id: str  # the listing's own ID (last path segment); a shelf's, with its filters (navigation.read_id)
+     note: str = ""  # why it is not read (excluded, limit), when it is not
+-    # PENDING | IN_PROGRESS | DONE | EMPTY | INCOMPLETE | PARTITIONED | SKIPPED | CAPPED
++    # PENDING | IN_PROGRESS | DONE | EMPTY | INCOMPLETE | PARTITIONED | SKIPPED | CAPPED | EXPANDED (release
++    # 1.6.8: a subcategory linked as a category page of its own, read for the listings it names)
+     status: str = "PENDING"
+     pages_read: int = 0
+     total: int | None = None  # results the listing reports (its latest result page)
+@@ -232,10 +235,11 @@ class Listing:
+     seen: list[str] = field(default_factory=list)
+     reason: str = ""
+     # Why reading stopped: LAST_PAGE | EMPTY_PAGE | RESULT_WINDOW | REPEATED_PAGE | PAGE_LIMIT |
+-    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT | CATEGORY_PAGE | NOT_FOUND ("" while
+-    # reading).
++    # SAFETY_LIMIT | ROBOTS | IDENTITY | NOT_IN_SOURCE | CATEGORY_LIMIT | CATEGORY_PAGE | NOT_FOUND |
++    # PAGE_DATA (release 1.6.8: a subcategory page whose data cannot be read) ("" while reading).
+     end: str = ""
+-    # How the listing was found: csv (the row itself), category_page, configured, departments_facet.
++    # How the listing was found: csv (the row itself), category_page, configured, departments_facet,
++    # subcategory_page (release 1.6.8: named by a subcategory's own category page, ``found_on``).
+     via: str = ""
+     parent: str = ""  # a child category's parent listing id (read because the parent exceeds its window)
+     depth: int = 0
+@@ -248,9 +252,12 @@ class Listing:
+     # How the listing's served results compare with its reported total when it ended (reconcile_listing).
+     reconciliation: dict[str, Any] = field(default_factory=dict)
+     # Release 1.6.7: where a listing read by its path took its name (a stored category page, or its own page
+-    # when none names it), and the name its own result page gives itself when that differs.
++    # when none names it), and the name its own result page gives itself when that differs. Release 1.6.8:
++    # also a listing the page links only through filtered views, which its own result page names.
+     named_by: str = ""
+     page_name: str = ""
++    # Release 1.6.8: the subcategory page (its listing id) that named this listing, when one did.
++    found_on: str = ""
+ 
+     @classmethod
+     def from_dict(cls, d: Mapping[str, object], where: str) -> Listing:
+@@ -290,6 +297,7 @@ class Listing:
+             reconciliation=dict(jv.obj(d.get("reconciliation"), f"{where}.reconciliation")),
+             named_by=t("named_by"),
+             page_name=t("page_name"),
++            found_on=t("found_on"),
+         )
+ 
+ 
+@@ -376,6 +384,45 @@ def _served(r: Mapping[str, Any]) -> str:
+ 
+ # Release 1.6.7: why a run that read only part of a CSV row's listings cannot complete the row.
+ NOT_CHOSEN = "not among the subcategories chosen for this run"
++# Release 1.6.8: a navigation link that is neither a result listing (/browse/) nor a category page of its
++# own (/cp/, read for the listings it names): a shop, brand, search, product or account page.
++NOT_A_CATEGORY = "a shop, brand, search, product or account page, not a category or result listing"
++# Release 1.6.8: the most subcategory pages one CSV row reads (a safety ceiling against a navigation that
++# never ends; each page is read once per row). A row that reaches it is capped, never complete.
++SAFETY_MAX_SUBCATEGORY_PAGES = 2000
++_CATEGORY_ID = re.compile(r"\d+(?:_\d+)*")
++# Release 1.6.8: a navigation link that shows a listing filtered (a facet, a price) is not read; the listing
++# itself is, in full, once. A filtered view of a category the row reads through its subcategories (the row's
++# own category, or a category page of its own) is part of what those subcategories list.
++FILTERED_VIEW = (
++    "a filtered view of listing {lid}, not read as such: the row's own entry for that listing says how the "
++    "listing itself is read"
++)
++FILTERED_ROW = (
++    "a filtered view of category {lid}, which the row reads through its subcategories: not a listing of "
++    "its own"
++)
++
++
++def listing_key(url: str) -> str:
++    """Release 1.6.8: what a navigation link shows, whatever the words of its path: its kind (a result
++    listing, ``browse``, or a category page of its own, ``cp``) and its view (``navigation.view_key``: its
++    own category ID and, for a result listing, the filters its query narrows it by). Two links with the same
++    key show the same products, so the listing is read once. Walmart serves a listing by its ID: live, the
++    Food page links ``976759_976794_2002490`` by two paths, as "Pantry" and as "Great Value Pantry". Two
++    filtered views of one listing are not the same: Health & Wellness links ``976760_4661388_6244277_7158394``
++    as "Cough" (``facet=health_concern:Cough``) and as "Subscription"
++    (``facet=subscription_eligible:Subscription item``). "" for any other link, or one whose last segment is
++    not a category ID."""
++    path = urlsplit(url).path
++    kind = "browse" if path.startswith("/browse/") else "cp" if path.startswith("/cp/") else ""
++    lid = wpd.listing_id(url)
++    return f"{kind}:{navigation.view_key(url)}" if kind and _CATEGORY_ID.fullmatch(lid) else ""
++
++
++def subcategory_page(url: str) -> bool:
++    """A navigation link to a category page of its own (``/cp/...``): read for the listings it names."""
++    return urlsplit(url).path.startswith("/cp/")
+ 
+ 
+ def row_read_in_part(listings: Sequence[Listing]) -> str:
+@@ -417,7 +464,7 @@ def listing_outcomes(listings: list[Listing]) -> list[dict[str, Any]]:
+ 
+     out: list[dict[str, Any]] = []
+     for x in listings:
+-        if x.parent or x.status == "SKIPPED":
++        if x.parent or x.status in ("SKIPPED", "EXPANDED"):
+             continue
+         members = tree(x)
+         organic = set().union(*(set(m.seen) for m in members))
+@@ -1454,8 +1501,10 @@ class WalmartCollector(BaseCollector):
+                     stored = navigation.category_page_names(
+                         s, self.store_id, before=self.history_before, node=node.taxonomy_id
+                     )
++                    # Release 1.6.8: by the view the listing's path shows (its ID, for the listing itself).
++                    views = {x.id: navigation.view_key(x.url) for x in direct}
+                     for x in direct:
+-                        named = stored.get(x.id)
++                        named = stored.get(views[x.id])
+                         if named is not None:
+                             x.name, x.named_by = named.name, named.describe()
+                     event(
+@@ -1470,7 +1519,8 @@ class WalmartCollector(BaseCollector):
+                             "node": node.taxonomy_id,
+                             "listings": [x.url for x in direct],
+                             "names": {
+-                                x.id: stored[x.id].as_dict() if x.id in stored else None for x in direct
++                                x.id: stored[views[x.id]].as_dict() if views[x.id] in stored else None
++                                for x in direct
+                             },
+                             "rule": navigation.RULE,
+                         },
+@@ -1489,7 +1539,10 @@ class WalmartCollector(BaseCollector):
+             if lst.status == "PENDING" and not lst.note:
+                 lst.status = "IN_PROGRESS"
+             if lst.status == "IN_PROGRESS":
+-                await self.collect_listing(ctx, node, cur, lst)
++                if subcategory_page(lst.url):
++                    await self.expand(ctx, node, cur, lst)
++                else:
++                    await self.collect_listing(ctx, node, cur, lst)
+             if cur.status == "CAPPED":
+                 break
+             cur.index, cur.page = cur.index + 1, 1
+@@ -2446,45 +2499,284 @@ class WalmartCollector(BaseCollector):
+             cur.listings, cur.status, cur.reason = [], "INCOMPLETE", problem[:500]
+             return
+         excluded = {_name_key(e) for e in node.excluded}
++        listings, views, chosen = self._row_listings(
++            node,
++            links,
++            groups,
++            known=set(),
++            known_keys=set(),
++            own_categories={node.taxonomy_id, wpd.listing_id(node.url)},
++            chosen=0,
++            via="category_page",
++            own_page=urlsplit(node.url).path.rstrip("/"),
++        )
++        cur.listings = listings
++        cur.discovered = [{**asdict(x), "group": groups.get(x.url, "")} for x in links]
++        with self.factory() as s:
++            event(
++                s,
++                self.run_id,
++                "INFO",
++                "SUBCATEGORIES_FOUND",
++                f"{node.category}: {len(links)} subcategory listings on the category page, {chosen} to read"
++                + (f", {len(views)} filtered views of listings (not read as such)" if views else ""),
++                {
++                    "node": node.taxonomy_id,
++                    "excluded_by_csv": sorted(excluded),
++                    "listings": [{"name": x.name, "url": x.url, "note": x.note} for x in listings],
++                    "filtered_views": views,
++                },
++            )
++            s.commit()
++
++    def _row_listings(
++        self,
++        node: Node,
++        links: Sequence[wpd.SubcategoryLink],
++        groups: Mapping[str, str],
++        *,
++        known: set[str],
++        known_keys: set[str],
++        own_categories: set[str],
++        chosen: int,
++        via: str,
++        own_page: str = "",
++        depth: int = 0,
++        found_on: str = "",
++    ) -> tuple[list[Listing], list[dict[str, str]], int]:
++        """The listings a page's navigation links (a CSV row's category page, or a subcategory page of the
++        row): each listing with what the run does with it, the filtered views the page links (release 1.6.8),
++        and how many listings the run has chosen to read so far. ``known``/``known_keys`` are the paths and
++        ``listing_key`` values the row names already; both are updated.
++
++        A listing the navigation names twice, by the same path or by another path to the same view, is read
++        once, under the first name the page gives it (release 1.6.8; before, one read per path, and a product
++        took the name of the read that placed it). A link that shows a listing filtered (``navigation.
++        filtered_listing``: a facet, a price) is not read: the listing itself is, in full, once, named as the
++        page names the listing itself, or by its own page when the page links it only through filtered views.
++        A filtered view of a category the row reads through its subcategories (``own_categories``: the row's
++        own, or a category page of its own) is not a listing of its own."""
++        excluded = {_name_key(e) for e in node.excluded}
+         only = {o.rstrip("/") for o in node.only}
+         limit = self.cfg.limits.max_subcategories_per_category
+-        listings: list[Listing] = []
+-        chosen = 0
+-        seen_paths: set[str] = set()
+-        for link in links:
+-            path = urlsplit(link.url).path.rstrip("/")
+-            if path in seen_paths:
+-                continue  # a listing the navigation names twice is read once
+-            seen_paths.add(path)
+-            group = groups.get(link.url, "")
++
++        def name_of(link: wpd.SubcategoryLink) -> str:
+             # A link named only "Shop all" stands for its navigation group: the group's name is the
+             # subcategory ("Tailgating Food" › "Shop all" gives "Tailgating Food").
+-            name = group if group and _GENERIC_LINK.match(" ".join(link.name.split())) else link.name
+-            lst = Listing(name, link.url, wpd.listing_id(link.url), via="category_page")
+-            if _name_key(link.name) in excluded or (group and _name_key(group) in excluded):
+-                lst.status, lst.note = "SKIPPED", "excluded by the client's CSV"
+-            elif not path.startswith("/browse/"):
+-                lst.status, lst.note = "SKIPPED", "a category page or other page, not a product listing"
+-            elif only and path not in only and link.url.rstrip("/") not in only:
++            group = groups.get(link.url, "")
++            return group if group and _GENERIC_LINK.match(" ".join(link.name.split())) else link.name
++
++        def excluded_link(link: wpd.SubcategoryLink) -> bool:
++            group = groups.get(link.url, "")
++            return _name_key(link.name) in excluded or bool(group and _name_key(group) in excluded)
++
++        def choose(lst: Listing, path: str, url: str) -> None:
++            nonlocal chosen
++            if only and path not in only and url.rstrip("/") not in only:
+                 lst.status, lst.note = "SKIPPED", NOT_CHOSEN
+             elif limit is not None and chosen >= limit:
+                 lst.status, lst.note = "CAPPED", f"subcategory limit of this run ({limit}) reached"
+             else:
+                 chosen += 1
+-            listings.append(lst)
+-        cur.listings = listings
+-        cur.discovered = [{**asdict(x), "group": groups.get(x.url, "")} for x in links]
++
++        # The first link the page gives each listing itself (no filter), for a listing it links first through
++        # a filtered view; and the categories with a page of their own that the page links.
++        plain: dict[str, wpd.SubcategoryLink] = {}
++        for link in links:
++            key = listing_key(link.url)
++            if key and not navigation.filtered_listing(link.url):
++                plain.setdefault(key, link)
++        own_categories = own_categories | {wpd.listing_id(x.url) for x in links if subcategory_page(x.url)}
++        out: list[Listing] = []
++        views: list[dict[str, str]] = []
++        for link in links:
++            path = urlsplit(link.url).path.rstrip("/")
++            key = listing_key(link.url)
++            base = navigation.filtered_listing(link.url)
++            if base:
++                if key in known_keys:
++                    continue  # the same filtered view again
++                known_keys.add(key)
++                lid = wpd.listing_id(link.url)
++                view = {"name": name_of(link), "url": link.url, "listing": lid, "note": ""}
++                views.append(view)
++                base_key = listing_key(base)
++                itself = plain.get(base_key)
++                if excluded_link(link) or (itself is not None and excluded_link(itself)):
++                    view["note"] = "excluded by the client's CSV"
++                    continue
++                if lid in own_categories:
++                    view["note"] = FILTERED_ROW.format(lid=lid)
++                    continue
++                view["note"] = FILTERED_VIEW.format(lid=lid)
++                if base_key in known_keys:
++                    continue  # the row reads the listing itself already
++                known_keys.add(base_key)
++                url = itself.url if itself is not None else base
++                base_path = urlsplit(url).path.rstrip("/")
++                known.add(base_path)
++                lst = Listing(
++                    name_of(itself) if itself is not None else "",
++                    url,
++                    lid,
++                    via=via,
++                    depth=depth,
++                    found_on=found_on,
++                )
++                if itself is None:
++                    lst.named_by = (
++                        "its own result page (catInfo.name): the category page links this listing only "
++                        f"through filtered views ({view['name']!r}, {link.url})"
++                    )[:500]
++                choose(lst, base_path, url)
++                out.append(lst)
++                continue
++            if (key and key in known_keys) or (not key and path in known):
++                continue
++            known.add(path)
++            if key:
++                known_keys.add(key)
++            lst = Listing(
++                name_of(link), link.url, navigation.read_id(link.url), via=via, depth=depth, found_on=found_on
++            )
++            if excluded_link(link):
++                lst.status, lst.note = "SKIPPED", "excluded by the client's CSV"
++            elif own_page and path == own_page:
++                lst.status, lst.note = "SKIPPED", "the row's own category page"
++            elif not path.startswith(("/browse/", "/cp/")):
++                # Release 1.6.8: a /cp/ link is a subcategory with a category page of its own, read for the
++                # listings it names (expand); until 1.6.7 it was skipped as "a category page or other
++                # page, not a product listing" and the listings only it names were never read.
++                lst.status, lst.note = "SKIPPED", NOT_A_CATEGORY
++            else:
++                choose(lst, path, link.url)
++            out.append(lst)
++        return out, views, chosen
++
++    async def expand(self, ctx: TaskContext, node: Node, cur: Cursor, lst: Listing) -> None:
++        """Release 1.6.8: a subcategory the row's navigation links as a category page of its own (``/cp/``:
++        Food › Snacks › "Chips") is read for the listings its own navigation names, each then read as a
++        listing of the row, found on it (``via`` subcategory_page, ``found_on``). The page is never counted
++        as products. A listing the row already names is read once; a link that is neither a listing nor a
++        category page, or that the client's CSV excludes, is recorded with why; a subcategory page of the
++        page is read in turn. A page the site does not serve, whose data cannot be read, or past the row's
++        safety ceiling of subcategory pages keeps the row from being complete."""
++        assert self.session is not None and self.session.robots is not None
++        assert cur.listings is not None
++        read = sum(1 for x in cur.listings if x.status == "EXPANDED")
++        if read >= SAFETY_MAX_SUBCATEGORY_PAGES:
++            lst.status, lst.end = "CAPPED", "SAFETY_LIMIT"
++            lst.reason = f"not read: this row already read {read} subcategory pages (the safety ceiling)"
++            self._record_page(node, lst)
++            return
++        if not self.session.robots.allowed(lst.url):
++            lst.status, lst.end = "INCOMPLETE", "ROBOTS"
++            lst.reason = "robots.txt does not allow this subcategory page"
++            self._record_page(node, lst)
++            return
++        self.check(ctx)
++        try:
++            fetch = await self.session.navigate(lst.url, "category_page", settle_ms=self.LISTING_SETTLE_MS)
++        except NotInSource as exc:
++            lst.status, lst.end, lst.reason = "INCOMPLETE", "NOT_IN_SOURCE", str(exc)[:500]
++            self._record_page(node, lst)
++            return
++        self.steps += 1
++        groups: dict[str, str] = {}
++        links: list[wpd.SubcategoryLink] = []
++        problem: str | None = None
++        try:
++            nd = wpd.next_data(self.html(fetch))
++            if missing := wpd.not_found_page(nd):
++                lst.status, lst.end = "INCOMPLETE", "NOT_FOUND"
++                lst.reason = (
++                    "not read: the site answered this subcategory page with its not-found page (page data "
++                    f"route {missing}, HTTP {fetch.status})"
++                )
++            else:
++                nav = wpd.category_nav(nd, self._origin(fetch))
++                if nav:
++                    for g in nav:
++                        for link in g.links:
++                            links.append(link)
++                            groups.setdefault(link.url, g.name)
++                else:
++                    links = wpd.subcategory_links(nd, self._origin(fetch))
++        except wpd.PageDataMissing as exc:
++            problem = f"{fetch.url}: {exc}"
++            lst.status, lst.end, lst.reason = "INCOMPLETE", "PAGE_DATA", problem[:500]
++        with self.factory() as s:
++            self.persist(s, ctx)
++            self._contract(s, problem)
++            s.commit()
++        if lst.status == "INCOMPLETE":
++            self._record_page(node, lst, fetch.fetch_id)
++            return
++        # The row names it already (its own page, or another subcategory page; by this path or by another path
++        # to the same view): read once, under the name it was first given.
++        known = {urlsplit(x.url).path.rstrip("/") for x in cur.listings}
++        known.add(urlsplit(node.url).path.rstrip("/"))
++        known_keys = {k for k in [*(listing_key(x.url) for x in cur.listings), listing_key(node.url)] if k}
++        added, views, _ = self._row_listings(
++            node,
++            links,
++            groups,
++            known=known,
++            known_keys=known_keys,
++            own_categories={
++                node.taxonomy_id,
++                wpd.listing_id(node.url),
++                *(x.id for x in cur.listings if subcategory_page(x.url)),
++            },
++            chosen=sum(1 for x in cur.listings if x.status not in ("SKIPPED", "CAPPED", "EXPANDED")),
++            via="subcategory_page",
++            depth=lst.depth + 1,
++            found_on=lst.id,
++        )
++        cur.listings.extend(added)
++        lst.status, lst.end = "EXPANDED", ""
++        lst.children = [{"id": x.id, "name": x.name, "url": x.url} for x in added]
++        to_read = sum(1 for x in added if x.status == "PENDING")
++        lst.reason = (
++            f"a category page of its own: its navigation names {len(links)} links, {len(added)} not named "
++            f"before in this row ({to_read} to read)"
++            + (f", {len(views)} filtered views of listings (not read as such)" if views else "")
++            + ("" if links else "; it names no listing")
++        )[:500]
+         with self.factory() as s:
++            self._coverage(s, node, lst)
+             event(
+                 s,
+                 self.run_id,
+-                "INFO",
+-                "SUBCATEGORIES_FOUND",
+-                f"{node.category}: {len(links)} subcategory listings on the category page, {chosen} to read",
++                "INFO" if links else "WARN",
++                "SUBCATEGORY_PAGE_READ",
++                f"{lst.name or lst.id}: {lst.reason}",
+                 {
+                     "node": node.taxonomy_id,
+-                    "excluded_by_csv": sorted(excluded),
+-                    "listings": [{"name": x.name, "url": x.url, "note": x.note} for x in listings],
++                    "listing": lst.id,
++                    "page_fetch_id": fetch.fetch_id,
++                    "url": fetch.url,
++                    "listings": [{"id": x.id, "name": x.name, "url": x.url, "note": x.note} for x in added],
++                    "filtered_views": views,
++                },
++            )
++            s.commit()
++
++    def _record_page(self, node: Node, lst: Listing, fetch_id: str = "") -> None:
++        """A subcategory page that was not read for its listings: its coverage row and why (release 1.6.8)."""
++        with self.factory() as s:
++            self._coverage(s, node, lst)
++            event(
++                s,
++                self.run_id,
++                "WARN",
++                "SUBCATEGORY_PAGE_NOT_READ",
++                f"{lst.name or lst.id}: {lst.reason}",
++                {
++                    "node": node.taxonomy_id,
++                    "listing": lst.id,
++                    "end": lst.end,
++                    "page_fetch_id": fetch_id or None,
+                 },
+             )
+             s.commit()
+@@ -2855,6 +3147,7 @@ class WalmartCollector(BaseCollector):
+                 "reason": lst.reason or lst.note,
+                 "end": lst.end,
+                 "via": lst.via,
++                "found_on": lst.found_on,
+                 "parent": lst.parent,
+                 "depth": lst.depth,
+                 "children_named": [c["id"] for c in lst.children],
+diff --git a/src/walmart_headless/core/paths.py b/src/walmart_headless/core/paths.py
+index 2ac2f0f..d2ca96b 100644
+--- a/src/walmart_headless/core/paths.py
++++ b/src/walmart_headless/core/paths.py
+@@ -22,6 +22,6 @@ def data_dir() -> Path:
+ 
+ 
+ # The version of this collector (and of its parser): every run and export records it.
+-PARSER_VERSION = "1.6.7"
++PARSER_VERSION = "1.6.8"
+ # The verified application release this standalone collector was derived from.
+ DERIVED_FROM = "mscraper 1.2.6 (f9c03085aee2156cfdb21751db233e521b5a2d4c)"
+diff --git a/tests/integration/test_category_mapping.py b/tests/integration/test_category_mapping.py
+index bbae87d..e23d703 100644
+--- a/tests/integration/test_category_mapping.py
++++ b/tests/integration/test_category_mapping.py
+@@ -11,6 +11,7 @@ while the mock's Food category page names it "Milk"."""
+ 
+ from __future__ import annotations
+ 
++import copy
+ import csv
+ import io
+ import json
+@@ -22,10 +23,11 @@ from sqlalchemy import select
+ from sqlalchemy.orm import sessionmaker
+ 
+ from tests import mock_scrapedo
++from tests import synthetic_walmart as syn
+ from tests.conftest import STORE_KEY
+ from tests.integration.test_operations import Env, env  # noqa: F401 - the command-line fixture
+ from tests.mock_scrapedo import MILK, SNACKS
+-from walmart_headless.db.models import Event, RecordRow, Run
++from walmart_headless.db.models import Event, RecordRow, Run, Task
+ 
+ pytestmark = [pytest.mark.postgres]
+ 
+@@ -230,3 +232,406 @@ def test_a_replay_names_listings_only_from_pages_stored_before_its_source_and_a_
+     assert (latest.name, latest.node) == ("Dairy Milk", "1115193")  # the latest page, of another row
+     assert (own.name, own.node) == ("Milk", "976759")  # the row's own page wins
+     assert before["976759_9176907"].name == "Milk" and none_before == {}
++
++
++# Release 1.6.8: one listing that a category page links twice, by two paths, under two names. SYNTHETIC:
++# another path to the mock's Milk listing (Walmart serves a listing by its ID, whatever the path's words).
++PROMO_MILK = "https://www.walmart.com/browse/subscriptions/milk/976759_9176907"
++
++
++def test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """A category page can link one listing twice, by two paths, under two names. Live, the Food page links
++    976759_976794_2002490 as "Pantry" (its 9th link) and again as "Great Value Pantry" (its 55th, another path
++    to the same listing; L4, 2026-11-03, and L7, 2026-11-04); the Feeding page links 5427_132943_2441534 as
++    "Baby Health Care" and as "Baby Healthcare" (L10). Up to the second 1.6.8 candidate a run read such a
++    listing once per path, and its
++    products took the name of the read that placed them (L10 recorded products under both names).
++    The listing is read once, under the first name the page gives it. SYNTHETIC: the Food page links Milk
++    again, from a "Subscription" group, by another path to the same listing (no filter: the same view)."""
++    monkeypatch.setattr(
++        mock_scrapedo,
++        "category_page",
++        lambda: mock_scrapedo.nav_page(
++            [
++                ("Recipes", [("Shop All", "/i/recipes")]),
++                ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907"), ("Milk", MILK)]),
++                ("Snacks", [("Shop all", SNACKS)]),
++                ("Subscription", [("Subscription", PROMO_MILK)]),
++            ]
++        ),
++    )
++    monkeypatch.setitem(mock_scrapedo.PAGES, PROMO_MILK, mock_scrapedo.PAGES[MILK])  # the same listing
++    monkeypatch.setitem(mock_scrapedo.LISTING_CATS, PROMO_MILK, mock_scrapedo.LISTING_CATS[MILK])
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    milk_reads = [
++        url
++        for _, path, url in env.mock.calls[before:]
++        if path == "/plugin/walmart/store" and "976759_9176907" in url
++    ]
++    assert len(milk_reads) == 1 and "/browse/food/milk/" in milk_reads[0], milk_reads
++    assert [p["sub_category"] for p in products(env, run) if p["url"].endswith("/7101")] == ["Milk"]
++    [found] = [e for e in events(env, run, "SUBCATEGORIES_FOUND") if e.data.get("node") == "976759"]
++    named = [x["name"] for x in found.data["listings"] if x["url"].rstrip("/").endswith("/976759_9176907")]
++    assert named == ["Milk"], found.data["listings"]
++
++
++def test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name(
++    env: Env,  # noqa: F811
++    own_page_name: str,
++) -> None:
++    """Runs up to the second 1.6.8 candidate recorded both links of a listing a category page names twice
++    (the Food page: "Pantry", then "Great Value Pantry"). ``category_page_names`` kept the last, so the
++    agreed mapping of 1.6.7 renamed 43 carried records of L12's replay "Great Value Pantry" (and, through
++    filtered views, 268 "Subscription" and 35 "Men's Deodorant": see the filtered-view tests below). The first
++    name a page gives a listing is its name; a later page still replaces an earlier page's name. SYNTHETIC
++    events, as such a run recorded them."""
++    from walmart_headless.collection import navigation
++
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    first = env.runs()[-1]
++    t0 = datetime(2026, 11, 1, 6, 0, tzinfo=UTC)
++    twice = [
++        {"name": "Milk", "url": MILK, "note": ""},
++        {"name": "Subscription", "url": PROMO_MILK, "note": ""},
++    ]
++    with sessionmaker(env.engine)() as s:
++        s.add(
++            Event(
++                run_id=first.id,
++                ts=t0,
++                level="INFO",
++                code=navigation.FOUND_CODE,
++                message="SYNTHETIC TEST: a category page that links Milk twice, as earlier runs recorded it",
++                data={"node": "976759", "listings": twice},
++            )
++        )
++        s.commit()
++        named = navigation.category_page_names(s, first.store_id)
++        own = navigation.category_page_names(s, first.store_id, node="976759")
++    assert named["976759_9176907"].name == "Milk" and own["976759_9176907"].name == "Milk"
++    # A run that reads the listing by its path takes that name, never the later link's.
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    narrowed = env.runs()[-1]
++    assert [p["sub_category"] for p in products(env, narrowed) if p["url"].endswith("/7101")] == ["Milk"]
++    # A later page of the row replaces the earlier page's name, by its own first link.
++    later = [{"name": "Dairy Milk", "url": PROMO_MILK, "note": ""}, {"name": "Milk", "url": MILK, "note": ""}]
++    with sessionmaker(env.engine)() as s:
++        s.add(
++            Event(
++                run_id=first.id,
++                ts=t0 + timedelta(minutes=10),
++                level="INFO",
++                code=navigation.FOUND_CODE,
++                message="SYNTHETIC TEST: a later page of the same row",
++                data={"node": "976759", "listings": later},
++            )
++        )
++        s.commit()
++        assert navigation.category_page_names(s, first.store_id)["976759_9176907"].name == "Dairy Milk"
++
++
++# Release 1.6.8: a link that shows a listing filtered. Live, Health & Wellness links listing
++# 976760_4661388_6244277_7158394 only through two filtered views, "Cough" (facet=health_concern:Cough) and
++# "Subscription" (facet=subscription_eligible:Subscription item); Personal Care links 1005862_1001487 as
++# "Deodorant" and, filtered, as "Men's Deodorant" (facet=gender:Male). A filtered view is part of the listing,
++# never the listing itself. SYNTHETIC: filtered links to the mock's Milk listing.
++ORGANIC_MILK = MILK + "?facet=organic%3AYes&povid=FoodCP_LHN_Organic_Milk"
++SUBSCRIPTION_MILK = PROMO_MILK + "?facet=subscription_eligible%3ASubscription+item"
++W = "https://www.walmart.com"
++
++
++def food_page(monkeypatch: pytest.MonkeyPatch, *groups: tuple[str, list[tuple[str, str]]]) -> None:
++    monkeypatch.setattr(mock_scrapedo, "category_page", lambda: mock_scrapedo.nav_page(list(groups)))
++
++
++def store_reads(env: Env, before: int, needle: str) -> list[str]:  # noqa: F811
++    """The listing URLs the run asked the store endpoint for that contain ``needle``."""
++    return [
++        url for _, path, url in env.mock.calls[before:] if path == "/plugin/walmart/store" and needle in url
++    ]
++
++
++def test_a_listing_linked_only_through_filtered_views_is_read_itself_in_full_once(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++    own_page_name: str,
++) -> None:
++    """The third 1.6.8 candidate read only the first filtered view (its key was the listing ID alone): the
++    listing's other products were never read, the listing could be called complete from part of it, and the
++    filter's name ("Cough") named every product of the listing. The listing itself is read, once, without the
++    filters; the page names it only through filtered views, so its own page names it, and says so."""
++    food_page(
++        monkeypatch,
++        ("Snacks", [("Shop all", SNACKS)]),
++        ("Deals", [("Organic Milk", ORGANIC_MILK), ("Subscription", SUBSCRIPTION_MILK)]),
++    )
++    monkeypatch.setitem(mock_scrapedo.PAGES, PROMO_MILK, mock_scrapedo.PAGES[MILK])
++    monkeypatch.setitem(mock_scrapedo.LISTING_CATS, PROMO_MILK, mock_scrapedo.LISTING_CATS[MILK])
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    reads = store_reads(env, before, "976759_9176907")
++    assert len(reads) == 1 and "organic" not in reads[0] and "subscription" not in reads[0], reads
++    assert [p["sub_category"] for p in products(env, run) if p["url"].endswith("/7101")] == [own_page_name]
++    [found] = [e for e in events(env, run, "SUBCATEGORIES_FOUND") if e.data.get("node") == "976759"]
++    views = found.data["filtered_views"]
++    assert [(v["name"], v["listing"]) for v in views] == [
++        ("Organic Milk", "976759_9176907"),
++        ("Subscription", "976759_9176907"),
++    ], views
++    assert all(v["note"].startswith("a filtered view of listing 976759_9176907") for v in views), views
++    [itself] = [x for x in found.data["listings"] if x["url"].endswith("/976759_9176907")]
++    assert itself == {"name": "", "url": MILK, "note": ""}, found.data["listings"]
++    report = coverage(env, run)
++    row = next(r for r in report["rows"] if r["listing_id"] == "976759_9176907")
++    assert (row["listing_name"], row["filtered_view"], row["effective_status"]) == (own_page_name, "", "DONE")
++    assert len(report["filtered_views"]) == 2, report["filtered_views"]
++
++
++def test_a_link_to_the_listing_itself_after_a_filtered_view_names_it_and_it_is_read_once(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++    own_page_name: str,
++) -> None:
++    """The page links the listing filtered first, and the listing itself later ("Men's Deodorant" first
++    would make it so for Deodorant). The third 1.6.8 candidate read the filtered view and skipped the link to
++    the listing itself. The listing is read once, without the filter, under the name the page gives the
++    listing itself."""
++    food_page(
++        monkeypatch,
++        ("Deals", [("Organic Milk", ORGANIC_MILK)]),
++        ("Dairy & Eggs", [("Milk", MILK)]),
++        ("Snacks", [("Shop all", SNACKS)]),
++    )
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    reads = store_reads(env, before, "976759_9176907")
++    assert len(reads) == 1 and "organic" not in reads[0], reads
++    assert [p["sub_category"] for p in products(env, run) if p["url"].endswith("/7101")] == ["Milk"]
++    [found] = [e for e in events(env, run, "SUBCATEGORIES_FOUND") if e.data.get("node") == "976759"]
++    assert [x["name"] for x in found.data["listings"] if x["url"].endswith("/976759_9176907")] == ["Milk"]
++    assert [v["name"] for v in found.data["filtered_views"]] == ["Organic Milk"]
++
++
++SHELVES = {
++    W + "/browse/pre-cut-fruits/0/0": (
++        "Fresh Fruit",
++        "8210692",
++        syn.Item("7401", "Apple Slices, 2 oz", "$1.00"),
++    ),
++    W + "/browse/kids-lunches-&-snacks/0/0": (
++        "Snack packs",
++        "7195079",
++        syn.Item("7402", "Cheese Snack Pack, 4 ct", "$2.00"),
++    ),
++}
++
++
++def test_two_shelves_that_share_listing_id_0_are_two_listings(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Live, the Food page links two shelves, "Fresh Fruit" (/browse/pre-cut-fruits/0/0, shelf 8210692) and
++    "Snack packs" (/browse/kids-lunches-&-snacks/0/0, shelf 7195079): listing ID 0, a shelf's query being the
++    whole listing. The third 1.6.8 candidate read the first only (one key, ``browse:0``); before it, both
++    were read under one ID, 0, and so one coverage record. Each shelf is read, under its own ID."""
++    links = []
++    for base, (name, shelf, item) in SHELVES.items():
++        links.append(
++            (name, f"{base}?_refineresult=true&_be_shelf_id={shelf}&facet=shelf_id%3A{shelf}&povid=x")
++        )
++        monkeypatch.setitem(mock_scrapedo.PAGES, base, [[item]])
++    food_page(monkeypatch, ("Featured shops", links))
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    assert len(store_reads(env, before, "/0/0")) == 2
++    rows = {r["listing_id"]: r for r in coverage(env, run)["rows"]}
++    assert {k: (r["listing_name"], r["status"]) for k, r in rows.items() if k.startswith("0")} == {
++        "0@shelf_id:8210692": ("Fresh Fruit", "DONE"),
++        "0@shelf_id:7195079": ("Snack packs", "DONE"),
++    }, sorted(rows)
++
++
++def test_a_filtered_view_of_the_rows_own_category_is_not_a_listing_of_its_own(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """Live, Household Essentials links its own category filtered, "Clearance"
++    (/browse/household-essentials/1115193?facet=special_offers:Clearance), and Pets "Under $5"
++    (/browse/5440?max_price=5): part of what the row's subcategories list. It is recorded, not read; the row
++    is complete when its listings are. The third 1.6.8 candidate read it as a listing."""
++    mock_rows_only(env)
++    food_page(
++        monkeypatch,
++        ("Recipes", [("Shop All", "/i/recipes")]),
++        ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907"), ("Milk", MILK)]),
++        ("Snacks", [("Shop all", SNACKS)]),
++        ("Deals", [("Clearance", "/browse/food/976759?facet=special_offers%3AClearance&povid=FoodCP")]),
++    )
++    monkeypatch.setitem(mock_scrapedo.PAGES, W + "/browse/food/976759", mock_scrapedo.PAGES[MILK])
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY)
++    assert store_reads(env, before, "/browse/food/976759") == []
++    assert code == 0
++    run = env.runs()[-1]
++    [found] = [e for e in events(env, run, "SUBCATEGORIES_FOUND") if e.data.get("node") == "976759"]
++    [view] = found.data["filtered_views"]
++    assert (view["name"], view["listing"]) == ("Clearance", "976759"), view
++    assert view["note"].startswith("a filtered view of category 976759, which the row reads through"), view
++    report = coverage(env, run)
++    assert report["coverage_complete"] is True, {k: v for k, v in report.items() if k != "rows"}
++    assert [v["name"] for v in report["filtered_views"]] == ["Clearance"]
++
++
++def test_a_subcategory_page_that_links_a_listing_filtered_has_it_read_itself_and_found_on_the_page(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++    own_page_name: str,
++) -> None:
++    """A subcategory page of its own links a listing only filtered, and its own category filtered. The listing
++    itself is read, once, as a listing found on that page; the filtered view of the page's own category is
++    part of what the page's listings list, and is not read. Both links are recorded."""
++    food_page(monkeypatch, ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907")]))
++    monkeypatch.setitem(
++        mock_scrapedo.CATEGORY_PAGES,
++        "/cp/dairy-eggs/9176907",
++        mock_scrapedo.nav_page(
++            [
++                (
++                    "Dairy",
++                    [
++                        ("Organic Milk", ORGANIC_MILK),
++                        ("Clearance", "/browse/dairy-eggs/9176907?facet=special_offers%3AClearance"),
++                    ],
++                )
++            ]
++        ),
++    )
++    monkeypatch.setitem(mock_scrapedo.PAGES, W + "/browse/dairy-eggs/9176907", mock_scrapedo.PAGES[MILK])
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    reads = store_reads(env, before, "976759_9176907")
++    assert len(reads) == 1 and "organic" not in reads[0], reads
++    assert store_reads(env, before, "/browse/dairy-eggs/9176907") == []
++    assert [p["sub_category"] for p in products(env, run) if p["url"].endswith("/7101")] == [own_page_name]
++    [page] = events(env, run, "SUBCATEGORY_PAGE_READ")
++    assert [(v["name"], v["listing"]) for v in page.data["filtered_views"]] == [
++        ("Organic Milk", "976759_9176907"),
++        ("Clearance", "9176907"),
++    ], page.data
++    row = next(r for r in coverage(env, run)["rows"] if r["listing_id"] == "976759_9176907")
++    assert (row["found_via"], row["found_on"], row["listing_name"]) == (
++        "subcategory_page",
++        "9176907",
++        own_page_name,
++    )
++    assert row["navigation_evidence"].startswith(
++        "linked, only through filtered views, by the subcategory page"
++    )
++
++
++def test_a_name_a_page_gives_a_filtered_view_never_renames_the_listing_itself(
++    env: Env,  # noqa: F811
++    own_page_name: str,
++) -> None:
++    """Runs up to 1.6.7 recorded a filtered link among the listings a page names (L10's Health & Wellness:
++    "Cough", facet=health_concern:Cough). The third 1.6.8 candidate keyed a name by the listing ID alone:
++    it would have renamed the 249 carried records of 976760_4661388_6244277_7158394 that L12 exported as
++    "Shop all Cold Cough & Flu Medicine" (read from the listing itself) "Cough". A filtered view's name names
++    that view only. SYNTHETIC events, as such a run recorded them."""
++    from walmart_headless.collection import navigation
++
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    first = env.runs()[-1]
++    assert {p["sub_category"] for p in products(env, first)} == {own_page_name}
++    with sessionmaker(env.engine)() as s:
++        s.add(
++            Event(
++                run_id=first.id,
++                level="INFO",
++                code=navigation.FOUND_CODE,
++                message="SYNTHETIC TEST: a category page that links Milk only filtered, as 1.6.7 recorded it",
++                data={
++                    "node": "976759",
++                    "listings": [{"name": "Organic Milk", "url": ORGANIC_MILK, "note": ""}],
++                },
++            )
++        )
++        s.commit()
++        names = navigation.category_page_names(s, first.store_id, node="976759")
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", SNACKS_PATH)
++    assert code == 0
++    later = env.runs()[-1]
++    milk = [p for p in products(env, later) if p["url"].endswith("/7101")]
++    assert [p["sub_category"] for p in milk] == [own_page_name], milk
++    assert later.counts["historical"].get("renamed_by_mapping") == 0
++    assert set(names) == {"976759_9176907?facet=organic%3AYes"}, names
++    # A run that reads the listing by its path takes no name from the filtered link either.
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    [configured] = events(env, env.runs()[-1], "SUBCATEGORIES_CONFIGURED")
++    assert configured.data.get("names") == {"976759_9176907": None}, configured.data
++
++
++def test_a_stored_read_of_a_filtered_view_never_completes_its_listing_in_the_coverage_report(
++    env: Env,  # noqa: F811
++) -> None:
++    """A run of an earlier release read a filtered link as if it were the listing (L10: "Allergy",
++    facet=subscription_eligible, 0 results; "Contact solution", 30 results: the 1.6.6 and earlier 1.6.8
++    coverage tables called both COMPLETE). Its results are part of the listing: the listing is not complete,
++    and its row stays open. A filtered view of the row's own category (L10: Personal Care "Clearance") is not
++    a listing of the row. SYNTHETIC: a whole run's stored Food checkpoint, its Milk link given a filter as
++    such a run recorded it, and a filtered link to Food itself added."""
++    mock_rows_only(env)
++    code, _ = env.result("run", "--store", STORE_KEY)
++    assert code == 0
++    run = env.runs()[-1]
++    assert coverage(env, run)["coverage_complete"] is True  # the control: as read
++    with sessionmaker(env.engine)() as s:
++        tasks = s.scalars(select(Task).where(Task.run_id == run.id, Task.kind == "listing_node")).all()
++        [task] = [t for t in tasks if (t.cursor.get("node") or {}).get("taxonomy_id") == "976759"]
++        cursor = copy.deepcopy(task.cursor)
++        [milk] = [x for x in cursor["listings"] if x["id"] == "976759_9176907"]
++        milk["url"] = ORGANIC_MILK
++        cursor["listings"].append(
++            {
++                **copy.deepcopy(milk),
++                "id": "976759",
++                "name": "Clearance",
++                "url": W + "/browse/food/976759?facet=special_offers%3AClearance",
++                "seen": [],
++            }
++        )
++        task.cursor = cursor
++        s.commit()
++    report = coverage(env, run)
++    rows = {r["listing_id"]: r for r in report["rows"]}
++    milk_row, own_row = rows["976759_9176907"], rows["976759"]
++    assert (milk_row["effective_status"], milk_row.get("filtered_view_of")) == ("INCOMPLETE", "listing"), (
++        milk_row["effective_reason"]
++    )
++    assert milk_row["effective_reason"].startswith(
++        "only a filtered view of the listing was read (facet=organic:Yes)"
++    )
++    assert milk_row["status"] == "DONE"  # as the run recorded it
++    assert (own_row["effective_status"], own_row["filtered_view_of"]) == ("SKIPPED", "row"), own_row
++    food = next(r for r in report["csv_rows"] if r["csv_row"] == 0)
++    assert food["complete"] is False and "976759_9176907 INCOMPLETE" in food["why_not_complete"], food
++    assert "976759 " not in food["why_not_complete"].replace("976759_", ""), food
++    assert report["coverage_complete"] is False
+diff --git a/tests/integration/test_coverage_and_assortment.py b/tests/integration/test_coverage_and_assortment.py
+index 8e8e3b3..6c6cd1e 100644
+--- a/tests/integration/test_coverage_and_assortment.py
++++ b/tests/integration/test_coverage_and_assortment.py
+@@ -904,10 +904,15 @@ def test_the_category_page_is_read_through_the_general_api_never_the_store_plugi
+     env: dict[str, Any],
+ ) -> None:
+     """On 2026-10-23 the store plugin answered every /cp/ page with its own 502 ("Walmart-store plugin
+-    failure."); a category page is read only for its navigation, so it goes through the general API."""
++    failure."); a category page is read only for its navigation, so it goes through the general API.
++    Release 1.6.8: so does a subcategory page of its own that the row's navigation links (the Dairy & Eggs
++    page the SYNTHETIC Food page links), read for the listings it names."""
+     run_id, _ = run_food(env)
+     cp = [(path, u) for _, path, u in env["mock"].calls if "/cp/" in u]
+-    assert cp == [("/", "https://www.walmart.com/cp/food/976759")]
++    assert cp == [
++        ("/", "https://www.walmart.com/cp/food/976759"),
++        ("/", "https://www.walmart.com/cp/dairy-eggs/9176907"),
++    ]
+     listings = [u for _, path, u in env["mock"].calls if path == "/plugin/walmart/store"]
+     assert listings and all("/browse/" in u for u in listings)  # the listings stay store-scoped
+     assert any(r.status == "valid" for r in records(env, run_id).values())
+diff --git a/tests/integration/test_operations.py b/tests/integration/test_operations.py
+index d461ff7..7e20c3d 100644
+--- a/tests/integration/test_operations.py
++++ b/tests/integration/test_operations.py
+@@ -180,7 +180,9 @@ def test_a_complete_run_is_published_and_a_partial_run_never_replaces_it(env: En
+     assert first.status == "published"
+     latest = json.loads((env.data / "published" / STORE_KEY / "latest.json").read_text("utf-8"))
+     assert latest["run_id"] == first.id
+-    env.mock.remaining[PRIMARY] = 25  # robots (1) + store page (1) + two pages (20), then nothing left
++    # robots (1) + store page (1) + two pages (20), then nothing left; release 1.6.8: one credit more for the
++    # Dairy & Eggs category page the Food page links (read for the listings it names)
++    env.mock.remaining[PRIMARY] = 26
+     code, _ = env.result("run", "--store", STORE_KEY)
+     assert code == 4  # the provider's credits ran out
+     second = env.runs()[-1]
+diff --git a/tests/integration/test_publication_safety.py b/tests/integration/test_publication_safety.py
+index f216876..cb19948 100644
+--- a/tests/integration/test_publication_safety.py
++++ b/tests/integration/test_publication_safety.py
+@@ -132,7 +132,9 @@ def test_a_published_dataset_is_never_replaced_by_a_run_that_fails_its_checks(
+     assert code == 0 and first.status == "published"
+     before = snapshot(env, first.id)
+     if fault == "incomplete":
+-        env.mock.remaining[PRIMARY] = 25  # robots, store page and two pages: the run stops part-way
++        # robots, store page and two pages: the run stops part-way (release 1.6.8: one credit more for the
++        # Dairy & Eggs category page the Food page links)
++        env.mock.remaining[PRIMARY] = 26
+     elif fault == "site_refusal":
+         env.mock.page_override = _refuse(SNACKS)
+     elif fault == "wrong_store":
+diff --git a/tests/integration/test_scrapedo_walmart.py b/tests/integration/test_scrapedo_walmart.py
+index 64a3613..8cef57d 100644
+--- a/tests/integration/test_scrapedo_walmart.py
++++ b/tests/integration/test_scrapedo_walmart.py
+@@ -15,6 +15,7 @@ import pytest
+ from sqlalchemy import Engine, func, select
+ from sqlalchemy.orm import Session, sessionmaker
+ 
++from tests import mock_scrapedo
+ from tests import synthetic_walmart as syn
+ from tests.conftest import CONFIG, STORE_KEY
+ from tests.integration.helpers import seed
+@@ -42,6 +43,7 @@ from walmart_headless.db.models import (
+     Run,
+     SettingRow,
+     StoreAttestation,
++    Task,
+     ValidationFinding,
+ )
+ from walmart_headless.storage.local import LocalStorageAdapter
+@@ -168,7 +170,10 @@ def test_a_run_checks_every_page_against_the_store_and_charges_the_ledger(env: d
+             c.partition["url"]: (c.status, c.partition["reason"])
+             for c in s.scalars(select(NodeCoverage).where(NodeCoverage.run_id == run_id))
+         }
+-        assert ("SKIPPED", "a category page or other page, not a product listing") in reasons.values()
++        # Release 1.6.8: the "Shop All" link of Dairy & Eggs is a category page of its own, read for the
++        # listings its navigation names: Milk, which the Food page names too (read once, not twice).
++        dairy = reasons["https://www.walmart.com/cp/dairy-eggs/9176907"]
++        assert dairy[0] == "EXPANDED" and "names 1 links, 0 not named before in this row" in dairy[1], dairy
+         assert all(reason for status, reason in reasons.values() if status == "SKIPPED")
+     rows = _usage(env["factory"])
+     assert rows and all(r.outcome != "reserved" for r in rows)  # every reservation settled
+@@ -176,8 +181,11 @@ def test_a_run_checks_every_page_against_the_store_and_charges_the_ledger(env: d
+     assert {r.endpoint for r in rows} == {"/", "/plugin/walmart/store"}
+     calls = env["mock"].calls
+     assert calls and all(c[0] == "primary" for c in calls)
+-    # Recipes (excluded by the CSV) and the "Shop All" category page were never requested.
+-    assert not any(urlsplit(c[2]).path in ("/i/recipes", "/cp/dairy-eggs/9176907") for c in calls)
++    # Recipes (excluded by the CSV) was never requested; the Dairy & Eggs category page once, through the
++    # general API like every category page, and Milk's one result page once.
++    assert not any(urlsplit(c[2]).path == "/i/recipes" for c in calls)
++    assert [c[1] for c in calls if urlsplit(c[2]).path == "/cp/dairy-eggs/9176907"] == ["/"]
++    assert len([c for c in calls if urlsplit(c[2]).path == "/browse/food/milk/976759_9176907"]) == 1
+ 
+ 
+ def test_every_result_page_is_requested_with_walmarts_pickup_filter_and_its_grid_is_recorded(
+@@ -248,7 +256,9 @@ def test_a_page_shown_for_shipping_not_pickup_stops_before_any_record(env: dict[
+ 
+ 
+ def test_an_exhausted_key_stops_the_run_resumably_and_nothing_else_is_tried(env: dict[str, Any]) -> None:
+-    env["mock"].remaining[PRIMARY] = 25  # robots (1) + store page (1) + two pages (20), then nothing left
++    # robots (1) + store page (1) + two pages (20), then nothing left; release 1.6.8: one credit more for the
++    # Dairy & Eggs category page the Food page links (read for the listings it names)
++    env["mock"].remaining[PRIMARY] = 26
+     run_id, status = _run(env)
+     assert status == "interrupted"
+     assert {c[0] for c in env["mock"].calls} == {"primary"}
+@@ -600,3 +610,189 @@ def test_the_detail_limit_and_reuse_of_an_earlier_runs_upc_are_explicit(env: dic
+         d = r.provenance["upc_detail"]
+         assert d["status"] == "extracted" and d["fresh"] is False and d["reused_from"]["run_id"] == first
+         assert r.record["upc"] == d["value"]
++
++
++# -- release 1.6.8: subcategories linked as category pages of their own ------------------------------------
++
++EGGS = "https://www.walmart.com/browse/food/eggs/976759_9176907_1001470"
++CHEESE = "https://www.walmart.com/browse/food/shredded-cheese/976759_9176907_1001468_5"
++DAIRY_PAGE = "https://www.walmart.com/cp/dairy-eggs/9176907"
++CHEESE_PAGE = "https://www.walmart.com/cp/cheese/1001468"
++
++
++def _dairy_tree(monkeypatch: pytest.MonkeyPatch) -> None:
++    """SYNTHETIC. Dairy & Eggs, a category page of its own the Food page links ("Shop All"), names Milk (the
++    Food page names it too), Eggs, a shop page, Recipes (the client's CSV excludes it) and Cheese, a category
++    page of its own again, which names Shredded Cheese and links back to Dairy & Eggs."""
++    pages = mock_scrapedo.CATEGORY_PAGES
++    monkeypatch.setitem(
++        pages,
++        "/cp/dairy-eggs/9176907",
++        mock_scrapedo.nav_page(
++            [
++                ("Milk", [("Milk", MILK)]),
++                ("Eggs", [("Eggs", EGGS)]),
++                ("Deals", [("Dairy deals", "/shop/dairy-deals")]),
++                ("Recipes", [("Shop All", "/i/recipes")]),
++                ("Cheese", [("Shop All", "/cp/cheese/1001468")]),
++            ]
++        ),
++    )
++    monkeypatch.setitem(
++        pages,
++        "/cp/cheese/1001468",
++        mock_scrapedo.nav_page(
++            [("Cheese", [("Shredded Cheese", CHEESE), ("Dairy & Eggs", "/cp/dairy-eggs/9176907")])]
++        ),
++    )
++    eggs = syn.Item("7401", "Large White Eggs, 12 ct", "$2.98", unit="24.8 ¢/ea")
++    cheese = syn.Item("7501", "Shredded Mozzarella Cheese, 8 oz", "$2.24", unit="28.0 ¢/oz")
++    monkeypatch.setitem(mock_scrapedo.PAGES, EGGS, [[eggs]])
++    monkeypatch.setitem(mock_scrapedo.PAGES, CHEESE, [[cheese]])
++    monkeypatch.setitem(
++        mock_scrapedo.LISTING_CATS, EGGS, ("Eggs", ["976759", "976759_9176907", "976759_9176907_1001470"])
++    )
++    monkeypatch.setitem(
++        mock_scrapedo.LISTING_CATS,
++        CHEESE,
++        ("Shredded Cheese", ["976759", "976759_9176907", "976759_9176907_1001468_5"]),
++    )
++    monkeypatch.setitem(mock_scrapedo.PRODUCT_UPCS, "7401", "011110038364")
++    monkeypatch.setitem(mock_scrapedo.PRODUCT_UPCS, "7501", "078742132723")
++
++
++def test_a_subcategory_with_a_category_page_of_its_own_is_read_through_the_listings_it_names(
++    env: dict[str, Any], monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """Release 1.6.8 (the coverage review of 1.6.7): a link of a row's navigation to a category page of its
++    own (/cp/: Food's "Chips", "Cookies", "Soda", "Water" live) was skipped as "a category page or other page,
++    not a product listing", so the listings only that page names were never read. The page is now read for
++    the listings its own navigation names, each read as a listing of the row found on it; a page or listing
++    named twice is read once, and a subcategory page of the page is read in turn."""
++    _dairy_tree(monkeypatch)
++    run_id, status = _run(env)
++    calls = [urlsplit(c[2]).path for c in env["mock"].calls]
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and status == "validated", (status, _failed_gates(s, run_id))
++        assert run.counts["collection_complete"] is True
++        records = {r.upc: r for r in s.scalars(select(RecordRow).where(RecordRow.run_id == run_id))}
++        for upc, sub in (("wm:7401", "Eggs"), ("wm:7501", "Shredded Cheese"), ("wm:7101", "Milk")):
++            assert records[upc].status == "valid", (upc, records[upc].status)
++            assert (records[upc].record["category"], records[upc].record["sub_category"]) == ("Food", sub)
++        cov = {
++            c.partition["url"]: c
++            for c in s.scalars(select(NodeCoverage).where(NodeCoverage.run_id == run_id))
++        }
++        dairy, cheese_page = cov[DAIRY_PAGE], cov[CHEESE_PAGE]
++        assert dairy.status == cheese_page.status == "EXPANDED"
++        assert dairy.total_count is None and dairy.organic_upcs == 0  # a navigation page, never products
++        # Milk and Recipes were named by the Food page: only what it did not name is added
++        assert dairy.partition["children_named"] == ["976759_9176907_1001470", "dairy-deals", "1001468"]
++        assert dairy.partition["reason"] == (
++            "a category page of its own: its navigation names 5 links, 3 not named before in this row "
++            "(2 to read)"
++        )
++        eggs, shredded = cov[EGGS], cov[CHEESE]
++        assert (eggs.status, eggs.partition["via"], eggs.partition["found_on"]) == (
++            "DONE",
++            "subcategory_page",
++            "9176907",
++        )
++        assert (shredded.status, shredded.partition["found_on"], shredded.partition["depth"]) == (
++            "DONE",
++            "1001468",
++            2,
++        )
++        deals = cov["https://www.walmart.com/shop/dairy-deals"]
++        assert (deals.status, deals.partition["reason"]) == (
++            "SKIPPED",
++            "a shop, brand, search, product or account page, not a category or result listing",
++        )
++        codes = [e.code for e in s.scalars(select(Event).where(Event.run_id == run_id))]
++        assert codes.count("SUBCATEGORY_PAGE_READ") == 2 and "SUBCATEGORY_PAGE_NOT_READ" not in codes
++        report = reconcile.reconcile(s, run_id)
++    # each page once: Cheese's link back to Dairy & Eggs is not followed, Milk (named twice) is read once
++    assert calls.count("/cp/dairy-eggs/9176907") == calls.count("/cp/cheese/1001468") == 1
++    assert calls.count("/browse/food/milk/976759_9176907") == 1
++    assert "/shop/dairy-deals" not in calls and "/i/recipes" not in calls
++    food = next(r for r in report["csv_rows"] if r["csv_row"] == 0)
++    assert food["complete"] is True and food["effective_status_counts"]["EXPANDED"] == 2, food
++    row = next(r for r in report["rows"] if r["listing_id"] == "976759_9176907_1001470")
++    assert (row["found_via"], row["found_on"], row["parent_listing"]) == ("subcategory_page", "9176907", None)
++    assert row["navigation_evidence"].startswith(
++        f"named by the subcategory page {DAIRY_PAGE} (listing 9176907)"
++    )
++    page_row = next(r for r in report["rows"] if r["listing_id"] == "9176907")
++    assert page_row["status"] == page_row["status_rule_1_3_1"] == page_row["effective_status"] == "EXPANDED"
++
++
++def test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete(
++    env: dict[str, Any], monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """Release 1.6.8: the listings a subcategory page names are part of the row, so a page the site answers
++    with its not-found page is recorded with why and the row is never complete (the row's other listings
++    are still read). Never an empty page, never a refusal."""
++    monkeypatch.setitem(mock_scrapedo.CATEGORY_PAGES, "/cp/dairy-eggs/9176907", syn.not_found_page())
++    run_id, _ = _run(env)
++    with env["factory"]() as s:
++        run = s.get(Run, run_id)
++        assert run is not None and run.stop_code is None
++        assert run.counts["collection_complete"] is False and run.counts["gates"]["G3"] == "FAIL"
++        cov = {
++            c.partition["url"]: c
++            for c in s.scalars(select(NodeCoverage).where(NodeCoverage.run_id == run_id))
++        }
++        dairy = cov[DAIRY_PAGE]
++        assert (dairy.status, dairy.partition["end"]) == ("INCOMPLETE", "NOT_FOUND")
++        assert dairy.partition["reason"] == (
++            "not read: the site answered this subcategory page with its not-found page "
++            "(page data route /404, HTTP 200)"
++        )
++        assert cov[MILK].status == "DONE"  # the row's other listings are still read
++        codes = [
++            (e.code, (e.data or {}).get("listing"))
++            for e in s.scalars(select(Event).where(Event.run_id == run_id))
++        ]
++        report = reconcile.reconcile(s, run_id)
++    assert ("SUBCATEGORY_PAGE_NOT_READ", "9176907") in codes
++    assert not [c for c, _ in codes if c == "CHALLENGE_DETECTED"]
++    food = next(r for r in report["csv_rows"] if r["csv_row"] == 0)
++    assert food["complete"] is False and "9176907 INCOMPLETE" in food["why_not_complete"], food
++
++
++def test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report(
++    env: dict[str, Any],
++) -> None:
++    """Release 1.6.8: the coverage report of a run made by release 1.6.7 or earlier, whose Food row skipped
++    its Dairy & Eggs category page as "a category page or other page, not a product listing" (simulated here
++    by writing that 1.6.7 record into the run's checkpoint), does not call the row complete: the page was
++    never read for the listings it names. Until 1.6.7 that skip counted as a complete outcome."""
++    run_id, status = _run(env)
++    assert status == "validated"
++    with env["factory"]() as s:
++        assert reconcile.reconcile(s, run_id)["csv_rows"][0]["complete"] is True  # as 1.6.8 read it
++        task = next(
++            t
++            for t in s.scalars(select(Task).where(Task.run_id == run_id, Task.kind == "listing_node"))
++            if any(x.get("id") == "9176907" for x in (t.cursor or {}).get("listings") or [])
++        )
++        legacy = "a category page or other page, not a product listing"
++        task.cursor = {
++            **task.cursor,
++            "listings": [
++                {**x, "status": "SKIPPED", "note": legacy, "reason": "", "end": "", "children": []}
++                if x.get("id") == "9176907"
++                else x
++                for x in task.cursor["listings"]
++            ],
++        }
++        s.commit()
++        report = reconcile.reconcile(s, run_id)
++    food = report["csv_rows"][0]
++    assert food["csv_row"] == 0 and food["complete"] is False, food
++    assert "9176907 INCOMPLETE" in food["why_not_complete"]
++    page = next(r for r in report["rows"] if r["listing_id"] == "9176907")
++    assert (page["status"], page["effective_status"]) == ("SKIPPED", "INCOMPLETE")
++    assert page["effective_reason"].startswith("a subcategory page of its own that this run did not read")
++    assert report["coverage_complete"] is False
+diff --git a/tests/mock_scrapedo.py b/tests/mock_scrapedo.py
+index e4b7787..8bbf24d 100644
+--- a/tests/mock_scrapedo.py
++++ b/tests/mock_scrapedo.py
+@@ -141,6 +141,52 @@ LISTING_CATS: dict[str, tuple[str, list[str]]] = {
+ PRODUCT_UPCS = {"7101": "078742371245", "7201": "028400090896", "7203": "001234567890"}
+ 
+ 
++def nav_page(groups: list[tuple[str, list[tuple[str, str]]]]) -> str:
++    """A SYNTHETIC category page whose own navigation (``configs.categoriesData``, where live category pages
++    keep it) has these groups of (link title, link), in order."""
++    data = {
++        "props": {
++            "pageProps": {
++                "initialData": {},
++                "initialTempoData": {
++                    "contentLayout": {
++                        "modules": [
++                            {
++                                "configs": {
++                                    "categoriesData": [
++                                        {
++                                            "name": name,
++                                            "subcategories": [
++                                                {
++                                                    "subCategoryLink": {
++                                                        "title": t,
++                                                        "clickThrough": {"value": v},
++                                                    }
++                                                }
++                                                for t, v in links
++                                            ],
++                                        }
++                                        for name, links in groups
++                                    ]
++                                }
++                            }
++                        ]
++                    }
++                },
++            }
++        }
++    }
++    return f"<!doctype html><html><body>{syn.next_data_script(data)}</body></html>"
++
++
++# Release 1.6.8: the category pages of their own the Food page's navigation links, by path, served through
++# the general API like every category page and read for the listings they name. The "Shop All" page of
++# Dairy & Eggs names Milk, which the Food page names too (read once). A test adds its own pages here.
++CATEGORY_PAGES: dict[str, str] = {
++    "/cp/dairy-eggs/9176907": nav_page([("Milk", [("Milk", MILK)])]),
++}
++
++
+ def product_page(item_id: str, upc: str | None = None) -> str:
+     """A SYNTHETIC Walmart product page: its page data names the item, with its UPC when it has one."""
+     product: dict[str, str] = {"usItemId": item_id, "name": f"Synthetic item {item_id}"}
+@@ -224,6 +270,8 @@ class MockScrapeDo:
+                 return product_page(u.path.rstrip("/").rsplit("/", 1)[-1]), 200
+             if u.path == "/cp/food/976759":
+                 return category_page(), 200
++            if u.path in CATEGORY_PAGES:
++                return CATEGORY_PAGES[u.path], 200
+             return "not found", 404
+         if path != "/plugin/walmart/store":
+             return "", 404
+diff --git a/tests/unit/test_filtered_views_168.py b/tests/unit/test_filtered_views_168.py
+new file mode 100644
+index 0000000..875e314
+--- /dev/null
++++ b/tests/unit/test_filtered_views_168.py
+@@ -0,0 +1,99 @@
++"""Release 1.6.8: what a navigation link shows. A link's query can narrow its listing (a facet, a price, a
++shelf); two links show the same products only when they show the same view of the same listing. The URLs are
++the shapes live category pages recorded (L4, 2026-11-03; L7 and L10, 2026-11-04)."""
++
++from __future__ import annotations
++
++from walmart_headless.collection import navigation
++from walmart_headless.collection.walmart import listing_key
++
++W = "https://www.walmart.com"
++COUGH = (
++    W + "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
++    "?facet=health_concern%3aCough&povid=ColdCoughFluCPLHN_Shop_All_Cough"
++)
++SUBSCRIPTION = (
++    W + "/browse/cold-cough-and-flu/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
++    "?facet=subscription_eligible%3ASubscription+item"
++)
++DEODORANT = (
++    W + "/browse/personal-care/deodorants-antiperspirants/1005862_1001487"
++    "?povid=PersonalCare_PCCP_LHN_PERSONAL_CARE_Deodorant_2.9"
++)
++MENS_DEODORANT = (
++    W + "/browse/personal-care/deodorants-antiperspirants/female/1005862_1001487"
++    "?cat_id=1005862_1001487&facet=gender%3AMale?povid=PersonalCare_PCCP_LHN_MENS_GROOMING_Men's_Deodorant_2.9"
++)
++PANTRY = W + "/browse/pantry/great-value-pantry-deals/976759_976794_2002490?povid=FoodCP_Pantry"
++GV_PANTRY = W + "/browse/food/great-value-pantry-deals/976759_976794_2002490?povid=FoodCP_GV_Pantry"
++FRESH_FRUIT = (
++    W + "/browse/pre-cut-fruits/0/0?_refineresult=true&_be_shelf_id=8210692&search_sort=100"
++    "&facet=shelf_id%3A8210692&povid=976759_LHNCP_976759_Featuredshops_GrabnGo_FreshFruit_07_26"
++)
++SNACK_PACKS = (
++    W + "/browse/kids-lunches-&-snacks/0/0?_refineresult=true&_be_shelf_id=7195079&search_sort=100"
++    "&facet=shelf_id%3A7195079&povid=976759_LHNCP_976759_Featuredshops_GrabnGo_Snackpacks_07_26"
++)
++CLEARANCE = W + "/browse/household-essentials/1115193?facet=special_offers%3AClearance&povid=HHE_HHECP_LHN"
++UNDER_5 = W + "/browse/5440?max_price=5&povid=Pets_CP_LHN_Under5"
++
++
++def test_tracking_and_the_collectors_own_fulfillment_facet_do_not_narrow_a_listing() -> None:
++    assert navigation.narrowing(DEODORANT) == ()
++    assert navigation.narrowing(W + "/browse/x/976759_9176907?facet=fulfillment_method%3APickup") == ()
++    assert navigation.narrowing(
++        W + "/browse/x/976759_9176907?facet=fulfillment_method%3APickup||brand%3AGreat+Value&povid=a"
++    ) == (("facet", "brand:Great Value"),)
++
++
++def test_a_second_question_mark_separates_parameters_and_facets_are_sorted() -> None:
++    assert navigation.narrowing(MENS_DEODORANT) == (("facet", "gender:Male"),)
++    assert navigation.narrowing(W + "/browse/x/1?facet=b%3A2||a%3A1") == (("facet", "a:1"), ("facet", "b:2"))
++    assert navigation.narrowing(UNDER_5) == (("max_price", "5"),)
++
++
++def test_a_parameter_without_a_value_or_repeating_the_links_own_id_is_no_filter_an_unknown_one_is() -> None:
++    assert navigation.narrowing(W + "/browse/x/123?povid=FSA_&_HAS_2.9") == ()  # live: an unencoded "&"
++    assert navigation.narrowing(W + "/browse/x/123?facet=") == ()
++    assert navigation.narrowing(W + "/browse/x/123?cat_id=123&povid=a") == ()
++    assert navigation.narrowing(W + "/browse/x/123?cat_id=456") == (("cat_id", "456"),)
++    assert navigation.narrowing(W + "/browse/x/123?not_seen_before=1") == (("not_seen_before", "1"),)
++    assert navigation.filtered_listing(W + "/browse/x/123?not_seen_before=1") == W + "/browse/x/123"
++
++
++def test_two_paths_to_the_same_view_are_one_read_two_filtered_views_are_not() -> None:
++    assert listing_key(PANTRY) == listing_key(GV_PANTRY) == "browse:976759_976794_2002490"
++    assert listing_key(COUGH) != listing_key(SUBSCRIPTION)
++    assert listing_key(COUGH) == "browse:976760_4661388_6244277_7158394?facet=health_concern%3ACough"
++    assert listing_key(MENS_DEODORANT) != listing_key(DEODORANT) == "browse:1005862_1001487"
++    assert listing_key(FRESH_FRUIT) != listing_key(SNACK_PACKS)
++    # A category page of its own is read for its navigation, which no filter changes.
++    assert listing_key(W + "/cp/dairy-eggs/9176907?facet=x%3Ay&povid=z") == "cp:9176907"
++    assert listing_key(W + "/shop/deals/baby") == ""
++
++
++def test_a_filtered_view_names_the_listing_it_filters_and_a_shelf_is_a_listing_of_its_own() -> None:
++    base = W + "/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394"
++    assert navigation.filtered_listing(COUGH) == base
++    assert navigation.filtered_listing(MENS_DEODORANT).endswith("/female/1005862_1001487")
++    assert listing_key(navigation.filtered_listing(MENS_DEODORANT)) == listing_key(DEODORANT)
++    assert navigation.filtered_listing(CLEARANCE) == W + "/browse/household-essentials/1115193"
++    assert navigation.filtered_listing(UNDER_5) == W + "/browse/5440"
++    for itself in (DEODORANT, PANTRY, FRESH_FRUIT, SNACK_PACKS, W + "/cp/x/9176907?facet=a%3Ab"):
++        assert navigation.filtered_listing(itself) == "", itself
++
++
++def test_a_shelf_is_recorded_under_its_own_id() -> None:
++    assert navigation.read_id(FRESH_FRUIT) == "0@shelf_id:8210692"
++    assert navigation.read_id(SNACK_PACKS) == "0@shelf_id:7195079"
++    assert navigation.read_id(COUGH) == "976760_4661388_6244277_7158394"  # a listing's ID, filtered or not
++    assert navigation.read_id(W + "/browse/x/0/0") == "0"
++    long = navigation.read_id(W + "/browse/x/0/0?facet=" + "||".join(f"shelf_id%3A{n:08d}" for n in range(9)))
++    assert long.startswith("0@") and len(long) == 18, long
++
++
++def test_view_key_names_a_listing_itself_by_its_id_and_a_filtered_view_with_its_filters() -> None:
++    assert navigation.view_key(DEODORANT) == "1005862_1001487"
++    assert navigation.view_key(MENS_DEODORANT) == "1005862_1001487?facet=gender%3AMale"
++    assert navigation.view_key(W + "/cp/personal-care/1005862?povid=x") == "1005862"
++    assert navigation.view_key(W + "/") == ""
+diff --git a/tests/unit/test_subcategory_pages_168.py b/tests/unit/test_subcategory_pages_168.py
+new file mode 100644
+index 0000000..d10c21f
+--- /dev/null
++++ b/tests/unit/test_subcategory_pages_168.py
+@@ -0,0 +1,57 @@
++"""Release 1.6.8: a subcategory linked as a category page of its own (/cp/) is read for the listings it
++names (EXPANDED); those listings are judged each on their own, and the page keeps its row open until it
++is read."""
++
++from __future__ import annotations
++
++from walmart_headless.collection import reconcile
++from walmart_headless.collection.walmart import (
++    NOT_A_CATEGORY,
++    Listing,
++    listing_outcomes,
++    subcategory_page,
++)
++
++
++def test_only_a_category_page_link_is_a_subcategory_page() -> None:
++    assert subcategory_page("https://www.walmart.com/cp/chips/1001390?povid=976759_LHNCP")
++    assert not subcategory_page("https://www.walmart.com/browse/food/milk/976759_9176907")
++    assert not subcategory_page("https://www.walmart.com/shop/only-at-walmart")
++    assert not subcategory_page("https://www.walmart.com/brand/post-it/10017935")
++    assert "not a category or result listing" in NOT_A_CATEGORY
++
++
++def _done(name: str, lid: str, **kw: object) -> Listing:
++    return Listing(name, f"https://www.walmart.com/browse/food/{name}/{lid}", lid, status="DONE", **kw)  # type: ignore[arg-type]
++
++
++def test_an_expanded_page_is_no_listing_its_listings_are_judged_each_on_their_own() -> None:
++    page = Listing("Chips", "https://www.walmart.com/cp/chips/1001390", "1001390", status="EXPANDED")
++    found = _done("potato-chips", "976759_976787_1001390_1", via="subcategory_page", found_on="1001390")
++    other = _done("milk", "976759_9176907", via="category_page")
++    outcomes = listing_outcomes([page, found, other])
++    assert [o["id"] for o in outcomes] == ["976759_976787_1001390_1", "976759_9176907"]
++    assert {o["status"] for o in outcomes} == {"DONE"}
++
++
++def test_a_subcategory_page_not_read_keeps_its_row_open() -> None:
++    for status in ("PENDING", "IN_PROGRESS", "INCOMPLETE", "CAPPED"):
++        page = Listing("Chips", "https://www.walmart.com/cp/chips/1001390", "1001390", status=status)
++        outcomes = listing_outcomes([page, _done("milk", "976759_9176907")])
++        assert [o["status"] for o in outcomes if o["id"] == "1001390"] == [status]
++
++
++def test_the_coverage_report_counts_an_expanded_page_as_read_and_keeps_its_status() -> None:
++    assert "EXPANDED" in reconcile.COMPLETE_OUTCOMES and "EXPANDED" in reconcile.NOT_DECIDED
++    page = Listing("Chips", "https://www.walmart.com/cp/chips/1001390", "1001390", status="EXPANDED")
++    status, _ = reconcile.rule_status(page, set(), set())
++    assert status == "EXPANDED"
++    assert reconcile.COLUMNS[-3:] == ("found_on", "filtered_view", "filtered_view_of")
++
++
++def test_the_page_a_listing_was_found_on_is_kept_in_its_checkpoint() -> None:
++    lst = Listing("Potato Chips", "u", "976759_976787_1001390_1", via="subcategory_page", found_on="1001390")
++    d = {k: v for k, v in lst.__dict__.items()}
++    assert Listing.from_dict(d, "test").found_on == "1001390"
++    del d["found_on"]  # a checkpoint of release 1.6.7 or earlier
++    assert Listing.from_dict(d, "test").found_on == ""
+diff --git a/uv.lock b/uv.lock
+index 1e08e3d..d20a591 100644
+--- a/uv.lock
++++ b/uv.lock
+@@ -853,7 +853,7 @@ wheels = [
+ 
+ [[package]]
+ name = "walmart-azure-headless"
+-version = "1.6.7"
++version = "1.6.8"
+ source = { editable = "." }
+ dependencies = [
+     { name = "alembic" },

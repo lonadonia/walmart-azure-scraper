@@ -1,0 +1,269 @@
+diff --git a/README.md b/README.md
+index 03b9608..18dc3aa 100644
+--- a/README.md
++++ b/README.md
+@@ -119,9 +119,11 @@ verifies. Release 1.6.8 reads the subcategories a row's navigation links as cate
+ (`/cp/`, for example Food's "Chips", "Cookies", "Soda" and "Water"): each such page is read for the
+ listings its own navigation names, and those listings are read as listings of the row (`found_on` names the
+ page). Until 1.6.7 these links were skipped as "not a product listing", so the listings only they name were
+-never read and a row could be called complete without them. A page or listing named twice is read once; a
+-page the site does not serve keeps its row incomplete. A run makes more requests: one per subcategory page
+-and the result pages of the listings those pages name. See `docs/VERIFICATION.md`.
++never read and a row could be called complete without them. A page or listing named twice, by the same
++path or by another path to the same listing, is read once, under the first name the page gives it (a
++promotion's link such as "Subscription" never renames a listing); a page the site does not serve keeps its
++row incomplete. A run makes more requests: one per subcategory page and the result pages of the listings
++those pages name. See `docs/VERIFICATION.md`.
+ 
+ ## What release 1.5.2 changes
+ 
+diff --git a/docs/VERIFICATION.md b/docs/VERIFICATION.md
+index 41d7309..24c0aed 100644
+--- a/docs/VERIFICATION.md
++++ b/docs/VERIFICATION.md
+@@ -20,6 +20,7 @@ every category page: 1 Scrape.do credit or 1 Oxylabs result) and the result page
+ | A subcategory page the site answers with its not-found page, whose page data cannot be read, that robots.txt does not allow, or past the safety ceiling of 2,000 subcategory pages per row is recorded with why (event `SUBCATEGORY_PAGE_NOT_READ`) and keeps its row from being complete; the row's other listings are still read | The page was never requested, and the run's collection was called complete | `collection/walmart.py` (`expand`, `SAFETY_MAX_SUBCATEGORY_PAGES`); `tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_the_site_does_not_serve_keeps_its_row_incomplete` (fails on 1.6.7: `assert (True is False)`, the collection was called complete) |
+ | `coverage-report`: a subcategory page read for its listings is `EXPANDED` (a read page, never products), and a listing found on one says so (`found_via` `subcategory_page`, `found_on`, `navigation_evidence` "named by the subcategory page ...") | No such page was read | `collection/reconcile.py`; `tests/unit/test_subcategory_pages_168.py` (the functions 1.6.8 adds: on 1.6.7 the module does not import, `cannot import name 'NOT_A_CATEGORY'`) |
+ | `coverage-report` of a run made by release 1.6.7 or earlier: a subcategory page of its own that the run skipped ("a category page or other page, not a product listing") was never read for the listings it names, so its CSV row is not complete (`effective_status` `INCOMPLETE`, with why); the live runs' coverage is judged so | The skip counted as a complete outcome (`SKIPPED`), so such a row could be reported complete | `collection/reconcile.py` (`LEGACY_SKIPPED_PAGE`); `tests/integration/test_scrapedo_walmart.py::test_a_subcategory_page_an_earlier_release_skipped_keeps_its_row_open_in_the_coverage_report` (fails on 1.6.7: `assert (0 == 0 and True is False)`, the Food row reported complete) |
++| A listing a category page links twice, by two paths (another path to the same listing ID), is read once, under the first name the page gives it (`listing_key`, in `discover` and `expand`). The agreed mapping takes the first name a stored page gives a listing (`navigation.category_page_names`); a later page still replaces an earlier page's name | One read per path, each product taking the name of the read that placed it (L10 on 1.6.4: 19 products "Cough" and 31 "Subscription" for listing `976760_4661388_6244277_7158394`); the mapping took the last name a page gave, so the second 1.6.8 commit's replay of L12 renamed 268 carried records "Subscription", 35 "Men's Deodorant" and 43 "Great Value Pantry" | `collection/walmart.py` (`listing_key`, `discover`, `expand`), `collection/navigation.py`; `tests/integration/test_category_mapping.py::test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name` (fails on `7a96218`: the Milk listing requested twice, once per path) and `::test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name` (fails on `7a96218`: `'Subscription' == 'Milk'`) |
+ 
+ Three integration tests budget the mock provider's credits so that the key runs out part-way. Each now allows one
+ credit more, for the Dairy & Eggs category page the SYNTHETIC Food page links:
+@@ -34,6 +35,14 @@ plugin. It fails on 1.6.7, which never requests the Dairy & Eggs page. The first
+ expected the Food page alone and failed this test; the full Linux suite on the owner's VM found it on 2026-11-05,
+ before any archive of that commit was delivered.
+ 
++The second 1.6.8 commit (`7a96218`) was then replayed on the stored pages of L12 (on the workstation,
++2026-11-05; no request). Beside the agreed renames ("Fabric Softener" to "Fabric Softeners", the name the
++Household Essentials page gives the listing), it renamed carried records after a second link the same page
++gives the same listing: "Subscription" for the cough and cold medicine listing, "Men's Deodorant" for
++Deodorant and "Great Value Pantry" for Pantry. The third commit reads such a listing once and keeps the
++first name the page gives it (the row above); the two tests fail on `7a96218` and pass on it. A run reads
++one listing fewer for each such second link. No archive of `7a96218` was delivered.
++
+ ## Release 1.6.7
+ 
+ Release 1.6.7 corrects what the client's review of 1.6.6 named about completeness, the category mapping and the
+diff --git a/src/walmart_headless/collection/navigation.py b/src/walmart_headless/collection/navigation.py
+index bd707e0..e344f11 100644
+--- a/src/walmart_headless/collection/navigation.py
++++ b/src/walmart_headless/collection/navigation.py
+@@ -19,6 +19,7 @@ from collections.abc import Mapping
+ from dataclasses import dataclass
+ from datetime import datetime
+ from typing import Any
++from urllib.parse import urlsplit
+ 
+ from sqlalchemy import select
+ from sqlalchemy.orm import Session
+@@ -66,8 +67,11 @@ class NamedBy:
+ def category_page_names(
+     s: Session, store_id: str, *, before: datetime | None = None, node: str = ""
+ ) -> dict[str, NamedBy]:
+-    """For each listing id a category page of the store named, the latest name it was given there. A link the
+-    page named but the run skipped (excluded, not a listing, not chosen) still has its name.
++    """For each listing id a category page of the store named, the name the latest such page gave it. A link
++    the page named but the run skipped (excluded, not a listing, not chosen) still has its name. A page that
++    names one listing twice, by two paths to it, gives it the first name (release 1.6.8: live, Health &
++    Wellness names 976760_4661388_6244277_7158394 "Cough", then "Subscription"; until the second 1.6.8
++    candidate the later link won, and runs up to it recorded both).
+ 
+     ``before`` (a replay: when its source run was created) leaves out what was stored at or after it, so a
+     replay names its listings as its source run could have. With ``node`` (a CSV row's category id), a name
+@@ -85,12 +89,17 @@ def category_page_names(
+     for event_id, run_id, ts, data in rows:
+         d: Mapping[str, Any] = jv.obj(data, f"event {event_id}: data")
+         page_node = jv.text(d.get("node"), f"event {event_id}: node")
++        named_here: set[tuple[str, str]] = set()  # (the link's kind, listing id) this page named already
+         for i, link in enumerate(jv.objects(d.get("listings"), f"event {event_id}: listings")):
+             name = " ".join(jv.text(link.get("name"), f"event {event_id}: listings[{i}].name").split())
+             url = jv.text(link.get("url"), f"event {event_id}: listings[{i}].url")
+             lid = wpd.listing_id(url) if url else ""
+             if not name or not lid:
+                 continue
++            kind = urlsplit(url).path.lstrip("/").split("/", 1)[0]
++            if (kind, lid) in named_here:
++                continue  # the page named this listing before, by another path: its first name stands
++            named_here.add((kind, lid))
+             named = NamedBy(lid, name, str(run_id), str(event_id), ts, page_node)
+             (own if node and page_node == node else other)[lid] = named  # later events replace
+     return {**other, **own}
+diff --git a/src/walmart_headless/collection/walmart.py b/src/walmart_headless/collection/walmart.py
+index a72fa03..2ae1372 100644
+--- a/src/walmart_headless/collection/walmart.py
++++ b/src/walmart_headless/collection/walmart.py
+@@ -387,6 +387,20 @@ NOT_A_CATEGORY = "a shop, brand, search, product or account page, not a category
+ # Release 1.6.8: the most subcategory pages one CSV row reads (a safety ceiling against a navigation that
+ # never ends; each page is read once per row). A row that reaches it is capped, never complete.
+ SAFETY_MAX_SUBCATEGORY_PAGES = 2000
++_CATEGORY_ID = re.compile(r"\d+(?:_\d+)*")
++
++
++def listing_key(url: str) -> str:
++    """Release 1.6.8: what a navigation link reaches, whatever the words of its path: its kind (a result
++    listing, ``browse``, or a category page of its own, ``cp``) and its own category ID. Walmart serves a
++    listing by that ID: live, the Health & Wellness page links
++    ``/browse/health-medicine/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394`` as "Cough"
++    and ``/browse/cold-cough-and-flu/shop-all-cold-cough-flu-medicine/976760_4661388_6244277_7158394`` as
++    "Subscription". "" for any other link, or one whose last segment is not a category ID."""
++    path = urlsplit(url).path
++    kind = "browse" if path.startswith("/browse/") else "cp" if path.startswith("/cp/") else ""
++    lid = wpd.listing_id(url)
++    return f"{kind}:{lid}" if kind and _CATEGORY_ID.fullmatch(lid) else ""
+ 
+ 
+ def subcategory_page(url: str) -> bool:
+@@ -2471,11 +2485,18 @@ class WalmartCollector(BaseCollector):
+         listings: list[Listing] = []
+         chosen = 0
+         seen_paths: set[str] = set()
++        seen_keys: set[str] = set()
+         for link in links:
+             path = urlsplit(link.url).path.rstrip("/")
+-            if path in seen_paths:
+-                continue  # a listing the navigation names twice is read once
++            key = listing_key(link.url)
++            if path in seen_paths or (key and key in seen_keys):
++                # A listing the navigation names twice, by the same path or by another path to the same
++                # listing, is read once, under the first name the page gives it (release 1.6.8; before,
++                # one read per path, and a product took the name of the read that placed it).
++                continue
+             seen_paths.add(path)
++            if key:
++                seen_keys.add(key)
+             group = groups.get(link.url, "")
+             # A link named only "Shop all" stands for its navigation group: the group's name is the
+             # subcategory ("Tailgating Food" › "Shop all" gives "Tailgating Food").
+@@ -2578,13 +2599,19 @@ class WalmartCollector(BaseCollector):
+         limit = self.cfg.limits.max_subcategories_per_category
+         known = {urlsplit(x.url).path.rstrip("/") for x in cur.listings}
+         known.add(urlsplit(node.url).path.rstrip("/"))
++        known_keys = {k for k in [*(listing_key(x.url) for x in cur.listings), listing_key(node.url)] if k}
+         chosen = sum(1 for x in cur.listings if x.status not in ("SKIPPED", "CAPPED", "EXPANDED"))
+         added: list[Listing] = []
+         for link in links:
+             path = urlsplit(link.url).path.rstrip("/")
+-            if path in known:
+-                continue  # the row names it already (its own page, or another subcategory page): read once
++            key = listing_key(link.url)
++            if path in known or (key and key in known_keys):
++                # the row names it already (its own page, or another subcategory page; by this path or by
++                # another path to the same listing): read once, under the name it was first given
++                continue
+             known.add(path)
++            if key:
++                known_keys.add(key)
+             group = groups.get(link.url, "")
+             name = group if group and _GENERIC_LINK.match(" ".join(link.name.split())) else link.name
+             new = Listing(
+diff --git a/tests/integration/test_category_mapping.py b/tests/integration/test_category_mapping.py
+index bbae87d..739543e 100644
+--- a/tests/integration/test_category_mapping.py
++++ b/tests/integration/test_category_mapping.py
+@@ -230,3 +230,106 @@ def test_a_replay_names_listings_only_from_pages_stored_before_its_source_and_a_
+     assert (latest.name, latest.node) == ("Dairy Milk", "1115193")  # the latest page, of another row
+     assert (own.name, own.node) == ("Milk", "976759")  # the row's own page wins
+     assert before["976759_9176907"].name == "Milk" and none_before == {}
++
++
++# Release 1.6.8: one listing that a category page links twice, by two paths, under two names. SYNTHETIC:
++# another path to the mock's Milk listing (Walmart serves a listing by its ID, whatever the path's words).
++PROMO_MILK = "https://www.walmart.com/browse/subscriptions/milk/976759_9176907"
++
++
++def test_a_listing_the_category_page_links_twice_is_read_once_under_its_first_name(
++    env: Env,  # noqa: F811
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    """A category page can link one listing twice, by two paths, under two names. Live (L10, 2026-11-04), the
++    Health & Wellness page links listing 976760_4661388_6244277_7158394 as "Cough" (its 1st link) and again as
++    "Subscription" (its 8th, another path to the same listing); the Personal Care page links 1005862_1001487
++    as "Deodorant" and as "Men's Deodorant". Up to the second 1.6.8 candidate a run read such a listing once
++    per path, and its products took the name of the read that placed them (L10: 19 "Cough", 31
++    "Subscription").
++    The listing is read once, under the first name the page gives it. SYNTHETIC: the Food page links Milk
++    again, from a "Subscription" group, by another path to the same listing."""
++    monkeypatch.setattr(
++        mock_scrapedo,
++        "category_page",
++        lambda: mock_scrapedo.nav_page(
++            [
++                ("Recipes", [("Shop All", "/i/recipes")]),
++                ("Dairy & Eggs", [("Shop All", "/cp/dairy-eggs/9176907"), ("Milk", MILK)]),
++                ("Snacks", [("Shop all", SNACKS)]),
++                ("Subscription", [("Subscription", PROMO_MILK)]),
++            ]
++        ),
++    )
++    monkeypatch.setitem(mock_scrapedo.PAGES, PROMO_MILK, mock_scrapedo.PAGES[MILK])  # the same listing
++    monkeypatch.setitem(mock_scrapedo.LISTING_CATS, PROMO_MILK, mock_scrapedo.LISTING_CATS[MILK])
++    before = len(env.mock.calls)
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0")
++    assert code in (0, 6)
++    run = env.runs()[-1]
++    milk_reads = [
++        url
++        for _, path, url in env.mock.calls[before:]
++        if path == "/plugin/walmart/store" and "976759_9176907" in url
++    ]
++    assert len(milk_reads) == 1 and "/browse/food/milk/" in milk_reads[0], milk_reads
++    assert [p["sub_category"] for p in products(env, run) if p["url"].endswith("/7101")] == ["Milk"]
++    [found] = [e for e in events(env, run, "SUBCATEGORIES_FOUND") if e.data.get("node") == "976759"]
++    named = [x["name"] for x in found.data["listings"] if x["url"].rstrip("/").endswith("/976759_9176907")]
++    assert named == ["Milk"], found.data["listings"]
++
++
++def test_a_stored_category_page_that_named_a_listing_twice_gives_it_its_first_name(
++    env: Env,  # noqa: F811
++    own_page_name: str,
++) -> None:
++    """Runs up to the second 1.6.8 candidate recorded both links of a listing a category page names twice
++    (L10's Health & Wellness page: "Cough", then "Subscription"). ``category_page_names`` kept the last, so
++    the agreed mapping of 1.6.7 renamed 268 carried records of L12's replay "Subscription", 35 "Men's
++    Deodorant" and 43 "Great Value Pantry". The first name a page gives a listing is its name; a later page
++    still replaces an earlier page's name. SYNTHETIC events, as such a run recorded them."""
++    from walmart_headless.collection import navigation
++
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    first = env.runs()[-1]
++    t0 = datetime(2026, 11, 1, 6, 0, tzinfo=UTC)
++    twice = [
++        {"name": "Milk", "url": MILK, "note": ""},
++        {"name": "Subscription", "url": PROMO_MILK, "note": ""},
++    ]
++    with sessionmaker(env.engine)() as s:
++        s.add(
++            Event(
++                run_id=first.id,
++                ts=t0,
++                level="INFO",
++                code=navigation.FOUND_CODE,
++                message="SYNTHETIC TEST: a category page that links Milk twice, as earlier runs recorded it",
++                data={"node": "976759", "listings": twice},
++            )
++        )
++        s.commit()
++        named = navigation.category_page_names(s, first.store_id)
++        own = navigation.category_page_names(s, first.store_id, node="976759")
++    assert named["976759_9176907"].name == "Milk" and own["976759_9176907"].name == "Milk"
++    # A run that reads the listing by its path takes that name, never the later link's.
++    code, _ = env.result("run", "--store", STORE_KEY, "--categories", "0", "--subcategory", MILK_PATH)
++    assert code == 0
++    narrowed = env.runs()[-1]
++    assert [p["sub_category"] for p in products(env, narrowed) if p["url"].endswith("/7101")] == ["Milk"]
++    # A later page of the row replaces the earlier page's name, by its own first link.
++    later = [{"name": "Dairy Milk", "url": PROMO_MILK, "note": ""}, {"name": "Milk", "url": MILK, "note": ""}]
++    with sessionmaker(env.engine)() as s:
++        s.add(
++            Event(
++                run_id=first.id,
++                ts=t0 + timedelta(minutes=10),
++                level="INFO",
++                code=navigation.FOUND_CODE,
++                message="SYNTHETIC TEST: a later page of the same row",
++                data={"node": "976759", "listings": later},
++            )
++        )
++        s.commit()
++        assert navigation.category_page_names(s, first.store_id)["976759_9176907"].name == "Dairy Milk"

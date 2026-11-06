@@ -1,0 +1,120 @@
+tree: commit 7ee2fa1 collector tree (git archive, core.autocrlf=false), tar sha256 8124210da2a4499658b875d67c4d6e45cf2de138a2783ca91d8659f2dcbde7f7
+host: Ubuntu 24.04.5 LTS, kernel 7.0.0-1017-azure, x86_64; started 2026-11-05T10:13:31Z
+uv 0.13.1 (x86_64-unknown-linux-gnu)
+ + urllib3==2.8.0
+ + walmart-azure-headless==1.6.7 (from file://<vm-home>/q167/c167)
+sync exit 0
+Python 3.12.3
+== ruff check
+All checks passed!
+exit 0
+== ruff format --check
+167 files already formatted
+exit 0
+== mypy
+Success: no issues found in 88 source files
+exit 0
+== uv lock --check
+Resolved 54 packages in 0.96ms
+exit 0
+== unit 10:13:39Z
+........................................................................ [ 53%]
+........................................................................ [ 66%]
+........................................................................ [ 79%]
+........................................................................ [ 92%]
+......................................                                   [100%]
+542 passed in 9.47s
+exit 0
+== tests/integration/test_abandoned_segments.py 10:13:50Z
+.                                                                        [100%]
+1 passed in 11.74s
+exit 0
+== tests/integration/test_account_gate.py 10:14:02Z
+....                                                                     [100%]
+4 passed in 27.34s
+exit 0
+== tests/integration/test_captures_replay.py 10:14:31Z
+.                                                                        [100%]
+1 passed in 7.64s
+exit 0
+== tests/integration/test_category_mapping.py 10:14:39Z
+.....                                                                    [100%]
+5 passed in 30.61s
+exit 0
+== tests/integration/test_concurrency_load.py 10:15:10Z
+......                                                                   [100%]
+6 passed in 120.89s (0:02:00)
+exit 0
+== tests/integration/test_coverage_and_assortment.py 10:17:12Z
+................................                                         [100%]
+32 passed in 117.53s (0:01:57)
+exit 0
+== tests/integration/test_deal_fields_policy.py 10:19:11Z
+....                                                                     [100%]
+4 passed in 17.82s
+exit 0
+== tests/integration/test_detail_path.py 10:19:29Z
+..........................                                               [100%]
+26 passed in 188.72s (0:03:08)
+exit 0
+== tests/integration/test_editions.py 10:22:39Z
+....                                                                     [100%]
+4 passed in 9.58s
+exit 0
+== tests/integration/test_follow_queue.py 10:22:49Z
+...                                                                      [100%]
+3 passed in 22.67s
+exit 0
+== tests/integration/test_followups.py 10:23:13Z
+.........                                                                [100%]
+9 passed in 42.00s
+exit 0
+== tests/integration/test_lineage_retention.py 10:23:56Z
+........                                                                 [100%]
+8 passed in 27.46s
+exit 0
+== tests/integration/test_operations.py 10:24:24Z
+................................                                         [100%]
+32 passed in 214.87s (0:03:34)
+exit 0
+== tests/integration/test_publication_safety.py 10:28:00Z
+..........                                                               [100%]
+10 passed in 104.38s (0:01:44)
+exit 0
+== tests/integration/test_publish.py 10:29:45Z
+......                                                                   [100%]
+6 passed in 8.78s
+exit 0
+== tests/integration/test_queue_locks.py 10:29:55Z
+..........                                                               [100%]
+10 passed in 11.75s
+exit 0
+== tests/integration/test_replay.py 10:30:07Z
+.........                                                                [100%]
+9 passed in 74.01s (0:01:14)
+exit 0
+== tests/integration/test_retained_masking.py 10:31:22Z
+....                                                                     [100%]
+4 passed in 19.88s
+exit 0
+== tests/integration/test_runner.py 10:31:43Z
+.......                                                                  [100%]
+7 passed in 11.24s
+exit 0
+== tests/integration/test_scrapedo_walmart.py 10:31:55Z
+................                                                         [100%]
+16 passed in 98.19s (0:01:38)
+exit 0
+== tests/integration/test_weight_wording.py 10:33:34Z
+...                                                                      [100%]
+3 passed in 12.57s
+exit 0
+== tests/integration/test_workers_and_oxylabs.py 10:33:47Z
+........                                                                 [100%]
+8 passed in 49.21s
+exit 0
+== tests/integration/test_yield_baseline.py 10:34:37Z
+..                                                                       [100%]
+2 passed in 12.78s
+exit 0
+ALL DONE 2026-11-05T10:34:51Z

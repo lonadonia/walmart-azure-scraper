@@ -1,0 +1,2784 @@
+diff --git a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+index 373d0ad..951263c 100644
+--- a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
++++ b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+@@ -2,7 +2,7 @@
+ 
+ This is how a small Classic campaign could be run for Walmart and for Mariano's, once the account's owner has approved it.
+ 
+-This build (1.7.1) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). The stages and their limits are unchanged.
++This build (1.7.2) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). Release 1.7.2 corrects what the client's review of 1.7.1 reproduced: a body shorter than its declared length is never an answer, and a raw answer is recovered only into its own dispatch (C4); the reading of the evidence is bounded by the same deadline, only this execution's evidence is taken, and the session's whole process tree is ended when it ends (C2). The stages and their limits are unchanged.
+ 
+ None of it has been run. This build's live mode is disabled, and no request has been made to Oxylabs Classic. The limits below are the proposal sent to the client: they are a proposal, not an approval.
+ 
+@@ -86,6 +86,6 @@ What Stage M will not show, whatever the outcome: any page after the first, cove
+ 
+ ## Ending the campaign
+ 
+-- **Nothing left running:** no process of the probe stays running. A request still open at its deadline is recorded as unknown, keeps its reservation, and is never retried.
++- **Nothing left running:** no process of the probe stays running; a session's whole process tree is ended when the session ends (1.7.2). A request still open at its deadline is recorded as unknown, keeps its reservation, and is never retried.
+ - **History kept:** the ledger is kept and never deleted, because it is the campaign's spend history.
+ - **No limit reset:** nothing resets a limit. A new campaign is a new approval with a new ledger.
+diff --git a/headless/oxylabs-classic-probe/README.md b/headless/oxylabs-classic-probe/README.md
+index 346001c..f83ad9b 100644
+--- a/headless/oxylabs-classic-probe/README.md
++++ b/headless/oxylabs-classic-probe/README.md
+@@ -1,4 +1,4 @@
+-# oxylabs-classic-probe 1.7.1
++# oxylabs-classic-probe 1.7.2
+ 
+ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper API (Realtime method). It holds three things:
+ 
+@@ -8,12 +8,22 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
++Version 1.7.2 corrects what the client's review of 1.7.1 reproduced: two gaps in C4, two in C2 and one test that failed on Linux. Each was first reproduced as a test that fails on the frozen 1.7.1 code by its output, on Windows and on Linux (`tests/test_review_of_171.py`, and the drip and hung-worker tests of `tests/test_isolated_transport.py`); 1.7.2 makes each pass. A test named `..._control_...` passes on both and pins what the correction keeps.
++
++- **C4, a body shorter than declared.** A server that declares `Content-Length: 100`, writes `{}` and closes gave 1.7.1 a whole answer (ok, not truncated, renamed to its final `.body`), on a success status or an error status alike, and the campaign parsed it: `http.client` reports such an end as an empty read, not as an error. Now the worker compares what arrived with what was declared. A body shorter than its declared length (including one of which no byte arrived) and a chunked body cut short are kept as `dispatch_NNN.partial` with their status (`IncompleteBody`, the declared and received lengths, the SHA-256), recorded once in the ledger as `PARTIAL_RESPONSE`, never parsed, and their reservation stays held. The transport and the recovery check the declared length again, so a status written by an earlier build cannot pass a short body as whole. A body of exactly its declared length, a response without a body (204, 304, `Content-Length: 0`) and a body of exactly the byte limit stay whole; a body above the limit is still cut at the limit, marked truncated and never decoded. A crash followed by an immediate restart in the same folder keeps the partial, its hash and its accounting, with no paid refetch.
++- **C4, a worker killed after it named its file.** When a worker was killed after it had renamed its file (a whole answer to `.body`, or the part that came to `.partial`), 1.7.1 looked only for the worker's unrenamed `.part` file: it reported a whole answer as lost and a kept partial as absent. Now the transport reads the worker's own status first: a whole answer stays the answer, a partial is described with its length and hash, and a status the worker wrote is never overwritten.
++- **C4, whose answer it is.** Each worker status now names its dispatch (campaign, ledger genesis id, sequence number, step, attempt and the payload's SHA-256). A recovery keeps a raw answer or a partial only when its status names the ledger row it is recovered into. A status of another dispatch, or one without that identity (written before 1.7.2), is refused, listed with the reason and left on disk as found.
++- **C2, one deadline for the whole session.** On Linux the 1.7.1 supervisor waited 1.10 s for a FIFO put at the evidence path despite a hard end of 0.30 s, and it took the complete evidence a previous run had left in the same folder when a new command exited 0 without writing any. Now evidence is read only from a regular file, in bounded chunks and within the time left: a FIFO, a link, a folder or a file above 16 MiB is refused at once, without waiting for a writer. Each session is given an execution id (`CLASSIC_PROBE_EXECUTION_ID`) that its manifest must name, with this campaign and this ledger, and be marked complete; anything else is not this session's evidence. The session's command runs as a process tree (a process group on Linux and macOS, a job object on Windows) that is ended whole whenever the session ends, by itself or not, so nothing it started can dispatch after the supervisor returns. The recovery's bound is handed to its process as a monotonic time, so a wall-clock jump cannot extend it. The supervisor returns within its hard end plus 0.5 s (`supervisor.TOLERANCE_S`), and a charge whose outcome is unknown keeps its reservation.
++- **The Linux test.** The client's Linux run of 1.7.1 gave 169 passed, 1 failed and 3 skipped, where Windows gave 171 passed and 2 skipped. The failing drip test expected a forced kill even when the worker stopped by itself at its own deadline, which it does first on Linux. The test now asserts the deadline, the outcome, the partial that was kept and the worker's end, whichever ended it; a separate test makes a worker hang past its deadline and checks a real kill and reap.
++
++C1's redirect and credential protections, C3's checks under the ledger lock and just before dispatch, C5's bounded backoff and the shared accounting are unchanged. The steps, the response checks, the payloads and the campaign limits are those of 1.7.1, live mode stays disabled, and the Mariano's adapter is byte-for-byte unchanged.
++
+ Version 1.7.1 completes two findings of the client's review that 1.7.0 described as corrected but had corrected only in part (C2 and C4). Each gap was first reproduced as a test that fails on 1.7.0 (`tests/test_c2_c4_reproduction.py`: 7 tests, all 7 failing on 1.7.0, all 7 passing on 1.7.1):
+ 
+ - **C2, the deadline through recovery, export and cleanup.** In 1.7.0 a supervisor's recovery ran after the session's end with no bound of its own (a ledger lock held elsewhere kept it waiting 30 s, then it raised), the ledger writes after an answer waited up to 30 s for the lock whatever time was left, and a killed session that could not be reaped raised out of the supervisor with nothing recovered. Now the ledger writes after an answer (its index, its settlement, a retry's record, a stop) wait no longer than the session's write window, which ends 30 s before the session's end, and after one refusal of the lock the session does not wait for it again. The supervisor's kill, reap and recovery all end by the session's hard end: the recovery runs in its own process, its waits for the lock end by the same end, and a recovery still running then is killed. What a recovery could not do is listed (`completed`: false, and why). A row it could not mark keeps its money held for the next recovery; nothing is assumed.
+ - **C4, evidence across crashes.** In 1.7.0 the transport deleted the worker's synced file as soon as it had read it, before the kept copy was written, so a crash between the two lost a paid answer; the evidence manifest was renamed into place without being synced; and a body cut at its deadline left no record. Now each answer is kept as received, privately, under its dispatch's number (`private/raw/dispatch_NNN.body` with its `.status.json`; never exported), synced and renamed durably (a write-through rename on Windows, a synced directory on Linux and macOS). A crash before the kept copy loses nothing: the recovery keeps the copy from those files, once the body matches the hash in its status, without a paid refetch. A body cut short is kept (`dispatch_NNN.partial`) and recorded once in the ledger (`PARTIAL_RESPONSE`, with its length and SHA-256), never as an answer. The evidence manifest is synced before it is renamed into place.
+ 
+-The steps, the response checks, the payloads and the campaign limits are those of 1.7.0, live mode stays disabled, and the Mariano's adapter is byte-for-byte unchanged.
++In 1.7.1 the steps, the response checks, the payloads and the campaign limits were those of 1.7.0.
+ 
+ Version 1.7.0 corrected the five findings of the client's second review (C1 to C5) in the shared layer, C2 and C4 only in part (above): no redirect is followed and the credentials go only to the documented endpoint (C1); each exchange runs in its own worker process, killed and reaped at its deadline, with every body, header block and decompression bounded (C2); the ledger reads the clock under its write lock and checks the time and every stop again just before sending (C3); each answer is written to disk and indexed before the next paid step (C4); a backoff is a real wait, bounded by the deadline, and `Retry-After` is honoured up to 60 s (C5). The steps, the response checks and the limits are those of 1.6.0, and the Mariano's adapter is byte-for-byte unchanged.
+ 
+@@ -28,6 +38,7 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ | Response checks: Mariano's (selected store and modality, the search's own store and modality, each price's store, identity, refusal) | **OFFLINE REPLAY**: tested on two real Mariano's pages (Vernon Hills, Pickup) that the Mariano's collector saved through the Oxylabs **Web API** on 2026-11-02, each wrapped in an invented Classic envelope. The pages are real; the Classic envelope is not |
+ | Shared ledger (10 per retailer, 20 total, 30 minutes, USD 5, headroom, deadline) | **SYNTHETIC TEST**: tested offline, including concurrent processes, crashes and both retailers on one ledger |
+ | The deadline through recovery, export and cleanup; answers kept across crashes (C2, C4; 1.7.1) | **SYNTHETIC TEST**: tested offline with separate processes, a ledger lock held by another connection, killed sessions and a stub on 127.0.0.1. Not run against Oxylabs |
++| Bodies shorter than declared, a worker killed after it named its file, whose answer a raw file is; the evidence path, this execution's own evidence, the session's process tree (C4, C2; 1.7.2) | **SYNTHETIC TEST**: tested offline on Windows and on Linux with a stub on 127.0.0.1 that cuts its bodies short, workers made to hang, a FIFO at the evidence path (Linux), a previous run's evidence, a process left behind and a wall-clock jump. Not run against Oxylabs |
+ | A Classic request | **NOT TESTED**: none was made. That needs the account owner's credentials, entitlement, rates and approval |
+ | Listing pagination for Mariano's | **NOT AVAILABLE**: the documentation gives `marianos_search` no page parameter, so no second page is planned (see below) |
+ 
+@@ -51,6 +62,12 @@ uv run mypy
+ 
+ The tests close the network: any attempt to open a socket or resolve a name fails the test that made it. They also remove the two credential variables from their environment.
+ 
++Some tests run on one platform only, and say why when skipped:
++
++- On Windows: the FIFO tests (`test_c2_a_fifo_at_the_evidence_path_...`, `test_a_fifo_is_refused_...`), because Windows has no FIFO in its file system, and the link test (`test_a_link_at_the_evidence_path_...`), because making a symbolic link needs a privilege a normal Windows account lacks. The refusal of a folder, an oversized file, a stale manifest and a left-behind process runs on both.
++- On Linux and macOS: the write-through rename test (`test_c4_on_windows_...`), the Windows form of a synced rename.
++- Anywhere: the two checks that the vendored readers are still the collectors' files skip when a collector's source is not beside the probe (a probe-only extraction), or is a later release than the one copied (each copy is still checked against its recorded git object).
++
+ ## Commands
+ 
+ All commands are offline. `classic-probe --help` and `python -m classic_probe --help` show the same list.
+@@ -123,14 +140,14 @@ What a Mariano's page shows is read from its own page state (`window.__INITIAL_S
+ 
+ A refusal page (the collector's challenge markers), a retailer status that is not 2xx, a page without page state, an empty first page or a page for another product stops the campaign, and nothing more is sent.
+ 
+-## Evidence on disk (1.7.1)
++## Evidence on disk (1.7.2)
+ 
+ | Where, in the campaign's output folder | What | Exported |
+ | --- | --- | --- |
+ | `response_NNN.json.gz`, `response_NNN.meta.json` | each answer's kept copy (sanitized) and its record, indexed in the ledger | yes |
+-| `campaign_evidence.json` | the session's own manifest, written from the durable index | yes |
++| `campaign_evidence.json` | the session's own manifest, written from the durable index; it names its execution (1.7.2) | yes |
+ | `campaign_evidence.recovered.json` | the manifest of a supervisor's recovery, always marked incomplete | yes |
+-| `private/raw/dispatch_NNN.body`, `.status.json`, `.partial` | each answer as received, the worker's status for it, or the part of a body that arrived | **no**: kept for the recovery and the account owner only, owner-only on Linux and macOS |
++| `private/raw/dispatch_NNN.body`, `.status.json`, `.partial` | each answer as received, the worker's status for it (naming its dispatch, its declared length and whether it is complete; 1.7.2), or the part of a body that arrived, a body shorter than declared included | **no**: kept for the recovery and the account owner only, owner-only on Linux and macOS |
+ 
+ ## Files
+ 
+diff --git a/headless/oxylabs-classic-probe/pyproject.toml b/headless/oxylabs-classic-probe/pyproject.toml
+index 476dbde..06dfcbf 100644
+--- a/headless/oxylabs-classic-probe/pyproject.toml
++++ b/headless/oxylabs-classic-probe/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "oxylabs-classic-probe"
+-version = "1.7.1"
++version = "1.7.2"
+ description = "A small offline probe and request plan for the Oxylabs Classic Web Scraper API (Realtime): documented payloads, response checks and a durable shared campaign ledger. Its live mode is disabled."
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+index e3678d3..c9f0905 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+@@ -3,4 +3,4 @@
+ Importing this package opens no connection and reads no credential.
+ """
+ 
+-__version__ = "1.7.1"
++__version__ = "1.7.2"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/campaign.py b/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
+index 6626d9b..8364f1f 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/campaign.py
+@@ -38,6 +38,15 @@ replaces the reason the campaign stopped.
+ - C4: each request carries the dispatch's own name (``private/raw/dispatch_NNN``), where the worker keeps the
+   answer as received; a body cut short is recorded in the ledger (``PARTIAL_RESPONSE``) with its length and
+   SHA-256, never as an answer; the evidence manifest is written durably.
++
++1.7.2 (the client's review of 1.7.1):
++
++- C4: each request also carries its dispatch's identity (campaign, ledger genesis, number, step, attempt,
++  payload hash); the worker writes it into every status it leaves, and a recovery keeps only the files whose
++  identity is the dispatch's own (captures.py);
++- C2: the evidence manifest names the execution that wrote it (``execution_id``, given by a supervisor in
++  the environment variable :data:`EXECUTION_ENV`), so a supervisor never takes an earlier execution's
++  manifest, left in the same folder, for the evidence of the one it ran (supervisor.py).
+ """
+ 
+ from __future__ import annotations
+@@ -45,6 +54,7 @@ from __future__ import annotations
+ import dataclasses
+ import hashlib
+ import json
++import os
+ import time
+ from collections.abc import Callable, Mapping
+ from dataclasses import dataclass, field
+@@ -66,7 +76,18 @@ from classic_probe.transport import (
+     TransportFailed,
+ )
+ 
+-__all__ = ["Campaign", "CampaignResult", "StepPlan", "kept_response", "sanitize", "write_json"]
++__all__ = [
++    "EXECUTION_ENV",
++    "Campaign",
++    "CampaignResult",
++    "StepPlan",
++    "kept_response",
++    "sanitize",
++    "write_json",
++]
++
++# 1.7.2 (C2): the execution a supervisor started, named in the session's environment and in its evidence
++EXECUTION_ENV = "CLASSIC_PROBE_EXECUTION_ID"
+ 
+ Sleep = Callable[[float], None]
+ 
+@@ -183,6 +204,7 @@ class Campaign:
+         max_attempts: int = 2,
+         sleep: Sleep | None = None,
+         clock: Callable[[], datetime] | None = None,
++        execution_id: str | None = None,
+     ) -> None:
+         if target.adapter != self.adapter:
+             raise ValueError(f"{target.retailer}: this campaign class is the {self.adapter} adapter")
+@@ -196,6 +218,8 @@ class Campaign:
+         # 1.7.0 (C5): a real wait unless a test injects another; every wait is bounded by the deadline first.
+         self.sleep: Sleep = sleep or time.sleep
+         self.clock = clock or ledger.clock
++        # 1.7.2 (C2): the execution that runs this session, as its supervisor named it (None without one)
++        self.execution_id = execution_id if execution_id is not None else os.environ.get(EXECUTION_ENV)
+         self.result = CampaignResult(ledger.campaign_id, target.retailer, out_dir=str(out_dir))
+         self.captures = CaptureStore(out_dir, target.retailer)
+         self._session: SessionClock | None = None
+@@ -280,8 +304,20 @@ class Campaign:
+                 return None
+             sent: dict[str, Any] = {"seq": seq, "attempt": attempt, "reserved_usd": str(amount)}
+             record["attempts"].append(sent)
+-            # 1.7.1 (C4): the worker keeps the answer under this dispatch's own name, privately.
+-            request = dataclasses.replace(request, raw_stem=str(self.captures.raw_stem(seq)))
++            # 1.7.1 (C4): the worker keeps the answer under this dispatch's own name, privately; 1.7.2: with
++            # the dispatch's identity in every status it writes.
++            request = dataclasses.replace(
++                request,
++                raw_stem=str(self.captures.raw_stem(seq)),
++                identity={
++                    "campaign_id": self.ledger.campaign_id,
++                    "ledger_genesis_id": self.ledger.genesis_id,
++                    "seq": seq,
++                    "step": plan.step,
++                    "attempt": attempt,
++                    "payload_sha256": sha,
++                },
++            )
+             preflight = getattr(self.transport, "preflight", None)
+             if preflight is not None:
+                 try:
+@@ -556,6 +592,7 @@ class Campaign:
+             export = {
+                 "campaign_id": self.ledger.campaign_id,
+                 "ledger_genesis_id": self.ledger.genesis_id,
++                "execution_id": self.execution_id,
+                 "offline": self.ledger.offline,
+                 "limits": json.loads(self.ledger.limits.as_json()),
+                 "totals": self.ledger.totals().as_dict(),
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/captures.py b/headless/oxylabs-classic-probe/src/classic_probe/captures.py
+index 3a68768..80a7e42 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/captures.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/captures.py
+@@ -21,6 +21,18 @@ the SHA-256 of the response as received (private), so the two are matched withou
+   ``PARTIAL_RESPONSE`` event (length, SHA-256, never complete) and never indexed as an answer;
+ - every file is renamed into place durably (durable.py: a synced directory, or a write-through rename on
+   Windows), and the recovery stops when the session's time runs out, saying what it did not reach.
++
++1.7.2 (the client's review of 1.7.1, finding C4):
++
++- a raw answer is kept only when its status carries the identity of the ledger's own dispatch of that
++  number (campaign, ledger genesis, number, step, attempt, payload hash). Files of another campaign, or of
++  another dispatch, left in the same folder are refused and left as they are; a status without an identity
++  (written before 1.7.2) is refused too;
++- a body whose status calls it whole although it is shorter than the length its answer declared (as the
++  1.7.1 worker wrote a body cut short) is recorded as a ``PARTIAL_RESPONSE``, with the length declared, and
++  never indexed as an answer; the file stays as it was found;
++- a partial body's record names, when its status survived, the HTTP status, the error and the length
++  declared.
+ """
+ 
+ from __future__ import annotations
+@@ -35,12 +47,34 @@ from pathlib import Path
+ from typing import TYPE_CHECKING, Any
+ 
+ from classic_probe import durable
+-from classic_probe.transport import ProviderResponse
++from classic_probe.transport import ProviderResponse, declared_shortfall
+ 
+ if TYPE_CHECKING:
+     from classic_probe.ledger import Ledger
+ 
+ _SECRET_KEYS = re.compile(r"(?i)authori[sz]ation|cookie|password|token|secret|session")
++IDENTITY_KEYS = ("campaign_id", "ledger_genesis_id", "seq", "step", "attempt", "payload_sha256")
++
++
++def identity_problem(
++    status: Mapping[str, Any], ledger: Ledger, row: Mapping[str, Any], seq: int
++) -> str | None:
++    """None when a worker's status names this ledger's dispatch ``seq``; else why not (1.7.2, C4)."""
++    ident = status.get("identity")
++    if not isinstance(ident, Mapping):
++        return "its status carries no dispatch identity (written before 1.7.2, or not by a request worker)"
++    expected = {
++        "campaign_id": ledger.campaign_id,
++        "ledger_genesis_id": ledger.genesis_id,
++        "seq": seq,
++        "step": row["step"],
++        "attempt": row["attempt"],
++        "payload_sha256": row["payload_sha256"],
++    }
++    wrong = [k for k in IDENTITY_KEYS if ident.get(k) != expected[k]]
++    if wrong:
++        return "its identity is not this dispatch's (" + ", ".join(wrong) + " differ)"
++    return None
+ 
+ 
+ def sanitize(value: Any) -> Any:
+@@ -259,18 +293,33 @@ class CaptureStore:
+ 
+         raw = self.raw_dir
+         if raw.is_dir():
++            statuses: dict[int, dict[str, Any]] = {}
++            foreign: set[int] = set()  # 1.7.2: files that are not this ledger's dispatch's
++            short: dict[int, tuple[Path, int]] = {}  # 1.7.2: "whole" bodies shorter than declared
+             for status_file in sorted(raw.glob("dispatch_*.status.json")):
+                 seq = int(status_file.name.split("_", 1)[1].split(".", 1)[0])
+                 try:
+                     status = json.loads(status_file.read_text(encoding="utf-8"))
+                 except ValueError:
++                    status = None
++                if not isinstance(status, dict):
+                     out["refused"].append({"file": status_file.name, "why": "its status cannot be read"})
++                    foreign.add(seq)
+                     continue
+-                if not status.get("ok") or seq in indexed:
++                if seq in indexed:
+                     continue
+                 if seq not in rows:
+                     out["refused"].append({"file": status_file.name, "why": "no dispatch of this number"})
++                    foreign.add(seq)
++                    continue
++                problem = identity_problem(status, ledger, rows[seq], seq)
++                if problem:
++                    out["refused"].append({"file": status_file.name, "why": problem})
++                    foreign.add(seq)
+                     continue
++                statuses[seq] = status
++                if not status.get("ok"):
++                    continue  # its partial body, if any, is recorded below
+                 stem = self.raw_stem(seq)
+                 body_path = stem.with_name(stem.name + ".body")
+                 part = stem.with_name(stem.name + ".body.part")
+@@ -287,6 +336,10 @@ class CaptureStore:
+                         {"file": body_path.name, "why": "its body does not match its status"}
+                     )
+                     continue
++                missing = declared_shortfall(status)
++                if missing:  # 1.7.2 (C4): called whole, but shorter than its answer declared
++                    short[seq] = (body_path, missing)
++                    continue
+                 if body_path == part:
+                     durable.replace(part, stem.with_name(stem.name + ".body"))
+                 response = ProviderResponse(
+@@ -309,33 +362,58 @@ class CaptureStore:
+                         recorded.add(int(json.loads(e["detail"])["seq"]))
+                     except (ValueError, KeyError, TypeError):
+                         continue
++            found: dict[int, tuple[Path, int]] = {}
+             for partial in sorted(raw.glob("dispatch_*.partial")):
+-                seq = int(partial.name.split("_", 1)[1].split(".", 1)[0])
+-                if seq in recorded or seq in indexed:
++                found[int(partial.name.split("_", 1)[1].split(".", 1)[0])] = (partial, 0)
++            found.update(short)
++            for seq in sorted(found):
++                path, missing = found[seq]
++                if seq in recorded or seq in indexed or seq in foreign:
++                    continue
++                if seq not in rows:
++                    out["refused"].append({"file": path.name, "why": "no dispatch of this number"})
+                     continue
+                 if locked:
+                     out["not_reached"].append(
+-                        {"what": partial.name, "why": "the ledger's write lock (not waited for again)"}
++                        {"what": path.name, "why": "the ledger's write lock (not waited for again)"}
+                     )
+                     continue
+-                if time_up(partial.name):
++                if time_up(path.name):
+                     break
+-                data = partial.read_bytes()
+-                detail = {
++                data = path.read_bytes()
++                detail: dict[str, Any] = {
+                     "seq": seq,
+                     "bytes": len(data),
+                     "sha256": sha256(data),
+-                    "file": partial.name,
++                    "file": path.name,
+                     "complete": False,
+                     "found": "at a recovery",
+                 }
++                status = statuses.get(seq)
++                if status is None:
++                    # the worker was killed between keeping the body and writing its status: nothing names
++                    # the dispatch but the file's own name
++                    detail["identity_checked"] = False
++                else:
++                    detail["identity_checked"] = True
++                    for key in ("http_status", "error"):
++                        if status.get(key) is not None:
++                            detail[key] = status[key]
++                    if status.get("status") is not None:
++                        detail["http_status"] = status["status"]
++                    if status.get("declared_bytes") is not None:
++                        detail["declared_bytes"] = int(status["declared_bytes"])
++                if missing:
++                    detail["declared_bytes"] = len(data) + missing
++                    detail["why"] = (
++                        f"its status called it whole, but {missing} of the {len(data) + missing} bytes its "
++                        "answer declared never came"
++                    )
+                 try:
+                     ledger.event("PARTIAL_RESPONSE", json.dumps(detail, sort_keys=True))
+                 except LockNotObtained as exc:
+                     locked = True
+-                    out["not_reached"].append(
+-                        {"what": partial.name, "why": f"the ledger's write lock: {exc}"}
+-                    )
++                    out["not_reached"].append({"what": path.name, "why": f"the ledger's write lock: {exc}"})
+                     break
+                 out["partial_recorded"].append(seq)
+         return out
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/networker.py b/headless/oxylabs-classic-probe/src/classic_probe/networker.py
+index 2c86400..a3ad739 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/networker.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/networker.py
+@@ -23,6 +23,23 @@ the campaign, and nothing received is deleted:
+   ``dispatch_NNN.partial``, and the status says how many there were and their SHA-256, never that the answer
+   is complete;
+ - reads use ``read1``, so a slow body is recorded up to the last byte that arrived.
++
++1.7.2 (the client's review of 1.7.1, finding C4): a body is whole only when it reached its own end. 1.7.1
++took ``read1``'s empty read for the end of the body; ``http.client`` also returns an empty read when the
++connection closes before the length the answer declared, so a server that declared ``Content-Length: 100``,
++sent ``{}`` and closed was reported whole (ok, not truncated, renamed to ``.body``) and parsed. Now:
++
++- after the last read the worker checks what ``http.client`` still expected of the declared length. Any byte
++  missing makes the body partial (``IncompleteBody``), on every status: it is kept as ``dispatch_NNN.partial``
++  with its length, its SHA-256 and the length declared, and is never named ``.body``;
++- the status of a whole answer says how its end was known (``framing``: ``content-length``, ``chunked`` (the
++  last chunk was read; a chunked body cut short raises ``IncompleteRead`` in ``http.client``), ``close`` (no
++  length and no chunks: the end of the connection is the end of the body, as HTTP defines it) or ``none``
++  (a status without a body: 1xx, 204, 304)), and says ``complete``: True, or False for a body cut at the byte
++  limit;
++- once the answer's head has arrived, its body is kept even when no byte of it came (an empty ``.partial``
++  beside a status that says so), and the status carries the dispatch's identity (campaign, ledger genesis,
++  number, step, attempt, payload hash), which a recovery checks before it keeps anything (captures.py).
+ """
+ 
+ from __future__ import annotations
+@@ -41,6 +58,7 @@ from typing import Any
+ from classic_probe import contract, durable, gates
+ 
+ CHUNK = 65536
++EMPTY_SHA256 = hashlib.sha256(b"").hexdigest()
+ 
+ 
+ def _open_private(path: str) -> int:
+@@ -56,7 +74,9 @@ def _write_all(fd: int, data: bytes) -> None:
+ 
+ def _status_file(spec: dict[str, Any], status: dict[str, Any]) -> dict[str, Any]:
+     """The status, also written durably beside the body (1.7.1): a supervisor that dies loses the worker's
+-    output, not this file."""
++    output, not this file. 1.7.2: it carries the dispatch's identity, when the campaign gave one."""
++    if spec.get("identity"):
++        status["identity"] = spec["identity"]
+     path = spec.get("status_path")
+     if path:
+         durable.write(Path(path), (json.dumps(status, sort_keys=True) + "\n").encode("utf-8"), private=True)
+@@ -78,6 +98,17 @@ def _allowed(spec: dict[str, Any]) -> str | None:
+     return None
+ 
+ 
++def _framing(resp: http.client.HTTPResponse) -> str:
++    """How the end of this answer's body is known (1.7.2)."""
++    if resp.chunked:
++        return "chunked"
++    if resp.length == 0 and (resp.status in (204, 304) or 100 <= resp.status < 200):
++        return "none"
++    if resp.length is not None:
++        return "content-length"
++    return "close"
++
++
+ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+     t0 = time.monotonic()
+     deadline = t0 + float(spec["allowance_s"])
+@@ -107,24 +138,28 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+     sent: bool | None = False
+     out_path = spec["out_path"]
+     max_body = int(spec["max_body_bytes"])
++    max_headers = int(spec["max_header_bytes"])
+     fd: int | None = None
+     total, truncated = 0, False
+     digest = hashlib.sha256()
+     http_status: int | None = None
++    head: dict[str, Any] = {}  # what the answer's head said, once it arrived (1.7.2)
+ 
+     def partial(error: str) -> dict[str, Any]:
+-        """What arrived before ``error``, kept and described, never called complete (1.7.1, C4)."""
++        """What arrived before ``error``, kept and described, never called complete (1.7.1, C4). 1.7.2: once
++        the answer's head arrived, its body is kept even if empty, with the length the head declared."""
+         nonlocal fd
+         status: dict[str, Any] = {"ok": False, "error": error, "sent": sent, "http_status": http_status}
+         if fd is not None:
+             os.fsync(fd)
+             os.close(fd)
+             fd = None
+-            if total and spec.get("partial_path"):
++            status.update(head, complete=False)
++            if spec.get("partial_path"):
+                 durable.replace(Path(out_path), Path(spec["partial_path"]))
+                 status.update(partial_bytes=total, partial_sha256=digest.hexdigest(), partial_file=True)
+-            else:
+-                os.unlink(out_path)  # nothing arrived: an empty file is not evidence
++            else:  # pragma: no cover - the transport always names the partial file
++                os.unlink(out_path)
+         return _status_file(spec, status)
+ 
+     try:
+@@ -141,6 +176,13 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+         http_status = resp.status
+         headers = [(k, v) for k, v in resp.getheaders() if k.lower() != "set-cookie"]
+         header_bytes = sum(len(k) + len(v) for k, v in headers)
++        head = {
++            "reason": resp.reason,
++            "headers": headers if header_bytes <= max_headers else [],
++            "headers_truncated": header_bytes > max_headers,
++            "declared_bytes": None if resp.chunked else resp.length,
++            "framing": _framing(resp),
++        }
+         fd = _open_private(out_path)
+         while True:
+             if left() <= 0:
+@@ -158,17 +200,20 @@ def exchange(spec: dict[str, Any]) -> dict[str, Any]:
+             total += len(chunk)
+             if truncated:
+                 break
++        if not truncated and resp.length:
++            # 1.7.2 (C4): http.client counts the declared length down as it reads, and an empty read at the
++            # connection's close leaves the count above zero. Those bytes never came: the body is partial.
++            return partial("IncompleteBody")
+         os.fsync(fd)
+         os.close(fd)
+         fd = None
+         status = {
+             "ok": True,
+             "status": resp.status,
+-            "reason": resp.reason,
+-            "headers": headers if header_bytes <= int(spec["max_header_bytes"]) else [],
+-            "headers_truncated": header_bytes > int(spec["max_header_bytes"]),
++            **head,
+             "body_bytes": total,
+             "truncated": truncated,
++            "complete": not truncated,
+             "sha256": digest.hexdigest(),
+             "elapsed_s": round(time.monotonic() - t0, 3),
+             "redirect_location": next((v for k, v in headers if k.lower() == "location"), None)
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/proctree.py b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+new file mode 100644
+index 0000000..2dcf77c
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+@@ -0,0 +1,290 @@
++"""A process and every process it starts, ended together (1.7.2, the client's review of 1.7.1, finding C2).
++
++A session's command may start other processes (a request worker, or anything a broken session leaves
++behind). 1.7.1 killed the session's tree only when the session overran its time: a session that exited by
++itself left its children running, and one of them could still send a request after the supervisor had
++returned. A :class:`ProcessTree` is ended whole whenever the session ends, by itself or not:
++
++- on Linux and macOS the command leads a new session and process group; :meth:`ProcessTree.end` sends
++  SIGKILL to the whole group, reaps the leader, and waits (bounded) until no process of the group is left.
++  A process that left the group on purpose (a new session of its own) is outside this bound; the probe's own
++  processes never do that;
++- on Windows the command starts suspended, is put into a job object (which every process it starts then
++  joins) and is only then resumed, so nothing it starts escapes the job. :meth:`ProcessTree.end` terminates
++  the job and waits (bounded) until it has no active process. The job is also closed with the
++  kill-on-close flag, so a supervisor that dies takes the tree with it. If the job cannot be made (an old
++  Windows, or a parent job that forbids it), the tree falls back to ``taskkill /T``, and says so.
++
++Every wait is bounded by the seconds the caller gives: nothing here can hold a supervisor past its end.
++"""
++
++from __future__ import annotations
++
++import os
++import signal
++import subprocess
++import sys
++import time
++from collections.abc import Mapping, Sequence
++from pathlib import Path
++from typing import IO, Any
++
++POLL_S = 0.01
++
++if sys.platform == "win32":
++    import ctypes
++    from ctypes import wintypes
++
++    CREATE_SUSPENDED = 0x00000004
++    JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
++    JOB_OBJECT_BASIC_ACCOUNTING_INFORMATION_CLASS = 1
++    JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS = 9
++
++    class _IoCounters(ctypes.Structure):
++        _fields_ = [
++            ("ReadOperationCount", ctypes.c_ulonglong),
++            ("WriteOperationCount", ctypes.c_ulonglong),
++            ("OtherOperationCount", ctypes.c_ulonglong),
++            ("ReadTransferCount", ctypes.c_ulonglong),
++            ("WriteTransferCount", ctypes.c_ulonglong),
++            ("OtherTransferCount", ctypes.c_ulonglong),
++        ]
++
++    class _BasicLimits(ctypes.Structure):
++        _fields_ = [
++            ("PerProcessUserTimeLimit", ctypes.c_int64),
++            ("PerJobUserTimeLimit", ctypes.c_int64),
++            ("LimitFlags", wintypes.DWORD),
++            ("MinimumWorkingSetSize", ctypes.c_size_t),
++            ("MaximumWorkingSetSize", ctypes.c_size_t),
++            ("ActiveProcessLimit", wintypes.DWORD),
++            ("Affinity", ctypes.c_size_t),
++            ("PriorityClass", wintypes.DWORD),
++            ("SchedulingClass", wintypes.DWORD),
++        ]
++
++    class _ExtendedLimits(ctypes.Structure):
++        _fields_ = [
++            ("BasicLimitInformation", _BasicLimits),
++            ("IoInfo", _IoCounters),
++            ("ProcessMemoryLimit", ctypes.c_size_t),
++            ("JobMemoryLimit", ctypes.c_size_t),
++            ("PeakProcessMemoryUsed", ctypes.c_size_t),
++            ("PeakJobMemoryUsed", ctypes.c_size_t),
++        ]
++
++    class _Accounting(ctypes.Structure):
++        _fields_ = [
++            ("TotalUserTime", ctypes.c_int64),
++            ("TotalKernelTime", ctypes.c_int64),
++            ("ThisPeriodTotalUserTime", ctypes.c_int64),
++            ("ThisPeriodTotalKernelTime", ctypes.c_int64),
++            ("TotalPageFaultCount", wintypes.DWORD),
++            ("TotalProcesses", wintypes.DWORD),
++            ("ActiveProcesses", wintypes.DWORD),
++            ("TotalTerminatedProcesses", wintypes.DWORD),
++        ]
++
++    def _kernel32() -> Any:
++        k = ctypes.WinDLL("kernel32", use_last_error=True)
++        k.CreateJobObjectW.restype = wintypes.HANDLE
++        k.CreateJobObjectW.argtypes = [ctypes.c_void_p, wintypes.LPCWSTR]
++        k.SetInformationJobObject.restype = wintypes.BOOL
++        k.SetInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD]
++        k.AssignProcessToJobObject.restype = wintypes.BOOL
++        k.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
++        k.QueryInformationJobObject.restype = wintypes.BOOL
++        k.QueryInformationJobObject.argtypes = [
++            wintypes.HANDLE,
++            ctypes.c_int,
++            ctypes.c_void_p,
++            wintypes.DWORD,
++            ctypes.POINTER(wintypes.DWORD),
++        ]
++        k.TerminateJobObject.restype = wintypes.BOOL
++        k.TerminateJobObject.argtypes = [wintypes.HANDLE, wintypes.UINT]
++        k.CloseHandle.restype = wintypes.BOOL
++        k.CloseHandle.argtypes = [wintypes.HANDLE]
++        return k
++
++    def _resume(proc: subprocess.Popen[bytes]) -> None:
++        """Resume a process started suspended (``NtResumeProcess``, as psutil's ``resume`` does)."""
++        ntdll = ctypes.WinDLL("ntdll")
++        ntdll.NtResumeProcess.restype = ctypes.c_long
++        ntdll.NtResumeProcess.argtypes = [wintypes.HANDLE]
++        status = ntdll.NtResumeProcess(int(getattr(proc, "_handle")))  # noqa: B009 - Popen's process handle
++        if status != 0:
++            raise OSError(f"NtResumeProcess failed with status {status & 0xFFFFFFFF:#010x}")
++
++    class _Job:
++        def __init__(self, k: Any, handle: int) -> None:
++            self.k, self.handle = k, handle
++
++        @classmethod
++        def make(cls) -> _Job | None:
++            k = _kernel32()
++            handle = k.CreateJobObjectW(None, None)
++            if not handle:
++                return None
++            limits = _ExtendedLimits()
++            limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
++            if not k.SetInformationJobObject(
++                handle,
++                JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS,
++                ctypes.byref(limits),
++                ctypes.sizeof(limits),
++            ):
++                k.CloseHandle(handle)
++                return None
++            return cls(k, handle)
++
++        def assign(self, proc: subprocess.Popen[bytes]) -> bool:
++            return bool(self.k.AssignProcessToJobObject(self.handle, int(getattr(proc, "_handle"))))  # noqa: B009
++
++        def active(self) -> int | None:
++            info = _Accounting()
++            if not self.k.QueryInformationJobObject(
++                self.handle,
++                JOB_OBJECT_BASIC_ACCOUNTING_INFORMATION_CLASS,
++                ctypes.byref(info),
++                ctypes.sizeof(info),
++                None,
++            ):
++                return None
++            return int(info.ActiveProcesses)
++
++        def terminate(self) -> bool:
++            return bool(self.k.TerminateJobObject(self.handle, 1))
++
++        def close(self) -> None:
++            if self.handle:
++                self.k.CloseHandle(self.handle)
++                self.handle = 0
++
++
++class ProcessTree:
++    """A command's process and everything it starts. Use :meth:`start`; end it with :meth:`end`."""
++
++    def __init__(self, proc: subprocess.Popen[bytes], job: Any = None, note: str = "") -> None:
++        self.proc = proc
++        self._job = job
++        self.note = note  # how the tree is held: "process group", "job object", or the fallback and why
++
++    @classmethod
++    def start(
++        cls,
++        args: Sequence[str],
++        *,
++        cwd: Path | None = None,
++        env: Mapping[str, str] | None = None,
++        stdout: IO[bytes] | int | None = None,
++    ) -> ProcessTree:
++        common: dict[str, Any] = {
++            "cwd": cwd,
++            "env": None if env is None else dict(env),
++            "stdin": subprocess.DEVNULL,
++            "stdout": stdout,
++            "stderr": subprocess.STDOUT if stdout is not None else None,
++        }
++        if sys.platform == "win32":
++            job = _Job.make()
++            if job is None:
++                return cls(
++                    subprocess.Popen(list(args), **common), note="taskkill /T (no job object could be made)"
++                )
++            proc = subprocess.Popen(list(args), creationflags=CREATE_SUSPENDED, **common)
++            assigned = job.assign(proc)
++            try:
++                _resume(proc)
++            except OSError:
++                proc.kill()
++                proc.wait(5)
++                job.close()
++                raise
++            if not assigned:
++                job.close()
++                return cls(proc, note="taskkill /T (the process could not join a job object)")
++            return cls(proc, job, note="job object")
++        return cls(subprocess.Popen(list(args), start_new_session=True, **common), note="process group")
++
++    @property
++    def pid(self) -> int:
++        return self.proc.pid
++
++    def wait(self, timeout: float) -> int | None:
++        """The leading process's exit code once it has exited, or None when ``timeout`` ran out first."""
++        try:
++            return self.proc.wait(max(0.0, timeout))
++        except subprocess.TimeoutExpired:
++            return None
++
++    def members_left(self) -> bool | None:
++        """Whether any process of the tree still exists (None: this cannot be told)."""
++        if sys.platform == "win32":
++            if self._job is None:
++                return self.proc.poll() is None or None
++            active = self._job.active()
++            return None if active is None else active > 0
++        try:
++            os.killpg(self.proc.pid, 0)
++        except ProcessLookupError:
++            return False
++        except PermissionError:
++            return True
++        return True
++
++    def end(self, seconds: float) -> dict[str, Any]:
++        """Kill every process of the tree, reap the leader and wait until none is left, all within
++        ``seconds``. Returns what happened: whether processes were still there (``left_running``), whether
++        the tree is gone (``gone``: None when it cannot be told), and any problem."""
++        until = time.monotonic() + max(0.0, seconds)
++        problems: list[str] = []
++        before = self.members_left()
++        if sys.platform == "win32":
++            if self._job is not None:
++                if not self._job.terminate() and self.members_left():
++                    problems.append("the job object could not be terminated")
++            else:
++                try:
++                    subprocess.run(
++                        ["taskkill", "/F", "/T", "/PID", str(self.proc.pid)],
++                        capture_output=True,
++                        timeout=max(0.05, until - time.monotonic()),
++                        check=False,
++                    )
++                except (subprocess.TimeoutExpired, OSError) as exc:
++                    problems.append(f"taskkill did not finish in time ({type(exc).__name__})")
++                if self.proc.poll() is None:
++                    try:
++                        self.proc.kill()
++                    except OSError as exc:
++                        problems.append(f"the process could not be killed: {type(exc).__name__}")
++        else:
++            try:
++                os.killpg(self.proc.pid, signal.SIGKILL)  # the command leads its own process group
++            except ProcessLookupError:
++                pass
++            except OSError as exc:
++                problems.append(f"the process group could not be killed: {type(exc).__name__}")
++        reaped = self.wait(until - time.monotonic()) is not None
++        if not reaped:
++            problems.append("the leading process had not exited when the time to reap it ran out")
++        gone = self.members_left() is False
++        while not gone and time.monotonic() < until:
++            time.sleep(POLL_S)
++            gone = self.members_left() is False
++        state = self.members_left()
++        if state:
++            problems.append("a process of the tree was still running when the time to end it ran out")
++        return {
++            "held_by": self.note,
++            "left_running": bool(before),
++            "reaped": reaped,
++            "gone": None if state is None else not state,
++            "problems": problems,
++        }
++
++    def close(self) -> None:
++        if self._job is not None:
++            self._job.close()
++            self._job = None
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+index 4c56a16..6e338de 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+@@ -1,4 +1,4 @@
+-"""The outer bound of a whole session (1.7.0, finding C2; corrected in 1.7.1).
++"""The outer bound of a whole session (1.7.0, finding C2; corrected in 1.7.1 and 1.7.2).
+ 
+ A request's worker is killed and reaped at the request's own deadline (transport.py). This module bounds the
+ rest: a campaign session runs in its own process, and the supervisor kills it, with every process it started,
+@@ -21,6 +21,28 @@ by the session's hard end:
+   found and says what it could not do (``completed``: False, and why). A row it could not mark stays as the
+   session left it, its money held, for the next recovery to mark. Nothing is assumed.
+ 
++1.7.2 (the client's review of 1.7.1, finding C2). On Linux the 1.7.1 supervisor waited 1.10 s for a FIFO put
++at the evidence path, despite a hard end of 0.30 s: it opened the path as a file, and opening a FIFO waits for
++a writer. It accepted the complete evidence manifest a previous run had left in the same folder when a new
++command exited 0 without writing any (its only test was the file's age). A process the session left behind
++kept running after a session that exited by itself, and the recovery's bound was passed on the wall clock.
++Now:
++
++- one monotonic deadline bounds everything the supervisor does: the command, the end of its process tree,
++  the reading of its evidence and the recovery, which is given the same monotonic end (``--until-monotonic``;
++  Python's monotonic clock is system-wide). :func:`run_session` returns within the hard end plus
++  :data:`TOLERANCE_S`, whatever the session did;
++- the session's process tree is ended whenever the session ends, by itself or by its kill (proctree.py: a
++  process group on Linux and macOS, a job object on Windows), so no process it started can send anything
++  once the supervisor has returned; the session's output goes to a temporary file, not a pipe that a
++  left-behind process could hold open;
++- the session's evidence is read only if it is a regular file (never a FIFO, a device, a directory or a
++  link), no larger than :data:`MAX_EVIDENCE_BYTES`, opened without blocking and read within the time left;
++  and it is accepted only if it names this campaign, this ledger and this execution: each run gets a new
++  ``execution_id`` in the session's environment (:data:`classic_probe.campaign.EXECUTION_ENV`), which the
++  campaign writes into its evidence. An earlier run's manifest, however recent, is not this run's: the run
++  is recovered, and the earlier file is left as it was.
++
+ The supervisor is the bound for a future approved live session. This build's live mode stays disabled: the
+ tests run it against a stub on 127.0.0.1 only.
+ """
+@@ -30,26 +52,38 @@ from __future__ import annotations
+ import argparse
+ import json
+ import os
+-import signal
+ import sqlite3
++import stat
+ import subprocess
+ import sys
++import tempfile
+ import time
++import uuid
+ from collections.abc import Callable, Mapping, Sequence
+ from dataclasses import dataclass, field
+ from pathlib import Path
+-from typing import Any
++from typing import IO, Any
+ 
+ from classic_probe import ledger as ledger_mod
+-from classic_probe.campaign import write_json
++from classic_probe.campaign import EXECUTION_ENV, write_json
+ from classic_probe.captures import CaptureStore
+ from classic_probe.deadline import recovery_reserve
++from classic_probe.proctree import ProcessTree
+ 
+ REAP_TIMEOUT_S = 10.0  # the longest a kill or a reap is waited for, when the session has that much time left
+ MIN_STEP_S = 0.05  # the shortest wait given to a kill or a reap
+ RECOVERY_MARGIN_S = 0.5  # the recovery's own end comes this long before the supervisor's end
+ RECOVERY_KILL_S = 0.25  # within that margin: the time to kill and reap a recovery that did not end by itself
+ FINAL_WRITE_S = 0.25  # the part of the recovery's time its ledger writes leave for writing the manifest
++# 1.7.2 (C2): run_session returns within its hard end plus this. Past the end only the last kill and reap of
++# the session's tree (MIN_STEP_S each at most) can run.
++TOLERANCE_S = 0.5
++MAX_EVIDENCE_BYTES = 16 * 1024 * 1024  # an evidence manifest holds no bodies: a few hundred KB at most
++MAX_MANIFEST_BYTES = 64 * 1024  # the campaign manifest: four short fields
++READ_CHUNK = 1 << 20
++MIN_PARSE_S = 0.05  # a manifest is parsed only while this much time, plus its reading time, is left
++PARSE_BYTES_PER_S = 20_000_000  # a conservative rate for that reading time
++TAIL_BYTES = 16_000
+ EVIDENCE = "campaign_evidence.json"
+ RECOVERED = "campaign_evidence.recovered.json"
+ 
+@@ -64,6 +98,15 @@ class SupervisedSession:
+     reaped: bool = True  # 1.7.1: False when the killed session had not gone when its reap's time ran out
+     recovery_reserve_s: float = 0.0
+     problems: list[str] = field(default_factory=list)
++    execution_id: str = (
++        ""  # 1.7.2: this run's own identity, given to the session and expected in its evidence
++    )
++    evidence: dict[str, Any] = field(default_factory=dict)  # 1.7.2: whether its evidence was taken, and why
++    tree: dict[str, Any] = field(default_factory=dict)  # 1.7.2: how the session's process tree was ended
++
++
++class EvidenceRefused(ValueError):
++    """A file the supervisor will not take as a session's evidence, with why."""
+ 
+ 
+ def _step(left: float) -> float:
+@@ -72,43 +115,112 @@ def _step(left: float) -> float:
+     return max(MIN_STEP_S, min(REAP_TIMEOUT_S, left / 4))
+ 
+ 
+-def _kill_tree(proc: subprocess.Popen[bytes], seconds: float) -> list[str]:
+-    """The session and everything it started: a request worker must not outlive its session. Bounded by
+-    ``seconds`` (1.7.1); returns what did not work."""
+-    problems: list[str] = []
+-    if sys.platform == "win32":
+-        try:
+-            subprocess.run(
+-                ["taskkill", "/F", "/T", "/PID", str(proc.pid)],
+-                capture_output=True,
+-                timeout=seconds,
+-                check=False,
+-            )
+-        except (subprocess.TimeoutExpired, OSError) as exc:
+-            problems.append(f"taskkill did not finish in {seconds:.2f} s ({type(exc).__name__})")
+-        if proc.poll() is None:
+-            try:
+-                proc.kill()
+-            except OSError as exc:
+-                problems.append(f"the session's process could not be killed: {type(exc).__name__}")
+-    else:
+-        try:
+-            os.killpg(proc.pid, signal.SIGKILL)  # the session leads its own process group
+-        except ProcessLookupError:
+-            pass
+-        except OSError as exc:
+-            problems.append(f"the session's process group could not be killed: {type(exc).__name__}")
+-    return problems
++def _kind(mode: int) -> str:
++    for test, name in (
++        (stat.S_ISFIFO, "a FIFO"),
++        (stat.S_ISDIR, "a directory"),
++        (stat.S_ISLNK, "a link"),
++        (stat.S_ISSOCK, "a socket"),
++        (stat.S_ISCHR, "a character device"),
++        (stat.S_ISBLK, "a block device"),
++    ):
++        if test(mode):
++            return name
++    return "not a regular file"
++
++
++def read_bounded(path: Path, *, max_bytes: int, left: Callable[[], float]) -> bytes:
++    """A regular file's bytes, read without blocking and while ``left()`` is above 0 (1.7.2, C2). Raises
++    :class:`EvidenceRefused`, saying why, for anything else: a missing path, a FIFO, a device, a directory, a
++    link, a file above ``max_bytes`` or one replaced while it was opened."""
++    try:
++        before = os.lstat(path)
++    except FileNotFoundError:
++        raise EvidenceRefused("it does not exist") from None
++    except OSError as exc:
++        raise EvidenceRefused(f"it cannot be examined ({type(exc).__name__})") from None
++    if not stat.S_ISREG(before.st_mode):
++        raise EvidenceRefused(f"it is {_kind(before.st_mode)}, not a regular file")
++    if before.st_size > max_bytes:
++        raise EvidenceRefused(f"it holds {before.st_size} bytes, more than the {max_bytes} allowed")
++    flags = (
++        os.O_RDONLY
++        | getattr(os, "O_NONBLOCK", 0)  # opening a FIFO swapped in now cannot wait for a writer
++        | getattr(os, "O_NOFOLLOW", 0)
++        | getattr(os, "O_BINARY", 0)
++    )
++    try:
++        fd = os.open(path, flags)
++    except OSError as exc:
++        raise EvidenceRefused(f"it cannot be opened ({type(exc).__name__})") from None
++    try:
++        opened = os.fstat(fd)
++        same = (opened.st_dev, opened.st_ino) == (before.st_dev, before.st_ino) or not (
++            opened.st_ino and before.st_ino
++        )
++        if not stat.S_ISREG(opened.st_mode) or not same:
++            raise EvidenceRefused("it was replaced while it was opened")
++        chunks: list[bytes] = []
++        total = 0
++        while True:
++            if left() <= 0:
++                raise EvidenceRefused("the session's time ran out while it was read")
++            chunk = os.read(fd, min(READ_CHUNK, max_bytes + 1 - total))
++            if not chunk:
++                break
++            chunks.append(chunk)
++            total += len(chunk)
++            if total > max_bytes:
++                raise EvidenceRefused(f"it grew past the {max_bytes} bytes allowed while it was read")
++        return b"".join(chunks)
++    finally:
++        os.close(fd)
+ 
+ 
+-def _evidence_complete(path: Path, since_wall: float) -> bool:
+-    """The session wrote its own evidence manifest, after it started, and every capture in it was checked."""
++def _json_bounded(path: Path, *, max_bytes: int, left: Callable[[], float]) -> dict[str, Any]:
++    raw = read_bounded(path, max_bytes=max_bytes, left=left)
++    if left() < MIN_PARSE_S + len(raw) / PARSE_BYTES_PER_S:
++        raise EvidenceRefused(f"no time was left to read its {len(raw)} bytes")
++    try:
++        data = json.loads(raw)
++    except ValueError:
++        raise EvidenceRefused("it is not JSON") from None
++    if not isinstance(data, dict):
++        raise EvidenceRefused("it is not a JSON object")
++    return data
++
++
++def evidence_of_this_execution(
++    out_dir: Path, manifest: Path, execution_id: str, left: Callable[[], float]
++) -> tuple[bool, str]:
++    """Whether the session left a complete evidence manifest of its own (1.7.2, C2), and why or why not: a
++    regular file, of bounded size, read without blocking within the time left, naming this campaign, this
++    ledger and this execution, and marked complete."""
++    try:
++        ids = _json_bounded(manifest, max_bytes=MAX_MANIFEST_BYTES, left=left)
++    except EvidenceRefused as exc:
++        return False, f"the campaign manifest {manifest.name} could not be read: {exc}"
+     try:
+-        if path.stat().st_mtime < since_wall - 2.0:
+-            return False
+-        return json.loads(path.read_text(encoding="utf-8")).get("complete") is True
+-    except (OSError, ValueError, AttributeError):
+-        return False
++        data = _json_bounded(out_dir / EVIDENCE, max_bytes=MAX_EVIDENCE_BYTES, left=left)
++    except EvidenceRefused as exc:
++        return False, f"{EVIDENCE}: {exc}"
++    named = data.get("execution_id")
++    if named != execution_id:
++        shown = repr(named)[:80]
++        return False, f"{EVIDENCE} was not written by this execution (it names execution {shown})"
++    for key in ("campaign_id", "ledger_genesis_id"):
++        if data.get(key) != ids.get(key):
++            return False, f"{EVIDENCE} names another {key} than the campaign manifest"
++    if data.get("complete") is not True:
++        return False, f"{EVIDENCE} is not marked complete"
++    return True, f"{EVIDENCE} is this execution's own and complete"
++
++
++def _tail(log: IO[bytes]) -> str:
++    log.seek(0, os.SEEK_END)
++    size = log.tell()
++    log.seek(max(0, size - TAIL_BYTES))
++    return log.read().decode("utf-8", "replace")[-4000:]
+ 
+ 
+ def run_session(
+@@ -122,79 +234,94 @@ def run_session(
+     env: Mapping[str, str] | None = None,
+     recovery_reserve_s: float | None = None,
+ ) -> SupervisedSession:
+-    """Run one session's command so that all of it, its kill, its reap and its recovery included, ends
+-    ``hard_end_s`` seconds after it starts (1.7.1, C2). The command has the hard end less the recovery's
+-    reserve.
++    """Run one session's command so that all of it, the end of its process tree, the reading of its
++    evidence and its recovery included, ends ``hard_end_s`` seconds after it starts, within
++    :data:`TOLERANCE_S` (1.7.1 and 1.7.2, C2). The command has the hard end less the recovery's reserve.
+ 
+     A recovery runs when the session was killed, ended with an error, or left no complete evidence manifest of
+-    its own."""
++    its own (this execution's)."""
+     t0 = time.monotonic()
+-    since_wall = time.time()
+     end = t0 + max(0.0, hard_end_s)
+     reserve = (
+         recovery_reserve(hard_end_s)
+         if recovery_reserve_s is None
+         else max(0.0, min(recovery_reserve_s, hard_end_s))
+     )
+-    budget = max(0.0, hard_end_s - reserve)
++    command_end = t0 + max(0.0, hard_end_s - reserve)
+ 
+     def left() -> float:
+         return end - time.monotonic()
+ 
+-    proc = subprocess.Popen(
+-        list(command),
+-        cwd=cwd,
+-        env=None if env is None else dict(env),
+-        stdout=subprocess.PIPE,
+-        stderr=subprocess.STDOUT,
+-        start_new_session=sys.platform != "win32",
+-    )
+-    killed, reaped = False, True
++    execution_id = uuid.uuid4().hex
++    session_env = dict(os.environ if env is None else env)
++    session_env[EXECUTION_ENV] = execution_id
+     problems: list[str] = []
+-    out = b""
+-    try:
+-        out, _ = proc.communicate(timeout=budget)
+-    except subprocess.TimeoutExpired:
+-        killed = True
+-        problems += _kill_tree(proc, _step(left()))
++    with tempfile.TemporaryFile() as log:
++        tree = ProcessTree.start(command, cwd=cwd, env=session_env, stdout=log)
+         try:
+-            out, _ = proc.communicate(timeout=_step(left()))
+-        except subprocess.TimeoutExpired:
+-            reaped = False
++            returncode = tree.wait(command_end - time.monotonic())
++            killed = returncode is None
++            ended = tree.end(_step(left()))
++        finally:
++            tree.close()
++        if killed:
++            returncode = tree.proc.poll()
++        elif ended["left_running"]:
+             problems.append(
+-                "the killed session had not exited when its reap's time ran out: it was not reaped, and the "
+-                "recovery ran without waiting for it"
++                "the session exited and left processes running; they were killed with it before anything "
++                "else was done"
+             )
+-    returncode = proc.poll()
++        problems += ended["problems"]
++        stdout_tail = _tail(log)
+     session = SupervisedSession(
+         returncode=returncode,
+         killed=killed,
+         elapsed_s=0.0,
+-        stdout_tail=(out or b"").decode("utf-8", "replace")[-4000:],
+-        reaped=reaped,
++        stdout_tail=stdout_tail,
++        reaped=bool(ended["reaped"]),
+         recovery_reserve_s=round(reserve, 3),
+         problems=problems,
++        execution_id=execution_id,
++        tree=ended,
+     )
+-    evidence = Path(out_dir) / EVIDENCE
+-    if killed or returncode != 0 or not _evidence_complete(evidence, since_wall):
+-        if killed:
+-            reason = (
+-                f"killed by the supervisor {budget:.1f} s after its start, before the session's hard end "
+-                f"({hard_end_s:.1f} s): the last {reserve:.1f} s are kept for this recovery"
++    reason: str | None
++    if killed:
++        session.evidence = {"accepted": False, "why": "not read: the session was killed"}
++        if not session.reaped:
++            problems.append(
++                "the killed session had not exited when its reap's time ran out: it was not reaped, and the "
++                "recovery ran without waiting for it"
+             )
+-        elif returncode != 0:
+-            reason = f"the session ended with exit code {returncode}"
+-        else:
+-            reason = "the session ended without a complete evidence manifest of its own"
+-        session.recovery = _recover_in_child(manifest, out_dir, retailer, reason=reason, seconds=left())
++        reason = (
++            f"killed by the supervisor {hard_end_s - reserve:.1f} s after its start, before the session's "
++            f"hard end ({hard_end_s:.1f} s): the last {reserve:.1f} s are kept for this recovery"
++        )
++    elif returncode != 0:
++        session.evidence = {
++            "accepted": False,
++            "why": f"not read: the session ended with exit code {returncode}",
++        }
++        reason = f"the session ended with exit code {returncode}"
++    else:
++        accepted, why = evidence_of_this_execution(Path(out_dir), Path(manifest), execution_id, left)
++        session.evidence = {"accepted": accepted, "why": why}
++        reason = (
++            None if accepted else f"the session ended without a complete evidence manifest of its own: {why}"
++        )
++    if reason is not None:
++        session.recovery = _recover_in_child(
++            manifest, out_dir, retailer, reason=reason, end=end, execution_id=execution_id
++        )
+     session.elapsed_s = round(time.monotonic() - t0, 3)
+     return session
+ 
+ 
+ def _recover_in_child(
+-    manifest: Path, out_dir: Path, retailer: str, *, reason: str, seconds: float
++    manifest: Path, out_dir: Path, retailer: str, *, reason: str, end: float, execution_id: str
+ ) -> dict[str, Any]:
+-    """The recovery in its own process, ended by ``seconds`` from now whatever happens in it (1.7.1, C2)."""
++    """The recovery in its own process, ended by ``end`` (on the monotonic clock) whatever happens in it
++    (1.7.1; 1.7.2: the end is passed on the monotonic clock, which a wall-clock jump cannot move)."""
++    seconds = end - time.monotonic()
+     if seconds <= RECOVERY_MARGIN_S:
+         return {
+             "completed": False,
+@@ -204,7 +331,6 @@ def _recover_in_child(
+                 "the rows and files stay as the session left them, their money held, for the next recovery"
+             ],
+         }
+-    until = time.time() + seconds - RECOVERY_MARGIN_S
+     command = [
+         sys.executable,
+         "-I",
+@@ -216,12 +342,14 @@ def _recover_in_child(
+         retailer,
+         "--reason",
+         reason,
+-        "--until",
+-        repr(until),
++        "--until-monotonic",
++        repr(end - RECOVERY_MARGIN_S),
++        "--execution-id",
++        execution_id,
+     ]
+-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    proc = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+     try:
+-        out, err = proc.communicate(timeout=max(MIN_STEP_S, seconds - RECOVERY_KILL_S))
++        out, err = proc.communicate(timeout=max(MIN_STEP_S, end - time.monotonic() - RECOVERY_KILL_S))
+     except subprocess.TimeoutExpired:
+         proc.kill()
+         try:
+@@ -253,21 +381,28 @@ def _recover_in_child(
+ 
+ 
+ def recover_session(
+-    manifest: Path, out_dir: Path, retailer: str, *, reason: str, until: float | None = None
++    manifest: Path,
++    out_dir: Path,
++    retailer: str,
++    *,
++    reason: str,
++    until_monotonic: float | None = None,
++    execution_id: str | None = None,
+ ) -> dict[str, Any]:
+     """After a session that did not end by itself: what it left, made safe and written down.
+ 
+-    ``until`` (seconds since the epoch; None: no bound) bounds all of it (1.7.1, C2): each wait for the
+-    ledger's lock ends by then, less the time kept to write the manifest. What could not be done is listed in
+-    ``problems`` and ``completed`` is False; a row not marked keeps its money held for the next recovery."""
++    ``until_monotonic`` (on the monotonic clock; None: no bound) bounds all of it (1.7.1; 1.7.2: monotonic):
++    each wait for the ledger's lock ends by then, less the time kept to write the manifest. What could not be
++    done is listed in ``problems`` and ``completed`` is False; a row not marked keeps its money held for the
++    next recovery. ``execution_id`` names the run recovered, in the manifest written."""
+ 
+     def time_left() -> float:
+-        return float("inf") if until is None else until - time.time()
++        return float("inf") if until_monotonic is None else until_monotonic - time.monotonic()
+ 
+     def ledger_time() -> float:
+         return time_left() - FINAL_WRITE_S
+ 
+-    bound: Callable[[], float] | None = None if until is None else ledger_time
++    bound: Callable[[], float] | None = None if until_monotonic is None else ledger_time
+     problems: list[str] = []
+     led = ledger_mod.open_from_manifest(manifest, time_left=bound)
+     try:
+@@ -289,6 +424,7 @@ def recover_session(
+         data: dict[str, Any] = {
+             "campaign_id": led.campaign_id,
+             "ledger_genesis_id": led.genesis_id,
++            "execution_id": execution_id,
+             "offline": led.offline,
+             "complete": False,
+             "ended_by": reason,
+@@ -327,8 +463,11 @@ def recover_session(
+ def main(argv: Sequence[str] | None = None) -> int:
+     """The supervisor's recovery in its own process (1.7.1), printing its result as one JSON line::
+ 
+-    python -I -m classic_probe.supervisor recover MANIFEST OUT_DIR RETAILER --reason TEXT --until EPOCH
+-    """
++    python -I -m classic_probe.supervisor recover MANIFEST OUT_DIR RETAILER --reason TEXT
++        [--until-monotonic SECONDS] [--execution-id ID]
++
++    ``--until-monotonic`` is a reading of the system-wide monotonic clock (``time.monotonic()``) at which the
++    recovery must have ended (1.7.2: not the wall clock)."""
+     parser = argparse.ArgumentParser(prog="classic_probe.supervisor")
+     sub = parser.add_subparsers(dest="command", required=True)
+     rec = sub.add_parser("recover", help="recover a session that did not end by itself (OFFLINE)")
+@@ -336,11 +475,17 @@ def main(argv: Sequence[str] | None = None) -> int:
+     rec.add_argument("out_dir", type=Path)
+     rec.add_argument("retailer")
+     rec.add_argument("--reason", required=True)
+-    rec.add_argument("--until", type=float, default=None)
++    rec.add_argument("--until-monotonic", type=float, default=None)
++    rec.add_argument("--execution-id", default=None)
+     args = parser.parse_args(argv)
+     try:
+         result = recover_session(
+-            args.manifest, args.out_dir, args.retailer, reason=args.reason, until=args.until
++            args.manifest,
++            args.out_dir,
++            args.retailer,
++            reason=args.reason,
++            until_monotonic=args.until_monotonic,
++            execution_id=args.execution_id,
+         )
+     except Exception as exc:  # noqa: BLE001 - reported to the supervisor, which records it
+         print(
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/transport.py b/headless/oxylabs-classic-probe/src/classic_probe/transport.py
+index dea81cd..9dc0921 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/transport.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/transport.py
+@@ -21,6 +21,19 @@ folder), with its status beside it, both synced and renamed durably (networker.p
+ sanitized copy from there; a crash before that copy is kept loses nothing, because the recovery keeps it from
+ these files (captures.py). A body cut by a deadline, an error or a kill is kept as ``dispatch_NNN.partial``
+ and reported with its length and SHA-256 (:attr:`TransportFailed.partial`), never as an answer.
++
++1.7.2 corrections (the client's review of 1.7.1, finding C4):
++
++- a body shorter than the length its answer declared is partial (networker.py), and this transport checks it
++  again (:func:`declared_shortfall`): an answer is returned only when its body is whole;
++- a kill no longer replaces what the worker had already written. When the worker's kill comes after it wrote
++  its status (it was stopping, or renaming its body), the transport reads that status: a whole answer killed
++  between its status and its final rename is finished (renamed into place after its hash is checked) and
++  returned, never turned into a partial; a partial the worker had kept is described from the status, which is
++  never overwritten. 1.7.1 renamed such a whole body to ``.partial`` and wrote ``Killed`` over its status, and
++  reported a kept partial as nothing (the race the drip test met on Windows);
++- each request carries its dispatch's identity (:attr:`ProviderRequest.identity`), written into every status,
++  so that a recovery keeps only the files of its own dispatch.
+ """
+ 
+ from __future__ import annotations
+@@ -52,6 +65,9 @@ class ProviderRequest:
+     query_string: str = ""  # e.g. type=raw,parsed
+     # 1.7.1 (C4): where the answer is written, by the dispatch's own number (the campaign's private folder)
+     raw_stem: str | None = None
++    # 1.7.2 (C4): the dispatch's identity (campaign, ledger genesis, number, step, attempt, payload hash),
++    # written into every status the worker leaves, so that a recovery keeps only its own dispatch's files
++    identity: Mapping[str, Any] | None = None
+ 
+     @property
+     def url(self) -> str:
+@@ -209,6 +225,7 @@ class IsolatedHttpTransport:
+             "max_body_bytes": self.limits.max_body_bytes,
+             "max_header_bytes": self.limits.max_header_bytes,
+             "loopback_stub": self.loopback_port is not None,
++            "identity": dict(request.identity) if request.identity else None,
+             **{k: os.fspath(v) for k, v in files.items()},
+         }
+         t0 = time.monotonic()
+@@ -220,44 +237,88 @@ class IsolatedHttpTransport:
+         )
+         self.workers_started += 1
+         self.last_pid = proc.pid
++        killed = False
++        out = b""
+         try:
+             out, _err = proc.communicate(json.dumps(spec).encode("utf-8"), timeout=allowance_s)
+         except subprocess.TimeoutExpired:
+             proc.kill()
++            killed = True
+             self.workers_killed += 1
+             try:
+-                proc.communicate(timeout=REAP_TIMEOUT_S)
++                out, _err = proc.communicate(timeout=REAP_TIMEOUT_S)
+             except subprocess.TimeoutExpired:  # pragma: no cover - a killed process that cannot be reaped
+                 pass
+-            raise TransportFailed(
+-                f"no answer within {allowance_s:.1f} s: the worker was killed and reaped (the provider may "
+-                "still run and charge the request)",
+-                sent=None,
+-                partial=_keep_after_kill(files),
+-            ) from None
+         finally:
+             if proc.poll() is None:  # pragma: no cover - communicate returned, so the worker has exited
+                 proc.kill()
+                 proc.wait(REAP_TIMEOUT_S)
+             self.last_returncode = proc.returncode
++        return self._outcome(out or b"", files, request, killed=killed, allowance_s=allowance_s, t0=t0)
++
++    def _outcome(
++        self,
++        out: bytes,
++        files: Mapping[str, Path],
++        request: ProviderRequest,
++        *,
++        killed: bool,
++        allowance_s: float,
++        t0: float,
++    ) -> ProviderResponse:
++        """What the exchange left, after the worker exited or was killed (1.7.2: one path for both). The
++        worker's own status, when it wrote one, says what happened; it is never overwritten."""
++        killed_note = (
++            f"no answer within {allowance_s:.1f} s: the worker was killed and reaped (the provider may still "
++            "run and charge the request)"
++        )
+         status = _read_status(out, files["status_path"])
+         if status is None:
++            partial = _keep_after_kill(files, identity=request.identity)
+             raise TransportFailed(
+-                "the worker gave no readable status", sent=None, partial=_keep_after_kill(files)
++                killed_note if killed else "the worker gave no readable status", sent=None, partial=partial
+             )
+         if not status.get("ok"):
+             sent = status.get("sent")
++            message = f"{status.get('error')}: {status.get('detail', '')}".strip(": ")
++            if killed:
++                message += f" ({killed_note})"
+             raise TransportFailed(
+-                f"{status.get('error')}: {status.get('detail', '')}".strip(": "),
+-                sent=False if sent is False else None,
++                message,
++                sent=False if sent is False else None,  # the worker's own account, written before any kill
+                 partial=_described_partial(status, files["partial_path"]),
+             )
+-        final = files["final_path"]
+-        data = final.read_bytes()[: self.limits.max_body_bytes]
+-        if hashlib.sha256(data).hexdigest() != status.get("sha256"):
++        # A whole answer (or one cut at the byte limit), under its final name, or still under its .part name
++        # when the worker was killed between its status and its rename (1.7.2: finished here, never lost).
++        final, part = files["final_path"], files["out_path"]
++        source = final if final.is_file() else part
++        try:
++            data = source.read_bytes()
++        except OSError:
++            raise TransportFailed(
++                f"the answer the worker described is not on disk ({final.name})", sent=None
++            ) from None
++        if len(data) > self.limits.max_body_bytes or hashlib.sha256(data).hexdigest() != status.get("sha256"):
+             raise TransportFailed(
+-                f"the answer on disk ({final.name}) does not match the worker's account of it", sent=None
++                f"the answer on disk ({source.name}) does not match the worker's account of it", sent=None
++            )
++        shortfall = declared_shortfall(status)
++        if shortfall:  # never whole when shorter than declared (the worker checks it first)
++            raise TransportFailed(
++                f"IncompleteBody: {shortfall} of the bytes the answer declared never came",
++                sent=None,
++                partial={
++                    "bytes": len(data),
++                    "sha256": hashlib.sha256(data).hexdigest(),
++                    "http_status": status.get("status"),
++                    "error": "IncompleteBody",
++                    "file": source.name,
++                    "complete": False,
++                    "declared_bytes": len(data) + shortfall,
++                },
+             )
++        if source == part:
++            durable.replace(part, final)
+         return ProviderResponse(
+             int(status["status"]),
+             data,
+@@ -268,6 +329,35 @@ class IsolatedHttpTransport:
+         )
+ 
+ 
++def declared_shortfall(status: Mapping[str, Any]) -> int:
++    """How many bytes an answer's own head declared that its body lacks (1.7.2, C4). 0 when nothing is
++    missing, when no length was declared (a chunked body, or one ended by the connection's close), when the
++    status has no body by definition (1xx, 204, 304), or when the body was cut at the byte limit (reported
++    as truncated). A status written before 1.7.2 has no ``declared_bytes``: its Content-Length header is
++    read."""
++    if status.get("truncated"):
++        return 0
++    code = int(status.get("status") or status.get("http_status") or 0)
++    if "declared_bytes" in status:
++        declared = status["declared_bytes"]
++    else:
++        if code in (204, 304) or 100 <= code < 200:
++            return 0
++        headers = {str(k).lower(): str(v) for k, v in status.get("headers") or []}
++        if "chunked" in headers.get("transfer-encoding", "").lower():
++            return 0
++        try:
++            declared = int(headers["content-length"])
++        except (KeyError, ValueError):
++            return 0
++    if declared is None:
++        return 0
++    got = status.get("body_bytes")
++    if got is None:
++        got = status.get("partial_bytes") or 0
++    return max(0, int(declared) - int(got))
++
++
+ def _read_status(out: bytes, status_path: Path) -> dict[str, Any] | None:
+     """The worker's status line, or the copy it wrote to disk when its output was lost."""
+     try:
+@@ -284,56 +374,73 @@ def _read_status(out: bytes, status_path: Path) -> dict[str, Any] | None:
+ 
+ 
+ def _described_partial(status: Mapping[str, Any], partial_path: Path) -> dict[str, Any] | None:
+-    if not status.get("partial_bytes"):
++    """The partial body a worker's status describes, or None when nothing of a body arrived. 1.7.2: an empty
++    body after the answer's head is described too (the status says ``partial_file``), with the length the head
++    declared; the file is checked against the status, and a difference is reported, never hidden."""
++    if not status.get("partial_bytes") and not status.get("partial_file"):
+         return None
+-    return {
+-        "bytes": int(status["partial_bytes"]),
+-        "sha256": str(status.get("partial_sha256")),
++    described: dict[str, Any] = {
++        "bytes": int(status.get("partial_bytes") or 0),
++        "sha256": str(status.get("partial_sha256") or hashlib.sha256(b"").hexdigest()),
+         "http_status": status.get("http_status"),
+         "error": status.get("error"),
+         "file": partial_path.name,
+         "complete": False,
+     }
++    if status.get("declared_bytes") is not None:
++        described["declared_bytes"] = int(status["declared_bytes"])
++    try:
++        data = partial_path.read_bytes()
++    except OSError:
++        described["file_problem"] = "the partial file is missing"
++    else:
++        if len(data) != described["bytes"] or hashlib.sha256(data).hexdigest() != described["sha256"]:
++            described["file_problem"] = "the partial file does not match its status"
++    return described
+ 
+ 
+-def _keep_after_kill(files: Mapping[str, Path]) -> dict[str, Any] | None:
+-    """A worker killed mid-body leaves its ``.part`` file: what arrived is kept as the dispatch's partial
+-    body, described by its length and SHA-256 (1.7.1, C4). An empty file holds nothing and is removed."""
+-    part = files["out_path"]
++def _keep_after_kill(
++    files: Mapping[str, Path], *, identity: Mapping[str, Any] | None = None
++) -> dict[str, Any] | None:
++    """A worker killed mid-body, before it wrote any status, leaves its ``.part`` file: what arrived is kept
++    as the dispatch's partial body, described by its length and SHA-256 (1.7.1, C4). An empty file holds
++    nothing and is removed. 1.7.2: a worker killed after it kept its partial and before its status leaves the
++    ``.partial`` file alone: it is described as found. A status the worker wrote is never replaced."""
++    part, kept = files["out_path"], files["partial_path"]
+     try:
+         data = part.read_bytes()
+     except OSError:
+-        return None
+-    if not data:
+-        _unlink(os.fspath(part))
+-        return None
+-    durable.replace(part, files["partial_path"])
++        try:
++            data = kept.read_bytes()
++        except OSError:
++            return None
++    else:
++        if not data:
++            _unlink(os.fspath(part))
++            return None
++        durable.replace(part, kept)
+     described = {
+         "bytes": len(data),
+         "sha256": hashlib.sha256(data).hexdigest(),
+         "http_status": None,
+         "error": "Killed",
+-        "file": files["partial_path"].name,
++        "file": kept.name,
+         "complete": False,
+     }
+-    durable.write(
+-        files["status_path"],
+-        (
+-            json.dumps(
+-                {
+-                    "ok": False,
+-                    "error": "Killed",
+-                    "sent": None,
+-                    "partial_bytes": len(data),
+-                    "partial_sha256": described["sha256"],
+-                    "partial_file": True,
+-                },
+-                sort_keys=True,
+-            )
+-            + "\n"
+-        ).encode(),
+-        private=True,
+-    )
++    if files["status_path"].exists():  # pragma: no cover - the caller reads such a status first
++        return described
++    status: dict[str, Any] = {
++        "ok": False,
++        "error": "Killed",
++        "sent": None,
++        "partial_bytes": len(data),
++        "partial_sha256": described["sha256"],
++        "partial_file": True,
++        "complete": False,
++    }
++    if identity:
++        status["identity"] = dict(identity)
++    durable.write(files["status_path"], (json.dumps(status, sort_keys=True) + "\n").encode(), private=True)
+     return described
+ 
+ 
+diff --git a/headless/oxylabs-classic-probe/tests/loopback_stub.py b/headless/oxylabs-classic-probe/tests/loopback_stub.py
+index 4f3054c..667a012 100644
+--- a/headless/oxylabs-classic-probe/tests/loopback_stub.py
++++ b/headless/oxylabs-classic-probe/tests/loopback_stub.py
+@@ -188,3 +188,34 @@ def endless(status: int = 200) -> Behaviour:
+ def gzip_bomb(decoded_bytes: int) -> Behaviour:
+     data = gzip.compress(b"\0" * decoded_bytes, compresslevel=9)
+     return respond(200, data, {"Content-Encoding": "gzip", "Content-Type": "application/json"})
++
++
++def short(status: int, declared: int, body: bytes) -> Behaviour:
++    """A body announced at ``declared`` bytes, of which ``body`` is sent before the connection is closed (the
++    client's review of 1.7.1, finding C4: Content-Length 100, the two bytes ``{}``, then a close)."""
++
++    def run(conn: Connection) -> None:
++        head = f"HTTP/1.1 {status} Stub\r\nContent-Length: {declared}\r\nConnection: close\r\n\r\n"
++        conn.send(head.encode("latin-1") + body)
++
++    return run
++
++
++def chunked_short(status: int, chunk_size: int, body: bytes) -> Behaviour:
++    """A chunked body whose first chunk announces ``chunk_size`` bytes, of which ``body`` is sent before the
++    connection is closed."""
++
++    def run(conn: Connection) -> None:
++        head = f"HTTP/1.1 {status} Stub\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
++        conn.send(head.encode("latin-1") + f"{chunk_size:x}\r\n".encode("ascii") + body)
++
++    return run
++
++
++def no_body(status: int) -> Behaviour:
++    """A status that has no body by definition (204, 304), sent without a Content-Length."""
++
++    def run(conn: Connection) -> None:
++        conn.send(f"HTTP/1.1 {status} Stub\r\nConnection: close\r\n\r\n".encode("latin-1"))
++
++    return run
+diff --git a/headless/oxylabs-classic-probe/tests/processes.py b/headless/oxylabs-classic-probe/tests/processes.py
+new file mode 100644
+index 0000000..4b388f7
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/processes.py
+@@ -0,0 +1,55 @@
++"""Whether a process has gone, for the tests that prove a worker or a session left nothing running (1.7.2).
++
++A process that was killed but not yet reaped by its parent (a zombie on Linux) has gone: it runs nothing and
++can send nothing.
++"""
++
++from __future__ import annotations
++
++import os
++import sys
++import time
++
++STILL_ACTIVE = 259  # GetExitCodeProcess: the process has not ended
++PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
++
++
++def gone(pid: int) -> bool:
++    if sys.platform == "win32":
++        import ctypes
++
++        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
++        handle = kernel32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
++        if not handle:
++            return True  # no such process any more
++        try:
++            code = ctypes.c_ulong()
++            if not kernel32.GetExitCodeProcess(handle, ctypes.byref(code)):
++                return False
++            return code.value != STILL_ACTIVE
++        finally:
++            kernel32.CloseHandle(handle)
++    try:
++        with open(f"/proc/{pid}/stat", "rb") as f:
++            state = f.read().rsplit(b")", 1)[1].split()[0]
++        return state in (b"Z", b"X")  # a zombie runs nothing: it only waits to be reaped
++    except FileNotFoundError:
++        return True
++    except OSError:
++        pass
++    try:
++        os.kill(pid, 0)
++    except ProcessLookupError:
++        return True
++    return False
++
++
++def wait_gone(pid: int, seconds: float) -> bool:
++    """True once ``pid`` has gone, False if it still runs after ``seconds``."""
++    end = time.monotonic() + seconds
++    while True:
++        if gone(pid):
++            return True
++        if time.monotonic() >= end:
++            return False
++        time.sleep(0.02)
+diff --git a/headless/oxylabs-classic-probe/tests/session_drill.py b/headless/oxylabs-classic-probe/tests/session_drill.py
+index b4e5f1d..19451d4 100644
+--- a/headless/oxylabs-classic-probe/tests/session_drill.py
++++ b/headless/oxylabs-classic-probe/tests/session_drill.py
+@@ -5,6 +5,8 @@
+ ``loopback``: the isolated worker against a stub on 127.0.0.1:<port>, with a 20 s request allowance.
+ ``loopback-crash-after-send``: the same, and the process dies once the answer is back, before its kept copy is
+ written (1.7.1, C4).
++``loopback-crash-on-failure``: the same, and the process dies as soon as the request fails (no answer, or a
++body cut short), before the failure is recorded anywhere (the client's review of 1.7.1, C4).
+ ``crash-after-reserve`` | ``crash-after-send`` | ``crash-after-capture-file`` | ``crash-after-index``: a
+ replay of saved answers whose process dies at that point, as a killed process would (exit 23, no cleanup).
+ """
+@@ -19,7 +21,14 @@ from typing import Any
+ 
+ from classic_probe import campaign, captures, checks, gates, ledger, money
+ from classic_probe.targets import Target
+-from classic_probe.transport import IsolatedHttpTransport, ProviderResponse, ReplayTransport, Transport
++from classic_probe.transport import (
++    IsolatedHttpTransport,
++    ProviderRequest,
++    ProviderResponse,
++    ReplayTransport,
++    Transport,
++    TransportFailed,
++)
+ from tests import fixture_builder as fb
+ from tests.conftest import SYNTHETIC_RATES
+ 
+@@ -45,13 +54,24 @@ def main() -> None:
+     led = ledger.open_from_manifest(manifest)
+     card = money.RateCard.load(SYNTHETIC_RATES)
+     tr: Transport
+-    if mode in ("loopback", "loopback-crash-after-send"):
+-        tr = IsolatedHttpTransport(
++    if mode in ("loopback", "loopback-crash-after-send", "loopback-crash-on-failure"):
++        isolated = IsolatedHttpTransport(
+             gates.Credentials("loopback-user", "loopback-password"),
+             work_dir=out / "work",
+             loopback_port=int(sys.argv[4]),
+         )
++        tr = isolated
+         timeout = 20.0
++        if mode == "loopback-crash-on-failure":
++            real_send = isolated.send
++
++            def send(request: ProviderRequest, allowance_s: float) -> ProviderResponse:
++                try:
++                    return real_send(request, allowance_s)
++                except TransportFailed:
++                    os._exit(23)  # as a killed process would: nothing of the failure is recorded
++
++            isolated.send = send  # type: ignore[method-assign]
+         if (
+             mode == "loopback-crash-after-send"
+         ):  # the answer arrived; the process dies before keeping its copy
+diff --git a/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py b/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py
+index 5c0d4b5..cb4bcee 100644
+--- a/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py
++++ b/headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py
+@@ -185,19 +185,22 @@ def test_c2_the_writes_after_an_answer_wait_for_the_lock_no_longer_than_the_sess
+ def test_c2_a_session_that_cannot_be_reaped_after_its_kill_is_still_recovered(
+     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+ ) -> None:
++    """1.7.2: the supervisor waits for the session with ``Popen.wait`` (its output goes to a file, no longer a
++    pipe read by ``communicate``), so the reap that does not end in time is made here at ``wait``: the first
++    wait is the session's run, the second the reap after its kill."""
+     manifest, out, _ = campaign_files(tmp_path)
+-    real = subprocess.Popen.communicate
++    real = subprocess.Popen.wait
+     sleeper = [sys.executable, "-c", "import time; time.sleep(60)"]
+     calls: list[float | None] = []
+ 
+-    def communicate(self: subprocess.Popen[bytes], input: Any = None, timeout: float | None = None) -> Any:
++    def wait(self: subprocess.Popen[bytes], timeout: float | None = None) -> Any:
+         if list(self.args) == sleeper:
+             calls.append(timeout)
+             if len(calls) == 2:  # the reap after the kill: the process does not go away in time
+                 raise subprocess.TimeoutExpired(self.args, timeout or 0.0)
+-        return real(self, input, timeout)
++        return real(self, timeout)
+ 
+-    monkeypatch.setattr(subprocess.Popen, "communicate", communicate)
++    monkeypatch.setattr(subprocess.Popen, "wait", wait)
+     session = supervisor.run_session(
+         sleeper, hard_end_s=6.0, manifest=manifest, out_dir=out, retailer="walmart", cwd=ROOT
+     )
+diff --git a/headless/oxylabs-classic-probe/tests/test_durable_evidence.py b/headless/oxylabs-classic-probe/tests/test_durable_evidence.py
+index 504808f..af07a2a 100644
+--- a/headless/oxylabs-classic-probe/tests/test_durable_evidence.py
++++ b/headless/oxylabs-classic-probe/tests/test_durable_evidence.py
+@@ -34,11 +34,30 @@ def sent_row(led: ledger.Ledger) -> int:
+     return seq
+ 
+ 
++def identity(led: ledger.Ledger, seq: int) -> dict[str, Any]:
++    """The dispatch identity a 1.7.2 request worker writes into its status (the campaign gives it)."""
++    row = next(r for r in led.rows() if r["seq"] == seq)
++    return {
++        "campaign_id": led.campaign_id,
++        "ledger_genesis_id": led.genesis_id,
++        "seq": seq,
++        "step": row["step"],
++        "attempt": row["attempt"],
++        "payload_sha256": row["payload_sha256"],
++    }
++
++
+ def raw_answer(
+-    store: captures.CaptureStore, seq: int, body: bytes, *, renamed: bool, digest: str = ""
++    store: captures.CaptureStore,
++    seq: int,
++    body: bytes,
++    *,
++    renamed: bool,
++    led: ledger.Ledger,
++    digest: str = "",
+ ) -> Path:
+     """What the request worker leaves on disk: the status, then the body under its final name (``renamed``)
+-    or still under its ``.part`` name (a crash between the two)."""
++    or still under its ``.part`` name (a crash between the two). 1.7.2: the status names its dispatch."""
+     stem = store.raw_stem(seq)
+     stem.parent.mkdir(parents=True, exist_ok=True)
+     status = {
+@@ -51,6 +70,10 @@ def raw_answer(
+         "sha256": digest or sha(body),
+         "elapsed_s": 0.2,
+         "redirect_location": None,
++        "complete": True,
++        "declared_bytes": len(body),
++        "framing": "content-length",
++        "identity": identity(led, seq),
+     }
+     stem.with_name(stem.name + ".status.json").write_text(json.dumps(status), encoding="utf-8")
+     stem.with_name(stem.name + (".body" if renamed else ".body.part")).write_bytes(body)
+@@ -64,7 +87,7 @@ def test_an_answer_whose_worker_died_before_its_final_rename_is_kept_without_a_r
+     seq = sent_row(led)
+     store = captures.CaptureStore(tmp_path / "out", "walmart")
+     body = fb.complete()[STEP][0][1]
+-    stem = raw_answer(store, seq, body, renamed=False)
++    stem = raw_answer(store, seq, body, renamed=False, led=led)
+     found = store.recover(led)
+     assert found["kept_from_raw"] == [seq] and found["indexed_on_recovery"] == [seq], found
+     assert stem.with_name(stem.name + ".body").read_bytes() == body  # renamed into place, never deleted
+@@ -81,7 +104,7 @@ def test_a_raw_body_that_does_not_match_its_status_is_refused_and_never_indexed(
+     led = make_ledger()
+     seq = sent_row(led)
+     store = captures.CaptureStore(tmp_path / "out", "walmart")
+-    stem = raw_answer(store, seq, b'{"results": []}', renamed=True, digest="0" * 64)
++    stem = raw_answer(store, seq, b'{"results": []}', renamed=True, led=led, digest="0" * 64)
+     found = store.recover(led)
+     assert found["indexed_on_recovery"] == [] and led.captures() == []
+     assert found["refused"] == [{"file": stem.name + ".body", "why": "its body does not match its status"}]
+diff --git a/headless/oxylabs-classic-probe/tests/test_isolated_transport.py b/headless/oxylabs-classic-probe/tests/test_isolated_transport.py
+index 902cded..5eb4c03 100644
+--- a/headless/oxylabs-classic-probe/tests/test_isolated_transport.py
++++ b/headless/oxylabs-classic-probe/tests/test_isolated_transport.py
+@@ -6,8 +6,11 @@ process keeps its network closed (tests/conftest.py).
+ 
+ from __future__ import annotations
+ 
++import dataclasses
+ import gzip
++import hashlib
+ import json
++import signal
+ import subprocess
+ import sys
+ import time
+@@ -28,6 +31,7 @@ from classic_probe.transport import (
+     decode_body,
+ )
+ from tests import loopback_stub as stub
++from tests import processes
+ from tests.test_campaign import WALMART
+ 
+ CREDS = gates.Credentials("loopback-user", "loopback-password")
+@@ -103,14 +107,78 @@ def test_a_server_that_never_answers_is_killed_and_reaped_at_the_deadline(tmp_pa
+ 
+ 
+ def test_a_body_dripped_past_the_deadline_is_cut_off(tmp_path: Path) -> None:
++    """Each byte comes within the socket's timeout, so only the deadline bounds this exchange. The worker
++    stops itself at its own deadline, a little before the request's; when its start was slow, the transport's
++    kill at the request's deadline comes first. Either way the call ends by the request's allowance, the
++    worker has exited and was reaped, and what arrived is kept as partial, never as an answer.
++
++    1.7.2 (the client's review of 1.7.1): the 1.7.1 test required the kill (``workers_killed == 1``). On Linux
++    the worker starts fast and ends itself first, so that test failed there although the exchange was bounded;
++    the kill of a worker that does not end itself is tested on its own below."""
++    allowance = 1.5
+     with stub.Stub(stub.drip(10_000, 0.05)) as s:
+         tr = isolated(tmp_path, s.port)
+         t0 = time.monotonic()
+         with pytest.raises(TransportFailed) as exc:
+-            tr.send(REQUEST, 1.5)
+-    # Each byte comes within the socket's timeout, so only the kill bounds this exchange.
+-    assert time.monotonic() - t0 < 4.0 and exc.value.sent is None
++            tr.send(REQUEST, allowance)
++        took = time.monotonic() - t0
++    assert 1.0 <= took < allowance + 0.5, took  # it waited for the deadline, and no longer
++    assert exc.value.sent is None  # the request went: its outcome is unknown
++    assert tr.workers_started == 1 and tr.last_returncode is not None  # the worker has exited and was reaped
++    assert processes.gone(tr.last_pid or 0)
++    if tr.workers_killed == 0:
++        assert tr.last_returncode == 0 and "DeadlinePassed" in str(exc.value)  # it ended itself
++    else:
++        assert tr.workers_killed == 1 and tr.last_returncode != 0  # the transport's kill came first
++    partial = exc.value.partial
++    assert partial is not None and partial["bytes"] > 0 and partial["complete"] is False, partial
++
++
++HUNG_WORKER = """
++import json, sys, time
++spec = json.loads(sys.stdin.buffer.read())
++with open(spec["out_path"], "wb") as f:
++    f.write(b'{"results": [')
++time.sleep(120)
++"""
++
++
++def test_a_worker_that_hangs_past_its_deadline_is_killed_and_reaped(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """A worker that never ends by itself (here: one that wrote part of a body, then hangs): the transport
++    kills it at the request's deadline and reaps it, and what it wrote is kept as partial (1.7.2)."""
++    real = subprocess.Popen
++
++    def hung(args: Any, **kw: Any) -> Any:
++        assert list(args) == [sys.executable, "-I", "-m", "classic_probe.networker"]
++        return real([sys.executable, "-I", "-c", HUNG_WORKER], **kw)
++
++    monkeypatch.setattr(transport.subprocess, "Popen", hung)
++    stem = tmp_path / "raw" / "dispatch_001"
++    tr = isolated(tmp_path, 9)  # nothing listens there; this worker never connects
++    allowance = 1.5
++    t0 = time.monotonic()
++    with pytest.raises(TransportFailed) as exc:
++        tr.send(dataclasses.replace(REQUEST, raw_stem=str(stem)), allowance)
++    took = time.monotonic() - t0
++    assert allowance <= took < allowance + 1.0, took  # killed at the deadline
+     assert tr.workers_killed == 1 and tr.last_returncode is not None  # killed, then reaped
++    if sys.platform != "win32":
++        assert tr.last_returncode == -signal.SIGKILL
++    assert processes.gone(tr.last_pid or 0)
++    assert exc.value.sent is None
++    kept = b'{"results": ['
++    assert exc.value.partial == {
++        "bytes": len(kept),
++        "sha256": hashlib.sha256(kept).hexdigest(),
++        "http_status": None,
++        "error": "Killed",
++        "file": "dispatch_001.partial",
++        "complete": False,
++    }
++    assert stem.with_name("dispatch_001.partial").read_bytes() == kept
++    assert not stem.with_name("dispatch_001.body").exists()
+ 
+ 
+ @pytest.mark.parametrize("status", [200, 500])
+diff --git a/headless/oxylabs-classic-probe/tests/test_review_of_171.py b/headless/oxylabs-classic-probe/tests/test_review_of_171.py
+new file mode 100644
+index 0000000..4e50bb8
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_review_of_171.py
+@@ -0,0 +1,622 @@
++"""Reproductions of the client's review of probe 1.7.1 (findings C4 and C2), kept as tests.
++
++Each test named ``test_c4_...`` or ``test_c2_...`` was run first against the frozen code of release 1.7.1
++(``src`` tree 917932c45a7a06c3da5b8b7e8dc5d57e482f5b89, probe tree 7adfea8fbd8e562fd72444891e62e3029d544a5f,
++commit 68ff3d8), with these tests and their helpers copied in, and failed there by its output; release
++1.7.2 makes it pass. A test named ``..._control_...`` passes on both: it pins what the correction must keep.
++
++- C4, a body cut short: a server declares ``Content-Length: 100``, writes the two bytes ``{}`` and closes.
++  1.7.1 returned it as a whole answer (ok, not truncated, renamed to its final ``.body``), on success and
++  error alike, and the campaign parsed it. ``http.client``'s ``read1`` reports such an end as an empty read,
++  not as an error, and 1.7.1 took the empty read for the end of the body.
++- C4, found while correcting the drip test the client saw fail on Linux: when a worker was killed after it had
++  renamed its file (a whole answer to ``.body``, or the part that came to ``.partial``), 1.7.1 looked only for
++  the worker's unrenamed ``.part`` file, so it reported a whole answer as lost and a kept partial as absent.
++- C2, the whole session's deadline: on Linux the supervisor waited 1.10 s for a FIFO put at the evidence path,
++  despite a hard end of 0.30 s; and it accepted the complete evidence a previous run left in the same folder
++  when a new command exited 0 without writing any. A process the session left behind kept running after it,
++  and the recovery's own bound was read from the wall clock.
++
++OFFLINE: every connection is made by a child process (a request worker, or a process a test session leaves
++behind) to a stub on 127.0.0.1.
++"""
++
++from __future__ import annotations
++
++import dataclasses
++import hashlib
++import json
++import subprocess
++import sys
++import time
++import types
++from decimal import Decimal
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import campaign, captures, ledger, money, supervisor
++from classic_probe import transport as transport_mod
++from classic_probe.transport import (
++    BodyTooLarge,
++    IsolatedHttpTransport,
++    ProviderRequest,
++    ProviderResponse,
++    ResponseLimits,
++    TransportFailed,
++    decode_body,
++)
++from tests import loopback_stub as stub
++from tests.conftest import reserve
++from tests.processes import wait_gone
++from tests.test_c2_c4_reproduction import CREDS, ROOT, LockHolder, campaign_files, drill
++from tests.test_campaign import WALMART
++
++# The stated tolerance (1.7.2): the supervisor returns within its hard end plus this, whatever the session
++# did (supervisor.TOLERANCE_S; kept here as a number, so the 1.7.1 code could run these tests).
++TOLERANCE_S = 0.5
++STEP = "walmart-search-p1"
++REQUEST = ProviderRequest(STEP, {"source": "walmart_search", "query": "milk"}, "type=raw,parsed")
++GOOD = json.dumps({"results": [{"status_code": 200, "content": {}}]}).encode()
++
++
++def sha(data: bytes) -> str:
++    return hashlib.sha256(data).hexdigest()
++
++
++def isolated(tmp_path: Path, port: int, **kw: Any) -> IsolatedHttpTransport:
++    return IsolatedHttpTransport(CREDS, work_dir=tmp_path / "work", loopback_port=port, **kw)
++
++
++def files(stem: Path) -> dict[str, Path]:
++    return {s: stem.with_name(stem.name + s) for s in (".body", ".body.part", ".partial", ".status.json")}
++
++
++def exchange(tmp_path: Path, behaviour: stub.Behaviour, **kw: Any) -> tuple[ProviderResponse, Path]:
++    """One exchange through the isolated worker, its files named as a dispatch's are."""
++    stem = tmp_path / "raw" / "dispatch_001"
++    with stub.Stub(behaviour) as s:
++        response = isolated(tmp_path, s.port, **kw).send(
++            dataclasses.replace(REQUEST, raw_stem=str(stem)), 20.0
++        )
++    return response, stem
++
++
++def failed_exchange(tmp_path: Path, behaviour: stub.Behaviour, **kw: Any) -> tuple[TransportFailed, Path]:
++    stem = tmp_path / "raw" / "dispatch_001"
++    with stub.Stub(behaviour) as s:
++        tr = isolated(tmp_path, s.port, **kw)
++        with pytest.raises(TransportFailed) as exc:
++            tr.send(dataclasses.replace(REQUEST, raw_stem=str(stem)), 20.0)
++    return exc.value, stem
++
++
++# -- C4: a body shorter than its declared length is never an answer ---------------------------------------
++
++
++@pytest.mark.parametrize("status", [200, 500])
++def test_c4_a_body_shorter_than_its_declared_length_is_never_an_answer(tmp_path: Path, status: int) -> None:
++    exc, stem = failed_exchange(tmp_path, stub.short(status, 100, b"{}"))
++    f = files(stem)
++    assert not f[".body"].exists()  # never under the name of a whole answer
++    assert f[".partial"].read_bytes() == b"{}"  # what arrived is kept
++    recorded = json.loads(f[".status.json"].read_text("utf-8"))
++    assert recorded["ok"] is False and recorded["complete"] is False, recorded
++    assert recorded["declared_bytes"] == 100 and recorded["partial_bytes"] == 2, recorded
++    assert recorded["partial_sha256"] == sha(b"{}") and recorded["http_status"] == status, recorded
++    part = exc.partial
++    assert part is not None, "the part that arrived was not described"
++    assert (part["bytes"], part["sha256"], part["declared_bytes"]) == (2, sha(b"{}"), 100), part
++    assert part["http_status"] == status and part["complete"] is False, part
++    assert exc.sent is None  # the request went: its charge is unknown, never assumed free
++
++
++def test_c4_a_declared_body_of_which_nothing_came_is_never_an_answer(tmp_path: Path) -> None:
++    exc, stem = failed_exchange(tmp_path, stub.short(200, 100, b""))
++    f = files(stem)
++    assert not f[".body"].exists()
++    assert f[".partial"].read_bytes() == b""  # the answer's head came: an empty body is kept as what it is
++    recorded = json.loads(f[".status.json"].read_text("utf-8"))
++    assert recorded["ok"] is False and recorded["complete"] is False, recorded
++    assert (recorded["declared_bytes"], recorded["partial_bytes"]) == (100, 0), recorded
++    assert recorded["partial_sha256"] == sha(b""), recorded
++    assert exc.partial is not None and (exc.partial["bytes"], exc.partial["declared_bytes"]) == (0, 100)
++
++
++def test_c4_a_body_cut_short_below_its_byte_limit_is_partial_not_an_answer(tmp_path: Path) -> None:
++    """Declared above the byte limit, but only 50 bytes came before the close: the body ended early. It is
++    neither a whole answer nor a body cut at the limit."""
++    exc, stem = failed_exchange(
++        tmp_path, stub.short(200, 1000, b"x" * 50), limits=ResponseLimits(max_body_bytes=100)
++    )
++    assert exc.partial is not None and (exc.partial["bytes"], exc.partial["declared_bytes"]) == (50, 1000)
++    assert not files(stem)[".body"].exists()
++
++
++@pytest.mark.parametrize(("status", "body"), [(200, b"x" * 100), (500, b"{}")])
++def test_c4_control_a_body_of_exactly_its_declared_length_is_whole(
++    tmp_path: Path, status: int, body: bytes
++) -> None:
++    r, stem = exchange(tmp_path, stub.short(status, len(body), body))
++    assert (r.http_status, r.body, r.truncated) == (status, body, False)
++    f = files(stem)
++    assert f[".body"].read_bytes() == body and not f[".partial"].exists() and not f[".body.part"].exists()
++
++
++@pytest.mark.parametrize(
++    "behaviour",
++    [stub.no_body(204), stub.no_body(304), stub.respond(200, b"")],
++    ids=["204-no-content", "304-not-modified", "200-content-length-0"],
++)
++def test_c4_control_a_response_without_a_body_is_whole_and_empty(
++    tmp_path: Path, behaviour: stub.Behaviour
++) -> None:
++    r, stem = exchange(tmp_path, behaviour)
++    assert r.body == b"" and r.truncated is False
++    assert files(stem)[".body"].read_bytes() == b""
++
++
++def test_c4_control_a_body_of_exactly_the_byte_limit_is_whole(tmp_path: Path) -> None:
++    r, _ = exchange(tmp_path, stub.respond(200, b"y" * 100), limits=ResponseLimits(max_body_bytes=100))
++    assert (len(r.body), r.truncated) == (100, False)
++
++
++def test_c4_control_a_body_above_the_byte_limit_is_truncated_and_never_read(tmp_path: Path) -> None:
++    limits = ResponseLimits(max_body_bytes=100)
++    r, _ = exchange(tmp_path, stub.respond(200, b"z" * 1000), limits=limits)
++    assert (len(r.body), r.truncated) == (100, True)
++    with pytest.raises(BodyTooLarge):
++        decode_body(r, limits)
++
++
++def test_c4_control_a_chunked_body_cut_short_is_partial(tmp_path: Path) -> None:
++    exc, stem = failed_exchange(tmp_path, stub.chunked_short(200, 100, b"{}"))
++    assert exc.partial is not None and exc.partial["bytes"] == 2 and exc.partial["complete"] is False
++    assert not files(stem)[".body"].exists()
++
++
++def test_c4_a_campaign_keeps_a_short_body_as_partial_and_holds_its_money(
++    tmp_path: Path, make_ledger: Any, card: money.RateCard
++) -> None:
++    led = make_ledger()
++    with stub.Stub(stub.short(200, 100, b"{}")) as s:
++        tr = isolated(tmp_path, s.port)
++        result = campaign.Campaign(
++            led, tr, WALMART, card, out_dir=tmp_path / "out", request_timeout_s=20.0
++        ).run()
++        connections = len(s.connections)
++    assert led.captures() == [], "a body shorter than its declared length was indexed as an answer"
++    assert connections == 1  # nothing is fetched again
++    assert result.stop == "STOP_IN_FLIGHT_UNKNOWN", result.detail
++    [row] = led.rows()
++    assert row["state"] == ledger.IN_FLIGHT_UNKNOWN and row["reserved_usd"] == "0.0040"  # held
++    [event] = [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"]
++    detail = json.loads(event["detail"])
++    assert (detail["bytes"], detail["sha256"], detail["declared_bytes"]) == (2, sha(b"{}"), 100), detail
++    assert detail["complete"] is False and detail["seq"] == 1
++
++
++def test_c4_a_short_body_survives_a_crash_and_an_immediate_restart_without_a_refetch(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    with stub.Stub(stub.short(200, 100, b"{}")) as s:
++        done = subprocess.run(
++            drill(manifest, out, "loopback-crash-on-failure", str(s.port)),
++            cwd=ROOT,
++            capture_output=True,
++            timeout=120,
++            check=False,
++        )
++        first_connections = len(s.connections)
++    assert done.returncode == 23, (
++        "the session did not take the short body for a failure; it ended with exit code "
++        f"{done.returncode}: {done.stdout.decode('utf-8', 'replace')[-1500:]}"
++    )
++    assert first_connections == 1
++    recovered = supervisor.recover_session(
++        manifest, out, "walmart", reason="test: a crash after a short body"
++    )
++    assert recovered["capture_recovery"]["partial_recorded"] == [1], recovered
++    assert recovered["capture_recovery"]["kept_from_raw"] == [], recovered
++    raw = out / "private" / "raw"
++    before = {p.name: sha(p.read_bytes()) for p in sorted(raw.iterdir())}
++    assert "dispatch_001.body" not in before and before["dispatch_001.partial"] == sha(b"{}"), before
++
++    def check_first(led: ledger.Ledger) -> None:
++        assert led.captures() == [] or [c["seq"] for c in led.captures()] == [2]
++        row = led.rows()[0]
++        assert (
++            row["seq"] == 1 and row["state"] == ledger.IN_FLIGHT_UNKNOWN and row["reserved_usd"] == "0.0040"
++        )
++        [event] = [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"]  # recorded once
++        detail = json.loads(event["detail"])
++        assert (detail["seq"], detail["bytes"], detail["sha256"]) == (1, 2, sha(b"{}")), detail
++        assert detail["declared_bytes"] == 100 and detail["complete"] is False, detail
++
++    led = ledger.open_from_manifest(manifest)
++    try:
++        check_first(led)
++    finally:
++        led.close()
++    # An immediate restart in the same folder: a new dispatch number, the old files untouched, the money held.
++    with stub.Stub(stub.respond(200, GOOD)) as s2:
++        again = subprocess.run(
++            drill(manifest, out, "loopback", str(s2.port)),
++            cwd=ROOT,
++            capture_output=True,
++            timeout=120,
++            check=False,
++        )
++        assert again.returncode == 0, again.stderr.decode("utf-8", "replace")[-2000:]
++        assert len(s2.connections) == 1
++    after = {p.name: sha(p.read_bytes()) for p in sorted(raw.iterdir()) if p.name.startswith("dispatch_001")}
++    assert after == {k: v for k, v in before.items() if k.startswith("dispatch_001")}
++    assert (raw / "dispatch_002.body").read_bytes() == GOOD
++    led = ledger.open_from_manifest(manifest)
++    try:
++        assert [r["seq"] for r in led.rows()] == [1, 2]
++        check_first(led)
++        assert led.totals().committed_usd >= Decimal("0.0040")
++    finally:
++        led.close()
++
++
++def test_c4_a_raw_answer_shorter_than_its_declared_length_is_never_kept_as_whole(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    """A status that calls a body whole although its own headers declare more bytes than it has (as 1.7.1's
++    worker wrote for the short body above): the recovery records the body as partial and never indexes it."""
++    led = make_ledger()
++    seq = reserve(led, step=STEP)
++    led.mark_sent(seq)
++    [row] = led.rows()
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    stem = store.raw_stem(seq)
++    stem.parent.mkdir(parents=True)
++    status = {
++        "ok": True,
++        "status": 200,
++        "reason": "OK",
++        "headers": [["Content-Length", "100"], ["Content-Type", "application/json"]],
++        "body_bytes": 2,
++        "truncated": False,
++        "sha256": sha(b"{}"),
++        "elapsed_s": 0.1,
++        "redirect_location": None,
++        "identity": {
++            "campaign_id": led.campaign_id,
++            "ledger_genesis_id": led.genesis_id,
++            "seq": seq,
++            "step": row["step"],
++            "attempt": row["attempt"],
++            "payload_sha256": row["payload_sha256"],
++        },
++    }
++    files(stem)[".status.json"].write_text(json.dumps(status), encoding="utf-8")
++    files(stem)[".body"].write_bytes(b"{}")
++    found = store.recover(led)
++    assert found["kept_from_raw"] == [] and led.captures() == [], found
++    assert found["partial_recorded"] == [seq], found
++    assert files(stem)[".body"].read_bytes() == b"{}"  # evidence is kept as it was found
++    [event] = [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"]
++    assert json.loads(event["detail"])["declared_bytes"] == 100
++
++
++WHOLE_THEN_HANG = """
++import hashlib, json, sys, time
++spec = json.loads(sys.stdin.buffer.read())
++body = b'{"results": []}'
++with open(spec["out_path"], "wb") as f:
++    f.write(body)
++status = {
++    "ok": True, "status": 200, "reason": "OK", "headers": [["Content-Length", str(len(body))]],
++    "headers_truncated": False, "body_bytes": len(body), "truncated": False,
++    "sha256": hashlib.sha256(body).hexdigest(), "elapsed_s": 0.1, "redirect_location": None,
++    "complete": True, "declared_bytes": len(body), "framing": "content-length",
++}
++if spec.get("identity"):
++    status["identity"] = spec["identity"]
++with open(spec["status_path"], "w") as f:
++    f.write(json.dumps(status))
++time.sleep(120)
++"""
++
++PARTIAL_THEN_HANG = """
++import hashlib, json, sys, time
++spec = json.loads(sys.stdin.buffer.read())
++data = b'{"results": [{"conte'
++with open(spec["partial_path"], "wb") as f:
++    f.write(data)
++status = {
++    "ok": False, "error": "DeadlinePassed", "sent": True, "http_status": 200,
++    "partial_bytes": len(data), "partial_sha256": hashlib.sha256(data).hexdigest(), "partial_file": True,
++    "complete": False, "declared_bytes": 5000, "framing": "content-length",
++}
++if spec.get("identity"):
++    status["identity"] = spec["identity"]
++with open(spec["status_path"], "w") as f:
++    f.write(json.dumps(status))
++time.sleep(120)
++"""
++
++
++def fake_worker(monkeypatch: pytest.MonkeyPatch, code: str) -> None:
++    """The transport starts ``code`` in place of the request worker (it never connects anywhere)."""
++    real = subprocess.Popen
++
++    def start(args: Any, **kw: Any) -> Any:
++        assert list(args) == [sys.executable, "-I", "-m", "classic_probe.networker"]
++        return real([sys.executable, "-I", "-c", code], **kw)
++
++    monkeypatch.setattr(transport_mod.subprocess, "Popen", start)
++
++
++def test_c4_a_whole_answer_whose_worker_is_killed_before_its_final_rename_is_kept_whole(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The worker wrote the whole body and the status that describes it, then was killed before it gave the
++    body its final name. The answer is whole and paid for: it stays the answer, never a partial, and the
++    worker's status is never overwritten."""
++    fake_worker(monkeypatch, WHOLE_THEN_HANG)
++    stem = tmp_path / "raw" / "dispatch_001"
++    f = files(stem)
++    tr = isolated(tmp_path, 9)
++    try:
++        r = tr.send(dataclasses.replace(REQUEST, raw_stem=str(stem)), 1.5)
++    except TransportFailed as exc:
++        found = {p.name: p.stat().st_size for p in sorted(stem.parent.iterdir())}
++        status = json.loads(f[".status.json"].read_text("utf-8")) if f[".status.json"].exists() else None
++        pytest.fail(
++            f"a whole answer was reported as no answer ({exc}; partial {exc.partial}); files {found}; "
++            f"status now {status}"
++        )
++    assert tr.workers_killed == 1
++    assert (r.http_status, r.body, r.truncated) == (200, b'{"results": []}', False)
++    assert f[".body"].read_bytes() == b'{"results": []}'
++    assert not f[".partial"].exists() and not f[".body.part"].exists()
++    assert json.loads(f[".status.json"].read_text("utf-8"))["ok"] is True  # the worker's own status
++
++
++def test_c4_a_partial_the_worker_kept_before_its_kill_is_still_described(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The race the drip test met on Windows: the worker stopped at its own deadline, kept what had arrived as
++    partial and wrote its status; the transport's kill came before it exited."""
++    fake_worker(monkeypatch, PARTIAL_THEN_HANG)
++    stem = tmp_path / "raw" / "dispatch_001"
++    tr = isolated(tmp_path, 9)
++    with pytest.raises(TransportFailed) as exc:
++        tr.send(dataclasses.replace(REQUEST, raw_stem=str(stem)), 1.5)
++    data = b'{"results": [{"conte'
++    part = exc.value.partial
++    assert part is not None, "the partial body the worker had kept was not described"
++    assert (part["bytes"], part["sha256"], part["declared_bytes"]) == (len(data), sha(data), 5000), part
++    assert (part["http_status"], part["error"], part["complete"]) == (200, "DeadlinePassed", False), part
++    status = json.loads(files(stem)[".status.json"].read_text("utf-8"))
++    assert status["error"] == "DeadlinePassed"  # the worker's own status, never overwritten
++
++
++# -- C2: one deadline for the whole session, and only this session's evidence -----------------------------
++
++FIFO_SESSION = """
++import os, sys, time
++evidence, pid_file = sys.argv[1], sys.argv[2]
++os.makedirs(os.path.dirname(evidence), exist_ok=True)
++os.mkfifo(evidence)
++pid = os.fork()
++if pid == 0:
++    null = os.open(os.devnull, os.O_RDWR)
++    for fd in (0, 1, 2):
++        os.dup2(null, fd)
++    time.sleep(1.1)
++    with open(evidence, "w") as f:
++        f.write('{"complete": true}')
++    os._exit(0)
++with open(pid_file, "w") as f:
++    f.write(str(pid))
++"""
++
++
++@pytest.mark.skipif(
++    sys.platform == "win32",
++    reason="Windows has no FIFO in its file system (a named pipe lives under the pipe namespace, never at a "
++    "file's path), so nothing at the evidence path can hold an open; the same bound is tested on Windows "
++    "by the stale, left-behind and wall-clock tests below",
++)
++def test_c2_a_fifo_at_the_evidence_path_cannot_hold_the_supervisor_past_its_hard_end(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    pid_file = tmp_path / "writer.pid"
++    t0 = time.monotonic()
++    session = supervisor.run_session(
++        [sys.executable, "-I", "-c", FIFO_SESSION, str(out / "campaign_evidence.json"), str(pid_file)],
++        hard_end_s=0.30,
++        manifest=manifest,
++        out_dir=out,
++        retailer="walmart",
++        cwd=ROOT,
++    )
++    elapsed = time.monotonic() - t0
++    assert pid_file.is_file(), "the session ended before it made its FIFO: nothing was reproduced"
++    writer = int(pid_file.read_text())
++    assert elapsed < 0.30 + TOLERANCE_S, (
++        f"the supervisor returned {elapsed:.2f} s after its start; the session's hard end was 0.30 s"
++    )
++    assert wait_gone(writer, 0.5), "the writer the session left behind was still running"
++    assert session.recovery, "a FIFO was accepted as the session's evidence"
++
++
++def test_c2_a_previous_runs_complete_evidence_is_not_taken_for_this_sessions(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    ids = json.loads(manifest.read_text("utf-8"))
++    out.mkdir(parents=True)
++    previous = {
++        "complete": True,
++        "campaign_id": ids["campaign_id"],
++        "ledger_genesis_id": ids["ledger_genesis_id"],
++        "offline": True,
++        "execution_id": "an-earlier-execution",
++    }
++    (out / "campaign_evidence.json").write_text(json.dumps(previous), encoding="utf-8")
++    session = supervisor.run_session(
++        [sys.executable, "-I", "-c", "pass"],
++        hard_end_s=30.0,
++        manifest=manifest,
++        out_dir=out,
++        retailer="walmart",
++        cwd=ROOT,
++    )
++    assert not session.killed and session.returncode == 0
++    assert session.recovery, "the evidence an earlier run left in the folder was taken for this session's"
++    assert (out / "campaign_evidence.recovered.json").is_file()
++    assert json.loads((out / "campaign_evidence.json").read_text("utf-8")) == previous  # kept as it was
++
++
++LEFT_BEHIND = """
++import subprocess, sys
++port, pid_file = sys.argv[1], sys.argv[2]
++late = (
++    "import socket, sys, time\\n"
++    "time.sleep(1.0)\\n"
++    "s = socket.create_connection(('127.0.0.1', int(sys.argv[1])), 5)\\n"
++    "req = b'POST /v1/queries HTTP/1.1\\\\r\\\\nHost: late\\\\r\\\\n'\\n"
++    "s.sendall(req + b'Content-Length: 0\\\\r\\\\n\\\\r\\\\n')\\n"
++    "time.sleep(2.0)\\n"
++)
++p = subprocess.Popen(
++    [sys.executable, "-I", "-c", late, port],
++    stdin=subprocess.DEVNULL,
++    stdout=subprocess.DEVNULL,
++    stderr=subprocess.DEVNULL,
++)
++with open(pid_file, "w") as f:
++    f.write(str(p.pid))
++"""
++
++
++def test_c2_a_process_a_session_leaves_behind_is_killed_before_it_can_dispatch(tmp_path: Path) -> None:
++    """The session exits 0 at once, leaving a process that connects a second later (as a request worker
++    still running would): it must not outlive the session, whatever the session's exit."""
++    manifest, out, _ = campaign_files(tmp_path)
++    pid_file = tmp_path / "late.pid"
++    with stub.Stub(stub.hang) as s:
++        t0 = time.monotonic()
++        supervisor.run_session(
++            [sys.executable, "-I", "-c", LEFT_BEHIND, str(s.port), str(pid_file)],
++            hard_end_s=20.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        while time.monotonic() - t0 < 4.0:  # past the moment the process left behind would connect
++            time.sleep(0.05)
++        connections = len(s.connections)
++    assert pid_file.is_file()
++    late = int(pid_file.read_text())
++    assert connections == 0, "a process the session left behind connected after the session had ended"
++    assert wait_gone(late, 1.0), "the process the session left behind was still running"
++
++
++def test_c2_the_recovery_keeps_its_bound_when_the_wall_clock_jumps(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The supervisor's wall clock reads an hour ahead and the ledger's lock is held elsewhere: the recovery
++    must still end its own wait for the lock by the session's end (it says so), not be cut off by a kill."""
++    manifest, out, path = campaign_files(tmp_path)
++    real_time = time.time
++    shifted = types.SimpleNamespace(
++        time=lambda: real_time() + 3600.0,
++        monotonic=time.monotonic,
++        sleep=time.sleep,
++        perf_counter=time.perf_counter,
++    )
++    monkeypatch.setattr(supervisor, "time", shifted)
++    with LockHolder(path) as holder:
++        holder.take.set()
++        assert holder.taken.wait(10)
++        t0 = time.monotonic()
++        session = supervisor.run_session(
++            [sys.executable, "-I", "-c", "import time; time.sleep(60)"],
++            hard_end_s=6.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        elapsed = time.monotonic() - t0
++    assert session.killed and elapsed < 6.0 + TOLERANCE_S, elapsed
++    problems = " ".join(session.recovery.get("problems", []))
++    assert "lock" in problems, session.recovery
++    assert "was killed" not in problems, session.recovery
++
++
++def test_c2_control_a_stalled_request_ends_within_the_tolerance_and_nothing_dispatches_later(
++    tmp_path: Path,
++) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    with stub.Stub(stub.hang) as s:
++        t0 = time.monotonic()
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=5.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        returned = time.monotonic()
++        time.sleep(1.5)  # nothing may connect after the supervisor returned
++        connections = list(s.connections)
++    assert session.killed and returned - t0 < 5.0 + TOLERANCE_S, returned - t0
++    assert len(connections) == 1
++    assert connections[0].closed_at is not None and connections[0].closed_at <= returned + 0.25
++    led = ledger.open_from_manifest(manifest)
++    try:
++        [row] = led.rows()
++        assert row["state"] == ledger.IN_FLIGHT_UNKNOWN and row["reserved_usd"] == "0.0040"  # held
++    finally:
++        led.close()
++
++
++def test_c2_an_immediate_restart_in_the_same_folder_keeps_each_sessions_evidence_its_own(
++    tmp_path: Path,
++) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    with stub.Stub(stub.hang) as s:
++        first = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=5.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++    assert first.killed and first.recovery.get("rows_recovered_as_unknown") == 1, first.recovery
++    with stub.Stub(stub.respond(200, GOOD)) as s2:  # at once, in the same folder
++        second = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s2.port)),
++            hard_end_s=60.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++        assert len(s2.connections) == 1
++    assert not second.killed and second.returncode == 0 and second.recovery == {}, second
++    third = supervisor.run_session(  # at once again: a command that writes no evidence
++        [sys.executable, "-I", "-c", "pass"],
++        hard_end_s=30.0,
++        manifest=manifest,
++        out_dir=out,
++        retailer="walmart",
++        cwd=ROOT,
++    )
++    assert third.recovery, "the second session's evidence was taken for the third's"
++    led = ledger.open_from_manifest(manifest)
++    try:
++        rows = led.rows()
++        assert [r["seq"] for r in rows] == [1, 2]  # the restart did not reuse a dispatch number
++        assert rows[0]["state"] == ledger.IN_FLIGHT_UNKNOWN and rows[0]["reserved_usd"] == "0.0040"
++    finally:
++        led.close()
++    assert (out / "private" / "raw" / "dispatch_002.body").read_bytes() == GOOD
+diff --git a/headless/oxylabs-classic-probe/tests/test_supervisor_evidence.py b/headless/oxylabs-classic-probe/tests/test_supervisor_evidence.py
+new file mode 100644
+index 0000000..c734bbd
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_supervisor_evidence.py
+@@ -0,0 +1,188 @@
++"""How the 1.7.2 supervisor reads a session's evidence, and how a recovery checks a raw answer's identity (the
++client's review of 1.7.1, findings C2 and C4). OFFLINE: no connection is made, except the isolated worker's to
++a stub on 127.0.0.1 in the last test."""
++
++from __future__ import annotations
++
++import json
++import os
++import sys
++import time
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import captures, supervisor
++from classic_probe.supervisor import EvidenceRefused, read_bounded
++from tests import fixture_builder as fb
++from tests import loopback_stub as stub
++from tests.test_c2_c4_reproduction import ROOT, campaign_files, drill
++from tests.test_durable_evidence import STEP, raw_answer, sent_row
++
++
++def ten() -> float:
++    return 10.0
++
++
++def test_a_regular_file_is_read_and_anything_else_is_refused_with_why(tmp_path: Path) -> None:
++    f = tmp_path / "e.json"
++    f.write_bytes(b'{"a": 1}')
++    assert read_bounded(f, max_bytes=100, left=ten) == b'{"a": 1}'
++    with pytest.raises(EvidenceRefused, match="does not exist"):
++        read_bounded(tmp_path / "missing.json", max_bytes=100, left=ten)
++    folder = tmp_path / "folder.json"
++    folder.mkdir()
++    with pytest.raises(EvidenceRefused, match="a directory"):
++        read_bounded(folder, max_bytes=100, left=ten)
++    with pytest.raises(EvidenceRefused, match="more than the 4 allowed"):
++        read_bounded(f, max_bytes=4, left=ten)
++    with pytest.raises(EvidenceRefused, match="time ran out"):
++        read_bounded(f, max_bytes=100, left=lambda: 0.0)
++
++
++@pytest.mark.skipif(
++    sys.platform == "win32",
++    reason="Windows has no FIFO in its file system (see test_review_of_171.py); the refusal of a directory "
++    "and of an oversized file above runs on Windows",
++)
++def test_a_fifo_is_refused_at_once_without_waiting_for_a_writer(tmp_path: Path) -> None:
++    fifo = tmp_path / "campaign_evidence.json"
++    os.mkfifo(fifo)
++    t0 = time.monotonic()
++    with pytest.raises(EvidenceRefused, match="a FIFO"):
++        read_bounded(fifo, max_bytes=100, left=ten)
++    assert time.monotonic() - t0 < 0.2
++
++
++@pytest.mark.skipif(
++    sys.platform == "win32",
++    reason="making a symbolic link on Windows needs a privilege a normal account lacks; Windows links are "
++    "refused by the same lstat test",
++)
++def test_a_link_at_the_evidence_path_is_refused_even_to_a_complete_manifest(tmp_path: Path) -> None:
++    real = tmp_path / "elsewhere.json"
++    real.write_text('{"complete": true}', encoding="utf-8")
++    link = tmp_path / "campaign_evidence.json"
++    link.symlink_to(real)
++    with pytest.raises(EvidenceRefused, match="a link"):
++        read_bounded(link, max_bytes=100, left=ten)
++
++
++def test_evidence_is_taken_only_when_it_names_this_execution_and_this_campaign_and_is_complete(
++    tmp_path: Path,
++) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    ids = json.loads(manifest.read_text("utf-8"))
++    out.mkdir()
++    path = out / "campaign_evidence.json"
++
++    def check(**changes: Any) -> tuple[bool, str]:
++        data = {
++            "campaign_id": ids["campaign_id"],
++            "ledger_genesis_id": ids["ledger_genesis_id"],
++            "execution_id": "run-2",
++            "complete": True,
++            **changes,
++        }
++        path.write_text(json.dumps(data), encoding="utf-8")
++        return supervisor.evidence_of_this_execution(out, manifest, "run-2", ten)
++
++    assert check() == (True, "campaign_evidence.json is this execution's own and complete")
++    accepted, why = check(execution_id="run-1")
++    assert not accepted and "not written by this execution" in why and "'run-1'" in why
++    accepted, why = check(execution_id=None)
++    assert not accepted and "not written by this execution" in why
++    assert check(campaign_id="another")[0] is False
++    assert check(ledger_genesis_id="another")[0] is False
++    accepted, why = check(complete=False)
++    assert not accepted and "not marked complete" in why
++    path.write_text("[1, 2]", encoding="utf-8")
++    assert supervisor.evidence_of_this_execution(out, manifest, "run-2", ten) == (
++        False,
++        "campaign_evidence.json: it is not a JSON object",
++    )
++    path.write_text("{not json", encoding="utf-8")
++    assert supervisor.evidence_of_this_execution(out, manifest, "run-2", ten)[1].endswith("it is not JSON")
++
++
++def test_a_session_is_given_its_execution_id_and_its_evidence_names_it(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    good = json.dumps({"results": [{"status_code": 200, "content": {}}]}).encode()
++    with stub.Stub(stub.respond(200, good)) as s:
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=60.0,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++    assert len(session.execution_id) == 32 and session.recovery == {}, session
++    assert session.evidence == {
++        "accepted": True,
++        "why": "campaign_evidence.json is this execution's own and complete",
++    }
++    evidence = json.loads((out / "campaign_evidence.json").read_text("utf-8"))
++    assert evidence["execution_id"] == session.execution_id
++    assert session.tree["gone"] is True and session.tree["left_running"] is False, session.tree
++    status = json.loads((out / "private" / "raw" / "dispatch_001.status.json").read_text("utf-8"))
++    assert status["identity"]["seq"] == 1 and status["identity"]["campaign_id"] == evidence["campaign_id"]
++    assert status["complete"] is True and status["declared_bytes"] == len(good)
++
++
++def test_a_raw_answer_of_another_dispatch_or_without_an_identity_is_refused_and_left_as_found(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    led = make_ledger()
++    seq = sent_row(led)
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    body = fb.complete()[STEP][0][1]
++    stem = raw_answer(store, seq, body, renamed=True, led=led)
++    status_path = stem.with_name(stem.name + ".status.json")
++    status = json.loads(status_path.read_text("utf-8"))
++    status["identity"]["campaign_id"] = "another-campaign"
++    status["identity"]["attempt"] = 2
++    status_path.write_text(json.dumps(status), encoding="utf-8")
++    found = store.recover(led)
++    assert found["kept_from_raw"] == [] and led.captures() == [], found
++    assert found["refused"] == [
++        {
++            "file": status_path.name,
++            "why": "its identity is not this dispatch's (campaign_id, attempt differ)",
++        }
++    ]
++    del status["identity"]  # as a 1.7.1 worker wrote it
++    status_path.write_text(json.dumps(status), encoding="utf-8")
++    found = store.recover(led)
++    assert found["kept_from_raw"] == [] and led.captures() == []
++    assert "carries no dispatch identity" in found["refused"][0]["why"]
++    assert stem.with_name(stem.name + ".body").read_bytes() == body  # never deleted
++
++
++def test_a_partial_body_of_another_dispatch_is_not_recorded_as_this_ones(
++    make_ledger: Any, tmp_path: Path
++) -> None:
++    led = make_ledger()
++    seq = sent_row(led)
++    store = captures.CaptureStore(tmp_path / "out", "walmart")
++    stem = store.raw_stem(seq)
++    stem.parent.mkdir(parents=True)
++    stem.with_name(stem.name + ".partial").write_bytes(b'{"results": [')
++    stem.with_name(stem.name + ".status.json").write_text(
++        json.dumps(
++            {
++                "ok": False,
++                "error": "IncompleteBody",
++                "sent": True,
++                "http_status": 200,
++                "partial_bytes": 13,
++                "partial_file": True,
++                "identity": {"campaign_id": "another-campaign", "seq": seq},
++            }
++        ),
++        encoding="utf-8",
++    )
++    found = store.recover(led)
++    assert found["partial_recorded"] == [] and "not this dispatch's" in found["refused"][0]["why"], found
++    assert [e for e in led.events() if e["kind"] == "PARTIAL_RESPONSE"] == []
+diff --git a/headless/oxylabs-classic-probe/uv.lock b/headless/oxylabs-classic-probe/uv.lock
+index 6a0678d..d626445 100644
+--- a/headless/oxylabs-classic-probe/uv.lock
++++ b/headless/oxylabs-classic-probe/uv.lock
+@@ -120,7 +120,7 @@ wheels = [
+ 
+ [[package]]
+ name = "oxylabs-classic-probe"
+-version = "1.7.1"
++version = "1.7.2"
+ source = { editable = "." }
+ dependencies = [
+     { name = "selectolax" },

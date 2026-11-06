@@ -1,0 +1,23 @@
+git diff 68ff3d8..7768514 -- headless/oxylabs-classic-probe (development monorepo)
+1.7.1 = 68ff3d8518b38a3792792ed6ffb8e73c2756245f (tree 7adfea8f); 1.7.2 = 7768514aa1ffbaa7f96ca242d7b64e495fffefa5 (tree 3ada8871)
+
+ headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md              |   4 +-
+ headless/oxylabs-classic-probe/README.md                         |  27 +-
+ headless/oxylabs-classic-probe/pyproject.toml                    |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/__init__.py     |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/campaign.py     |  43 +++-
+ headless/oxylabs-classic-probe/src/classic_probe/captures.py     | 102 +++++++-
+ headless/oxylabs-classic-probe/src/classic_probe/networker.py    |  61 ++++-
+ headless/oxylabs-classic-probe/src/classic_probe/proctree.py     | 290 ++++++++++++++++++++++
+ headless/oxylabs-classic-probe/src/classic_probe/supervisor.py   | 335 +++++++++++++++++--------
+ headless/oxylabs-classic-probe/src/classic_probe/transport.py    | 199 +++++++++++----
+ headless/oxylabs-classic-probe/tests/loopback_stub.py            |  31 +++
+ headless/oxylabs-classic-probe/tests/processes.py                |  55 +++++
+ headless/oxylabs-classic-probe/tests/session_drill.py            |  26 +-
+ headless/oxylabs-classic-probe/tests/test_c2_c4_reproduction.py  |  11 +-
+ headless/oxylabs-classic-probe/tests/test_durable_evidence.py    |  31 ++-
+ headless/oxylabs-classic-probe/tests/test_isolated_transport.py  |  74 +++++-
+ headless/oxylabs-classic-probe/tests/test_review_of_171.py       | 622 +++++++++++++++++++++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/tests/test_supervisor_evidence.py | 188 ++++++++++++++
+ headless/oxylabs-classic-probe/uv.lock                           |   2 +-
+ 19 files changed, 1917 insertions(+), 188 deletions(-)

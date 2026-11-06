@@ -1,0 +1,72 @@
+== packages
+5bcb6cbbcb4ae9760eb444a9acc6f6eda6c507404cf68b29c5778fbe4c0d76c9  -
+670
+== links
+lo UNKNOWN
+eth0 UP
+ens1 UP
+== addresses
+lo 127.0.0.1/8 ::1/128
+eth0 <owner-vm-private-ip>/24 metric
+ens1  
+== iptables (filter, nat)
+c3beef6f9c38d0aa5211d39e9933128b0cb7786ad332b7430501ba3baf75575b  -
+4d2c6a179598cfbe4d0733b066428cc4d9dd3565eb55a64a3630a7d72a8d22ff  -
+== ip6tables
+94d34cd0ca341f6501e5c8c758ad1dce82f6ab9cef649001e3528618cbf9e144  -
+== nft ruleset, counters removed
+# Warning: table ip security is managed by iptables-nft, do not touch!
+# Warning: table ip filter is managed by iptables-nft, do not touch!
+# Warning: table ip6 filter is managed by iptables-nft, do not touch!
+# Warning: table ip nat is managed by iptables-nft, do not touch!
+# Warning: table ip6 nat is managed by iptables-nft, do not touch!
+bf2ec16b55d2880b2af16c06abff724ee0ff40858ff092864e54e2e82bc7d059  -
+== sysctl
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 0
+sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory
+== apparmor profiles
+0379e5a98eb07eb0ffb6199d49725c2a6ce13675fe64c01f0459a8ee77db940d  -
+== mounts naming docker, containerd, q167 or q168
+none
+== /etc/docker, /var/lib/docker, /var/lib/containerd
+ls: cannot access '/etc/docker': No such file or directory
+ls: cannot access '/var/lib/docker': No such file or directory
+ls: cannot access '/var/lib/containerd': No such file or directory
+== /run entries
+2_waagent.pid adduser agetty.reload blkid chrony cloud-init console-setup containerd credentials crond.pid crond.reboot cryptsetup dbus dhcpcd dmeventd-client dmeventd-server docker docker.sock initctl lock log lvm lxd-installer.socket machine-id motd.d motd.dynamic mount multipath multipathd.pid needrestart nri postgresql screen sendsigs.omit.d setrans shm snapd-snap.socket snapd.socket sshd sshd.pid sudo systemd tmpfiles.d ubuntu-advantage udev udisks2 ufw.lock unattended-upgrades.lock unattended-upgrades.progress user utmp uuidd waagent.pid 
+== /run/containerd, /run/docker (left by the 2026-11-01 test)
+/run/containerd: containerd.sock.ttrpc io.containerd.grpc.v1.cri io.containerd.mount-manager.v1.bolt io.containerd.runtime.v2.task io.containerd.sandbox.controller.v1.shim s  /run/docker: containerd libnetwork netns plugins runtime-runc 
+== /opt
+containerd walmart-collector 
+e61ee624d39dd8ad775c528c5698ab00b9e5717cf3bd3dc38c68e9d91a058fe5  -
+== units naming docker or containerd
+none
+== processes naming dockerd or containerd
+none
+== groups
+no docker group
+== databases
+postgres postgres
+template0 postgres
+template1 postgres
+walmart_collector walmart
+walmart_oxylabs walmart
+walmart_pubtest walmart
+walmart_pubtest_oxylabs walmart
+walmart_pubtest_scrapedo walmart
+walmart_q167_c_campaign walmart_q167
+walmart_q167_c_killresume walmart_q167
+walmart_q167_c_oxylabs walmart_q167
+walmart_q167_c_scrapedo walmart_q167
+walmart_q167_oxylabs walmart_q167
+walmart_q167_oxylabs_test walmart_q167
+walmart_q167_scrapedo walmart_q167
+walmart_q167_scrapedo_test walmart_q167
+walmart_scrapedo walmart
+== listening sockets
+0.0.0.0:22
+127.0.0.1:5432
+127.0.0.53%lo:53
+127.0.0.54:53
+[::]:22

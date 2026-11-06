@@ -1,0 +1,389 @@
+{
+ "db": "walmart_live150",
+ "events": 12,
+ "renames": [
+  {
+   "old": "Laundry",
+   "new": "Shop All Laundry Supplies",
+   "views": [
+    {
+     "view_key": "1115193_1071967",
+     "links": [
+      {
+       "event": "01M6HD0WZ2TXCNK7PPGZAN2D7W",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:52.578690+00:00",
+       "node": "1115193",
+       "position": 0,
+       "recorded_as": "listing",
+       "name": "Shop All Laundry Supplies",
+       "listing_id": "1115193_1071967",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/laundry/1115193_1071967?povid=HHE_HHECP_LHN_laundry_alllaundrysupplies"
+      },
+      {
+       "event": "01M6K7K5FJ7YCRBDXQQKP2768G",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:28.531482+00:00",
+       "node": "1115193",
+       "position": 0,
+       "recorded_as": "listing",
+       "name": "Shop All Laundry Supplies",
+       "listing_id": "1115193_1071967",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/laundry/1115193_1071967?povid=HHE_HHECP_LHN_laundry_alllaundrysupplies"
+      },
+      {
+       "event": "01M6KA43WSWBVYPY30FSM9NV68",
+       "run": "L10 (1.6.4)",
+       "at": "2026-11-04T12:56:41.113591+00:00",
+       "node": "1115193",
+       "position": 0,
+       "recorded_as": "listing",
+       "name": "Shop All Laundry Supplies",
+       "listing_id": "1115193_1071967",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/laundry/1115193_1071967?povid=HHE_HHECP_LHN_laundry_alllaundrysupplies"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 0,
+      "name": "Shop All Laundry Supplies"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 0,
+      "name": "Shop All Laundry Supplies"
+     }
+    }
+   ]
+  },
+  {
+   "old": "Fabric Softener",
+   "new": "Fabric Softeners",
+   "views": [
+    {
+     "view_key": "1115193_1071967_1630538",
+     "links": [
+      {
+       "event": "01M6HD0WZ2TXCNK7PPGZAN2D7W",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:52.578690+00:00",
+       "node": "1115193",
+       "position": 3,
+       "recorded_as": "listing",
+       "name": "Fabric Softeners",
+       "listing_id": "1115193_1071967_1630538",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538?povid=HHE_HHECP_LHN_laundry_fabricsofteners"
+      },
+      {
+       "event": "01M6K7K5FJ7YCRBDXQQKP2768G",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:28.531482+00:00",
+       "node": "1115193",
+       "position": 3,
+       "recorded_as": "listing",
+       "name": "Fabric Softeners",
+       "listing_id": "1115193_1071967_1630538",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538?povid=HHE_HHECP_LHN_laundry_fabricsofteners"
+      },
+      {
+       "event": "01M6KA43WSWBVYPY30FSM9NV68",
+       "run": "L10 (1.6.4)",
+       "at": "2026-11-04T12:56:41.113591+00:00",
+       "node": "1115193",
+       "position": 3,
+       "recorded_as": "listing",
+       "name": "Fabric Softeners",
+       "listing_id": "1115193_1071967_1630538",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/fabric-softener/1115193_1071967_1630538?povid=HHE_HHECP_LHN_laundry_fabricsofteners"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 3,
+      "name": "Fabric Softeners"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 3,
+      "name": "Fabric Softeners"
+     }
+    }
+   ]
+  },
+  {
+   "old": "Dry Dog Food",
+   "new": "Dry dog food",
+   "views": [
+    {
+     "view_key": "5440_202072_6432755_1636265",
+     "links": [
+      {
+       "event": "01M6KBG3X6GG1K1C9EKRS7G11G",
+       "run": "L10 (1.6.4)",
+       "at": "2026-11-04T13:20:42.919368+00:00",
+       "node": "5440",
+       "position": 1,
+       "recorded_as": "listing",
+       "name": "Dry dog food",
+       "listing_id": "5440_202072_6432755_1636265",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/pets/dry-dog-food/5440_202072_6432755_1636265?povid=Pets_CP_LHN_dog_drydogfood"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "5440",
+      "position": 1,
+      "name": "Dry dog food"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "5440",
+      "position": 1,
+      "name": "Dry dog food"
+     }
+    }
+   ]
+  },
+  {
+   "old": "Laundry Detergents",
+   "new": "Laundry Detergent",
+   "views": [
+    {
+     "view_key": "1115193_1071967_1149379",
+     "links": [
+      {
+       "event": "01M6HD0WZ2TXCNK7PPGZAN2D7W",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:52.578690+00:00",
+       "node": "1115193",
+       "position": 4,
+       "recorded_as": "listing",
+       "name": "Laundry Detergent",
+       "listing_id": "1115193_1071967_1149379",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-detergents/1115193_1071967_1149379?povid=HHE_HHECP_LHN_laundry_laundrydetergent"
+      },
+      {
+       "event": "01M6K7K5FJ7YCRBDXQQKP2768G",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:28.531482+00:00",
+       "node": "1115193",
+       "position": 4,
+       "recorded_as": "listing",
+       "name": "Laundry Detergent",
+       "listing_id": "1115193_1071967_1149379",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-detergents/1115193_1071967_1149379?povid=HHE_HHECP_LHN_laundry_laundrydetergent"
+      },
+      {
+       "event": "01M6KA43WSWBVYPY30FSM9NV68",
+       "run": "L10 (1.6.4)",
+       "at": "2026-11-04T12:56:41.113591+00:00",
+       "node": "1115193",
+       "position": 4,
+       "recorded_as": "listing",
+       "name": "Laundry Detergent",
+       "listing_id": "1115193_1071967_1149379",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-detergents/1115193_1071967_1149379?povid=HHE_HHECP_LHN_laundry_laundrydetergent"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 4,
+      "name": "Laundry Detergent"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 4,
+      "name": "Laundry Detergent"
+     }
+    }
+   ]
+  },
+  {
+   "old": "Laundry Scent Boosters",
+   "new": "Scent Boosters",
+   "views": [
+    {
+     "view_key": "1115193_1071967_5244758",
+     "links": [
+      {
+       "event": "01M6HD0WZ2TXCNK7PPGZAN2D7W",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:52.578690+00:00",
+       "node": "1115193",
+       "position": 7,
+       "recorded_as": "listing",
+       "name": "Scent Boosters",
+       "listing_id": "1115193_1071967_5244758",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-scent-boosters/1115193_1071967_5244758?povid=HHE_HHECP_LHN_laundry_scentboosters"
+      },
+      {
+       "event": "01M6K7K5FJ7YCRBDXQQKP2768G",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:28.531482+00:00",
+       "node": "1115193",
+       "position": 7,
+       "recorded_as": "listing",
+       "name": "Scent Boosters",
+       "listing_id": "1115193_1071967_5244758",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-scent-boosters/1115193_1071967_5244758?povid=HHE_HHECP_LHN_laundry_scentboosters"
+      },
+      {
+       "event": "01M6KA43WSWBVYPY30FSM9NV68",
+       "run": "L10 (1.6.4)",
+       "at": "2026-11-04T12:56:41.113591+00:00",
+       "node": "1115193",
+       "position": 7,
+       "recorded_as": "listing",
+       "name": "Scent Boosters",
+       "listing_id": "1115193_1071967_5244758",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/household-essentials/laundry-scent-boosters/1115193_1071967_5244758?povid=HHE_HHECP_LHN_laundry_scentboosters"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 7,
+      "name": "Scent Boosters"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L10 (1.6.4)",
+      "node": "1115193",
+      "position": 7,
+      "name": "Scent Boosters"
+     }
+    }
+   ]
+  },
+  {
+   "old": "Great Value Pantry",
+   "new": "Pantry",
+   "views": [
+    {
+     "view_key": "976759_976794_2002490",
+     "links": [
+      {
+       "event": "01M6HD0KT992ZCXS09HRXWEV0M",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:43.210376+00:00",
+       "node": "976759",
+       "position": 8,
+       "recorded_as": "listing",
+       "name": "Pantry",
+       "listing_id": "976759_976794_2002490",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/pantry/great-value-pantry-deals/976759_976794_2002490?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Pantry_Aug_22"
+      },
+      {
+       "event": "01M6HD0KT992ZCXS09HRXWEV0M",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:43.210376+00:00",
+       "node": "976759",
+       "position": 54,
+       "recorded_as": "listing",
+       "name": "Great Value Pantry",
+       "listing_id": "976759_976794_2002490",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/food/great-value-pantry-deals/976759_976794_2002490?povid=976759_LHNCP_976759_Categories_Pantry_GreatValuePantry_07_26"
+      },
+      {
+       "event": "01M6K7JEW6AD6R1RVHJ4DRDGRT",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:05.382665+00:00",
+       "node": "976759",
+       "position": 8,
+       "recorded_as": "listing",
+       "name": "Pantry",
+       "listing_id": "976759_976794_2002490",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/pantry/great-value-pantry-deals/976759_976794_2002490?povid=976759_LHNCP_976759_NowTrending_OnlyatWalmart_Pantry_Aug_22"
+      },
+      {
+       "event": "01M6K7JEW6AD6R1RVHJ4DRDGRT",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:05.382665+00:00",
+       "node": "976759",
+       "position": 54,
+       "recorded_as": "listing",
+       "name": "Great Value Pantry",
+       "listing_id": "976759_976794_2002490",
+       "narrows": [],
+       "url": "https://www.walmart.com/browse/food/great-value-pantry-deals/976759_976794_2002490?povid=976759_LHNCP_976759_Categories_Pantry_GreatValuePantry_07_26"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L7 (1.6.3)",
+      "node": "976759",
+      "position": 8,
+      "name": "Pantry"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L7 (1.6.3)",
+      "node": "976759",
+      "position": 54,
+      "name": "Great Value Pantry"
+     }
+    },
+    {
+     "view_key": "976794",
+     "links": [
+      {
+       "event": "01M6HD0KT992ZCXS09HRXWEV0M",
+       "run": "L4 (1.6.1)",
+       "at": "2026-11-03T19:08:43.210376+00:00",
+       "node": "976759",
+       "position": 53,
+       "recorded_as": "listing",
+       "name": "Pantry",
+       "listing_id": "976794",
+       "narrows": [],
+       "url": "https://www.walmart.com/cp/pantry/976794?povid=976759_LHNCP_976759_Categories_Pantry_ShopAll_07_26"
+      },
+      {
+       "event": "01M6K7JEW6AD6R1RVHJ4DRDGRT",
+       "run": "L7 (1.6.3)",
+       "at": "2026-11-04T12:12:05.382665+00:00",
+       "node": "976759",
+       "position": 53,
+       "recorded_as": "listing",
+       "name": "Pantry",
+       "listing_id": "976794",
+       "narrows": [],
+       "url": "https://www.walmart.com/cp/pantry/976794?povid=976759_LHNCP_976759_Categories_Pantry_ShopAll_07_26"
+      }
+     ],
+     "rule_1_6_8_first_link_per_page": {
+      "run": "L7 (1.6.3)",
+      "node": "976759",
+      "position": 53,
+      "name": "Pantry"
+     },
+     "rule_until_second_candidate_last_link_per_page": {
+      "run": "L7 (1.6.3)",
+      "node": "976759",
+      "position": 53,
+      "name": "Pantry"
+     }
+    }
+   ]
+  }
+ ]
+}
