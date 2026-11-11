@@ -1,0 +1,56 @@
+.FFF.FF                                                                  [100%]
+================================== FAILURES ===================================
+____ test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs _____
+tests\test_review_of_172.py:530: in test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs
+    assert not facts["session_ran"] and not facts["child_started"], facts
+E   AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': True, 'connections_to_the_stub': 1, ...}
+E   assert (not True)
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child_alive_after_the_supervisor_returned": true, "child_started": true, "connections_to_the_stub": 1, "forced": ["CreateJobObjectW: forced failure"], "problems": [], "refused": null, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": null, "held_by": "taskkill /T (no job object could be made)", "left_running": false, "problems": [], "reaped": true}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object] _
+tests\test_review_of_172.py:585: in test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused
+    assert not facts["session_ran"] and not facts["child_started"], facts
+E   AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': True, 'connections_to_the_stub': 1, ...}
+E   assert (not True)
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [], "child_alive_after_the_supervisor_returned": true, "child_started": true, "connections_to_the_stub": 1, "forced": ["AssignProcessToJobObject: forced failure"], "problems": [], "refused": null, "resumed": 1, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": null, "held_by": "taskkill /T (the process could not join a job object)", "left_running": false, "problems": [], "reaped": true}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object] _
+tests\test_review_of_172.py:585: in test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused
+    assert not facts["session_ran"] and not facts["child_started"], facts
+E   AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': False, 'connections_to_the_stub': 0, ...}
+E   assert (not True)
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [], "child_alive_after_the_supervisor_returned": false, "child_started": true, "connections_to_the_stub": 0, "forced": [], "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "refused": null, "resumed": 1, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": true, "held_by": "job object", "left_running": true, "problems": [], "reaped": true}}
+_______ test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done ________
+tests\test_review_of_172.py:679: in test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+    assert session.tree.get("cleanup") == "unknown", facts
+E   AssertionError: {'forced': ['QueryInformationJobObject(accounting): forced failure', 'QueryInformationJobObject(accounting): forced fa...': 0, 'status': None, 'tree': {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...}, ...}
+E   assert None == 'unknown'
+E    +  where None = <built-in method get of dict object at 0x000001E887F55280>('cleanup')
+E    +    where <built-in method get of dict object at 0x000001E887F55280> = {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...}.get
+E    +      where {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...} = SupervisedSession(returncode=0, killed=False, elapsed_s=8.328, stdout_tail='{"campaign_id": "drill", "retailer": "walm...wn and complete"}, tree={'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, 'problems': []}).tree
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "forced": ["QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure"], "problems": [], "recovery_ran": false, "returncode": 0, "status": null, "tree": {"gone": null, "held_by": "job object", "left_running": false, "problems": [], "reaped": true}}
+__________ test_w_a_session_is_ok_only_once_its_tree_is_counted_gone __________
+tests\test_review_of_172.py:708: in test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+    assert facts["status"] == "ok" and session.recovery == {}, facts
+E   AssertionError: {'status': None, 'tree': {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': True, ...}, 'evidence': {'accepted': True, 'why': "campaign_evidence.json is this execution's own and complete"}, 'problems': []}
+E   assert (None == 'ok')
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "problems": [], "status": null, "tree": {"gone": true, "held_by": "job object", "left_running": false, "problems": [], "reaped": true}}
+=================================== PASSES ====================================
+_ test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it _
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [14544, "31289534:2054744105"], "child_alive_after_its_parent_exited": true, "child_alive_after_taskkill_tree": true, "parent_exit_code": 0, "taskkill_tree_returncode": 128, "taskkill_tree_said": "ERROR: The process \"14224\" not found."}
+____ test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree ____
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [22068, "31289534:2377182544"], "child_alive_after": false, "child_alive_before": true, "connections_to_the_stub": 0, "elapsed_s": 0.7029999999795109, "gone_when_the_supervisor_returned": true, "parent_exited": true, "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "returncode": 0, "returned": 808217.906, "seconds": 7.445250000018859, "started": 808217.906, "tree": {"gone": true, "held_by": "job object", "left_running": true, "problems": [], "reaped": true}}
+=========================== short test summary info ===========================
+PASSED tests/test_review_of_172.py::test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it
+PASSED tests/test_review_of_172.py::test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree
+FAILED tests/test_review_of_172.py::test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs
+FAILED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object]
+FAILED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object]
+FAILED tests/test_review_of_172.py::test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+FAILED tests/test_review_of_172.py::test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+5 failed, 2 passed in 47.82s

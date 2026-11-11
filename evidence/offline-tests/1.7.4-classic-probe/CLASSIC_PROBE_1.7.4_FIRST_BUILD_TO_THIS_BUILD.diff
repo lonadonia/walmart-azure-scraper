@@ -1,0 +1,122 @@
+diff --git a/headless/oxylabs-classic-probe/README.md b/headless/oxylabs-classic-probe/README.md
+index ce5434a..706eece 100644
+--- a/headless/oxylabs-classic-probe/README.md
++++ b/headless/oxylabs-classic-probe/README.md
+@@ -8,7 +8,7 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
+-Version 1.7.4 corrects how the session supervisor holds and ends a session's process tree on Windows (the client's review of 1.7.2, C2). In 1.7.2, when no job object could be made, the session ran anyway and its tree fell back to `taskkill /T`; when the session's process could not join the job, 1.7.2 resumed it anyway and fell back the same way. `taskkill /T` finds descendants through their parent's process id, so a child whose parent had already exited was out of its reach; and with the parent gone, 1.7.2 could not tell whether anything of the tree was left, yet it reported nothing left running and no problem. Now the supervisor fails closed on Windows. The job object is made with kill-on-close and without breakaway, both read back from the job; the session's process is created suspended, assigned to the job, confirmed a member by `IsProcessInJob` and counted alone in the job's accounting, and only then resumed, so it cannot run its own code, start a process or send anything outside the job. If the job cannot be made, or the process cannot be assigned, confirmed or resumed, nothing runs: the suspended process is terminated and reaped, the job is closed, and `run_session` returns an explicit refusal (`refused`: true, `status`: `refused`) that names the step. There is no fallback. Whether the tree has gone is read only from the job's accounting (from the process group on Linux and macOS, as before), never from the leading process's exit or a `taskkill` result. The cleanup is `verified`, `failed` or `unknown`, and an unknown stays unknown (`left_running` and `gone` are null, never false): the session's own evidence is then not taken, a recovery runs, and its manifest names the cleanup (`session_tree_cleanup`). `status` is `ok` only for a session that ended by itself with exit code 0 and its own complete evidence, and whose tree was verified gone. The 7 tests of `tests/test_review_of_172.py` use real processes, a handshake file and a stub on 127.0.0.1, and force each job-object failure at the kernel32 boundary only. They were first run on the frozen 1.7.2 code on Windows: the 5 `test_w_...` tests fail by their output (with no job object, or with a process that did not join it, the session ran, its child outlived the supervisor and connected to the stub afterwards; an unreadable count was reported as nothing left running and no problem), and the 2 control tests pass (Windows leaves a child running when its parent exits, and `taskkill /T` on the parent cannot reach it; a working job object ends such a child). On 1.7.4 all 7 pass, and a refused process is shown, just before its end, as it was created: one thread, suspended once, no time charged, and no resume asked for. (Its CPU time after its end is not evidence: Windows may charge one clock tick of user time to a process terminated without ever running.) On Linux and macOS the tree is still a process group; the 3 tests that are not Windows-only run there too. Nothing else changed: the steps, the response checks, the payloads, the limits, the T05 replay checks of 1.7.3 and the live refusal are as before.
++Version 1.7.4 corrects how the session supervisor holds and ends a session's process tree on Windows (the client's review of 1.7.2, C2). In 1.7.2, when no job object could be made, the session ran anyway and its tree fell back to `taskkill /T`; when the session's process could not join the job, 1.7.2 resumed it anyway and fell back the same way. `taskkill /T` finds descendants through their parent's process id, so a child whose parent had already exited was out of its reach; and with the parent gone, 1.7.2 could not tell whether anything of the tree was left, yet it reported nothing left running and no problem. Now the supervisor fails closed on Windows. The job object is made with kill-on-close and without breakaway, both read back from the job; the session's process is created suspended, assigned to the job, confirmed a member by `IsProcessInJob` and counted alone in the job's accounting, and only then resumed, so it cannot run its own code, start a process or send anything outside the job. If the job cannot be made, or the process cannot be assigned, confirmed or resumed, nothing runs: the suspended process is terminated and reaped, the job is closed, and `run_session` returns an explicit refusal (`refused`: true, `status`: `refused`) that names the step. There is no fallback. Whether the tree has gone is read only from the job's accounting (from the process group on Linux and macOS, as before), never from the leading process's exit or a `taskkill` result. The cleanup is `verified`, `failed` or `unknown`, and an unknown stays unknown (`left_running` and `gone` are null, never false): the session's own evidence is then not taken, a recovery runs, and its manifest names the cleanup (`session_tree_cleanup`). `status` is `ok` only for a session that ended by itself with exit code 0 and its own complete evidence, and whose tree was verified gone. The 7 tests of `tests/test_review_of_172.py` use real processes, a handshake file and a stub on 127.0.0.1, and force each job-object failure at the kernel32 boundary only. They were first run on the frozen 1.7.2 code on Windows: the 5 `test_w_...` tests fail by their output (with no job object, or with a process that did not join it, the session ran, its child outlived the supervisor and connected to the stub afterwards; an unreadable count was reported as nothing left running and no problem), and the 2 control tests pass (Windows leaves a child running when its parent exits, and `taskkill /T` on the parent cannot reach it; a working job object ends such a child). On 1.7.4 all 7 pass, and a refused process is shown, just before its end, as it was created: one thread, suspended once, no time charged, and no resume asked for. (Its CPU time after its end is not evidence: Windows may charge one clock tick of user time to a process terminated without ever running.) On Linux and macOS the tree is still a process group; the 3 tests that are not Windows-only run there too. The first build of 1.7.4, never published, failed `mypy` on Linux and macOS with three `name-defined` errors: its Windows-only start used names defined only on Windows, and a type check run on Windows reads the code for Windows alone. This build puts that code under its platform check; what runs on each platform is unchanged. Nothing else changed: the steps, the response checks, the payloads, the limits, the T05 replay checks of 1.7.3 and the live refusal are as before.
+ 
+ Version 1.7.3 corrects the offline replay's handling of its input (T05). Up to 1.7.2, `replay` created its output folder and an offline ledger before it read the saved responses, and an input it could not use ended in a traceback: a missing `replay.json` or a missing `body_file` in a `FileNotFoundError` (exit 1), `{}` in a `KeyError` (exit 1); a file that was not JSON was refused (exit 2) but only after the folder and the ledger had been created. Now every input is checked first: a missing fixtures folder or `replay.json`, a file that cannot be read, is not UTF-8 or is not JSON, a structure other than `{"steps": {step: [response, ...]}}`, an `http_status` that is not an integer from 100 to 599, a `body` that is not text, a response with both `body` and `body_file`, and a `body_file` that is missing, unreadable or outside the fixtures folder are each refused with one line naming the problem (`{"refused": "ReplayRefused: ..."}`, exit 2), and nothing is created; missing `--targets` or `--rates` files likewise. A valid replay behaves as before. The 23 tests of `tests/test_t05_replay_input.py` were first run on the frozen 1.7.2 code: 22 fail by their output (tracebacks, exit 1, an output folder created) and the control test of a valid replay passes; on 1.7.3 all 23 pass. Nothing else changed: the steps, the response checks, the payloads, the limits and the live refusal are those of 1.7.2.
+ 
+@@ -63,9 +63,12 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ uv sync --frozen
+ uv run pytest
+ uv run ruff check src tests
+-uv run mypy
++uv run mypy --platform win32
++uv run mypy --platform linux
+ ```
+ 
++`mypy` checks the code for one platform at a time, the one it runs on unless `--platform` names another, so it is run for both.
++
+ The tests close the network: any attempt to open a socket or resolve a name fails the test that made it. They also remove the two credential variables from their environment.
+ 
+ Some tests run on one platform only, and say why when skipped:
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/proctree.py b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+index 29f8543..d142195 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+@@ -339,47 +339,51 @@ class ProcessTree:
+     @classmethod
+     def _start_held(cls, args: Sequence[str], common: dict[str, Any], refusal_s: float) -> ProcessTree:
+         """Windows (1.7.4): the job first, then the process, suspended, until the job is shown to hold it."""
+-        job = _Job.make()  # TreeRefused (stage "create") before any process exists
+-        try:
+-            proc = subprocess.Popen(list(args), creationflags=CREATE_SUSPENDED, **common)
+-        except BaseException:
+-            job.close()
+-            raise
+-        stage, why, joined = "assign", "", False
+-        error = job.assign(proc)
+-        if error:
+-            why = (
+-                "the process could not be assigned to the job object "
+-                f"(AssignProcessToJobObject, Windows error {error})"
+-            )
+-        else:
+-            joined, stage = True, "verify"
+-            member = job.holds(proc)
+-            active = job.active()
+-            if member is not True:
+-                answer = "could not be asked" if member is None else "says it is not"
+-                why = f"Windows did not confirm the process is in the job object (IsProcessInJob {answer})"
+-            elif active != 1:
+-                shown = "could not be read" if active is None else f"shows {active} active processes"
+-                why = f"the job object's accounting {shown}, not this one process alone"
+-        if not why:
++        if sys.platform == "win32":  # start() calls this only on Windows; mypy checks it for Windows alone
++            job = _Job.make()  # TreeRefused (stage "create") before any process exists
+             try:
+-                _resume(proc)
+-            except OSError as exc:
+-                stage, why = "resume", f"the process could not be resumed ({exc})"
++                proc = subprocess.Popen(list(args), creationflags=CREATE_SUSPENDED, **common)
++            except BaseException:
++                job.close()
++                raise
++            stage, why, joined = "assign", "", False
++            error = job.assign(proc)
++            if error:
++                why = (
++                    "the process could not be assigned to the job object "
++                    f"(AssignProcessToJobObject, Windows error {error})"
++                )
+             else:
+-                return cls(proc, job, note="job object (verified before the process ran)")
+-        terminated, reaped, cleanup, basis = _end_unstarted(proc, job, joined=joined, seconds=refusal_s)
+-        job.close()
+-        raise TreeRefused(
+-            stage=stage,
+-            why=why,
+-            pid=proc.pid,
+-            terminated=terminated,
+-            reaped=reaped,
+-            cleanup=cleanup,
+-            basis=basis,
+-        )
++                joined, stage = True, "verify"
++                member = job.holds(proc)
++                active = job.active()
++                if member is not True:
++                    answer = "could not be asked" if member is None else "says it is not"
++                    why = (
++                        f"Windows did not confirm the process is in the job object (IsProcessInJob {answer})"
++                    )
++                elif active != 1:
++                    shown = "could not be read" if active is None else f"shows {active} active processes"
++                    why = f"the job object's accounting {shown}, not this one process alone"
++            if not why:
++                try:
++                    _resume(proc)
++                except OSError as exc:
++                    stage, why = "resume", f"the process could not be resumed ({exc})"
++                else:
++                    return cls(proc, job, note="job object (verified before the process ran)")
++            terminated, reaped, cleanup, basis = _end_unstarted(proc, job, joined=joined, seconds=refusal_s)
++            job.close()
++            raise TreeRefused(
++                stage=stage,
++                why=why,
++                pid=proc.pid,
++                terminated=terminated,
++                reaped=reaped,
++                cleanup=cleanup,
++                basis=basis,
++            )
++        raise TreeRefused(stage="create", why="a job object exists only on Windows")
+ 
+     @property
+     def pid(self) -> int:

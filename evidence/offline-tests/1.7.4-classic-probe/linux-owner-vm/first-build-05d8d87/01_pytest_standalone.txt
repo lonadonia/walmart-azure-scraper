@@ -1,0 +1,11 @@
+.....s.................................................................. [ 30%]
+........................................................................ [ 61%]
+...................................ssss................................. [ 92%]
+................ss                                                       [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_c2_c4_reproduction.py:261: the write-through rename is the Windows form of a synced rename
+SKIPPED [1] tests/test_review_of_172.py:483: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_review_of_172.py:521: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [2] tests/test_review_of_172.py:541: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_vendored.py:50: walmart-azure-headless's source is not beside this probe (a probe-only extraction)
+SKIPPED [1] tests/test_vendored.py:50: marianos-azure-headless's source is not beside this probe (a probe-only extraction)

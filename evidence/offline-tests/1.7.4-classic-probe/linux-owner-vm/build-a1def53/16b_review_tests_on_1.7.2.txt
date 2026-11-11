@@ -1,0 +1,35 @@
+ssss.FF                                                                  [100%]
+=================================== FAILURES ===================================
+________ test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done ________
+tests/test_review_of_172.py:660: in test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+    session = supervisor.run_session(
+src/classic_probe/supervisor.py:264: in run_session
+    ended = tree.end(_step(left()))
+            ^^^^^^^^^^^^^^^^^^^^^^^
+src/classic_probe/proctree.py:242: in end
+    before = self.members_left()
+             ^^^^^^^^^^^^^^^^^^^
+src/classic_probe/proctree.py:229: in members_left
+    os.killpg(self.proc.pid, 0)
+tests/test_review_of_172.py:386: in killpg
+    raise OSError(errno.EIO, "forced: the process group cannot be asked")
+E   OSError: [Errno 5] forced: the process group cannot be asked
+__________ test_w_a_session_is_ok_only_once_its_tree_is_counted_gone ___________
+tests/test_review_of_172.py:708: in test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+    assert facts["status"] == "ok" and session.recovery == {}, facts
+E   AssertionError: {'status': None, 'tree': {'held_by': 'process group', 'left_running': False, 'reaped': True, 'gone': True, ...}, 'evidence': {'accepted': True, 'why': "campaign_evidence.json is this execution's own and complete"}, 'problems': []}
+E   assert (None == 'ok')
+----------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "problems": [], "status": null, "tree": {"gone": true, "held_by": "process group", "left_running": false, "problems": [], "reaped": true}}
+==================================== PASSES ====================================
+____ test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree _____
+----------------------------- Captured stdout call -----------------------------
+FACTS {"child": [538965, "123945661"], "child_alive_after": false, "child_alive_before": true, "connections_to_the_stub": 0, "elapsed_s": 0.17201150697655976, "gone_when_the_supervisor_returned": true, "parent_exited": true, "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "returncode": 0, "returned": 1239456.670423552, "seconds": 7.483973469701596, "started": 1239456.660315936, "tree": {"gone": true, "held_by": "process group", "left_running": true, "problems": [], "reaped": true}}
+=========================== short test summary info ============================
+PASSED tests/test_review_of_172.py::test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree
+SKIPPED [1] tests/test_review_of_172.py:483: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_review_of_172.py:521: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [2] tests/test_review_of_172.py:541: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+FAILED tests/test_review_of_172.py::test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+FAILED tests/test_review_of_172.py::test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+2 failed, 1 passed, 4 skipped in 6.38s

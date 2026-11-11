@@ -1,0 +1,4 @@
+src/classic_probe/proctree.py:342: error: Name "_Job" is not defined  [name-defined]
+src/classic_probe/proctree.py:344: error: Name "CREATE_SUSPENDED" is not defined  [name-defined]
+src/classic_probe/proctree.py:367: error: Name "_resume" is not defined  [name-defined]
+Found 3 errors in 1 file (checked 25 source files)

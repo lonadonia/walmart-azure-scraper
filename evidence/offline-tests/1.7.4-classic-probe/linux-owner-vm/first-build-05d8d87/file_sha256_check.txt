@@ -1,0 +1,2 @@
+1.7.4: sha256sum -c exit 0 over 69 files
+1.7.2: sha256sum -c exit 0 over 67 files

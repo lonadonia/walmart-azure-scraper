@@ -1,5 +1,5 @@
-"""Check that source/, classic-probe/, classic-probe-1.7.0/, classic-probe-1.7.1/ and classic-probe-1.7.2/ are the frozen
-trees they say they are, file for file (offline, standard library).
+"""Check that source/, classic-probe/, classic-probe-1.7.0/, classic-probe-1.7.1/, classic-probe-1.7.2/ and
+classic-probe-1.7.4/ are the frozen trees they say they are, file for file (offline, standard library).
 
 Run from the root of a clone, before any environment is created inside it:  python3 manifests/check_frozen_trees.py
 
@@ -10,10 +10,13 @@ classic-probe-1.7.0/  the shared probe 1.7.0 of the 1.6.5 delivery (C1, C3 and C
                       frozen with collector 1.6.1, 1780349), unchanged and superseded;
 classic-probe-1.7.1/  the shared probe 1.7.1 of the 1.6.6 delivery (frozen with collector 1.6.6's build, cbea802),
                       unchanged and superseded;
-classic-probe-1.7.2/  the shared probe 1.7.2 (C2 and C4 completed; frozen with 7ee2fa1, its Git tree the same at
-                      collector 1.6.8's commit);
+classic-probe-1.7.2/  the shared probe 1.7.2 of the 1.6.8 delivery (C4 completed; C2 corrected again in 1.7.4;
+                      frozen with 7ee2fa1, its Git tree the same at collector 1.6.8's commit), unchanged and
+                      superseded;
+classic-probe-1.7.4/  the shared probe 1.7.4 of the probe 1.7.4 revision (C2 on Windows corrected; frozen with
+                      a1def53, a probe-only commit);
                       each probe tree against its FILE_SHA256.txt and PACKAGE_MANIFEST.json (count and file-list SHA-256);
-all five              every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
+all six               every file against manifests/FILE_MAP.csv: published unchanged, with the SHA-256 it had in the
                       delivered archive.
 Prints each finding and ends with PASS or FAIL (exit status 0 or 1).
 """
@@ -32,6 +35,7 @@ PROBES = {
     "classic-probe-1.7.0": ("1.7.0", "1780349e522d771a3642fe88bfb7b542044ec844"),
     "classic-probe-1.7.1": ("1.7.1", "cbea802891d4e66b74a0abc33e0af0af74c89708"),
     "classic-probe-1.7.2": ("1.7.2", "7ee2fa1e00512a3ce7a9481268f4e5302294f94f"),
+    "classic-probe-1.7.4": ("1.7.4", "a1def53747dfabcb2ad9ca97efc421c1e70f0ac6"),
 }
 problems: list[str] = []
 

@@ -1,0 +1,23 @@
+{
+  "package": "oxylabs-classic-offline-probe-1.7.4",
+  "probe_version": "1.7.4",
+  "frozen_revision": "a1def53747dfabcb2ad9ca97efc421c1e70f0ac6",
+  "revision_committed_at": "2026-11-10T02:40:46+00:00",
+  "probe_code_last_changed_in": "a1def53747dfabcb2ad9ca97efc421c1e70f0ac6",
+  "revision_kind": "a probe-only revision (branch classic-probe-1.7.4, on probe 1.7.3 95f96a02329bd3a92c9c8b07dd53e53ae89fe553); only headless/oxylabs-classic-probe is packed, and no collector is released from it",
+  "live_enabled": false,
+  "requests_sent": 0,
+  "credentials_in_this_package": "none: placeholders only (.env.example, config/*.example.json)",
+  "evidence_classes": {
+    "tests": "SYNTHETIC TEST (invented Classic responses) and OFFLINE REPLAY (real saved Walmart and Mariano's pages inside invented Classic envelopes)",
+    "a Classic request": "NOT TESTED"
+  },
+  "tested_on": {
+    "Windows 11 (10.0.26200), CPython 3.12.10": "offline_results/ (this package's run)",
+    "Linux": "not in this package: the first build of 1.7.4 (05d8d87, never published) ran on Ubuntu 24.04.5 and failed mypy alone, corrected in this build; this build's run on Linux is recorded with the publication that carries this package",
+    "macOS": "NOT RUN"
+  },
+  "probe_code_last_changed_in_src": "a1def53747dfabcb2ad9ca97efc421c1e70f0ac6",
+  "files_of_the_probe_tree": 69,
+  "file_list_sha256": "3bf5aa727801ce498aa2524a99f21316d965fa01ddaba1f03b469bca4a12b916"
+}

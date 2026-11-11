@@ -1,0 +1,6 @@
+{
+ "campaign_id": "offline-check",
+ "ledger_genesis_id": "7502eccaa74c412fbf07ad2c52705a06",
+ "manifest": "offline_out/manifest.json",
+ "offline": true
+}

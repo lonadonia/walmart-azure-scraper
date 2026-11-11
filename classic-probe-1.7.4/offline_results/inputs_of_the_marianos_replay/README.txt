@@ -1,0 +1,1 @@
+OFFLINE REPLAY inputs: real Mariano's pages (Vernon Hills, Pickup) that the Mariano's collector saved through the Oxylabs Web API on 2026-11-02, each wrapped in an invented Classic envelope by tests/test_marianos.py, and an invented rate card. The pages are real; the Classic envelopes and the rates are not.

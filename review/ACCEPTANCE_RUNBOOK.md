@@ -1,5 +1,10 @@
 # Acceptance runbook: Walmart release 1.6.8 and the shared Classic probe 1.7.2
 
+**The probe 1.7.4 revision** (tag `review-1.6.8-probe174-20261111`): the shared Classic probe is now 1.7.4, in
+[`classic-probe-1.7.4/`](../classic-probe-1.7.4/). Every step below for the collector is unchanged. For the probe, run the
+steps of section 6 in `classic-probe-1.7.4/` instead of `classic-probe-1.7.2/` (1.7.4 gives 229 passed and 5 skipped on Windows, 227 passed and 7 skipped on Linux); its reproduction, on Windows and on Linux, is in
+[`REPRODUCE.md`](../evidence/offline-tests/1.7.4-classic-probe/REPRODUCE.md).
+
 This runbook lets anyone with a clone of this repository repeat its checks, and shows how the collector is installed
 and operated:
 
@@ -17,7 +22,7 @@ Walmart, and none costs anything. Section 7 describes commands. The live ones ar
 on the account that pays for them. [`TEST_PLAN.md`](TEST_PLAN.md) has the proposed live work, including a sequence
 the client can observe.
 
-Hamza ran the offline steps on the preparation workstation (Windows 11) and on his Azure test VM (Ubuntu 24.04.5) on 2026-11-05 and 2026-11-06 (UTC). Nobody else has run
+Hamza ran the offline steps on the preparation workstation (Windows 11) and on Hamza's Azure test VM (Ubuntu 24.04.5) on 2026-11-05 and 2026-11-06 (UTC). Nobody else has run
 them yet. Nothing here is a test the client observed or executed, and nothing ran in the client's environment.
 
 ## 0. What you need

@@ -1,0 +1,44 @@
+{
+ "about": "the 275 queued sponsored and variant products, recounted with missing evidence as unresolved (offline, no request)",
+ "source": "evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_1_6_7.csv (published under review-1.6.8-20261106, unchanged)",
+ "source_sha256": "340b49674fe7dbc27028d70f4e2a6ca9c1cfa4bddfc43bdd7f46bd215427a73c",
+ "rule": "excluded only on affirmative source evidence (the item's own page places it in another category, named); a missing category path or unproven local eligibility leaves it unresolved",
+ "outcomes": {
+  "included": 48,
+  "excluded": 165,
+  "duplicate": 3,
+  "unresolved": 59
+ },
+ "outcomes_1_6_8": {
+  "duplicate": 3,
+  "excluded_alternative_category": 165,
+  "excluded_category_path_missing": 4,
+  "excluded_local_eligibility_not_proven": 55,
+  "included": 48
+ },
+ "unresolved_by_reason": {
+  "no category path on its page": 4,
+  "local eligibility not proven by its page": 55
+ },
+ "unresolved_record_reasons": {
+  "(none: no category path)": 4,
+  "LOCATION_UNATTESTED;ASSORTMENT_UNRESOLVED": 41,
+  "LOCATION_UNATTESTED;MARKETPLACE_OFFER;ASSORTMENT_UNRESOLVED": 14
+ },
+ "unresolved_client_cases": [
+  "V22",
+  "V25",
+  "V26",
+  "V27",
+  "V28",
+  "V29",
+  "V30"
+ ],
+ "client_cases": {
+  "excluded": 17,
+  "included": 1,
+  "unresolved": 7
+ },
+ "not_in_this_count": "the 44 products whose UPC has no read: a separate queue (W2), unchanged",
+ "what_settles_the_unresolved": "their own pages read again with the store's context (paid requests); none was made"
+}

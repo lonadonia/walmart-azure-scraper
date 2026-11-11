@@ -1,0 +1,46 @@
+START 2026-11-10T03:07:02Z
+PLATFORM Windows-11-10.0.26200-SP0 3.12.10; uv 0.13.1 (62faed335 2026-10-13 x86_64-pc-windows-msvc)
+
+== 1.7.2: git archive 7768514aa1ffbaa7f96ca242d7b64e495fffefa5 headless/oxylabs-classic-probe (tree 3ada8871cf159d27a6afb49ff8ca854e16c5d657)
+uv sync --frozen exit 0
+CMD uv run --frozen python -m mypy --platform win32
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform linux
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform darwin
+Success: no issues found in 25 source files
+exit 0
+
+== 1.7.4-first-build: git archive 05d8d87b32c17e339946539e5e2d61fb004f1c21 headless/oxylabs-classic-probe (tree 727c9308c843c67310a3762c4a21892ed97324bd)
+uv sync --frozen exit 0
+CMD uv run --frozen python -m mypy --platform win32
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform linux
+src\classic_probe\proctree.py:342: error: Name "_Job" is not defined  [name-defined]
+src\classic_probe\proctree.py:344: error: Name "CREATE_SUSPENDED" is not defined  [name-defined]
+src\classic_probe\proctree.py:367: error: Name "_resume" is not defined  [name-defined]
+Found 3 errors in 1 file (checked 25 source files)
+exit 1
+CMD uv run --frozen python -m mypy --platform darwin
+src\classic_probe\proctree.py:342: error: Name "_Job" is not defined  [name-defined]
+src\classic_probe\proctree.py:344: error: Name "CREATE_SUSPENDED" is not defined  [name-defined]
+src\classic_probe\proctree.py:367: error: Name "_resume" is not defined  [name-defined]
+Found 3 errors in 1 file (checked 25 source files)
+exit 1
+
+== 1.7.4-this-build: git archive a1def53747dfabcb2ad9ca97efc421c1e70f0ac6 headless/oxylabs-classic-probe (tree 07477cc61b2c1aa0871fb17965b132c131314fc6)
+uv sync --frozen exit 0
+CMD uv run --frozen python -m mypy --platform win32
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform linux
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform darwin
+Success: no issues found in 25 source files
+exit 0
+
+END 2026-11-10T03:07:51Z

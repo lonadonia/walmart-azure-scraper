@@ -65,6 +65,10 @@ Command times are from `evidence/live/1.6.x/campaign/commands.csv`; each run's o
 | 2026-11-05 | OWNER AZURE (Linux, the owner's test VM, no request): both editions qualified from their ZIPs; both Docker images built and gated (replays of stored live pages, a kill and resume, a rollback, a restart); the walkthrough recorded | `evidence/owner-azure-test/1.6.8/`, `walkthrough/` |
 | 2026-11-05 | W2, W3 and W4 made again from the stored evidence (no request), and the outstanding work priced part by part | `evidence/reconciliation/1.6.8/` |
 | 2026-11-06, at the time of the commit the tag names | this publication, tag `review-1.6.8-20261106` (a file cannot hold the time of the commit that adds it) | `manifests/PUBLICATION.json` |
+| 2026-11-09 | the client's review of the 1.6.8 delivery's probe is taken up: Windows process supervision (C2). Reproduced on the frozen 1.7.2 code on Windows; probe 1.7.4 (`e0a6679`, its tests `db383e0` and `05d8d87`): 5 tests fail on 1.7.2 by their output and pass on 1.7.4; the whole suite 229 passed, 5 skipped on Windows. Not run on Linux that day: the owner's VM did not answer | `evidence/offline-tests/1.7.4-classic-probe/` |
+| 2026-11-09 | the 275 decisions recounted from the published rows, with missing evidence as unresolved: 59 unresolved (no request) | `evidence/reconciliation/1.6.8-probe174/w3/` |
+| 2026-11-10 | probe 1.7.4 run on Linux, on the owner's test VM, from its archive. The first build (`05d8d87`) passed its tests there but failed mypy (3 errors: Windows-only names in the Windows-only start); `a1def53` corrects that with no change in what runs. Every Windows run was made again on it and the archive built again; on Linux, 227 passed and 7 skipped, and the 3 review tests that run there pass on 1.7.4 and 2 fail on 1.7.2 | `evidence/offline-tests/1.7.4-classic-probe/linux-owner-vm/` |
+| 2026-11-11, at the time of the commit the tag names | the probe 1.7.4 revision, tag `review-1.6.8-probe174-20261111` | `manifests/PUBLICATION.json` |
 
 ## 2. Open, with their conditions
 

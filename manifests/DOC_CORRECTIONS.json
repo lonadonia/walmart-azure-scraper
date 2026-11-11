@@ -1,5 +1,323 @@
 {
- "about": "The corrections of each publication of this repository, newest first. This publication's: the statements of the 1.6.6 publication that were not accurate (each quoted from its file at that tag), the limitations 1.6.6 stated truly and 1.6.8 corrects, the 1.6.6 test counts counted again from their evidence, the errata in files that are not edited and in a commit message, the files of the 1.6.6 publication replaced with their text kept, and the corrections made to this publication's own records before its review tag was set. The records of the 1.6.6, 1.6.5 and 1.5.2 publications follow, unchanged.",
+ "about": "The corrections of each publication of this repository, newest first. This revision's: the statements of the 1.6.8 publication that were not accurate (each quoted from its file at that tag), the errata in files that are not edited and in a commit message, the files of the 1.6.8 publication replaced with their text kept, and the corrections made to this revision's own records before its tag was set. The records of the 1.6.8, 1.6.6, 1.6.5 and 1.5.2 publications follow, unchanged.",
+ "review-1.6.8-probe174-20261111": {
+  "statements_not_accurate_in_1_6_8": [
+   {
+    "file": "CHANGELOG.md",
+    "where": "line 27",
+    "text": "  - Classic C4 and C2 are completed in probe 1.7.2, and the drip test that failed on Linux asserts what happened, with a separate forced-kill",
+    "quote": "Classic C4 and C2 are completed in probe 1.7.2",
+    "what_is_true": "On Windows, probe 1.7.2 did not complete C2. When no job object could be made, or the session's process could not join it, 1.7.2 ran the session anyway under a taskkill /T fallback, which cannot reach a child whose parent has already exited, and reported nothing left running; it never asked Windows whether the job held the process; and when the job's count could not be read it reported nothing left running and took the session's evidence. Its result has no cleanup verdict and no session status on any system. The client's review of 1.7.2 found this; 5 tests reproduce it on 1.7.2's code on Windows, by their output, and pass on probe 1.7.4, which runs a session only once a verified job object holds it, refuses it otherwise with no fallback, and keeps a cleanup it cannot verify as unknown (evidence/offline-tests/1.7.4-classic-probe/). Probe 1.7.4 has been tested on Windows and, on the owner's test VM, on Linux.",
+    "corrected_in": "CHANGELOG.md: the probe 1.7.4 entry, and a note added to the 1.6.8 entry",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 60",
+    "text": "| **W7** Classic findings, Mariano's adapter | PASS_OFFLINE; a live successor is PENDING_CLIENT_DECISION | C1, C3 and C5 are corrected in probe 1.7.0; C2 and C4 were advanced in 1.7.1 and are completed in probe 1.7.2, with live mode disabled, on Windows and on Linux. The adapter's identity is explicit and unchanged. [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |",
+    "quote": "C2 and C4 were advanced in 1.7.1 and are completed in probe 1.7.2, with live mode disabled, on Windows and on Linux.",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W7",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 68",
+    "text": "| C2 A timeout leaves the worker alive; body, processing and export unbounded | PASS_OFFLINE | 1.7.0: one process per request, killed and reaped at its allowance; bounded bodies, headers and decompression; a session supervisor. 1.7.1: the ledger writes after an answer wait no longer than the write window; the supervisor's kill, reap and recovery end by the hard end, the recovery in its own process. **1.7.2 completes it:** evidence is read only from a regular file, bounded in size and time (a FIFO, a link or a folder is refused at once); a session's evidence must name its execution, so an earlier campaign's complete file is not taken; the session's process tree is ended whole when it ends; the recovery's bound is monotonic; the supervisor returns within its hard end plus 0.5 s; an unknown charge stays reserved. |",
+    "quote": "1.7.2 completes it: [...] the session's process tree is ended whole when it ends",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. The state PASS_OFFLINE now rests on probe 1.7.4 for Windows.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, C2",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 13",
+    "text": "- **Classic C4 and C2, completed in probe 1.7.2.** The 1.6.6 delivery said probe 1.7.1 completed them. That was not accurate.",
+    "quote": "Classic C4 and C2, completed in probe 1.7.2.",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/TECHNICAL_REPORT.md: a note on this line, and the revision note at the top",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 75",
+    "text": "- **Probe 1.7.2:** C2 and C4 completed.",
+    "quote": "Probe 1.7.2: C2 and C4 completed.",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/TECHNICAL_REPORT.md: a note on this line",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 81",
+    "text": "  - The session's process tree is ended whole when it ends, the recovery's bound is monotonic, and the supervisor returns",
+    "quote": "The session's process tree is ended whole when it ends",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/TECHNICAL_REPORT.md: a note on this line",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "lines 199 to 200",
+    "text": "- C1, C3 and C5 are corrected in the shared probe 1.7.0. C2 and C4 were advanced in 1.7.1 and are completed in 1.7.2, offline, with live\n  mode disabled ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)). The 1.6.5 and 1.6.6 deliveries overstated them; the review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2.",
+    "quote": "C2 and C4 were advanced in 1.7.1 and are completed in 1.7.2",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/CORRECTION_MAP.md, Classic (W7): a bullet for the probe 1.7.4 revision",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "where": "line 29",
+    "text": "| **1.7.2**, shared, current | 1.7.1 with C2 and C4 completed, and the Linux test corrected. It is authoritative from this delivery (collector 1.6.8). | the probe's source tree is Git tree `3ada8871cf159d27a6afb49ff8ca854e16c5d657`, at `7768514aa1ffbaa7f96ca242d7b64e495fffefa5`, where its code changed, unchanged at `7ee2fa1e00512a3ce7a9481268f4e5302294f94f`, where its archive was built, and at the collector's `85c29e7b2404500299056973f50c84b84e187a5a`; archive `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.2.zip`, SHA-256 `fe25579154b9cac70628fa8b7e3a61a85858b01f6900ff0aded04b3d6da76e1e` (built again before publication with the workstation's user name replaced in one of its offline results; its first build, `79f32db3457ff069…`, was not delivered: [`PACKAGE_REBUILD.txt`](../evidence/offline-tests/1.7.2-classic-probe/PACKAGE_REBUILD.txt)); the adapter blob is still `9de6510bddbb0cae7fd86e09dac5ed32fc3487a4`, unchanged | [`classic-probe-1.7.2/`](../classic-probe-1.7.2/) in this repository |",
+    "quote": "1.7.1 with C2 and C4 completed, and the Linux test corrected. It is authoritative from this delivery",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/CLASSIC_PROBE_CORRECTIONS.md, written again for probe 1.7.4: 1.7.2 is superseded",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/WALMART_1.6.8_SUMMARY.md",
+    "where": "line 12",
+    "text": "| C2: a manifest read past the hard deadline; an earlier campaign's evidence accepted | evidence only from a bounded regular file that names the current execution; the session's process tree is ended whole; the supervisor returns within its hard end plus 0.5 s | the same tests, among them an immediate restart in the same folder |",
+    "quote": "the session's process tree is ended whole",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/WALMART_1.6.8_SUMMARY.md and its PDF: the C2 row",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "line 25",
+    "text": "| [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) | C1 to C5 in the probe 1.7.2: what 1.7.0 and 1.7.1 did, what 1.7.2 completes (C2, C4), the Linux test, and the reproductions |",
+    "quote": "what 1.7.2 completes (C2, C4)",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/DELIVERY_INDEX.md, the documents table",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md",
+    "where": "line 51",
+    "text": "| `7768514aa1ffbaa7f96ca242d7b64e495fffefa5` | 2026-11-05T09:21:39Z | **the shared Classic probe 1.7.2**: C2 and C4 completed, the Linux test. It changes nothing in the collector folder. The probe's tree is the same at `85c29e7` (`3ada8871`) |",
+    "quote": "the shared Classic probe 1.7.2: C2 and C4 completed",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/DELIVERY_INDEX.md, the commits table",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "manifests/PUBLICATION.json",
+    "where": "line 94",
+    "text": "   \"corrections\": \"C2 and C4 completed: an incomplete body stays incomplete across a crash and a restart, and the whole session keeps one deadline; stale or foreign evidence is refused. C1, C3 and C5 kept (review/CLASSIC_PROBE_CORRECTIONS.md)\",",
+    "quote": "C2 and C4 completed: an incomplete body stays incomplete across a crash and a restart, and the whole session keeps one deadline",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "manifests/PUBLICATION.json of this revision, whose probe is 1.7.4",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "manifests/check_frozen_trees.py",
+    "where": "line 13",
+    "text": "classic-probe-1.7.2/  the shared probe 1.7.2 (C2 and C4 completed; frozen with 7ee2fa1, its Git tree the same at",
+    "quote": "the shared probe 1.7.2 (C2 and C4 completed;",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "manifests/check_frozen_trees.py: its description of the 1.7.2 tree",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N8-01, note_1_6_8",
+    "text": "C1, C3 and C5 stand from probe 1.7.0. C2 and C4 were not complete in 1.7.1 (a body shorter than its declared length taken as complete; a FIFO manifest read past the hard deadline; an earlier campaign's evidence accepted) and 1.7.2 completes them: the review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2, on both OS. The 1.6.6 note was not accurate (manifests/DOC_CORRECTIONS.md)",
+    "quote": "1.7.2 completes them: the review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2, on both OS",
+    "what_is_true": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N8-01, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "where": "line 56",
+    "text": "| **W3** Sponsored and variant decisions | PASS_DEVELOPER_LIVE | All 275 queued products were read live and decided, and are reconciled at row level: 48 included; 165 excluded with another category identified; 4 excluded with no category path (`categoryPathId` -1, no breadcrumb); 55 excluded with no proof of local eligibility; 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The client's 11 and 30 cases are traced. [W3](CORRECTION_MAP.md#sponsored-and-variant-products-w3) |",
+    "quote": "All 275 queued products were read live and decided [...] 4 excluded with no category path [...] 55 excluded with no proof of local eligibility [...] 0 failed, blocked or unresolved.",
+    "what_is_true": "Not 0 unresolved. For 59 of the 275 no source evidence supports exclusion: 4 have a page that gives no category path (categoryPathId -1, no breadcrumb), and 55 a page that does not prove local eligibility (LOCATION_UNATTESTED and ASSORTMENT_UNRESOLVED; 14 of them also show a marketplace offer, which does not show the product absent from the store). Missing evidence leaves a product unresolved. Recounted from the same published rows (no request): 48 included, 165 excluded because the item's own page places it in another category, identified, 3 duplicates, and 59 unresolved. Settling the 59 needs their pages read again with the store's context (paid requests). The 44 products whose UPC has no read are a separate queue.",
+    "corrected_in": "review/REQUIREMENT_MATRIX.md, W3 (state and text)",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "where": "lines 131 to 141",
+    "text": "- **Result:** all 275 were read live (L2, L3 and L2b, on 1.6.0 and 1.6.1) and decided. A sponsored label alone decided nothing. At row level\n  ([`W3_ROW_LEVEL_1_6_7.csv`](../evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_1_6_7.csv)):\n\n  | Outcome | Products |\n  |---|---:|\n  | included | 48 |\n  | excluded: the item's own page places it in another category, identified | 165 |\n  | excluded: the page states no category path (`categoryPathId` -1, no breadcrumb), so the required category cannot be proven | 4 |\n  | excluded: the page does not prove local eligibility | 55 |\n  | duplicate, linked to the original observation and the SHA-256 of the stored page (items 122787913, 567228522, 15565153181) | 3 |\n  | failed, blocked or unresolved | 0 |",
+    "quote": "all 275 were read live (L2, L3 and L2b, on 1.6.0 and 1.6.1) and decided. [...] excluded: the page states no category path [...] excluded: the page does not prove local eligibility | 55 [...] failed, blocked or unresolved | 0",
+    "what_is_true": "Not 0 unresolved. For 59 of the 275 no source evidence supports exclusion: 4 have a page that gives no category path (categoryPathId -1, no breadcrumb), and 55 a page that does not prove local eligibility (LOCATION_UNATTESTED and ASSORTMENT_UNRESOLVED; 14 of them also show a marketplace offer, which does not show the product absent from the store). Missing evidence leaves a product unresolved. Recounted from the same published rows (no request): 48 included, 165 excluded because the item's own page places it in another category, identified, 3 duplicates, and 59 unresolved. Settling the 59 needs their pages read again with the store's context (paid requests). The 44 products whose UPC has no read are a separate queue.",
+    "corrected_in": "review/CORRECTION_MAP.md, W3: a corrected table after this one",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/WALMART_1.6.8_SUMMARY.md",
+    "where": "line 18",
+    "text": "The 275 sponsored and variant decisions, row by row: 48 included; 165 excluded because the item's own page places it in another category; 4 because the page states no category path, so the category cannot be proven; 55 for no proof of local eligibility; 3 duplicates, linked to their original observations. None failed, was blocked or is unresolved. The queue of UPCs with no read is 44 (not the 45 reported for 1.6.6).",
+    "quote": "4 because the page states no category path, so the category cannot be proven; 55 for no proof of local eligibility; [...] None failed, was blocked or is unresolved.",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/WALMART_1.6.8_SUMMARY.md and its PDF",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "where": "line 23",
+    "text": "- **The 275 sponsored and variant decisions at row level**: 48 included, 165 excluded with another category identified, 4 with no category path, 55 with no proof of local eligibility, 3 duplicates linked to their originals.",
+    "quote": "The 275 sponsored and variant decisions at row level: 48 included, 165 excluded with another category identified, 4 with no category path, 55 with no proof of local eligibility",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The 4 and the 55 are not decisions.",
+    "corrected_in": "review/TECHNICAL_REPORT.md, this line",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "A24, note_1_6_8",
+    "text": "the 275 at row level on stored pages (no request): 48 included, 165 excluded for a positively identified other category, 4 with no category path (categoryPathId -1, no breadcrumb), 55 with no proof of local eligibility, 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The decisions stay those of L2, L3 and L2b (1.6.0, 1.6.1)",
+    "quote": "0 failed, blocked or unresolved",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, A24, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "A25, note_1_6_8",
+    "text": "the 275 at row level on stored pages (no request): 48 included, 165 excluded for a positively identified other category, 4 with no category path (categoryPathId -1, no breadcrumb), 55 with no proof of local eligibility, 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The decisions stay those of L2, L3 and L2b (1.6.0, 1.6.1)",
+    "quote": "0 failed, blocked or unresolved",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, A25, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "B16, note_1_6_8",
+    "text": "the 275 at row level on stored pages (no request): 48 included, 165 excluded for a positively identified other category, 4 with no category path (categoryPathId -1, no breadcrumb), 55 with no proof of local eligibility, 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The decisions stay those of L2, L3 and L2b (1.6.0, 1.6.1)",
+    "quote": "0 failed, blocked or unresolved",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, B16, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "N5-04, note_1_6_8",
+    "text": "the 275 at row level on stored pages (no request): 48 included, 165 excluded for a positively identified other category, 4 with no category path (categoryPathId -1, no breadcrumb), 55 with no proof of local eligibility, 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The decisions stay those of L2, L3 and L2b (1.6.0, 1.6.1)",
+    "quote": "0 failed, blocked or unresolved",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, N5-04, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "where": "P4-02, note_1_6_8",
+    "text": "the 275 at row level on stored pages (no request): 48 included, 165 excluded for a positively identified other category, 4 with no category path (categoryPathId -1, no breadcrumb), 55 with no proof of local eligibility, 3 duplicates linked to their originals and page hashes; 0 failed, blocked or unresolved. The decisions stay those of L2, L3 and L2b (1.6.0, 1.6.1)",
+    "quote": "0 failed, blocked or unresolved",
+    "what_is_true": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "corrected_in": "review/ACCEPTANCE_MATRIX.csv, P4-02, note_1_6_8_probe_1_7_4",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   }
+  ],
+  "errata_not_edited": [
+   {
+    "file": "classic-probe-1.7.2/README_FIRST.md",
+    "where": "line 11",
+    "quote": "whole process tree is ended when it ends",
+    "erratum": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. (a frozen tree: the archive as delivered)",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "classic-probe-1.7.2/oxylabs-classic-probe/README.md",
+    "where": "line 16",
+    "quote": "a job object on Windows) that is ended whole whenever the session ends",
+    "erratum": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. (a frozen tree: the archive as delivered)",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "evidence/offline-tests/1.7.2-classic-probe/README.txt",
+    "where": "line 66",
+    "quote": "The session's process tree is ended whole when it ends.",
+    "erratum": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   },
+   {
+    "file": "evidence/reconciliation/1.6.8/README.md",
+    "where": "line 58",
+    "quote": "| failed, blocked or unresolved | 0 |",
+    "erratum": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above).",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_SUMMARY_1_6_7.json",
+    "where": "line 23",
+    "quote": "\"unresolved\": 0,",
+    "erratum": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The table's rows are right; this count and the classes' labels are not.",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "evidence/reconciliation/1.6.8/tools/w3_reconcile_167.py",
+    "where": "line 235",
+    "quote": "\"unresolved\": 0,",
+    "erratum": "Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The script writes this count as a constant.",
+    "basis": "evidence/reconciliation/1.6.8-probe174/w3/ (W3_275_RECOUNT.csv, recount_w3_174.py)"
+   },
+   {
+    "file": "the commit message of e733d0178cd7a17ff44d70555bc87e0f62b5f475 (tag review-1.6.8-20261106)",
+    "where": "lines 9 to 12",
+    "quote": "It completes C4 (a body shorter than its declared length is kept as partial, never parsed, its money held) and C2",
+    "erratum": "On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux.",
+    "basis": "evidence/offline-tests/1.7.4-classic-probe/ (REPRODUCTION_ON_1.7.2_WINDOWS.log, CANDIDATE_1.7.4_WINDOWS.log)"
+   }
+  ],
+  "replaced_files_keeping_their_text": [
+   {
+    "file": "README.md",
+    "change": "a paragraph for this revision's tag and a section \"This revision: probe 1.7.4 and two corrected statements\" added; the contents table gains classic-probe-1.7.4/ and 1.7.2 is \"superseded by 1.7.4\"; notes marked \"This revision\" added to the C2 and W3 lines; the verify steps name this revision's tag and its Windows reproduction; a dated line on the shared trial ledger read again on 2026-11-09. The rest is the 1.6.8 text"
+   },
+   {
+    "file": "CHANGELOG.md",
+    "change": "the entry of this revision added first, a note added to the 1.6.8 entry, and a sentence on the names of probe-only revisions' tags; the earlier entries are otherwise unchanged"
+   },
+   {
+    "file": "review/CLASSIC_PROBE_CORRECTIONS.md",
+    "change": "written again for probe 1.7.4: a second correction of this page, the 1.7.3 and 1.7.4 rows, what 1.7.4 corrects, its offline proof on Windows and Linux and pinned diffs, and what is not established. The 1.7.0 to 1.7.2 text is kept, with the 1.7.2 row marked superseded"
+   },
+   {
+    "file": "review/REQUIREMENT_MATRIX.md",
+    "change": "the header names probe 1.7.4; W3's state and text, W7's text and the C2 row corrected; the matrix's new columns and their counts described. The rest is the 1.6.8 text"
+   },
+   {
+    "file": "review/ACCEPTANCE_MATRIX.csv",
+    "change": "four columns appended (state, evidence, revision and note of this revision); every earlier column byte for byte as published"
+   },
+   {
+    "file": "review/TECHNICAL_REPORT.md",
+    "change": "a revision note at the top; notes on the C2 and 275 lines; a results row for probe 1.7.4; the package rows; a dated note after the ledger figures, which stand as of 2026-11-06 for Mariano's (the ledger read again on 2026-11-09: Walmart's part unchanged; Mariano's own stages have drawn on Mariano's envelope since). The rest is the 1.6.8 text"
+   },
+   {
+    "file": "review/WALMART_1.6.8_SUMMARY.md and .pdf",
+    "change": "five places marked \"Corrected by the probe 1.7.4 revision\" (the header, the C2 row, the 275, a pending row for the 59 unresolved, the matrix line), and the ledger sentence: \"Mariano's unspent envelope\" was true on 2026-11-06 and no longer is (Mariano's own stages have drawn on it since), so the sentence now says \"Mariano's envelope\" and gives the ledger as read on 2026-11-09; the PDF rendered again from it"
+   },
+   {
+    "file": "review/CORRECTION_MAP.md",
+    "change": "a paragraph for this revision; the 1.7.2-to-1.7.3 and 1.7.3-to-1.7.4 diffs; a corrected W3 table after the 1.6.8 one, which is kept; a note on the client's cases; a W7 bullet for probe 1.7.4"
+   },
+   {
+    "file": "review/DELIVERY_INDEX.md, review/MILESTONES.md, review/ACCEPTANCE_RUNBOOK.md, evidence/README.md",
+    "change": "rows and notes for this revision added; the 1.6.8 text kept"
+   },
+   {
+    "file": "manifests/check_frozen_trees.py",
+    "change": "classic-probe-1.7.4/ added to the frozen trees it checks; its description of 1.7.2 corrected"
+   },
+   {
+    "file": "manifests/PUBLICATION.json, FILE_MAP.csv, REDACTIONS.csv, EXCLUDED.csv, SHA256SUMS.txt",
+    "change": "written for this revision; the earlier rows of REDACTIONS.csv and EXCLUDED.csv kept with the publication that made them"
+   }
+  ],
+  "corrected_before_publication": [
+   {
+    "what": "evidence/offline-tests/1.7.4-classic-probe/: the first offline run of the probe 1.7.4 package (commit db383e0)",
+    "correction": "It failed one test: a refused process's user time, read after its end, was one clock tick (156,250 x 100 ns), not 0. The supervisor had refused the process as it should; the assertion was unsound, because Windows may charge a tick of user time to a process terminated without ever running (6 of 300 in the experiment kept with the evidence). Commit 05d8d87 takes the proof before the end instead (one thread suspended once, no time charged, no resume asked for), changes no code, and every Windows run was made again on it (and once more on a1def53, below). The failed run is kept as found (EARLIER_FAILED_RUN_db383e0.txt)."
+   },
+   {
+    "what": "evidence/offline-tests/1.7.4-classic-probe/linux-owner-vm/: the first build of the probe 1.7.4 package (commit 05d8d87, archive SHA-256 d689e620...), run on Linux on the owner's test VM",
+    "correction": "Its tests passed there (234: 227 passed, 7 skipped; the review tests 3 passed and 4 skipped, and on 1.7.2's code 2 failed by their output), but mypy reported three name-defined errors in proctree.py: the Windows-only start used names defined only on Windows, and the type check run on Windows reads the code for Windows alone (mypy --platform linux on Windows shows the same three; 1.7.2 had none). Commit a1def53 puts that code under its platform check, with no change in what runs, and the README runs mypy for both platforms. Every Windows run was made again on a1def53, the archive was built again, and it was run on Linux again. The first build was never published; its Linux run is kept as found (linux-owner-vm/first-build-05d8d87/)."
+   }
+  ]
+ },
  "review-1.6.8-20261106": {
   "statements_not_accurate_in_1_6_6": [
    {

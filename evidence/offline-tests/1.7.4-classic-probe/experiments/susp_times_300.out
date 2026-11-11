@@ -1,0 +1,9 @@
+2026-11-09T22:04:58Z
+rounds 300
+before end: cycles>0 300 kernel>0 0 user>0 0
+after end:  cycles>0 300 kernel>0 4 user>0 6
+after end, user>0 by way: job 2 terminate 4
+max before: (48904, 0, 0) max user after: 156250
+examples with user>0 after: [(False, (13776, 0, 0), (1364512, 0, 156250), 1), (False, (13087, 0, 0), (1985351, 0, 156250), 1), (False, (13776, 0, 0), (1444414, 0, 156250), 1), (True, (11710, 0, 0), (1360151, 0, 156250), 1), (False, (12628, 0, 0), (1582174, 0, 156250), 1)]
+exit 0
+2026-11-09T22:05:00Z

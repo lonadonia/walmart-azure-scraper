@@ -1,9 +1,15 @@
-# Delivery index: Walmart collector release 1.6.8, with the shared Oxylabs Classic offline probe 1.7.2
+# Delivery index: Walmart collector release 1.6.8, with the shared Oxylabs Classic offline probe 1.7.4
 
 Release 1.6.8 of the Walmart collector, commit `85c29e7b2404500299056973f50c84b84e187a5a`, in its two provider
 editions (Oxylabs Web API and Scrape.do), and the shared Oxylabs Classic offline probe 1.7.2, commit `7768514aa1ffbaa7f96ca242d7b64e495fffefa5`. Store: Walmart #3891,
 3900 Fountain Square Pl, Waukegan, IL 60085, fulfillment PICKUP. Prepared on 2026-11-05 and 2026-11-06 (UTC) by Hamza. The message to the client is a draft kept outside this
 repository; nothing here has been sent to the client.
+
+**The probe 1.7.4 revision** (tag `review-1.6.8-probe174-20261111`, 2026-11-11): the shared probe is now 1.7.4, commit
+`a1def53747dfabcb2ad9ca97efc421c1e70f0ac6` ([`classic-probe-1.7.4/`](../classic-probe-1.7.4/)), which corrects C2 on Windows (the
+client's review of 1.7.2); two statements of the 1.6.8 publication are corrected (C2 as completed in 1.7.2, and 59 of
+the 275 decisions, which are unresolved, not excluded). The collector and its data are unchanged. See
+[`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) and [`manifests/DOC_CORRECTIONS.md`](../manifests/DOC_CORRECTIONS.md).
 
 **What this is: a correction delivery.** It corrects the points of the client's review of 1.6.6 that code and
 documents can settle, and verifies them: Classic C4 and C2 and the Linux test discrepancy (probe 1.7.2), what "complete" means, the scope that was skipped, the category
@@ -20,9 +26,9 @@ production-ready, and every schedule is off.
 | [`WALMART_1.6.8_SUMMARY.pdf`](WALMART_1.6.8_SUMMARY.pdf) | a short readable summary: what was corrected, what was verified where, coverage, and what is pending |
 | [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md) | what was fixed, what ran on this revision and where, the fifteen live runs, counts, coverage, the shared ledger, what remains, disclosures |
 | [`REQUIREMENT_MATRIX.md`](REQUIREMENT_MATRIX.md) | the state of each work item (W1 to W8), Classic finding (C1 to C5), audit item (W01 to W24) and contract rule |
-| [`ACCEPTANCE_MATRIX.csv`](ACCEPTANCE_MATRIX.csv) | the 206 rows, with their earlier columns as published (1.5.2, 1.6.5 and 1.6.6; their paths are at those tags), and four new columns of 1.6.8: PASS_OFFLINE 91, PASS_DEVELOPER_LIVE 66, PASS_OWNER_AZURE 5, BLOCKED_BUDGET 22, PENDING_CLIENT_AZURE 5, PENDING_OWNER 4, NOT_APPLICABLE_BY_CLARIFICATION 6, PENDING_CLIENT_DECISION 4, PENDING_OBSERVATION 3 |
+| [`ACCEPTANCE_MATRIX.csv`](ACCEPTANCE_MATRIX.csv) | the 206 rows, with their earlier columns as published (1.5.2, 1.6.5 and 1.6.6; their paths are at those tags), and four new columns of 1.6.8: PASS_OFFLINE 91, PASS_DEVELOPER_LIVE 66, PASS_OWNER_AZURE 5, BLOCKED_BUDGET 22, PENDING_CLIENT_AZURE 5, PENDING_OWNER 4, NOT_APPLICABLE_BY_CLARIFICATION 6, PENDING_CLIENT_DECISION 4, PENDING_OBSERVATION 3; and four columns of the probe 1.7.4 revision (`*_1_6_8_probe_1_7_4`): PASS_OFFLINE 91, PASS_DEVELOPER_LIVE 64, PASS_OWNER_AZURE 5, BLOCKED_BUDGET 24, PENDING_CLIENT_AZURE 5, PENDING_OWNER 4, NOT_APPLICABLE_BY_CLARIFICATION 6, PENDING_CLIENT_DECISION 4, PENDING_OBSERVATION 3 (A25 and P4-02 become BLOCKED_BUDGET: the 59 unresolved) |
 | [`CORRECTION_MAP.md`](CORRECTION_MAP.md) | each correction with its cause, tests and evidence, and the pinned diffs from 1.6.6 and from 1.5.2 |
-| [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) | C1 to C5 in the probe 1.7.2: what 1.7.0 and 1.7.1 did, what 1.7.2 completes (C2, C4), the Linux test, and the reproductions |
+| [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) | C1 to C5 in the probe 1.7.4: what 1.7.0 and 1.7.1 did, what 1.7.2 completed (C2, C4), the Linux test, what 1.7.4 corrects on Windows (C2), and the reproductions |
 | [`TEST_PLAN.md`](TEST_PLAN.md) | the next live work, priced part by part, smallest first. Unapproved |
 | [`MILESTONES.md`](MILESTONES.md) | what was done when, and what is open with its condition |
 | [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md) | the shared trial ledger per stage, measured runtimes, and the estimates for full scope |
@@ -48,11 +54,13 @@ production-ready, and every schedule is off.
 | `68ff3d8518b38a3792792ed6ffb8e73c2756245f` | 2026-11-04T22:25:51Z | the shared Classic probe 1.7.1: C2 and C4 completed. It changes nothing in the collector folder |
 | `39cc61f61ee694c0659a611310605bee6ed42d6b` | 2026-11-04T22:34:53Z | release 1.6.6. Live run L12 |
 | `cbea802891d4e66b74a0abc33e0af0af74c89708` | 2026-11-04T22:38:53Z | the builder of the 1.6.6 delivery archives (`scripts/`); it changes nothing under `headless/`. The archives of 1.6.6 name this commit (publication `4bae4fb`, tag `review-1.6.6-20261105`) |
-| `7768514aa1ffbaa7f96ca242d7b64e495fffefa5` | 2026-11-05T09:21:39Z | **the shared Classic probe 1.7.2**: C2 and C4 completed, the Linux test. It changes nothing in the collector folder. The probe's tree is the same at `85c29e7` (`3ada8871`) |
+| `7768514aa1ffbaa7f96ca242d7b64e495fffefa5` | 2026-11-05T09:21:39Z | **the shared Classic probe 1.7.2**: C2 and C4 completed (C2 not on Windows: corrected in probe 1.7.4, below), the Linux test. It changes nothing in the collector folder. The probe's tree is the same at `85c29e7` (`3ada8871`) |
 | `7ee2fa1e00512a3ce7a9481268f4e5302294f94f` | 2026-11-05T10:12:41Z | release 1.6.7: prepared, never delivered; 1.6.8 carries it. No live run |
 | `745607e1ffc60ffd79a35a522139729e958fbbc8`, `7a96218f5cb64c7759d5b6544da797fe381281e1`, `9c144251cc099c01e67ff6a20582d2eaddcb2adc` | 2026-11-05T16:55:59Z, 17:27:22Z, 18:56:32Z | three 1.6.8 commits, replaced before any archive was delivered ([`1.6.8-collector/`](../evidence/offline-tests/1.6.8-collector/)). No live run |
 | `2cab0a26f81902b898af8da7ad10b19c7f30ad8b` | 2026-11-05T16:57:12Z | the builder of the 1.6.8 delivery archives (`scripts/`); it reads the release commit's tree |
 | `85c29e7b2404500299056973f50c84b84e187a5a` | 2026-11-05T20:51:52Z | **release 1.6.8, the revision of this delivery.** Its archives' `BUILD_INFO.json` names this commit. No live run |
+| `95f96a02329bd3a92c9c8b07dd53e53ae89fe553` | 2026-11-06T23:43:37Z | the shared Classic probe 1.7.3 (T05), published with Mariano's 1.9.0rc4. It changes no process code |
+| `e0a6679a3a0c9f479e98cb00821260e0856ecf08`, `db383e02d5714bc64da5a8fbcc32c25940d23353`, `05d8d87b32c17e339946539e5e2d61fb004f1c21`, `a1def53747dfabcb2ad9ca97efc421c1e70f0ac6` | 2026-11-09T21:19:29Z, 21:28:02Z, 21:46:07Z; 2026-11-10T02:40:46Z | **the shared Classic probe 1.7.4**, the probe 1.7.4 revision: its code, two changes to its new test file and README, then the Windows-only start put under its platform check, so that mypy passes on Linux (the archive's first build, from `05d8d87`, failed there and was not published). Its archive names `a1def53`. It changes nothing in the collector folder |
 
 The development commits are local (branches `walmart-1.6` and `walmart-1.6.6`). 1.7.1's shared probe is `68ff3d8518b38a3792792ed6ffb8e73c2756245f`. This repository receives the
 delivered files: the source ZIP's tree, the probe's, the product files, the evidence and the review documents. Each
@@ -63,16 +71,17 @@ run is attributed to the release that ran it and to no other.
 | Folder | What it is |
 |---|---|
 | [`source/`](../source/) | `WALMART_SOURCE_1.6.8.zip`, file for file: `walmart-oxylabs-1.6.8/` and `walmart-scrapedo-1.6.8/`, which differ in four edition files |
-| [`classic-probe-1.7.2/`](../classic-probe-1.7.2/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.2.zip`, file for file; live mode disabled |
-| [`classic-probe-1.7.1/`](../classic-probe-1.7.1/), [`classic-probe-1.7.0/`](../classic-probe-1.7.0/) | the probes of the 1.6.6 and 1.6.5 deliveries, unchanged; superseded by 1.7.2 |
+| [`classic-probe-1.7.4/`](../classic-probe-1.7.4/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.4.zip`, file for file; live mode disabled (the probe 1.7.4 revision) |
+| [`classic-probe-1.7.2/`](../classic-probe-1.7.2/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.2.zip`, file for file; live mode disabled; superseded by 1.7.4 |
+| [`classic-probe-1.7.1/`](../classic-probe-1.7.1/), [`classic-probe-1.7.0/`](../classic-probe-1.7.0/) | the probes of the 1.6.6 and 1.6.5 deliveries, unchanged; superseded |
 
 | [`classic-probe/`](../classic-probe/) | the Walmart Classic probe 1.5.2, as the client reviewed it, unchanged |
 | [`data/`](../data/) | the product files of L10 (`L10-1.6.4/`) and L8 (`L8-1.6.3/`), the run summary, and the 1.5.x runs' files, unchanged; the run summary adds L12. L12's own export is in its run folder |
 | [`evidence/live/1.6.x/`](../evidence/live/1.6.x/) | `runs/`: each run's database rows, stored pages (sanitized, with the SHA-256 of each private original), exports and coverage, L12's included; `campaign/`: the harness, step definitions, commands and logs, checks, and the shared ledger's Walmart extract; `builds/`: the Oxylabs edition ZIP of each release that ran live, 1.6.6's included |
-| [`evidence/offline-tests/`](../evidence/offline-tests/) | per release (`1.6.0-collector/` to `1.6.6-collector/`, `1.6.8-collector/`, `1.7.0-classic-probe/` to `1.7.2-classic-probe/`): its diff, its tests run against the release before, and its suites on its commit |
+| [`evidence/offline-tests/`](../evidence/offline-tests/) | per release (`1.6.0-collector/` to `1.6.6-collector/`, `1.6.8-collector/`, `1.7.0-classic-probe/` to `1.7.2-classic-probe/`, and `1.7.4-classic-probe/` for the probe 1.7.4 revision): its diff, its tests run against the release before, and its suites on its commit |
 | [`evidence/verification/1.6.8/`](../evidence/verification/1.6.8/) | the clean-extraction verification of both editions on Windows with the Bicep checks (`package/`), and the last-good publication check (`last_good_publication/`). The records of 1.6.1, 1.6.4, 1.6.5 and 1.6.6 stay beside it; the top of `evidence/verification/` is release 1.5.2's record |
 | [`evidence/owner-azure-test/1.6.8/`](../evidence/owner-azure-test/1.6.8/) | the owner's Azure test VM, Linux: the qualification of both editions, the operator drill, the container gate, the probe, the recording's source and the host's state before and after |
-| [`evidence/reconciliation/`](../evidence/reconciliation/) | `1.6.8/`: W2 (the blanks rechecked), W3 (the 275 at row level), W4 and the continuation estimate. Earlier tables stay beside it: W2 (`1.6.3/w2/`), W3 (`1.6.1/w3/`), W4 and the measured concurrency (`1.6.5/`, `1.6.6/`) |
+| [`evidence/reconciliation/`](../evidence/reconciliation/) | `1.6.8-probe174/w3/`: the 275 recounted with missing evidence as unresolved (the probe 1.7.4 revision). `1.6.8/`: W2 (the blanks rechecked), W3 (the 275 at row level), W4 and the continuation estimate. Earlier tables stay beside it: W2 (`1.6.3/w2/`), W3 (`1.6.1/w3/`), W4 and the measured concurrency (`1.6.5/`, `1.6.6/`) |
 | [`review/`](.) | this index and the review documents |
 | [`manifests/`](../manifests/) | the file map, the redactions, the exclusions, the documentation corrections, the publication record, the data and tree checks, and `SHA256SUMS.txt` |
 | [`walkthrough/`](../walkthrough/) | the 1.6.8 recording on the owner's VM (no live run), and the 1.5.2 recording, unchanged |
@@ -124,7 +133,7 @@ valid products, a canary) has no folder in `data/`: its exports are in
   [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md)). The provider-side balance is UNVERIFIED: the Web API
   has no balance endpoint, and the dashboard is the owner's.
 - **Scrape.do:** not used in this delivery.
-- **Azure:** nothing deployed. The Bicep templates were built and linted offline. Hamza's own Azure test VM ran this delivery's gates; its compute is his. The client's VM is
+- **Azure:** nothing deployed. The Bicep templates were built and linted offline. Hamza's own Azure test VM ran this delivery's gates; its compute is Hamza's. The client's VM is
   deallocated (the client's statement); it was not touched, and no SSH attempt was made.
 - **External services:** unchanged since 1.5.2: Walmart.com through a provider (the Oxylabs Web API or Scrape.do),
   the operator's PostgreSQL and, optionally, Azure. The Docker base images are unchanged. The Classic probe names

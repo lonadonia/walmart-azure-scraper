@@ -1,0 +1,20 @@
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: .venv
+   Building oxylabs-classic-probe @ file://<vm-home>/q174/run2/x/oxylabs-classic-offline-probe-1.7.4/oxylabs-classic-probe
+      Built oxylabs-classic-probe @ file://<vm-home>/q174/run2/x/oxylabs-classic-offline-probe-1.7.4/oxylabs-classic-probe
+Prepared 1 package in 594ms
+Installed 14 packages in 17ms
+ + ast-serialize==0.13.1
+ + iniconfig==2.3.1
+ + librt==0.16.0
+ + mypy==2.4.0
+ + mypy-extensions==1.1.0
+ + oxylabs-classic-probe==1.7.4 (from file://<vm-home>/q174/run2/x/oxylabs-classic-offline-probe-1.7.4/oxylabs-classic-probe)
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.7.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + ruff==0.17.1
+ + selectolax==1.0.1
+ + typing-extensions==4.16.0

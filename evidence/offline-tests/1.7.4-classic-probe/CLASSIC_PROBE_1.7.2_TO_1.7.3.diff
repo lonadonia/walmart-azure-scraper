@@ -1,0 +1,398 @@
+diff --git a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+index 951263c..e61266a 100644
+--- a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
++++ b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+@@ -2,7 +2,7 @@
+ 
+ This is how a small Classic campaign could be run for Walmart and for Mariano's, once the account's owner has approved it.
+ 
+-This build (1.7.2) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). Release 1.7.2 corrects what the client's review of 1.7.1 reproduced: a body shorter than its declared length is never an answer, and a raw answer is recovered only into its own dispatch (C4); the reading of the evidence is bounded by the same deadline, only this execution's evidence is taken, and the session's whole process tree is ended when it ends (C2). The stages and their limits are unchanged.
++This build (1.7.3) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). Release 1.7.2 corrects what the client's review of 1.7.1 reproduced: a body shorter than its declared length is never an answer, and a raw answer is recovered only into its own dispatch (C4); the reading of the evidence is bounded by the same deadline, only this execution's evidence is taken, and the session's whole process tree is ended when it ends (C2). Release 1.7.3 checks an offline replay's saved responses before anything is created and refuses an unusable input with one line (T05). The stages and their limits are unchanged.
+ 
+ None of it has been run. This build's live mode is disabled, and no request has been made to Oxylabs Classic. The limits below are the proposal sent to the client: they are a proposal, not an approval.
+ 
+diff --git a/headless/oxylabs-classic-probe/README.md b/headless/oxylabs-classic-probe/README.md
+index f83ad9b..dedc5d2 100644
+--- a/headless/oxylabs-classic-probe/README.md
++++ b/headless/oxylabs-classic-probe/README.md
+@@ -1,4 +1,4 @@
+-# oxylabs-classic-probe 1.7.2
++# oxylabs-classic-probe 1.7.3
+ 
+ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper API (Realtime method). It holds three things:
+ 
+@@ -8,6 +8,8 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
++Version 1.7.3 corrects the offline replay's handling of its input (T05). Up to 1.7.2, `replay` created its output folder and an offline ledger before it read the saved responses, and an input it could not use ended in a traceback: a missing `replay.json` or a missing `body_file` in a `FileNotFoundError` (exit 1), `{}` in a `KeyError` (exit 1); a file that was not JSON was refused (exit 2) but only after the folder and the ledger had been created. Now every input is checked first: a missing fixtures folder or `replay.json`, a file that cannot be read, is not UTF-8 or is not JSON, a structure other than `{"steps": {step: [response, ...]}}`, an `http_status` that is not an integer from 100 to 599, a `body` that is not text, a response with both `body` and `body_file`, and a `body_file` that is missing, unreadable or outside the fixtures folder are each refused with one line naming the problem (`{"refused": "ReplayRefused: ..."}`, exit 2), and nothing is created; missing `--targets` or `--rates` files likewise. A valid replay behaves as before. The 23 tests of `tests/test_t05_replay_input.py` were first run on the frozen 1.7.2 code: 22 fail by their output (tracebacks, exit 1, an output folder created) and the control test of a valid replay passes; on 1.7.3 all 23 pass. Nothing else changed: the steps, the response checks, the payloads, the limits and the live refusal are those of 1.7.2.
++
+ Version 1.7.2 corrects what the client's review of 1.7.1 reproduced: two gaps in C4, two in C2 and one test that failed on Linux. Each was first reproduced as a test that fails on the frozen 1.7.1 code by its output, on Windows and on Linux (`tests/test_review_of_171.py`, and the drip and hung-worker tests of `tests/test_isolated_transport.py`); 1.7.2 makes each pass. A test named `..._control_...` passes on both and pins what the correction keeps.
+ 
+ - **C4, a body shorter than declared.** A server that declares `Content-Length: 100`, writes `{}` and closes gave 1.7.1 a whole answer (ok, not truncated, renamed to its final `.body`), on a success status or an error status alike, and the campaign parsed it: `http.client` reports such an end as an empty read, not as an error. Now the worker compares what arrived with what was declared. A body shorter than its declared length (including one of which no byte arrived) and a chunked body cut short are kept as `dispatch_NNN.partial` with their status (`IncompleteBody`, the declared and received lengths, the SHA-256), recorded once in the ledger as `PARTIAL_RESPONSE`, never parsed, and their reservation stays held. The transport and the recovery check the declared length again, so a status written by an earlier build cannot pass a short body as whole. A body of exactly its declared length, a response without a body (204, 304, `Content-Length: 0`) and a body of exactly the byte limit stay whole; a body above the limit is still cut at the limit, marked truncated and never decoded. A crash followed by an immediate restart in the same folder keeps the partial, its hash and its accounting, with no paid refetch.
+@@ -39,6 +41,7 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ | Shared ledger (10 per retailer, 20 total, 30 minutes, USD 5, headroom, deadline) | **SYNTHETIC TEST**: tested offline, including concurrent processes, crashes and both retailers on one ledger |
+ | The deadline through recovery, export and cleanup; answers kept across crashes (C2, C4; 1.7.1) | **SYNTHETIC TEST**: tested offline with separate processes, a ledger lock held by another connection, killed sessions and a stub on 127.0.0.1. Not run against Oxylabs |
+ | Bodies shorter than declared, a worker killed after it named its file, whose answer a raw file is; the evidence path, this execution's own evidence, the session's process tree (C4, C2; 1.7.2) | **SYNTHETIC TEST**: tested offline on Windows and on Linux with a stub on 127.0.0.1 that cuts its bodies short, workers made to hang, a FIFO at the evidence path (Linux), a previous run's evidence, a process left behind and a wall-clock jump. Not run against Oxylabs |
++| A replay's missing, unreadable, malformed or invalid saved responses (T05; 1.7.3) | **SYNTHETIC TEST**: tested offline on Windows, in process and in a separate process with the network closed and sentinel credentials in its environment |
+ | A Classic request | **NOT TESTED**: none was made. That needs the account owner's credentials, entitlement, rates and approval |
+ | Listing pagination for Mariano's | **NOT AVAILABLE**: the documentation gives `marianos_search` no page parameter, so no second page is planned (see below) |
+ 
+@@ -80,7 +83,7 @@ All commands are offline. `classic-probe --help` and `python -m classic_probe --
+ | `status --manifest M` | the ledger | nothing | nothing |
+ | `confirm-charge --manifest M --seq N --value V --unit U --basis TEXT` | the ledger | one confirmed charge, with where it was read | nothing |
+ | `export --manifest M --out DIR` | the ledger | `ledger_export.json` | nothing |
+-| `replay --targets T --fixtures DIR --rates FILE --out DIR [--retailer walmart\|marianos]` | saved responses | a new offline ledger and the evidence | nothing (OFFLINE REPLAY) |
++| `replay --targets T --fixtures DIR --rates FILE --out DIR [--retailer walmart\|marianos]` | saved responses, checked before anything is written (1.7.3) | a new offline ledger and the evidence; nothing when an input is refused | nothing (OFFLINE REPLAY) |
+ | `live --manifest M [--approval F] [--entitlement F] [--rates F]` | those files | nothing | nothing: always refused in this build |
+ 
+ `plan` and `validate` cover both retailers. Exit codes: `0` ok, `2` refused input, `3` live refused, `4` the campaign stopped, `5` evidence export failed.
+diff --git a/headless/oxylabs-classic-probe/pyproject.toml b/headless/oxylabs-classic-probe/pyproject.toml
+index 06dfcbf..41ca3da 100644
+--- a/headless/oxylabs-classic-probe/pyproject.toml
++++ b/headless/oxylabs-classic-probe/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "oxylabs-classic-probe"
+-version = "1.7.2"
++version = "1.7.3"
+ description = "A small offline probe and request plan for the Oxylabs Classic Web Scraper API (Realtime): documented payloads, response checks and a durable shared campaign ledger. Its live mode is disabled."
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+index c9f0905..6891b3c 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+@@ -3,4 +3,4 @@
+ Importing this package opens no connection and reads no credential.
+ """
+ 
+-__version__ = "1.7.2"
++__version__ = "1.7.3"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/cli.py b/headless/oxylabs-classic-probe/src/classic_probe/cli.py
+index e28addb..63821bb 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/cli.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/cli.py
+@@ -161,32 +161,90 @@ def cmd_export(args: argparse.Namespace) -> int:
+     return EXIT_OK
+ 
+ 
++class ReplayRefused(ValueError):
++    """A replay's saved responses cannot be used (missing, unreadable, malformed or invalid): nothing is run
++    and nothing is created (release 1.7.3, T05)."""
++
++
++def _replay_body(fixtures: Path, root: Path, where: str, row: dict[str, Any]) -> bytes:
++    if "body_file" in row and "body" in row:
++        raise ReplayRefused(f"{where}: give body_file or body, not both")
++    name = row.get("body_file")
++    if name is None:
++        body = row.get("body", "")
++        if not isinstance(body, str):
++            raise ReplayRefused(f"{where}: body must be a string")
++        return body.encode("utf-8")
++    if not isinstance(name, str) or not name:
++        raise ReplayRefused(f"{where}: body_file must be a file name")
++    path = (fixtures / name).resolve()
++    if root not in path.parents:
++        raise ReplayRefused(f"{where}: body_file {name!r} is outside the fixtures folder")
++    if not path.is_file():
++        raise ReplayRefused(f"{where}: body_file {name!r} is missing")
++    try:
++        return path.read_bytes()
++    except OSError as exc:
++        raise ReplayRefused(f"{where}: body_file {name!r} cannot be read ({type(exc).__name__})") from None
++
++
+ def load_replay(fixtures: Path) -> ReplayTransport:
+-    """``replay.json`` maps each step to its saved responses: ``{"step": [{"http_status": 200, "body_file":
+-    "x.json"}]}``."""
+-    spec = json.loads((fixtures / "replay.json").read_text(encoding="utf-8"))
+-    responses = {
+-        step: [
+-            ProviderResponse(
+-                int(r["http_status"]),
+-                (fixtures / r["body_file"]).read_bytes()
+-                if r.get("body_file")
+-                else str(r.get("body", "")).encode("utf-8"),
+-            )
+-            for r in rows
+-        ]
+-        for step, rows in spec["steps"].items()
+-    }
++    """``replay.json`` maps each step to its saved responses: ``{"steps": {"step": [{"http_status": 200,
++    "body_file": "x.json"}]}}`` (or ``"body"``, the response's text; neither: an empty body).
++
++    Release 1.7.3 (T05): every input is checked here, before the replay creates anything: a missing
++    fixtures folder or ``replay.json``, one that cannot be read or is not JSON, a structure other than the one
++    above, an ``http_status`` that is not an integer from 100 to 599, or a ``body_file`` that is missing,
++    unreadable or outside the fixtures folder is a :class:`ReplayRefused` naming the problem."""
++    spec_path = fixtures / "replay.json"
++    if not fixtures.is_dir():
++        raise ReplayRefused(f"the fixtures folder {fixtures} does not exist")
++    if not spec_path.is_file():
++        raise ReplayRefused(f"replay.json is missing in {fixtures}")
++    try:
++        text = spec_path.read_text(encoding="utf-8")
++    except (OSError, UnicodeDecodeError) as exc:
++        raise ReplayRefused(f"replay.json cannot be read ({type(exc).__name__})") from None
++    try:
++        spec = json.loads(text)
++    except json.JSONDecodeError as exc:
++        raise ReplayRefused(
++            f"replay.json is not valid JSON (line {exc.lineno}, column {exc.colno})"
++        ) from None
++    steps = spec.get("steps") if isinstance(spec, dict) else None
++    if not isinstance(steps, dict) or not steps:
++        raise ReplayRefused(
++            'replay.json must be an object whose "steps" maps each step to its saved responses'
++        )
++    root = fixtures.resolve()
++    responses: dict[str, list[ProviderResponse]] = {}
++    for step, rows in steps.items():
++        if not isinstance(rows, list) or not rows:
++            raise ReplayRefused(f"step {step!r}: a non-empty list of saved responses is required")
++        answers: list[ProviderResponse] = []
++        for i, row in enumerate(rows, 1):
++            where = f"step {step!r}, response {i}"
++            if not isinstance(row, dict):
++                raise ReplayRefused(f"{where}: an object is required")
++            status = row.get("http_status")
++            if isinstance(status, bool) or not isinstance(status, int) or not 100 <= status <= 599:
++                raise ReplayRefused(f"{where}: http_status must be an integer from 100 to 599")
++            answers.append(ProviderResponse(status, _replay_body(fixtures, root, where, row)))
++        responses[str(step)] = answers
+     return ReplayTransport(responses)
+ 
+ 
+ def cmd_replay(args: argparse.Namespace) -> int:
+-    """The campaign against saved responses, with a new isolated offline ledger in ``--out``."""
++    """The campaign against saved responses, with a new isolated offline ledger in ``--out``. The inputs are
++    checked first (release 1.7.3, T05): a refused input creates neither ``--out`` nor a ledger."""
++    transport = load_replay(args.fixtures)
++    for name, path in (("--targets", args.targets), ("--rates", args.rates)):
++        if not path.is_file():
++            raise ReplayRefused(f"{name} {path} is missing")
+     _, tgts = targets.load(args.targets)
+     card = money.RateCard.load(_read_json(args.rates) or {})
+     args.out.mkdir(parents=True, exist_ok=True)
+     led = ledger.Ledger.create(args.out / "ledger.sqlite3", "offline-replay", ledger.Limits(), offline=True)
+-    transport = load_replay(args.fixtures)
+     kind = marianos.MarianosCampaign if args.retailer == "marianos" else campaign.Campaign
+     run = kind(led, transport, tgts[args.retailer], card, out_dir=args.out)
+     result = run.run()
+diff --git a/headless/oxylabs-classic-probe/tests/test_t05_replay_input.py b/headless/oxylabs-classic-probe/tests/test_t05_replay_input.py
+new file mode 100644
+index 0000000..8573ebe
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_t05_replay_input.py
+@@ -0,0 +1,196 @@
++"""Release 1.7.3, T05: a replay whose saved responses are missing, unreadable, malformed or invalid is refused
++with one concise line and exit code 2, before anything is created; never a traceback, never a network use,
++never a credential read. A valid replay behaves as before.
++
++Up to 1.7.2 a missing ``replay.json`` ended in a ``FileNotFoundError`` traceback (exit 1) after ``--out`` and
++an offline ledger had been created; a missing ``body_file`` likewise; ``{}`` raised a ``KeyError`` traceback.
++"""
++
++from __future__ import annotations
++
++import json
++import os
++import subprocess
++import sys
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import cli, gates
++from tests import fixture_builder as fb
++from tests.conftest import SYNTHETIC_RATES
++from tests.test_offline import GUARD
++
++ROOT = Path(__file__).resolve().parents[1]
++TARGETS = ROOT / "config" / "targets.json"
++
++
++def valid_fixtures(folder: Path) -> dict[str, Any]:
++    folder.mkdir(parents=True, exist_ok=True)
++    spec: dict[str, Any] = {"steps": {}}
++    for step, answers in fb.complete().items():
++        spec["steps"][step] = []
++        for i, (status, body) in enumerate(answers):
++            (folder / f"{step}-{i}.json").write_bytes(body)
++            spec["steps"][step].append({"http_status": status, "body_file": f"{step}-{i}.json"})
++    (folder / "replay.json").write_text(json.dumps(spec), "utf-8")
++    return spec
++
++
++def args(tmp: Path, fixtures: Path) -> list[str]:
++    rates = tmp / "rates.json"
++    rates.write_text(json.dumps(SYNTHETIC_RATES), "utf-8")
++    return [
++        "replay",
++        "--targets",
++        str(TARGETS),
++        "--fixtures",
++        str(fixtures),
++        "--rates",
++        str(rates),
++        "--out",
++        str(tmp / "out"),
++    ]
++
++
++def refused(capsys: pytest.CaptureFixture[str], code: int) -> str:
++    out = capsys.readouterr()
++    assert code == cli.EXIT_USAGE == 2
++    assert out.out == "" and "Traceback" not in out.err
++    lines = out.err.strip().splitlines()
++    assert len(lines) == 1
++    message: str = json.loads(lines[0])["refused"]
++    assert message.startswith("ReplayRefused: ")
++    return message
++
++
++def test_a_missing_replay_file_is_refused_before_anything_is_created(
++    tmp_path: Path, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
++) -> None:
++    def no_credentials() -> Any:
++        raise AssertionError("a replay read a credential")
++
++    monkeypatch.setattr(gates, "load_credentials", no_credentials)
++    monkeypatch.setattr(gates, "credentials_present", no_credentials)
++    fixtures = tmp_path / "fixtures"
++    fixtures.mkdir()
++    message = refused(capsys, cli.main(args(tmp_path, fixtures)))
++    assert message == f"ReplayRefused: replay.json is missing in {fixtures}"
++    assert not (tmp_path / "out").exists()  # no output folder, no ledger
++
++
++def test_a_missing_fixtures_folder_is_refused(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
++    message = refused(capsys, cli.main(args(tmp_path, tmp_path / "nowhere")))
++    assert "does not exist" in message and not (tmp_path / "out").exists()
++
++
++@pytest.mark.parametrize(
++    ("text", "expected"),
++    [
++        ("{not json", "is not valid JSON (line 1, column 2)"),
++        ("", "is not valid JSON (line 1, column 1)"),
++        ("[]", 'must be an object whose "steps"'),
++        ("{}", 'must be an object whose "steps"'),
++        ('{"steps": []}', 'must be an object whose "steps"'),
++        ('{"steps": {}}', 'must be an object whose "steps"'),
++        ('{"steps": {"s": []}}', "step 's': a non-empty list"),
++        ('{"steps": {"s": [1]}}', "step 's', response 1: an object is required"),
++        ('{"steps": {"s": [{"body": "x"}]}}', "http_status must be an integer from 100 to 599"),
++        ('{"steps": {"s": [{"http_status": "200"}]}}', "http_status must be an integer"),
++        ('{"steps": {"s": [{"http_status": true}]}}', "http_status must be an integer"),
++        ('{"steps": {"s": [{"http_status": 99}]}}', "http_status must be an integer from 100 to 599"),
++        ('{"steps": {"s": [{"http_status": 200, "body": 5}]}}', "body must be a string"),
++        ('{"steps": {"s": [{"http_status": 200, "body": "", "body_file": "a"}]}}', "not both"),
++        ('{"steps": {"s": [{"http_status": 200, "body_file": "gone.json"}]}}', "'gone.json' is missing"),
++        (
++            '{"steps": {"s": [{"http_status": 200, "body_file": "../rates.json"}]}}',
++            "outside the fixtures folder",
++        ),
++        ('{"steps": {"s": [{"http_status": 200, "body_file": ""}]}}', "body_file must be a file name"),
++    ],
++)
++def test_a_malformed_or_invalid_replay_file_is_refused_with_its_reason(
++    tmp_path: Path, capsys: pytest.CaptureFixture[str], text: str, expected: str
++) -> None:
++    fixtures = tmp_path / "fixtures"
++    fixtures.mkdir()
++    (fixtures / "replay.json").write_text(text, "utf-8")
++    message = refused(capsys, cli.main(args(tmp_path, fixtures)))
++    assert expected in message, message
++    assert not (tmp_path / "out").exists()
++
++
++def test_a_replay_file_that_is_not_utf8_is_refused(
++    tmp_path: Path, capsys: pytest.CaptureFixture[str]
++) -> None:
++    fixtures = tmp_path / "fixtures"
++    fixtures.mkdir()
++    (fixtures / "replay.json").write_bytes(b"\xff\xfe{")
++    assert "cannot be read (UnicodeDecodeError)" in refused(capsys, cli.main(args(tmp_path, fixtures)))
++
++
++def test_missing_targets_or_rates_are_refused_too(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
++    fixtures = tmp_path / "fixtures"
++    valid_fixtures(fixtures)
++    argv = args(tmp_path, fixtures)
++    argv[argv.index("--rates") + 1] = str(tmp_path / "no-rates.json")
++    assert "--rates" in refused(capsys, cli.main(argv)) and not (tmp_path / "out").exists()
++
++
++def test_a_valid_replay_runs_as_before(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
++    fixtures = tmp_path / "fixtures"
++    spec = valid_fixtures(fixtures)
++    # A response given inline and an empty one stay valid.
++    first = next(iter(spec["steps"]))
++    spec["steps"][first].append({"http_status": 500})
++    (fixtures / "replay.json").write_text(json.dumps(spec), "utf-8")
++    code = cli.main(args(tmp_path, fixtures))
++    body = json.loads(capsys.readouterr().out)
++    assert code == 0 and body["OFFLINE REPLAY"] is True and body["dispatched"] == 4 and body["stop"] is None
++
++
++def test_the_refusal_in_its_own_process_has_no_traceback_network_or_credential(tmp_path: Path) -> None:
++    guard = tmp_path / "guard"
++    guard.mkdir()
++    (guard / "sitecustomize.py").write_text(GUARD, encoding="utf-8")
++    log = tmp_path / "network.log"
++    env = {k: v for k, v in os.environ.items() if not k.startswith("OXYLABS")}
++    # The process runs the same source as this test (the folder that holds the imported ``classic_probe``),
++    # not whatever build the environment has installed.
++    source = Path(cli.__file__).resolve().parents[1]
++    env.update(
++        PYTHONPATH=os.pathsep.join([str(guard), str(source)]), PROBE_NETWORK_LOG=str(log), PYTHONUTF8="1"
++    )
++    env[gates.ENV_USERNAME] = "sentinel-username-not-a-credential"
++    env[gates.ENV_PASSWORD] = "sentinel-password-not-a-credential"
++    fixtures = tmp_path / "fixtures"
++    fixtures.mkdir()
++    for case in ("missing", "malformed"):
++        if case == "malformed":
++            (fixtures / "replay.json").write_text("{", "utf-8")
++        done = subprocess.run(
++            [sys.executable, "-m", "classic_probe", *args(tmp_path, fixtures)],
++            cwd=ROOT,
++            env=env,
++            capture_output=True,
++            text=True,
++            timeout=120,
++            check=False,
++        )
++        assert Path(str(log) + ".loaded").is_file(), "the network guard was not loaded"
++        probe = subprocess.run(
++            [sys.executable, "-c", "import classic_probe; print(classic_probe.__file__)"],
++            env=env,
++            capture_output=True,
++            text=True,
++            timeout=60,
++            check=True,
++        )
++        assert Path(probe.stdout.strip()).resolve().parent.parent == source
++        assert done.returncode == 2, (case, done.stdout, done.stderr)
++        assert done.stdout == "" and "Traceback" not in done.stderr, case
++        assert len(done.stderr.strip().splitlines()) == 1, done.stderr
++        assert "sentinel" not in done.stdout + done.stderr
++        assert not log.exists(), log.read_text("utf-8")
++        assert not (tmp_path / "out").exists()
+diff --git a/headless/oxylabs-classic-probe/uv.lock b/headless/oxylabs-classic-probe/uv.lock
+index d626445..0a50ad5 100644
+--- a/headless/oxylabs-classic-probe/uv.lock
++++ b/headless/oxylabs-classic-probe/uv.lock
+@@ -120,7 +120,7 @@ wheels = [
+ 
+ [[package]]
+ name = "oxylabs-classic-probe"
+-version = "1.7.2"
++version = "1.7.3"
+ source = { editable = "." }
+ dependencies = [
+     { name = "selectolax" },

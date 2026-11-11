@@ -1,0 +1,1506 @@
+diff --git a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+index e61266a..743747b 100644
+--- a/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
++++ b/headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md
+@@ -2,7 +2,7 @@
+ 
+ This is how a small Classic campaign could be run for Walmart and for Mariano's, once the account's owner has approved it.
+ 
+-This build (1.7.3) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). Release 1.7.2 corrects what the client's review of 1.7.1 reproduced: a body shorter than its declared length is never an answer, and a raw answer is recovered only into its own dispatch (C4); the reading of the evidence is bounded by the same deadline, only this execution's evidence is taken, and the session's whole process tree is ended when it ends (C2). Release 1.7.3 checks an offline replay's saved responses before anything is created and refuses an unusable input with one line (T05). The stages and their limits are unchanged.
++This build (1.7.4) implements Stage W (Walmart, unchanged from 1.5.2) and Stage M (Mariano's, added in 1.6.0), on one shared ledger with the limits of the Walmart probe 1.5.2. Release 1.7.0 corrected the transport, the ledger's timing, the session deadline, the keeping of answers and the backoff (the client's findings C1 to C5), C2 and C4 only in part. Release 1.7.1 completes them: the deadline also bounds the ledger writes after an answer, the export and a supervisor's recovery (C2), and an answer that reached the disk survives a crash without a paid refetch (C4). Release 1.7.2 corrects what the client's review of 1.7.1 reproduced: a body shorter than its declared length is never an answer, and a raw answer is recovered only into its own dispatch (C4); the reading of the evidence is bounded by the same deadline, only this execution's evidence is taken, and the session's whole process tree is ended when it ends (C2). Release 1.7.3 checks an offline replay's saved responses before anything is created and refuses an unusable input with one line (T05). Release 1.7.4 runs a session on Windows only once a job object is shown to hold its process, refuses it when that fails, and never reports a cleanup it could not verify (C2). The stages and their limits are unchanged.
+ 
+ None of it has been run. This build's live mode is disabled, and no request has been made to Oxylabs Classic. The limits below are the proposal sent to the client: they are a proposal, not an approval.
+ 
+@@ -86,6 +86,6 @@ What Stage M will not show, whatever the outcome: any page after the first, cove
+ 
+ ## Ending the campaign
+ 
+-- **Nothing left running:** no process of the probe stays running; a session's whole process tree is ended when the session ends (1.7.2). A request still open at its deadline is recorded as unknown, keeps its reservation, and is never retried.
++- **Nothing left running:** no process of the probe stays running; a session's whole process tree is ended when the session ends (1.7.2). On Windows a session runs only once a job object is shown to hold its process; when that fails it is refused and nothing of it runs, and a tree that cannot be counted gone is reported as such, never as ended (1.7.4). A request still open at its deadline is recorded as unknown, keeps its reservation, and is never retried.
+ - **History kept:** the ledger is kept and never deleted, because it is the campaign's spend history.
+ - **No limit reset:** nothing resets a limit. A new campaign is a new approval with a new ledger.
+diff --git a/headless/oxylabs-classic-probe/README.md b/headless/oxylabs-classic-probe/README.md
+index dedc5d2..706eece 100644
+--- a/headless/oxylabs-classic-probe/README.md
++++ b/headless/oxylabs-classic-probe/README.md
+@@ -1,4 +1,4 @@
+-# oxylabs-classic-probe 1.7.3
++# oxylabs-classic-probe 1.7.4
+ 
+ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper API (Realtime method). It holds three things:
+ 
+@@ -8,6 +8,8 @@ An **offline** probe and request plan for the Oxylabs **Classic** Web Scraper AP
+ 
+ **Its live mode is disabled.** No command of this build sends a request to Oxylabs or to a retailer, and no command reads a credential.
+ 
++Version 1.7.4 corrects how the session supervisor holds and ends a session's process tree on Windows (the client's review of 1.7.2, C2). In 1.7.2, when no job object could be made, the session ran anyway and its tree fell back to `taskkill /T`; when the session's process could not join the job, 1.7.2 resumed it anyway and fell back the same way. `taskkill /T` finds descendants through their parent's process id, so a child whose parent had already exited was out of its reach; and with the parent gone, 1.7.2 could not tell whether anything of the tree was left, yet it reported nothing left running and no problem. Now the supervisor fails closed on Windows. The job object is made with kill-on-close and without breakaway, both read back from the job; the session's process is created suspended, assigned to the job, confirmed a member by `IsProcessInJob` and counted alone in the job's accounting, and only then resumed, so it cannot run its own code, start a process or send anything outside the job. If the job cannot be made, or the process cannot be assigned, confirmed or resumed, nothing runs: the suspended process is terminated and reaped, the job is closed, and `run_session` returns an explicit refusal (`refused`: true, `status`: `refused`) that names the step. There is no fallback. Whether the tree has gone is read only from the job's accounting (from the process group on Linux and macOS, as before), never from the leading process's exit or a `taskkill` result. The cleanup is `verified`, `failed` or `unknown`, and an unknown stays unknown (`left_running` and `gone` are null, never false): the session's own evidence is then not taken, a recovery runs, and its manifest names the cleanup (`session_tree_cleanup`). `status` is `ok` only for a session that ended by itself with exit code 0 and its own complete evidence, and whose tree was verified gone. The 7 tests of `tests/test_review_of_172.py` use real processes, a handshake file and a stub on 127.0.0.1, and force each job-object failure at the kernel32 boundary only. They were first run on the frozen 1.7.2 code on Windows: the 5 `test_w_...` tests fail by their output (with no job object, or with a process that did not join it, the session ran, its child outlived the supervisor and connected to the stub afterwards; an unreadable count was reported as nothing left running and no problem), and the 2 control tests pass (Windows leaves a child running when its parent exits, and `taskkill /T` on the parent cannot reach it; a working job object ends such a child). On 1.7.4 all 7 pass, and a refused process is shown, just before its end, as it was created: one thread, suspended once, no time charged, and no resume asked for. (Its CPU time after its end is not evidence: Windows may charge one clock tick of user time to a process terminated without ever running.) On Linux and macOS the tree is still a process group; the 3 tests that are not Windows-only run there too. The first build of 1.7.4, never published, failed `mypy` on Linux and macOS with three `name-defined` errors: its Windows-only start used names defined only on Windows, and a type check run on Windows reads the code for Windows alone. This build puts that code under its platform check; what runs on each platform is unchanged. Nothing else changed: the steps, the response checks, the payloads, the limits, the T05 replay checks of 1.7.3 and the live refusal are as before.
++
+ Version 1.7.3 corrects the offline replay's handling of its input (T05). Up to 1.7.2, `replay` created its output folder and an offline ledger before it read the saved responses, and an input it could not use ended in a traceback: a missing `replay.json` or a missing `body_file` in a `FileNotFoundError` (exit 1), `{}` in a `KeyError` (exit 1); a file that was not JSON was refused (exit 2) but only after the folder and the ledger had been created. Now every input is checked first: a missing fixtures folder or `replay.json`, a file that cannot be read, is not UTF-8 or is not JSON, a structure other than `{"steps": {step: [response, ...]}}`, an `http_status` that is not an integer from 100 to 599, a `body` that is not text, a response with both `body` and `body_file`, and a `body_file` that is missing, unreadable or outside the fixtures folder are each refused with one line naming the problem (`{"refused": "ReplayRefused: ..."}`, exit 2), and nothing is created; missing `--targets` or `--rates` files likewise. A valid replay behaves as before. The 23 tests of `tests/test_t05_replay_input.py` were first run on the frozen 1.7.2 code: 22 fail by their output (tracebacks, exit 1, an output folder created) and the control test of a valid replay passes; on 1.7.3 all 23 pass. Nothing else changed: the steps, the response checks, the payloads, the limits and the live refusal are those of 1.7.2.
+ 
+ Version 1.7.2 corrects what the client's review of 1.7.1 reproduced: two gaps in C4, two in C2 and one test that failed on Linux. Each was first reproduced as a test that fails on the frozen 1.7.1 code by its output, on Windows and on Linux (`tests/test_review_of_171.py`, and the drip and hung-worker tests of `tests/test_isolated_transport.py`); 1.7.2 makes each pass. A test named `..._control_...` passes on both and pins what the correction keeps.
+@@ -15,7 +17,7 @@ Version 1.7.2 corrects what the client's review of 1.7.1 reproduced: two gaps in
+ - **C4, a body shorter than declared.** A server that declares `Content-Length: 100`, writes `{}` and closes gave 1.7.1 a whole answer (ok, not truncated, renamed to its final `.body`), on a success status or an error status alike, and the campaign parsed it: `http.client` reports such an end as an empty read, not as an error. Now the worker compares what arrived with what was declared. A body shorter than its declared length (including one of which no byte arrived) and a chunked body cut short are kept as `dispatch_NNN.partial` with their status (`IncompleteBody`, the declared and received lengths, the SHA-256), recorded once in the ledger as `PARTIAL_RESPONSE`, never parsed, and their reservation stays held. The transport and the recovery check the declared length again, so a status written by an earlier build cannot pass a short body as whole. A body of exactly its declared length, a response without a body (204, 304, `Content-Length: 0`) and a body of exactly the byte limit stay whole; a body above the limit is still cut at the limit, marked truncated and never decoded. A crash followed by an immediate restart in the same folder keeps the partial, its hash and its accounting, with no paid refetch.
+ - **C4, a worker killed after it named its file.** When a worker was killed after it had renamed its file (a whole answer to `.body`, or the part that came to `.partial`), 1.7.1 looked only for the worker's unrenamed `.part` file: it reported a whole answer as lost and a kept partial as absent. Now the transport reads the worker's own status first: a whole answer stays the answer, a partial is described with its length and hash, and a status the worker wrote is never overwritten.
+ - **C4, whose answer it is.** Each worker status now names its dispatch (campaign, ledger genesis id, sequence number, step, attempt and the payload's SHA-256). A recovery keeps a raw answer or a partial only when its status names the ledger row it is recovered into. A status of another dispatch, or one without that identity (written before 1.7.2), is refused, listed with the reason and left on disk as found.
+-- **C2, one deadline for the whole session.** On Linux the 1.7.1 supervisor waited 1.10 s for a FIFO put at the evidence path despite a hard end of 0.30 s, and it took the complete evidence a previous run had left in the same folder when a new command exited 0 without writing any. Now evidence is read only from a regular file, in bounded chunks and within the time left: a FIFO, a link, a folder or a file above 16 MiB is refused at once, without waiting for a writer. Each session is given an execution id (`CLASSIC_PROBE_EXECUTION_ID`) that its manifest must name, with this campaign and this ledger, and be marked complete; anything else is not this session's evidence. The session's command runs as a process tree (a process group on Linux and macOS, a job object on Windows) that is ended whole whenever the session ends, by itself or not, so nothing it started can dispatch after the supervisor returns. The recovery's bound is handed to its process as a monotonic time, so a wall-clock jump cannot extend it. The supervisor returns within its hard end plus 0.5 s (`supervisor.TOLERANCE_S`), and a charge whose outcome is unknown keeps its reservation.
++- **C2, one deadline for the whole session.** On Linux the 1.7.1 supervisor waited 1.10 s for a FIFO put at the evidence path despite a hard end of 0.30 s, and it took the complete evidence a previous run had left in the same folder when a new command exited 0 without writing any. Now evidence is read only from a regular file, in bounded chunks and within the time left: a FIFO, a link, a folder or a file above 16 MiB is refused at once, without waiting for a writer. Each session is given an execution id (`CLASSIC_PROBE_EXECUTION_ID`) that its manifest must name, with this campaign and this ledger, and be marked complete; anything else is not this session's evidence. The session's command runs as a process tree (a process group on Linux and macOS, a job object on Windows) that is ended whole whenever the session ends, by itself or not, so nothing it started can dispatch after the supervisor returns. (On Windows this held only when the job object could be made and the process joined it; otherwise 1.7.2 fell back to `taskkill /T`, which cannot reach a child whose parent has exited. Corrected in 1.7.4, above.) The recovery's bound is handed to its process as a monotonic time, so a wall-clock jump cannot extend it. The supervisor returns within its hard end plus 0.5 s (`supervisor.TOLERANCE_S`), and a charge whose outcome is unknown keeps its reservation.
+ - **The Linux test.** The client's Linux run of 1.7.1 gave 169 passed, 1 failed and 3 skipped, where Windows gave 171 passed and 2 skipped. The failing drip test expected a forced kill even when the worker stopped by itself at its own deadline, which it does first on Linux. The test now asserts the deadline, the outcome, the partial that was kept and the worker's end, whichever ended it; a separate test makes a worker hang past its deadline and checks a real kill and reap.
+ 
+ C1's redirect and credential protections, C3's checks under the ledger lock and just before dispatch, C5's bounded backoff and the shared accounting are unchanged. The steps, the response checks, the payloads and the campaign limits are those of 1.7.1, live mode stays disabled, and the Mariano's adapter is byte-for-byte unchanged.
+@@ -41,6 +43,7 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ | Shared ledger (10 per retailer, 20 total, 30 minutes, USD 5, headroom, deadline) | **SYNTHETIC TEST**: tested offline, including concurrent processes, crashes and both retailers on one ledger |
+ | The deadline through recovery, export and cleanup; answers kept across crashes (C2, C4; 1.7.1) | **SYNTHETIC TEST**: tested offline with separate processes, a ledger lock held by another connection, killed sessions and a stub on 127.0.0.1. Not run against Oxylabs |
+ | Bodies shorter than declared, a worker killed after it named its file, whose answer a raw file is; the evidence path, this execution's own evidence, the session's process tree (C4, C2; 1.7.2) | **SYNTHETIC TEST**: tested offline on Windows and on Linux with a stub on 127.0.0.1 that cuts its bodies short, workers made to hang, a FIFO at the evidence path (Linux), a previous run's evidence, a process left behind and a wall-clock jump. Not run against Oxylabs |
++| The session's process tree on Windows: held by a verified job object before it runs, refused when it cannot be held, a cleanup that cannot be told kept unknown (C2; 1.7.4) | **SYNTHETIC TEST**: tested offline on Windows with real processes, a handshake file and a stub on 127.0.0.1, each job-object failure forced at the kernel32 boundary. Not run against Oxylabs |
+ | A replay's missing, unreadable, malformed or invalid saved responses (T05; 1.7.3) | **SYNTHETIC TEST**: tested offline on Windows, in process and in a separate process with the network closed and sentinel credentials in its environment |
+ | A Classic request | **NOT TESTED**: none was made. That needs the account owner's credentials, entitlement, rates and approval |
+ | Listing pagination for Mariano's | **NOT AVAILABLE**: the documentation gives `marianos_search` no page parameter, so no second page is planned (see below) |
+@@ -60,9 +63,12 @@ This package is separate from both collectors. It does not use their Oxylabs Web
+ uv sync --frozen
+ uv run pytest
+ uv run ruff check src tests
+-uv run mypy
++uv run mypy --platform win32
++uv run mypy --platform linux
+ ```
+ 
++`mypy` checks the code for one platform at a time, the one it runs on unless `--platform` names another, so it is run for both.
++
+ The tests close the network: any attempt to open a socket or resolve a name fails the test that made it. They also remove the two credential variables from their environment.
+ 
+ Some tests run on one platform only, and say why when skipped:
+diff --git a/headless/oxylabs-classic-probe/pyproject.toml b/headless/oxylabs-classic-probe/pyproject.toml
+index 41ca3da..3233ebe 100644
+--- a/headless/oxylabs-classic-probe/pyproject.toml
++++ b/headless/oxylabs-classic-probe/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "oxylabs-classic-probe"
+-version = "1.7.3"
++version = "1.7.4"
+ description = "A small offline probe and request plan for the Oxylabs Classic Web Scraper API (Realtime): documented payloads, response checks and a durable shared campaign ledger. Its live mode is disabled."
+ readme = "README.md"
+ requires-python = ">=3.12,<3.13"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+index 6891b3c..4229714 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/__init__.py
+@@ -3,4 +3,4 @@
+ Importing this package opens no connection and reads no credential.
+ """
+ 
+-__version__ = "1.7.3"
++__version__ = "1.7.4"
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/proctree.py b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+index 2dcf77c..d142195 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/proctree.py
+@@ -1,4 +1,4 @@
+-"""A process and every process it starts, ended together (1.7.2, the client's review of 1.7.1, finding C2).
++"""A process and every process it starts, ended together (1.7.2, finding C2; fail-closed on Windows in 1.7.4).
+ 
+ A session's command may start other processes (a request worker, or anything a broken session leaves
+ behind). 1.7.1 killed the session's tree only when the session overran its time: a session that exited by
+@@ -9,11 +9,32 @@ returned. A :class:`ProcessTree` is ended whole whenever the session ends, by it
+   SIGKILL to the whole group, reaps the leader, and waits (bounded) until no process of the group is left.
+   A process that left the group on purpose (a new session of its own) is outside this bound; the probe's own
+   processes never do that;
+-- on Windows the command starts suspended, is put into a job object (which every process it starts then
+-  joins) and is only then resumed, so nothing it starts escapes the job. :meth:`ProcessTree.end` terminates
+-  the job and waits (bounded) until it has no active process. The job is also closed with the
+-  kill-on-close flag, so a supervisor that dies takes the tree with it. If the job cannot be made (an old
+-  Windows, or a parent job that forbids it), the tree falls back to ``taskkill /T``, and says so.
++- on Windows the command is held by a job object, which every process it starts joins (1.7.4, below).
++  :meth:`ProcessTree.end` terminates the job and waits (bounded) until the job's own accounting shows no
++  active process. The job is closed with the kill-on-close flag, so a supervisor that dies takes the tree
++  with it. A process started for the tree by another service (WMI, the task scheduler) is outside this
++  bound; the probe's own processes never do that.
++
++1.7.4 (the client's review of probe 1.7.2 on Windows). 1.7.2 fell back to ``taskkill /T`` when no job object
++could be made, and when the command's process could not join the job it resumed the process anyway and fell
++back the same way. ``taskkill /T`` finds a process's descendants through their parent's process id, so a child
++whose parent had already exited was out of its reach; and once that parent had exited, 1.7.2 could no longer
++tell whether anything of the tree was left, yet reported that nothing was left running. Now:
++
++- **nothing runs before the job holds it.** The job is made with kill-on-close and without any breakaway
++  limit, both read back from the job. The command's process is created suspended, assigned to the job,
++  confirmed a member by ``IsProcessInJob``, and the job's accounting must show that one process and no other.
++  Only then is it resumed, so it cannot run its own code, start a process or send anything outside the job;
++- **a failure refuses, with no fallback.** If the job cannot be made (no process is created then), or the
++  process cannot be assigned, confirmed or resumed, the suspended process is terminated and reaped and the
++  job closed before :class:`TreeRefused` is raised. The refusal names the step and says whether the end and
++  the reap were confirmed;
++- **gone means counted gone.** Whether any process of the tree is left is read only from the tree's own
++  account: the job's accounting on Windows, the process group on Linux and macOS. The leading process's exit,
++  a ``taskkill`` result or an account that cannot be read is never taken for it. :meth:`ProcessTree.end`
++  says ``cleanup``: ``verified`` (the account shows nothing left), ``failed`` (it shows a process left) or
++  ``unknown`` (it could not be read), and an unknown stays unknown: ``left_running`` and ``gone`` are then
++  None, never False.
+ 
+ Every wait is bounded by the seconds the caller gives: nothing here can hold a supervisor past its end.
+ """
+@@ -30,12 +51,55 @@ from pathlib import Path
+ from typing import IO, Any
+ 
+ POLL_S = 0.01
++REFUSAL_S = 5.0  # the longest a refused process's end and reap are waited for, unless the caller gives less
++VERIFIED, FAILED, UNKNOWN = "verified", "failed", "unknown"
++
++
++class TreeRefused(RuntimeError):
++    """The command was not run: its process tree could not be held (1.7.4). Raised only after any process made
++    for it was ended and reaped, or after both were tried: ``terminated`` and ``reaped`` say whether each was
++    confirmed, ``pid`` is None when no process was made."""
++
++    def __init__(
++        self,
++        *,
++        stage: str,
++        why: str,
++        pid: int | None = None,
++        terminated: bool | None = None,
++        reaped: bool | None = None,
++        cleanup: str = VERIFIED,
++        basis: str = "",
++    ) -> None:
++        super().__init__(f"refused before the command ran ({stage}): {why}")
++        self.stage, self.why, self.pid = stage, why, pid
++        self.terminated, self.reaped = terminated, reaped
++        self.cleanup = cleanup
++        self.basis = basis or ("no process was created" if pid is None else "")
++
++    def as_dict(self) -> dict[str, Any]:
++        return {
++            "held_by": None,
++            "refused": True,
++            "stage": self.stage,
++            "why": self.why,
++            "process_created": self.pid is not None,
++            "pid": self.pid,
++            "ran": False,
++            "terminated": self.terminated,
++            "reaped": self.reaped,
++            "cleanup": self.cleanup,
++            "basis": self.basis,
++        }
++
+ 
+ if sys.platform == "win32":
+     import ctypes
+     from ctypes import wintypes
+ 
+     CREATE_SUSPENDED = 0x00000004
++    JOB_OBJECT_LIMIT_BREAKAWAY_OK = 0x00000800
++    JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK = 0x00001000
+     JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
+     JOB_OBJECT_BASIC_ACCOUNTING_INFORMATION_CLASS = 1
+     JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS = 9
+@@ -93,6 +157,8 @@ if sys.platform == "win32":
+         k.SetInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD]
+         k.AssignProcessToJobObject.restype = wintypes.BOOL
+         k.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
++        k.IsProcessInJob.restype = wintypes.BOOL
++        k.IsProcessInJob.argtypes = [wintypes.HANDLE, wintypes.HANDLE, ctypes.POINTER(wintypes.BOOL)]
+         k.QueryInformationJobObject.restype = wintypes.BOOL
+         k.QueryInformationJobObject.argtypes = [
+             wintypes.HANDLE,
+@@ -117,15 +183,24 @@ if sys.platform == "win32":
+             raise OSError(f"NtResumeProcess failed with status {status & 0xFFFFFFFF:#010x}")
+ 
+     class _Job:
++        """A job object that kills its processes when its last handle closes and lets none break away."""
++
+         def __init__(self, k: Any, handle: int) -> None:
+             self.k, self.handle = k, handle
+ 
+         @classmethod
+-        def make(cls) -> _Job | None:
++        def make(cls) -> _Job:
++            """A new job object with its limits set and read back (1.7.4). Raises :class:`TreeRefused` (stage
++            ``create``) when it cannot be made or its limits are not as set; no process exists then."""
+             k = _kernel32()
+             handle = k.CreateJobObjectW(None, None)
+             if not handle:
+-                return None
++                error = ctypes.get_last_error()
++                raise TreeRefused(
++                    stage="create",
++                    why=f"no job object could be made (CreateJobObjectW, Windows error {error})",
++                )
++            job = cls(k, handle)
+             limits = _ExtendedLimits()
+             limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+             if not k.SetInformationJobObject(
+@@ -134,12 +209,47 @@ if sys.platform == "win32":
+                 ctypes.byref(limits),
+                 ctypes.sizeof(limits),
+             ):
+-                k.CloseHandle(handle)
++                error = ctypes.get_last_error()
++                job.close()
++                raise TreeRefused(
++                    stage="create",
++                    why=f"the job object's kill-on-close limit could not be set (Windows error {error})",
++                )
++            flags = job.limit_flags()
++            breakaway = JOB_OBJECT_LIMIT_BREAKAWAY_OK | JOB_OBJECT_LIMIT_SILENT_BREAKAWAY_OK
++            if flags is None or not flags & JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE or flags & breakaway:
++                job.close()
++                shown = "could not be read" if flags is None else f"read back as {flags:#x}"
++                raise TreeRefused(
++                    stage="create",
++                    why=f"the job object's limits {shown}, not kill-on-close without breakaway",
++                )
++            return job
++
++        def limit_flags(self) -> int | None:
++            limits = _ExtendedLimits()
++            if not self.k.QueryInformationJobObject(
++                self.handle,
++                JOB_OBJECT_EXTENDED_LIMIT_INFORMATION_CLASS,
++                ctypes.byref(limits),
++                ctypes.sizeof(limits),
++                None,
++            ):
+                 return None
+-            return cls(k, handle)
++            return int(limits.BasicLimitInformation.LimitFlags)
++
++        def assign(self, proc: subprocess.Popen[bytes]) -> int:
++            """0 once the process has joined the job, else the Windows error (1.7.4: never ignored)."""
++            if self.k.AssignProcessToJobObject(self.handle, int(getattr(proc, "_handle"))):  # noqa: B009
++                return 0
++            return ctypes.get_last_error() or -1
+ 
+-        def assign(self, proc: subprocess.Popen[bytes]) -> bool:
+-            return bool(self.k.AssignProcessToJobObject(self.handle, int(getattr(proc, "_handle"))))  # noqa: B009
++        def holds(self, proc: subprocess.Popen[bytes]) -> bool | None:
++            """Whether Windows confirms the process is in this job (``IsProcessInJob``); None if not asked."""
++            member = wintypes.BOOL(0)
++            if not self.k.IsProcessInJob(int(getattr(proc, "_handle")), self.handle, ctypes.byref(member)):  # noqa: B009
++                return None
++            return bool(member.value)
+ 
+         def active(self) -> int | None:
+             info = _Accounting()
+@@ -162,13 +272,46 @@ if sys.platform == "win32":
+                 self.handle = 0
+ 
+ 
++def _end_unstarted(
++    proc: subprocess.Popen[bytes], job: Any, *, joined: bool, seconds: float
++) -> tuple[bool, bool, str, str]:
++    """End and reap a process refused before it ran (1.7.4): whether its end and its reap were confirmed, the
++    cleanup verdict and what the verdict rests on.
++
++    A process that was never resumed ran nothing and started nothing, so its own end, confirmed by its handle,
++    is the end of its tree. One that had joined the job is counted gone only by the job's accounting."""
++    until = time.monotonic() + max(0.05, seconds)
++    terminated = bool(joined and job.terminate())
++    if not terminated:
++        try:
++            proc.kill()  # TerminateProcess on the suspended process
++            terminated = True
++        except OSError:
++            terminated = False
++    try:
++        proc.wait(max(0.0, until - time.monotonic()))
++        reaped = True
++    except subprocess.TimeoutExpired:
++        reaped = False
++    if not joined:
++        cleanup = VERIFIED if reaped else (FAILED if proc.poll() is None else UNKNOWN)
++        basis = "the process was created suspended and never resumed; its own end is confirmed by its handle"
++        return terminated, reaped, cleanup, basis
++    active = job.active()
++    while active not in (0, None) and time.monotonic() < until:
++        time.sleep(POLL_S)
++        active = job.active()
++    cleanup = UNKNOWN if active is None else (VERIFIED if active == 0 else FAILED)
++    return terminated, reaped, cleanup, "the job object's accounting (active processes)"
++
++
+ class ProcessTree:
+     """A command's process and everything it starts. Use :meth:`start`; end it with :meth:`end`."""
+ 
+     def __init__(self, proc: subprocess.Popen[bytes], job: Any = None, note: str = "") -> None:
+         self.proc = proc
+         self._job = job
+-        self.note = note  # how the tree is held: "process group", "job object", or the fallback and why
++        self.note = note  # how the tree is held: "process group" or "job object (verified ...)"
+ 
+     @classmethod
+     def start(
+@@ -178,7 +321,10 @@ class ProcessTree:
+         cwd: Path | None = None,
+         env: Mapping[str, str] | None = None,
+         stdout: IO[bytes] | int | None = None,
++        refusal_s: float = REFUSAL_S,
+     ) -> ProcessTree:
++        """Start ``args`` as a held process tree. On Windows (1.7.4) raises :class:`TreeRefused`, after ending
++        and reaping any process made for it (within ``refusal_s``), when the tree cannot be held."""
+         common: dict[str, Any] = {
+             "cwd": cwd,
+             "env": None if env is None else dict(env),
+@@ -187,25 +333,57 @@ class ProcessTree:
+             "stderr": subprocess.STDOUT if stdout is not None else None,
+         }
+         if sys.platform == "win32":
+-            job = _Job.make()
+-            if job is None:
+-                return cls(
+-                    subprocess.Popen(list(args), **common), note="taskkill /T (no job object could be made)"
+-                )
+-            proc = subprocess.Popen(list(args), creationflags=CREATE_SUSPENDED, **common)
+-            assigned = job.assign(proc)
++            return cls._start_held(args, common, refusal_s)
++        return cls(subprocess.Popen(list(args), start_new_session=True, **common), note="process group")
++
++    @classmethod
++    def _start_held(cls, args: Sequence[str], common: dict[str, Any], refusal_s: float) -> ProcessTree:
++        """Windows (1.7.4): the job first, then the process, suspended, until the job is shown to hold it."""
++        if sys.platform == "win32":  # start() calls this only on Windows; mypy checks it for Windows alone
++            job = _Job.make()  # TreeRefused (stage "create") before any process exists
+             try:
+-                _resume(proc)
+-            except OSError:
+-                proc.kill()
+-                proc.wait(5)
++                proc = subprocess.Popen(list(args), creationflags=CREATE_SUSPENDED, **common)
++            except BaseException:
+                 job.close()
+                 raise
+-            if not assigned:
+-                job.close()
+-                return cls(proc, note="taskkill /T (the process could not join a job object)")
+-            return cls(proc, job, note="job object")
+-        return cls(subprocess.Popen(list(args), start_new_session=True, **common), note="process group")
++            stage, why, joined = "assign", "", False
++            error = job.assign(proc)
++            if error:
++                why = (
++                    "the process could not be assigned to the job object "
++                    f"(AssignProcessToJobObject, Windows error {error})"
++                )
++            else:
++                joined, stage = True, "verify"
++                member = job.holds(proc)
++                active = job.active()
++                if member is not True:
++                    answer = "could not be asked" if member is None else "says it is not"
++                    why = (
++                        f"Windows did not confirm the process is in the job object (IsProcessInJob {answer})"
++                    )
++                elif active != 1:
++                    shown = "could not be read" if active is None else f"shows {active} active processes"
++                    why = f"the job object's accounting {shown}, not this one process alone"
++            if not why:
++                try:
++                    _resume(proc)
++                except OSError as exc:
++                    stage, why = "resume", f"the process could not be resumed ({exc})"
++                else:
++                    return cls(proc, job, note="job object (verified before the process ran)")
++            terminated, reaped, cleanup, basis = _end_unstarted(proc, job, joined=joined, seconds=refusal_s)
++            job.close()
++            raise TreeRefused(
++                stage=stage,
++                why=why,
++                pid=proc.pid,
++                terminated=terminated,
++                reaped=reaped,
++                cleanup=cleanup,
++                basis=basis,
++            )
++        raise TreeRefused(stage="create", why="a job object exists only on Windows")
+ 
+     @property
+     def pid(self) -> int:
+@@ -218,11 +396,20 @@ class ProcessTree:
+         except subprocess.TimeoutExpired:
+             return None
+ 
++    @property
++    def basis(self) -> str:
++        """What tells whether the tree has gone (1.7.4): never the leading process alone."""
++        if sys.platform == "win32":
++            return "the job object's accounting (active processes)"
++        return "the process group (a signal 0 to the group)"
++
+     def members_left(self) -> bool | None:
+-        """Whether any process of the tree still exists (None: this cannot be told)."""
++        """Whether any process of the tree still exists, read from the tree's own account: the job's
++        accounting on Windows, the process group elsewhere. None when that account cannot be read (1.7.4:
++        never guessed from the leading process, which may have exited before its children)."""
+         if sys.platform == "win32":
+             if self._job is None:
+-                return self.proc.poll() is None or None
++                return None
+             active = self._job.active()
+             return None if active is None else active > 0
+         try:
+@@ -231,34 +418,24 @@ class ProcessTree:
+             return False
+         except PermissionError:
+             return True
++        except OSError:
++            return None
+         return True
+ 
+     def end(self, seconds: float) -> dict[str, Any]:
+         """Kill every process of the tree, reap the leader and wait until none is left, all within
+-        ``seconds``. Returns what happened: whether processes were still there (``left_running``), whether
+-        the tree is gone (``gone``: None when it cannot be told), and any problem."""
++        ``seconds``. Returns what happened: whether processes were still there (``left_running``: None when
++        that could not be told), whether the tree is gone (``gone``: None when that cannot be told), the
++        verdict (``cleanup``: ``verified``, ``failed`` or ``unknown``, 1.7.4), what the verdict rests on
++        (``basis``) and any problem."""
+         until = time.monotonic() + max(0.0, seconds)
+         problems: list[str] = []
+         before = self.members_left()
+         if sys.platform == "win32":
+-            if self._job is not None:
+-                if not self._job.terminate() and self.members_left():
+-                    problems.append("the job object could not be terminated")
+-            else:
+-                try:
+-                    subprocess.run(
+-                        ["taskkill", "/F", "/T", "/PID", str(self.proc.pid)],
+-                        capture_output=True,
+-                        timeout=max(0.05, until - time.monotonic()),
+-                        check=False,
+-                    )
+-                except (subprocess.TimeoutExpired, OSError) as exc:
+-                    problems.append(f"taskkill did not finish in time ({type(exc).__name__})")
+-                if self.proc.poll() is None:
+-                    try:
+-                        self.proc.kill()
+-                    except OSError as exc:
+-                        problems.append(f"the process could not be killed: {type(exc).__name__}")
++            if self._job is None:
++                problems.append("the tree is no longer held by its job object: it cannot be ended or counted")
++            elif not self._job.terminate() and self.members_left() is not False:
++                problems.append("the job object could not be terminated")
+         else:
+             try:
+                 os.killpg(self.proc.pid, signal.SIGKILL)  # the command leads its own process group
+@@ -269,18 +446,28 @@ class ProcessTree:
+         reaped = self.wait(until - time.monotonic()) is not None
+         if not reaped:
+             problems.append("the leading process had not exited when the time to reap it ran out")
+-        gone = self.members_left() is False
+-        while not gone and time.monotonic() < until:
+-            time.sleep(POLL_S)
+-            gone = self.members_left() is False
+         state = self.members_left()
+-        if state:
++        while state is not False and time.monotonic() < until:
++            time.sleep(POLL_S)
++            state = self.members_left()
++        if state is None:
++            cleanup = UNKNOWN
++            problems.append(
++                f"whether any process of the tree is left could not be told ({self.basis} could not be "
++                "read): it is not taken as gone"
++            )
++        elif state:
++            cleanup = FAILED
+             problems.append("a process of the tree was still running when the time to end it ran out")
++        else:
++            cleanup = VERIFIED
+         return {
+             "held_by": self.note,
+-            "left_running": bool(before),
++            "left_running": before,
+             "reaped": reaped,
+             "gone": None if state is None else not state,
++            "cleanup": cleanup,
++            "basis": self.basis,
+             "problems": problems,
+         }
+ 
+diff --git a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+index 6e338de..a143747 100644
+--- a/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
++++ b/headless/oxylabs-classic-probe/src/classic_probe/supervisor.py
+@@ -43,6 +43,21 @@ Now:
+   campaign writes into its evidence. An earlier run's manifest, however recent, is not this run's: the run
+   is recovered, and the earlier file is left as it was.
+ 
++1.7.4 (the client's review of probe 1.7.2 on Windows). A session whose process could not be held by a job
++object still ran in 1.7.2 (the tree fell back to ``taskkill /T``), and a cleanup whose result could not be
++told was reported with nothing left running and no problem. Now (proctree.py):
++
++- a session runs only once its process tree is held: on Windows its process stays suspended until a job object
++  is shown to hold it. When that fails, :func:`run_session` returns an explicit refusal (``refused``: True,
++  ``status``: ``refused``), after the suspended process was ended and reaped; the command ran nothing, started
++  nothing and sent nothing, and nothing is recovered, because nothing was done;
++- the session's tree is taken as gone only when its own account says so (``cleanup``: ``verified``). A cleanup
++  that ``failed`` or is ``unknown`` is kept as such in the result (``status``: ``cleanup-failed`` or
++  ``cleanup-unknown``, ``left_running`` and ``gone`` None when unknown, a problem that says it) and in the
++  evidence: the session's own evidence is not taken, a recovery runs, and its manifest names the cleanup
++  (``session_tree_cleanup``). ``status`` is ``ok`` only for a session that ended by itself with exit code 0
++  and its own complete evidence, and whose tree was verified gone.
++
+ The supervisor is the bound for a future approved live session. This build's live mode stays disabled: the
+ tests run it against a stub on 127.0.0.1 only.
+ """
+@@ -68,7 +83,7 @@ from classic_probe import ledger as ledger_mod
+ from classic_probe.campaign import EXECUTION_ENV, write_json
+ from classic_probe.captures import CaptureStore
+ from classic_probe.deadline import recovery_reserve
+-from classic_probe.proctree import ProcessTree
++from classic_probe.proctree import VERIFIED, ProcessTree, TreeRefused
+ 
+ REAP_TIMEOUT_S = 10.0  # the longest a kill or a reap is waited for, when the session has that much time left
+ MIN_STEP_S = 0.05  # the shortest wait given to a kill or a reap
+@@ -103,6 +118,23 @@ class SupervisedSession:
+     )
+     evidence: dict[str, Any] = field(default_factory=dict)  # 1.7.2: whether its evidence was taken, and why
+     tree: dict[str, Any] = field(default_factory=dict)  # 1.7.2: how the session's process tree was ended
++    refused: bool = False  # 1.7.4: the command never ran: its process tree could not be held (``tree``: why)
++    cleanup: str = ""  # 1.7.4: "verified", "failed" or "unknown": whether the tree was shown gone
++    status: str = ""  # 1.7.4: ok, recovered, refused, cleanup-failed or cleanup-unknown (STATUSES)
++
++
++# 1.7.4: one word for a supervised run. Only "ok" says the session ended by itself with exit code 0 and its
++# own complete evidence and that its tree was verified gone; a cleanup that failed or could not be told is
++# never folded into another status.
++STATUSES = ("ok", "recovered", "refused", "cleanup-failed", "cleanup-unknown")
++
++
++def _status(*, refused: bool, cleanup: str, recovered: bool) -> str:
++    if refused:
++        return "refused"
++    if cleanup != VERIFIED:
++        return "cleanup-failed" if cleanup == "failed" else "cleanup-unknown"
++    return "recovered" if recovered else "ok"
+ 
+ 
+ class EvidenceRefused(ValueError):
+@@ -257,20 +289,31 @@ def run_session(
+     session_env[EXECUTION_ENV] = execution_id
+     problems: list[str] = []
+     with tempfile.TemporaryFile() as log:
+-        tree = ProcessTree.start(command, cwd=cwd, env=session_env, stdout=log)
++        try:
++            tree = ProcessTree.start(command, cwd=cwd, env=session_env, stdout=log, refusal_s=_step(left()))
++        except TreeRefused as refusal:  # 1.7.4: nothing ran; the process made for it is ended and reaped
++            return _refused(refusal, t0=t0, reserve=reserve, execution_id=execution_id, log=log)
+         try:
+             returncode = tree.wait(command_end - time.monotonic())
+             killed = returncode is None
+             ended = tree.end(_step(left()))
+         finally:
+             tree.close()
++        cleanup = str(ended["cleanup"])
+         if killed:
+             returncode = tree.proc.poll()
+-        elif ended["left_running"]:
++        elif ended["left_running"] and cleanup == VERIFIED:
+             problems.append(
+                 "the session exited and left processes running; they were killed with it before anything "
+                 "else was done"
+             )
++        elif ended["left_running"]:
++            problems.append(
++                "the session exited and left processes running; its tree was ended, but that they have gone "
++                f"was not verified (cleanup {cleanup})"
++            )
++        elif ended["left_running"] is None:
++            problems.append("whether the session left processes running when it ended could not be told")
+         problems += ended["problems"]
+         stdout_tail = _tail(log)
+     session = SupervisedSession(
+@@ -283,6 +326,15 @@ def run_session(
+         problems=problems,
+         execution_id=execution_id,
+         tree=ended,
++        cleanup=cleanup,
++    )
++    # 1.7.4: a tree not verified gone may still hold a process that sends: the session's own evidence is not
++    # taken, a recovery runs, and the cleanup is named in the recovery's reason and manifest.
++    unverified = (
++        None
++        if cleanup == VERIFIED
++        else f"the session's process tree was not verified gone (cleanup {cleanup}): a process it started "
++        "may still be running"
+     )
+     reason: str | None
+     if killed:
+@@ -302,25 +354,75 @@ def run_session(
+             "why": f"not read: the session ended with exit code {returncode}",
+         }
+         reason = f"the session ended with exit code {returncode}"
++    elif unverified is not None:
++        session.evidence = {"accepted": False, "why": f"not read: {unverified}"}
++        reason = unverified
+     else:
+         accepted, why = evidence_of_this_execution(Path(out_dir), Path(manifest), execution_id, left)
+         session.evidence = {"accepted": accepted, "why": why}
+         reason = (
+             None if accepted else f"the session ended without a complete evidence manifest of its own: {why}"
+         )
++    if unverified is not None and reason is not None and unverified not in reason:
++        reason = f"{reason}; {unverified}"
+     if reason is not None:
+         session.recovery = _recover_in_child(
+-            manifest, out_dir, retailer, reason=reason, end=end, execution_id=execution_id
++            manifest,
++            out_dir,
++            retailer,
++            reason=reason,
++            end=end,
++            execution_id=execution_id,
++            tree_cleanup=cleanup,
+         )
++    session.status = _status(refused=False, cleanup=cleanup, recovered=reason is not None)
+     session.elapsed_s = round(time.monotonic() - t0, 3)
+     return session
+ 
+ 
++def _refused(
++    refusal: TreeRefused, *, t0: float, reserve: float, execution_id: str, log: IO[bytes]
++) -> SupervisedSession:
++    """The explicit refusal of a session whose process tree could not be held (1.7.4). Nothing of the command
++    ran, so there is no evidence to read and nothing to recover; any process made for it was ended and reaped
++    before this, and what could not be confirmed of that is a problem here."""
++    problems = [str(refusal)]
++    if refusal.pid is not None and not (refusal.terminated and refusal.reaped):
++        problems.append(
++            f"the refused process (suspended, never resumed) was {'' if refusal.terminated else 'not '}"
++            f"confirmed terminated and {'' if refusal.reaped else 'not '}confirmed reaped "
++            f"(cleanup {refusal.cleanup})"
++        )
++    return SupervisedSession(
++        returncode=None,
++        killed=False,
++        elapsed_s=round(time.monotonic() - t0, 3),
++        stdout_tail=_tail(log),
++        reaped=refusal.reaped is not False,
++        recovery_reserve_s=round(reserve, 3),
++        problems=problems,
++        execution_id=execution_id,
++        evidence={"accepted": False, "why": "not read: the session was refused before it ran"},
++        tree=refusal.as_dict(),
++        refused=True,
++        cleanup=refusal.cleanup,
++        status=_status(refused=True, cleanup=refusal.cleanup, recovered=False),
++    )
++
++
+ def _recover_in_child(
+-    manifest: Path, out_dir: Path, retailer: str, *, reason: str, end: float, execution_id: str
++    manifest: Path,
++    out_dir: Path,
++    retailer: str,
++    *,
++    reason: str,
++    end: float,
++    execution_id: str,
++    tree_cleanup: str | None = None,
+ ) -> dict[str, Any]:
+     """The recovery in its own process, ended by ``end`` (on the monotonic clock) whatever happens in it
+-    (1.7.1; 1.7.2: the end is passed on the monotonic clock, which a wall-clock jump cannot move)."""
++    (1.7.1; 1.7.2: the end is passed on the monotonic clock, which a wall-clock jump cannot move; 1.7.4: the
++    session's tree cleanup is handed on, for the recovered manifest)."""
+     seconds = end - time.monotonic()
+     if seconds <= RECOVERY_MARGIN_S:
+         return {
+@@ -347,6 +449,8 @@ def _recover_in_child(
+         "--execution-id",
+         execution_id,
+     ]
++    if tree_cleanup is not None:
++        command += ["--tree-cleanup", tree_cleanup]
+     proc = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+     try:
+         out, err = proc.communicate(timeout=max(MIN_STEP_S, end - time.monotonic() - RECOVERY_KILL_S))
+@@ -388,13 +492,16 @@ def recover_session(
+     reason: str,
+     until_monotonic: float | None = None,
+     execution_id: str | None = None,
++    tree_cleanup: str | None = None,
+ ) -> dict[str, Any]:
+     """After a session that did not end by itself: what it left, made safe and written down.
+ 
+     ``until_monotonic`` (on the monotonic clock; None: no bound) bounds all of it (1.7.1; 1.7.2: monotonic):
+     each wait for the ledger's lock ends by then, less the time kept to write the manifest. What could not be
+     done is listed in ``problems`` and ``completed`` is False; a row not marked keeps its money held for the
+-    next recovery. ``execution_id`` names the run recovered, in the manifest written."""
++    next recovery. ``execution_id`` names the run recovered, in the manifest written, and ``tree_cleanup``
++    (1.7.4) whether the session's process tree was verified gone (``session_tree_cleanup``: None when the
++    supervisor did not say)."""
+ 
+     def time_left() -> float:
+         return float("inf") if until_monotonic is None else until_monotonic - time.monotonic()
+@@ -428,6 +535,7 @@ def recover_session(
+             "offline": led.offline,
+             "complete": False,
+             "ended_by": reason,
++            "session_tree_cleanup": tree_cleanup,
+             "captures_checked": checked,
+             "rows_recovered_as_unknown": unfinished,
+             "capture_recovery": captures,
+@@ -464,10 +572,11 @@ def main(argv: Sequence[str] | None = None) -> int:
+     """The supervisor's recovery in its own process (1.7.1), printing its result as one JSON line::
+ 
+     python -I -m classic_probe.supervisor recover MANIFEST OUT_DIR RETAILER --reason TEXT
+-        [--until-monotonic SECONDS] [--execution-id ID]
++        [--until-monotonic SECONDS] [--execution-id ID] [--tree-cleanup verified|failed|unknown]
+ 
+     ``--until-monotonic`` is a reading of the system-wide monotonic clock (``time.monotonic()``) at which the
+-    recovery must have ended (1.7.2: not the wall clock)."""
++    recovery must have ended (1.7.2: not the wall clock). ``--tree-cleanup`` (1.7.4) is written into the
++    recovered manifest as ``session_tree_cleanup``."""
+     parser = argparse.ArgumentParser(prog="classic_probe.supervisor")
+     sub = parser.add_subparsers(dest="command", required=True)
+     rec = sub.add_parser("recover", help="recover a session that did not end by itself (OFFLINE)")
+@@ -477,6 +586,7 @@ def main(argv: Sequence[str] | None = None) -> int:
+     rec.add_argument("--reason", required=True)
+     rec.add_argument("--until-monotonic", type=float, default=None)
+     rec.add_argument("--execution-id", default=None)
++    rec.add_argument("--tree-cleanup", choices=("verified", "failed", "unknown"), default=None)
+     args = parser.parse_args(argv)
+     try:
+         result = recover_session(
+@@ -486,6 +596,7 @@ def main(argv: Sequence[str] | None = None) -> int:
+             reason=args.reason,
+             until_monotonic=args.until_monotonic,
+             execution_id=args.execution_id,
++            tree_cleanup=args.tree_cleanup,
+         )
+     except Exception as exc:  # noqa: BLE001 - reported to the supervisor, which records it
+         print(
+diff --git a/headless/oxylabs-classic-probe/tests/test_review_of_172.py b/headless/oxylabs-classic-probe/tests/test_review_of_172.py
+new file mode 100644
+index 0000000..20d6cc3
+--- /dev/null
++++ b/headless/oxylabs-classic-probe/tests/test_review_of_172.py
+@@ -0,0 +1,713 @@
++"""The client's review of probe 1.7.2's process supervision on Windows, kept as tests (1.7.4).
++
++1.7.2 fell back to ``taskkill /T`` when no job object could be made, and when the session's process could not
++join one it resumed the process anyway and fell back the same way. ``taskkill /T`` finds descendants through
++their parent's process id, so a child whose parent had exited was out of its reach; and with the parent gone,
++1.7.2 could not tell whether anything of the tree was left, yet reported nothing left running and no problem.
++
++Each test named ``test_w_...`` was first run against the frozen code of probe 1.7.2 (the reviewed delivery),
++with this file copied in, and failed there by its output; 1.7.4 makes it pass. A test named
++``..._control_...`` passes on both: the first reproduces, on Windows itself, the limitation behind 1.7.2's
++fallback (a parent that exits leaves its child running, and ``taskkill /T`` cannot reach the child); the
++second pins how a working job object ends a child whose parent exited first.
++
++Failures are forced at the Windows API boundary only: one kernel32 function at a time (``CreateJobObjectW``,
++``AssignProcessToJobObject``, ``IsProcessInJob``, or the job's accounting once the session runs) answers as
++Windows answers a failure, and every other call is Windows' own. On Linux the same unreadable count is forced
++on the process group's signal 0. The processes are real; a child tells it runs by writing a file (the
++handshake); and every process a test starts is ended by the test's own cleanup, even when the test fails,
++after its start time is checked, so a reused process id is never touched.
++
++OFFLINE: the only connection a test process could make is to a stub on 127.0.0.1, which counts them.
++"""
++
++from __future__ import annotations
++
++import errno
++import json
++import os
++import signal
++import subprocess
++import sys
++import time
++from collections.abc import Callable, Iterator
++from pathlib import Path
++from typing import Any
++
++import pytest
++
++from classic_probe import proctree, supervisor
++from tests import loopback_stub as stub
++from tests.test_c2_c4_reproduction import ROOT, campaign_files, drill
++
++WINDOWS = sys.platform == "win32"
++BASE = getattr(sys, "_base_executable", sys.executable)  # the interpreter itself, not a venv's launcher
++TOLERANCE_S = 0.5  # supervisor.TOLERANCE_S, kept as a number so the reviewed code can run these tests
++LATE_S = 3.0  # how long a child waits before it connects: well past the end of its tree
++HARD_END_S = 30.0
++GOOD = json.dumps({"results": [{"status_code": 200, "content": {}}]}).encode()
++ERROR_ACCESS_DENIED = 5
++STILL_ACTIVE = 259
++
++only_windows = pytest.mark.skipif(
++    not WINDOWS,
++    reason="job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the "
++    "tests here that run on both",
++)
++
++# A process's start time, which a reused process id cannot share: written by each test process about itself,
++# and read by the test about a process id before it says anything about it or ends it.
++IDENTITY = r"""
++import os, sys
++
++def identity(pid=None):
++    if sys.platform == "win32":
++        import ctypes
++        from ctypes import wintypes
++        k = ctypes.WinDLL("kernel32", use_last_error=True)
++        k.OpenProcess.restype = wintypes.HANDLE
++        k.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
++        k.GetCurrentProcess.restype = wintypes.HANDLE
++        k.GetProcessTimes.argtypes = [wintypes.HANDLE] + [ctypes.POINTER(wintypes.FILETIME)] * 4
++        k.CloseHandle.argtypes = [wintypes.HANDLE]
++        h = k.GetCurrentProcess() if pid is None else k.OpenProcess(0x1000, False, pid)
++        if not h:
++            return None
++        try:
++            t = [wintypes.FILETIME() for _ in range(4)]
++            if not k.GetProcessTimes(h, *(ctypes.byref(x) for x in t)):
++                return None
++            return f"{t[0].dwHighDateTime}:{t[0].dwLowDateTime}"
++        finally:
++            if pid is not None:
++                k.CloseHandle(h)
++    try:
++        with open(f"/proc/{'self' if pid is None else pid}/stat", "rb") as f:
++            return f.read().rsplit(b")", 1)[1].split()[19].decode()
++    except OSError:
++        return None
++"""
++
++SESSION = (
++    IDENTITY
++    + r"""
++import subprocess, time
++marker, child, ready, port, late_s = sys.argv[1:6]
++with open(marker, "w") as f:
++    f.write(f"{os.getpid()} {identity()}")
++subprocess.Popen(
++    [sys.executable, "-I", child, ready, port, late_s],
++    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
++)
++end = time.monotonic() + 30
++while not os.path.exists(ready):  # the handshake: the child has written that it runs
++    if time.monotonic() > end:
++        sys.exit(5)
++    time.sleep(0.01)
++sys.exit(0)  # the parent exits first; its child keeps running
++"""
++)
++
++CHILD = (
++    IDENTITY
++    + r"""
++import socket, time
++ready, port, late_s = sys.argv[1], int(sys.argv[2]), float(sys.argv[3])
++with open(ready + ".tmp", "w") as f:
++    f.write(f"{os.getpid()} {identity()}")
++os.replace(ready + ".tmp", ready)
++time.sleep(late_s)
++try:
++    with socket.create_connection(("127.0.0.1", port), 5) as s:  # a dispatch, as a request worker's
++        s.sendall(b"POST /v1/queries HTTP/1.1\r\nHost: late\r\nContent-Length: 0\r\n\r\n")
++        time.sleep(1.0)
++except OSError:
++    pass
++time.sleep(30)  # a bounded life: it ends by itself even if every cleanup failed
++"""
++)
++
++_ns: dict[str, Any] = {}
++exec(IDENTITY, _ns)  # the same code the test processes run about themselves
++identity: Callable[[int | None], str | None] = _ns["identity"]
++
++
++def alive(pid: int, ident: str) -> bool:
++    """Whether the process ``pid`` that started at ``ident`` still runs, asked of the system itself."""
++    if identity(pid) != ident:
++        return False  # gone, or another process now has the id
++    if WINDOWS:
++        import ctypes
++        from ctypes import wintypes
++
++        k = ctypes.WinDLL("kernel32", use_last_error=True)
++        k.OpenProcess.restype = wintypes.HANDLE
++        k.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
++        k.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
++        k.CloseHandle.argtypes = [wintypes.HANDLE]
++        h = k.OpenProcess(0x1000, False, pid)
++        if not h:
++            return False
++        try:
++            code = wintypes.DWORD()
++            return bool(k.GetExitCodeProcess(h, ctypes.byref(code))) and code.value == STILL_ACTIVE
++        finally:
++            k.CloseHandle(h)
++    try:
++        with open(f"/proc/{pid}/stat", "rb") as f:
++            return f.read().rsplit(b")", 1)[1].split()[0] not in (b"Z", b"X")
++    except OSError:
++        return False
++
++
++def end_process(pid: int, ident: str) -> None:
++    """The test's own cleanup: end ``pid`` only if it is still the process that started at ``ident``."""
++    if WINDOWS:
++        import ctypes
++        from ctypes import wintypes
++
++        k = ctypes.WinDLL("kernel32", use_last_error=True)
++        k.OpenProcess.restype = wintypes.HANDLE
++        k.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
++        k.GetProcessTimes.argtypes = [wintypes.HANDLE] + [ctypes.POINTER(wintypes.FILETIME)] * 4
++        k.TerminateProcess.argtypes = [wintypes.HANDLE, wintypes.UINT]
++        k.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
++        k.CloseHandle.argtypes = [wintypes.HANDLE]
++        h = k.OpenProcess(0x0001 | 0x1000 | 0x00100000, False, pid)  # terminate, query, synchronize
++        if not h:
++            return
++        try:
++            t = [wintypes.FILETIME() for _ in range(4)]
++            same = k.GetProcessTimes(h, *(ctypes.byref(x) for x in t)) and (
++                f"{t[0].dwHighDateTime}:{t[0].dwLowDateTime}" == ident
++            )
++            if same:  # checked through the handle that ends it: the id cannot change in between
++                k.TerminateProcess(h, 1)
++                k.WaitForSingleObject(h, 5000)
++        finally:
++            k.CloseHandle(h)
++        return
++    if identity(pid) == ident:
++        try:
++            os.kill(pid, signal.SIGKILL)
++        except ProcessLookupError:
++            pass
++
++
++def cpu_times_100ns(proc: subprocess.Popen[bytes]) -> tuple[int, int]:
++    """The kernel and user time Windows has charged to a process, from its own handle.
++
++    Read before a process is ended: both are 0 for a process that has never run. After its end they prove
++    nothing either way: Windows may charge one clock tick of user time (156,250 x 100 ns) to a process that
++    was created suspended and never resumed when it is terminated (measured on this workstation: 10 of
++    300)."""
++    import ctypes
++    from ctypes import wintypes
++
++    k = ctypes.WinDLL("kernel32", use_last_error=True)
++    k.GetProcessTimes.argtypes = [wintypes.HANDLE] + [ctypes.POINTER(wintypes.FILETIME)] * 4
++    t = [wintypes.FILETIME() for _ in range(4)]
++    assert k.GetProcessTimes(int(getattr(proc, "_handle")), *(ctypes.byref(x) for x in t))  # noqa: B009
++    return (t[2].dwHighDateTime << 32) | t[2].dwLowDateTime, (t[3].dwHighDateTime << 32) | t[3].dwLowDateTime
++
++
++def suspend_counts(pid: int) -> list[int]:
++    """Each thread of ``pid`` with the suspend count Windows holds for it, read without changing it
++    (``SuspendThread`` returns the count before, ``ResumeThread`` puts it back).
++
++    A process created suspended and never resumed has one thread, suspended once: ``[1]``. Once resumed, its
++    count is 0 and the loader starts more threads (measured: ``[1]`` 100 of 100, and ``[0, 0, 0, 0]`` 100 of
++    100 50 ms after a resume)."""
++    import ctypes
++    from ctypes import wintypes
++
++    class Entry(ctypes.Structure):
++        _fields_ = [
++            ("dwSize", wintypes.DWORD),
++            ("cntUsage", wintypes.DWORD),
++            ("th32ThreadID", wintypes.DWORD),
++            ("th32OwnerProcessID", wintypes.DWORD),
++            ("tpBasePri", wintypes.LONG),
++            ("tpDeltaPri", wintypes.LONG),
++            ("dwFlags", wintypes.DWORD),
++        ]
++
++    k = ctypes.WinDLL("kernel32", use_last_error=True)
++    k.CreateToolhelp32Snapshot.restype = wintypes.HANDLE
++    k.CreateToolhelp32Snapshot.argtypes = [wintypes.DWORD, wintypes.DWORD]
++    k.Thread32First.argtypes = [wintypes.HANDLE, ctypes.POINTER(Entry)]
++    k.Thread32Next.argtypes = [wintypes.HANDLE, ctypes.POINTER(Entry)]
++    k.OpenThread.restype = wintypes.HANDLE
++    k.OpenThread.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
++    k.SuspendThread.restype = wintypes.DWORD
++    k.SuspendThread.argtypes = [wintypes.HANDLE]
++    k.ResumeThread.restype = wintypes.DWORD
++    k.ResumeThread.argtypes = [wintypes.HANDLE]
++    k.CloseHandle.argtypes = [wintypes.HANDLE]
++    snap = k.CreateToolhelp32Snapshot(0x00000004, 0)  # TH32CS_SNAPTHREAD
++    assert snap and snap != ctypes.c_void_p(-1).value, ctypes.get_last_error()
++    counts: list[int] = []
++    try:
++        entry = Entry()
++        entry.dwSize = ctypes.sizeof(entry)
++        more = k.Thread32First(snap, ctypes.byref(entry))
++        while more:
++            if entry.th32OwnerProcessID == pid:
++                h = k.OpenThread(0x0002, False, entry.th32ThreadID)  # THREAD_SUSPEND_RESUME
++                assert h, ctypes.get_last_error()
++                try:
++                    before = k.SuspendThread(h)
++                    assert before != 0xFFFFFFFF, ctypes.get_last_error()
++                    k.ResumeThread(h)
++                finally:
++                    k.CloseHandle(h)
++                counts.append(int(before))
++            more = k.Thread32Next(snap, ctypes.byref(entry))
++    finally:
++        k.CloseHandle(snap)
++    return counts
++
++
++class Scene:
++    """A session that starts a child and exits once the child runs, and what a test needs to observe it and
++    to clean it up."""
++
++    def __init__(self, folder: Path, server: stub.Stub) -> None:
++        folder.mkdir()
++        self.server = server
++        self.marker = folder / "session_ran.txt"
++        self.ready = folder / "child_runs.txt"
++        self.session = folder / "session.py"
++        self.session.write_text(SESSION, encoding="utf-8")
++        child = folder / "child.py"
++        child.write_text(CHILD, encoding="utf-8")
++        self.command = [
++            BASE,
++            "-I",
++            str(self.session),
++            str(self.marker),
++            str(child),
++            str(self.ready),
++            str(server.port),
++            str(LATE_S),
++        ]
++        self.seen: list[tuple[int, str]] = []
++
++    def _read(self, path: Path) -> tuple[int, str] | None:
++        try:
++            pid, ident = path.read_text(encoding="utf-8").split()
++        except (OSError, ValueError):
++            return None
++        entry = (int(pid), ident)
++        if entry not in self.seen:
++            self.seen.append(entry)
++        return entry
++
++    def child(self) -> tuple[int, str] | None:
++        return self._read(self.ready)
++
++    def parent(self) -> tuple[int, str] | None:
++        return self._read(self.marker)
++
++    def created(self, made: list[subprocess.Popen[bytes]]) -> list[subprocess.Popen[bytes]]:
++        return [p for p in made if str(self.session) in " ".join(map(str, p.args))]  # type: ignore[arg-type]
++
++    def cleanup(self) -> None:
++        self.parent()
++        self.child()
++        for pid, ident in self.seen:
++            if alive(pid, ident):
++                end_process(pid, ident)
++
++
++@pytest.fixture
++def scene(tmp_path: Path) -> Iterator[Scene]:
++    with stub.Stub(stub.hang) as server:
++        made = Scene(tmp_path / "scene", server)
++        try:
++            yield made
++        finally:
++            made.cleanup()  # on failure too: no test leaves a process behind
++
++
++class FaultyKernel32:
++    """kernel32 as Windows gives it, but for one function that answers as Windows answers a failure: a zero
++    result with an error code, or, for ``IsProcessInJob``, a successful call that says "not a member"."""
++
++    def __init__(self, real: Any, fault: str) -> None:
++        self._real, self.fault = real, fault
++        self.armed = fault != "accounting"  # the accounting fault starts once the session runs
++        self.calls: list[str] = []
++
++    def __getattr__(self, name: str) -> Any:
++        return getattr(self._real, name)
++
++    def _failed(self, name: str) -> int:
++        import ctypes
++
++        self.calls.append(f"{name}: forced failure")
++        ctypes.set_last_error(ERROR_ACCESS_DENIED)
++        return 0
++
++    def CreateJobObjectW(self, *args: Any) -> Any:
++        if self.fault == "create":
++            return self._failed("CreateJobObjectW")
++        return self._real.CreateJobObjectW(*args)
++
++    def AssignProcessToJobObject(self, *args: Any) -> Any:
++        if self.fault == "assign":
++            return self._failed("AssignProcessToJobObject")
++        return self._real.AssignProcessToJobObject(*args)
++
++    def IsProcessInJob(self, process: Any, job: Any, member: Any) -> Any:
++        if self.fault == "verify":
++            self.calls.append("IsProcessInJob: forced answer, not a member")
++            member._obj.value = 0
++            return 1
++        return self._real.IsProcessInJob(process, job, member)
++
++    def QueryInformationJobObject(self, job: Any, info_class: int, *rest: Any) -> Any:
++        if self.fault == "accounting" and self.armed and info_class == 1:
++            return self._failed("QueryInformationJobObject(accounting)")
++        return self._real.QueryInformationJobObject(job, info_class, *rest)
++
++
++class _OsWithUnreadableGroup:
++    """``os`` as it is, but a signal 0 to a process group fails once armed (Linux: an unreadable count)."""
++
++    def __init__(self) -> None:
++        self.armed = False
++
++    def __getattr__(self, name: str) -> Any:
++        return getattr(os, name)
++
++    def killpg(self, pgid: int, sig: int) -> None:
++        if sig == 0 and self.armed:
++            raise OSError(errno.EIO, "forced: the process group cannot be asked")
++        os.killpg(pgid, sig)
++
++
++def force(monkeypatch: pytest.MonkeyPatch, fault: str) -> list[Any]:
++    """Make one step of holding or counting the tree fail (see the module's docstring). Returns the fault
++    objects, for their record of what was forced."""
++    faults: list[Any] = []
++    if fault == "unreadable-count" and not WINDOWS:
++        proxy = _OsWithUnreadableGroup()
++        monkeypatch.setattr(proctree, "os", proxy)
++        faults.append(proxy)
++    else:
++        real = proctree._kernel32  # type: ignore[attr-defined]
++        kind = "accounting" if fault == "unreadable-count" else fault
++
++        def faulty() -> FaultyKernel32:
++            k = FaultyKernel32(real(), kind)
++            faults.append(k)
++            return k
++
++        monkeypatch.setattr(proctree, "_kernel32", faulty)
++    if fault == "unreadable-count":  # armed once the tree runs, so its start is Windows' (or Linux') own
++        real_start = proctree.ProcessTree.start.__func__  # type: ignore[attr-defined]
++
++        def start(cls: type, *args: Any, **kwargs: Any) -> Any:
++            tree = real_start(cls, *args, **kwargs)
++            for f in faults:
++                f.armed = True
++            return tree
++
++        monkeypatch.setattr(proctree.ProcessTree, "start", classmethod(start))
++    return faults
++
++
++def record_processes(monkeypatch: pytest.MonkeyPatch) -> list[subprocess.Popen[bytes]]:
++    """Every process the code under test creates through subprocess, kept for the test to examine."""
++    made: list[subprocess.Popen[bytes]] = []
++
++    class Recorded(subprocess.Popen):  # type: ignore[type-arg]
++        def __init__(self, *args: Any, **kwargs: Any) -> None:
++            super().__init__(*args, **kwargs)
++            made.append(self)
++
++    monkeypatch.setattr(proctree.subprocess, "Popen", Recorded)
++    return made
++
++
++def show(facts: dict[str, Any]) -> None:
++    """Print what a test found, whole, so a failure's output shows every fact it rests on."""
++    print("FACTS " + json.dumps(facts, sort_keys=True, default=str))
++
++
++def supervise(scene: Scene, tmp_path: Path) -> tuple[supervisor.SupervisedSession, float]:
++    manifest, out, _ = campaign_files(tmp_path)
++    t0 = time.monotonic()
++    session = supervisor.run_session(
++        scene.command,
++        hard_end_s=HARD_END_S,
++        manifest=manifest,
++        out_dir=out,
++        retailer="walmart",
++        cwd=ROOT,
++    )
++    return session, time.monotonic() - t0
++
++
++def after_refusal(
++    scene: Scene,
++    session: supervisor.SupervisedSession,
++    made: list[subprocess.Popen[bytes]],
++    faults: list[Any],
++) -> dict[str, Any]:
++    """What happened, read once a running child would have connected: from the files, the stub and the
++    system, not from the supervisor's own account (which is reported beside them)."""
++    time.sleep(LATE_S + 1.5)
++    child = scene.child()
++    created = scene.created(made)
++    return {
++        "session_ran": scene.marker.exists(),
++        "child_started": child is not None,
++        "child_alive_after_the_supervisor_returned": bool(child and alive(*child)),
++        "connections_to_the_stub": len(scene.server.connections),
++        "session_processes_created": len(created),
++        "session_processes_still_running": [p.pid for p in created if p.poll() is None],
++        "forced": [c for f in faults for c in f.calls],
++        "refused": getattr(session, "refused", None),
++        "status": getattr(session, "status", None),
++        "returncode": session.returncode,
++        "problems": session.problems,
++        "tree": session.tree,
++    }
++
++
++# -- the limitation behind 1.7.2's fallback, on Windows itself ----------------------------------------------
++
++
++@only_windows
++def test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it(scene: Scene) -> None:
++    """No job object: the parent starts a child, waits until the child says it runs, and exits. The child
++    runs on, and ``taskkill /F /T`` on the parent cannot reach it. (The parent's handle stays open in this
++    test, so its id cannot be given to another process before taskkill names it.)"""
++    parent = subprocess.Popen(
++        scene.command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
++    )
++    code = parent.wait(30)
++    child = scene.child()
++    outlived = bool(child and alive(*child))
++    done = subprocess.run(
++        ["taskkill", "/F", "/T", "/PID", str(parent.pid)], capture_output=True, timeout=30, check=False
++    )
++    time.sleep(0.5)
++    left = bool(child and alive(*child))
++    said = done.stdout.decode("utf-8", "replace") + done.stderr.decode("utf-8", "replace")
++    facts = {
++        "parent_exit_code": code,
++        "child": child,
++        "child_alive_after_its_parent_exited": outlived,
++        "taskkill_tree_returncode": done.returncode,
++        "taskkill_tree_said": said.strip(),
++        "child_alive_after_taskkill_tree": left,
++    }
++    show(facts)
++    assert code == 0, f"the parent did not exit after its child's handshake: {facts}"
++    assert child is not None, f"the child never wrote that it runs: {facts}"
++    assert outlived, f"the child did not outlive its parent, so nothing was reproduced: {facts}"
++    assert left, f"taskkill /T reached the child after all: {facts}"
++    assert done.returncode != 0, facts  # the parent is gone, so taskkill finds no tree to walk
++    end_process(*child)
++    assert not alive(*child), "the test's own cleanup could not end the child"
++
++
++# -- the job object: made and shown to hold the process before it runs, or a refusal -------------------------
++
++
++@only_windows
++def test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs(
++    scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    faults = force(monkeypatch, "create")
++    made = record_processes(monkeypatch)
++    session, _elapsed = supervise(scene, tmp_path)
++    facts = after_refusal(scene, session, made, faults)
++    show(facts)
++    assert not facts["session_ran"] and not facts["child_started"], facts
++    assert facts["forced"] == ["CreateJobObjectW: forced failure"], facts
++    assert facts["connections_to_the_stub"] == 0, facts
++    assert facts["session_processes_created"] == 0, facts  # no job, so no process is even created
++    assert facts["refused"] is True and facts["status"] == "refused" and facts["returncode"] is None, facts
++    assert session.tree["stage"] == "create" and session.tree["process_created"] is False, facts
++    assert "no job object could be made" in session.problems[0], facts
++    assert session.evidence == {"accepted": False, "why": "not read: the session was refused before it ran"}
++    assert session.recovery == {}, facts  # nothing ran, so there is nothing to recover
++
++
++@only_windows
++@pytest.mark.parametrize(
++    ("fault", "says"),
++    [
++        ("assign", "could not be assigned to the job object"),
++        ("verify", "did not confirm the process is in the job object"),
++    ],
++)
++def test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused(
++    scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, fault: str, says: str
++) -> None:
++    faults = force(monkeypatch, fault)
++    made = record_processes(monkeypatch)
++    # Windows' own view of the session's process just before the refusal ends it, and every resume asked for
++    seen: list[dict[str, Any]] = []
++    resumed: list[int] = []
++    real_resume = getattr(proctree, "_resume", None)
++    real_end = getattr(proctree, "_end_unstarted", None)  # 1.7.4; 1.7.2 has none
++    if real_resume is not None:
++
++        def counting_resume(proc: subprocess.Popen[bytes]) -> None:
++            resumed.append(proc.pid)
++            real_resume(proc)
++
++        monkeypatch.setattr(proctree, "_resume", counting_resume)
++    if real_end is not None:
++
++        def observed_end(proc: subprocess.Popen[bytes], *args: Any, **kwargs: Any) -> Any:
++            kernel, user = cpu_times_100ns(proc)
++            seen.append(
++                {
++                    "threads_suspend_counts": suspend_counts(proc.pid),
++                    "kernel_100ns": kernel,
++                    "user_100ns": user,
++                }
++            )
++            return real_end(proc, *args, **kwargs)
++
++        monkeypatch.setattr(proctree, "_end_unstarted", observed_end)
++    session, _elapsed = supervise(scene, tmp_path)
++    facts = after_refusal(scene, session, made, faults)
++    facts["before_its_end"] = seen
++    facts["resumed"] = len(resumed)
++    show(facts)
++    assert not facts["session_ran"] and not facts["child_started"], facts
++    assert facts["connections_to_the_stub"] == 0, facts
++    assert facts["forced"], facts
++    assert facts["refused"] is True and facts["status"] == "refused" and facts["returncode"] is None, facts
++    assert says in session.problems[0] and session.tree["stage"] == fault, facts
++    # The process made for the session was never resumed, and was ended and reaped before the refusal. Just
++    # before its end Windows showed it as created: one thread, still suspended once, no time charged.
++    assert facts["resumed"] == 0, facts
++    assert seen == [{"threads_suspend_counts": [1], "kernel_100ns": 0, "user_100ns": 0}], facts
++    [proc] = scene.created(made)
++    assert proc.poll() is not None, facts  # it has exited (asked through its own handle)
++    assert session.tree["terminated"] is True and session.tree["reaped"] is True, facts
++    assert session.tree["cleanup"] == "verified" and session.recovery == {}, facts
++
++
++# -- the end of a held tree --------------------------------------------------------------------------------
++
++
++def test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree(
++    scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """A working job object (a process group on Linux). The session's process exits as soon as its child
++    runs. When the supervisor starts to end the tree the parent has exited and the child is running (both
++    checked independently); once the end returns, within its own time, the child has gone, and nothing
++    connects afterwards."""
++    seen: dict[str, Any] = {}
++    real_end = proctree.ProcessTree.end
++
++    def end(self: proctree.ProcessTree, seconds: float) -> dict[str, Any]:
++        child = scene.child()
++        seen.update(
++            parent_exited=self.proc.poll() is not None,
++            child=child,
++            child_alive_before=bool(child and alive(*child)),
++            seconds=seconds,
++            started=time.monotonic(),
++        )
++        result = real_end(self, seconds)
++        seen.update(returned=time.monotonic(), child_alive_after=bool(child and alive(*child)))
++        return result
++
++    monkeypatch.setattr(proctree.ProcessTree, "end", end)
++    session, elapsed = supervise(scene, tmp_path)
++    child = scene.child()
++    gone_at_return = child is not None and not alive(*child)
++    time.sleep(LATE_S + 1.5)  # past the moment the child would have connected
++    facts = {
++        **seen,
++        "gone_when_the_supervisor_returned": gone_at_return,
++        "connections_to_the_stub": len(scene.server.connections),
++        "elapsed_s": elapsed,
++        "returncode": session.returncode,
++        "tree": session.tree,
++        "problems": session.problems,
++    }
++    show(facts)
++    assert session.returncode == 0 and not session.killed, facts
++    assert seen["parent_exited"] and seen["child_alive_before"], facts  # alive before the cleanup
++    assert not seen["child_alive_after"] and gone_at_return, facts  # gone after it, checked independently
++    assert seen["returned"] - seen["started"] <= seen["seconds"] + TOLERANCE_S, facts  # within its time
++    assert elapsed < HARD_END_S + TOLERANCE_S, facts
++    assert facts["connections_to_the_stub"] == 0, facts
++    assert session.tree["gone"] is True and session.tree["left_running"] is True, facts
++
++
++def test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    """The session ends by itself, exit code 0, with its own complete evidence. Then the tree's count
++    cannot be read (Windows: the job's accounting; Linux: the process group). The supervisor must not say
++    the tree has gone or that nothing was left: the unknown stays unknown, the evidence is not taken, a
++    recovery runs and its manifest names the cleanup."""
++    faults = force(monkeypatch, "unreadable-count")
++    manifest, out, _ = campaign_files(tmp_path)
++    with stub.Stub(stub.respond(200, GOOD)) as s:
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=HARD_END_S,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++    facts = {
++        "forced": [c for f in faults for c in getattr(f, "calls", ["killpg(group, 0): forced failure"])][:3],
++        "returncode": session.returncode,
++        "status": getattr(session, "status", None),
++        "tree": session.tree,
++        "evidence": session.evidence,
++        "problems": session.problems,
++        "recovery_ran": bool(session.recovery),
++    }
++    show(facts)
++    assert session.returncode == 0 and not session.killed, facts
++    assert session.tree.get("cleanup") == "unknown", facts
++    assert session.tree["gone"] is None and session.tree["left_running"] is None, facts  # never False
++    assert facts["status"] == "cleanup-unknown", facts
++    assert session.evidence.get("accepted") is False, facts
++    assert any("could not be told" in p for p in session.problems), facts
++    assert not any("killed with it" in p for p in session.problems), facts
++    recovered = json.loads((out / "campaign_evidence.recovered.json").read_text("utf-8"))
++    assert recovered["complete"] is False and recovered.get("session_tree_cleanup") == "unknown", recovered
++    assert "not verified gone (cleanup unknown)" in recovered["ended_by"], recovered
++
++
++def test_w_a_session_is_ok_only_once_its_tree_is_counted_gone(tmp_path: Path) -> None:
++    manifest, out, _ = campaign_files(tmp_path)
++    with stub.Stub(stub.respond(200, GOOD)) as s:
++        session = supervisor.run_session(
++            drill(manifest, out, "loopback", str(s.port)),
++            hard_end_s=HARD_END_S,
++            manifest=manifest,
++            out_dir=out,
++            retailer="walmart",
++            cwd=ROOT,
++        )
++    facts = {
++        "status": getattr(session, "status", None),
++        "tree": session.tree,
++        "evidence": session.evidence,
++        "problems": session.problems,
++    }
++    show(facts)
++    assert facts["status"] == "ok" and session.recovery == {}, facts
++    assert session.tree.get("cleanup") == "verified" and session.tree["gone"] is True, facts
++    expected = "job object's accounting" if WINDOWS else "process group"
++    assert expected in session.tree.get("basis", ""), facts  # never the leading process's own exit
++    if WINDOWS:
++        assert session.tree["held_by"] == "job object (verified before the process ran)", facts
+diff --git a/headless/oxylabs-classic-probe/uv.lock b/headless/oxylabs-classic-probe/uv.lock
+index 0a50ad5..788a255 100644
+--- a/headless/oxylabs-classic-probe/uv.lock
++++ b/headless/oxylabs-classic-probe/uv.lock
+@@ -120,7 +120,7 @@ wheels = [
+ 
+ [[package]]
+ name = "oxylabs-classic-probe"
+-version = "1.7.3"
++version = "1.7.4"
+ source = { editable = "." }
+ dependencies = [
+     { name = "selectolax" },

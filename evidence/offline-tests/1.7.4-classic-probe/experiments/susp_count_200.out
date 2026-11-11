@@ -1,0 +1,5 @@
+2026-11-09T22:05:00Z
+never resumed: Counter({(1,): 100})
+resumed (50 ms later): Counter({(0, 0, 0, 0): 100})
+exit 0
+2026-11-09T22:05:23Z

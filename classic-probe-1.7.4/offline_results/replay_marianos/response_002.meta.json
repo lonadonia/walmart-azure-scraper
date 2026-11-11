@@ -1,0 +1,28 @@
+{
+ "body_bytes": 631,
+ "detail": {
+  "elapsed_s": 0.0,
+  "file_sha256": "b3e01fafadcbc3bb4f9bd5f3975e4c50c7f00ce7bfd723c7682d8e800111e1fa",
+  "headers": {},
+  "raw_pages": [
+   {
+    "data_uris_replaced": 0,
+    "input_sha256": "df7bf3ac456f53fe00f922408a8bf1ab300e64555b8ff2e40e00d1641b2344d1",
+    "output_sha256": "df7bf3ac456f53fe00f922408a8bf1ab300e64555b8ff2e40e00d1641b2344d1",
+    "result": 0,
+    "scripts_removed": 0,
+    "state_script_kept": true,
+    "styles_emptied": 0
+   }
+  ],
+  "redirect_location": null,
+  "step": "marianos-product"
+ },
+ "file": "response_002.json.gz",
+ "http_status": 200,
+ "kept_sha256": "62780f978f5b8136234cec9b51db53fa9d5d4e790f88a57a304a446bd9bf3d07",
+ "original_sha256": "1de832b1c82dcc87d77bdd70b4db8c83e28900da4914a277715ec6d8d508fed7",
+ "sanitized": true,
+ "seq": 2,
+ "truncated": false
+}

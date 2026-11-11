@@ -16,8 +16,31 @@ and a tag is never moved. The collector's change history by release is in
   - an entry here;
   - its own tag, `review-<release>-<YYYYMMDD>`, with the UTC date the tag was made;
   - freshly written manifests, with `SHA256SUMS.txt` written last.
+- **A revision that changes only the shared probe and the documents** keeps the collector's release in its tag and
+  names the probe: `review-<release>-probe<version without dots>-<YYYYMMDD>`.
+
+## 1.6.8 with probe 1.7.4: correction revision, published 2026-11-11 (tag `review-1.6.8-probe174-20261111`)
+
+- **Collector:** unchanged, release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a`; `source/` and `data/` are as published under `review-1.6.8-20261106`.
+- **Shared Classic probe 1.7.4**, commit `a1def53747dfabcb2ad9ca97efc421c1e70f0ac6` ([`classic-probe-1.7.4/`](classic-probe-1.7.4/)), live mode disabled. It answers the client's
+  review of 1.7.2's process supervision on Windows. 1.7.2 fell back to `taskkill /T` when no job object could be made or the session's process could not join one, ran the session anyway, and reported
+  nothing left running when the job's count could not be read. Now a session runs only once a verified job object holds it (the process is created suspended, assigned, confirmed and counted
+  before it runs). Any failure ends and reaps the suspended process and refuses the session, with no fallback, and a cleanup that cannot be verified stays `unknown` or `failed` in the status and the
+  recovery's manifest. 1.7.4 also carries 1.7.3's T05 change (an offline replay's unusable saved responses are refused before anything is created), first published with Mariano's
+  delivery; it touches no process code. Probe 1.7.2 stays in [`classic-probe-1.7.2/`](classic-probe-1.7.2/), unchanged.
+- **Tests, offline, on Windows 11 and on Linux** ([`evidence/offline-tests/1.7.4-classic-probe/`](evidence/offline-tests/1.7.4-classic-probe/)). On Windows the 5 new `test_w_` tests fail on the 1.7.2 code by their output, and the 2 controls pass;
+  on 1.7.4 all 7 pass; the whole suite gives 229 passed, 5 skipped, 0 failed; ruff, format and mypy (for Windows and for Linux) are clean. On Linux, the owner's test VM (Ubuntu 24.04.5), from the archive:
+  the whole suite gives 227 passed, 7 skipped, 0 failed; the 3 review tests that run there pass, and 2 of them fail on the 1.7.2 code by their output; ruff, format and mypy are clean. The archive's
+  first build (`05d8d87`, never published) failed mypy on Linux with three errors; `a1def53` corrects that, with no change in what runs ([`linux-owner-vm/`](evidence/offline-tests/1.7.4-classic-probe/linux-owner-vm/)).
+- **Corrected statements of the 1.6.8 publication** ([`manifests/DOC_CORRECTIONS.md`](manifests/DOC_CORRECTIONS.md)): "1.7.2 completes C2", which did not hold on Windows; and the 275 sponsored and
+  variant decisions, which counted 59 products with no affirmative source evidence as excluded and gave 0 unresolved. The correct split is 48 included, 165 excluded on a positively identified other category,
+  3 duplicates and **59 unresolved** (4 without a category path, 55 without proof of local eligibility). The 44 unread UPCs are a separate queue, unchanged.
+- **States:** the four new columns of [`review/ACCEPTANCE_MATRIX.csv`](review/ACCEPTANCE_MATRIX.csv) (`*_1_6_8_probe_1_7_4`). The 1.6.8 columns are kept as published.
+- **Live data:** none. No provider request, no retailer call, nothing in the client's environment, no schedule.
 
 ## 1.6.8: correction delivery, published 2026-11-06 (tag `review-1.6.8-20261106`)
+
+*Note added by the probe 1.7.4 revision: "C2 ... completed in probe 1.7.2" below did not hold on Windows, and the 275 decisions include 59 that are unresolved, not excluded. See [`manifests/DOC_CORRECTIONS.md`](manifests/DOC_CORRECTIONS.md).*
 
 - **Collector:** release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a`, 2026-11-05T20:51:52Z. It carries release 1.6.7 (`7ee2fa1`), prepared on 2026-11-05 and never
   delivered. Three earlier 1.6.8 commits (`745607e`, `7a96218`, `9c14425`) were found wanting by this delivery's own checks before any

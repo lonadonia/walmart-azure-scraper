@@ -1,0 +1,19 @@
+ssss...                                                                  [100%]
+==================================== PASSES ====================================
+____ test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree _____
+----------------------------- Captured stdout call -----------------------------
+FACTS {"child": [539030, "123946304"], "child_alive_after": false, "child_alive_before": true, "connections_to_the_stub": 0, "elapsed_s": 0.17381125409156084, "gone_when_the_supervisor_returned": true, "parent_exited": true, "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "returncode": 0, "returned": 1239463.094922365, "seconds": 7.4839440152281895, "started": 1239463.084806578, "tree": {"basis": "the process group (a signal 0 to the group)", "cleanup": "verified", "gone": true, "held_by": "process group", "left_running": true, "problems": [], "reaped": true}}
+________ test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done ________
+----------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": false, "why": "not read: the session's process tree was not verified gone (cleanup unknown): a process it started may still be running"}, "forced": ["killpg(group, 0): forced failure"], "problems": ["whether the session left processes running when it ended could not be told", "whether any process of the tree is left could not be told (the process group (a signal 0 to the group) could not be read): it is not taken as gone"], "recovery_ran": true, "returncode": 0, "status": "cleanup-unknown", "tree": {"basis": "the process group (a signal 0 to the group)", "cleanup": "unknown", "gone": null, "held_by": "process group", "left_running": null, "problems": ["whether any process of the tree is left could not be told (the process group (a signal 0 to the group) could not be read): it is not taken as gone"], "reaped": true}}
+__________ test_w_a_session_is_ok_only_once_its_tree_is_counted_gone ___________
+----------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "problems": [], "status": "ok", "tree": {"basis": "the process group (a signal 0 to the group)", "cleanup": "verified", "gone": true, "held_by": "process group", "left_running": false, "problems": [], "reaped": true}}
+=========================== short test summary info ============================
+PASSED tests/test_review_of_172.py::test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree
+PASSED tests/test_review_of_172.py::test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+PASSED tests/test_review_of_172.py::test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+SKIPPED [1] tests/test_review_of_172.py:483: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_review_of_172.py:521: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [2] tests/test_review_of_172.py:541: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+3 passed, 4 skipped in 13.85s

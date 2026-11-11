@@ -8,6 +8,11 @@ correct are listed in [`../manifests/DOC_CORRECTIONS.md`](../manifests/DOC_CORRE
 is collector **1.6.8**, commit `85c29e7b2404500299056973f50c84b84e187a5a`, with the shared Classic probe **1.7.2** (commit `7768514aa1ffbaa7f96ca242d7b64e495fffefa5`).
 Store: Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085, PICKUP.
 
+**The probe 1.7.4 revision** (tag `review-1.6.8-probe174-20261111`, 2026-11-11) answers the client's review of the 1.6.8 delivery's probe: the shared Classic probe
+becomes **1.7.4** (commit `a1def53747dfabcb2ad9ca97efc421c1e70f0ac6`), which corrects C2 on Windows ([Classic (W7)](#classic-w7)),
+and two statements of the 1.6.8 publication are corrected: C2 as completed in 1.7.2, and the 275 decisions
+([Sponsored and variant products (W3)](#sponsored-and-variant-products-w3)). The collector is unchanged.
+
 Each state is defined in [`REQUIREMENT_MATRIX.md`](REQUIREMENT_MATRIX.md). Source paths start at
 [`source/walmart-oxylabs-1.6.8/`](../source/walmart-oxylabs-1.6.8/). The Scrape.do edition has the same code and
 differs only in its four edition files.
@@ -23,6 +28,8 @@ differs only in its four edition files.
 | Classic probe 1.6.0 (shared, as published with Mariano's) to 1.7.0 | [`CLASSIC_PROBE_1.6.0_TO_1.7.0.diff`](../evidence/offline-tests/1.7.0-classic-probe/CLASSIC_PROBE_1.6.0_TO_1.7.0.diff) | 24 files; [`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md) |
 | Classic probe 1.7.0 to 1.7.1 | [`CLASSIC_PROBE_1.7.0_TO_1.7.1.diff`](../evidence/offline-tests/1.7.1-classic-probe/CLASSIC_PROBE_1.7.0_TO_1.7.1.diff), [`DIFFSTAT.txt`](../evidence/offline-tests/1.7.1-classic-probe/DIFFSTAT.txt) | 16 files, 1,492 lines added and 167 removed |
 | Classic probe 1.7.1 to 1.7.2 | [`CLASSIC_PROBE_1.7.1_TO_1.7.2.diff`](../evidence/offline-tests/1.7.2-classic-probe/CLASSIC_PROBE_1.7.1_TO_1.7.2.diff), [`DIFFSTAT.txt`](../evidence/offline-tests/1.7.2-classic-probe/DIFFSTAT.txt) | 19 files, 1,917 lines added and 188 removed |
+| Classic probe 1.7.2 to 1.7.3 (T05, published with Mariano's) | [`CLASSIC_PROBE_1.7.2_TO_1.7.3.diff`](../evidence/offline-tests/1.7.4-classic-probe/CLASSIC_PROBE_1.7.2_TO_1.7.3.diff) | 7 files, 280 lines added and 23 removed; no process code |
+| Classic probe 1.7.3 to 1.7.4, the probe 1.7.4 revision's correction | [`CLASSIC_PROBE_1.7.3_TO_1.7.4.diff`](../evidence/offline-tests/1.7.4-classic-probe/CLASSIC_PROBE_1.7.3_TO_1.7.4.diff), [`DIFFSTAT.txt`](../evidence/offline-tests/1.7.4-classic-probe/DIFFSTAT.txt) | 8 files, 1,091 lines added and 74 removed (from the archive's first build, `05d8d87`, to this one: 2 files, 48 added and 41 removed, 10 and 3 with whitespace ignored) |
 
 The diffs are of the development repository, relative to each product's folder. Releases 1.6.0 and 1.6.1 answer the
 review and this delivery's own reconciliation. Releases 1.6.2 to 1.6.5 each correct a defect that a live run
@@ -142,11 +149,31 @@ attributed to the releases that collected them.
 
   So 169 exclusions lack proof of the required category and 55 lack proof of local eligibility. A missing path is kept apart from a positively identified other category. The 1.6.6 text
   said "224 excluded with the page's own reason", which was not accurate for all of them.
+
+  **Corrected by the probe 1.7.4 revision.** The table above counts as excluded 59 products whose sources support no
+  exclusion: the 4 with no category path and the 55 whose page does not prove local eligibility (`LOCATION_UNATTESTED`
+  and `ASSORTMENT_UNRESOLVED`; 14 of them also show a marketplace offer, which does not show the product absent from
+  the store). Missing evidence leaves a product unresolved. From the same rows
+  ([`W3_275_RECOUNT.csv`](../evidence/reconciliation/1.6.8-probe174/w3/W3_275_RECOUNT.csv)):
+
+  | Outcome | Products |
+  |---|---:|
+  | included | 48 |
+  | excluded: the item's own page places it in another category, identified | 165 |
+  | duplicate, linked to the original observation | 3 |
+  | **unresolved**: no category path on the item's page | 4 |
+  | **unresolved**: local eligibility not proven by the item's page | 55 |
+
+  The reads, their pages and the collector's own labels are unchanged; the 59 need their pages read again with the
+  store's context (paid requests). The 44 unread UPCs are a separate queue.
 - **The client's cases:** the 11 sponsored-only placements were closed before 1.5.2. Of the 30 variant siblings, 5
-  were closed before, 24 are excluded on their own page and 1 is included.
+  were closed before, 24 are excluded on their own page and 1 is included. *(Corrected by the probe 1.7.4 revision: of
+  those 24, 17 are excluded on a positively identified other category and 7 are unresolved: V25, V27, V28 and V30 with no
+  category path, V22, V26 and V29 with local eligibility not proven.)*
 - **Tables:** [`W3_DECISIONS_1_6_1.csv`](../evidence/reconciliation/1.6.1/w3/W3_DECISIONS_1_6_1.csv),
   [`W3_CLIENT_CASES_1_6_1.csv`](../evidence/reconciliation/1.6.1/w3/W3_CLIENT_CASES_1_6_1.csv).
-- **State:** PASS_DEVELOPER_LIVE.
+- **State:** PASS_DEVELOPER_LIVE for the reads and the 216 products with a source-supported outcome; BLOCKED_BUDGET for the
+  59 unresolved (the probe 1.7.4 revision; on 1.6.8 the whole item was given as PASS_DEVELOPER_LIVE).
 
 ### Coverage, partitions and the census (W4)
 - **Tables:** [`evidence/reconciliation/1.6.8/w4/`](../evidence/reconciliation/1.6.8/w4/) gives row, root, child and
@@ -198,6 +225,14 @@ attributed to the releases that collected them.
 ### Classic (W7)
 - C1, C3 and C5 are corrected in the shared probe 1.7.0. C2 and C4 were advanced in 1.7.1 and are completed in 1.7.2, offline, with live
   mode disabled ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)). The 1.6.5 and 1.6.6 deliveries overstated them; the review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2.
+- **The probe 1.7.4 revision: C2 on Windows** (the client's review of 1.7.2). The 1.6.8 delivery overstated C2 too. On
+  Windows 1.7.2 held the session's tree only when a job object could be made and the process joined it. Otherwise it
+  ran the session under a `taskkill /T` fallback that cannot reach a child whose parent has exited, and it reported an
+  unreadable count as nothing left running. Probe 1.7.4 runs a session only once a verified job object holds it,
+  refuses it otherwise with no fallback, and keeps a cleanup it cannot verify as `unknown` or `failed`. On Windows the
+  5 new tests fail on 1.7.2 by their output and pass on 1.7.4, and the whole suite gives 229 passed, 5 skipped
+  ([`1.7.4-classic-probe/`](../evidence/offline-tests/1.7.4-classic-probe/)). On Linux, from the archive: 227 passed, 7 skipped,
+  and the 3 review tests that run there pass on 1.7.4 and 2 fail on 1.7.2 (the archive's first build failed mypy on Linux and was built again).
 - The Linux discrepancy is closed: the published 1.7.1 gave 169 passed, 1 failed and 3 skipped on Linux; 1.7.2 gives 201 passed and 3 skipped on Linux and 199 passed and 5 skipped on Windows, each skip explained.
 - The Mariano's adapter is the published blob `9de6510b`, unchanged.
 - **State:** PASS_OFFLINE; a live Classic probe is PENDING_CLIENT_DECISION.

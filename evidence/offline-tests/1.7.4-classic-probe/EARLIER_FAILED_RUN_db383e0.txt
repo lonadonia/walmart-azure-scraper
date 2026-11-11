@@ -1,0 +1,77 @@
+THE EARLIER OFFLINE RUN OF THE PROBE 1.7.4 PACKAGE, ON COMMIT db383e02d5714bc64da5a8fbcc32c25940d23353: FAILED (kept as found)
+
+Run (UTC): 2026-11-09T21:35:32+00:00 to 2026-11-09T21:40:13+00:00, Windows 11 (10.0.26200), CPython 3.12.10, the same runner as classic-probe-1.7.4/offline_results/.
+Its step 01 (the whole suite) failed in one test; every other step was as expected. The runner's summary:
+
+  00_uv_sync_frozen exit 0 ok
+  01_pytest_standalone exit 1 UNEXPECTED missing=[] found=[]
+  02_ruff_check exit 0 ok
+  03_ruff_format_check exit 0 ok
+  04_mypy exit 0 ok
+  05_version exit 0 ok
+  06_help exit 0 ok
+  07_plan exit 0 ok
+  08_plan_with_placeholder_rates exit 0 ok
+  09_validate exit 0 ok
+  10_write_synthetic_fixtures exit 0 ok
+  11_replay_synthetic_responses exit 0 ok
+  11b_write_marianos_fixtures exit 0 ok
+  11c_replay_marianos_saved_pages exit 0 ok
+  12_campaign_init_offline exit 0 ok
+  13_status exit 0 ok
+  14_export exit 0 ok
+  15_live_is_refused exit 3 ok
+  16a_uv_sync_frozen_1.7.2_source exit 0 ok
+  16b_review_tests_on_1.7.2_source exit 1 ok
+  17_review_tests_on_1.7.4 exit 0 ok
+  01 junit {'tests': '234', 'failures': '1', 'errors': '0', 'skipped': '5'} UNEXPECTED
+  {"commands": 21, "unexpected": ["01_pytest_standalone.txt"]}
+  exit 1
+
+The first 45 lines of its 01_pytest_standalone.txt (the failure; the rest of the file is its skip list):
+
+  ........................................................................ [ 30%]
+  ........................................................................ [ 61%]
+  .............................s........F...................ss............ [ 92%]
+  ................ss                                                       [100%]
+  ================================== FAILURES ===================================
+  _ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object] _
+  
+  scene = <tests.test_review_of_172.Scene object at 0x0000020085885A60>
+  tmp_path = WindowsPath('C:/w9/t174/pr174/bt01/test_w_a_process_the_job_does_1')
+  monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000020085884B00>
+  fault = 'verify', says = 'did not confirm the process is in the job object'
+  
+      @only_windows
+      @pytest.mark.parametrize(
+          ("fault", "says"),
+          [
+              ("assign", "could not be assigned to the job object"),
+              ("verify", "did not confirm the process is in the job object"),
+          ],
+      )
+      def test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused(
+          scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, fault: str, says: str
+      ) -> None:
+          faults = force(monkeypatch, fault)
+          made = record_processes(monkeypatch)
+          session, _elapsed = supervise(scene, tmp_path)
+          facts = after_refusal(scene, session, made, faults)
+          show(facts)
+          assert not facts["session_ran"] and not facts["child_started"], facts
+          assert facts["connections_to_the_stub"] == 0, facts
+          assert facts["forced"], facts
+          assert facts["refused"] is True and facts["status"] == "refused" and facts["returncode"] is None, facts
+          assert says in session.problems[0] and session.tree["stage"] == fault, facts
+          # The process made for the session was created suspended, and ended and reaped before the refusal:
+          [proc] = scene.created(made)
+          assert proc.poll() is not None, facts  # it has exited (asked through its own handle)
+  >       assert user_time_100ns(proc) == 0, "the refused process ran code of its own"
+  E       AssertionError: the refused process ran code of its own
+  E       assert 156250 == 0
+  E        +  where 156250 = user_time_100ns(<Recorded: returncode: 1 args: ['C:\\w6\\py312\\pkg\\tools\\python.exe', '-I...>)
+  
+  tests\test_review_of_172.py:503: AssertionError
+  ---------------------------- Captured stdout call -----------------------------
+  FACTS {"child_alive_after_the_supervisor_returned": false, "child_started": false, "connections_to_the_stub": 0, "forced": ["IsProcessInJob: forced answer, not a member"], "problems": ["refused before the command ran (verify): Windows did not confirm the process is in the job object (IsProcessInJob says it is not)"], "refused": true, "returncode": null, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": false, "status": "refused", "tree": {"basis": "the job object's accounting (active processes)", "cleanup": "verified", "held_by": null, "pid": 20452, "process_created": true, "ran": false, "reaped": true, "refused": true, "stage": "verify", "terminated": true, "why": "Windows did not confirm the process is in the job object (IsProcessInJob says it is not)"}}
+  =========================== short test summary info ===========================

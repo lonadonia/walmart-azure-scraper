@@ -1,8 +1,28 @@
 # Technical report: Walmart release 1.6.8
 
-Release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a` (2026-11-05T20:51:52Z). It ships with the shared Classic probe 1.7.2, commit
-`7768514aa1ffbaa7f96ca242d7b64e495fffefa5`, whose tree is the same at the collector's commit. Prepared by Hamza on 2026-11-05 and 2026-11-06 (UTC). Times are UTC.
+Release 1.6.8, commit `85c29e7b2404500299056973f50c84b84e187a5a` (2026-11-05T20:51:52Z). It shipped with the shared Classic probe 1.7.2, commit
+`7768514aa1ffbaa7f96ca242d7b64e495fffefa5`, whose tree is the same at the collector's commit; from the revision below the probe is 1.7.4, commit
+`a1def53747dfabcb2ad9ca97efc421c1e70f0ac6`. Prepared by Hamza on 2026-11-05 and 2026-11-06 (UTC), and the revision from 2026-11-09 to 2026-11-11. Times are UTC.
 Store: Walmart #3891, 3900 Fountain Square Pl, Waukegan, IL 60085, PICKUP.
+
+**The probe 1.7.4 revision (tag `review-1.6.8-probe174-20261111`, 2026-11-11).** The collector, its data and every live result below are
+unchanged. This revision replaces the shared Classic probe 1.7.2 with 1.7.4 and corrects two statements of the 1.6.8
+publication:
+- **C2 on Windows** (the client's review of 1.7.2). 1.7.2 fell back to `taskkill /T` when no job object could be made
+  or the session's process could not join one, ran the session anyway, and reported nothing left running even when a
+  child outlived its exited parent; it also reported nothing left running when the job's count could not be read.
+  1.7.4 runs a session only once a verified job object holds it, refuses it otherwise with no fallback, and keeps a
+  cleanup it cannot verify as `unknown` or `failed`. Reproduced on 1.7.2's code and tested on 1.7.4 on Windows 11,
+  offline: 5 tests fail on 1.7.2 by their output and pass on 1.7.4, and the whole suite gives 229 passed, 5 skipped.
+  On Linux (the owner's VM, from the archive): 227 passed, 7 skipped; the 3 review tests that run there pass on 1.7.4 and 2 fail on 1.7.2
+  ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md), [`1.7.4-classic-probe/`](../evidence/offline-tests/1.7.4-classic-probe/)).
+- **The 275 sponsored and variant decisions.** 59 were counted as excluded with no source evidence for their exclusion:
+  4 whose page gives no category path and 55 whose page does not prove local eligibility. They are unresolved, not
+  excluded: 48 included, 165 excluded on a positively identified other category, 3 duplicates, 59 unresolved
+  ([recount](../evidence/reconciliation/1.6.8-probe174/w3/)). The 44 unread UPCs are a separate queue.
+
+The sentences corrected are listed in [`manifests/DOC_CORRECTIONS.md`](../manifests/DOC_CORRECTIONS.md); the rest of this report is
+the 1.6.8 delivery's, with the two corrections marked where they apply.
 
 **What this delivery is: a correction delivery.** The corrections are verified offline and on the owner's Azure test VM,
 and the named milestones are still pending. **No live run was made on 1.6.7 or 1.6.8.** It is not the full catalogue,
@@ -11,16 +31,18 @@ state is in [`REQUIREMENT_MATRIX.md`](REQUIREMENT_MATRIX.md).
 
 **What changed since the 1.6.6 delivery** (the client's review of 1.6.6):
 - **Classic C4 and C2, completed in probe 1.7.2.** The 1.6.6 delivery said probe 1.7.1 completed them. That was not accurate.
+  *(Corrected by the probe 1.7.4 revision: on Windows, C2 was not complete in 1.7.2 either; see the revision note above.)*
   - C4: a server that declares `Content-Length: 100`, sends the two bytes `{}` and closes got `ok=True`, `truncated=False` and a final `.body`.
   - C2: on Linux the supervisor waited 1.10 s for a FIFO manifest past a 0.30 s hard deadline, and it accepted an earlier campaign's `complete=true` file when a new command exited 0 without writing any.
   - The published suite failed one test on Linux (169 passed, 1 failed, 3 skipped): the drip test required a forced kill when the worker had ended by itself.
 
   The review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2 ([`CLASSIC_PROBE_CORRECTIONS.md`](CLASSIC_PROBE_CORRECTIONS.md)).
+  *(The probe 1.7.4 revision: on Windows C2 was not complete in 1.7.2; see the revision note above.)*
 - **What "complete" means** (collector 1.6.7 and 1.6.8). A partition is complete only through its children, a row read in part is never complete, and a read of a filtered view never completes a listing. 252 of 1,104 listings are complete under these rules, and no CSV row is (0 of 11).
 - **Scope that was skipped** (collector 1.6.8). A subcategory that is a category page of its own is read for the listings it names. A link that shows a listing filtered has the listing itself read, in full, once. Two shelves that share listing ID 0 are two listings.
 - **The category mapping** (1.6.7 and 1.6.8). A listing takes the name the row's category page gives that exact view, on fresh and carried rows. "Fabric Softeners" is that name for listing `1115193_1071967_1630538`.
 - **UPC and size decided apart** (1.6.7). A size conflict withholds the size only. The queue of UPCs with no read is 44, not 45.
-- **The 275 sponsored and variant decisions at row level**: 48 included, 165 excluded with another category identified, 4 with no category path, 55 with no proof of local eligibility, 3 duplicates linked to their originals.
+- **The 275 sponsored and variant decisions at row level**: 48 included, 165 excluded with another category identified, 3 duplicates linked to their originals, and 59 unresolved: 4 with no category path and 55 with no proof of local eligibility. *(Corrected by the probe 1.7.4 revision: the 1.6.8 text counted the 59 as excluded.)*
 - **A container gate on the owner's Azure test VM.** The actual images from the delivered source, with digests, migrations on an isolated PostgreSQL, a replay of stored pages, a kill and resume, a rollback and persistence across a restart. An owner test, not the client's environment.
 - **The 1.6.6 statements that were not accurate** are listed in [`manifests/DOC_CORRECTIONS.md`](../manifests/DOC_CORRECTIONS.md).
 
@@ -72,14 +94,14 @@ its tests (each failing on the release before) and the live run that showed it. 
     (write-through on Windows), so a crash before the kept copy loses nothing.
   - A body cut at its deadline is kept and recorded (`PARTIAL_RESPONSE`), and every evidence file is synced before it
     is renamed into place.
-- **Probe 1.7.2:** C2 and C4 completed.
+- **Probe 1.7.2:** C2 and C4 completed. *(On Windows C2 was not complete: corrected in probe 1.7.4.)*
   - A body shorter than its declared length, zero bytes included, or a chunked body cut short, is kept as partial with its
     declared and received lengths and SHA-256. It is never parsed, and its money stays held.
   - Each worker status names its dispatch, and a recovery refuses a status of another dispatch or without that identity.
   - Evidence is read only from a regular file, bounded in size and time. A session's evidence must name its execution, so an
     earlier campaign's complete file is not taken.
-  - The session's process tree is ended whole when it ends, the recovery's bound is monotonic, and the supervisor returns
-    within its hard end plus 0.5 s.
+  - The session's process tree is ended whole when it ends (on Windows only when a job object could be made and joined;
+    corrected in 1.7.4), the recovery's bound is monotonic, and the supervisor returns within its hard end plus 0.5 s.
   - The drip test asserts the deadline, the outcome, the partial and the worker's end, and a separate test forces a hung worker
     and checks a real kill and reap.
 
@@ -104,6 +126,8 @@ No row below sent a request to a provider, to Walmart or to Classic. All on 2026
 | The last-good publication against every listed fault | a clean extraction of the 1.6.8 Oxylabs edition ZIP, the workstation | 2026-11-05, 21:22:13Z to 21:25:33Z | 19 passed ([`last_good_publication/`](../evidence/verification/1.6.8/last_good_publication/)) |
 | The probe 1.7.2 from its delivered ZIP | the owner's VM | 2026-11-06, 01:02:36Z to 01:05:06Z | 201 passed, 3 skipped ([`probe-1.7.2/`](../evidence/owner-azure-test/1.6.8/probe-1.7.2/)) |
 | The probe 1.7.2 from its own clean export | the workstation | 2026-11-05, 15:58:16Z to 16:02:05Z | 199 passed, 5 skipped; the review tests fail on 1.7.1's `src/` (13) and pass on 1.7.2 (22 passed, 1 skipped) ([`offline_results/`](../classic-probe-1.7.2/offline_results/)) |
+| The probe 1.7.4 from its own clean export (the 1.7.4 revision) | the workstation, Windows 11, with HTTP(S) sent to a closed local port | 2026-11-10, 02:48:58Z to 02:53:27Z | 229 passed, 5 skipped; the 7 tests of the client's review of 1.7.2 fail on 1.7.2's `src/` (5 failed, 2 passed) and pass on 1.7.4 (7 passed); mypy clean for Windows and for Linux ([`offline_results/`](../classic-probe-1.7.4/offline_results/), [`1.7.4-classic-probe/`](../evidence/offline-tests/1.7.4-classic-probe/)) |
+| The probe 1.7.4 from its archive (the 1.7.4 revision) | the owner's VM, Ubuntu 24.04.5, with HTTP(S) sent to a closed local port | 2026-11-10, 02:54:29Z to 02:57:09Z | 227 passed, 7 skipped; the 3 review tests that run on Linux pass on 1.7.4 and 2 fail on 1.7.2's code by their output; mypy clean. The archive's first build failed mypy there (3 errors) and was built again ([`linux-owner-vm/`](../evidence/offline-tests/1.7.4-classic-probe/linux-owner-vm/)) |
 | The walkthrough recording | the owner's VM, in a session of its own after the gate | 2026-11-05, 23:00:16Z to 23:14:13Z | 163 s, English on-screen narration, no audio ([`walkthrough/`](../walkthrough/)) |
 
 **The Windows integration suite was not run in full on this commit.** A full Windows pass of an earlier candidate was stopped by the
@@ -263,6 +287,8 @@ Oxylabs ceiling is 0 submissions and USD 0 since 2026-11-04T23:03:52Z, and no le
 (USD 0.0015 per result, a list price), not an invoice. The Web API has no usage endpoint, and the provider
 dashboard's reading is the owner's (A74). Per-stage figures: [`COST_AND_RUNTIME_REPORT.md`](COST_AND_RUNTIME_REPORT.md).
 
+*The ledger was read again for the probe 1.7.4 revision on 2026-11-09 (read-only): Walmart's part is the same, 1,513 reservations and USD 2.2470 committed, its last reservation on 2026-11-04, and this revision made no request. The database's SHA-256 has changed since 2026-11-06 because Mariano's own stages have drawn on Mariano's envelope, outside this revision. So the Mariano's line, the uncommitted total and what is said above about Mariano's tests are as of 2026-11-06.*
+
 ## 6. What remains, and why
 
 | Milestone | State | What it needs |
@@ -362,7 +388,8 @@ The smallest decisions, each the client's:
 | Folder | What it is |
 |---|---|
 | [`source/`](../source/) | `WALMART_SOURCE_1.6.8.zip`, file for file: both editions of `85c29e7` |
-| [`classic-probe-1.7.2/`](../classic-probe-1.7.2/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.2.zip`, file for file |
+| [`classic-probe-1.7.4/`](../classic-probe-1.7.4/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.4.zip`, file for file (the probe 1.7.4 revision) |
+| [`classic-probe-1.7.2/`](../classic-probe-1.7.2/) | `OXYLABS_CLASSIC_OFFLINE_PROBE_1.7.2.zip`, file for file (the 1.6.8 delivery; superseded by 1.7.4) |
 | [`classic-probe-1.7.1/`](../classic-probe-1.7.1/), [`classic-probe-1.7.0/`](../classic-probe-1.7.0/) | the probes of the 1.6.6 and 1.6.5 deliveries, unchanged (superseded) |
 | [`classic-probe/`](../classic-probe/) | the Walmart probe 1.5.2, as reviewed, unchanged |
 | [`data/`](../data/) | the product files of L10 and L8, and of the 1.5.x runs, unchanged; the run summary |

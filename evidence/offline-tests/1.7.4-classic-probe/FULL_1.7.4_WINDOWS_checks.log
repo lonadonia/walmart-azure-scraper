@@ -1,0 +1,19 @@
+START 2026-11-10T02:41:42Z
+FOLDER /c/w9/t174/c174d/headless/oxylabs-classic-probe
+PLATFORM Windows-11-10.0.26200-SP0 3.12.10
+CMD uv sync --frozen
+Checked 15 packages in 4ms
+exit 0
+CMD uv run --frozen ruff check src tests
+All checks passed!
+exit 0
+CMD uv run --frozen ruff format --check src tests
+43 files already formatted
+exit 0
+CMD uv run --frozen python -m mypy
+Success: no issues found in 25 source files
+exit 0
+CMD uv run --frozen python -m mypy --platform linux
+Success: no issues found in 25 source files
+exit 0
+END 2026-11-10T02:41:51Z

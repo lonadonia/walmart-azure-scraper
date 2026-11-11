@@ -1,0 +1,46 @@
+START 2026-11-10T02:44:50Z
+FOLDER headless/oxylabs-classic-probe from git archive a1def53747dfabcb2ad9ca97efc421c1e70f0ac6 (probe 1.7.4; tree 07477cc61b2c1aa0871fb17965b132c131314fc6)
+PLATFORM Windows-11-10.0.26200-SP0 3.12.10
+VERSION 1.7.4
+CMD uv run --frozen python -m pytest -p no:cacheprovider --basetemp=C:/w9/t174/bt2_cand174 -rA -v tests/test_review_of_172.py
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.1.1, pluggy-1.7.0
+rootdir: C:\w9\t174\c174d\headless\oxylabs-classic-probe
+configfile: pyproject.toml
+collected 7 items
+
+tests\test_review_of_172.py .......                                      [100%]
+
+=================================== PASSES ====================================
+_ test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it _
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [9120, "31289533:1985252420"], "child_alive_after_its_parent_exited": true, "child_alive_after_taskkill_tree": true, "parent_exit_code": 0, "taskkill_tree_returncode": 128, "taskkill_tree_said": "ERROR: The process \"23108\" not found."}
+____ test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs _____
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child_alive_after_the_supervisor_returned": false, "child_started": false, "connections_to_the_stub": 0, "forced": ["CreateJobObjectW: forced failure"], "problems": ["refused before the command ran (create): no job object could be made (CreateJobObjectW, Windows error 5)"], "refused": true, "returncode": null, "session_processes_created": 0, "session_processes_still_running": [], "session_ran": false, "status": "refused", "tree": {"basis": "no process was created", "cleanup": "verified", "held_by": null, "pid": null, "process_created": false, "ran": false, "reaped": null, "refused": true, "stage": "create", "terminated": null, "why": "no job object could be made (CreateJobObjectW, Windows error 5)"}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object] _
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [{"kernel_100ns": 0, "threads_suspend_counts": [1], "user_100ns": 0}], "child_alive_after_the_supervisor_returned": false, "child_started": false, "connections_to_the_stub": 0, "forced": ["AssignProcessToJobObject: forced failure"], "problems": ["refused before the command ran (assign): the process could not be assigned to the job object (AssignProcessToJobObject, Windows error 5)"], "refused": true, "resumed": 0, "returncode": null, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": false, "status": "refused", "tree": {"basis": "the process was created suspended and never resumed; its own end is confirmed by its handle", "cleanup": "verified", "held_by": null, "pid": 8456, "process_created": true, "ran": false, "reaped": true, "refused": true, "stage": "assign", "terminated": true, "why": "the process could not be assigned to the job object (AssignProcessToJobObject, Windows error 5)"}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object] _
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [{"kernel_100ns": 0, "threads_suspend_counts": [1], "user_100ns": 0}], "child_alive_after_the_supervisor_returned": false, "child_started": false, "connections_to_the_stub": 0, "forced": ["IsProcessInJob: forced answer, not a member"], "problems": ["refused before the command ran (verify): Windows did not confirm the process is in the job object (IsProcessInJob says it is not)"], "refused": true, "resumed": 0, "returncode": null, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": false, "status": "refused", "tree": {"basis": "the job object's accounting (active processes)", "cleanup": "verified", "held_by": null, "pid": 19924, "process_created": true, "ran": false, "reaped": true, "refused": true, "stage": "verify", "terminated": true, "why": "Windows did not confirm the process is in the job object (IsProcessInJob says it is not)"}}
+____ test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree ____
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [27408, "31289533:2139685831"], "child_alive_after": false, "child_alive_before": true, "connections_to_the_stub": 0, "elapsed_s": 0.7339999999385327, "gone_when_the_supervisor_returned": true, "parent_exited": true, "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "returncode": 0, "returned": 807764.656, "seconds": 7.445250000018859, "started": 807764.656, "tree": {"basis": "the job object's accounting (active processes)", "cleanup": "verified", "gone": true, "held_by": "job object (verified before the process ran)", "left_running": true, "problems": [], "reaped": true}}
+_______ test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done ________
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": false, "why": "not read: the session's process tree was not verified gone (cleanup unknown): a process it started may still be running"}, "forced": ["QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure"], "problems": ["whether the session left processes running when it ended could not be told", "whether any process of the tree is left could not be told (the job object's accounting (active processes) could not be read): it is not taken as gone"], "recovery_ran": true, "returncode": 0, "status": "cleanup-unknown", "tree": {"basis": "the job object's accounting (active processes)", "cleanup": "unknown", "gone": null, "held_by": "job object (verified before the process ran)", "left_running": null, "problems": ["whether any process of the tree is left could not be told (the job object's accounting (active processes) could not be read): it is not taken as gone"], "reaped": true}}
+__________ test_w_a_session_is_ok_only_once_its_tree_is_counted_gone __________
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "problems": [], "status": "ok", "tree": {"basis": "the job object's accounting (active processes)", "cleanup": "verified", "gone": true, "held_by": "job object (verified before the process ran)", "left_running": false, "problems": [], "reaped": true}}
+=========================== short test summary info ===========================
+PASSED tests/test_review_of_172.py::test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it
+PASSED tests/test_review_of_172.py::test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs
+PASSED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object]
+PASSED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object]
+PASSED tests/test_review_of_172.py::test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree
+PASSED tests/test_review_of_172.py::test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+PASSED tests/test_review_of_172.py::test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+============================= 7 passed in 31.27s ==============================
+exit 0
+END 2026-11-10T02:45:23Z

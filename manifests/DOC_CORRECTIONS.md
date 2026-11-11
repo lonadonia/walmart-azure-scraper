@@ -1,14 +1,87 @@
 # Corrections made for this publication
 
-Four records follow: this publication's (tag `review-1.6.8-20261106`), then that of the 1.6.6 publication (tag `review-1.6.6-20261105`), that of the 1.6.5 publication (tag `review-1.6.5-20261104`) and that of the 1.5.2 publication (tag `review-1.5.2-20261103`), each kept as it was published. [`DOC_CORRECTIONS.json`](DOC_CORRECTIONS.json) gives the exact texts of all four.
+Five records follow: this revision's (tag `review-1.6.8-probe174-20261111`), then that of the 1.6.8 publication (tag `review-1.6.8-20261106`), that of the 1.6.6 publication (tag `review-1.6.6-20261105`), that of the 1.6.5 publication (tag `review-1.6.5-20261104`) and that of the 1.5.2 publication (tag `review-1.5.2-20261103`), each kept as it was published. [`DOC_CORRECTIONS.json`](DOC_CORRECTIONS.json) gives the exact texts of all five.
 
-## This publication: release 1.6.8 (tag `review-1.6.8-20261106`)
+## This revision: probe 1.7.4 (tag `review-1.6.8-probe174-20261111`)
+
+The client's review of the 1.6.8 delivery's probe found that C2 was not complete on Windows, and a check of the 275 sponsored and variant decisions found 59 counted as excluded with no source evidence for it. The 1.6.8 files stay at their tag. This revision's documents replace them, and section 1 lists each such statement with what is true. Section 2 gives the errors found in files that are not edited (the frozen trees, historical evidence and a commit message), section 3 the files of 1.6.8 replaced with their text kept, and section 4 the corrections made to this revision's own records before its tag was set. The collector, its data and its live results are unchanged.
+
+`source/` and the five probe folders are the delivered archives' files, unchanged ([`check_frozen_trees.py`](check_frozen_trees.py)). Historical evidence is not rewritten either: its only changes are the redactions in [`REDACTIONS.csv`](REDACTIONS.csv). [`FILE_MAP.csv`](FILE_MAP.csv) gives every file's origin and its original and published SHA-256.
+
+### 1. Statements of the 1.6.8 publication that were not accurate (at the tag `review-1.6.8-20261106`)
+
+| Where | What it said | What is true | Corrected in |
+|---|---|---|---|
+| `CHANGELOG.md`, line 27 | Classic C4 and C2 are completed in probe 1.7.2 | On Windows, probe 1.7.2 did not complete C2. When no job object could be made, or the session's process could not join it, 1.7.2 ran the session anyway under a taskkill /T fallback, which cannot reach a child whose parent has already exited, and reported nothing left running; it never asked Windows whether the job held the process; and when the job's count could not be read it reported nothing left running and took the session's evidence. Its result has no cleanup verdict and no session status on any system. The client's review of 1.7.2 found this; 5 tests reproduce it on 1.7.2's code on Windows, by their output, and pass on probe 1.7.4, which runs a session only once a verified job object holds it, refuses it otherwise with no fallback, and keeps a cleanup it cannot verify as unknown (evidence/offline-tests/1.7.4-classic-probe/). Probe 1.7.4 has been tested on Windows and, on the owner's test VM, on Linux. | CHANGELOG.md: the probe 1.7.4 entry, and a note added to the 1.6.8 entry |
+| `review/REQUIREMENT_MATRIX.md`, line 60 | C2 and C4 were advanced in 1.7.1 and are completed in probe 1.7.2, with live mode disabled, on Windows and on Linux. | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/REQUIREMENT_MATRIX.md, W7 |
+| `review/REQUIREMENT_MATRIX.md`, line 68 | 1.7.2 completes it: [...] the session's process tree is ended whole when it ends | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. The state PASS_OFFLINE now rests on probe 1.7.4 for Windows. | review/REQUIREMENT_MATRIX.md, C2 |
+| `review/TECHNICAL_REPORT.md`, line 13 | Classic C4 and C2, completed in probe 1.7.2. | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/TECHNICAL_REPORT.md: a note on this line, and the revision note at the top |
+| `review/TECHNICAL_REPORT.md`, line 75 | Probe 1.7.2: C2 and C4 completed. | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/TECHNICAL_REPORT.md: a note on this line |
+| `review/TECHNICAL_REPORT.md`, line 81 | The session's process tree is ended whole when it ends | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/TECHNICAL_REPORT.md: a note on this line |
+| `review/CORRECTION_MAP.md`, lines 199 to 200 | C2 and C4 were advanced in 1.7.1 and are completed in 1.7.2 | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/CORRECTION_MAP.md, Classic (W7): a bullet for the probe 1.7.4 revision |
+| `review/CLASSIC_PROBE_CORRECTIONS.md`, line 29 | 1.7.1 with C2 and C4 completed, and the Linux test corrected. It is authoritative from this delivery | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/CLASSIC_PROBE_CORRECTIONS.md, written again for probe 1.7.4: 1.7.2 is superseded |
+| `review/WALMART_1.6.8_SUMMARY.md`, line 12 | the session's process tree is ended whole | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/WALMART_1.6.8_SUMMARY.md and its PDF: the C2 row |
+| `review/DELIVERY_INDEX.md`, line 25 | what 1.7.2 completes (C2, C4) | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/DELIVERY_INDEX.md, the documents table |
+| `review/DELIVERY_INDEX.md`, line 51 | the shared Classic probe 1.7.2: C2 and C4 completed | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/DELIVERY_INDEX.md, the commits table |
+| `manifests/PUBLICATION.json`, line 94 | C2 and C4 completed: an incomplete body stays incomplete across a crash and a restart, and the whole session keeps one deadline | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | manifests/PUBLICATION.json of this revision, whose probe is 1.7.4 |
+| `manifests/check_frozen_trees.py`, line 13 | the shared probe 1.7.2 (C2 and C4 completed; | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | manifests/check_frozen_trees.py: its description of the 1.7.2 tree |
+| `review/ACCEPTANCE_MATRIX.csv`, N8-01, note_1_6_8 | 1.7.2 completes them: the review's tests fail on 1.7.1 (13 on Windows, 14 on Linux) and pass on 1.7.2, on both OS | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. | review/ACCEPTANCE_MATRIX.csv, N8-01, note_1_6_8_probe_1_7_4 |
+| `review/REQUIREMENT_MATRIX.md`, line 56 | All 275 queued products were read live and decided [...] 4 excluded with no category path [...] 55 excluded with no proof of local eligibility [...] 0 failed, blocked or unresolved. | Not 0 unresolved. For 59 of the 275 no source evidence supports exclusion: 4 have a page that gives no category path (categoryPathId -1, no breadcrumb), and 55 a page that does not prove local eligibility (LOCATION_UNATTESTED and ASSORTMENT_UNRESOLVED; 14 of them also show a marketplace offer, which does not show the product absent from the store). Missing evidence leaves a product unresolved. Recounted from the same published rows (no request): 48 included, 165 excluded because the item's own page places it in another category, identified, 3 duplicates, and 59 unresolved. Settling the 59 needs their pages read again with the store's context (paid requests). The 44 products whose UPC has no read are a separate queue. | review/REQUIREMENT_MATRIX.md, W3 (state and text) |
+| `review/CORRECTION_MAP.md`, lines 131 to 141 | all 275 were read live (L2, L3 and L2b, on 1.6.0 and 1.6.1) and decided. [...] excluded: the page states no category path [...] excluded: the page does not prove local eligibility \| 55 [...] failed, blocked or unresolved \| 0 | Not 0 unresolved. For 59 of the 275 no source evidence supports exclusion: 4 have a page that gives no category path (categoryPathId -1, no breadcrumb), and 55 a page that does not prove local eligibility (LOCATION_UNATTESTED and ASSORTMENT_UNRESOLVED; 14 of them also show a marketplace offer, which does not show the product absent from the store). Missing evidence leaves a product unresolved. Recounted from the same published rows (no request): 48 included, 165 excluded because the item's own page places it in another category, identified, 3 duplicates, and 59 unresolved. Settling the 59 needs their pages read again with the store's context (paid requests). The 44 products whose UPC has no read are a separate queue. | review/CORRECTION_MAP.md, W3: a corrected table after this one |
+| `review/WALMART_1.6.8_SUMMARY.md`, line 18 | 4 because the page states no category path, so the category cannot be proven; 55 for no proof of local eligibility; [...] None failed, was blocked or is unresolved. | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/WALMART_1.6.8_SUMMARY.md and its PDF |
+| `review/TECHNICAL_REPORT.md`, line 23 | The 275 sponsored and variant decisions at row level: 48 included, 165 excluded with another category identified, 4 with no category path, 55 with no proof of local eligibility | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The 4 and the 55 are not decisions. | review/TECHNICAL_REPORT.md, this line |
+| `review/ACCEPTANCE_MATRIX.csv`, A24, note_1_6_8 | 0 failed, blocked or unresolved | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/ACCEPTANCE_MATRIX.csv, A24, note_1_6_8_probe_1_7_4 |
+| `review/ACCEPTANCE_MATRIX.csv`, A25, note_1_6_8 | 0 failed, blocked or unresolved | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/ACCEPTANCE_MATRIX.csv, A25, note_1_6_8_probe_1_7_4 |
+| `review/ACCEPTANCE_MATRIX.csv`, B16, note_1_6_8 | 0 failed, blocked or unresolved | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/ACCEPTANCE_MATRIX.csv, B16, note_1_6_8_probe_1_7_4 |
+| `review/ACCEPTANCE_MATRIX.csv`, N5-04, note_1_6_8 | 0 failed, blocked or unresolved | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/ACCEPTANCE_MATRIX.csv, N5-04, note_1_6_8_probe_1_7_4 |
+| `review/ACCEPTANCE_MATRIX.csv`, P4-02, note_1_6_8 | 0 failed, blocked or unresolved | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). | review/ACCEPTANCE_MATRIX.csv, P4-02, note_1_6_8_probe_1_7_4 |
+
+### 2. Errata: files and a commit message that are not edited
+
+The frozen trees are the archives as delivered, and historical evidence is kept as it was made. What they say that is not accurate is listed here instead.
+
+| Where | What it says | What is true |
+|---|---|---|
+| `classic-probe-1.7.2/README_FIRST.md`, line 11 | whole process tree is ended when it ends | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. (a frozen tree: the archive as delivered) |
+| `classic-probe-1.7.2/oxylabs-classic-probe/README.md`, line 16 | a job object on Windows) that is ended whole whenever the session ends | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. (a frozen tree: the archive as delivered) |
+| `evidence/offline-tests/1.7.2-classic-probe/README.txt`, line 66 | The session's process tree is ended whole when it ends. | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. |
+| `evidence/reconciliation/1.6.8/README.md`, line 58 | \| failed, blocked or unresolved \| 0 \| | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). |
+| `evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_SUMMARY_1_6_7.json`, line 23 | "unresolved": 0, | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The table's rows are right; this count and the classes' labels are not. |
+| `evidence/reconciliation/1.6.8/tools/w3_reconcile_167.py`, line 235 | "unresolved": 0, | Not 0 unresolved: 59 of the 275 are unresolved, not excluded (above). The script writes this count as a constant. |
+| `the commit message of e733d0178cd7a17ff44d70555bc87e0f62b5f475 (tag review-1.6.8-20261106)`, lines 9 to 12 | It completes C4 (a body shorter than its declared length is kept as partial, never parsed, its money held) and C2 | On Windows, C2 was not complete in 1.7.2 (above); probe 1.7.4 corrects it, tested on Windows and on Linux. |
+
+### 3. Files of the 1.6.8 publication replaced, with their text kept
+
+| File | What changed |
+|---|---|
+| `README.md` | a paragraph for this revision's tag and a section "This revision: probe 1.7.4 and two corrected statements" added; the contents table gains classic-probe-1.7.4/ and 1.7.2 is "superseded by 1.7.4"; notes marked "This revision" added to the C2 and W3 lines; the verify steps name this revision's tag and its Windows reproduction; a dated line on the shared trial ledger read again on 2026-11-09. The rest is the 1.6.8 text |
+| `CHANGELOG.md` | the entry of this revision added first, a note added to the 1.6.8 entry, and a sentence on the names of probe-only revisions' tags; the earlier entries are otherwise unchanged |
+| `review/CLASSIC_PROBE_CORRECTIONS.md` | written again for probe 1.7.4: a second correction of this page, the 1.7.3 and 1.7.4 rows, what 1.7.4 corrects, its offline proof on Windows and Linux and pinned diffs, and what is not established. The 1.7.0 to 1.7.2 text is kept, with the 1.7.2 row marked superseded |
+| `review/REQUIREMENT_MATRIX.md` | the header names probe 1.7.4; W3's state and text, W7's text and the C2 row corrected; the matrix's new columns and their counts described. The rest is the 1.6.8 text |
+| `review/ACCEPTANCE_MATRIX.csv` | four columns appended (state, evidence, revision and note of this revision); every earlier column byte for byte as published |
+| `review/TECHNICAL_REPORT.md` | a revision note at the top; notes on the C2 and 275 lines; a results row for probe 1.7.4; the package rows; a dated note after the ledger figures, which stand as of 2026-11-06 for Mariano's (the ledger read again on 2026-11-09: Walmart's part unchanged; Mariano's own stages have drawn on Mariano's envelope since). The rest is the 1.6.8 text |
+| `review/WALMART_1.6.8_SUMMARY.md and .pdf` | five places marked "Corrected by the probe 1.7.4 revision" (the header, the C2 row, the 275, a pending row for the 59 unresolved, the matrix line), and the ledger sentence: "Mariano's unspent envelope" was true on 2026-11-06 and no longer is (Mariano's own stages have drawn on it since), so the sentence now says "Mariano's envelope" and gives the ledger as read on 2026-11-09; the PDF rendered again from it |
+| `review/CORRECTION_MAP.md` | a paragraph for this revision; the 1.7.2-to-1.7.3 and 1.7.3-to-1.7.4 diffs; a corrected W3 table after the 1.6.8 one, which is kept; a note on the client's cases; a W7 bullet for probe 1.7.4 |
+| `review/DELIVERY_INDEX.md, review/MILESTONES.md, review/ACCEPTANCE_RUNBOOK.md, evidence/README.md` | rows and notes for this revision added; the 1.6.8 text kept |
+| `manifests/check_frozen_trees.py` | classic-probe-1.7.4/ added to the frozen trees it checks; its description of 1.7.2 corrected |
+| `manifests/PUBLICATION.json, FILE_MAP.csv, REDACTIONS.csv, EXCLUDED.csv, SHA256SUMS.txt` | written for this revision; the earlier rows of REDACTIONS.csv and EXCLUDED.csv kept with the publication that made them |
+
+### 4. Corrections made to this revision's own records before its tag was set
+
+| What | Correction |
+|---|---|
+| evidence/offline-tests/1.7.4-classic-probe/: the first offline run of the probe 1.7.4 package (commit db383e0) | It failed one test: a refused process's user time, read after its end, was one clock tick (156,250 x 100 ns), not 0. The supervisor had refused the process as it should; the assertion was unsound, because Windows may charge a tick of user time to a process terminated without ever running (6 of 300 in the experiment kept with the evidence). Commit 05d8d87 takes the proof before the end instead (one thread suspended once, no time charged, no resume asked for), changes no code, and every Windows run was made again on it (and once more on a1def53, below). The failed run is kept as found (EARLIER_FAILED_RUN_db383e0.txt). |
+| evidence/offline-tests/1.7.4-classic-probe/linux-owner-vm/: the first build of the probe 1.7.4 package (commit 05d8d87, archive SHA-256 d689e620...), run on Linux on the owner's test VM | Its tests passed there (234: 227 passed, 7 skipped; the review tests 3 passed and 4 skipped, and on 1.7.2's code 2 failed by their output), but mypy reported three name-defined errors in proctree.py: the Windows-only start used names defined only on Windows, and the type check run on Windows reads the code for Windows alone (mypy --platform linux on Windows shows the same three; 1.7.2 had none). Commit a1def53 puts that code under its platform check, with no change in what runs, and the README runs mypy for both platforms. Every Windows run was made again on a1def53, the archive was built again, and it was run on Linux again. The first build was never published; its Linux run is kept as found (linux-owner-vm/first-build-05d8d87/). |
+
+## The 1.6.8 publication (tag `review-1.6.8-20261106`), as published
+
+Kept as written for that publication, its headings one level lower. Its exact texts are under `review-1.6.8-20261106` in [`DOC_CORRECTIONS.json`](DOC_CORRECTIONS.json). "This publication" in it is the 1.6.8 publication, and its links to the manifests and the documents meant that publication's files, which are at its tag ([`manifests/` at `review-1.6.8-20261106`](https://github.com/lonadonia/walmart-azure-scraper/blob/review-1.6.8-20261106/manifests/)). Section 1 above corrects some of its statements.
 
 The client's review of 1.6.6 found statements of that publication that were not accurate, and this delivery's own checks found more. The 1.6.6 files stay at their tag. This publication's documents replace them, and section 1 lists each such statement with what is true. Section 2 gives the limitations that 1.6.6 stated truly and that 1.6.8 corrects, section 3 the test counts of 1.6.6 counted again, section 4 the errors found in files that are not edited (evidence carried from earlier publications, the frozen trees) and in a commit message, section 5 the files of 1.6.6 replaced with their text kept, and section 6 the corrections made to this publication's own records before its review tag was set. Dated 2026-11-06 (UTC).
 
 `source/` and the four probe folders are the delivered archives' files, unchanged ([`check_frozen_trees.py`](check_frozen_trees.py)). Historical evidence is not rewritten either: its only changes are the redactions in [`REDACTIONS.csv`](REDACTIONS.csv). [`FILE_MAP.csv`](FILE_MAP.csv) gives every file's origin and its original and published SHA-256.
 
-### 1. Statements of the 1.6.6 publication that were not accurate (at the tag `review-1.6.6-20261105`)
+#### 1. Statements of the 1.6.6 publication that were not accurate (at the tag `review-1.6.6-20261105`)
 
 | Where | What it said | What is true | Corrected in |
 |---|---|---|---|
@@ -42,7 +115,7 @@ The client's review of 1.6.6 found statements of that publication that were not 
 
 The basis of the Classic rows: evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt. Of W2: evidence/reconciliation/1.6.8/w2/W2_RECHECK_1_6_7.csv and W2_RECHECK_SUMMARY_1_6_7.json. Of W3: evidence/reconciliation/1.6.8/w3/W3_ROW_LEVEL_1_6_7.csv and W3_ROW_LEVEL_SUMMARY_1_6_7.json. Of W4: evidence/reconciliation/1.6.8/w4/ (W4_TRANSITIONS_1_6_6_TO_1_6_8.csv, W4_SUMMARY_1_6_8.json). The other points that 1.6.6 called corrected (the four deal fields, a refused publication as an error, retention and recovery) stand as 1.6.6 corrected them.
 
-### 2. Limitations that 1.6.6 stated truly and that 1.6.8 corrects
+#### 2. Limitations that 1.6.6 stated truly and that 1.6.8 corrects
 
 | Where | What it said | Now |
 |---|---|---|
@@ -51,7 +124,7 @@ The basis of the Classic rows: evidence/offline-tests/1.7.2-classic-probe/ (REPR
 | `review/CORRECTION_MAP.md`, lines 97 to 99 | - Limit, disclosed: carried rows left as carried, their blank fields unfilled, although a saved read of their page exists, because that read's statements about the size conflict (`recovery_withheld`): 4 in L8, 12 in L10. Nothing is guessed. | Release 1.6.7 decides a carried row's UPC and size separately: conflicting sizes withhold the size only, never a UPC the same read verifies (W2: 3 UPCs recovered from saved reads). |
 | `evidence/reconciliation/1.6.6/w4/README.txt`, lines 18 to 20 | its configured path, so this row now reads "Fabric Softener", found_via "configured", and the link without its navigation parameter. The site's name ("Fabric Softeners") and the category-page link are in the 1.6.5 table. | Release 1.6.7 names a listing read by its path as the row's category page names it ("Fabric Softeners"), also in carried rows, whose lineage keeps the earlier name (historical.renamed_by_mapping). |
 
-### 3. The test counts of the 1.6.6 publication, counted again
+#### 3. The test counts of the 1.6.6 publication, counted again
 
 Each test count that the 1.6.6 documents state was counted again from its JUnit file, as published at the tag `review-1.6.6-20261105`. Each is accurate for the run it describes.
 
@@ -63,7 +136,7 @@ Each test count that the 1.6.6 documents state was counted again from its JUnit 
 | 1.6.6, scrapedo edition, from the clean extraction: 202 integration tests passed | `evidence/verification/1.6.6/package/junit/scrapedo.integration.xml` | tests 202, failures 0, errors 0, skipped 0 |  |
 | probe 1.7.1 from its clean export: 173 tests, 171 passed, 2 skipped | `classic-probe-1.7.1/offline_results/junit_standalone.xml` | tests 173, failures 0, errors 0, skipped 2 | accurate for that run, on Windows; on Linux the same suite gave 169 passed, 1 failed (the drip test), 3 skipped (evidence/offline-tests/1.7.2-classic-probe/PUBLISHED_1.7.1_LINUX.log) |
 
-### 4. Errata: files and a commit message that are not edited
+#### 4. Errata: files and a commit message that are not edited
 
 | Where | What it says | What is true | Basis |
 |---|---|---|---|
@@ -75,7 +148,7 @@ Each test count that the 1.6.6 documents state was counted again from its JUnit 
 | `4bae4fb383dc47ac44c3175896edaf19ae1064cc`, its commit message, lines 7 to 8 | It completes C2 (the deadline through recovery, export and cleanup) and C4 (answers kept durably across a crash). | C2 and C4 were not completed in 1.7.1 (above); probe 1.7.2 completes them. | evidence/offline-tests/1.7.2-classic-probe/ (REPRODUCTION_ON_1.7.1_WINDOWS.log, REPRODUCTION_ON_1.7.1_LINUX.log, REPRODUCTION_ON_1.7.2_LINUX.log, PUBLISHED_1.7.1_LINUX.log); classic-probe-1.7.2/offline_results/16b_review_tests_on_1.7.1_source.txt and 17_review_tests_on_1.7.2.txt |
 | `source/walmart-oxylabs-1.6.8/docs/CLI.md (and the Scrape.do edition's)`, the coverage-report paragraph | csv_rows_read_in_part (release 1.6.7) lists the CSV rows the run read only in part | Incomplete: since release 1.6.7 the report also gives each top-level listing its effective_status and effective_reason, and each CSV row its verdict (csv_rows: planned, read in part, listings, complete, why not; csv_rows_complete). The paragraph names effective_status only for a filtered view. docs/VERIFICATION.md (the 1.6.7 table) names them all. | source/walmart-oxylabs-1.6.8/docs/VERIFICATION.md, Release 1.6.7 |
 
-### 5. Files of the 1.6.6 publication replaced, with their text kept
+#### 5. Files of the 1.6.6 publication replaced, with their text kept
 
 | File | Change |
 |---|---|
@@ -88,7 +161,7 @@ Each test count that the 1.6.6 documents state was counted again from its JUnit 
 
 The other files of the 1.6.6 publication are either carried unchanged (its evidence, its data folders and `data/RUN_SUMMARY.json`, since no live run was made, `classic-probe/`, `classic-probe-1.7.0/`, `classic-probe-1.7.1/`, `walkthrough/WALKTHROUGH_1.5.2.mp4`, `.gitattributes`, `.gitignore`, `review/LINKED_EXAMPLES.csv`, `review/THIRD_PARTY_LICENSES.csv`, `manifests/SOURCE_AND_RUN_MANIFEST.json` and `manifests/check_data.py`) or replaced by this delivery's file of the same name (`README.md`, `source/`, which now holds the 1.6.8 source ZIP's files, the review documents and the manifests: `check_frozen_trees.py`, `PUBLICATION.json`, `FILE_MAP.csv`, `REDACTIONS.csv`, `EXCLUDED.csv` and `SHA256SUMS.txt`). No file of the 1.6.6 publication was removed. Each replaced file's earlier version is at the tag `review-1.6.6-20261105`, and [`FILE_MAP.csv`](FILE_MAP.csv) names it.
 
-### 6. Corrections made to this publication's own records before its review tag was set
+#### 6. Corrections made to this publication's own records before its review tag was set
 
 | What | Correction |
 |---|---|

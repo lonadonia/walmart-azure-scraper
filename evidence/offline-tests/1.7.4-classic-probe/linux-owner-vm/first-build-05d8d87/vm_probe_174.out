@@ -1,0 +1,33 @@
+00_uv_sync_frozen.txt exit 0 (expected 0)
+16a_uv_sync_frozen_1.7.2.txt exit 0 (expected 0)
+01_pytest_standalone.txt exit 0 (expected 0)
+02_ruff_check.txt exit 0 (expected 0)
+03_ruff_format_check.txt exit 0 (expected 0)
+04_mypy.txt exit 1 (expected 0)
+05_version.txt exit 0 (expected 0); must say "1.7.4": yes
+06_help.txt exit 0 (expected 0)
+07_plan.txt exit 0 (expected 0)
+08_plan_with_placeholder_rates.txt exit 0 (expected 0)
+09_validate.txt exit 0 (expected 0)
+11_replay_synthetic_responses.txt exit 0 (expected 0)
+11c_replay_marianos_saved_pages.txt exit 0 (expected 0)
+12_campaign_init_offline.txt exit 0 (expected 0)
+13_status.txt exit 0 (expected 0)
+14_export.txt exit 0 (expected 0)
+15_live_is_refused.txt exit 3 (expected 3)
+16b_review_tests_on_1.7.2.txt exit 1 (expected 1); must say "2 failed, 1 passed, 4 skipped": yes
+17_review_tests_on_1.7.4.txt exit 0 (expected 0); must say "3 passed, 4 skipped": yes
+junit: {'tests': '234', 'failures': '0', 'errors': '0', 'skipped': '7'}
+live refused output (last line): }
+19 commands, 1 not as expected: ['04_mypy.txt']
+leftover test processes: 0
+SKIPPED [1] tests/test_c2_c4_reproduction.py:261: the write-through rename is the Windows form of a synced rename
+SKIPPED [1] tests/test_review_of_172.py:483: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_review_of_172.py:521: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [2] tests/test_review_of_172.py:541: job objects and taskkill exist only on Windows; the Linux tree (a process group) is ended by the tests here that run on both
+SKIPPED [1] tests/test_vendored.py:50: walmart-azure-headless's source is not beside this probe (a probe-only extraction)
+SKIPPED [1] tests/test_vendored.py:50: marianos-azure-headless's source is not beside this probe (a probe-only extraction)
+SKIPPED [1] tests/test_vendored.py:50: marianos-azure-headless's source is not beside this probe (a probe-only extraction)
+2 failed, 1 passed, 4 skipped in 6.39s
+3 passed, 4 skipped in 13.75s
+VM RUN DONE

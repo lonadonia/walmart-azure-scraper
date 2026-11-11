@@ -1,0 +1,28 @@
+{
+ "body_bytes": 2272,
+ "detail": {
+  "elapsed_s": 0.0,
+  "file_sha256": "098ad2bc458bbc97ee81200226ee33babdef88b93eeaee944e9d144a7787932d",
+  "headers": {},
+  "raw_pages": [
+   {
+    "input_sha256": "a9a3da5ad03a7fa0ef8017f0f6a53d943d7bbcf92212b78aba98146e5907dca6",
+    "other_values_redacted": 0,
+    "output_sha256": "7fdf325b037a37b7dcde760891d0b372f94e0dcb5cb9747ae699ffcc8c56aacc",
+    "page_data_kept": true,
+    "page_data_values_redacted": 0,
+    "result": 0,
+    "scripts_removed": 0
+   }
+  ],
+  "redirect_location": null,
+  "step": "walmart-category-url"
+ },
+ "file": "response_004.json.gz",
+ "http_status": 200,
+ "kept_sha256": "54561bdd48bbc8d254d557cc855e0a439d3b088080791cd8e3edfca4709ab38e",
+ "original_sha256": "fb2ce574029bd44e8dcbdd4fd2efe18b6b979588e6cfd41ee41a355a317487d7",
+ "sanitized": true,
+ "seq": 4,
+ "truncated": false
+}

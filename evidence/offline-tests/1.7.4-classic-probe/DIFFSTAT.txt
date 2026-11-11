@@ -1,0 +1,38 @@
+git diff 7768514..95f96a0 -- headless/oxylabs-classic-probe (development monorepo): probe 1.7.2 to 1.7.3 (T05)
+1.7.2 = 7768514aa1ffbaa7f96ca242d7b64e495fffefa5 (probe tree 3ada8871); 1.7.3 = 95f96a02329bd3a92c9c8b07dd53e53ae89fe553 (probe tree 912801d0)
+
+ headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md           |   2 +-
+ headless/oxylabs-classic-probe/README.md                      |   7 +-
+ headless/oxylabs-classic-probe/pyproject.toml                 |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/__init__.py  |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/cli.py       |  92 +++++++++++++++++++-----
+ headless/oxylabs-classic-probe/tests/test_t05_replay_input.py | 196 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/uv.lock                        |   2 +-
+ 7 files changed, 280 insertions(+), 23 deletions(-)
+
+git diff 95f96a0..a1def53 -- headless/oxylabs-classic-probe (development monorepo): probe 1.7.3 to 1.7.4 (C2 on Windows)
+1.7.4 = a1def53747dfabcb2ad9ca97efc421c1e70f0ac6 (probe tree 07477cc6); its code changed in e0a6679a3a0c9f479e98cb00821260e0856ecf08 (C2 on Windows) and in a1def53 (the type check for Linux and macOS); db383e0 and 05d8d87 changed only tests/test_review_of_172.py and README.md
+
+ headless/oxylabs-classic-probe/CLASSIC_TEST_PLAN.md            |   4 +-
+ headless/oxylabs-classic-probe/README.md                       |  12 +-
+ headless/oxylabs-classic-probe/pyproject.toml                  |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/__init__.py   |   2 +-
+ headless/oxylabs-classic-probe/src/classic_probe/proctree.py   | 301 +++++++++++++++++----
+ headless/oxylabs-classic-probe/src/classic_probe/supervisor.py | 129 ++++++++-
+ headless/oxylabs-classic-probe/tests/test_review_of_172.py     | 713 +++++++++++++++++++++++++++++++++++++++++++++++++
+ headless/oxylabs-classic-probe/uv.lock                         |   2 +-
+ 8 files changed, 1091 insertions(+), 74 deletions(-)
+
+of which, by commit:
+  95f96a0..e0a6679:  8 files changed, 980 insertions(+), 73 deletions(-)
+  e0a6679..db383e0:  1 file changed, 18 insertions(+), 7 deletions(-)
+  db383e0..05d8d87:  2 files changed, 98 insertions(+), 6 deletions(-)
+  05d8d87..a1def53:  2 files changed, 48 insertions(+), 41 deletions(-)
+
+git diff 05d8d87..a1def53 -- headless/oxylabs-classic-probe: the first build of 1.7.4 (05d8d87, never published; mypy failed on Linux) to this build
+
+ headless/oxylabs-classic-probe/README.md                     |  7 +++--
+ headless/oxylabs-classic-probe/src/classic_probe/proctree.py | 82 +++++++++++++++++++++++++++-------------------------
+ 2 files changed, 48 insertions(+), 41 deletions(-)
+
+the same with whitespace ignored (git diff -w): 2 files changed, 10 insertions(+), 3 deletions(-)

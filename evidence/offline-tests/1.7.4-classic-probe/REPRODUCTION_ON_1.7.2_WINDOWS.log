@@ -1,0 +1,243 @@
+START 2026-11-10T02:45:24Z
+FOLDER classic-probe-1.7.2/oxylabs-classic-probe from git archive e733d0178cd7a17ff44d70555bc87e0f62b5f475 (tag review-1.6.8-20261106), byte-identical to the tag; only tests/test_review_of_172.py added (sha256 db3fea7014959080df660d17b9d605c37a78be32df54511869fb144176881924, from probe 1.7.4 a1def53747dfabcb2ad9ca97efc421c1e70f0ac6)
+PLATFORM Windows-11-10.0.26200-SP0 3.12.10
+VERSION 1.7.2
+CMD uv run --frozen python -m pytest -p no:cacheprovider --basetemp=C:/w9/t174/bt2_repro172 -rA -v tests/test_review_of_172.py
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.1.1, pluggy-1.7.0
+rootdir: C:\w9\t174\r172\classic-probe-1.7.2\oxylabs-classic-probe
+configfile: pyproject.toml
+collected 7 items
+
+tests\test_review_of_172.py .FFF.FF                                      [100%]
+
+================================== FAILURES ===================================
+____ test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs _____
+
+scene = <tests.test_review_of_172.Scene object at 0x000001C2C9028EC0>
+tmp_path = WindowsPath('C:/w9/t174/bt2_repro172/test_w_no_job_object_means_a_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C2C90289E0>
+
+    @only_windows
+    def test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs(
+        scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        faults = force(monkeypatch, "create")
+        made = record_processes(monkeypatch)
+        session, _elapsed = supervise(scene, tmp_path)
+        facts = after_refusal(scene, session, made, faults)
+        show(facts)
+>       assert not facts["session_ran"] and not facts["child_started"], facts
+E       AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': True, 'connections_to_the_stub': 1, ...}
+E       assert (not True)
+
+tests\test_review_of_172.py:530: AssertionError
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child_alive_after_the_supervisor_returned": true, "child_started": true, "connections_to_the_stub": 1, "forced": ["CreateJobObjectW: forced failure"], "problems": [], "refused": null, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": null, "held_by": "taskkill /T (no job object could be made)", "left_running": false, "problems": [], "reaped": true}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object] _
+
+scene = <tests.test_review_of_172.Scene object at 0x000001C2C902A960>
+tmp_path = WindowsPath('C:/w9/t174/bt2_repro172/test_w_a_process_the_job_does_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C2C9028BC0>
+fault = 'assign', says = 'could not be assigned to the job object'
+
+    @only_windows
+    @pytest.mark.parametrize(
+        ("fault", "says"),
+        [
+            ("assign", "could not be assigned to the job object"),
+            ("verify", "did not confirm the process is in the job object"),
+        ],
+    )
+    def test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused(
+        scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, fault: str, says: str
+    ) -> None:
+        faults = force(monkeypatch, fault)
+        made = record_processes(monkeypatch)
+        # Windows' own view of the session's process just before the refusal ends it, and every resume asked for
+        seen: list[dict[str, Any]] = []
+        resumed: list[int] = []
+        real_resume = getattr(proctree, "_resume", None)
+        real_end = getattr(proctree, "_end_unstarted", None)  # 1.7.4; 1.7.2 has none
+        if real_resume is not None:
+    
+            def counting_resume(proc: subprocess.Popen[bytes]) -> None:
+                resumed.append(proc.pid)
+                real_resume(proc)
+    
+            monkeypatch.setattr(proctree, "_resume", counting_resume)
+        if real_end is not None:
+    
+            def observed_end(proc: subprocess.Popen[bytes], *args: Any, **kwargs: Any) -> Any:
+                kernel, user = cpu_times_100ns(proc)
+                seen.append(
+                    {
+                        "threads_suspend_counts": suspend_counts(proc.pid),
+                        "kernel_100ns": kernel,
+                        "user_100ns": user,
+                    }
+                )
+                return real_end(proc, *args, **kwargs)
+    
+            monkeypatch.setattr(proctree, "_end_unstarted", observed_end)
+        session, _elapsed = supervise(scene, tmp_path)
+        facts = after_refusal(scene, session, made, faults)
+        facts["before_its_end"] = seen
+        facts["resumed"] = len(resumed)
+        show(facts)
+>       assert not facts["session_ran"] and not facts["child_started"], facts
+E       AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': True, 'connections_to_the_stub': 1, ...}
+E       assert (not True)
+
+tests\test_review_of_172.py:585: AssertionError
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [], "child_alive_after_the_supervisor_returned": true, "child_started": true, "connections_to_the_stub": 1, "forced": ["AssignProcessToJobObject: forced failure"], "problems": [], "refused": null, "resumed": 1, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": null, "held_by": "taskkill /T (the process could not join a job object)", "left_running": false, "problems": [], "reaped": true}}
+_ test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object] _
+
+scene = <tests.test_review_of_172.Scene object at 0x000001C2C91192B0>
+tmp_path = WindowsPath('C:/w9/t174/bt2_repro172/test_w_a_process_the_job_does_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C2C9118F50>
+fault = 'verify', says = 'did not confirm the process is in the job object'
+
+    @only_windows
+    @pytest.mark.parametrize(
+        ("fault", "says"),
+        [
+            ("assign", "could not be assigned to the job object"),
+            ("verify", "did not confirm the process is in the job object"),
+        ],
+    )
+    def test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused(
+        scene: Scene, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, fault: str, says: str
+    ) -> None:
+        faults = force(monkeypatch, fault)
+        made = record_processes(monkeypatch)
+        # Windows' own view of the session's process just before the refusal ends it, and every resume asked for
+        seen: list[dict[str, Any]] = []
+        resumed: list[int] = []
+        real_resume = getattr(proctree, "_resume", None)
+        real_end = getattr(proctree, "_end_unstarted", None)  # 1.7.4; 1.7.2 has none
+        if real_resume is not None:
+    
+            def counting_resume(proc: subprocess.Popen[bytes]) -> None:
+                resumed.append(proc.pid)
+                real_resume(proc)
+    
+            monkeypatch.setattr(proctree, "_resume", counting_resume)
+        if real_end is not None:
+    
+            def observed_end(proc: subprocess.Popen[bytes], *args: Any, **kwargs: Any) -> Any:
+                kernel, user = cpu_times_100ns(proc)
+                seen.append(
+                    {
+                        "threads_suspend_counts": suspend_counts(proc.pid),
+                        "kernel_100ns": kernel,
+                        "user_100ns": user,
+                    }
+                )
+                return real_end(proc, *args, **kwargs)
+    
+            monkeypatch.setattr(proctree, "_end_unstarted", observed_end)
+        session, _elapsed = supervise(scene, tmp_path)
+        facts = after_refusal(scene, session, made, faults)
+        facts["before_its_end"] = seen
+        facts["resumed"] = len(resumed)
+        show(facts)
+>       assert not facts["session_ran"] and not facts["child_started"], facts
+E       AssertionError: {'session_ran': True, 'child_started': True, 'child_alive_after_the_supervisor_returned': False, 'connections_to_the_stub': 0, ...}
+E       assert (not True)
+
+tests\test_review_of_172.py:585: AssertionError
+---------------------------- Captured stdout call -----------------------------
+FACTS {"before_its_end": [], "child_alive_after_the_supervisor_returned": false, "child_started": true, "connections_to_the_stub": 0, "forced": [], "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "refused": null, "resumed": 1, "returncode": 0, "session_processes_created": 1, "session_processes_still_running": [], "session_ran": true, "status": null, "tree": {"gone": true, "held_by": "job object", "left_running": true, "problems": [], "reaped": true}}
+_______ test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done ________
+
+tmp_path = WindowsPath('C:/w9/t174/bt2_repro172/test_w_a_cleanup_that_cannot_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C2C911AC30>
+
+    def test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The session ends by itself, exit code 0, with its own complete evidence. Then the tree's count
+        cannot be read (Windows: the job's accounting; Linux: the process group). The supervisor must not say
+        the tree has gone or that nothing was left: the unknown stays unknown, the evidence is not taken, a
+        recovery runs and its manifest names the cleanup."""
+        faults = force(monkeypatch, "unreadable-count")
+        manifest, out, _ = campaign_files(tmp_path)
+        with stub.Stub(stub.respond(200, GOOD)) as s:
+            session = supervisor.run_session(
+                drill(manifest, out, "loopback", str(s.port)),
+                hard_end_s=HARD_END_S,
+                manifest=manifest,
+                out_dir=out,
+                retailer="walmart",
+                cwd=ROOT,
+            )
+        facts = {
+            "forced": [c for f in faults for c in getattr(f, "calls", ["killpg(group, 0): forced failure"])][:3],
+            "returncode": session.returncode,
+            "status": getattr(session, "status", None),
+            "tree": session.tree,
+            "evidence": session.evidence,
+            "problems": session.problems,
+            "recovery_ran": bool(session.recovery),
+        }
+        show(facts)
+        assert session.returncode == 0 and not session.killed, facts
+>       assert session.tree.get("cleanup") == "unknown", facts
+E       AssertionError: {'forced': ['QueryInformationJobObject(accounting): forced failure', 'QueryInformationJobObject(accounting): forced fa...': 0, 'status': None, 'tree': {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...}, ...}
+E       assert None == 'unknown'
+E        +  where None = <built-in method get of dict object at 0x000001C2C90D4640>('cleanup')
+E        +    where <built-in method get of dict object at 0x000001C2C90D4640> = {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...}.get
+E        +      where {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, ...} = SupervisedSession(returncode=0, killed=False, elapsed_s=8.453, stdout_tail='{"campaign_id": "drill", "retailer": "walm...wn and complete"}, tree={'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': None, 'problems': []}).tree
+
+tests\test_review_of_172.py:679: AssertionError
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "forced": ["QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure", "QueryInformationJobObject(accounting): forced failure"], "problems": [], "recovery_ran": false, "returncode": 0, "status": null, "tree": {"gone": null, "held_by": "job object", "left_running": false, "problems": [], "reaped": true}}
+__________ test_w_a_session_is_ok_only_once_its_tree_is_counted_gone __________
+
+tmp_path = WindowsPath('C:/w9/t174/bt2_repro172/test_w_a_session_is_ok_only_on0')
+
+    def test_w_a_session_is_ok_only_once_its_tree_is_counted_gone(tmp_path: Path) -> None:
+        manifest, out, _ = campaign_files(tmp_path)
+        with stub.Stub(stub.respond(200, GOOD)) as s:
+            session = supervisor.run_session(
+                drill(manifest, out, "loopback", str(s.port)),
+                hard_end_s=HARD_END_S,
+                manifest=manifest,
+                out_dir=out,
+                retailer="walmart",
+                cwd=ROOT,
+            )
+        facts = {
+            "status": getattr(session, "status", None),
+            "tree": session.tree,
+            "evidence": session.evidence,
+            "problems": session.problems,
+        }
+        show(facts)
+>       assert facts["status"] == "ok" and session.recovery == {}, facts
+E       AssertionError: {'status': None, 'tree': {'held_by': 'job object', 'left_running': False, 'reaped': True, 'gone': True, ...}, 'evidence': {'accepted': True, 'why': "campaign_evidence.json is this execution's own and complete"}, 'problems': []}
+E       assert (None == 'ok')
+
+tests\test_review_of_172.py:708: AssertionError
+---------------------------- Captured stdout call -----------------------------
+FACTS {"evidence": {"accepted": true, "why": "campaign_evidence.json is this execution's own and complete"}, "problems": [], "status": null, "tree": {"gone": true, "held_by": "job object", "left_running": false, "problems": [], "reaped": true}}
+=================================== PASSES ====================================
+_ test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it _
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [21676, "31289533:2317123673"], "child_alive_after_its_parent_exited": true, "child_alive_after_taskkill_tree": true, "parent_exit_code": 0, "taskkill_tree_returncode": 128, "taskkill_tree_said": "ERROR: The process \"11628\" not found."}
+____ test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree ____
+---------------------------- Captured stdout call -----------------------------
+FACTS {"child": [14440, "31289533:2641983407"], "child_alive_after": false, "child_alive_before": true, "connections_to_the_stub": 0, "elapsed_s": 0.6880000000819564, "gone_when_the_supervisor_returned": true, "parent_exited": true, "problems": ["the session exited and left processes running; they were killed with it before anything else was done"], "returncode": 0, "returned": 807814.89, "seconds": 7.4452499999897555, "started": 807814.89, "tree": {"gone": true, "held_by": "job object", "left_running": true, "problems": [], "reaped": true}}
+=========================== short test summary info ===========================
+PASSED tests/test_review_of_172.py::test_control_a_child_outlives_its_exited_parent_and_taskkill_tree_cannot_reach_it
+PASSED tests/test_review_of_172.py::test_control_a_child_whose_parent_exited_first_is_ended_with_the_tree
+FAILED tests/test_review_of_172.py::test_w_no_job_object_means_a_refusal_and_nothing_of_the_session_runs
+FAILED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[assign-could not be assigned to the job object]
+FAILED tests/test_review_of_172.py::test_w_a_process_the_job_does_not_hold_is_ended_suspended_and_refused[verify-did not confirm the process is in the job object]
+FAILED tests/test_review_of_172.py::test_w_a_cleanup_that_cannot_be_told_is_never_reported_as_done
+FAILED tests/test_review_of_172.py::test_w_a_session_is_ok_only_once_its_tree_is_counted_gone
+======================== 5 failed, 2 passed in 48.16s =========================
+exit 1
+END 2026-11-10T02:46:13Z
